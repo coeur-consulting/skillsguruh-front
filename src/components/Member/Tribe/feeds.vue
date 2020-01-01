@@ -475,8 +475,8 @@
               </div>
             </div> -->
 
-            <div v-if="showFeeds">
-              <div v-if="feeds.length">
+            <div>
+              <div>
                 <div class="feed-content">
                   <div
                     v-for="(feed, index) in feeds"
@@ -893,9 +893,9 @@
                   ></infinite-loading>
                 </div>
               </div>
-              <div v-else class="text-center p-3 p-sm-4">No feed Available</div>
+              <!-- <div v-else class="text-center p-3 p-sm-4">No feed Available</div> -->
             </div>
-            <div v-else class="p-3 p-sm-4">
+            <!-- <div v-else class="p-3 p-sm-4">
               <div class="d-flex w-100 mb-3 box">
                 <div class="mr-2">
                   <b-skeleton type="avatar"></b-skeleton>
@@ -932,7 +932,7 @@
                   <b-skeleton animation="wave" width="35%"></b-skeleton>
                 </div>
               </div>
-            </div>
+            </div> -->
           </b-col>
           <!-- <Message class="d-none d-md-block" :user="'member'" /> -->
         </b-row>
@@ -1086,20 +1086,9 @@ export default {
     });
   },
   computed: {
-    // filteredFeeds() {
-    //   var feeds = [];
-    //   if (this.feedShown == "recent") {
-    //     feeds = this.recentfeeds;
-    //   }
-    //   if (this.feedShown == "trending") {
-    //     feeds = this.trendingfeeds;
-    //   }
-    //   if (this.feedShown == "custom") {
-    //     feeds = this.customfeeds;
-    //   }
-
-    //   return feeds;
-    // },
+    filteredFeeds() {
+      return this.feeds;
+    },
     useraccess() {
       var token = null;
       if (this.$store.getters.admin.access_token) {
@@ -1115,11 +1104,7 @@ export default {
     },
   },
   mounted() {
-    this.getfeeds();
-    // this.getmyfeeds();
-    //this.getcustomfeeds();
-    // this.gettrendingfeeds();
-    // this.getrecentfeeds();
+    //this.getfeeds();
     // this.infiniteHandler();
   },
   directives: {
@@ -1287,7 +1272,6 @@ export default {
           }
         )
         .then((res) => {
-          this.showFeeds = true;
           if (res.data.data.length) {
             this.page += 1;
             this.feeds.push(...res.data.data);
@@ -1507,8 +1491,9 @@ export default {
             this.likeimage(index);
             this.filteredFeeds[index].likes.map((item) => {
               if (item.user_id == this.$store.getters.member.id) {
-                return (item.like = res.data.like);
+                item.like = res.data.like;
               }
+              return item;
             });
           }
         })

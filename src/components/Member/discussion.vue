@@ -386,11 +386,12 @@
                           }}</small
                         >
                       </span>
-                      <small
+                      <span
                         class="cursor-pointer"
                         @click="addmessagecomment(item, index)"
-                        >Add a comment
-                      </small>
+                      >
+                        <b-icon icon="arrow-counterclockwise"></b-icon> Reply
+                      </span>
                     </div>
                     <div
                       class="
@@ -469,7 +470,7 @@
                         </div>
                       </div>
                       <small
-                        v-if="item.discussionmessagecomment.length > 2"
+                        v-if="item.discussionmessagecomment.length > 3"
                         class="cursor-pointer mr-2"
                         @click="viewmessagecomment(item)"
                         >View all comments
@@ -737,8 +738,9 @@
         </ShareNetwork>
         <b-button variant="outline-dark-green" @click="addToFeed">
           <b-icon icon="rss-fill" variant="dark-green"></b-icon>
-          <span class="d-none d-md-block">Feeds</span>
-        </b-button>
+
+          <span class="d-none d-md-block">Feeds</span></b-button
+        >
       </div>
     </b-modal>
 
@@ -1004,9 +1006,9 @@
         <div
           v-for="(reply, index) in comments.discussionmessagecomment"
           :key="index"
-          class="mb-1 d-flex align-items-start"
+          class="mb-1 d-flex"
         >
-          <div class="d-flex flex-1">
+          <div class="d-flex align-items-start flex-1">
             <b-avatar
               v-if="reply.admin"
               size="sm"
@@ -1076,6 +1078,7 @@
     </b-modal>
   </div>
 </template>
+
 
 <script>
 import EmojiPicker from "vue-emoji-picker";

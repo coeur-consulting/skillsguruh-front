@@ -33,7 +33,7 @@
                   src="/img/program.png"
                 ></b-img>
                 <span>
-                  <span class="">{{ courses.length }}+</span> <br />
+                  <span class="">{{ discussions.length }}+</span> <br />
                   <span class="">Online Discussions</span>
                 </span>
               </span>
@@ -132,7 +132,7 @@
                     [600, 2],
                     [768, 3],
                   ]"
-                  v-if="courses.length"
+                  v-if="tribes.length"
                 >
                   <slide
                     v-for="(n, id) in tribes.slice(0, 6)"
@@ -1029,7 +1029,7 @@
           </b-row>
         </b-container>
       </section>
-      <section class="py-5">
+      <!-- <section class="py-5">
         <b-container>
           <div class="d-flex justify-content-center trending mb-5">
             <h2 class="">
@@ -1162,7 +1162,7 @@
             >
           </div>
         </b-container>
-      </section>
+      </section> -->
       <section class="py-3 py-sm-5">
         <b-container>
           <div class="d-flex justify-content-center">

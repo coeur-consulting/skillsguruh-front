@@ -384,7 +384,7 @@
                       <small
                         class="cursor-pointer"
                         @click="addmessagecomment(item, index)"
-                        >Add a comment
+                        >Reply
                       </small>
                     </div>
                     <div

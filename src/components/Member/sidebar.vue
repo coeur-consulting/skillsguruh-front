@@ -63,12 +63,12 @@
                 class="icon mr-3"
               />Discussions</b-nav-item
             >
-            <b-nav-item :to="`/member/tribe/courses/${$store.getters.tribe}`">
+            <!-- <b-nav-item :to="`/member/tribe/courses/${$store.getters.tribe}`">
               <font-awesome-icon
                 :icon="bookopen"
                 class="icon mr-3"
               />Courses</b-nav-item
-            >
+            > -->
             <b-nav-item :to="`/member/tribe/events/${$store.getters.tribe}`">
               <font-awesome-icon
                 :icon="calendar"

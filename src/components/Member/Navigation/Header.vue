@@ -51,11 +51,11 @@
             <b-icon icon="circle-fill" class="dot" font-scale=".8"></b-icon>
             <font-awesome-icon :icon="users" size="2x" class="icon" />
           </b-nav-item>
-
+          <!--
           <b-nav-item to="/member/courses" class="mr-sm-4 position-relative">
             <b-icon icon="circle-fill" font-scale=".8" class="dot"></b-icon>
             <font-awesome-icon :icon="bookopen" size="2x" class="icon"
-          /></b-nav-item>
+          /></b-nav-item> -->
           <b-nav-item
             to="/member/discussions"
             class="mr-sm-4 position-relative"
@@ -241,9 +241,9 @@
             <b-nav-item to="/explore/community" class="mr-4 position-relative">
               <font-awesome-icon :icon="users" size="2x" class="icon" />
             </b-nav-item>
-            <b-nav-item to="/member/courses" class="mr-4 position-relative">
+            <!-- <b-nav-item to="/member/courses" class="mr-4 position-relative">
               <font-awesome-icon :icon="bookopen" size="2x" class="icon"
-            /></b-nav-item>
+            /></b-nav-item> -->
             <b-nav-item to="/member/discussions" class="mr-4 position-relative">
               <font-awesome-icon :icon="comments" size="2x" class="icon"
             /></b-nav-item>
@@ -314,14 +314,14 @@
                     class="icon mr-3"
                   />Discussions</b-nav-item
                 >
-                <b-nav-item
+                <!-- <b-nav-item
                   :to="`/member/tribe/courses/${$route.params.tribe}`"
                 >
                   <font-awesome-icon
                     :icon="bookopen"
                     class="icon mr-3"
                   />Courses</b-nav-item
-                >
+                > -->
                 <b-nav-item :to="`/member/tribe/events/${$route.params.tribe}`">
                   <font-awesome-icon
                     :icon="calendar"

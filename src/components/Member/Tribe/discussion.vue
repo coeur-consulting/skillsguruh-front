@@ -389,7 +389,7 @@
                       <small
                         class="cursor-pointer"
                         @click="addmessagecomment(item, index)"
-                        >Add a comment
+                        >  <b-icon icon="arrow-counterclockwise"></b-icon> Reply
                       </small>
                     </div>
                     <div

@@ -24,14 +24,18 @@
                       class="starter"
                       :src="discussion.user.profile"
                       v-if="discussion.user"
-                      @click="$router.push(`/profile/u/${discussion.user.id}`)"
+                      @click="
+                        $router.push(`/member/profile/u/${discussion.user.id}`)
+                      "
                     ></b-avatar>
                     <b-avatar
                       class="starter"
                       :src="discussion.facilitator.profile"
                       v-if="discussion.facilitator"
                       @click="
-                        $router.push(`/profile/f/${discussion.facilitator.id}`)
+                        $router.push(
+                          `/member/profile/f/${discussion.facilitator.id}`
+                        )
                       "
                     ></b-avatar>
                   </div>
@@ -83,10 +87,10 @@
                       {{ discussion.description }}
                     </div>
                     <div class="mt-2">
-                      <b-row class="px-2">
+                      <b-row class="justify-content-start px-2">
                         <b-col
-                          cols="auto"
                           class="px-1"
+                          cols="auto"
                           v-for="(tag, id) in JSON.parse(discussion.tags)"
                           :key="id"
                         >
@@ -126,9 +130,8 @@
                     <span
                       class="mr-3"
                       v-if="
-                        useraccess &&
                         discussion.user &&
-                        discussion.user.id == useraccess.id
+                        discussion.user.id == $store.getters.member.id
                       "
                       @click="$bvModal.show('edit')"
                       >Edit</span
@@ -142,14 +145,18 @@
                     <span
                       v-if="discussion.user"
                       class="cursor-pointer text-dark-green hover_green"
-                      @click="$router.push(`/profile/u/${discussion.user.id}`)"
+                      @click="
+                        $router.push(`/member/profile/u/${discussion.user.id}`)
+                      "
                       >{{ discussion.user.username }}</span
                     >
                     <span
                       v-if="discussion.facilitator"
                       class="cursor-pointer text-dark-green hover_green"
                       @click="
-                        $router.push(`/profile/f/${discussion.facilitator.id}`)
+                        $router.push(
+                          `/member/profile/f/${discussion.facilitator.id}`
+                        )
                       "
                       >{{ discussion.facilitator.username }}</span
                     >
@@ -179,8 +186,8 @@
                       "
                       @click="toggleview = 'comments'"
                       size="sm"
-                      >Most
-                    </b-button>
+                      >Most</b-button
+                    >
                   </b-button-group>
                 </div>
                 <div v-if="posts" v-chat-scroll>
@@ -199,7 +206,7 @@
                       <p
                         class="discusion_text"
                         v-if="item.message"
-                        v-html="item.message"
+                        v-html="highlightText(item.message)"
                       ></p>
                       <div
                         class="text-center"
@@ -340,9 +347,7 @@
                           c
                           v-if="item.user"
                           @click="
-                            $router.push(
-                              `/facilitator/profile/u/${item.user.id}`
-                            )
+                            $router.push(`/member/profile/u/${item.user.id}`)
                           "
                           class="fs13 cursor-pointer hover_green"
                           >{{ item.user.username }}</span
@@ -351,7 +356,7 @@
                           v-if="item.facilitator"
                           @click="
                             $router.push(
-                              `/facilitator/profile/f/${item.facilitator.id}`
+                              `/member/profile/f/${item.facilitator.id}`
                             )
                           "
                           class="fs13 cursor-pointer hover_green"
@@ -384,7 +389,8 @@
                       <small
                         class="cursor-pointer"
                         @click="addmessagecomment(item, index)"
-                        >Add a comment
+                      >
+                        <b-icon icon="arrow-counterclockwise"></b-icon> Reply
                       </small>
                     </div>
                     <div
@@ -433,7 +439,7 @@
                             ><span
                               v-if="reply.admin"
                               class="message_comment_name mr-1"
-                              >{{ reply.admin.username }}</span
+                              >{{ reply.admin.name }}</span
                             >
                             <span
                               v-if="reply.facilitator"
@@ -442,13 +448,20 @@
                             >
                             <span
                               v-if="reply.user"
+                              @click="
+                                $router.push(
+                                  `/member/profile/u/${reply.user.id}`
+                                )
+                              "
                               class="message_comment_name mr-1"
                               >{{ reply.user.username }}</span
                             >
-                            <span class="message_comment_text">
-                              {{ reply.message }}
-                            </span></span
-                          >
+                            <span
+                              class="message_comment_text"
+                              v-html="highlightText(reply.message)"
+                            >
+                            </span
+                          ></span>
                         </div>
                         <div class="text-right">
                           <span class="message_comment_date">{{
@@ -457,7 +470,7 @@
                         </div>
                       </div>
                       <small
-                        v-if="item.discussionmessagecomment.length > 2"
+                        v-if="item.discussionmessagecomment.length > 3"
                         class="cursor-pointer mr-2"
                         @click="viewmessagecomment(item)"
                         >View all comments
@@ -1099,6 +1112,8 @@ import EditDiscussion from "@/components/editdiscussion";
 export default {
   data() {
     return {
+      description: "",
+      members: [],
       auth: false,
       index: null,
       img_ext: ["jpg", "png", "jpeg", "gif"],
@@ -1160,14 +1175,12 @@ export default {
     });
   },
   mounted() {
+    this.getmembers();
     this.getdiscussion();
     this.addview();
     this.getvote();
     this.getconnections();
-    if (
-      localStorage.getItem("authMember") ||
-      localStorage.getItem("authFacilitator")
-    ) {
+    if (localStorage.getItem("authMember")) {
       this.auth = true;
     }
   },
@@ -1261,7 +1274,9 @@ export default {
       return this.discussion.discussionmessage;
     },
     views() {
-      return this.discussion.discussionview.view;
+      return this.discussion.discussionview
+        ? this.discussion.discussionview.view
+        : null;
     },
     vote() {
       var positive = this.discussion.discussionvote.filter(
@@ -1289,6 +1304,15 @@ export default {
     },
   },
   methods: {
+    getmembers() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/get/discussion/members/${this.$route.params.id}`
+        )
+        .then((res) => {
+          this.members = res.data;
+        });
+    },
     highlightText(text) {
       var part = this.toText(
         text.substring(text.lastIndexOf("@") + 1, text.lastIndexOf(""))
@@ -1580,6 +1604,15 @@ export default {
             this.rows = res.data.discussionmessage.length;
             window.document.title = `${res.data.name} | Nzukoor`;
             this.showdiscussion = true;
+            if (
+              this.discussion.user &&
+              this.$store.getters.member &&
+              this.discussion.user.id == this.$store.getters.member.id
+            ) {
+              this.description = `I just started a discussion, *${this.discussion.name}*  on Nzukoor and I’d like to hear your thoughts.  Let's discuss!`;
+            } else {
+              this.description = `I just joined a discussion, *${this.discussion.name}*  on Nzukoor and I’d like to hear your thoughts. Let's discuss!`;
+            }
           }
         })
         .catch((err) => {
@@ -1750,6 +1783,7 @@ export default {
   },
 };
 </script>
+
 <style scoped lang="scss">
 .image {
   width: 80%;
