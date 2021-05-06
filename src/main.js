@@ -12,8 +12,8 @@ import VueApexCharts from "vue-apexcharts";
 
 import "vue-toast-notification/dist/theme-sugar.css";
 import "animate.css";
-import "./assets/scss/style.scss";
 import "vue-event-calendar/dist/style.css";
+import "./assets/scss/style.scss";
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
