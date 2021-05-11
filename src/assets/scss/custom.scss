@@ -1,3 +1,28 @@
+// Variables
+//
+// Variables should follow the `$component-state-property-size` formula for
+// consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
+
+// Color system
+
+$skills--dark-green: #388087;
+$skills--light-green: #6fb3b8;
+$skills--lighter-green: #badfe7;
+$skills--lighter-lemon: #c2edce;
+$skills--grey: #f6f6f2;
+
+$theme-colors: () !default;
+$theme-colors: map-merge(
+  (
+    "dark-green": $skills--dark-green,
+    "light-green": $skills--light-green,
+    "lighter-green": $skills--lighter-green,
+    "lemon": $skills--lighter-lemon,
+    "skills-grey": $skills--grey,
+  ),
+  $theme-colors
+);
+
 //change bootstrap defaults here first
 
 $btn-font-weight: 500;
