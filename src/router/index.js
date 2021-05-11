@@ -1,6 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Landing from "../views/Landing.vue";
+import Header from "../components/Navigation/AppHeader.vue";
+import Footer from "../components/Navigation/AppFooter.vue";
 
 Vue.use(VueRouter);
 
@@ -8,7 +10,51 @@ const routes = [
   {
     path: "/",
     name: "Landing",
-    component: Landing,
+    components: {
+      header: Header,
+      default: Landing,
+      footer: Footer,
+    },
+  },
+  {
+    path: "/about",
+    name: "About",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "404pages" */ "../views/About.vue"),
+      footer: Footer,
+    },
+  },
+  {
+    path: "/contact",
+    name: "Contact",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "404pages" */ "../views/Contact.vue"),
+      footer: Footer,
+    },
+  },
+  {
+    path: "*",
+    name: "Not Found",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "404pages" */ "../views/NotFound.vue"),
+      footer: Footer,
+    },
+  },
+  {
+    path: "*",
+    name: "Not Found",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "404pages" */ "../views/NotFound.vue"),
+      footer: Footer,
+    },
   },
 ];
 

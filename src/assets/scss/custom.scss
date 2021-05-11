@@ -1,5 +1,10 @@
 //change bootstrap defaults here first
 
+$btn-font-weight: 500;
+$btn-font-size-lg: 15px;
+$btn-font-size: 15px;
+// $btn-font-size-sm: 15px;
+
 //defaults should come before this
 @import "node_modules/bootstrap/scss/bootstrap";
 @import "node_modules/bootstrap-vue/src/index.scss";
