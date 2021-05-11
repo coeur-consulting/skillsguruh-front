@@ -11,7 +11,7 @@
         <b-row class="align-items-center h-100 banner-vectors">
           <b-col sm="6">
             <div class="banner-text mb-5">
-              <h1 class="mb-4">
+              <h1 class="mb-4 mt-4 mt-sm-0">
                 A platform for employees and business owners to upskill
               </h1>
               <p>Enjoy a more engaging and organized virtual learning</p>
