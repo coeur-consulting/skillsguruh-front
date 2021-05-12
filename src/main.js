@@ -18,6 +18,7 @@ import "animate.css";
 import "vue-event-calendar/dist/style.css";
 import "./assets/scss/style.scss";
 
+Vue.use(require("vue-moment"));
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(VueCarousel);
@@ -33,6 +34,24 @@ Vue.use(VueToast, {
 Vue.component("apexchart", VueApexCharts);
 
 Vue.config.productionTip = false;
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.typeOrg)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    var org = JSON.parse(localStorage.getItem("authOrg"));
+    if (!org) {
+      next({
+        path: "/login",
+        query: { redirect: to.fullPath },
+      });
+    } else {
+      next();
+    }
+  } else {
+    next(); // make sure to always call next()!
+  }
+});
 
 new Vue({
   router,

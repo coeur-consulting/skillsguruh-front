@@ -236,7 +236,18 @@ export default {
         if (this.type == "organization") {
           this.$http
             .post(`${this.$store.getters.url}/register-organization`, this.user)
-            .then(() => {})
+            .then((res) => {
+              if (res.status == 201) {
+                this.$toast.success("Registration successful");
+                this.user = {
+                  name: "",
+                  email: "",
+                  phone: "",
+                  password: "",
+                  profile: "",
+                };
+              }
+            })
             .catch((err) => {
               if (err.response.data.errors.email[0]) {
                 this.$toast.error(err.response.data.errors.email[0]);

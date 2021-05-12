@@ -31,6 +31,14 @@ const routes = [
       default: () =>
         import(/* webpackChunkName: "Login" */ "../views/Auth/Login.vue"),
     },
+    beforeEnter: (to, from, next) => {
+      let user = localStorage.getItem("typeOrg");
+      if (!user) {
+        next();
+      } else {
+        next("/organization");
+      }
+    },
   },
   {
     path: "/about",
@@ -74,7 +82,7 @@ const routes = [
             ),
         },
         meta: {
-          authOrg: true,
+          typeOrg: true,
         },
       },
       {
@@ -87,7 +95,7 @@ const routes = [
             ),
         },
         meta: {
-          authOrg: true,
+          typeOrg: true,
         },
       },
       {
@@ -100,7 +108,7 @@ const routes = [
             ),
         },
         meta: {
-          authOrg: true,
+          typeOrg: true,
         },
       },
       {
@@ -113,7 +121,7 @@ const routes = [
             ),
         },
         meta: {
-          authOrg: true,
+          typeOrg: true,
         },
       },
       {
@@ -126,7 +134,7 @@ const routes = [
             ),
         },
         meta: {
-          authOrg: true,
+          typeOrg: true,
         },
       },
       {
@@ -139,7 +147,7 @@ const routes = [
             ),
         },
         meta: {
-          authOrg: true,
+          typeOrg: true,
         },
       },
       {
@@ -152,7 +160,7 @@ const routes = [
             ),
         },
         meta: {
-          authOrg: true,
+          typeOrg: true,
         },
       },
       {
@@ -165,7 +173,7 @@ const routes = [
             ),
         },
         meta: {
-          authOrg: true,
+          typeOrg: true,
         },
       },
     ],

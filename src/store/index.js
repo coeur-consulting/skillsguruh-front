@@ -5,11 +5,11 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    organization: localStorage.getItem("organization") || null,
-    admin: localStorage.getItem("admin") || null,
-    facilitator: localStorage.getItem("facilitator") || null,
-    learner: localStorage.getItem("api") || null,
-    url: "http://localhost:8000/api",
+    organization: JSON.parse(localStorage.getItem("authOrg")) || {},
+    admin: JSON.parse(localStorage.getItem("authAdmin")) || {},
+    facilitator: JSON.parse(localStorage.getItem("authFacilitator")) || {},
+    learner: JSON.parse(localStorage.getItem("authUser")) | {},
+    url: "http://localhost:8000/v1",
     // url:''
   },
   mutations: {},
