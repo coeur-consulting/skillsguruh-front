@@ -17,12 +17,28 @@ const routes = [
     },
   },
   {
+    path: "/register",
+    name: "Register",
+    components: {
+      default: () =>
+        import(/* webpackChunkName: "Register" */ "../views/Auth/Register.vue"),
+    },
+  },
+  {
+    path: "/login",
+    name: "Login",
+    components: {
+      default: () =>
+        import(/* webpackChunkName: "Login" */ "../views/Auth/Login.vue"),
+    },
+  },
+  {
     path: "/about",
     name: "About",
     components: {
       header: Header,
       default: () =>
-        import(/* webpackChunkName: "404pages" */ "../views/About.vue"),
+        import(/* webpackChunkName: "about" */ "../views/About.vue"),
       footer: Footer,
     },
   },
@@ -32,20 +48,11 @@ const routes = [
     components: {
       header: Header,
       default: () =>
-        import(/* webpackChunkName: "404pages" */ "../views/Contact.vue"),
+        import(/* webpackChunkName: "contact" */ "../views/Contact.vue"),
       footer: Footer,
     },
   },
-  {
-    path: "*",
-    name: "Not Found",
-    components: {
-      header: Header,
-      default: () =>
-        import(/* webpackChunkName: "404pages" */ "../views/NotFound.vue"),
-      footer: Footer,
-    },
-  },
+
   {
     path: "*",
     name: "Not Found",

@@ -26,3 +26,22 @@ html {
   font-family: "system";
   padding: 24px !important;
 }
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  color: #fff;
+  border-color: var(--dark-green);
+  background-color: var(--dark-green);
+}
+
+.form-control {
+  height: calc(2.2em + 0.75rem + 2px);
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  ::placeholder {
+    font-size: 14px;
+  }
+}

@@ -9,6 +9,8 @@ import VueCarousel from "vue-carousel";
 import VueChatScroll from "vue-chat-scroll";
 import vueEventCalendar from "vue-event-calendar";
 import VueApexCharts from "vue-apexcharts";
+import axios from "axios";
+import VueAxios from "vue-axios";
 
 import "vue-toast-notification/dist/theme-sugar.css";
 import "animate.css";
@@ -21,6 +23,7 @@ Vue.use(VueCarousel);
 Vue.use(vueEventCalendar, { locale: "en" });
 Vue.use(VueChatScroll);
 Vue.use(VueApexCharts);
+Vue.use(VueAxios, axios);
 
 Vue.use(VueToast, {
   position: "top-right",
