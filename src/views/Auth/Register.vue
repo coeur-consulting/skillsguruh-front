@@ -4,7 +4,8 @@
       <b-row class="h-100">
         <b-col cols="0" sm="3" class="side p-3 p-sm-4 d-none d-sm-flex">
           <b-img
-            class="logo"
+            class="logo cursor-pointer"
+            @click="$router.push('/')"
             :src="require('@/assets/images/logo-white.svg')"
           ></b-img>
           <div class="ico text-center p-3">
@@ -28,7 +29,12 @@
         </b-col>
         <b-col cols="12" sm="9" class="main p-3 p-sm-4 text-sm-left">
           <div class="d-sm-none position-relative">
-            <b-img class="img-l" width="40px" src="/img/logo.svg"></b-img>
+            <b-img
+              class="img-l cursor-pointer"
+              @click="$router.push('/')"
+              width="40px"
+              src="/img/logo.svg"
+            ></b-img>
           </div>
           <b-form @submit.prevent="register" class="user">
             <legend>Register as</legend>

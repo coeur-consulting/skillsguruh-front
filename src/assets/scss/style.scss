@@ -61,6 +61,9 @@ a:hover {
 #prof .arrow {
   display: none !important;
 }
+::placeholder {
+  font-size: 14px;
+}
 @media (max-width: 600px) {
   ::placeholder {
     font-size: 14px;

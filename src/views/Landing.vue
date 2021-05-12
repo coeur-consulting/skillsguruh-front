@@ -25,6 +25,7 @@
                 size="lg"
                 class="m-0"
                 variant="outline-dark-green"
+                @click="$router.push('/register')"
               >
                 Become a Facilitator</b-button
               >
@@ -44,7 +45,10 @@
               >
             </div>
           </b-col>
-          <b-col sm="6" class="banner-image">
+          <b-col
+            sm="6"
+            class="banner-image animate__animated animate__slideInUp animate__slow"
+          >
             <b-img :src="require('../assets/images/side-image.png')"></b-img>
           </b-col>
         </b-row>
