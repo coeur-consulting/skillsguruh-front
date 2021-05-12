@@ -45,11 +45,11 @@
               >
             </div>
           </b-col>
-          <b-col
-            sm="6"
-            class="banner-image animate__animated animate__slideInUp animate__slow"
-          >
-            <b-img :src="require('../assets/images/side-image.png')"></b-img>
+          <b-col sm="6" class="banner-image">
+            <b-img
+              class="animate__animated animate__slideInUp animate__slow"
+              :src="require('../assets/images/side-image.png')"
+            ></b-img>
           </b-col>
         </b-row>
       </b-container>
@@ -78,13 +78,23 @@
             </div>
           </b-col>
           <b-col sm="6">
-            <b-img :src="require('../assets/images/onboard.png')"></b-img>
+            <b-img
+              v-animate-onscroll="
+                'animate__animated animate__zoomIn animate__slow'
+              "
+              :src="require('../assets/images/onboard.png')"
+            ></b-img>
           </b-col>
         </b-row>
 
-        <b-row class="mb-6">
+        <b-row class="mb-6 flex-column-reverse flex-sm-row">
           <b-col sm="6">
-            <b-img :src="require('../assets/images/onboard2.png')"></b-img>
+            <b-img
+              v-animate-onscroll="
+                'animate__animated animate__zoomIn animate__slow'
+              "
+              :src="require('../assets/images/onboard2.png')"
+            ></b-img>
           </b-col>
           <b-col sm="6" class="d-flex align-items-center">
             <div class="onboard">
@@ -126,14 +136,21 @@
             </div>
           </b-col>
           <b-col sm="6">
-            <b-img :src="require('../assets/images/onboard3.png')"></b-img>
+            <b-img
+              v-animate-onscroll="
+                'animate__animated animate__zoomIn animate__slow'
+              "
+              :src="require('../assets/images/onboard3.png')"
+            ></b-img>
           </b-col>
         </b-row>
       </b-container>
     </section>
     <section id="facilitators">
       <b-container>
-        <b-row>
+        <b-row
+          v-animate-onscroll="'animate__animated animate__zoomIn animate__slow'"
+        >
           <b-col class="ex-facilitators text-center">
             <h2 class="mb-4">Most Popular Facilitators</h2>
             <p class="mb-5">

@@ -32,7 +32,13 @@
 
           <b-navbar-nav class="ml-auto">
             <b-nav-item href="#">
-              <b-button class="px-5" variant="dark-green"> Login</b-button>
+              <b-button
+                class="px-5"
+                @click="$router.push('/login')"
+                variant="dark-green"
+              >
+                Login</b-button
+              >
             </b-nav-item>
           </b-navbar-nav>
         </b-collapse>

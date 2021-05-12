@@ -11,6 +11,7 @@ import vueEventCalendar from "vue-event-calendar";
 import VueApexCharts from "vue-apexcharts";
 import axios from "axios";
 import VueAxios from "vue-axios";
+import VueAnimateOnScroll from "vue-animate-onscroll";
 
 import "vue-toast-notification/dist/theme-sugar.css";
 import "animate.css";
@@ -24,7 +25,7 @@ Vue.use(vueEventCalendar, { locale: "en" });
 Vue.use(VueChatScroll);
 Vue.use(VueApexCharts);
 Vue.use(VueAxios, axios);
-
+Vue.use(VueAnimateOnScroll);
 Vue.use(VueToast, {
   position: "top-right",
 });

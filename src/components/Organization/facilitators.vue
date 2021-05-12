@@ -123,7 +123,79 @@
       </b-row>
     </b-container>
 
-    <b-modal id="add" hide-footer centered size="lg"> </b-modal>
+    <b-modal id="add" hide-footer centered size="lg" title="Add Facilitator">
+      <b-form @submit.prevent="register" class="user">
+        <div>
+          <b-form-row class="mb-2">
+            <b-col sm="6" class="pr-sm-3">
+              <b-form-group label="Full name">
+                <b-form-input
+                  size="lg"
+                  v-model="user.name"
+                  required
+                  placeholder="Enter full name"
+                ></b-form-input>
+              </b-form-group>
+            </b-col>
+            <b-col sm="6" class="pr-sm-3">
+              <b-form-group label="Email">
+                <b-form-input
+                  size="lg"
+                  required
+                  v-model="user.email"
+                  type="email"
+                  placeholder="Enter email address"
+                ></b-form-input>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+          <b-form-row class="mb-2">
+            <b-col cols="6" class="pr-sm-3">
+              <b-form-group label="Phone">
+                <b-form-input
+                  size="lg"
+                  required
+                  v-model="user.phone"
+                  type="tel"
+                  placeholder="Enter phone number"
+                ></b-form-input>
+              </b-form-group>
+            </b-col>
+            <b-col cols="6" class="pr-sm-3">
+              <b-form-group label="Password">
+                <b-form-input
+                  size="lg"
+                  required
+                  v-model="user.password"
+                  type="password"
+                  placeholder="Enter password"
+                ></b-form-input>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+
+          <b-form-group>
+            <div class="mb-3">
+              <b-button
+                type="submit"
+                variant="dark-green"
+                size="lg"
+                class="px-5 d-none d-sm-block"
+                >Register</b-button
+              >
+              <b-button
+                type="submit"
+                variant="dark-green"
+                size="lg"
+                block
+                class="px-5 d-sm-none"
+                >Register</b-button
+              >
+            </div>
+          </b-form-group>
+        </div>
+      </b-form>
+    </b-modal>
   </div>
 </template>
 <script>
@@ -135,6 +207,7 @@ export default {
       rows: 3,
       perPage: 2,
       users: [],
+      user: {},
     };
   },
   computed: {
