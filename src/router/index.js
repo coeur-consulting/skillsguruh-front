@@ -54,6 +54,29 @@ const routes = [
   },
 
   {
+    path: "/organization",
+
+    components: {
+      default: () =>
+        import(
+          /* webpackChunkName: "organization" */ "../views/Organization.vue"
+        ),
+    },
+    children: [
+      {
+        path: "",
+        name: "organization dashboard",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "organizationdashboard" */ "@/components/Organization/home.vue"
+            ),
+        },
+      },
+    ],
+  },
+
+  {
     path: "*",
     name: "Not Found",
     components: {
