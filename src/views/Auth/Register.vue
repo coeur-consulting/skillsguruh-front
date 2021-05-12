@@ -38,7 +38,11 @@
                   class="type"
                   :class="{ selected_type: type == 'organization' }"
                 >
-                  <b-form-radio size="sm" v-model="type" value="organization"
+                  <b-form-radio
+                    class="reg"
+                    size="sm"
+                    v-model="type"
+                    value="organization"
                     >Organization</b-form-radio
                   >
                 </div>
@@ -48,14 +52,22 @@
                   class="type"
                   :class="{ selected_type: type == 'facilitator' }"
                 >
-                  <b-form-radio size="sm" v-model="type" value="facilitator"
+                  <b-form-radio
+                    class="reg"
+                    size="sm"
+                    v-model="type"
+                    value="facilitator"
                     >Facilitator</b-form-radio
                   >
                 </div>
               </b-col>
               <b-col cols="4">
                 <div class="type" :class="{ selected_type: type == 'learner' }">
-                  <b-form-radio size="sm" v-model="type" value="learner"
+                  <b-form-radio
+                    class="reg"
+                    size="sm"
+                    v-model="type"
+                    value="learner"
                     >Learner</b-form-radio
                   >
                 </div>
@@ -391,6 +403,9 @@ a {
     height: 100%;
     overflow: unset;
   }
+  legend {
+    font-size: 16px;
+  }
   .my_type {
     width: 100%;
   }
@@ -404,6 +419,9 @@ a {
   }
   .img-l {
     width: 100px;
+  }
+  .type {
+    padding: 5px 5px;
   }
 }
 </style>
