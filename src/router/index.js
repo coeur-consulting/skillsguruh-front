@@ -62,6 +62,7 @@ const routes = [
           /* webpackChunkName: "organization" */ "../views/Organization.vue"
         ),
     },
+
     children: [
       {
         path: "",
@@ -71,6 +72,9 @@ const routes = [
             import(
               /* webpackChunkName: "organizationdashboard" */ "@/components/Organization/home.vue"
             ),
+        },
+        meta: {
+          authOrg: true,
         },
       },
     ],
