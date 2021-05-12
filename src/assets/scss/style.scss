@@ -33,13 +33,34 @@ html {
   background-color: var(--dark-green);
 }
 
-.form-control {
-  height: calc(2.2em + 0.75rem + 2px);
-}
 .cursor-pointer {
   cursor: pointer;
 }
-
+.topbar_search .input-group-text {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+.org_home_table {
+  font-size: 12px;
+}
+.text-muted {
+  color: rgba($color: #000000, $alpha: 0.34) !important;
+}
+a,
+a:hover {
+  text-decoration: none;
+}
+.page-item.active .page-link {
+  background-color: var(--dark-green);
+  border-color: var(--dark-green);
+}
+.page-link {
+  color: var(--dark-green);
+}
+#prof .arrow {
+  display: none !important;
+}
 @media (max-width: 600px) {
   ::placeholder {
     font-size: 14px;

@@ -79,6 +79,7 @@
                 <b-col sm="6" class="pr-sm-3">
                   <b-form-group label="Full name">
                     <b-form-input
+                      size="lg"
                       v-model="user.name"
                       required
                       placeholder="Enter full name"
@@ -88,6 +89,7 @@
                 <b-col sm="6" class="pr-sm-3">
                   <b-form-group label="Email">
                     <b-form-input
+                      size="lg"
                       required
                       v-model="user.email"
                       type="email"
@@ -100,6 +102,7 @@
                 <b-col cols="6" class="pr-sm-3">
                   <b-form-group label="Phone">
                     <b-form-input
+                      size="lg"
                       required
                       v-model="user.phone"
                       type="tel"
@@ -110,6 +113,7 @@
                 <b-col cols="6" class="pr-sm-3">
                   <b-form-group label="Password">
                     <b-form-input
+                      size="lg"
                       required
                       v-model="user.password"
                       type="password"

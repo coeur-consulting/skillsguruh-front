@@ -77,6 +77,97 @@ const routes = [
           authOrg: true,
         },
       },
+      {
+        path: "admins",
+        name: "organization admins",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "organizationadmins" */ "@/components/Organization/admins.vue"
+            ),
+        },
+        meta: {
+          authOrg: true,
+        },
+      },
+      {
+        path: "admin",
+        name: "organization admin",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "organizationadmin" */ "@/components/Organization/admin.vue"
+            ),
+        },
+        meta: {
+          authOrg: true,
+        },
+      },
+      {
+        path: "facilitators",
+        name: "organization facilitators",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "organizationfacilitators" */ "@/components/Organization/facilitators.vue"
+            ),
+        },
+        meta: {
+          authOrg: true,
+        },
+      },
+      {
+        path: "facilitator",
+        name: "organization facilitator",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "organizationfacilitator" */ "@/components/Organization/facilitator.vue"
+            ),
+        },
+        meta: {
+          authOrg: true,
+        },
+      },
+      {
+        path: "learners",
+        name: "organization learners",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "organizationlearners" */ "@/components/Organization/learners.vue"
+            ),
+        },
+        meta: {
+          authOrg: true,
+        },
+      },
+      {
+        path: "learner",
+        name: "organization learner",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "organizationlearner" */ "@/components/Organization/learner.vue"
+            ),
+        },
+        meta: {
+          authOrg: true,
+        },
+      },
+      {
+        path: "schedule",
+        name: "organization schedule",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "organizationschedule" */ "@/components/Organization/schedule.vue"
+            ),
+        },
+        meta: {
+          authOrg: true,
+        },
+      },
     ],
   },
 
