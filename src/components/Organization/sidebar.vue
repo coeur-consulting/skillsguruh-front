@@ -92,7 +92,7 @@
   text-align: left;
 }
 .side_item {
-  font-size: 18px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 600;
   line-height: 22px;

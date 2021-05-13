@@ -5,6 +5,7 @@
 html {
   scroll-behavior: smooth;
 }
+
 .navbar-toggler {
   padding: 0.2rem 0.25rem;
   font-size: 1.25rem;
@@ -64,6 +65,9 @@ a:hover {
 ::placeholder {
   font-size: 14px;
 }
+.form-control {
+  font-size: 15px;
+}
 @media (max-width: 600px) {
   ::placeholder {
     font-size: 14px;
@@ -71,5 +75,52 @@ a:hover {
   .reg .custom-control-label {
     font-size: 11px;
     margin-top: 3px;
+  }
+  .bm-burger-button {
+    position: relative !important;
+    width: 28px !important;
+    height: 25px !important;
+    left: unset !important;
+    top: unset !important;
+    cursor: pointer;
+  }
+  .bm-burger-bars {
+    background-color: var(--dark-green) !important;
+  }
+  .line-style {
+    position: absolute;
+    height: 12% !important;
+    left: 0;
+    right: 0;
+  }
+  .cross-style {
+    position: absolute;
+    top: 12px;
+    right: 2px;
+    cursor: pointer;
+  }
+  .bm-cross {
+    background: #bdc3c7;
+  }
+  .bm-cross-button {
+    height: 24px;
+    width: 24px;
+  }
+  .bm-menu {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Stay on top */
+    top: 0;
+    left: 0;
+    background: linear-gradient(
+      173.56deg,
+      #388087 5.07%,
+      #18696d 62.76%,
+      rgba(56, 128, 135, 0.79) 90.63%
+    );
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /*0.5 second transition effect to slide in the sidenav*/
   }
 }

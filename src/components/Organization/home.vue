@@ -13,7 +13,7 @@
                 ></b-icon>
                 <b-icon
                   stacked
-                  icon="bell-fill"
+                  icon="shield-fill-check"
                   scale="0.5"
                   variant="dark-green"
                   class="ic"
@@ -23,12 +23,12 @@
             </div>
 
             <div class="d-flex justify-content-between mb-2 w-100">
-              <div class="new_add">Newly Added</div>
-              <div>4</div>
+              <div class="new_add">New This Month</div>
+              <div>{{ newlyadmins }}</div>
             </div>
             <div class="d-flex justify-content-between w-100">
               <div class="new_add">Total Number</div>
-              <div>4</div>
+              <div>{{ admins.length }}</div>
             </div>
           </div>
         </b-col>
@@ -43,7 +43,7 @@
                 ></b-icon>
                 <b-icon
                   stacked
-                  icon="bell-fill"
+                  icon="person-badge-fill"
                   scale="0.5"
                   variant="dark-green"
                 ></b-icon>
@@ -52,12 +52,12 @@
             </div>
 
             <div class="d-flex justify-content-between mb-2 w-100">
-              <div class="new_add">Newly Added</div>
-              <div>4</div>
+              <div class="new_add">New This Month</div>
+              <div>{{ newlyfacilitators }}</div>
             </div>
             <div class="d-flex justify-content-between w-100">
               <div class="new_add">Total Number</div>
-              <div>4</div>
+              <div>{{ facilitators.length }}</div>
             </div>
           </div>
         </b-col>
@@ -72,7 +72,7 @@
                 ></b-icon>
                 <b-icon
                   stacked
-                  icon="bell-fill"
+                  icon="people-fill"
                   scale="0.5"
                   variant="dark-green"
                 ></b-icon>
@@ -81,119 +81,19 @@
             </div>
 
             <div class="d-flex justify-content-between mb-2 w-100">
-              <div class="new_add">Newly Added</div>
-              <div>4</div>
+              <div class="new_add">New This Month</div>
+              <div>{{ newlyusers }}</div>
             </div>
             <div class="d-flex justify-content-between w-100">
               <div class="new_add">Total Number</div>
-              <div>4</div>
+              <div>{{ users.length }}</div>
             </div>
           </div>
         </b-col>
       </b-row>
       <b-row>
         <b-col sm="8" class="mb-5 mb-sm-0">
-          <div
-            class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-4"
-          >
-            <h6 class="mb-3 mb-sm-0">Administrators</h6>
-            <div>
-              <b-form-input
-                placeholder="Search"
-                size="sm"
-                type="search"
-                class="search"
-              ></b-form-input>
-            </div>
-          </div>
-
-          <div class="shadow bg-white">
-            <div
-              class="d-flex justify-content-between align-items-center p-3 e"
-            >
-              <b-icon icon="filter"></b-icon>
-              <div>
-                <b-button variant="dark-green" size="sm">
-                  <b-icon icon="plus" font-scale="1.5"></b-icon
-                ></b-button>
-              </div>
-            </div>
-
-            <div class="admin_tab">
-              <b-table-simple class="org_home_table text-left" responsive="sm">
-                <b-thead>
-                  <b-tr class="text-left">
-                    <b-th class="text-muted">Name</b-th>
-                    <b-th class="text-muted">Last login</b-th>
-                    <b-th class="text-muted">Department</b-th>
-                    <b-th class="text-muted">Status</b-th>
-                    <b-th></b-th> </b-tr
-                ></b-thead>
-                <b-tbody>
-                  <b-tr>
-                    <b-td>
-                      <div class="d-flex">
-                        <b-avatar size="sm" class="mr-2"></b-avatar>
-                        <div class="text-left">
-                          <span>John Doe</span> <br />
-                          <span class="text-muted">jdoe@gmail.com</span>
-                        </div>
-                      </div>
-                    </b-td>
-                    <b-td>
-                      <div class="text-left">
-                        <span>September 11, 2021</span> <br />
-                        <span class="text-muted">2 days ago</span>
-                      </div>
-                    </b-td>
-                    <b-td> Accounting </b-td>
-                    <b-td class="text-success text-left">Active</b-td>
-                    <b-td><b-icon icon="chevron-down"></b-icon> </b-td>
-                  </b-tr>
-                  <b-tr>
-                    <b-td>
-                      <div class="d-flex">
-                        <b-avatar size="sm" class="mr-2"></b-avatar>
-                        <div class="text-left">
-                          <span>John Doe</span> <br />
-                          <span class="text-muted">jdoe@gmail.com</span>
-                        </div>
-                      </div>
-                    </b-td>
-                    <b-td>
-                      <div class="text-left">
-                        <span>September 11, 2021</span> <br />
-                        <span class="text-muted">2 days ago</span>
-                      </div>
-                    </b-td>
-                    <b-td> Accounting </b-td>
-                    <b-td class="text-success text-left">Active</b-td>
-                    <b-td><b-icon icon="chevron-down"></b-icon> </b-td>
-                  </b-tr>
-                  <b-tr>
-                    <b-td>
-                      <div class="d-flex">
-                        <b-avatar size="sm" class="mr-2"></b-avatar>
-                        <div class="text-left">
-                          <span>John Doe</span> <br />
-                          <span class="text-muted">jdoe@gmail.com</span>
-                        </div>
-                      </div>
-                    </b-td>
-                    <b-td>
-                      <div class="text-left">
-                        <span>September 11, 2021</span> <br />
-                        <span class="text-muted">2 days ago</span>
-                      </div>
-                    </b-td>
-                    <b-td> Accounting </b-td>
-                    <b-td class="text-success text-left">Active</b-td>
-                    <b-td><b-icon icon="chevron-down"></b-icon> </b-td>
-                  </b-tr>
-                </b-tbody>
-              </b-table-simple>
-            </div>
-          </div>
+          <AdminTab />
         </b-col>
         <b-col sm="4" class="text-left">
           <h6 class="mb-4">Turn Over</h6>
@@ -228,10 +128,14 @@
 </template>
 
 <script>
+import AdminTab from "./admins";
 export default {
   data() {
     return {
-      series: [44, 55, 13],
+      admins: [],
+      facilitators: [],
+      users: [],
+      series: [33, 33, 33],
       chartOptions: {
         chart: {
           type: "pie",
@@ -335,6 +239,117 @@ export default {
       },
     };
   },
+  components: {
+    AdminTab,
+  },
+  watch: {
+    users: "initPie",
+    admins: "initPie",
+    facilitators: "initPie",
+  },
+  mounted() {
+    this.getadmins();
+    this.getfacilitators();
+    this.getusers();
+  },
+  computed: {
+    newlyadmins() {
+      return this.admins.filter(
+        (item) =>
+          new Date(item.created_at).getMonth() == new Date().getMonth() &&
+          new Date(item.created_at).getFullYear() == new Date().getFullYear()
+      ).length;
+    },
+    newlyfacilitators() {
+      return this.facilitators.filter(
+        (item) =>
+          new Date(item.created_at).getMonth() == new Date().getMonth() &&
+          new Date(item.created_at).getFullYear() == new Date().getFullYear()
+      ).length;
+    },
+    newlyusers() {
+      return this.users.filter(
+        (item) =>
+          new Date(item.created_at).getMonth() == new Date().getMonth() &&
+          new Date(item.created_at).getFullYear() == new Date().getFullYear()
+      ).length;
+    },
+  },
+  methods: {
+    getadmins() {
+      this.$http
+        .get(`${this.$store.getters.url}/get-admins`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.admins = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    getfacilitators() {
+      this.$http
+        .get(`${this.$store.getters.url}/get-facilitators`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.facilitators = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    getusers() {
+      this.$http
+        .get(`${this.$store.getters.url}/get-users`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.users = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    initPie() {
+      this.series = [
+        this.users.length,
+        this.facilitators.length,
+        this.admins.length,
+      ];
+      this.chartOptions = {
+        chart: {
+          type: "pie",
+        },
+        colors: ["#377f87", "#3d96a5", "#6beed1"],
+        labels: ["Learners", "Facilitators", "Administrators"],
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {},
+              legend: {
+                position: "bottom",
+              },
+            },
+          },
+        ],
+      };
+    },
+  },
 };
 </script>
 <style scoped lang="scss">
@@ -364,9 +379,9 @@ export default {
   color: white !important;
 }
 
-.box:hover > div > .b-iconstack > g > .ic {
-  color: white !important;
-}
+// .box:hover > div > .b-iconstack > g > .ic {
+//   color: white !important;
+// }
 .shadow {
   box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;
