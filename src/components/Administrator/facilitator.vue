@@ -34,13 +34,13 @@
               </div>
             </div>
 
-            <div class="" v-if="users.length">
+            <div class="">
               <b-table-simple class="org_home_table text-left" responsive="sm">
                 <b-thead>
                   <b-tr class="text-left">
                     <b-th class="text-muted">Name</b-th>
                     <b-th class="text-muted">Last login</b-th>
-                    <b-th class="text-muted">Phone number</b-th>
+                    <b-th class="text-muted">Role</b-th>
                     <b-th class="text-muted">Status</b-th>
                     <b-th></b-th> </b-tr
                 ></b-thead>
@@ -66,14 +66,14 @@
                         <span class="text-muted">2 days ago</span>
                       </div>
                     </b-td>
-                    <b-td class="text-capitalize"> {{ item.phone }} </b-td>
+                    <b-td class="text-capitalize"> {{ item.role }} </b-td>
                     <b-td
                       class="text-left"
                       :class="{
-                        'text-success': item.verification,
-                        'text-danger': !item.verification,
+                        'text-success': item.status,
+                        'text-danger': !item.status,
                       }"
-                      >{{ item.verification ? "Active" : "Inactive" }}</b-td
+                      >{{ item.status ? "Active" : "Inactive" }}</b-td
                     >
                     <b-td
                       ><b-icon
@@ -128,21 +128,6 @@
                   :total-rows="rows"
                   :per-page="perPage"
                 ></b-pagination>
-              </div>
-            </div>
-            <div v-else class="text-center admin_tab p-3 p-sm-5">
-              <div>
-                <b-img :src="require('@/assets/images/creator.svg')"></b-img>
-                <h6 class="text-muted mb-3">
-                  It appears you havent added any Facilitator yet, <br />
-                  Add your first Facilitator now!
-                </h6>
-                <b-button
-                  @click="$bvModal.show('add')"
-                  variant="dark-green"
-                  size="lg"
-                  >Add Facilitator</b-button
-                >
               </div>
             </div>
           </div>
@@ -403,8 +388,6 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.$toast.success("Update successful");
-            this.$bvModal.hide("edit");
             this.user = {
               name: "",
               email: "",
@@ -455,11 +438,5 @@ export default {
 }
 .search::placeholder {
   color: rgba($color: #000000, $alpha: 0.2);
-}
-.admin_tab {
-  min-height: 350px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 </style>

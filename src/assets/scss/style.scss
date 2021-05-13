@@ -68,6 +68,12 @@ a:hover {
 .form-control {
   font-size: 15px;
 }
+.flex-1 {
+  flex: 1;
+}
+.strike {
+  text-decoration: line-through;
+}
 @media (max-width: 600px) {
   ::placeholder {
     font-size: 14px;

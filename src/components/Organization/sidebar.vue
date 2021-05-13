@@ -5,7 +5,7 @@
       <router-link to="/organization">
         <div class="side_item">
           <b-icon
-            icon="grid1x2-fill"
+            icon="grid1x2"
             font-scale="1.25"
             class="mr-3 text-lemon"
           ></b-icon>
@@ -15,7 +15,7 @@
       <router-link to="/organization/admins">
         <div class="side_item">
           <b-icon
-            icon="shield-fill-check"
+            icon="shield-fill"
             font-scale="1.25"
             class="mr-3 text-lemon"
           ></b-icon>
@@ -25,7 +25,7 @@
       <router-link to="/organization/facilitators">
         <div class="side_item">
           <b-icon
-            icon="person-badge-fill"
+            icon="person-badge"
             font-scale="1.25"
             class="mr-3 text-lemon"
           ></b-icon>
@@ -35,7 +35,7 @@
       <router-link to="/organization/learners">
         <div class="side_item">
           <b-icon
-            icon="people-fill"
+            icon="people"
             font-scale="1.25"
             class="mr-3 text-lemon"
           ></b-icon>
@@ -45,7 +45,7 @@
       <router-link to="/organization/schedule">
         <div class="side_item">
           <b-icon
-            icon="calendar-event-fill"
+            icon="calendar-event"
             font-scale="1.25"
             class="mr-3 text-lemon"
           ></b-icon>
@@ -55,7 +55,7 @@
       <router-link to="/organization/chat">
         <div class="side_item">
           <b-icon
-            icon="chat-square-text-fill"
+            icon="chat-square-text"
             font-scale="1.25"
             class="mr-3 text-lemon"
           ></b-icon>

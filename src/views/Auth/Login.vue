@@ -182,16 +182,17 @@ export default {
       this.user.profile = val;
     },
     register() {
-      var data = {
-        grant_type: "password",
-        client_id: 5,
-        client_secret: "vi8gsfMR9yl4XOJG7tz0AIWN1uF06FpJ1kkxpEvn",
-        username: this.user.email,
-        password: this.user.password,
-      };
       var authOrg = {};
+      var authAdmin = {};
 
       if (this.type == "organization") {
+        let data = {
+          grant_type: "password",
+          client_id: 5,
+          client_secret: "vi8gsfMR9yl4XOJG7tz0AIWN1uF06FpJ1kkxpEvn",
+          username: this.user.email,
+          password: this.user.password,
+        };
         this.$http
           .post("http://localhost:8000/oauth/token", data)
           .then((res) => {
@@ -215,22 +216,33 @@ export default {
           });
       }
       if (this.type == "facilitator") {
+        let data = {
+          grant_type: "password",
+          client_id: 3,
+          client_secret: "fjiWTis9MO1KfJhnR0uVG0UwVL6adxIpp4JbVXdT",
+          username: this.user.email,
+          password: this.user.password,
+        };
         this.$http
-          .post(`${this.$store.getters.url}/register-facilitator`, this.user)
-          .then(() => {})
-          .catch((err) => {
-            if (err.response.data.errors.email[0]) {
-              this.$toast.error(err.response.data.errors.email[0]);
-            }
-            if (err.response.data.errors.phone[0]) {
-              this.$toast.error(err.response.data.errors.phone[0]);
-            }
-            if (err.response.data.errors.name[0]) {
-              this.$toast.error(err.response.data.errors.name[0]);
-            }
-            if (err.response.data.errors.password[0]) {
-              this.$toast.error(err.response.data.errors.password[0]);
-            }
+          .post("http://localhost:8000/oauth/token", data)
+          .then((res) => {
+            authAdmin.access_token = res.data.access_token;
+            authAdmin.refresh_token = res.data.refresh_token;
+            this.$http
+              .get(`${this.$store.getters.url}/admin`, {
+                headers: {
+                  Authorization: `Bearer ${res.data.access_token}`,
+                },
+              })
+              .then((res) => {
+                authAdmin.name = res.data.name;
+                authAdmin.email = res.data.name;
+                authAdmin.profile = res.data.profile;
+
+                localStorage.setItem("authAdmin", JSON.stringify(authAdmin));
+                this.$toast.success("Login successful");
+                this.$router.push("/administrator");
+              });
           });
       }
       if (this.type == "learner") {

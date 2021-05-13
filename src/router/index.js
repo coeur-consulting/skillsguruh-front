@@ -180,6 +180,99 @@ const routes = [
   },
 
   {
+    path: "/administrator",
+
+    components: {
+      default: () =>
+        import(
+          /* webpackChunkName: "administrator" */ "../views/Administrator.vue"
+        ),
+    },
+
+    children: [
+      {
+        path: "",
+        name: "administrator dashboard",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratordashboard" */ "@/components/Administrator/home.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+
+      {
+        path: "facilitators",
+        name: "Administrator facilitators",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratorfacilitators" */ "@/components/Administrator/facilitators.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+      {
+        path: "facilitator",
+        name: "Administrator facilitator",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratorfacilitator" */ "@/components/Administrator/facilitator.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+      {
+        path: "learners",
+        name: "Administrator learners",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratorlearners" */ "@/components/Administrator/learners.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+      {
+        path: "learner",
+        name: "Administrator learner",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratorlearner" */ "@/components/Administrator/learner.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+      {
+        path: "schedule",
+        name: "Administrator schedule",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratorschedule" */ "@/components/Administrator/schedule.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+    ],
+  },
+
+  {
     path: "*",
     name: "Not Found",
     components: {
