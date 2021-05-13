@@ -70,7 +70,10 @@
               font-scale="1.1"
               class="mr-3 text-dark-green"
             ></b-icon>
-            <span class="side-link">Events</span>
+            <span class="side-link">
+              <span class="mr-5">Events</span>
+              <span><b-badge variant="danger" size="sm">4</b-badge></span></span
+            >
           </div>
         </router-link>
       </div>
@@ -84,7 +87,12 @@
               font-scale="1.1"
               class="mr-3 text-dark-green"
             ></b-icon>
-            <span class="side-link">Feeds</span>
+            <span class="side-link"
+              ><span class="mr-5">Feeds</span>
+              <span
+                ><b-badge variant="danger" size="sm">14</b-badge></span
+              ></span
+            >
           </div>
         </router-link>
         <router-link to="/administrator/discussions">
