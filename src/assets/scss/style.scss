@@ -126,7 +126,12 @@ a:hover {
       rgba(56, 128, 135, 0.79) 90.63%
     );
     overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 60px; /* Place content 60px from the top */
+    padding-top: 40px !important; /* Place content 60px from the top */
     transition: 0.5s; /*0.5 second transition effect to slide in the sidenav*/
+  }
+  .bm-item-list > * {
+    display: flex;
+    padding: 0.5em !important;
+    text-decoration: none;
   }
 }

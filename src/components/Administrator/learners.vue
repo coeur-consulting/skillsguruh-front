@@ -335,9 +335,9 @@ export default {
   methods: {
     getusers() {
       this.$http
-        .get(`${this.$store.getters.url}/get-users`, {
+        .get(`${this.$store.getters.url}/admin-get-users`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
           },
         })
         .then((res) => {
@@ -353,9 +353,9 @@ export default {
 
     register() {
       this.$http
-        .post(`${this.$store.getters.url}/register-user`, this.user, {
+        .post(`${this.$store.getters.url}/admin-register-user`, this.user, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
           },
         })
         .then((res) => {
@@ -393,11 +393,11 @@ export default {
     update() {
       this.$http
         .put(
-          `${this.$store.getters.url}/update-user/${this.user.id}`,
+          `${this.$store.getters.url}/admin-update-user/${this.user.id}`,
           this.user,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
             },
           }
         )
@@ -421,9 +421,9 @@ export default {
       this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
           this.$http
-            .delete(`${this.$store.getters.url}/delete-user/${id}`, {
+            .delete(`${this.$store.getters.url}/admin-delete-user/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+                Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
               },
             })
             .then((res) => {

@@ -6,7 +6,7 @@
         <b-col sm="10" class="p-0">
           <div class="content">
             <TopBar />
-            <main id="page-wrap">
+            <main id="page-wrap" class="pb-5">
               <router-view></router-view>
             </main>
           </div>

@@ -20,32 +20,48 @@
       </b-form>
     </div>
 
-    <div>
+    <div v-if="todos.length">
       <div class="todos d-flex flex-column">
-        <div class="flex-1" v-for="(item, index) in todos" :key="index">
-          <div class="todo d-flex align-items-center w-100 p-2 rounded mb-2">
+        <div class="mb-2" v-for="(item, index) in todos" :key="index">
+          <div class="todo d-flex align-items-center w-100 p-2 rounded">
             <div class="flex-1">
               <b-form-checkbox
-                v-model="item.status"
-                @change="update(item.id, item.todo)"
+                class="w-100"
+                :checked="item.status ? true : false"
+                @change="update(index, item.id, item.todo, item.status)"
                 size="sm"
                 ><span :class="{ strike: item.status }">{{ item.todo }} </span
                 ><br />
-                <span class="text-muted text-sm">{{
+                <span class="text-muted text-sm mr-5">{{
                   item.created_at | moment("LL")
-                }}</span></b-form-checkbox
-              >
+                }}</span>
+                <span
+                  class="text-sm"
+                  :class="{
+                    'text-success': item.status,
+                    'text-danger': !item.status,
+                  }"
+                  >{{ item.status ? "Completed" : "Incomplete" }}</span
+                >
+              </b-form-checkbox>
             </div>
             <b-icon @click="drop(item.id, index)" icon="trash"></b-icon>
           </div>
         </div>
       </div>
 
-      <div class="text-right p-3">
-        <small class="text-dark-green"
+      <div class="text-right p-3" v-if="todos.length">
+        <small class="text-dark-green" @click="dropall"
           >Clear <b-icon icon=" x-circle-fill"></b-icon
         ></small>
       </div>
+    </div>
+
+    <div class="text-center p-5" v-else>
+      <h6 class="text-muted">
+        You have no active Todo, <br />
+        try adding one now !
+      </h6>
     </div>
   </div>
 </template>
@@ -64,13 +80,28 @@ export default {
   mounted() {
     this.gettodos();
   },
+  computed: {
+    token() {
+      var token = null;
+      if (this.$props.user == "admin") {
+        return this.$store.getters.admin.access_token;
+      }
+      if (this.$props.user == "facilitator") {
+        return this.$store.getters.facilitator.access_token;
+      }
+      if (this.$props.user == "learner") {
+        return this.$store.getters.learner.access_token;
+      }
+      return token;
+    },
+  },
 
   methods: {
     gettodos() {
       this.$http
         .get(`${this.$store.getters.url}/todos`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.token}`,
           },
         })
         .then((res) => {
@@ -89,7 +120,7 @@ export default {
           { todo: this.todo },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+              Authorization: `Bearer ${this.token}`,
             },
           }
         )
@@ -106,22 +137,21 @@ export default {
         });
     },
 
-    update(id, data) {
+    update(index, id, data, status) {
       this.$http
         .put(
           `${this.$store.getters.url}/todos/${id}`,
-          { todo: data },
+          { todo: data, status: status },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+              Authorization: `Bearer ${this.token}`,
             },
           }
         )
         .then((res) => {
           if (res.status == 200) {
-            this.$toast.success("Update successful");
-
-            this.todo = "";
+            this.$toast.success("Todo Updated ");
+            this.todos.splice(index, 1, res.data);
           }
         })
         .catch((err) => {
@@ -134,7 +164,7 @@ export default {
           this.$http
             .delete(`${this.$store.getters.url}/todos/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+                Authorization: `Bearer ${this.token}`,
               },
             })
             .then((res) => {
@@ -148,6 +178,23 @@ export default {
             });
         }
       });
+    },
+    dropall() {
+      this.$http
+        .get(`${this.$store.getters.url}/todos-destroy`, {
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.$toast.success("All cleared");
+            this.todos = [];
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
     },
   },
 };
@@ -190,7 +237,7 @@ export default {
   overflow: auto;
 }
 .todo {
-  background: var(--skills-grey);
+  background: #fbfbfb;
   border-radius: 5px;
 }
 .text-sm {

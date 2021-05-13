@@ -269,6 +269,32 @@ const routes = [
           typeAdmin: true,
         },
       },
+      {
+        path: "discussions",
+        name: "Administrator discussions",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratordiscussions" */ "@/components/Administrator/discussions.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+      {
+        path: "discussion",
+        name: "Administrator discussion",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratordiscussion" */ "@/components/Administrator/discussion.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
     ],
   },
 

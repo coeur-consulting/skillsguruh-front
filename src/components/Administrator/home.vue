@@ -5,8 +5,8 @@
         <b-col sm="8">
           <b-row class="mb-4 mb-sm-5">
             <b-col sm="6">
-              <div class="box">
-                <div class="d-flex align-items-center mb-3">
+              <div class="box p-3">
+                <div class="d-flex align-items-center mb-1">
                   <b-iconstack font-scale="2.5" class="mr-3">
                     <b-icon
                       stacked
@@ -23,19 +23,27 @@
                   <div class="h6 mb-0 text-dark-green">Total Facilitators</div>
                 </div>
 
-                <div class="d-flex justify-content-between mb-2 w-100">
-                  <div class="new_add">New This Month</div>
-                  <div>{{ newlyfacilitators }}</div>
-                </div>
-                <div class="d-flex justify-content-between w-100">
-                  <div class="new_add">Total Number</div>
-                  <div>{{ facilitators.length }}</div>
+                <div class="w-100 px-2">
+                  <div class="h2">{{ facilitators.length }}</div>
+                  <div class="new_add">
+                    <b-icon
+                      icon="graph-up"
+                      class="text-dark-green mr-2 ic"
+                      font-scale="1.5"
+                    ></b-icon>
+                    <span class="mr-2">
+                      {{
+                        (newlyfacilitators / facilitators.length) * 100
+                      }}%</span
+                    >
+                    <span>New Facilitators this month</span>
+                  </div>
                 </div>
               </div>
             </b-col>
             <b-col sm="6">
-              <div class="box">
-                <div class="d-flex align-items-center mb-3">
+              <div class="box p-3">
+                <div class="d-flex align-items-center mb-1">
                   <b-iconstack font-scale="2.5" class="mr-3">
                     <b-icon
                       stacked
@@ -52,13 +60,21 @@
                   <div class="h6 mb-0 text-dark-green">Total Learners</div>
                 </div>
 
-                <div class="d-flex justify-content-between mb-2 w-100">
-                  <div class="new_add">New This Month</div>
-                  <div>{{ newlyusers }}</div>
+                <div class="w-100 px-2">
+                  <div class="h2">{{ users.length }}</div>
                 </div>
-                <div class="d-flex justify-content-between w-100">
-                  <div class="new_add">Total Number</div>
-                  <div>{{ users.length }}</div>
+                <div class="w-100">
+                  <div class="new_add">
+                    <b-icon
+                      icon="graph-up"
+                      class="text-dark-green mr-2 ic"
+                      font-scale="1.5"
+                    ></b-icon>
+                    <span class="mr-2">
+                      {{ (newlyusers / users.length) * 100 }}%</span
+                    >
+                    <span>New Facilitators this month</span>
+                  </div>
                 </div>
               </div>
             </b-col>
@@ -68,10 +84,15 @@
         <b-col sm="4" class="text-left">
           <div class="turn_over_box">
             <div class="tob_1 mb-4 p-3">
-              <vc-calendar></vc-calendar>
+              <vc-calendar
+                is-expanded
+                title-position="left"
+                show-weeknumbers
+                :attributes="attributes"
+              ></vc-calendar>
             </div>
             <div class="tob_2">
-              <Todo />
+              <Todo user="admin" />
             </div>
           </div>
         </b-col>
@@ -98,17 +119,10 @@ export default {
   watch: {},
   mounted() {
     this.gettodos();
-    // this.getfacilitators();
-    // this.getusers();
+    this.getfacilitators();
+    this.getusers();
   },
   computed: {
-    newlyadmins() {
-      return this.admins.filter(
-        (item) =>
-          new Date(item.created_at).getMonth() == new Date().getMonth() &&
-          new Date(item.created_at).getFullYear() == new Date().getFullYear()
-      ).length;
-    },
     newlyfacilitators() {
       return this.facilitators.filter(
         (item) =>
@@ -122,6 +136,32 @@ export default {
           new Date(item.created_at).getMonth() == new Date().getMonth() &&
           new Date(item.created_at).getFullYear() == new Date().getFullYear()
       ).length;
+    },
+    attributes() {
+      return [
+        // This is a single attribute
+        {
+          // An optional key can be used for retrieving this attribute later,
+          // and will most likely be derived from your data object
+          key: 1,
+          // Attribute type definitions
+          highlight: true, // Boolean, String, Object
+          dot: false, // Boolean, String, Object
+          bar: false, // Boolean, String, Object
+          content: false, // Boolean, String, Object
+          popover: {}, // Only objects allowed
+          // Your custom data object for later access, if needed
+          customData: {},
+          // We also need some dates to know where to display the attribute
+          // We use a single date here, but it could also be an array of dates,
+          //  a date range or a complex date pattern.
+          dates: new Date(),
+          // You can optionally provide dates to exclude
+          excludeDates: null,
+          // Think of `order` like `z-index`
+          order: 0,
+        },
+      ];
     },
   },
   methods: {
@@ -181,13 +221,13 @@ export default {
   padding-top: 30px;
 }
 .box {
-  height: 130px;
+  min-height: 130px;
   display: flex;
   align-items: flex-start;
   flex-direction: column;
   justify-content: center;
   text-align: left;
-  padding: 15px;
+
   box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35);
   border-radius: 8px;
   background: white;
@@ -204,9 +244,9 @@ export default {
   color: white !important;
 }
 
-// .box:hover > div > .b-iconstack > g > .ic {
-//   color: white !important;
-// }
+.box:hover > div > .new_add > .ic {
+  color: white !important;
+}
 .shadow {
   box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;

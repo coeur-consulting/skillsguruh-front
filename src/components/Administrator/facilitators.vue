@@ -353,11 +353,15 @@ export default {
 
     register() {
       this.$http
-        .post(`${this.$store.getters.url}/register-facilitator`, this.user, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
-        })
+        .post(
+          `${this.$store.getters.url}/admin-register-facilitator`,
+          this.user,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            },
+          }
+        )
         .then((res) => {
           if (res.status == 201) {
             this.$toast.success("Added successfully");
@@ -393,7 +397,7 @@ export default {
     update() {
       this.$http
         .put(
-          `${this.$store.getters.url}/update-facilitator/${this.user.id}`,
+          `${this.$store.getters.url}/admin-update-facilitator/${this.user.id}`,
           this.user,
           {
             headers: {
@@ -421,11 +425,14 @@ export default {
       this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
           this.$http
-            .delete(`${this.$store.getters.url}/delete-facilitator/${id}`, {
-              headers: {
-                Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-              },
-            })
+            .delete(
+              `${this.$store.getters.url}/admin-delete-facilitator/${id}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+                },
+              }
+            )
             .then((res) => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");

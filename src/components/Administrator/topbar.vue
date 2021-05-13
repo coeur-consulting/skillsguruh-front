@@ -17,66 +17,150 @@
       <div class="mr-3">
         <PushRotate :closeOnNavigation="true" width="250">
           <div class="logo">LOGO</div>
-          <router-link to="/organization">
+
+          <router-link to="/administrator">
             <div class="side_item">
               <b-icon
-                icon="grid1x2-fill"
-                font-scale="1.25"
-                class="mr-3 text-lemon"
+                icon="grid1x2"
+                font-scale="1.1"
+                class="mr-3 text-white"
               ></b-icon>
               <span class="side-link">Dashboard</span>
             </div>
           </router-link>
-          <router-link to="/organization/admins">
+
+          <h6 class="mt-2 mb-0 text-white side_header">TEAM</h6>
+          <router-link to="/administrator/facilitators">
             <div class="side_item">
               <b-icon
-                icon="shield-fill-check"
-                font-scale="1.25"
-                class="mr-3 text-lemon"
-              ></b-icon>
-              <span class="side-link">Administrators</span>
-            </div>
-          </router-link>
-          <router-link to="/organization/facilitators">
-            <div class="side_item">
-              <b-icon
-                icon="person-badge-fill"
-                font-scale="1.25"
-                class="mr-3 text-lemon"
+                icon="person-badge"
+                font-scale="1.1"
+                class="mr-3 text-white"
               ></b-icon>
               <span class="side-link">Facilitators</span>
             </div>
           </router-link>
-          <router-link to="/organization/learners">
+          <router-link to="/administrator/learners">
             <div class="side_item">
               <b-icon
-                icon="people-fill"
-                font-scale="1.25"
-                class="mr-3 text-lemon"
+                icon="people"
+                font-scale="1.1"
+                class="mr-3 text-white"
               ></b-icon>
               <span class="side-link">Learners</span>
             </div>
           </router-link>
-          <router-link to="/organization/schedule">
+
+          <h6 class="mt-2 mb-0 text-white side_header">COMMUNITY</h6>
+
+          <router-link to="/administrator/schedule">
             <div class="side_item">
               <b-icon
-                icon="calendar-event-fill"
-                font-scale="1.25"
-                class="mr-3 text-lemon"
+                icon="link45deg"
+                font-scale="1.1"
+                class="mr-3 text-white"
+              ></b-icon>
+              <span class="side-link">Connection</span>
+            </div>
+          </router-link>
+
+          <h6 class="mt-2 mb-0 text-white side_header">PROGRAMS</h6>
+
+          <router-link to="/administrator/schedule">
+            <div class="side_item">
+              <b-icon
+                icon="book"
+                font-scale="1.1"
+                class="mr-3 text-white"
+              ></b-icon>
+              <span class="side-link">Courses</span>
+            </div>
+          </router-link>
+          <router-link to="/administrator/schedule">
+            <div class="side_item">
+              <b-icon
+                icon="bookmark"
+                font-scale="1.1"
+                class="mr-3 text-white"
+              ></b-icon>
+              <span class="side-link">Events</span>
+            </div>
+          </router-link>
+
+          <h6 class="mt-2 mb-0 text-white side_header">ACTIVITIES</h6>
+
+          <router-link to="/administrator/schedule">
+            <div class="side_item">
+              <b-icon
+                icon="rss"
+                font-scale="1.1"
+                class="mr-3 text-white"
+              ></b-icon>
+              <span class="side-link">Feeds</span>
+            </div>
+          </router-link>
+          <router-link to="/administrator/schedule">
+            <div class="side_item">
+              <b-icon
+                icon="chat-left-quote"
+                font-scale="1.1"
+                class="mr-3 text-white"
+              ></b-icon>
+              <span class="side-link">Discussion</span>
+            </div>
+          </router-link>
+
+          <h6 class="mt-2 mb-0 text-white side_header">OTHERS</h6>
+
+          <router-link to="/administrator/schedule">
+            <div class="side_item">
+              <b-icon
+                icon="calendar-event"
+                font-scale="1.1"
+                class="mr-3 text-white"
               ></b-icon>
               <span class="side-link">Schedule</span>
             </div>
           </router-link>
-          <router-link to="/organization/chat">
+          <router-link to="/administrator/schedule">
             <div class="side_item">
               <b-icon
-                icon="chat-square-text-fill"
-                font-scale="1.25"
-                class="mr-3 text-lemon"
+                icon="receipt"
+                font-scale="1.1"
+                class="mr-3 text-white"
               ></b-icon>
-              <span class="side-link">Chat</span>
+              <span class="side-link">Insights</span>
             </div>
           </router-link>
+          <router-link to="/administrator/schedule">
+            <div class="side_item">
+              <b-icon
+                icon="signpost-split"
+                font-scale="1.1"
+                class="mr-3 text-white"
+              ></b-icon>
+              <span class="side-link">Referrals</span>
+            </div>
+          </router-link>
+          <router-link to="/administrator/schedule">
+            <div class="side_item">
+              <b-icon
+                icon="credit-card"
+                font-scale="1.1"
+                class="mr-3 text-white"
+              ></b-icon>
+              <span class="side-link">Bonuses</span>
+            </div>
+          </router-link>
+
+          <div class="side_item mt-2 mb-4">
+            <b-icon
+              icon="box-arrow-left"
+              font-scale="1.1"
+              class="mr-3 text-white"
+            ></b-icon>
+            <span class="side-link">Log out</span>
+          </div>
         </PushRotate>
       </div>
       <div class="org_name" @click="$router.push('/organization')">
@@ -134,16 +218,21 @@ export default {
   width: 300px;
 }
 
+.side_header {
+  font-size: 12px;
+  padding: 1px 0 1px 0px;
+  color: white;
+}
 .side_item {
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
-  font-weight: 600;
-  line-height: 20px;
+  font-weight: 400;
+  line-height: 1.4;
   letter-spacing: 0em;
   text-align: left;
-  color: #fff;
-  padding: 8px 0 8px 3px;
-
+  color: white;
+  padding: 0px;
+  margin-bottom: 0;
   cursor: pointer;
 }
 
