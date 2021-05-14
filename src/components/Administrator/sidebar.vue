@@ -53,7 +53,7 @@
       <div>
         <h6 class="mt-3 mb-1 text-dark-green side_header">PROGRAMS</h6>
 
-        <router-link to="/administrator/schedule">
+        <router-link to="/administrator/courses">
           <div class="side_item">
             <b-icon
               icon="book"
@@ -61,6 +61,16 @@
               class="mr-3 text-dark-green"
             ></b-icon>
             <span class="side-link">Courses</span>
+          </div>
+        </router-link>
+        <router-link to="/administrator/outlines">
+          <div class="side_item">
+            <b-icon
+              icon="card-list"
+              font-scale="1.1"
+              class="mr-3 text-dark-green"
+            ></b-icon>
+            <span class="side-link">Course outline</span>
           </div>
         </router-link>
         <router-link to="/administrator/schedule">

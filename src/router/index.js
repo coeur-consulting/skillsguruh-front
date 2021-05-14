@@ -301,7 +301,33 @@ const routes = [
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Administratorfeeds */ "@/components/Administrator/feeds.vue"
+              /* webpackChunkName: "Administratorfeeds" */ "@/components/Administrator/feeds.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+      {
+        path: "courses",
+        name: "Administrator courses",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratorcourses" */ "@/components/Administrator/courses.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+      {
+        path: "outlines",
+        name: "Administrator outline",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratoroutline" */ "@/components/Administrator/outlines.vue"
             ),
         },
         meta: {

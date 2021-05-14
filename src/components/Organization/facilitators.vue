@@ -22,7 +22,7 @@
             <div
               class="d-flex justify-content-between align-items-center p-3 e"
             >
-              <b-icon icon="filter"></b-icon>
+              <b-icon icon="funnel"></b-icon>
               <div>
                 <b-button variant="dark-green" size="sm">
                   <b-icon
@@ -118,12 +118,13 @@
                   </b-tr>
                 </b-tbody>
               </b-table-simple>
-              <div class="py-3">
+              <div class="p-3 d-flex justify-content-between">
+                <div class="fs12 text-muted">Showing 1-10 of 30 items</div>
                 <b-pagination
                   pills
                   size="sm"
                   variant="dark-green"
-                  align="center"
+                  align="right"
                   v-model="currentPage"
                   :total-rows="rows"
                   :per-page="perPage"
