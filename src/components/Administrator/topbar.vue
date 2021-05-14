@@ -89,7 +89,7 @@
 
           <h6 class="mt-2 mb-0 text-white side_header">ACTIVITIES</h6>
 
-          <router-link to="/administrator/schedule">
+          <router-link to="/administrator/feeds">
             <div class="side_item">
               <b-icon
                 icon="rss"
@@ -99,7 +99,7 @@
               <span class="side-link">Feeds</span>
             </div>
           </router-link>
-          <router-link to="/administrator/schedule">
+          <router-link to="/administrator/discussions">
             <div class="side_item">
               <b-icon
                 icon="chat-left-quote"

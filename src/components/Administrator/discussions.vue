@@ -60,7 +60,7 @@
                       ><b-icon icon="chat"></b-icon> 14 answers</span
                     >
                     <span class="mr-4"
-                      ><b-icon icon="eye"></b-icon> 14 views</span
+                      ><b-icon icon="eye-fill"></b-icon> 14 views</span
                     >
                   </div>
                   <div>
@@ -117,7 +117,7 @@
                       ><b-icon icon="chat"></b-icon> 14 answers</span
                     >
                     <span class="mr-4"
-                      ><b-icon icon="eye"></b-icon> 14 views</span
+                      ><b-icon icon="eye-fill"></b-icon> 14 views</span
                     >
                   </div>
                   <div>
@@ -257,12 +257,11 @@
 .content {
 }
 .side_dis {
-  width: 10%;
+  width: 15%;
   text-align: center;
-  margin-right: 0.2rem;
 }
 .next_dis {
-  width: 90%;
+  width: 85%;
 }
 .asked {
   font-size: 12px;
@@ -285,7 +284,7 @@
   -webkit-box-orient: vertical;
 }
 .bottom_bar {
-  width: 90%;
+  width: 85%;
   margin-left: auto;
   padding: 13px;
   border-radius: 4px;
