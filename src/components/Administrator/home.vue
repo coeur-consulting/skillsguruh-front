@@ -85,6 +85,7 @@
           <div class="turn_over_box">
             <div class="tob_1 mb-4 p-3">
               <vc-calendar
+                color="teal"
                 is-expanded
                 title-position="left"
                 show-weeknumbers

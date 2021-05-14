@@ -5,7 +5,13 @@
 html {
   scroll-behavior: smooth;
 }
-
+.text-blue {
+  color: #054a90;
+}
+.no-focus {
+  outline: none;
+  box-shadow: unset;
+}
 .navbar-toggler {
   padding: 0.2rem 0.25rem;
   font-size: 1.25rem;

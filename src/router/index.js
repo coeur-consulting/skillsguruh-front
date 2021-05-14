@@ -295,6 +295,19 @@ const routes = [
           typeAdmin: true,
         },
       },
+      {
+        path: "feeds",
+        name: "Administrator feeds",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratorfeeds */ "@/components/Administrator/feeds.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
     ],
   },
 
