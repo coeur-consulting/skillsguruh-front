@@ -199,7 +199,7 @@
             </div>
             <div class="py-3 text-left related_quest border">
               <h6 class="mb-3 px-3">Related Discussions</h6>
-              <div class="d-flex p-2">
+              <div class="d-flex p-2 px-3">
                 <div>
                   <span class="mr-3 related_count">2000</span>
                 </div>
@@ -208,7 +208,7 @@
                   Beatae.</span
                 >
               </div>
-              <div class="d-flex p-2">
+              <div class="d-flex p-2 px-3">
                 <div>
                   <span class="mr-3 related_count">1200</span>
                 </div>

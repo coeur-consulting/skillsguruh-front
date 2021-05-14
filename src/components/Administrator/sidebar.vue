@@ -162,7 +162,7 @@
         </router-link>
       </div>
 
-      <div class="side_item mt-4">
+      <div class="side_item mt-4" @click="logout">
         <b-icon
           icon="box-arrow-left"
           font-scale="1.1"
@@ -173,7 +173,16 @@
     </div>
   </div>
 </template>
-
+<script>
+export default {
+  methods: {
+    logout() {
+      localStorage.removeItem("authOrg");
+      this.$router.push("/login");
+    },
+  },
+};
+</script>
 <style scoped>
 #sidebar {
   height: 100vh;

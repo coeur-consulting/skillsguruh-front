@@ -1,14 +1,271 @@
 <template>
   <div>
-    <b-container fluid>
-      <div v-if="courses.length" class="text-right p-3">
-        <b-button size="lg" variant="dark-green">Create new course</b-button>
+    <b-container fluid class="pr-sm-0">
+      <div class="d-flex justify-content-between p-3">
+        <div class="">
+          <h4>Courses</h4>
+        </div>
+        <div v-if="courses.length" class="text-right">
+          <b-button size="lg" variant="dark-green">Create new course</b-button>
+        </div>
       </div>
 
       <b-row v-if="courses.length">
-        <b-col sm="8">
+        <b-col sm="8" class="my_courses">
           <b-row>
-            <b-col sm="4">
+            <b-col sm="4" class="mb-3">
+              <div class="bg-white shadow-sm p-3 text-left">
+                <b-iconstack font-scale="2.5" class="mr-3 mb-2">
+                  <b-icon
+                    stacked
+                    icon="circle-fill"
+                    variant="lighter-green"
+                  ></b-icon>
+                  <b-icon
+                    stacked
+                    icon="person-badge-fill"
+                    scale="0.5"
+                    variant="dark-green"
+                  ></b-icon>
+                </b-iconstack>
+                <div class="course_title mb-3">English Language</div>
+                <div class="course_fac mb-2">
+                  <b-icon icon="display" class="text-muted mr-3"></b-icon> John
+                  Doe
+                </div>
+                <div class="course_time mb-2">
+                  <b-icon icon="calendar" class="text-muted mr-3"></b-icon>
+                  Monday 8:00 am
+                </div>
+                <div class="course_modules mb-4">
+                  <b-icon icon="layers" class="text-muted mr-3"></b-icon> 15
+                  Modules
+                </div>
+
+                <div class="d-flex justify-content-between fs13">
+                  <span>Progress</span><span>50%</span>
+                </div>
+                <b-progress
+                  :value="50"
+                  :max="100"
+                  show-value
+                  height=".8rem"
+                  class="mb-3"
+                  variant="dark-green"
+                ></b-progress>
+              </div>
+            </b-col>
+            <b-col sm="4" class="mb-3">
+              <div class="bg-white shadow-sm p-3 text-left">
+                <b-iconstack font-scale="2.5" class="mr-3 mb-2">
+                  <b-icon
+                    stacked
+                    icon="circle-fill"
+                    variant="lighter-green"
+                  ></b-icon>
+                  <b-icon
+                    stacked
+                    icon="person-badge-fill"
+                    scale="0.5"
+                    variant="dark-green"
+                  ></b-icon>
+                </b-iconstack>
+                <div class="course_title mb-3">English Language</div>
+                <div class="course_fac mb-2">
+                  <b-icon icon="display" class="text-muted mr-3"></b-icon> John
+                  Doe
+                </div>
+                <div class="course_time mb-2">
+                  <b-icon icon="calendar" class="text-muted mr-3"></b-icon>
+                  Monday 8:00 am
+                </div>
+                <div class="course_modules mb-4">
+                  <b-icon icon="layers" class="text-muted mr-3"></b-icon> 15
+                  Modules
+                </div>
+
+                <div class="d-flex justify-content-between fs13">
+                  <span>Progress</span><span>50%</span>
+                </div>
+                <b-progress
+                  :value="50"
+                  :max="100"
+                  show-value
+                  height=".8rem"
+                  class="mb-3"
+                  variant="dark-green"
+                ></b-progress>
+              </div>
+            </b-col>
+            <b-col sm="4" class="mb-3">
+              <div class="bg-white shadow-sm p-3 text-left">
+                <b-iconstack font-scale="2.5" class="mr-3 mb-2">
+                  <b-icon
+                    stacked
+                    icon="circle-fill"
+                    variant="lighter-green"
+                  ></b-icon>
+                  <b-icon
+                    stacked
+                    icon="person-badge-fill"
+                    scale="0.5"
+                    variant="dark-green"
+                  ></b-icon>
+                </b-iconstack>
+                <div class="course_title mb-3">English Language</div>
+                <div class="course_fac mb-2">
+                  <b-icon icon="display" class="text-muted mr-3"></b-icon> John
+                  Doe
+                </div>
+                <div class="course_time mb-2">
+                  <b-icon icon="calendar" class="text-muted mr-3"></b-icon>
+                  Monday 8:00 am
+                </div>
+                <div class="course_modules mb-4">
+                  <b-icon icon="layers" class="text-muted mr-3"></b-icon> 15
+                  Modules
+                </div>
+
+                <div class="d-flex justify-content-between fs13">
+                  <span>Progress</span><span>50%</span>
+                </div>
+                <b-progress
+                  :value="50"
+                  :max="100"
+                  show-value
+                  height=".8rem"
+                  class="mb-3"
+                  variant="dark-green"
+                ></b-progress>
+              </div>
+            </b-col>
+            <b-col sm="4" class="mb-3">
+              <div class="bg-white shadow-sm p-3 text-left">
+                <b-iconstack font-scale="2.5" class="mr-3 mb-2">
+                  <b-icon
+                    stacked
+                    icon="circle-fill"
+                    variant="lighter-green"
+                  ></b-icon>
+                  <b-icon
+                    stacked
+                    icon="person-badge-fill"
+                    scale="0.5"
+                    variant="dark-green"
+                  ></b-icon>
+                </b-iconstack>
+                <div class="course_title mb-3">English Language</div>
+                <div class="course_fac mb-2">
+                  <b-icon icon="display" class="text-muted mr-3"></b-icon> John
+                  Doe
+                </div>
+                <div class="course_time mb-2">
+                  <b-icon icon="calendar" class="text-muted mr-3"></b-icon>
+                  Monday 8:00 am
+                </div>
+                <div class="course_modules mb-4">
+                  <b-icon icon="layers" class="text-muted mr-3"></b-icon> 15
+                  Modules
+                </div>
+
+                <div class="d-flex justify-content-between fs13">
+                  <span>Progress</span><span>50%</span>
+                </div>
+                <b-progress
+                  :value="50"
+                  :max="100"
+                  show-value
+                  height=".8rem"
+                  class="mb-3"
+                  variant="dark-green"
+                ></b-progress>
+              </div>
+            </b-col>
+            <b-col sm="4" class="mb-3">
+              <div class="bg-white shadow-sm p-3 text-left">
+                <b-iconstack font-scale="2.5" class="mr-3 mb-2">
+                  <b-icon
+                    stacked
+                    icon="circle-fill"
+                    variant="lighter-green"
+                  ></b-icon>
+                  <b-icon
+                    stacked
+                    icon="person-badge-fill"
+                    scale="0.5"
+                    variant="dark-green"
+                  ></b-icon>
+                </b-iconstack>
+                <div class="course_title mb-3">English Language</div>
+                <div class="course_fac mb-2">
+                  <b-icon icon="display" class="text-muted mr-3"></b-icon> John
+                  Doe
+                </div>
+                <div class="course_time mb-2">
+                  <b-icon icon="calendar" class="text-muted mr-3"></b-icon>
+                  Monday 8:00 am
+                </div>
+                <div class="course_modules mb-4">
+                  <b-icon icon="layers" class="text-muted mr-3"></b-icon> 15
+                  Modules
+                </div>
+
+                <div class="d-flex justify-content-between fs13">
+                  <span>Progress</span><span>50%</span>
+                </div>
+                <b-progress
+                  :value="50"
+                  :max="100"
+                  show-value
+                  height=".8rem"
+                  class="mb-3"
+                  variant="dark-green"
+                ></b-progress>
+              </div>
+            </b-col>
+            <b-col sm="4" class="mb-3">
+              <div class="bg-white shadow-sm p-3 text-left">
+                <b-iconstack font-scale="2.5" class="mr-3 mb-2">
+                  <b-icon
+                    stacked
+                    icon="circle-fill"
+                    variant="lighter-green"
+                  ></b-icon>
+                  <b-icon
+                    stacked
+                    icon="person-badge-fill"
+                    scale="0.5"
+                    variant="dark-green"
+                  ></b-icon>
+                </b-iconstack>
+                <div class="course_title mb-3">English Language</div>
+                <div class="course_fac mb-2">
+                  <b-icon icon="display" class="text-muted mr-3"></b-icon> John
+                  Doe
+                </div>
+                <div class="course_time mb-2">
+                  <b-icon icon="calendar" class="text-muted mr-3"></b-icon>
+                  Monday 8:00 am
+                </div>
+                <div class="course_modules mb-4">
+                  <b-icon icon="layers" class="text-muted mr-3"></b-icon> 15
+                  Modules
+                </div>
+
+                <div class="d-flex justify-content-between fs13">
+                  <span>Progress</span><span>50%</span>
+                </div>
+                <b-progress
+                  :value="50"
+                  :max="100"
+                  show-value
+                  height=".8rem"
+                  class="mb-3"
+                  variant="dark-green"
+                ></b-progress>
+              </div>
+            </b-col>
+            <b-col sm="4" class="mb-3">
               <div class="bg-white shadow-sm p-3 text-left">
                 <b-iconstack font-scale="2.5" class="mr-3 mb-2">
                   <b-icon
@@ -52,8 +309,8 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col sm="4" class="bg-white">
-          <div v-if="course" class="sidebar">
+        <b-col sm="4" class="pl-3">
+          <div v-if="course" class="sidebar bg-white">
             <b-img
               class="mb-3"
               :src="require('@/assets/images/book.png')"
@@ -61,7 +318,7 @@
             <p class="text-muted">Select a Course to see Details</p>
           </div>
 
-          <div class="text-left py-4 px-3">
+          <div class="text-left py-4 px-3 bg-white">
             <div class="course_title d-flex mb-3">
               <b-iconstack font-scale="2.5" class="mr-3 mb-2">
                 <b-icon
@@ -243,5 +500,9 @@ p {
 .text-sm {
   font-size: 13px;
   color: rgba($color: #000000, $alpha: 0.5);
+}
+.my_courses {
+  height: 85vh;
+  overflow: auto;
 }
 </style>
