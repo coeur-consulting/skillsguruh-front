@@ -1,24 +1,23 @@
 <template>
   <div id="chart1">
-    <div
-      class="d-flex justify-content-between align-items-center border-bottom p-3"
-    >
-      <h6>Todo List</h6>
-      <b-form @submit.prevent="register">
-        <b-input-group size="sm">
-          <b-form-input
-            placeholder="Add todo"
-            required
-            v-model="todo"
-          ></b-form-input>
-          <b-input-group-append>
-            <b-button size="sm" type="submit" variant="dark-green"
-              ><b-icon icon="plus" font-scale="1.5"></b-icon
-            ></b-button>
-          </b-input-group-append>
-        </b-input-group>
-      </b-form>
-    </div>
+    <b-row class="border-bottom p-3">
+      <b-col sm="4" class="mb-1 mb-sm-0"> <h6>Todo List</h6></b-col>
+      <b-col sm="8">
+        <b-form @submit.prevent="register">
+          <b-input-group size="sm">
+            <b-form-input
+              placeholder="Add a new todo"
+              required
+              v-model="todo"
+            ></b-form-input>
+            <b-input-group-append>
+              <b-button size="sm" type="submit" variant="dark-green"
+                ><b-icon icon="plus" font-scale="1.5"></b-icon
+              ></b-button>
+            </b-input-group-append>
+          </b-input-group> </b-form
+      ></b-col>
+    </b-row>
 
     <div v-if="todos.length">
       <div class="todos d-flex flex-column">
