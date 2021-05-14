@@ -212,7 +212,21 @@ export default {
                 localStorage.setItem("authOrg", JSON.stringify(authOrg));
                 this.$toast.success("Login successful");
                 this.$router.push("/organization");
+              })
+              .catch((err) => {
+                console.log(
+                  "🚀 ~ file: Login.vue ~ line 217 ~ .then ~ err",
+                  err
+                );
+                this.$toast.error("Invalid credentials");
               });
+          })
+          .catch((err) => {
+            console.log(
+              "🚀 ~ file: Login.vue ~ line 221 ~ register ~ err",
+              err
+            );
+            this.$toast.error("Invalid credentials");
           });
       }
       if (this.type == "facilitator") {
@@ -242,7 +256,21 @@ export default {
                 localStorage.setItem("authAdmin", JSON.stringify(authAdmin));
                 this.$toast.success("Login successful");
                 this.$router.push("/administrator");
+              })
+              .catch((err) => {
+                console.log(
+                  "🚀 ~ file: Login.vue ~ line 255 ~ .then ~ err",
+                  err
+                );
+                this.$toast.error("Invalid credentials");
               });
+          })
+          .catch((err) => {
+            console.log(
+              "🚀 ~ file: Login.vue ~ line 257 ~ register ~ err",
+              err
+            );
+            this.$toast.error("Invalid credentials");
           });
       }
       if (this.type == "learner") {

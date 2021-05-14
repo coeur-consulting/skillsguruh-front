@@ -39,7 +39,7 @@
       <div>
         <h6 class="mt-3 mb-1 text-dark-green side_header">COMMUNITY</h6>
 
-        <router-link to="/administrator/schedule">
+        <router-link to="/administrator/connection">
           <div class="side_item">
             <b-icon
               icon="link45deg"
@@ -73,7 +73,7 @@
             <span class="side-link">Course outline</span>
           </div>
         </router-link>
-        <router-link to="/administrator/schedule">
+        <router-link to="/administrator/events">
           <div class="side_item">
             <b-icon
               icon="bookmark"
@@ -112,7 +112,7 @@
               font-scale="1.1"
               class="mr-3 text-dark-green"
             ></b-icon>
-            <span class="side-link">Discussion</span>
+            <span class="side-link">Discussions</span>
           </div>
         </router-link>
       </div>
@@ -130,7 +130,7 @@
             <span class="side-link">Schedule</span>
           </div>
         </router-link>
-        <router-link to="/administrator/schedule">
+        <router-link to="/administrator/insights">
           <div class="side_item">
             <b-icon
               icon="receipt"
@@ -140,7 +140,7 @@
             <span class="side-link">Insights</span>
           </div>
         </router-link>
-        <router-link to="/administrator/schedule">
+        <router-link to="/administrator/referrals">
           <div class="side_item">
             <b-icon
               icon="signpost-split"
@@ -150,7 +150,7 @@
             <span class="side-link">Referrals</span>
           </div>
         </router-link>
-        <router-link to="/administrator/schedule">
+        <router-link to="/administrator/bonuses">
           <div class="side_item">
             <b-icon
               icon="credit-card"

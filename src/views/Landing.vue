@@ -40,6 +40,7 @@
                 size="sm"
                 class="m-0"
                 variant="outline-dark-green"
+                @click="$router.push('/register')"
               >
                 Become a Facilitator</b-button
               >

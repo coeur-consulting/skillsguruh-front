@@ -58,46 +58,93 @@
             <div class="tob_2">
               <div class="d-flex align-items-center p-3">
                 <h6 class="flex-1">Course schedule</h6>
-                <b-dropdown id="dropdown-1" text="Dropdown" size="sm">
-                  <b-dropdown-item>Today </b-dropdown-item>
-                  <b-dropdown-item>Second </b-dropdown-item>
-                  <b-dropdown-item>Third </b-dropdown-item>
-                  <b-dropdown-divider></b-dropdown-divider>
-                </b-dropdown>
+                <b-form-select class="border-0" style="width: 100px" size="sm">
+                  <b-form-select-option value="">Today</b-form-select-option>
+                </b-form-select>
               </div>
-              <div class="p-3 border-bottom">
-                <div class="course_title d-flex mb-3">
-                  <b-iconstack font-scale="1.5" class="mr-3 mb-2">
-                    <b-icon
-                      stacked
-                      icon="circle-fill"
-                      variant="lighter-green"
-                    ></b-icon>
-                    <b-icon
-                      stacked
-                      icon="person-badge-fill"
-                      scale="0.5"
-                      variant="dark-green"
-                    ></b-icon>
-                  </b-iconstack>
-                  <div>
-                    <span class="title"> English Languauge</span>
+              <div class="schedule">
+                <div class="p-3 border-bottom">
+                  <div class="course_title d-flex mb-3 fs13">
+                    <b-iconstack font-scale="1.5" class="mr-3">
+                      <b-icon
+                        stacked
+                        icon="circle-fill"
+                        variant="lighter-green"
+                      ></b-icon>
+                      <b-icon
+                        stacked
+                        icon="person-badge-fill"
+                        scale="0.5"
+                        variant="dark-green"
+                      ></b-icon>
+                    </b-iconstack>
+                    <div>
+                      <span class="title font-weight-bold">
+                        English Languauge</span
+                      >
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <span
-                    ><b-icon icon="clock" class="mr-2"></b-icon>
-                    <span>10:00 am - 11:00am</span></span
-                  >
-                </div>
-                <div>
-                  <span
-                    ><b-icon icon="calendar" class="mr-2"></b-icon>
-                    <span>Today</span></span
-                  >
-                </div>
+                  <div>
+                    <span class="fs12"
+                      ><b-icon icon="clock" class="mr-2"></b-icon>
+                      <span>10:00 am - 11:00am</span></span
+                    >
+                  </div>
+                  <div class="mb-3">
+                    <span class="fs12"
+                      ><b-icon icon="calendar3" class="mr-2"></b-icon>
+                      <span>Today</span></span
+                    >
+                  </div>
 
-                <b-button block variant="lighter-green">Reschedule</b-button>
+                  <b-button
+                    block
+                    variant="lighter-green"
+                    class="text-dark-green"
+                    >Reschedule</b-button
+                  >
+                </div>
+                <div class="p-3 border-bottom">
+                  <div class="course_title d-flex mb-3 fs13">
+                    <b-iconstack font-scale="1.5" class="mr-3">
+                      <b-icon
+                        stacked
+                        icon="circle-fill"
+                        variant="lighter-green"
+                      ></b-icon>
+                      <b-icon
+                        stacked
+                        icon="person-badge-fill"
+                        scale="0.5"
+                        variant="dark-green"
+                      ></b-icon>
+                    </b-iconstack>
+                    <div>
+                      <span class="title font-weight-bold">
+                        English Languauge</span
+                      >
+                    </div>
+                  </div>
+                  <div>
+                    <span class="fs12"
+                      ><b-icon icon="clock" class="mr-2"></b-icon>
+                      <span>10:00 am - 11:00am</span></span
+                    >
+                  </div>
+                  <div class="mb-3">
+                    <span class="fs12"
+                      ><b-icon icon="calendar3" class="mr-2"></b-icon>
+                      <span>Today</span></span
+                    >
+                  </div>
+
+                  <b-button
+                    block
+                    variant="lighter-green"
+                    class="text-dark-green"
+                    >Reschedule</b-button
+                  >
+                </div>
               </div>
             </div>
           </div>
@@ -294,6 +341,10 @@ export default {
 }
 .text-sm {
   font-size: 0.7rem;
+}
+.schedule {
+  height: 300px;
+  overflow: auto;
 }
 @media (max-width: 600px) {
   .box {

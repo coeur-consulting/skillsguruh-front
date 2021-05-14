@@ -20,6 +20,7 @@
 
           <div class="shadow bg-white">
             <div
+              v-if="users.length"
               class="d-flex justify-content-between align-items-center p-3 e"
             >
               <b-icon icon="funnel"></b-icon>
@@ -134,8 +135,9 @@
             <div v-else class="text-center admin_tab p-3 p-sm-5">
               <div>
                 <b-img :src="require('@/assets/images/creator.svg')"></b-img>
-                <h6 class="text-muted mb-3">
-                  It appears you havent added any Facilitator yet, <br />
+                <h6 class="text-muted my-3 fs14">
+                  It appears you havent added any Facilitator yet,
+                  <br class="d-none d-sm-block" />
                   Add your first Facilitator now!
                 </h6>
                 <b-button

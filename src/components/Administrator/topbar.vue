@@ -53,7 +53,7 @@
 
           <h6 class="mt-2 mb-0 text-white side_header">COMMUNITY</h6>
 
-          <router-link to="/administrator/schedule">
+          <router-link to="/administrator/connection">
             <div class="side_item">
               <b-icon
                 icon="link45deg"
@@ -66,7 +66,7 @@
 
           <h6 class="mt-2 mb-0 text-white side_header">PROGRAMS</h6>
 
-          <router-link to="/administrator/schedule">
+          <router-link to="/administrator/courses">
             <div class="side_item">
               <b-icon
                 icon="book"
@@ -76,7 +76,17 @@
               <span class="side-link">Courses</span>
             </div>
           </router-link>
-          <router-link to="/administrator/schedule">
+          <router-link to="/administrator/outlines">
+            <div class="side_item">
+              <b-icon
+                icon="card-list"
+                font-scale="1.1"
+                class="mr-3 text-dark-green"
+              ></b-icon>
+              <span class="side-link">Course outline</span>
+            </div>
+          </router-link>
+          <router-link to="/administrator/events">
             <div class="side_item">
               <b-icon
                 icon="bookmark"
@@ -122,7 +132,7 @@
               <span class="side-link">Schedule</span>
             </div>
           </router-link>
-          <router-link to="/administrator/schedule">
+          <router-link to="/administrator/insights">
             <div class="side_item">
               <b-icon
                 icon="receipt"
@@ -132,7 +142,7 @@
               <span class="side-link">Insights</span>
             </div>
           </router-link>
-          <router-link to="/administrator/schedule">
+          <router-link to="/administrator/referrals">
             <div class="side_item">
               <b-icon
                 icon="signpost-split"
@@ -142,7 +152,7 @@
               <span class="side-link">Referrals</span>
             </div>
           </router-link>
-          <router-link to="/administrator/schedule">
+          <router-link to="/administrator/bonuses">
             <div class="side_item">
               <b-icon
                 icon="credit-card"

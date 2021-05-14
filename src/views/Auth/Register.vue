@@ -140,7 +140,7 @@
                 </b-col>
               </b-form-row>
               <b-form-group>
-                <div class="mb-3">
+                <div class="mb-3 mt-4">
                   <span
                     ><b-form-checkbox required v-model="agree" size="sm"
                       >I agree to the <router-link to="">Terms</router-link> and
@@ -168,7 +168,7 @@
                   >
                 </div>
                 <div>
-                  <span class="login">
+                  <span class="login fs14">
                     Already have an account?
                     <router-link to="/login">Log in</router-link>
                   </span>

@@ -7,20 +7,22 @@
             <div
               class="top_header border-bottom d-flex justify-content-between position-relative"
             >
-              <div class="active">Recent questions</div>
-              <div>Most answers</div>
+              <div class="active">Recent discussions</div>
+              <div>Join Discussions</div>
               <div>Recent answers</div>
               <div>Most visit</div>
-              <div>Most voted</div>
             </div>
             <div class="main_content">
-              <div class="content border-bottom p-3 pt-4 pb-5">
+              <div
+                class="content border-bottom p-3 pt-4 pb-5 cursor-pointer"
+                @click="$router.push('/administrator/discussion')"
+              >
                 <div class="top_dis d-flex align-items-center mb-2">
                   <div class="side_dis">
                     <b-avatar></b-avatar>
                   </div>
                   <div class="text-left next_dis">
-                    <span class="asked"> Asked 2 months ago</span> <br />
+                    <span class="asked"> Started 2 months ago</span> <br />
                     <span class="title"
                       >Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     </span>
@@ -66,7 +68,7 @@
                   <div>
                     <span
                       class="text-dark-green font-weight-bold cursor-pointer"
-                      >Post Answer</span
+                      >Join Discussion</span
                     >
                   </div>
                 </div>
@@ -77,7 +79,7 @@
                     <b-avatar></b-avatar>
                   </div>
                   <div class="text-left next_dis">
-                    <span class="asked"> Asked 2 months ago</span> <br />
+                    <span class="asked"> Started 2 months ago</span> <br />
                     <span class="title"
                       >Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     </span>
@@ -123,7 +125,7 @@
                   <div>
                     <span
                       class="text-dark-green font-weight-bold cursor-pointer"
-                      >Post Answer</span
+                      >Join Discussion</span
                     >
                   </div>
                 </div>
@@ -134,7 +136,7 @@
                     <b-avatar></b-avatar>
                   </div>
                   <div class="text-left next_dis">
-                    <span class="asked"> Asked 2 months ago</span> <br />
+                    <span class="asked"> Started 2 months ago</span> <br />
                     <span class="title"
                       >Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     </span>
@@ -180,7 +182,7 @@
                   <div>
                     <span
                       class="text-dark-green font-weight-bold cursor-pointer"
-                      >Post Answer</span
+                      >Join Discussion</span
                     >
                   </div>
                 </div>
@@ -192,11 +194,11 @@
           <div class="shadow-sm bg-white p-4 rounded">
             <div class="text-center mb-4">
               <b-button variant="dark-green" size="lg" class="px-3"
-                >Ask a question</b-button
+                >Start a discussion</b-button
               >
             </div>
             <div class="py-3 text-left related_quest border">
-              <h6 class="mb-3 px-3">Related Questions</h6>
+              <h6 class="mb-3 px-3">Related Discussions</h6>
               <div class="d-flex p-2">
                 <div>
                   <span class="mr-3 related_count">2000</span>

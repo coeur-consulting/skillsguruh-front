@@ -37,7 +37,7 @@
                   Modules
                 </div>
 
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between fs13">
                   <span>Progress</span><span>50%</span>
                 </div>
                 <b-progress
@@ -95,7 +95,7 @@
             </div>
 
             <div class="mb-4">
-              <h6 class="fs14">Course Description</h6>
+              <h6 class="">Course Description</h6>
               <p class="fs13">
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illo
                 nesciunt fugit perspiciatis. Molestias, minus temporibus.
@@ -142,30 +142,42 @@
             </div>
 
             <div>
-              <h6>Course Files</h6>
+              <h6 class="mb-3">Course Files</h6>
               <div class="d-flex justify-content-between">
                 <div class="d-flex text-danger">
-                  <b-img class="mr-2"></b-img>
+                  <b-img
+                    class="mr-2"
+                    fluid-grow
+                    :src="require('@/assets/images/video.png')"
+                  ></b-img>
 
-                  <span>
+                  <span style="line-height: 1.2">
                     <span class="fs13"> 10</span> <br />
-                    <span class="fs13">Video Files</span>
+                    <span class="fs13">Videos</span>
                   </span>
                 </div>
-                <div class="d-flex text-info">
-                  <b-img class="mr-2"></b-img>
+                <div class="d-flex" style="color: #f3994a">
+                  <b-img
+                    fluid-grow
+                    class="mr-2"
+                    :src="require('@/assets/images/file.png')"
+                  ></b-img>
 
-                  <span>
+                  <span style="line-height: 1.2">
                     <span class="fs13">10</span> <br />
                     <span class="fs13">Documents</span>
                   </span>
                 </div>
                 <div class="d-flex text-success">
-                  <b-img class="mr-2"></b-img>
+                  <b-img
+                    fluid-grow
+                    class="mr-2"
+                    :src="require('@/assets/images/zip.png')"
+                  ></b-img>
 
-                  <span>
+                  <span style="line-height: 1.2">
                     <span class="fs13">10</span> <br />
-                    <span class="fs13">Audio Files</span>
+                    <span class="fs13">Audios</span>
                   </span>
                 </div>
               </div>
