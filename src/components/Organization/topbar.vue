@@ -16,7 +16,15 @@
     <div class="d-flex align-items-center d-sm-none">
       <div class="mr-3">
         <PushRotate :closeOnNavigation="true" width="250">
-          <div class="logo">LOGO</div>
+          <div class="logo">
+            <b-img
+              class="mr-2"
+              width="30"
+              height="auto"
+              :src="$store.getters.organization.profile"
+            ></b-img>
+            <h5>{{ $store.getters.organization.name }}</h5>
+          </div>
           <router-link to="/organization">
             <div class="side_item">
               <b-icon
