@@ -239,6 +239,7 @@ export default {
             .then((res) => {
               if (res.status == 201) {
                 this.$toast.success("Registration successful");
+                this.$router.push("/login");
                 this.user = {
                   name: "",
                   email: "",
@@ -265,8 +266,20 @@ export default {
         }
         if (this.type == "facilitator") {
           this.$http
-            .post(`${this.$store.getters.url}/register-facilitator`, this.user)
-            .then(() => {})
+            .post(`${this.$store.getters.url}/facilitator-register`, this.user)
+            .then((res) => {
+              if (res.status == 201) {
+                this.$toast.success("Registration successful");
+                this.$router.push("/login");
+                this.user = {
+                  name: "",
+                  email: "",
+                  phone: "",
+                  password: "",
+                  profile: "",
+                };
+              }
+            })
             .catch((err) => {
               if (err.response.data.errors.email[0]) {
                 this.$toast.error(err.response.data.errors.email[0]);

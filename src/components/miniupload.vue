@@ -46,7 +46,7 @@
 <style scoped>
 .form {
   border-radius: 8px;
-  opacity: 50%;
+
   border: 1px dashed #ccc;
 }
 label {
