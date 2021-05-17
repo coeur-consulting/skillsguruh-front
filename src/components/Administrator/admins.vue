@@ -119,7 +119,9 @@
                 </b-tbody>
               </b-table-simple>
               <div class="p-3 d-flex justify-content-between">
-                <div class="fs12 text-muted">Showing 1-10 of 30 items</div>
+                <div class="fs12 text-muted">
+                  Showing 1-10 of {{ users.length }} items
+                </div>
                 <b-pagination
                   pills
                   size="sm"

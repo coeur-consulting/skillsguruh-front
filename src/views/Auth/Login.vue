@@ -194,7 +194,7 @@ export default {
           password: this.user.password,
         };
         this.$http
-          .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
+          .post("http://localhost:8000/oauth/token", data)
           .then((res) => {
             authOrg.access_token = res.data.access_token;
             authOrg.refresh_token = res.data.refresh_token;
@@ -212,7 +212,7 @@ export default {
 
                 localStorage.setItem("authOrg", JSON.stringify(authOrg));
                 this.$toast.success("Login successful");
-                this.$router.push("/organization");
+                window.location.href = "/organization";
               })
               .catch((err) => {
                 console.log(
@@ -239,7 +239,7 @@ export default {
           password: this.user.password,
         };
         this.$http
-          .post("http://localhost:8000/oauth/token", data)
+          .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
           .then((res) => {
             authAdmin.access_token = res.data.access_token;
             authAdmin.refresh_token = res.data.refresh_token;
@@ -257,13 +257,10 @@ export default {
 
                 localStorage.setItem("authAdmin", JSON.stringify(authAdmin));
                 this.$toast.success("Login successful");
-                this.$router.push("/administrator");
+
+                window.location.href = "/administrator";
               })
-              .catch((err) => {
-                console.log(
-                  "🚀 ~ file: Login.vue ~ line 255 ~ .then ~ err",
-                  err
-                );
+              .catch(() => {
                 this.$toast.error("Invalid credentials");
               });
           })
