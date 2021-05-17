@@ -194,7 +194,10 @@ export default {
           password: this.user.password,
         };
         this.$http
-          .post("http://localhost:8000/oauth/token", data)
+          .post(
+            "https://skillsguruh-api.herokuapp.com/oauth/token/oauth/token",
+            data
+          )
           .then((res) => {
             authOrg.access_token = res.data.access_token;
             authOrg.refresh_token = res.data.refresh_token;
@@ -208,7 +211,7 @@ export default {
                 authOrg.id = res.data.id;
                 authOrg.name = res.data.name;
                 authOrg.email = res.data.name;
-                authOrg.profile = res.data.profile;
+                authOrg.profile = res.data.logo;
 
                 localStorage.setItem("authOrg", JSON.stringify(authOrg));
                 this.$toast.success("Login successful");
@@ -254,7 +257,7 @@ export default {
                 authAdmin.name = res.data.name;
                 authAdmin.email = res.data.name;
                 authAdmin.profile = res.data.profile;
-                authAdmin.org_profile = res.data.organization.profile;
+                authAdmin.org_profile = res.data.organization.logo;
                 authAdmin.org_name = res.data.organization.name;
 
                 localStorage.setItem("authAdmin", JSON.stringify(authAdmin));
