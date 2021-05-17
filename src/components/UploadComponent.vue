@@ -116,6 +116,14 @@ export default {
 
   computed: {},
   methods: {
+    getextension(fileName) {
+      if (fileName) {
+        var regex = new RegExp("[^.]+$");
+        var extension = fileName.match(regex);
+
+        return extension[0];
+      }
+    },
     handleFileChange(event) {
       this.file = event.target.files[0];
       if (!this.img_ext.includes(this.getextension(this.file.name))) {
