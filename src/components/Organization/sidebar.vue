@@ -7,7 +7,7 @@
         height="auto"
         :src="$store.getters.organization.profile"
       ></b-img>
-      <h5>{{ $store.getters.organization.name }}</h5>
+      <h5 class="mb-0">{{ $store.getters.organization.name }}</h5>
     </div>
     <div class="side_items">
       <router-link to="/organization">
