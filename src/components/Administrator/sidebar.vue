@@ -1,6 +1,14 @@
 <template>
   <div id="sidebar">
-    <div class="logo_bar">NY LOGO</div>
+    <div class="logo_bar">
+      <b-img
+        class="mr-2"
+        width="30"
+        height="auto"
+        :src="$store.getters.admin.org_profile"
+      ></b-img>
+      <h5>{{ $store.getters.admin.org_name }}</h5>
+    </div>
     <div class="side_items">
       <router-link to="/administrator">
         <div class="side_item">

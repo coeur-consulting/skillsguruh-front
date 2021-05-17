@@ -254,6 +254,8 @@ export default {
                 authAdmin.name = res.data.name;
                 authAdmin.email = res.data.name;
                 authAdmin.profile = res.data.profile;
+                authAdmin.org_profile = res.data.organization.profile;
+                authAdmin.org_name = res.data.organization.name;
 
                 localStorage.setItem("authAdmin", JSON.stringify(authAdmin));
                 this.$toast.success("Login successful");

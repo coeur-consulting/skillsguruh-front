@@ -1,6 +1,14 @@
 <template>
   <div id="sidebar">
-    <div class="logo_bar">NY LOGO</div>
+    <div class="logo_bar">
+      <b-img
+        class="mr-2"
+        width="30"
+        height="auto"
+        :src="$store.getters.organization.profile"
+      ></b-img>
+      <h5>{{ $store.getters.organization.name }}</h5>
+    </div>
     <div class="side_items">
       <router-link to="/organization">
         <div class="side_item">
@@ -79,6 +87,7 @@
   justify-content: flex-start;
   align-items: center;
   padding-left: 30px;
+  text-align: center;
 }
 .side_items {
   padding: 40px 0;

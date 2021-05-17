@@ -194,7 +194,12 @@
         font-scale="1.2"
         class="mr-4 text-muted cursor-pointer"
       ></b-icon>
-      <b-avatar id="profile" class="cursor-pointer" size="30px"></b-avatar>
+      <b-avatar
+        :src="$store.getters.admin.profile"
+        id="profile"
+        class="cursor-pointer"
+        size="30px"
+      ></b-avatar>
       <b-popover target="profile" id="prof" triggers="click" placement="bottom">
         <div class="cursor-pointer px-3" @click="logout">Log out</div>
       </b-popover>
