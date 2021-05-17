@@ -95,8 +95,15 @@ a:hover {
 .fs12 {
   font-size: 12px;
 }
+.fs11 {
+  font-size: 11px;
+}
 .vc-title {
   font-size: 15px !important;
+}
+.tags-input span {
+  margin-right: 0.3em;
+  text-transform: capitalize;
 }
 @media (max-width: 600px) {
   ::placeholder {

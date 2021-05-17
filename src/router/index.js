@@ -283,7 +283,7 @@ const routes = [
         },
       },
       {
-        path: "discussion",
+        path: "discussion/:id",
         name: "Administrator discussion",
         components: {
           default: () =>

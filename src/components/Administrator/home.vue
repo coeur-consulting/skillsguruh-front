@@ -83,7 +83,7 @@
         </b-col>
         <b-col sm="4" class="text-left">
           <div class="turn_over_box">
-            <div class="tob_1 mb-4 p-3">
+            <div class="tob_1 mb-4">
               <vc-calendar
                 color="teal"
                 is-expanded

@@ -205,6 +205,7 @@ export default {
                 },
               })
               .then((res) => {
+                authOrg.id = res.data.id;
                 authOrg.name = res.data.name;
                 authOrg.email = res.data.name;
                 authOrg.profile = res.data.profile;
@@ -249,6 +250,7 @@ export default {
                 },
               })
               .then((res) => {
+                authAdmin.id = res.data.id;
                 authAdmin.name = res.data.name;
                 authAdmin.email = res.data.name;
                 authAdmin.profile = res.data.profile;

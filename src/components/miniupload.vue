@@ -2,7 +2,7 @@
   <div>
     <form
       @submit.prevent="processUpload"
-      class="form text-center p-3 cursor-pointer position-relative"
+      class="cursor-pointer position-relative"
     >
       <div class="cursor-pointer">
         <label class="form-group mb-0" for="logo">
@@ -14,32 +14,30 @@
             placeholder
             @change="handleFileChange($event)"
           />
-
-          <div
-            class="text-center cursor-pointer position-relative"
-            v-if="!uploadedFileUrl"
-          >
-            <b-icon
-              class="mb-2 text-muted"
-              icon="cloud-upload"
-              font-scale="4"
-            ></b-icon>
-            <div><span>Upload</span></div>
+          <div class="position-relative text-center">
+            <b-icon icon="paperclip" font-scale="1.1"></b-icon>
             <div v-if="start" class="spinner-start">
               <b-spinner
                 class="text-dark-green"
-                style="width: 4rem; height: 4rem"
+                style="width: 2rem; height: 2rem"
                 label="Spinning"
               ></b-spinner>
             </div>
+            <div
+              v-if="uploadedFileUrl"
+              class="fs12 text-center text-dark-green"
+            >
+              Ready <b-icon icon="check2-circle"></b-icon>
+            </div>
           </div>
-          <b-img
+
+          <!-- <b-img
             v-if="uploadedFileUrl"
             :src="uploadedFileUrl"
             blank-color="transparent"
             width="100%"
             height="100%"
-          ></b-img>
+          ></b-img> -->
         </label>
       </div>
     </form>
@@ -89,8 +87,8 @@ label {
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-left: -2rem;
-  margin-top: -2rem;
+  margin-left: -1rem;
+  margin-top: -1rem;
 }
 </style>
 <script>
@@ -99,6 +97,9 @@ export default {
   data() {
     return {
       img_ext: ["jpg", "png", "jpeg", "gif"],
+      vid_ext: ["mp4", "3gp"],
+      aud_ext: ["mp3"],
+      doc_ext: ["docx", "pdf", "ppt", "zip"],
       filesSelectedLength: 0,
       file: [],
       filetype: "",
@@ -116,9 +117,23 @@ export default {
 
   computed: {},
   methods: {
+    getextension(fileName) {
+      if (fileName) {
+        var regex = new RegExp("[^.]+$");
+        var extension = fileName.match(regex);
+
+        return extension[0];
+      }
+    },
     handleFileChange(event) {
       this.file = event.target.files[0];
-      if (!this.img_ext.includes(this.getextension(this.file.name))) {
+
+      if (
+        !this.img_ext.includes(this.getextension(this.file.name)) &&
+        !this.vid_ext.includes(this.getextension(this.file.name)) &&
+        !this.aud_ext.includes(this.getextension(this.file.name)) &&
+        !this.doc_ext.includes(this.getextension(this.file.name))
+      ) {
         this.$toast.error("Unsupported content type !");
         return;
       }
