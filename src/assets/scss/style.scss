@@ -105,6 +105,15 @@ a:hover {
   margin-right: 0.3em;
   text-transform: capitalize;
 }
+#addcourse___BV_modal_header_ {
+  border-bottom: none;
+}
+#addcourse___BV_modal_header_ h5 {
+  font-size: 1.1rem;
+}
+.col-form-label {
+  font-size: 0.9rem;
+}
 @media (max-width: 600px) {
   ::placeholder {
     font-size: 14px;

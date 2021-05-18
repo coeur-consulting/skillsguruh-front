@@ -62,10 +62,22 @@
                       </div>
                     </b-td>
                     <b-td>
-                      <div class="text-left">
-                        <span>September 11, 2021</span> <br />
-                        <span class="text-muted">2 days ago</span>
+                      <div class="text-left" v-if="item.loginhistory.length">
+                        <span v-if="item.loginhistory.length">{{
+                          item.loginhistory[item.loginhistory.length - 1].record
+                            | moment("ll")
+                        }}</span>
+                        <br />
+                        <span
+                          class="text-muted"
+                          v-if="item.loginhistory.length"
+                          >{{
+                            item.loginhistory[item.loginhistory.length - 1]
+                              .record | duration("humanize", true)
+                          }}</span
+                        >
                       </div>
+                      <div class="text-left" v-else>Not available</div>
                     </b-td>
                     <b-td class="text-capitalize"> {{ item.phone }} </b-td>
                     <b-td

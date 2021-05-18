@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 <template>
   <div class="pb-5 pt-4">
     <b-modal id="feed" hide-footer centered title="Create feed" size="md">
@@ -180,7 +181,7 @@
             <b-col cols="3">
               <div>
                 <span class="fs11">{{
-                  item.created_at | duration("humanize", true)
+                  item.created_at | moment("calendar")
                 }}</span>
               </div></b-col
             >
@@ -360,7 +361,7 @@
                 <div class="comments px-3 pt-2 border-top text-left">
                   <span
                     v-if="feed.comments.length"
-                    class="comment_header mb-2"
+                    class="comment_header mb-2 cursor-pointer"
                     @click="showcomments(feed)"
                     >View all {{ feed.comments.length }} comments</span
                   >
@@ -387,7 +388,7 @@
                       </div>
                       <div>
                         <span class="fs11">{{
-                          item.created_at | duration("humanize", true)
+                          item.created_at | moment("calendar")
                         }}</span>
                       </div>
                     </div>
@@ -476,11 +477,11 @@
             </div>
           </div>
         </b-col>
-        <Message class="d-none d-md-block" />
+        <Message class="d-none d-md-block" @getmessage="getmessage" />
       </b-row>
 
       <div class="minichats d-none d-md-block">
-        <Minichat />
+        <Minichat :mini_info="mini_info" />
       </div>
     </b-container>
   </div>
@@ -498,8 +499,7 @@ export default {
       search: "",
       allcomments: [],
       feed: {
-        media:
-          "https://res.cloudinary.com/bizguruh-com/image/upload/v1621200210/MacBook_Pro_-_18_kc8tgf.jpg",
+        media: "",
         message: "",
       },
       img_ext: ["jpg", "png", "jpeg", "gif"],
@@ -509,6 +509,12 @@ export default {
       comment: {
         comment: "",
         id: "",
+      },
+      mini_info: {
+        id: "",
+        name: "",
+        type: "",
+        profile: "",
       },
     };
   },
@@ -522,6 +528,12 @@ export default {
     this.getfeeds();
   },
   methods: {
+    getmessage(id, name, type, profile) {
+      this.mini_info.id = id;
+      this.mini_info.name = name;
+      this.mini_info.type = type;
+      this.mini_info.profile = profile;
+    },
     showcomments(feed) {
       this.allcomments = feed;
       this.$bvModal.show("allcomments");
@@ -553,6 +565,7 @@ export default {
     insertcomment(emoji) {
       this.comment.comment += emoji + "";
     },
+
     getfeeds() {
       this.$http
         .get(`${this.$store.getters.url}/feeds`, {
@@ -867,11 +880,7 @@ export default {
   font-size: 12px;
   color: rgba($color: #000000, $alpha: 0.64);
 }
-.messages {
-  position: fixed;
-  top: 13%;
-  width: 350px;
-}
+
 .search {
   background: #fbfbfb;
   border-radius: 8px;
@@ -879,38 +888,7 @@ export default {
 .search-bg {
   background: #fbfbfb;
 }
-.message_box {
-  height: 68vh;
-  overflow: scroll;
-}
-.message_text {
-  line-height: 1.4;
-  text-align: left;
-}
-.message_name {
-  font-size: 13px;
-  font-weight: bold;
-  color: rgba($color: #000000, $alpha: 0.64);
-}
-.last_message {
-  font-size: 12px;
-  color: rgba($color: #000000, $alpha: 0.54);
-  display: -webkit-box;
-  line-clamp: 1;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.message_time {
-  font-size: 11px;
-  color: rgba($color: #000000, $alpha: 0.44);
-}
-.message.active,
-.message:hover {
-  background: #f7f8fa;
-  cursor: pointer;
-}
+
 .edit_button {
   display: none;
 }
