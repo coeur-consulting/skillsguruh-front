@@ -20,7 +20,7 @@
 
           <div class="shadow bg-white">
             <div
-              v-if="users.length"
+              v-if="events.length"
               class="d-flex justify-content-between align-items-center p-3 e"
             >
               <b-icon icon="funnel"></b-icon>
@@ -35,13 +35,14 @@
               </div>
             </div>
 
-            <div class="" v-if="users.length">
+            <div class="" v-if="events.length">
               <b-table-simple class="org_home_table text-left" responsive="sm">
                 <b-thead>
                   <b-tr class="text-left">
                     <b-th class="text-muted">Name</b-th>
-                    <b-th class="text-muted">Last login</b-th>
-                    <b-th class="text-muted">Phone number</b-th>
+                    <b-th class="text-muted">Duration</b-th>
+                    <b-th class="text-muted">Time</b-th>
+                    <b-th class="text-muted">Type</b-th>
                     <b-th class="text-muted">Status</b-th>
                     <b-th></b-th> </b-tr
                 ></b-thead>
@@ -50,52 +51,36 @@
                     <b-td>
                       <div class="d-flex">
                         <b-avatar
-                          :src="item.profile"
+                          :src="item.cover"
                           size="sm"
+                          rounded
                           class="mr-2"
                         ></b-avatar>
                         <div class="text-left">
-                          <span class="text-capitalize">{{ item.name }}</span>
-                          <br />
-                          <span class="text-muted">{{ item.email }}</span>
+                          <span class="text-capitalize">{{ item.title }}</span>
                         </div>
                       </div>
                     </b-td>
                     <b-td>
-                      <div class="text-left" v-if="item.loginhistory.length">
-                        <span v-if="item.loginhistory.length">{{
-                          item.loginhistory[item.loginhistory.length - 1].record
-                            | moment("ll")
-                        }}</span>
-                        <br />
-                        <span
-                          class="text-muted"
-                          v-if="item.loginhistory.length"
-                          >{{
-                            item.loginhistory[item.loginhistory.length - 1]
-                              .record | duration("humanize", true)
-                          }}</span
-                        >
-                      </div>
-                      <div class="text-left" v-else>Not available</div>
+                      <div class="text-left">{{ item.duration }}</div>
                     </b-td>
-                    <b-td class="text-capitalize"> {{ item.phone }} </b-td>
+                    <b-td class="text-capitalize">{{ item.start }} </b-td>
                     <b-td
                       class="text-left"
                       :class="{
-                        'text-success': item.verification,
-                        'text-danger': !item.verification,
+                        'text-success': item.status,
+                        'text-danger': !item.status,
                       }"
-                      >{{ item.verification ? "Active" : "Inactive" }}</b-td
+                      >{{ item.status ? "Active" : "Inactive" }}</b-td
                     >
                     <b-td
                       ><b-icon
                         icon="chevron-down"
                         class="cursor-pointer"
-                        :id="item.id.toString() + item.name"
+                        :id="item.id.toString() + item.title"
                       ></b-icon>
                       <b-popover
-                        :target="item.id.toString() + item.name"
+                        :target="item.id.toString() + item.title"
                         triggers="hover"
                         placement="bottom"
                       >
@@ -133,7 +118,7 @@
               </b-table-simple>
               <div class="p-3 d-flex justify-content-between">
                 <div class="fs12 text-muted">
-                  Showing 1-10 of {{ users.length }} items
+                  Showing 1-10 of {{ events.length }} items
                 </div>
                 <b-pagination
                   pills
@@ -168,63 +153,144 @@
     </b-container>
 
     <b-modal id="add" hide-footer centered size="lg" title="Add Event">
-      <b-form @submit.prevent="register" class="user">
+      <b-form @submit.prevent="register" class="event">
         <div>
           <b-form-row class="mb-2">
             <b-col sm="6" class="pr-sm-3">
-              <b-form-group label="Full name">
+              <b-form-group label="Event name">
                 <b-form-input
                   size="lg"
-                  v-model="user.name"
+                  v-model="event.title"
                   required
-                  placeholder="Enter full name"
+                  placeholder="Enter event name"
                 ></b-form-input>
               </b-form-group>
             </b-col>
             <b-col sm="6" class="pr-sm-3">
-              <b-form-group label="Email">
+              <b-form-group label="Event Duration">
                 <b-form-input
                   size="lg"
                   required
-                  v-model="user.email"
-                  type="email"
-                  placeholder="Enter email address"
-                ></b-form-input>
-              </b-form-group>
-            </b-col>
-          </b-form-row>
-          <b-form-row class="mb-2">
-            <b-col cols="6" class="pr-sm-3">
-              <b-form-group label="Phone">
-                <b-form-input
-                  size="lg"
-                  required
-                  v-model="user.phone"
-                  type="tel"
-                  placeholder="Enter phone number"
-                ></b-form-input>
-              </b-form-group>
-            </b-col>
-            <b-col cols="6" class="pr-sm-3">
-              <b-form-group label="Password">
-                <b-form-input
-                  size="lg"
-                  required
-                  v-model="user.password"
-                  type="password"
-                  placeholder="Enter password"
+                  v-model="event.duration"
+                  placeholder="Enter event duration.. e.g 2 weeks"
                 ></b-form-input>
               </b-form-group>
             </b-col>
           </b-form-row>
 
-          <b-form-group>
-            <div class="mb-3">
+          <b-form-row class="mb-2">
+            <b-col sm="12" class="pr-sm-3">
+              <b-form-group label="Event Description">
+                <b-form-textarea
+                  size="lg"
+                  v-model="event.description"
+                  required
+                  placeholder="Describe this event"
+                ></b-form-textarea>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+
+          <b-form-row class="mb-2">
+            <b-col cols="6" class="pr-sm-3">
+              <b-form-group label="Event Start">
+                <b-form-datepicker
+                  hide-header
+                  size="sm"
+                  :hour12="true"
+                  required
+                  v-model="event.start"
+                  type="tel"
+                ></b-form-datepicker>
+              </b-form-group>
+            </b-col>
+            <b-col cols="6" class="pr-sm-3">
+              <b-form-group label="Event End">
+                <b-form-datepicker
+                  hide-header
+                  :hour12="true"
+                  size="sm"
+                  required
+                  v-model="event.end"
+                  type="tel"
+                ></b-form-datepicker>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+          <b-form-row class="mb-2">
+            <b-col sm="6" class="pr-sm-3">
+              <b-form-group label="Event type">
+                <b-form-select
+                  size="lg"
+                  v-model="event.type"
+                  required
+                  placeholder="Choose type of event"
+                >
+                  <b-form-select-option value=""
+                    >Choose event type</b-form-select-option
+                  >
+                  <b-form-select-option value="seminar"
+                    >Seminar</b-form-select-option
+                  >
+                </b-form-select>
+              </b-form-group>
+            </b-col>
+            <b-col sm="6" class="pr-sm-3">
+              <b-form-group label="Event Url">
+                <b-form-input
+                  size="lg"
+                  required
+                  v-model="event.url"
+                  placeholder="Enter event link"
+                ></b-form-input>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+          <b-form-row class="mb-2">
+            <b-col sm="6" class="pr-sm-3">
+              <b-form-group label="Event resource(optional)">
+                <Upload
+                  class="text-center"
+                  :id="'resource'"
+                  @getUpload="getUpload"
+                >
+                  <b-icon
+                    class="text-muted ml-3"
+                    icon="files"
+                    font-scale="4rem"
+                  ></b-icon
+                ></Upload>
+              </b-form-group>
+            </b-col>
+            <b-col sm="6" class="pr-sm-3">
+              <b-form-group label="Upload event cover">
+                <Upload class="text-left" :id="'cover'" @getUpload="getUpload">
+                  <b-icon
+                    class="text-muted ml-3"
+                    icon="card-image"
+                    font-scale="4rem"
+                  ></b-icon>
+                </Upload>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+          <b-form-row class="mb-2">
+            <b-col sm="12" class="pr-sm-3">
+              <b-form-group label="Add Facilitators to event (optional)">
+                <b-button size="sm" @click="$bvModal.show('addfac')"
+                  >Click to add Facilitators to event</b-button
+                >
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+
+          <b-form-group class="mt-4">
+            <div class="mb-3 text-center">
               <b-button
                 type="submit"
                 variant="dark-green"
                 size="lg"
-                class="px-5 d-none d-sm-block"
+                class="px-5 d-none d-sm-block mx-auto"
                 >Register</b-button
               >
               <b-button
@@ -232,7 +298,7 @@
                 variant="dark-green"
                 size="lg"
                 block
-                class="px-5 d-sm-none"
+                class="px-5 d-sm-none mx-auto"
                 >Register</b-button
               >
             </div>
@@ -240,65 +306,145 @@
         </div>
       </b-form>
     </b-modal>
-    <b-modal id="edit" hide-footer centered size="lg" title="Edit Event">
-      <b-form @submit.prevent="update" class="user">
+    <b-modal id="edit" hide-footer centered size="lg" title="Update Event">
+      <b-form @submit.prevent="update" class="event">
         <div>
           <b-form-row class="mb-2">
             <b-col sm="6" class="pr-sm-3">
-              <b-form-group label="Full name">
+              <b-form-group label="Event name">
                 <b-form-input
                   size="lg"
-                  v-model="user.name"
+                  v-model="event.title"
                   required
-                  placeholder="Enter full name"
+                  placeholder="Enter event name"
                 ></b-form-input>
               </b-form-group>
             </b-col>
             <b-col sm="6" class="pr-sm-3">
-              <b-form-group label="Email">
+              <b-form-group label="Event Duration">
                 <b-form-input
                   size="lg"
                   required
-                  v-model="user.email"
-                  type="email"
-                  placeholder="Enter email address"
-                ></b-form-input>
-              </b-form-group>
-            </b-col>
-          </b-form-row>
-          <b-form-row class="mb-2">
-            <b-col cols="6" class="pr-sm-3">
-              <b-form-group label="Phone">
-                <b-form-input
-                  size="lg"
-                  required
-                  v-model="user.phone"
-                  type="tel"
-                  placeholder="Enter phone number"
-                ></b-form-input>
-              </b-form-group>
-            </b-col>
-            <b-col cols="6" class="pr-sm-3">
-              <b-form-group label="Password">
-                <b-form-input
-                  readonly
-                  size="lg"
-                  required
-                  v-model="user.password"
-                  type="password"
-                  placeholder="Enter password"
+                  v-model="event.duration"
+                  placeholder="Enter event duration.. e.g 2 weeks"
                 ></b-form-input>
               </b-form-group>
             </b-col>
           </b-form-row>
 
-          <b-form-group>
-            <div class="mb-3">
+          <b-form-row class="mb-2">
+            <b-col sm="12" class="pr-sm-3">
+              <b-form-group label="Event Description">
+                <b-form-textarea
+                  size="lg"
+                  v-model="event.description"
+                  required
+                  placeholder="Describe this event"
+                ></b-form-textarea>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+
+          <b-form-row class="mb-2">
+            <b-col cols="6" class="pr-sm-3">
+              <b-form-group label="Event Start">
+                <b-form-datepicker
+                  hide-header
+                  size="sm"
+                  :hour12="true"
+                  required
+                  v-model="event.start"
+                  type="tel"
+                ></b-form-datepicker>
+              </b-form-group>
+            </b-col>
+            <b-col cols="6" class="pr-sm-3">
+              <b-form-group label="Event End">
+                <b-form-datepicker
+                  hide-header
+                  :hour12="true"
+                  size="sm"
+                  required
+                  v-model="event.end"
+                  type="tel"
+                ></b-form-datepicker>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+          <b-form-row class="mb-2">
+            <b-col sm="6" class="pr-sm-3">
+              <b-form-group label="Event type">
+                <b-form-select
+                  size="lg"
+                  v-model="event.type"
+                  required
+                  placeholder="Choose type of event"
+                >
+                  <b-form-select-option value=""
+                    >Choose event type</b-form-select-option
+                  >
+                  <b-form-select-option value="seminar"
+                    >Seminar</b-form-select-option
+                  >
+                </b-form-select>
+              </b-form-group>
+            </b-col>
+            <b-col sm="6" class="pr-sm-3">
+              <b-form-group label="Event Url">
+                <b-form-input
+                  size="lg"
+                  required
+                  v-model="event.url"
+                  placeholder="Enter event link"
+                ></b-form-input>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+          <b-form-row class="mb-2">
+            <b-col sm="6" class="pr-sm-3">
+              <b-form-group label="Event resource(optional)">
+                <Upload
+                  class="text-center"
+                  :id="'resource'"
+                  @getUpload="getUpload"
+                >
+                  <b-icon
+                    class="text-muted ml-3"
+                    icon="files"
+                    font-scale="4rem"
+                  ></b-icon
+                ></Upload>
+              </b-form-group>
+            </b-col>
+            <b-col sm="6" class="pr-sm-3">
+              <b-form-group label="Upload event cover">
+                <Upload class="text-left" :id="'cover'" @getUpload="getUpload">
+                  <b-icon
+                    class="text-muted ml-3"
+                    icon="card-image"
+                    font-scale="4rem"
+                  ></b-icon>
+                </Upload>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+          <b-form-row class="mb-2">
+            <b-col sm="12" class="pr-sm-3">
+              <b-form-group label="Add Facilitators to event (optional)">
+                <b-button size="sm" @click="$bvModal.show('addfac')"
+                  >Click to add Facilitators to event</b-button
+                >
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+
+          <b-form-group class="mt-4">
+            <div class="mb-3 text-center w-100">
               <b-button
                 type="submit"
                 variant="dark-green"
                 size="lg"
-                class="px-5 d-none d-sm-block"
+                class="px-5 d-none d-sm-block mx-auto"
                 >Update</b-button
               >
               <b-button
@@ -306,17 +452,38 @@
                 variant="dark-green"
                 size="lg"
                 block
-                class="px-5 d-sm-none"
+                class="px-5 d-sm-none mx-auto"
                 >Update</b-button
               >
             </div>
           </b-form-group>
         </div>
       </b-form>
+    </b-modal>
+    <b-modal id="addfac" size="lg" hide-footer hide-header centered>
+      <div class="p-4">
+        <h6 class="text-center mb-3">Select Facilitators</h6>
+        <b-row>
+          <b-col cols="4">
+            <b-form-checkbox
+              v-model="event.facilitators"
+              :value="item.id"
+              v-for="(item, id) in facilitators"
+              :key="id"
+              >{{ item.title }}</b-form-checkbox
+            ></b-col
+          >
+        </b-row>
+
+        <div class="text-center my-3">
+          <b-button @click="$bvModal.hide('addfac')">Close</b-button>
+        </div>
+      </div>
     </b-modal>
   </div>
 </template>
 <script>
+import Upload from "../fileupload";
 export default {
   data() {
     return {
@@ -325,20 +492,30 @@ export default {
       currentPage: 1,
       rows: null,
       perPage: 10,
-      users: [],
-      user: {
-        name: "",
-        email: "",
-        phone: "",
-        password: "",
+      events: [],
+      facilitators: [],
+      event: {
+        title: "",
+        duration: "",
+        description: "",
+        type: "",
+        url: "",
+        cover: "",
+        start: "",
+        end: "",
+        resource: "",
+        facilitators: [],
       },
     };
   },
+  components: {
+    Upload,
+  },
   computed: {
     filter() {
-      return this.users
+      return this.events
         .filter((item) =>
-          item.name.toLowerCase().includes(this.search.toLowerCase())
+          item.title.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
           this.perPage * this.currentPage - this.perPage,
@@ -348,8 +525,34 @@ export default {
   },
   mounted() {
     this.getevents();
+    this.getfacilitators();
   },
   methods: {
+    getUpload(val, id) {
+      if (id == "cover") {
+        this.event.cover = val;
+      }
+      if (id == "resource") {
+        this.event.resource = val;
+      }
+    },
+    async getfacilitators() {
+      return this.$http
+        .get(`${this.$store.getters.url}/admin-get-facilitators`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.facilitators = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+
     getevents() {
       this.$http
         .get(`${this.$store.getters.url}/events`, {
@@ -359,7 +562,7 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
-            this.users = res.data;
+            this.events = res.data;
             this.rows = res.data.length;
           }
         })
@@ -370,7 +573,7 @@ export default {
 
     register() {
       this.$http
-        .post(`${this.$store.getters.url}/events`, this.user, {
+        .post(`${this.$store.getters.url}/events`, this.event, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
           },
@@ -379,12 +582,18 @@ export default {
           if (res.status == 201) {
             this.$toast.success("Added successfully");
             this.$bvModal.hide("add");
-            this.users.unshift(res.data);
-            this.user = {
-              name: "",
-              email: "",
-              phone: "",
-              password: "",
+            this.events.unshift(res.data);
+            this.event = {
+              title: "",
+              duration: "",
+              description: "",
+              type: "",
+              url: "",
+              cover: "",
+              start: "",
+              end: "",
+              resource: "",
+              facilitators: [],
             };
           }
         })
@@ -405,11 +614,12 @@ export default {
     },
     edit(data) {
       this.$bvModal.show("edit");
-      this.user = data;
+      this.event = data;
+      this.event.duration = data.schedule;
     },
     update() {
       this.$http
-        .put(`${this.$store.getters.url}/events${this.user.id}`, this.user, {
+        .put(`${this.$store.getters.url}/events/${this.event.id}`, this.event, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
           },
@@ -418,11 +628,17 @@ export default {
           if (res.status == 200) {
             this.$toast.success("Update successful");
             this.$bvModal.hide("edit");
-            this.user = {
-              name: "",
-              email: "",
-              phone: "",
-              password: "",
+            this.event = {
+              title: "",
+              duration: "",
+              description: "",
+              type: "",
+              url: "",
+              cover: "",
+              start: "",
+              end: "",
+              resource: "",
+              facilitators: [],
             };
           }
         })
@@ -442,7 +658,7 @@ export default {
             .then((res) => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
-                this.users.splice(index, 1);
+                this.events.splice(index, 1);
               }
             })
             .catch((err) => {

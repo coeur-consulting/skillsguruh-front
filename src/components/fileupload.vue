@@ -5,17 +5,17 @@
       class="cursor-pointer position-relative"
     >
       <div class="cursor-pointer">
-        <label class="form-group mb-0" for="logo">
+        <label class="form-group mb-0" :for="id">
           <input
             type="file"
             class="form-control hidden"
-            id="logo"
+            :id="id"
             aria-describedby="helpId"
             placeholder
             @change="handleFileChange($event)"
           />
           <div class="position-relative text-center">
-            <slot></slot>
+            <slot v-if="!uploadedFileUrl"></slot>
             <div v-if="start" class="spinner-start">
               <b-spinner
                 class="text-dark-green"
@@ -31,13 +31,13 @@
             </div>
           </div>
 
-          <!-- <b-img
+          <b-img
             v-if="uploadedFileUrl"
             :src="uploadedFileUrl"
             blank-color="transparent"
             width="100%"
             height="100%"
-          ></b-img> -->
+          ></b-img>
         </label>
       </div>
     </form>

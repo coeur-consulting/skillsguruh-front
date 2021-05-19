@@ -550,10 +550,12 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      return schedule.map((val) => {
+      var sch = schedule.map((val) => {
         return this.facilitators.find((item) => item.id == val.facilitator_id)
           .name;
       });
+
+      return sch;
     },
     async getfacilitators() {
       return this.$http
