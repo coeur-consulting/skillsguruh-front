@@ -62,7 +62,7 @@
                       </div>
                     </b-td>
                     <b-td>
-                      <div class="text-left">{{ item.duration }}</div>
+                      <div class="text-left">{{ item.schedule }}</div>
                     </b-td>
                     <b-td class="text-capitalize">{{ item.start }} </b-td>
                     <b-td

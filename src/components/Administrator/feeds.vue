@@ -55,6 +55,7 @@
       <div class="mb-4 position-relative media border rounded">
         <FeedUpload
           @getUpload="getUpload"
+          :id="'edit'"
           class="position-absolute edit_button"
         >
           <div class="bg-lighter-green fs12 px-2 py-1 rounded cursor-pointer">
@@ -82,7 +83,7 @@
       </div>
       <div class="d-flex justify-content-around my-3 border rounded p-2">
         <div>
-          <FeedUpload @getUpload="getUpload">
+          <FeedUpload @getUpload="getUpload" :id="'image'">
             <b-img
               :src="require('@/assets/images/advert.svg')"
               width="18px"
@@ -92,7 +93,7 @@
           </FeedUpload>
         </div>
         <div>
-          <FeedUpload @getUpload="getUpload">
+          <FeedUpload @getUpload="getUpload" :id="'video'">
             <b-img
               :src="require('@/assets/images/youtube.svg')"
               width="18px"
@@ -102,7 +103,7 @@
           </FeedUpload>
         </div>
         <div>
-          <FeedUpload @getUpload="getUpload">
+          <FeedUpload @getUpload="getUpload" :id="'event'">
             <b-img
               :src="require('@/assets/images/event.svg')"
               width="18px"

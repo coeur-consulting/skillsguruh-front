@@ -5,11 +5,11 @@
       class="cursor-pointer position-relative"
     >
       <div class="cursor-pointer">
-        <label class="form-group mb-0" for="logo">
+        <label class="form-group mb-0" :for="id">
           <input
             type="file"
             class="form-control hidden"
-            id="logo"
+            :id="id"
             aria-describedby="helpId"
             placeholder
             @change="handleFileChange($event)"
@@ -23,6 +23,36 @@
                 label="Spinning"
               ></b-spinner>
             </div>
+            <b-modal size="sm" hide-footer hide-header centered :id="id">
+              <div class="p-4">
+                <div v-if="current === 'start'" class="text-center">
+                  <b-spinner
+                    class="text-dark-green"
+                    style="width: 4rem; height: 4rem"
+                    label="Spinning"
+                  ></b-spinner>
+                </div>
+                <div v-else-if="current === 'success'" class="text-center">
+                  <b-icon
+                    variant="dark-green"
+                    icon="check2-circle"
+                    class="mb-2"
+                    font-scale="4rem"
+                  ></b-icon>
+                  <h6>Upload Successful</h6>
+                </div>
+
+                <div v-else class="text-center">
+                  <b-icon
+                    variant="danger"
+                    icon="x-circle"
+                    class="mb-2"
+                    font-scale="4rem"
+                  ></b-icon>
+                  <h6>Upload Failed</h6>
+                </div>
+              </div>
+            </b-modal>
             <div
               v-if="uploadedFileUrl"
               class="fs12 text-center text-dark-green"
@@ -112,9 +142,10 @@ export default {
       },
       progress: 0,
       start: false,
+      current: "start",
     };
   },
-
+  mounted() {},
   computed: {},
   methods: {
     getextension(fileName) {
@@ -153,6 +184,9 @@ export default {
     processUpload() {
       let that = this;
       this.start = true;
+      this.current = "start";
+
+      this.$bvModal.show(this.$props.id);
       var formData = new FormData();
       var xhr = new XMLHttpRequest();
       var cloudName = this.cloudinary.cloudName;
@@ -180,13 +214,18 @@ export default {
         if (xhr.status === 200) {
           // Success! You probably want to save the URL somewhere
           this.progress = "Completed";
-
           var response = JSON.parse(xhr.response);
           this.start = false;
+          this.current = "success";
           this.uploadedFileUrl = response.secure_url; // https address of uploaded file
           this.$emit("getUpload", this.uploadedFileUrl, this.$props.id);
         } else {
           this.start = false;
+          this.current = "fail";
+          console.log(
+            "🚀 ~ file: feedupload.vue ~ line 224 ~ processUpload ~ this.current",
+            this.current
+          );
           alert("Upload failed. Please try again.");
         }
       };

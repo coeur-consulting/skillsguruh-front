@@ -28,7 +28,7 @@
 
           <b-row>
             <b-col>
-              <div class="box">
+              <div class="box" v-if="schedules.length">
                 <div
                   class="d-flex justify-content-between align-items-center p-3 w-100 border-bottom"
                 >
@@ -407,6 +407,32 @@
                       </b-tr>
                     </b-tbody>
                   </b-table-simple>
+                </div>
+              </div>
+              <div class="box text-center p-3" v-else>
+                <div>
+                  <b-img :src="require('@/assets/images/creator.svg')"></b-img>
+                  <h6 class="text-muted my-3 fs14">
+                    It appears you havent added any Schedule yet,
+                    <br class="d-none d-sm-block" />
+
+                    Have you set up your courses ?
+                    <span
+                      ><router-link
+                        class="text-dark-green"
+                        to="/administrator/courses?action=setupcourse"
+                        >Set up Now</router-link
+                      ></span
+                    >
+                    <br />
+                    If You have <br />
+                    <b-button
+                      variant="dark-green"
+                      size="lg"
+                      @click="$bvModal.show('add')"
+                      >Add a schedule now
+                    </b-button>
+                  </h6>
                 </div>
               </div>
             </b-col>
