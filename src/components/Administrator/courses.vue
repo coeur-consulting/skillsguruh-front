@@ -49,10 +49,10 @@
         <b-container v-show="type == 1">
           <b-form-row>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Course name">
+              <b-form-group label="Course title">
                 <b-form-input
-                  placeholder="Enter course name"
-                  v-model="detail.general.name"
+                  placeholder="Enter course title"
+                  v-model="detail.general.title"
                 ></b-form-input>
               </b-form-group>
             </b-col>
@@ -129,19 +129,25 @@
                     </b-input-group-append>
                   </b-input-group>
 
-                  <b-row>
-                    <b-col
-                      v-for="(item, id) in detail.outline.modules"
-                      :key="id"
-                      sm="6"
-                    >
-                      <span class="mr-4 text-capitalize">{{ item }}</span>
-                      <b-icon
-                        icon="x"
-                        @click="detail.outline.modules.splice(id, 1)"
-                      ></b-icon
-                    ></b-col>
-                  </b-row>
+                  <div>
+                    <b-row>
+                      <b-col
+                        v-for="(item, id) in detail.outline.modules"
+                        :key="id"
+                        sm="6"
+                      >
+                        <div
+                          class="border rounded bg-lighter-green px-5 py-2 mb-2"
+                        >
+                          <span class="mr-4 text-capitalize">{{ item }}</span>
+                          <b-icon
+                            icon="x"
+                            @click="detail.outline.modules.splice(id, 1)"
+                          ></b-icon>
+                        </div>
+                      </b-col>
+                    </b-row>
+                  </div>
                 </b-form-group>
               </div>
             </div>
@@ -335,13 +341,7 @@
         </div>
       </b-form>
     </b-modal>
-    <b-modal
-      size="lg"
-      id="update"
-      centered
-      hide-footer
-      title="Create a new course"
-    >
+    <b-modal size="lg" id="update" centered hide-footer title="Update  course">
       <b-form @submit.prevent="updatecourse">
         <div class="mb-3 border-bottom">
           <b-container class="pb-2 d-flex align-items-center">
@@ -384,10 +384,10 @@
         <b-container v-show="type == 1">
           <b-form-row>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Course name">
+              <b-form-group label="Course title">
                 <b-form-input
-                  placeholder="Enter course name"
-                  v-model="detail.general.name"
+                  placeholder="Enter course title"
+                  v-model="detail.general.title"
                 ></b-form-input>
               </b-form-group>
             </b-col>
@@ -464,19 +464,25 @@
                     </b-input-group-append>
                   </b-input-group>
 
-                  <b-row>
-                    <b-col
-                      v-for="(item, id) in detail.outline.modules"
-                      :key="id"
-                      sm="6"
-                    >
-                      <span class="mr-4 text-capitalize">{{ item }}</span>
-                      <b-icon
-                        icon="x"
-                        @click="detail.outline.modules.splice(id, 1)"
-                      ></b-icon
-                    ></b-col>
-                  </b-row>
+                  <div>
+                    <b-row>
+                      <b-col
+                        v-for="(item, id) in detail.outline.modules"
+                        :key="id"
+                        sm="6"
+                      >
+                        <div
+                          class="border rounded bg-lighter-green px-5 py-2 mb-2"
+                        >
+                          <span class="mr-4 text-capitalize">{{ item }}</span>
+                          <b-icon
+                            icon="x"
+                            @click="detail.outline.modules.splice(id, 1)"
+                          ></b-icon>
+                        </div>
+                      </b-col>
+                    </b-row>
+                  </div>
                 </b-form-group>
               </div>
             </div>
@@ -699,12 +705,12 @@
                   size="sm"
                   variant="transparent"
                   no-caret
-                  class="no-focus"
+                  class="no-focus dots"
                 >
                   <template #button-content>
                     <b-icon
                       icon="three-dots-vertical"
-                      class="position-absolute dots"
+                      class="position-absolute"
                     ></b-icon>
                   </template>
                   <b-dropdown-item class="fs12" @click="edit(course)"
@@ -731,17 +737,21 @@
                 <div class="course_title mb-3">{{ course.title }}</div>
                 <div
                   class="course_fac d-flex align-items-start mb-2 text-capitalize"
+                  v-if="course"
                 >
                   <b-icon icon="display" class="text-muted mr-3"></b-icon>
                   <span class="fs13">
                     {{ sortfacilitators(course).join(", ") }}</span
                   >
                 </div>
-                <div class="course_time d-flex mb-2 text-capitalize">
+                <div
+                  v-if="course"
+                  class="course_time d-flex mb-2 text-capitalize"
+                >
                   <b-icon icon="calendar" class="text-muted mr-3 e"></b-icon>
                   <span class="fs13"> {{ sorttimes(course).join(", ") }}</span>
                 </div>
-                <div class="course_modules mb-3 py-2 fs13">
+                <div v-if="course" class="course_modules mb-3 py-2 fs13">
                   <b-icon icon="layers" class="text-muted mr-3"></b-icon>
                   <span class="fs13"> {{ sortmodules(course) }}</span>
                   Modules
@@ -877,7 +887,7 @@
                   <b-col cols="7" class="ti">
                     <span class="fs14">Facilitator</span> <br />
                     <span class="text-sm">{{
-                      facilitators.find((val) => val.id == item.facilitator_id)
+                      facilitators.find(val => val.id == item.facilitator_id)
                         .name
                     }}</span>
                   </b-col>
@@ -888,6 +898,16 @@
                 <h6 class="fs14">Additional Information</h6>
                 <p class="fs13">
                   {{ course.courseoutline.additional_info }}
+                </p>
+              </div>
+              <div class="mb-3 px-3">
+                <h6 class="fs14">Certification</h6>
+                <p class="fs13 text-capitalize">
+                  <b-icon
+                    :icon="course.courseoutline.certification=='yes'?'check2-circle':'x-circle'"
+                    variant="light-green"
+                  ></b-icon>
+                  {{ course.courseoutline.certification }}
                 </p>
               </div>
               <div>
@@ -962,17 +982,17 @@
                 >
                   <div class="fs14 mb-1 d-flex">
                     <b-icon
-                      icon="question-circle"
-                      class="mr-1 text-light-green"
+                      icon="question-circle-fill"
+                      class="mr-2 text-light-green"
                     ></b-icon>
                     <span>{{ item.question }}</span>
                   </div>
                   <div class="fs14 d-flex">
                     <b-icon
-                      icon="check2-circle"
-                      class="mr-1 text-light-green"
+                      icon="check-circle-fill"
+                      class="mr-2 text-light-green"
                     ></b-icon>
-                    <span></span>
+                    <span>{{ item.answer }}</span>
                   </div>
                 </div>
               </div>
@@ -1012,10 +1032,10 @@ export default {
       toggleCourse: 1,
       detail: {
         general: {
-          name: "",
+          title: "",
           code: "",
           description: "",
-          cover: "",
+          cover: ""
         },
         outline: {
           overview: "",
@@ -1025,25 +1045,25 @@ export default {
           faqs: [
             {
               question: "",
-              answer: "",
-            },
+              answer: ""
+            }
           ],
           certification: null,
-          additional_info: "",
+          additional_info: ""
         },
         schedule: [
           {
             day: "",
             start_time: "",
             end_time: "",
-            facilitator_id: null,
-          },
-        ],
-      },
+            facilitator_id: null
+          }
+        ]
+      }
     };
   },
   components: {
-    Upload,
+    Upload
   },
   mounted() {
     this.getcourses();
@@ -1064,8 +1084,8 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      return schedule.map((val) => {
-        return this.facilitators.find((item) => item.id == val.facilitator_id)
+      return schedule.map(val => {
+        return this.facilitators.find(item => item.id == val.facilitator_id)
           .name;
       });
     },
@@ -1074,7 +1094,7 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      return schedule.map((item) => {
+      return schedule.map(item => {
         var res = ` ${item.day} ${this.$moment(
           new Date("2021-05-18 " + item.start_time)
         ).format("LT")}`;
@@ -1089,32 +1109,38 @@ export default {
         day: "",
         start_time: "",
         end_time: "",
-        facilitator_id: null,
+        facilitator_id: null
       });
     },
     addmodule() {
+      if (!this.newmodule) {
+        this.$toast.info("Cannot be empty!");
+        return;
+      }
       this.detail.outline.modules.push(this.newmodule);
+      this.newmodule = "";
     },
 
     addfaq() {
       this.detail.outline.faqs.push({
         question: "",
-        answer: "",
+        answer: ""
       });
     },
+
     getfacilitators() {
       this.$http
         .get(`${this.$store.getters.url}/admin-get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1123,15 +1149,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/courses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.courses = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1139,19 +1165,20 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/courses`, this.detail, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.$toast.success("Course created");
             this.courses.unshift(res.data);
+            this.$bvModal.hide("addcourse");
             this.detail = {
               general: {
-                name: "",
+                title: "",
                 code: "",
                 description: "",
-                cover: "",
+                cover: ""
               },
               outline: {
                 overview: "",
@@ -1161,100 +1188,93 @@ export default {
                 faqs: [
                   {
                     question: "",
-                    answer: "",
-                  },
+                    answer: ""
+                  }
                 ],
                 certification: null,
-                additional_info: "",
+                additional_info: ""
               },
               schedule: [
                 {
                   day: "",
                   start_time: "",
                   end_time: "",
-                  facilitator_id: null,
-                },
-              ],
+                  facilitator_id: null
+                }
+              ]
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     edit(val) {
-      this.course = val;
+      this.detail = {
+        general: {
+          title: val.title,
+          code: val.code,
+          description: val.description,
+          cover: val.cover
+        },
+        outline: {
+          overview: val.courseoutline.overview,
+          knowledge_area: val.courseoutline.knowledge_areas,
+          duration: val.courseoutline.duration,
+          modules: JSON.parse(val.courseoutline.modules),
+          faqs: JSON.parse(val.courseoutline.faqs),
+          certification: val.courseoutline.certification,
+          additional_info: val.courseoutline.additional_info
+        },
+        schedule: val.courseschedule
+      };
       this.$bvModal.show("update");
     },
     updatecourse() {
       this.$http
-        .put(`${this.$store.getters.url}/course/${this.course.id}`, this.user, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
-        })
-        .then((res) => {
+        .put(
+          `${this.$store.getters.url}/courses/${this.course.id}`,
+          this.detail,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+            }
+          }
+        )
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Update successful");
             this.$bvModal.hide("update");
-            this.detail = {
-              general: {
-                name: "",
-                code: "",
-                description: "",
-                cover: "",
-              },
-              outline: {
-                overview: "",
-                knowledge_area: "",
-                duration: "",
-                modules: [],
-                faqs: [
-                  {
-                    question: "",
-                    answer: "",
-                  },
-                ],
-                certification: null,
-                additional_info: "",
-              },
-              schedule: [
-                {
-                  day: "",
-                  start_time: "",
-                  end_time: "",
-                  facilitator_id: null,
-                },
-              ],
-            };
+            this.getcourses();
+            this.type = 1;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/courses/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.courses.splice(index, 1);
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">
@@ -1300,6 +1320,7 @@ p {
   width: 400px;
 }
 .dots {
+  position: absolute;
   top: 20px;
   right: 10px;
 }

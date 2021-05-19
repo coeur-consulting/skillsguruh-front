@@ -334,6 +334,19 @@ const routes = [
           typeAdmin: true,
         },
       },
+      {
+        path: "events",
+        name: "Administrator events",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratorevents" */ "@/components/Administrator/events.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
     ],
   },
 
