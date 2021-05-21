@@ -291,7 +291,7 @@ export default {
 .right_text {
   font-size: 12px;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 10px 0 0 10px;
   width: 90%;
   margin-left: auto;
   background-color: #f7f8fa;

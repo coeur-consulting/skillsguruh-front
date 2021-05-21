@@ -5,6 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    notifications: [],
     organization: JSON.parse(localStorage.getItem("authOrg")) || {},
     admin: JSON.parse(localStorage.getItem("authAdmin")) || {},
     facilitator: JSON.parse(localStorage.getItem("authFacilitator")) || {},
@@ -12,8 +13,57 @@ export default new Vuex.Store({
     // url: "http://localhost:8000/v1",
     url: "https://skillsguruh-api.herokuapp.com/v1",
   },
-  mutations: {},
-  actions: {},
+  mutations: {
+    SET_NOTIFICATION(state, notifications) {
+      state.notifications = notifications;
+    },
+  },
+  actions: {
+    getNotifications({ commit, state }) {
+      Vue.axios
+        .get(`${state.url}/get-notifications`, {
+          headers: {
+            Authorization: `Bearer ${state.admin.access_token}`,
+          },
+        })
+        .then((response) => {
+          commit("SET_NOTIFICATION", response.data);
+        });
+    },
+    markNotifications({ commit, state }) {
+      Vue.axios
+        .get(`${state.url}/mark-notifications`, {
+          headers: {
+            Authorization: `Bearer ${state.admin.access_token}`,
+          },
+        })
+        .then((response) => {
+          commit("SET_NOTIFICATION", response.data);
+        });
+    },
+    postNotifications({ commit, state }, data) {
+      Vue.axios
+        .post(`${state.url}/unread-notifications`, data, {
+          headers: {
+            Authorization: `Bearer ${state.admin.access_token}`,
+          },
+        })
+        .then((response) => {
+          commit("SET_NOTIFICATION", response.data);
+        });
+    },
+    markNotification({ commit, state }, data) {
+      Vue.axios
+        .get(`${state.url}/mark-notification/${data}`, {
+          headers: {
+            Authorization: `Bearer ${state.admin.access_token}`,
+          },
+        })
+        .then((response) => {
+          commit("SET_NOTIFICATION", response.data);
+        });
+    },
+  },
   modules: {},
   getters: {
     organization: (state) => state.organization,
@@ -21,5 +71,6 @@ export default new Vuex.Store({
     facilitator: (state) => state.facilitator,
     learner: (state) => state.learner,
     url: (state) => state.url,
+    notifications: (state) => state.notifications,
   },
 });

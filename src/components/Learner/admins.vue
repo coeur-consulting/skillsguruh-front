@@ -2,11 +2,11 @@
   <div>
     <b-container>
       <b-row>
-        <b-col class="mb-5 mb-sm-0 px-0">
+        <b-col class="mb-5 mb-sm-0">
           <div
             class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-4"
           >
-            <h6 class="mb-3 mb-sm-0">Facilitators</h6>
+            <h6 class="mb-3 mb-sm-0">Administrators</h6>
             <div>
               <b-form-input
                 placeholder="Search"
@@ -34,7 +34,7 @@
               </div>
             </div>
 
-            <div class="">
+            <div class="" v-if="users.length">
               <b-table-simple class="org_home_table text-left" responsive="sm">
                 <b-thead>
                   <b-tr class="text-left">
@@ -70,10 +70,10 @@
                     <b-td
                       class="text-left"
                       :class="{
-                        'text-success': item.status,
-                        'text-danger': !item.status,
+                        'text-success': item.verification,
+                        'text-danger': !item.verification,
                       }"
-                      >{{ item.status ? "Active" : "Inactive" }}</b-td
+                      >{{ item.verification ? "Active" : "Inactive" }}</b-td
                     >
                     <b-td
                       ><b-icon
@@ -119,7 +119,9 @@
                 </b-tbody>
               </b-table-simple>
               <div class="p-3 d-flex justify-content-between">
-                <div class="fs12 text-muted">Showing 1-10 of 30 items</div>
+                <div class="fs12 text-muted">
+                  Showing 1-10 of {{ users.length }} items
+                </div>
                 <b-pagination
                   pills
                   size="sm"
@@ -131,12 +133,28 @@
                 ></b-pagination>
               </div>
             </div>
+
+            <div v-else class="text-center admin_tab p-3 p-sm-5">
+              <div>
+                <b-img :src="require('@/assets/images/creator.svg')"></b-img>
+                <h6 class="text-muted mb-3">
+                  It appears you havent added any Administrator yet, <br />
+                  Add your first Administrator now!
+                </h6>
+                <b-button
+                  @click="$bvModal.show('add')"
+                  variant="dark-green"
+                  size="lg"
+                  >Add Administrator</b-button
+                >
+              </div>
+            </div>
           </div>
         </b-col>
       </b-row>
     </b-container>
 
-    <b-modal id="add" hide-footer centered size="lg" title="Add Facilitator">
+    <b-modal id="add" hide-footer centered size="lg" title="Add Administrator">
       <b-form @submit.prevent="register" class="user">
         <div>
           <b-form-row class="mb-2">
@@ -209,7 +227,13 @@
         </div>
       </b-form>
     </b-modal>
-    <b-modal id="edit" hide-footer centered size="lg" title="Edit Facilitator">
+    <b-modal
+      id="edit"
+      hide-footer
+      centered
+      size="lg"
+      title="Edit Administrator"
+    >
       <b-form @submit.prevent="update" class="user">
         <div>
           <b-form-row class="mb-2">
@@ -316,12 +340,12 @@ export default {
     },
   },
   mounted() {
-    this.getfacilitators();
+    this.getadmins();
   },
   methods: {
-    getfacilitators() {
+    getadmins() {
       this.$http
-        .get(`${this.$store.getters.url}/get-facilitators`, {
+        .get(`${this.$store.getters.url}/get-admins`, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
           },
@@ -339,7 +363,7 @@ export default {
 
     register() {
       this.$http
-        .post(`${this.$store.getters.url}/register-facilitator`, this.user, {
+        .post(`${this.$store.getters.url}/register-admin`, this.user, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
           },
@@ -379,7 +403,7 @@ export default {
     update() {
       this.$http
         .put(
-          `${this.$store.getters.url}/update-facilitator/${this.user.id}`,
+          `${this.$store.getters.url}/update-admin/${this.user.id}`,
           this.user,
           {
             headers: {
@@ -389,6 +413,8 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
+            this.$toast.success("Update successful");
+            this.$bvModal.hide("edit");
             this.user = {
               name: "",
               email: "",
@@ -405,7 +431,7 @@ export default {
       this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
           this.$http
-            .delete(`${this.$store.getters.url}/delete-facilitator/${id}`, {
+            .delete(`${this.$store.getters.url}/delete-admin/${id}`, {
               headers: {
                 Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
               },
@@ -439,5 +465,11 @@ export default {
 }
 .search::placeholder {
   color: rgba($color: #000000, $alpha: 0.2);
+}
+.admin_tab {
+  min-height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

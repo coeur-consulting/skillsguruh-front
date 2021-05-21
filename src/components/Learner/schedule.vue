@@ -2,17 +2,25 @@
   <div>
     <b-container>
       <b-row>
-        <b-col sm="8">
+        <b-col sm="9">
           <b-row class="mb-4 mb-sm-5">
             <b-col>
               <div class="box p-3">
                 <div class="d-flex align-items-center mb-1">
-                  <b-col cols="6">
-                    <div class="h6 mb-0 text-dark-green">Events</div></b-col
-                  >
-                  <b-col cols="6">
-                    <b-img fluid-grow src=""></b-img>
-                  </b-col>
+                  <b-iconstack font-scale="2.5" class="mr-3">
+                    <b-icon
+                      stacked
+                      icon="circle-fill"
+                      variant="lighter-green"
+                    ></b-icon>
+                    <b-icon
+                      stacked
+                      icon="person-badge-fill"
+                      scale="0.5"
+                      variant="dark-green"
+                    ></b-icon>
+                  </b-iconstack>
+                  <div class="h6 mb-0 text-dark-green">Events</div>
                 </div>
               </div>
             </b-col>
@@ -401,8 +409,8 @@
                   </b-table-simple>
                 </div>
               </div>
-              <div class="box text-center p-3 w-100" v-else>
-                <div class="mx-auto">
+              <div class="box text-center p-3" v-else>
+                <div>
                   <b-img :src="require('@/assets/images/creator.svg')"></b-img>
                   <h6 class="text-muted my-3 fs14">
                     It appears you havent added any Schedule yet,
@@ -420,8 +428,7 @@
                     If You have <br />
                     <b-button
                       variant="dark-green"
-                      class="mt-4"
-                      size="sm"
+                      size="lg"
                       @click="$bvModal.show('add')"
                       >Add a schedule now
                     </b-button>
@@ -431,7 +438,7 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col sm="4" class="text-left">
+        <b-col sm="3" class="text-left px-0">
           <div class="turn_over_box">
             <div class="tob_1 mb-4">
               <vc-calendar
@@ -516,7 +523,7 @@
                   </div>
                 </div>
                 <div v-else class="p-4 text-center">
-                  <p class="text-muted">Nothing Scheduled Today</p>
+                  <h5 class="text-muted">Nothing Scheduled Today</h5>
                 </div>
               </div>
             </div>

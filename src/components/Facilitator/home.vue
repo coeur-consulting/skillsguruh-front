@@ -118,12 +118,11 @@ export default {
     Todo,
   },
   watch: {},
-  created() {
+  mounted() {
     this.gettodos();
     this.getfacilitators();
     this.getusers();
   },
-
   computed: {
     newlyfacilitators() {
       return this.facilitators.filter(

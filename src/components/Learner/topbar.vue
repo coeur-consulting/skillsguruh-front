@@ -187,73 +187,21 @@
     </div>
 
     <div class="d-flex align-items-center">
-      <div class="position-relative mr-4">
-        <b-icon
-          id="bell"
-          icon="bell"
-          font-scale="1.5rem"
-          class="text-dark-green"
-        ></b-icon>
-        <small class="notify_badge">
-          <b-badge variant="danger" v-if="unreadnotifications.length">{{
-            unreadnotifications.length
-          }}</b-badge></small
-        >
-      </div>
-      <b-popover
-        id="notification1"
-        target="bell"
-        triggers="hover"
-        placement="bottom"
-      >
+      <b-icon
+        id="bell"
+        icon="bell"
+        font-scale="1.2"
+        class="mr-4 text-dark-green"
+      ></b-icon>
+      <b-popover target="bell" triggers="hover" placement="bottom">
         <template #title>Notifications</template>
-        <div class="notifications" v-if="notifications.length">
-          <div
-            class="notify border-bottom"
-            v-for="(item, id) in notifications"
-            :key="id"
-          >
-            <div
-              v-if="!item.read_at"
-              @click="$store.dispatch('markNotification', item.id)"
-            >
-              <span :class="{ 'font-weight-bold': !item.read_at }">
-                {{ item.data.notification }}</span
-              >
-              <br />
-              <span class="fs11">{{
-                item.created_at | moment("calendar")
-              }}</span>
-            </div>
-            <div v-else>
-              <span :class="{ 'font-weight-bold': !item.read_at }">
-                {{ item.data.notification }}</span
-              >
-              <br />
-              <span class="fs11">{{
-                item.created_at | moment("calendar")
-              }}</span>
-            </div>
-          </div>
-          <div class="text-center py-2 border-top text-dark-green fs11">
-            <span
-              class="cursor-pointer"
-              @click="$store.dispatch('markNotifications')"
-            >
-              Mark all as read</span
-            >
-          </div>
-        </div>
-        <div v-else class="text-center text-muted notify p-2">
-          No new notification !
-        </div>
+        <div class="noti">I am notification!</div>
       </b-popover>
       <b-icon
         icon="envelope"
-        font-scale="1.5rem"
+        font-scale="1.2"
         class="mr-4 text-muted cursor-pointer"
       ></b-icon>
-
       <b-avatar
         :src="$store.getters.admin.profile"
         id="profile"
@@ -277,21 +225,6 @@ export default {
       localStorage.removeItem("authOrg");
       this.$router.push("/login");
     },
-    markread() {
-      this.$http.get(`${this.$store.getters.url}/mark-notifications`, {
-        headers: {
-          Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-        },
-      });
-    },
-  },
-  computed: {
-    notifications() {
-      return this.$store.getters.notifications;
-    },
-    unreadnotifications() {
-      return this.$store.getters.notifications.filter((item) => !item.read_at);
-    },
   },
 };
 </script>
@@ -303,6 +236,9 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
+}
+.noti {
+  width: 300px;
 }
 
 .side_header {

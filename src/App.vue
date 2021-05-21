@@ -8,6 +8,14 @@
   </div>
 </template>
 
+<script>
+export default {
+  mounted() {
+    this.$store.dispatch("getNotifications");
+    // this.$store.dispatch("postNotifications", { name: "hello" });
+  },
+};
+</script>
 <style lang="scss">
 #app {
   font-family: "Poppins", sans-serif;
