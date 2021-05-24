@@ -66,7 +66,7 @@
               >Event Link</span
             >
             <br />
-            <span class="fs16"> {{ event.url }}</span>
+            <div class="fs12">{{ event.url }}</div>
           </div>
           <div class="mb-1 px-3 py-2">
             <b-badge>{{ event.status }}</b-badge>

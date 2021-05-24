@@ -53,7 +53,7 @@
                         </div>
                       </div>
                     </b-td>
-                    <b-td v-if="item.modules">{{}}</b-td>
+                    <b-td v-if="item.modules">{{ item.modules.length }}</b-td>
                     <b-td v-else>Not Available</b-td>
                     <b-td class="text-capitalize">
                       {{ sortfacilitators(item).join(", ") }}

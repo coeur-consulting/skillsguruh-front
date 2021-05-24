@@ -1088,6 +1088,9 @@ export default {
     },
     getmediacount(arr, media) {
       var newarr = [];
+      if (!arr.length) {
+        return 0;
+      }
       arr.forEach((val) => {
         JSON.parse(val.modules).forEach((item) => {
           if (item.file_type.toLowerCase() == media.toLowerCase()) {
