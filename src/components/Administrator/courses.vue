@@ -806,7 +806,7 @@
                   >
                   <br />
                   <span class="course_time text-capitalize"
-                    ><b-icon icon="clock" class="mr-2"></b-icon>
+                    ><b-icon icon="clock" class="mr-1"></b-icon>
                     {{ course.courseoutline.duration }}</span
                   >
                 </div>
@@ -925,7 +925,10 @@
                     ></b-img>
 
                     <span style="line-height: 1.2">
-                      <span class="fs13"> 10</span> <br />
+                      <span class="fs13">
+                        {{ getmediacount(course.modules, "video") }}</span
+                      >
+                      <br />
                       <span class="fs13">Videos</span>
                     </span>
                   </div>
@@ -937,7 +940,10 @@
                     ></b-img>
 
                     <span style="line-height: 1.2">
-                      <span class="fs13">10</span> <br />
+                      <span class="fs13">
+                        {{ getmediacount(course.modules, "document") }}</span
+                      >
+                      <br />
                       <span class="fs13">Documents</span>
                     </span>
                   </div>
@@ -949,7 +955,10 @@
                     ></b-img>
 
                     <span style="line-height: 1.2">
-                      <span class="fs13">10</span> <br />
+                      <span class="fs13">
+                        {{ getmediacount(course.modules, "audio") }}</span
+                      >
+                      <br />
                       <span class="fs13">Audios</span>
                     </span>
                   </div>
@@ -1074,6 +1083,18 @@ export default {
     this.getfacilitators();
   },
   methods: {
+    getmediacount(arr, media) {
+      var newarr = [];
+      arr.forEach((val) => {
+        JSON.parse(val.modules).forEach((item) => {
+          if (item.file_type.toLowerCase() == media.toLowerCase()) {
+            newarr.push(item);
+          }
+        });
+      });
+
+      return newarr.length;
+    },
     showcourse(val) {
       this.course = val;
     },
@@ -1088,7 +1109,7 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      return schedule.map((val) => {
+      var newArr = schedule.map((val) => {
         var fac = this.facilitators.find(
           (item) => item.id == val.facilitator_id
         );
@@ -1096,6 +1117,8 @@ export default {
           return fac.name;
         }
       });
+
+      return [...new Set(newArr)];
     },
     sorttimes(data) {
       if (!data.courseschedule) {

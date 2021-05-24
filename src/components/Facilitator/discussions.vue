@@ -56,8 +56,8 @@
                   </b-dropdown>
                   <div class="side_dis">
                     <b-avatar
-                      v-if="item.creator == 'admin'"
-                      :src="item.admin.profile"
+                      v-if="item.creator == 'facilitator'"
+                      :src="item.facilitator.profile"
                     ></b-avatar>
                     <b-avatar
                       v-if="item.creator == 'user'"
@@ -73,9 +73,9 @@
                       <span class="asked mr-2">
                         Started {{ item.created_at | moment("calendar") }}</span
                       >
-                      <span class="mr-2"
+                      <span class="mr-2 fs13"
                         ><b-badge
-                          class="text-capitalize font-weight-normal fs12"
+                          class="text-capitalize font-weight-normal"
                           variant="dark-green"
                           >{{ item.type }}</b-badge
                         ></span
@@ -133,14 +133,14 @@
                     <span
                       v-if="item.type == 'public'"
                       @click="
-                        $router.push(`/administrator/discussion/${item.id}`)
+                        $router.push(`/facilitator/discussion/${item.id}`)
                       "
                       class="text-dark-green font-weight-bold cursor-pointer"
                       >Join Discussion</span
                     >
                     <span
                       v-else
-                      @click="$toast.info('No access')"
+                      @click="$bvModal.show('access')"
                       class="text-dark-green font-weight-bold cursor-pointer"
                       >Join Discussion</span
                     >
@@ -179,24 +179,26 @@
               >
             </div>
             <div class="py-3 text-left related_quest border">
-              <h6 class="mb-3 px-3">Related Discussions</h6>
-              <div class="d-flex p-2 px-3">
-                <div>
-                  <span class="mr-3 related_count">2000</span>
+              <h6 class="mb-3 px-3">Other Discussions</h6>
+              <div v-if="otherdiscussion.length">
+                <div class="d-flex p-2 px-3">
+                  <div>
+                    <span class="mr-3 related_count">2000</span>
+                  </div>
+                  <span class="related text-left"
+                    >Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                    Beatae.</span
+                  >
                 </div>
-                <span class="related text-left"
-                  >Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Beatae.</span
-                >
-              </div>
-              <div class="d-flex p-2 px-3">
-                <div>
-                  <span class="mr-3 related_count">1200</span>
+                <div class="d-flex p-2 px-3">
+                  <div>
+                    <span class="mr-3 related_count">1200</span>
+                  </div>
+                  <span class="related text-left"
+                    >Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                    Beatae.</span
+                  >
                 </div>
-                <span class="related text-left"
-                  >Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Beatae.</span
-                >
               </div>
             </div>
           </div>
@@ -249,6 +251,7 @@
 
         <b-form-group label="Tags">
           <tags-input
+            discard-search-text="Select"
             element-id="tags"
             v-model="discussion.tags"
             :existing-tags="mytags"
@@ -272,6 +275,31 @@
           >Create</b-button
         >
       </b-form>
+    </b-modal>
+
+    <b-modal
+      id="access"
+      title="Request Access"
+      hide-header
+      hide-footer
+      centered
+    >
+      <div class="text-center">
+        <p class="mb-4 fs16">Do you wish to join this discussion?</p>
+        <b-button
+          variant="outline-secondary"
+          class="mr-3"
+          size="sm"
+          @click="$bvModal.hide('access')"
+          >Cancel</b-button
+        >
+        <b-button
+          variant="secondary"
+          size="sm"
+          @click="$toast.success('Request sent succesfully')"
+          >Send a request</b-button
+        >
+      </div>
     </b-modal>
   </div>
 </template>
@@ -308,6 +336,9 @@ export default {
     this.gettags();
   },
   computed: {
+    otherdiscussion() {
+      return [];
+    },
     mostanswers() {
       var val = this.recentdiscussions.slice(0).sort((a, b) => {
         return b.discussionmessage.length - a.discussionmessage.length;
@@ -353,14 +384,13 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/tags`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
           if (res.status == 200) {
             this.mytags = res.data.map((item) => {
               var dat = {
-                id: item.id,
                 value: item.tag,
               };
               return dat;
@@ -375,7 +405,7 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/discussions`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
@@ -392,7 +422,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/discussions`, this.discussion, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {

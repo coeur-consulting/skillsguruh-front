@@ -74,7 +74,11 @@
                         <div class="">
                           <small
                             class="px-0 text-left cursor-pointer"
-                            @click="view()"
+                            @click="
+                              $router.push(
+                                `/facilitator/outline/${item.courseoutline.id}`
+                              )
+                            "
                           >
                             <b-icon class="mr-2" icon="eye"></b-icon
                             ><span>View</span>
@@ -550,7 +554,7 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      return schedule.map((val) => {
+      var newArr = schedule.map((val) => {
         var fac = this.facilitators.find(
           (item) => item.id == val.facilitator_id
         );
@@ -558,12 +562,13 @@ export default {
           return fac.name;
         }
       });
+      return [...new Set(newArr)];
     },
     async getfacilitators() {
       return this.$http
-        .get(`${this.$store.getters.url}/admin-get-facilitators`, {
+        .get(`${this.$store.getters.url}/facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
@@ -580,7 +585,7 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/courses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
@@ -614,7 +619,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/courseoutlines`, this.detail, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {

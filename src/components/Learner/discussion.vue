@@ -321,31 +321,66 @@
                 >Start a discussion</b-button
               >
             </div>
-            <div class="py-3 text-left related_quest border">
+            <div
+              class="py-3 text-left related_quest border"
+              v-if="related.length"
+            >
               <h6 class="mb-3 px-3">Related Discussions</h6>
-              <div class="d-flex p-2 px-3">
-                <div>
-                  <span class="mr-3 related_count">2000</span>
-                </div>
-                <span class="related text-left"
-                  >Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Beatae.</span
+              <div v-for="item in related" :key="item.id">
+                <div
+                  class="d-flex p-2 px-3"
+                  v-if="item.type == 'public'"
+                  @click="$router.push(`/administrator/discussion/${item.id}`)"
                 >
-              </div>
-              <div class="d-flex p-2 px-3">
-                <div>
-                  <span class="mr-3 related_count">1200</span>
+                  <div>
+                    <div class="mr-3 related_count">
+                      {{ item.discussionmessage.length }}
+                    </div>
+                  </div>
+                  <div class="related text-left">{{ item.name }}</div>
                 </div>
-                <span class="related text-left"
-                  >Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Beatae.</span
+                <div
+                  class="d-flex p-2 px-3"
+                  v-else
+                  @click="$bvModal.show('access')"
                 >
+                  <div>
+                    <div class="mr-3 related_count">
+                      {{ item.discussionmessage.length }}
+                    </div>
+                  </div>
+                  <div class="related text-left">{{ item.name }}</div>
+                </div>
               </div>
             </div>
           </div>
         </b-col>
       </b-row>
     </b-container>
+    <b-modal
+      id="access"
+      title="Request Access"
+      hide-header
+      hide-footer
+      centered
+    >
+      <div class="text-center">
+        <p class="mb-4 fs16">Do you wish to join this discussion?</p>
+        <b-button
+          variant="outline-secondary"
+          class="mr-3"
+          size="sm"
+          @click="$bvModal.hide('access')"
+          >Cancel</b-button
+        >
+        <b-button
+          variant="secondary"
+          size="sm"
+          @click="$toast.success('Request sent succesfully')"
+          >Send a request</b-button
+        >
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -373,12 +408,20 @@ export default {
     EmojiPicker,
     Attachment,
   },
-  mounted() {
+  created() {
     this.getdiscussion();
     this.addview();
     this.getvote();
   },
   computed: {
+    related() {
+      if (!this.discussion.related.length) {
+        return [];
+      }
+      return this.discussion.related.filter(
+        (item) => Number(item.id) != Number(this.$route.params.id)
+      );
+    },
     posts() {
       return this.discussion.discussionmessage;
     },
@@ -731,5 +774,6 @@ export default {
   background: var(--lighter-green);
   font-size: 11px;
   border-radius: 4px;
+  text-align: center;
 }
 </style>

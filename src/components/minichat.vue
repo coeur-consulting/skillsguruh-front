@@ -1,116 +1,114 @@
 <template>
-  <div>
-    <div class="reply_box bg-white shadow border" v-if="showall">
-      <div
-        class="d-flex px-2 py-2 align-items-center border-bottom bg-dark-green text-white"
-      >
-        <div class="d-flex flex-1 align-items-center">
-          <b-avatar
-            size="2rem"
-            :src="mini_info.profile"
-            class="mr-2 text-white"
-          ></b-avatar>
-          <span class="chat_name text-white">{{ mini_info.name }}</span>
-        </div>
-        <div class="d-flex align-items-center">
-          <b-icon
-            class="mr-3 cursor-pointer text-white"
-            icon="arrows-angle-expand"
-            @click="open = !open"
-          ></b-icon>
-          <b-icon
-            font-scale="1.5"
-            class="cursor-pointer text-white"
-            icon="x"
-            @click="showall = false"
-          ></b-icon>
-        </div>
+  <div class="reply_box bg-white shadow border" v-if="showall">
+    <div
+      class="d-flex px-2 py-2 align-items-center border-bottom bg-dark-green text-white"
+    >
+      <div class="d-flex flex-1 align-items-center">
+        <b-avatar
+          size="2rem"
+          :src="mini_info.profile"
+          class="mr-2 text-white"
+        ></b-avatar>
+        <span class="chat_name text-white">{{ mini_info.name }}</span>
       </div>
-      <div v-if="open">
-        <div class="reply py-3 text-left" v-chat-scroll>
-          <div v-for="(item, index) in messages" :key="index">
+      <div class="d-flex align-items-center">
+        <b-icon
+          class="mr-3 cursor-pointer text-white"
+          icon="arrows-angle-expand"
+          @click="open = !open"
+        ></b-icon>
+        <b-icon
+          font-scale="1.5"
+          class="cursor-pointer text-white"
+          icon="x"
+          @click="showall = false"
+        ></b-icon>
+      </div>
+    </div>
+    <div v-if="open">
+      <div class="reply py-3 text-left" v-chat-scroll>
+        <div v-for="(item, index) in messages" :key="index">
+          <div
+            class="mb-1"
+            :class="
+              item.admin_id == $store.getters.admin.id
+                ? 'left_text'
+                : 'right_text'
+            "
+          >
             <div
-              class="mb-1"
-              :class="
-                item.admin_id == $store.getters.admin.id
-                  ? 'left_text'
-                  : 'right_text'
-              "
+              class="d-flex flex-1 align-items-center justify-content-between mb-1"
             >
-              <div
-                class="d-flex flex-1 align-items-center justify-content-between mb-1"
+              <span
+                class="chatting_name font-weight-bold mr-3"
+                v-if="item.admin"
+                >{{ item.admin.name }}</span
               >
-                <span
-                  class="chatting_name font-weight-bold mr-3"
-                  v-if="item.admin"
-                  >{{ item.admin.name }}</span
-                >
 
-                <span
-                  class="chatting_name font-weight-bold mr-3"
-                  v-if="item.user"
-                  >{{ item.user.name }}</span
-                >
+              <span
+                class="chatting_name font-weight-bold mr-3"
+                v-if="item.user"
+                >{{ item.user.name }}</span
+              >
 
-                <span
-                  class="chatting_name font-weight-bold mr-3"
-                  v-if="item.facilitator"
-                  >{{ item.facilitator.name }}</span
-                >
-                <span class="text-muted fs11">
-                  {{ item.created_at | moment("LT") }}</span
-                >
-              </div>
-              <span>{{ item.message }}</span>
+              <span
+                class="chatting_name font-weight-bold mr-3"
+                v-if="item.facilitator"
+                >{{ item.facilitator.name }}</span
+              >
+              <span class="text-muted fs11">
+                {{ item.created_at | moment("LT") }}</span
+              >
             </div>
+            <span>{{ item.message }}</span>
           </div>
         </div>
-        <div class="text-left px-1 pb-1 border-top">
-          <b-input-group class="mt-1">
-            <template #append>
-              <b-input-group-text class="border-0 bg-transparent">
-                <b-icon
-                  @click="addinbox"
-                  font-scale="1"
-                  icon="cursor-fill"
+      </div>
+      <div class="text-left px-1 pb-1 border-top">
+        <b-input-group class="mt-1">
+          <template #append>
+            <b-input-group-text class="border-0 bg-transparent">
+              <b-icon
+                @click="addinbox"
+                font-scale="1"
+                icon="cursor-fill"
+                class="text-dark-green cursor-pointer"
+              ></b-icon>
+            </b-input-group-text>
+          </template>
+          <template #prepend>
+            <b-input-group-text class="border-0 bg-transparent"
+              ><span class=""
+                ><b-icon
+                  icon="emoji-smile-fill"
                   class="text-dark-green cursor-pointer"
-                ></b-icon>
-              </b-input-group-text>
-            </template>
-            <template #prepend>
-              <b-input-group-text class="border-0 bg-transparent"
-                ><span class=""
-                  ><b-icon
-                    icon="emoji-smile-fill"
-                    class="text-dark-green cursor-pointer"
-                    font-scale="1"
-                  ></b-icon></span
-              ></b-input-group-text>
-            </template>
-            <b-form-input
-              v-model="inbox.message"
-              size="sm"
-              autocomplete="off"
-              autocorrect="off"
-              placeholder="Type here .."
-              class="border-0 no-focus fs13"
-            ></b-form-input>
-          </b-input-group>
-        </div>
+                  font-scale="1"
+                ></b-icon></span
+            ></b-input-group-text>
+          </template>
+          <b-form-input
+            v-model="inbox.message"
+            size="sm"
+            autocomplete="off"
+            autocorrect="off"
+            placeholder="Type here .."
+            class="border-0 no-focus fs13"
+          ></b-form-input>
+        </b-input-group>
       </div>
     </div>
   </div>
 </template>
 <script>
 export default {
-  props: ["mini_info"],
+  props: ["mini_info", "user"],
   data() {
     return {
       showall: false,
       open: false,
       inboxes: [],
       inbox: {
-        message: "",
+        mesage: "",
         attachment: "",
         receiver: "",
         receiver_id: "",
@@ -127,6 +125,19 @@ export default {
     },
   },
   computed: {
+    useraccess() {
+      var token = null;
+      if (this.$props.user == "admin") {
+        return this.$store.getters.admin;
+      }
+      if (this.$props.user == "facilitator") {
+        return this.$store.getters.facilitator;
+      }
+      if (this.$props.user == "learner") {
+        return this.$store.getters.learner;
+      }
+      return token;
+    },
     messages() {
       return this.inboxes.filter((item) => {
         if (
@@ -153,12 +164,12 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/inboxes`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.useraccess.access_token}`,
           },
         })
         .then((res) => {
           if (res.status == 200) {
-            this.inboxes = res.data.data.reverse();
+            this.inboxes = res.data.reverse();
           }
         })
         .catch((err) => {
@@ -168,50 +179,67 @@ export default {
     async sortmessages(arr) {
       this.inboxes = await arr.map((item) => {
         var info = {};
-        if (item.admin_id && item.admin_id == this.$store.getters.admin.id) {
-          if (item.admin_info) {
-            info.type = "admin";
-            info.id = item.admin_info.id;
+        if (this.$props.user == "admin") {
+          if (item.admin_id && item.admin_id == this.useraccess.id) {
+            info.admin = item.admin_info || null;
+            info.user = item.learner_info || null;
+            info.facilitator = item.facilitator_info || null;
+            info.message = item.message || null;
+            info.time = item.created_at || null;
           }
-          if (item.facilitator_info) {
-            info.type = "facilitator";
-            info.id = item.facilitator_info.id;
+          if (
+            item.receiver == "admin" &&
+            item.receiver_id == this.useraccess.id
+          ) {
+            info.admin = item.admin || null;
+            info.user = item.user || null;
+            info.facilitator = item.facilitator || null;
+            info.message = item.message || null;
+            info.time = item.created_at || null;
           }
-          if (item.user_info) {
-            info.type = "user";
-            info.id = item.user_info.id;
+        }
+        if (this.$props.user == "facilitator") {
+          if (item.facilitator_id && item.facilitatorid == this.useraccess.id) {
+            info.admin = item.admin_info || null;
+            info.user = item.learner_info || null;
+            info.facilitator = item.facilitator_info || null;
+            info.message = item.message || null;
+            info.time = item.created_at || null;
           }
+          if (
+            item.receiver == "facilitator" &&
+            item.receiver_id == this.useraccess.id
+          ) {
+            info.admin = item.admin || null;
+            info.user = item.user || null;
+            info.facilitator = item.facilitator || null;
+            info.message = item.message || null;
+            info.time = item.created_at || null;
+          }
+        }
+        if (this.$props.user == "learner") {
+          if (item.admin_id && item.admin_id == this.useraccess.id) {
+            info.admin = item.admin_info || null;
+            info.user = item.learner_info || null;
+            info.facilitator = item.facilitator_info || null;
+            info.message = item.message || null;
+            info.time = item.created_at || null;
+          }
+          if (
+            item.receiver == "learner" &&
+            item.receiver_id == this.useraccess.id
+          ) {
+            info.admin = item.admin || null;
+            info.user = item.user || null;
+            info.facilitator = item.facilitator || null;
+            info.message = item.message || null;
+            info.time = item.created_at || null;
+          }
+        }
 
-          info.admin = item.admin_info || null;
-          info.user = item.user_info || null;
-          info.facilitator = item.facilitator_info || null;
-          info.message = item.message || null;
-          info.time = item.created_at || null;
-        }
-        if (
-          item.receiver == "admin" &&
-          item.receiver_id == this.$store.getters.admin.id
-        ) {
-          if (item.admin) {
-            info.type = "admin";
-            info.id = item.admin.id;
-          }
-          if (item.facilitator) {
-            info.type = "facilitator";
-            info.id = item.facilitator.id;
-          }
-          if (item.user) {
-            info.type = "user";
-            info.id = item.user.id;
-          }
-          info.admin = item.admin || null;
-          info.user = item.user || null;
-          info.facilitator = item.facilitator || null;
-          info.message = item.message || null;
-          info.time = item.created_at || null;
-        }
         return info;
       });
+      this.getChatters(this.inboxes);
     },
     addinbox() {
       this.inbox.receiver_id = this.$props.mini_info.id;
@@ -219,7 +247,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/inboxes`, this.inbox, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.useraccess.access_token}`,
           },
         })
         .then((res) => {
@@ -275,6 +303,7 @@ export default {
   width: 330px;
   left: 30%;
   border-radius: 10px 10px 0 0;
+  z-index: 999;
 }
 .reply {
   height: 360px;
@@ -285,6 +314,7 @@ export default {
   padding: 10px;
   background-color: #fbfbfb;
   border-radius: 0 10px 10px 0;
+  border-left: 3px solid var(--dark-green);
   width: 90%;
   margin-right: auto;
 }
@@ -295,6 +325,7 @@ export default {
   width: 90%;
   margin-left: auto;
   background-color: #f7f8fa;
+  border-right: 3px solid var(--red);
 }
 .chat_name {
   font-size: 13px;

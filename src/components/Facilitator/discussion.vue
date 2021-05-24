@@ -1,9 +1,9 @@
 /* eslint-disable vue/no-unused-vars */
 <template>
   <div class="pt-4">
-    <b-container>
+    <b-container v-if="discussion">
       <b-row>
-        <b-col sm="8" v-if="discussion">
+        <b-col sm="8">
           <div class="shadow-sm bg-white py-4 rounded">
             <div class="main_content text-left">
               <div @click="$router.go(-1)" class="d-flex w-100">
@@ -13,8 +13,8 @@
                 <div class="top_dis d-flex align-items-center mb-2">
                   <div class="side_dis">
                     <b-avatar
-                      :src="discussion.admin.profile"
-                      v-if="discussion.admin"
+                      :src="discussion.facilitator.profile"
+                      v-if="discussion.facilitator"
                     ></b-avatar>
                     <b-avatar
                       :src="discussion.user.profile"
@@ -29,7 +29,7 @@
                     <span class="title h4">{{ discussion.name }} </span><br />
                     <span class="asked">
                       Created
-                      {{ discussion.created_at | moment("calendar") }}</span
+                      {{ discussion.created_at | moment("ll") }}</span
                     >
                   </div>
                 </div>
@@ -77,7 +77,7 @@
                     <span
                       v-if="discussion.admin"
                       class="fs12 font-weight-bold text-dark-green"
-                      >{{ discussion.admin.name }}</span
+                      >{{ discussion.facilitator.name }}</span
                     >
                     <span
                       v-if="discussion.user"
@@ -98,39 +98,6 @@
                     v-for="(item, index) in posts"
                     :key="index"
                   >
-                    <div class="d-flex align-items-center">
-                      <h6>
-                        <b-avatar
-                          size="sm"
-                          :src="item.admin.profile"
-                          v-if="item.admin"
-                          class="mr-2"
-                        ></b-avatar>
-                        <b-avatar
-                          size="sm"
-                          :src="item.user.profile"
-                          v-if="item.user"
-                          class="mr-2"
-                        ></b-avatar>
-                        <b-avatar
-                          size="sm"
-                          :src="item.facilitator.profile"
-                          v-if="item.facilitator"
-                          class="mr-2"
-                        ></b-avatar>
-                      </h6>
-                      <span v-if="item.admin" class="fs13 font-weight-bold">{{
-                        item.admin.name
-                      }}</span>
-                      <span v-if="item.user" class="fs13 font-weight-bold">{{
-                        item.user.name
-                      }}</span>
-                      <span
-                        v-if="item.facilitator"
-                        class="fs13 font-weight-bold"
-                        >{{ item.facilitator.name }}</span
-                      >
-                    </div>
                     <div>
                       <p class="fs14" v-if="item.message">
                         {{ item.message }}
@@ -233,8 +200,40 @@
                       </div>
                     </div>
 
-                    <div class="d-flex justify-content-between">
-                      <span></span>
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <div class="d-flex align-items-center">
+                        <span class="">
+                          <b-avatar
+                            size="sm"
+                            :src="item.admin.profile"
+                            v-if="item.admin"
+                            class="mr-2"
+                          ></b-avatar>
+                          <b-avatar
+                            size="sm"
+                            :src="item.user.profile"
+                            v-if="item.user"
+                            class="mr-2"
+                          ></b-avatar>
+                          <b-avatar
+                            size="sm"
+                            :src="item.facilitator.profile"
+                            v-if="item.facilitator"
+                            class="mr-2"
+                          ></b-avatar>
+                        </span>
+                        <span v-if="item.admin" class="fs13">{{
+                          item.admin.name
+                        }}</span>
+                        <span v-if="item.user" class="fs13">{{
+                          item.user.name
+                        }}</span>
+                        <span v-if="item.facilitator" class="fs13">{{
+                          item.facilitator.name
+                        }}</span>
+                      </div>
                       <span>{{ item.created_at | moment("ll") }}</span>
                     </div>
                   </div>
@@ -321,31 +320,66 @@
                 >Start a discussion</b-button
               >
             </div>
-            <div class="py-3 text-left related_quest border">
+            <div
+              class="py-3 text-left related_quest border"
+              v-if="discussion.related"
+            >
               <h6 class="mb-3 px-3">Related Discussions</h6>
-              <div class="d-flex p-2 px-3">
-                <div>
-                  <span class="mr-3 related_count">2000</span>
-                </div>
-                <span class="related text-left"
-                  >Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Beatae.</span
+              <div v-for="item in discussion.related" :key="item.id">
+                <div
+                  class="d-flex p-2 px-3"
+                  v-if="item.type == 'public'"
+                  @click="$router.push(`/facilitator/discussion/${item.id}`)"
                 >
-              </div>
-              <div class="d-flex p-2 px-3">
-                <div>
-                  <span class="mr-3 related_count">1200</span>
+                  <div>
+                    <div class="mr-3 related_count">
+                      {{ item.discussionmessage.length }}
+                    </div>
+                  </div>
+                  <div class="related text-left">{{ item.name }}</div>
                 </div>
-                <span class="related text-left"
-                  >Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Beatae.</span
+                <div
+                  class="d-flex p-2 px-3"
+                  v-else
+                  @click="$bvModal.show('access')"
                 >
+                  <div>
+                    <div class="mr-3 related_count">
+                      {{ item.discussionmessage.length }}
+                    </div>
+                  </div>
+                  <div class="related text-left">{{ item.name }}</div>
+                </div>
               </div>
             </div>
           </div>
         </b-col>
       </b-row>
     </b-container>
+    <b-modal
+      id="access"
+      title="Request Access"
+      hide-header
+      hide-footer
+      centered
+    >
+      <div class="text-center">
+        <p class="mb-4 fs16">Do you wish to join this discussion?</p>
+        <b-button
+          variant="outline-secondary"
+          class="mr-3"
+          size="sm"
+          @click="$bvModal.hide('access')"
+          >Cancel</b-button
+        >
+        <b-button
+          variant="secondary"
+          size="sm"
+          @click="$toast.success('Request sent succesfully')"
+          >Send a request</b-button
+        >
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -373,12 +407,20 @@ export default {
     EmojiPicker,
     Attachment,
   },
-  mounted() {
+  created() {
     this.getdiscussion();
     this.addview();
     this.getvote();
   },
   computed: {
+    related() {
+      if (!this.discussion.related.length) {
+        return [];
+      }
+      return this.discussion.related.filter(
+        (item) => Number(item.id) != Number(this.$route.params.id)
+      );
+    },
     posts() {
       return this.discussion.discussionmessage;
     },
@@ -424,7 +466,7 @@ export default {
           `${this.$store.getters.url}/discussions/${this.$route.params.id}`,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
             },
           }
         )
@@ -442,7 +484,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/discussion-messages`, this.info, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
@@ -465,7 +507,7 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/add-view/${this.$route.params.id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
@@ -481,7 +523,7 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/votes/${this.$route.params.id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
@@ -501,7 +543,7 @@ export default {
           { id: this.$route.params.id, vote: 1 },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
             },
           }
         )
@@ -511,7 +553,7 @@ export default {
           }
           if (res.status == 200) {
             this.discussion.discussionvote.map((item) => {
-              if (item.admin_id == this.$store.getters.admin.id) {
+              if (item.admin_id == this.$store.getters.facilitator.id) {
                 return (item.vote = res.data.vote);
               }
             });
@@ -529,7 +571,7 @@ export default {
           { id: this.$route.params.id, vote: 0 },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
             },
           }
         )
@@ -539,7 +581,7 @@ export default {
           }
           if (res.status == 200) {
             this.discussion.discussionvote.map((item) => {
-              if (item.admin_id == this.$store.getters.admin.id) {
+              if (item.admin_id == this.$store.getters.facilitator.id) {
                 return (item.vote = res.data.vote);
               }
             });
@@ -731,5 +773,6 @@ export default {
   background: var(--lighter-green);
   font-size: 11px;
   border-radius: 4px;
+  text-align: center;
 }
 </style>

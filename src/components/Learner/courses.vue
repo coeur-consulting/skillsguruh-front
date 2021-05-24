@@ -806,7 +806,7 @@
                   >
                   <br />
                   <span class="course_time text-capitalize"
-                    ><b-icon icon="clock" class="mr-2"></b-icon>
+                    ><b-icon icon="clock" class="mr-1"></b-icon>
                     {{ course.courseoutline.duration }}</span
                   >
                 </div>
@@ -1088,7 +1088,7 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      return schedule.map((val) => {
+      var newArr = schedule.map((val) => {
         var fac = this.facilitators.find(
           (item) => item.id == val.facilitator_id
         );
@@ -1096,6 +1096,8 @@ export default {
           return fac.name;
         }
       });
+
+      return [...new Set(newArr)];
     },
     sorttimes(data) {
       if (!data.courseschedule) {

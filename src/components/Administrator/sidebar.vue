@@ -47,14 +47,14 @@
       <div>
         <h6 class="mt-3 mb-1 text-dark-green side_header">COMMUNITY</h6>
 
-        <router-link to="/administrator/connection">
+        <router-link to="/administrator/connections">
           <div class="side_item">
             <b-icon
               icon="link45deg"
               font-scale="1.1"
               class="mr-3 text-dark-green"
             ></b-icon>
-            <span class="side-link">Connection</span>
+            <span class="side-link">Connections</span>
           </div>
         </router-link>
       </div>
@@ -81,23 +81,6 @@
             <span class="side-link">Course outline</span>
           </div>
         </router-link>
-        <router-link to="/administrator/events">
-          <div class="side_item">
-            <b-icon
-              icon="bookmark"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">
-              <span class="mr-5">Events</span>
-              <span
-                ><b-badge variant="danger" size="sm">{{
-                  activeaccount
-                }}</b-badge></span
-              ></span
-            >
-          </div>
-        </router-link>
       </div>
       <div>
         <h6 class="mt-3 mb-1 text-dark-green side_header">ACTIVITIES</h6>
@@ -113,6 +96,23 @@
               ><span class="mr-5">Feeds</span>
               <span
                 ><b-badge variant="danger" size="sm">14</b-badge></span
+              ></span
+            >
+          </div>
+        </router-link>
+        <router-link to="/administrator/events">
+          <div class="side_item">
+            <b-icon
+              icon="bookmark"
+              font-scale="1.1"
+              class="mr-3 text-dark-green"
+            ></b-icon>
+            <span class="side-link">
+              <span class="mr-5">Events</span>
+              <span
+                ><b-badge variant="danger" size="sm">{{
+                  activeaccount
+                }}</b-badge></span
               ></span
             >
           </div>

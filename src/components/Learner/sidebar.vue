@@ -47,14 +47,14 @@
       <div>
         <h6 class="mt-3 mb-1 text-dark-green side_header">COMMUNITY</h6>
 
-        <router-link to="/administrator/connection">
+        <router-link to="/administrator/connections">
           <div class="side_item">
             <b-icon
               icon="link45deg"
               font-scale="1.1"
               class="mr-3 text-dark-green"
             ></b-icon>
-            <span class="side-link">Connection</span>
+            <span class="side-link">Connections</span>
           </div>
         </router-link>
       </div>

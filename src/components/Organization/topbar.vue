@@ -153,15 +153,14 @@
         class="mr-4 text-muted cursor-pointer"
       ></b-icon>
 
-      <b-avatar
-        :src="$store.getters.organization.profile"
-        id="profile"
-        class="cursor-pointer"
-        size="30px"
-      ></b-avatar>
-      <b-popover target="profile" id="prof" triggers="click" placement="bottom">
-        <div class="cursor-pointer px-3" @click="logout">Log out</div>
-      </b-popover>
+      <span @click="$router.push('/organization/profile')">
+        <b-avatar
+          :src="$store.getters.organization.profile"
+          id="profile"
+          class="cursor-pointer"
+          size="30px"
+        ></b-avatar
+      ></span>
     </div>
   </div>
 </template>

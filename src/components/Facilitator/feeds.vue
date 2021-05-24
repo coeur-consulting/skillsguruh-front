@@ -7,7 +7,9 @@
           class="rounded-pill stat border-0"
           size="lg"
           v-model="feed.message"
-          placeholder="Whats on your mind john?"
+          :placeholder="
+            'Whats on your mind ' + $store.getters.facilitator.name + '?'
+          "
         ></b-form-input>
         <emoji-picker @emoji="insertfeed" :search="search">
           <div
@@ -121,7 +123,33 @@
         <div class="mb-4">
           <div class="d-flex mb-3 pt-3">
             <div class="d-flex flex-1 text-left">
-              <b-avatar class="mr-2" size="3rem"></b-avatar>
+              <div class="font-weight-bold mr-2 mb-1" v-if="allcomments.admin">
+                <b-avatar
+                  class="mr-2"
+                  size="3rem"
+                  :src="allcomments.admin.profile"
+                ></b-avatar>
+                {{ allcomments.admin.name }}
+              </div>
+              <div class="font-weight-bold mr-2 mb-1" v-if="allcomments.user">
+                <b-avatar
+                  class="mr-2"
+                  size="3rem"
+                  :src="allcomments.user.profile"
+                ></b-avatar>
+                {{ allcomments.user.name }}
+              </div>
+              <div
+                class="font-weight-bold mr-2 mb-1"
+                v-if="allcomments.facilitator"
+              >
+                <b-avatar
+                  class="mr-2"
+                  size="3rem"
+                  :src="allcomments.facilitator.profile"
+                ></b-avatar>
+                {{ allcomments.facilitator.name }}
+              </div>
               <div class="profile">
                 <span class="name" v-if="allcomments.admin">{{
                   allcomments.admin.name
@@ -181,9 +209,7 @@
             </b-col>
             <b-col cols="3">
               <div>
-                <span class="fs11">{{
-                  item.created_at | moment("calendar")
-                }}</span>
+                <span class="fs11">{{ item.created_at | moment("ll") }}</span>
               </div></b-col
             >
           </div>
@@ -202,7 +228,9 @@
                 size="lg"
                 readonly
                 @click="$bvModal.show('feed')"
-                placeholder="Whats on your mind john?"
+                :placeholder="
+                  'Whats on your mind ' + $store.getters.facilitator.name + '?'
+                "
               ></b-form-input>
             </div>
 
@@ -243,7 +271,31 @@
               >
                 <div class="d-flex mb-3 px-3 pt-3">
                   <div class="d-flex flex-1 text-left">
-                    <b-avatar class="mr-2"></b-avatar>
+                    <div class="font-weight-bold mr-2 mb-1" v-if="feed.admin">
+                      <b-avatar
+                        class="mr-2"
+                        :src="feed.admin.profile"
+                      ></b-avatar>
+                      {{ feed.admin.name }}
+                    </div>
+                    <div class="font-weight-bold mr-2 mb-1" v-if="feed.user">
+                      <b-avatar
+                        class="mr-2"
+                        :src="feed.user.profile"
+                      ></b-avatar>
+                      {{ feed.user.name }}
+                    </div>
+                    <div
+                      class="font-weight-bold mr-2 mb-1"
+                      v-if="feed.facilitator"
+                    >
+                      <b-avatar
+                        class="mr-2"
+                        :src="feed.facilitator.profile"
+                      ></b-avatar>
+                      {{ feed.facilitator.name }}
+                    </div>
+                    <!--
                     <div class="profile">
                       <span class="name" v-if="feed.admin">{{
                         feed.admin.name
@@ -258,7 +310,7 @@
                       <span class="date">{{
                         feed.created_at | moment("ll")
                       }}</span>
-                    </div>
+                    </div> -->
                   </div>
 
                   <b-dropdown
@@ -316,7 +368,7 @@
                         feed.stars.find(
                           (item) =>
                             item.star &&
-                            item.admin_id == $store.getters.admin.id
+                            item.facilitator_id == $store.getters.facilitator.id
                         )
                           ? 'star-fill'
                           : 'star'
@@ -336,7 +388,7 @@
                         feed.likes.find(
                           (item) =>
                             item.like &&
-                            item.admin_id == $store.getters.admin.id
+                            item.facilitator_id == $store.getters.facilitator.id
                         )
                           ? 'heart-fill'
                           : 'heart'
@@ -389,14 +441,14 @@
                       </div>
                       <div>
                         <span class="fs11">{{
-                          item.created_at | moment("calendar")
+                          item.created_at | moment("ll")
                         }}</span>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="px-3 py-1 comment_header mb-1 text-left">
-                  {{ feed.created_at | moment("calendar") }}
+                  {{ feed.created_at | moment("ll") }}
                 </div>
                 <div class="interact text-left px-3 pb-1 border-top">
                   <b-input-group class="mt-1">
@@ -478,11 +530,15 @@
             </div>
           </div>
         </b-col>
-        <Message class="d-none d-md-block" @getmessage="getmessage" />
+        <Message
+          class="d-none d-md-block"
+          @getmessage="getmessage"
+          :user="'facilitator'"
+        />
       </b-row>
 
       <div class="minichats d-none d-md-block">
-        <Minichat :mini_info="mini_info" />
+        <Minichat :mini_info="mini_info" :user="'facilitator'" />
       </div>
     </b-container>
   </div>
@@ -571,7 +627,7 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/feeds`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
@@ -587,7 +643,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
@@ -616,7 +672,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/feed-comments`, this.comment, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
@@ -643,7 +699,7 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
             },
           }
         )
@@ -653,7 +709,7 @@ export default {
           }
           if (res.status == 200) {
             this.feeds[index].likes.map((item) => {
-              if (item.admin_id == this.$store.getters.admin.id) {
+              if (item.admin_id == this.$store.getters.facilitator.id) {
                 return (item.like = res.data.like);
               }
             });
@@ -670,7 +726,7 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
             },
           }
         )
@@ -680,7 +736,7 @@ export default {
           }
           if (res.status == 200) {
             this.feeds[index].stars.map((item) => {
-              if (item.admin_id == this.$store.getters.admin.id) {
+              if (item.admin_id == this.$store.getters.facilitator.id) {
                 return (item.star = res.data.star);
               }
             });
@@ -696,7 +752,7 @@ export default {
           this.$http
             .delete(`${this.$store.getters.url}/feeds/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
               },
             })
             .then((res) => {

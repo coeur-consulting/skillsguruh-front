@@ -87,7 +87,7 @@
                         <div class="">
                           <small
                             class="px-0 text-left cursor-pointer"
-                            @click="view()"
+                            @click="view(item.id)"
                           >
                             <b-icon class="mr-2" icon="eye"></b-icon
                             ><span>View</span>
@@ -538,9 +538,9 @@ export default {
     },
     async getfacilitators() {
       return this.$http
-        .get(`${this.$store.getters.url}/admin-get-facilitators`, {
+        .get(`${this.$store.getters.url}/facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
@@ -557,7 +557,7 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/events`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
@@ -575,7 +575,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/events`, this.event, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
@@ -621,7 +621,7 @@ export default {
       this.$http
         .put(`${this.$store.getters.url}/events/${this.event.id}`, this.event, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
@@ -646,13 +646,16 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
+    view(id) {
+      this.$router.push(`/facilitator/event/${id}`);
+    },
     drop(id, index) {
       this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/events/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
               },
             })
             .then((res) => {

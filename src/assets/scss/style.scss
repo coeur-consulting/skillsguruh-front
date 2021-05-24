@@ -9,8 +9,8 @@ html {
   color: #054a90;
 }
 .no-focus {
-  outline: none;
-  box-shadow: unset;
+  outline: none !important;
+  box-shadow: unset !important;
 }
 .navbar-toggler {
   padding: 0.2rem 0.25rem;
@@ -115,13 +115,14 @@ a:hover {
   font-size: 0.9rem;
 }
 .vc-highlight {
-  // width: 50px !important;
-  // height: 34px !important;
   border-radius: unset !important;
 }
-// .vc-day {
-//   border: 0.1px solid rgba($color: #000000, $alpha: 0.3) !important;
-// }
+.vc-container.vc-is-expanded {
+  border: none !important;
+}
+.inbox {
+  min-width: 300px;
+}
 .notify {
   min-width: 275px;
   padding: 0.4rem 0.45rem;
@@ -136,17 +137,28 @@ a:hover {
   background-color: #f7f8fa;
   border-color: var(--dark-green);
 }
-.notifications {
+.notifications.inbox {
   max-height: 400px;
   overflow: auto;
 }
-#notification1,
-#notification2 {
+#inbox1 {
   box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border: 1px solid rgba($color: #000000, $alpha: 0.07) !important;
+  background-color: white;
+  width: 300px;
 }
-#notification1 .popover-body {
+#inbox1 .popover-header {
+  width: 300px;
+}
+#inbox1 .popover-body {
   padding: 0.5rem 0 0;
+  width: 300px;
+  background-color: white;
+}
+.inbox_message:hover {
+  background-color: #f7f8fa;
+  color: var(--dark-green);
+  cursor: pointer;
 }
 #notification2 .popover-body {
   padding: 0.5rem 0 0;
@@ -155,6 +167,16 @@ a:hover {
   position: absolute;
   top: -8px;
   right: -1px;
+}
+.search {
+  background: #fbfbfb;
+  border-radius: 8px;
+}
+.search-bg {
+  background: #fbfbfb;
+}
+.shadow {
+  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
 }
 @media (max-width: 600px) {
   ::placeholder {

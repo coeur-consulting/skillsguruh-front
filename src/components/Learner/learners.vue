@@ -102,7 +102,11 @@
                         <div class="">
                           <small
                             class="px-0 text-left cursor-pointer"
-                            @click="view()"
+                            @click="
+                              $router.push(
+                                `/administrator/view/learner/${item.id}`
+                              )
+                            "
                           >
                             <b-icon class="mr-2" icon="eye"></b-icon
                             ><span>View</span>

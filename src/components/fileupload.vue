@@ -32,12 +32,25 @@
           </div>
 
           <b-img
-            v-if="uploadedFileUrl"
+            v-if="uploadedFileUrl && type !== 'document'"
             :src="uploadedFileUrl"
             blank-color="transparent"
             width="100%"
             height="100%"
           ></b-img>
+          <b-progress
+            v-if="start"
+            :value="progress"
+            :max="100"
+            show-progress
+            animated
+          ></b-progress>
+          <b-icon
+            v-if="uploadedFileUrl && type == 'document'"
+            icon="check2-circle"
+            variant="dark-green"
+            font-scale="4rem"
+          ></b-icon>
         </label>
       </div>
     </form>
@@ -93,7 +106,7 @@ label {
 <script>
 export default {
   name: "CloudinaryUpload",
-  props: ["id"],
+  props: ["id", "type", "file_type"],
   data() {
     return {
       img_ext: ["jpg", "png", "jpeg", "gif"],
@@ -135,7 +148,39 @@ export default {
         !this.doc_ext.includes(this.getextension(this.file.name))
       ) {
         this.$toast.error("Unsupported content type !");
+        this.file = "";
         return;
+      }
+
+      if (this.$props.file_type) {
+        if (this.$props.file_type.toLowerCase() == "video") {
+          if (!this.vid_ext.includes(this.getextension(this.file.name))) {
+            this.$toast.error("Unsupported content type !");
+            this.file = "";
+            return;
+          }
+        }
+        if (this.$props.file_type.toLowerCase() == "audio") {
+          if (!this.aud_ext.includes(this.getextension(this.file.name))) {
+            this.$toast.error("Unsupported content type !");
+            this.file = "";
+            return;
+          }
+        }
+        if (this.$props.file_type.toLowerCase() == "image") {
+          if (!this.img_ext.includes(this.getextension(this.file.name))) {
+            this.$toast.error("Unsupported content type !");
+            this.file = "";
+            return;
+          }
+        }
+        if (this.$props.file_type.toLowerCase() == "document") {
+          if (!this.doc_ext.includes(this.getextension(this.file.name))) {
+            this.$toast.error("Unsupported content type !");
+            this.file = "";
+            return;
+          }
+        }
       }
 
       this.filesSelectedLength = event.target.files.length;
@@ -183,10 +228,12 @@ export default {
 
           var response = JSON.parse(xhr.response);
           this.start = false;
+          this.file = "";
           this.uploadedFileUrl = response.secure_url; // https address of uploaded file
           this.$emit("getUpload", this.uploadedFileUrl, this.$props.id);
         } else {
           this.start = false;
+          this.file = "";
           alert("Upload failed. Please try again.");
         }
       };

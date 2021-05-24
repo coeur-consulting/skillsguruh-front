@@ -2,7 +2,7 @@
   <div>
     <b-container>
       <b-row>
-        <b-col class="mb-5 mb-sm-0">
+        <b-col class="mb-5 mb-sm-0 px-0">
           <div
             class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-4"
           >
@@ -321,9 +321,9 @@ export default {
   methods: {
     getfacilitators() {
       this.$http
-        .get(`${this.$store.getters.url}/get-facilitators`, {
+        .get(`${this.$store.getters.url}/facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitators.access_token}`,
           },
         })
         .then((res) => {

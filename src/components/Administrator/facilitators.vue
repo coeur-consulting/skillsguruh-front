@@ -2,7 +2,7 @@
   <div>
     <b-container>
       <b-row>
-        <b-col class="mb-5 mb-sm-0 px-0">
+        <b-col class="mb-5 mb-sm-0">
           <div
             class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-4"
           >
@@ -102,7 +102,11 @@
                         <div class="">
                           <small
                             class="px-0 text-left cursor-pointer"
-                            @click="view()"
+                            @click="
+                              $router.push(
+                                `/administrator/view/facilitator/${item.id}`
+                              )
+                            "
                           >
                             <b-icon class="mr-2" icon="eye"></b-icon
                             ><span>View</span>

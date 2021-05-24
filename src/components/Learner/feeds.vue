@@ -7,7 +7,7 @@
           class="rounded-pill stat border-0"
           size="lg"
           v-model="feed.message"
-          placeholder="Whats on your mind john?"
+          :placeholder="'Whats on your mind ' + $store.getters.admin.name + '?'"
         ></b-form-input>
         <emoji-picker @emoji="insertfeed" :search="search">
           <div
@@ -202,7 +202,9 @@
                 size="lg"
                 readonly
                 @click="$bvModal.show('feed')"
-                placeholder="Whats on your mind john?"
+                :placeholder="
+                  'Whats on your mind ' + $store.getters.admin.name + '?'
+                "
               ></b-form-input>
             </div>
 
@@ -482,7 +484,7 @@
       </b-row>
 
       <div class="minichats d-none d-md-block">
-        <Minichat :mini_info="mini_info" />
+        <Minichat :mini_info="mini_info" :user="'learner'" />
       </div>
     </b-container>
   </div>

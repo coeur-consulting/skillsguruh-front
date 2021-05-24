@@ -87,7 +87,7 @@
                         <div class="">
                           <small
                             class="px-0 text-left cursor-pointer"
-                            @click="view()"
+                            @click="view(item.id)"
                           >
                             <b-icon class="mr-2" icon="eye"></b-icon
                             ><span>View</span>
@@ -645,6 +645,9 @@ export default {
         .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
+    },
+    view(id) {
+      this.$router.push(`/administrator/event/${id}`);
     },
     drop(id, index) {
       this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {

@@ -19,14 +19,15 @@
           <div class="logo">
             <b-img
               class="mr-2"
-              width="30"
+              width="30px"
+              style="width: 30px"
               height="auto"
-              :src="$store.getters.admin.org_profile"
+              :src="$store.getters.facilitator.org_profile"
             ></b-img>
-            <h5 class="mb-0">{{ $store.getters.admin.org_name }}</h5>
+            <h5 class="mb-0">{{ $store.getters.facilitator.org_name }}</h5>
           </div>
 
-          <router-link to="/administrator">
+          <router-link to="/facilitator">
             <div class="side_item">
               <b-icon
                 icon="grid1x2"
@@ -38,7 +39,7 @@
           </router-link>
 
           <h6 class="mt-2 mb-0 text-white side_header">TEAM</h6>
-          <router-link to="/administrator/facilitators">
+          <router-link to="/facilitator/facilitators">
             <div class="side_item">
               <b-icon
                 icon="person-badge"
@@ -48,7 +49,7 @@
               <span class="side-link">Facilitators</span>
             </div>
           </router-link>
-          <router-link to="/administrator/learners">
+          <router-link to="/facilitator/learners">
             <div class="side_item">
               <b-icon
                 icon="people"
@@ -61,7 +62,7 @@
 
           <h6 class="mt-2 mb-0 text-white side_header">COMMUNITY</h6>
 
-          <router-link to="/administrator/connection">
+          <router-link to="/facilitator/connection">
             <div class="side_item">
               <b-icon
                 icon="link45deg"
@@ -74,7 +75,7 @@
 
           <h6 class="mt-2 mb-0 text-white side_header">PROGRAMS</h6>
 
-          <router-link to="/administrator/courses">
+          <router-link to="/facilitator/courses">
             <div class="side_item">
               <b-icon
                 icon="book"
@@ -84,7 +85,7 @@
               <span class="side-link">Courses</span>
             </div>
           </router-link>
-          <router-link to="/administrator/outlines">
+          <router-link to="/facilitator/outlines">
             <div class="side_item">
               <b-icon
                 icon="card-list"
@@ -94,7 +95,7 @@
               <span class="side-link">Course outline</span>
             </div>
           </router-link>
-          <router-link to="/administrator/events">
+          <router-link to="/facilitator/events">
             <div class="side_item">
               <b-icon
                 icon="bookmark"
@@ -107,7 +108,7 @@
 
           <h6 class="mt-2 mb-0 text-white side_header">ACTIVITIES</h6>
 
-          <router-link to="/administrator/feeds">
+          <router-link to="/facilitator/feeds">
             <div class="side_item">
               <b-icon
                 icon="rss"
@@ -117,7 +118,7 @@
               <span class="side-link">Feeds</span>
             </div>
           </router-link>
-          <router-link to="/administrator/discussions">
+          <router-link to="/facilitator/discussions">
             <div class="side_item">
               <b-icon
                 icon="chat-left-quote"
@@ -130,7 +131,7 @@
 
           <h6 class="mt-2 mb-0 text-white side_header">OTHERS</h6>
 
-          <router-link to="/administrator/schedule">
+          <router-link to="/facilitator/schedule">
             <div class="side_item">
               <b-icon
                 icon="calendar-event"
@@ -140,7 +141,7 @@
               <span class="side-link">Schedule</span>
             </div>
           </router-link>
-          <router-link to="/administrator/insights">
+          <router-link to="/facilitator/insights">
             <div class="side_item">
               <b-icon
                 icon="receipt"
@@ -150,7 +151,7 @@
               <span class="side-link">Insights</span>
             </div>
           </router-link>
-          <router-link to="/administrator/referrals">
+          <router-link to="/facilitator/referrals">
             <div class="side_item">
               <b-icon
                 icon="signpost-split"
@@ -160,7 +161,7 @@
               <span class="side-link">Referrals</span>
             </div>
           </router-link>
-          <router-link to="/administrator/bonuses">
+          <router-link to="/facilitator/bonuses">
             <div class="side_item">
               <b-icon
                 icon="credit-card"
@@ -187,43 +188,285 @@
     </div>
 
     <div class="d-flex align-items-center">
-      <b-icon
-        id="bell"
-        icon="bell"
-        font-scale="1.2"
-        class="mr-4 text-dark-green"
-      ></b-icon>
-      <b-popover target="bell" triggers="hover" placement="bottom">
+      <div class="position-relative mr-4">
+        <b-icon
+          id="bell"
+          icon="bell"
+          font-scale="1.5rem"
+          class="text-dark-green"
+        ></b-icon>
+        <small class="notify_badge">
+          <b-badge variant="danger" v-if="unreadnotifications.length">{{
+            unreadnotifications.length
+          }}</b-badge></small
+        >
+      </div>
+      <b-popover
+        id="notification1"
+        target="bell"
+        triggers="hover"
+        placement="bottom"
+      >
         <template #title>Notifications</template>
-        <div class="noti">I am notification!</div>
+        <div class="notifications" v-if="notifications.length">
+          <div
+            class="notify border-bottom"
+            v-for="(item, id) in notifications"
+            :key="id"
+          >
+            <div
+              v-if="!item.read_at"
+              @click="$store.dispatch('markNotification', item.id)"
+            >
+              <span :class="{ 'font-weight-bold': !item.read_at }">
+                {{ item.data.notification }}</span
+              >
+              <br />
+              <span class="fs11">{{
+                item.created_at | moment("calendar")
+              }}</span>
+            </div>
+            <div v-else>
+              <span :class="{ 'font-weight-bold': !item.read_at }">
+                {{ item.data.notification }}</span
+              >
+              <br />
+              <span class="fs11">{{
+                item.created_at | moment("calendar")
+              }}</span>
+            </div>
+          </div>
+          <div class="text-center py-2 border-top text-dark-green fs11">
+            <span
+              class="cursor-pointer"
+              @click="$store.dispatch('markNotifications')"
+            >
+              Mark all as read</span
+            >
+          </div>
+        </div>
+        <div v-else class="text-center text-muted notify p-2">
+          No new notification !
+        </div>
       </b-popover>
+
       <b-icon
         icon="envelope"
-        font-scale="1.2"
+        id="inbox"
+        font-scale="1.5rem"
         class="mr-4 text-muted cursor-pointer"
       ></b-icon>
-      <b-avatar
-        :src="$store.getters.admin.profile"
-        id="profile"
-        class="cursor-pointer"
-        size="30px"
-      ></b-avatar>
-      <b-popover target="profile" id="prof" triggers="click" placement="bottom">
-        <div class="cursor-pointer px-3" @click="logout">Log out</div>
+
+      <b-popover id="inbox1" target="inbox" triggers="hover" placement="bottom">
+        <template #title>Inbox</template>
+        <div class="inbox py-3" v-if="chatters.length">
+          <div
+            class="inbox_message"
+            v-for="(message, index) in chatters"
+            :key="index"
+          >
+            <div class="px-3 py-3 d-flex border-bottom">
+              <b-avatar size="1.8rem" :src="message.profile"></b-avatar>
+
+              <div
+                class="message_text flex-1 px-2"
+                @click="
+                  getmessage(
+                    message.id,
+                    message.name,
+                    message.type,
+                    message.profile
+                  )
+                "
+              >
+                <span class="message_name fs12">{{ message.name }}</span>
+                <br />
+                <div class="last_message fs11">
+                  {{ message.message }}
+                </div>
+              </div>
+
+              <div>
+                <span class="message_time fs11">
+                  {{ message.time | moment("LT") }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          v-else
+          class="inbox d-flex justify-content-center align-content-center p-5"
+        >
+          <div class="text-muted">No Message Available</div>
+        </div>
       </b-popover>
+
+      <span @click="$router.push('/facilitator/profile')">
+        <b-avatar
+          :src="$store.getters.facilitator.profile"
+          id="profile"
+          class="cursor-pointer"
+          size="30px"
+        ></b-avatar
+      ></span>
     </div>
+
+    <Minichat
+      class="minichats d-none d-md-block"
+      :user="'facilitator'"
+      :mini_info="mini_info"
+    />
   </div>
 </template>
 <script>
 import { PushRotate } from "vue-burger-menu";
+import Minichat from "../minichat";
 export default {
   components: {
     PushRotate,
+    Minichat,
+  },
+  data() {
+    return {
+      toggleMessage: true,
+      inboxes: [],
+      chatters: [],
+      current: {
+        id: "",
+        type: "",
+      },
+      mini_info: {
+        id: "",
+        name: "",
+        type: "",
+        profile: "",
+      },
+    };
+  },
+  mounted() {
+    this.getinbox();
   },
   methods: {
     logout() {
       localStorage.removeItem("authOrg");
       this.$router.push("/login");
+    },
+    markread() {
+      this.$http.get(`${this.$store.getters.url}/mark-notifications`, {
+        headers: {
+          Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+        },
+      });
+    },
+    getmessage(id, name, type, profile) {
+      this.current.id = id;
+      this.current.type = type;
+      this.mini_info.id = id;
+      this.mini_info.name = name;
+      this.mini_info.type = type;
+      this.mini_info.profile = profile;
+    },
+    getinbox() {
+      this.$http
+        .get(`${this.$store.getters.url}/inboxes`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.sortmessages(res.data.reverse());
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    async sortmessages(arr) {
+      this.inboxes = await arr.map((item) => {
+        var info = {};
+        if (
+          item.facilitator_id &&
+          item.facilitator_id == this.$store.getters.facilitator.id
+        ) {
+          info.admin = item.admin_info || null;
+          info.user = item.learner_info || null;
+          info.facilitator = item.facilitator_info || null;
+          info.message = item.message || null;
+          info.time = item.created_at || null;
+        }
+        if (
+          item.receiver == "facilitator" &&
+          item.receiver_id == this.$store.getters.facilitator.id
+        ) {
+          info.admin = item.facilitator || null;
+          info.user = item.user || null;
+          info.facilitator = item.facilitator || null;
+          info.message = item.message || null;
+          info.time = item.created_at || null;
+        }
+        return info;
+      });
+      this.getChatters(this.inboxes);
+    },
+    getChatters(arr) {
+      var check = {};
+
+      arr.reverse().forEach((item) => {
+        var checkers = {};
+        if (item.admin) {
+          checkers.id = item.admin.id;
+          checkers.type = "admin";
+          checkers.name = item.admin.name;
+          checkers.message = item.message;
+          checkers.time = item.time;
+          checkers.profile = item.admin.profile;
+          check = this.chatters.find((val) => {
+            if (val.type == "admin" && val.id == item.admin.id) {
+              return val;
+            }
+          });
+        }
+        if (item.facilitator) {
+          checkers.id = item.facilitator.id;
+          checkers.type = "facilitator";
+          checkers.name = item.facilitator.name;
+          checkers.profile = item.facilitator.profile;
+          checkers.message = item.message;
+          checkers.time = item.time;
+          check = this.chatters.find((val) => {
+            if (val.type == "facilitator" && val.id == item.facilitator.id) {
+              return val;
+            }
+          });
+        }
+        if (item.user) {
+          checkers.id = item.user.id;
+          checkers.type = "user";
+          checkers.name = item.user.name;
+          checkers.message = item.message;
+          checkers.profile = item.user.profile;
+          checkers.time = item.time;
+          check = this.chatters.find((val) => {
+            if (val.type == "user" && val.id == item.user.id) {
+              return val;
+            }
+          });
+        }
+
+        if (!check) {
+          this.chatters.push(checkers);
+        }
+      });
+    },
+  },
+  computed: {
+    notifications() {
+      return this.$store.getters.notifications;
+    },
+    unreadnotifications() {
+      return this.$store.getters.notifications.filter((item) => !item.read_at);
     },
   },
 };
@@ -236,9 +479,6 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-}
-.noti {
-  width: 300px;
 }
 
 .side_header {

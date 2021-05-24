@@ -323,11 +323,24 @@ const routes = [
       },
       {
         path: "outlines",
+        name: "Administrator outlines",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratoroutlines" */ "@/components/Administrator/outlines.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+      {
+        path: "outline/:id",
         name: "Administrator outline",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Administratoroutline" */ "@/components/Administrator/outlines.vue"
+              /* webpackChunkName: "Administratoroutline" */ "@/components/Administrator/outline.vue"
             ),
         },
         meta: {
@@ -345,6 +358,658 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+        },
+      },
+      {
+        path: "event/:id",
+        name: "Administrator event",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratorevent" */ "@/components/Administrator/event.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+      {
+        path: "connections",
+        name: "Administrator connections",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratorconnections" */ "@/components/Administrator/connections.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+      {
+        path: "referrals",
+        name: "Administrator referrals",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratorreferrals" */ "@/components/Administrator/referrals.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+      {
+        path: "insights",
+        name: "Administrator insights",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratorinsights" */ "@/components/Administrator/insights.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+      {
+        path: "bonuses",
+        name: "Administrator bonuses",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratorbonuses" */ "@/components/Administrator/bonuses.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+      {
+        path: "profile",
+        name: "Administrator profile",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratorprofile" */ "@/components/Administrator/profile.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+      {
+        path: "view/:type/:id",
+        name: "Administrator viewprofile",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratorview" */ "@/components/Administrator/viewProfile.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+    ],
+  },
+
+  {
+    path: "/facilitator",
+
+    components: {
+      default: () =>
+        import(
+          /* webpackChunkName: "facilitator" */ "../views/Facilitator.vue"
+        ),
+    },
+
+    children: [
+      {
+        path: "",
+        name: "facilitator dashboard",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "facilitatordashboard" */ "@/components/Facilitator/home.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+
+      {
+        path: "modules",
+        name: "facilitators modules",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "facilitatorsmodules" */ "@/components/Facilitator/modules.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "attendances",
+        name: "facilitators attendances",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "facilitatorsattendances" */ "@/components/Facilitator/attendances.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "facilitator",
+        name: " facilitator",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "facilitator" */ "@/components/Facilitator/facilitator.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "learners",
+        name: "Facilitator learners",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "facilitatorlearners" */ "@/components/Facilitator/learners.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "learner",
+        name: "Facilitator learner",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatorlearner" */ "@/components/Facilitator/learner.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "schedule",
+        name: "Facilitator schedule",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatorschedule" */ "@/components/Facilitator/schedule.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "discussions",
+        name: "Facilitator discussions",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatordiscussions" */ "@/components/Facilitator/discussions.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "discussion/:id",
+        name: "Facilitator discussion",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatordiscussion" */ "@/components/Facilitator/discussion.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "feeds",
+        name: "Facilitator feeds",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatorfeeds" */ "@/components/Facilitator/feeds.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "courses",
+        name: "Facilitator courses",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatorcourses" */ "@/components/Facilitator/courses.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "outlines",
+        name: "Facilitator outlines",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatoroutlines" */ "@/components/Facilitator/outlines.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "outline/:id",
+        name: "Facilitator outline",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatoroutline" */ "@/components/Facilitator/outline.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "events",
+        name: "Facilitator events",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatorevents" */ "@/components/Facilitator/events.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "event/:id",
+        name: "Facilitator event",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatorevent" */ "@/components/Facilitator/event.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "connections",
+        name: "Facilitator connections",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatorconnections" */ "@/components/Facilitator/connections.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "referrals",
+        name: "Facilitator referrals",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatorreferrals" */ "@/components/Facilitator/referrals.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "insights",
+        name: "Facilitator insights",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatorinsights" */ "@/components/Facilitator/insights.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "bonuses",
+        name: "Facilitator bonuses",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatorbonuses" */ "@/components/Facilitator/bonuses.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "profile",
+        name: "Facilitator profile",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatorprofile" */ "@/components/Facilitator/profile.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "view/:type/:id",
+        name: "Facilitator viewprofile",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatorview" */ "@/components/Facilitator/viewProfile.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+    ],
+  },
+
+  {
+    path: "/learner",
+
+    components: {
+      default: () =>
+        import(/* webpackChunkName: "Learner" */ "../views/Learner.vue"),
+    },
+
+    children: [
+      {
+        path: "",
+        name: "Learner dashboard",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnerdashboard" */ "@/components/Learner/home.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+
+      {
+        path: "facilitators",
+        name: "Learner facilitators",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnerfacilitators" */ "@/components/Learner/facilitators.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "facilitator",
+        name: "Learner facilitator",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnerfacilitator" */ "@/components/Learner/facilitator.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "learners",
+        name: " learners",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "learners" */ "@/components/Learner/learners.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "learner",
+        name: " learner",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "learner" */ "@/components/Learner/learner.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "schedule",
+        name: "Learner schedule",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnerschedule" */ "@/components/Learner/schedule.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "discussions",
+        name: "Learner discussions",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnerdiscussions" */ "@/components/Learner/discussions.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "discussion/:id",
+        name: "Learner discussion",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnerdiscussion" */ "@/components/Learner/discussion.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "feeds",
+        name: "Learner feeds",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnerfeeds" */ "@/components/Learner/feeds.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "courses",
+        name: "Learner courses",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnercourses" */ "@/components/Learner/courses.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "outlines",
+        name: "Learner outlines",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learneroutlines" */ "@/components/Learner/outlines.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "outline/:id",
+        name: "Learner outline",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learneroutline" */ "@/components/Learner/outline.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "events",
+        name: "Learner events",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnerevents" */ "@/components/Learner/events.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "event/:id",
+        name: "Learner event",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnerevent" */ "@/components/Learner/event.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "connections",
+        name: "Learner connections",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnerconnections" */ "@/components/Learner/connections.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "referrals",
+        name: "Learner referrals",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnerreferrals" */ "@/components/Learner/referrals.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "insights",
+        name: "Learner insights",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnerinsights" */ "@/components/Learner/insights.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "bonuses",
+        name: "Learner bonuses",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnerbonuses" */ "@/components/Learner/bonuses.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "profile",
+        name: "Learner profile",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnerprofile" */ "@/components/Learner/profile.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "view/:type/:id",
+        name: "Learner viewprofile",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnerview" */ "@/components/Learner/viewProfile.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
         },
       },
     ],

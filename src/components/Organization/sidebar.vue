@@ -70,6 +70,15 @@
           <span class="side-link">Chat</span>
         </div>
       </router-link>
+
+      <div class="side_item mt-4" @click="logout">
+        <b-icon
+          icon="box-arrow-left"
+          font-scale="1.1"
+          class="mr-3 text-dark-green"
+        ></b-icon>
+        <span class="side-link">Log out</span>
+      </div>
     </div>
   </div>
 </template>

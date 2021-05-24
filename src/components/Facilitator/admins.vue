@@ -138,14 +138,14 @@
               <div>
                 <b-img :src="require('@/assets/images/creator.svg')"></b-img>
                 <h6 class="text-muted mb-3">
-                  It appears you havent added any Administrator yet, <br />
-                  Add your first Administrator now!
+                  It appears you havent added any facilitator yet, <br />
+                  Add your first facilitator now!
                 </h6>
                 <b-button
                   @click="$bvModal.show('add')"
                   variant="dark-green"
                   size="lg"
-                  >Add Administrator</b-button
+                  >Add facilitator</b-button
                 >
               </div>
             </div>
@@ -154,7 +154,7 @@
       </b-row>
     </b-container>
 
-    <b-modal id="add" hide-footer centered size="lg" title="Add Administrator">
+    <b-modal id="add" hide-footer centered size="lg" title="Add facilitator">
       <b-form @submit.prevent="register" class="user">
         <div>
           <b-form-row class="mb-2">
@@ -227,13 +227,7 @@
         </div>
       </b-form>
     </b-modal>
-    <b-modal
-      id="edit"
-      hide-footer
-      centered
-      size="lg"
-      title="Edit Administrator"
-    >
+    <b-modal id="edit" hide-footer centered size="lg" title="Edit facilitator">
       <b-form @submit.prevent="update" class="user">
         <div>
           <b-form-row class="mb-2">
@@ -363,7 +357,7 @@ export default {
 
     register() {
       this.$http
-        .post(`${this.$store.getters.url}/register-admin`, this.user, {
+        .post(`${this.$store.getters.url}/register-facilitator`, this.user, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
           },
@@ -403,7 +397,7 @@ export default {
     update() {
       this.$http
         .put(
-          `${this.$store.getters.url}/update-admin/${this.user.id}`,
+          `${this.$store.getters.url}/update-facilitator/${this.user.id}`,
           this.user,
           {
             headers: {
@@ -431,7 +425,7 @@ export default {
       this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
           this.$http
-            .delete(`${this.$store.getters.url}/delete-admin/${id}`, {
+            .delete(`${this.$store.getters.url}/delete-facilitator/${id}`, {
               headers: {
                 Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
               },

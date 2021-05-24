@@ -74,7 +74,11 @@
                         <div class="">
                           <small
                             class="px-0 text-left cursor-pointer"
-                            @click="view()"
+                            @click="
+                              $router.push(
+                                `/administrator/outline/${item.courseoutline.id}`
+                              )
+                            "
                           >
                             <b-icon class="mr-2" icon="eye"></b-icon
                             ><span>View</span>
@@ -550,7 +554,7 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      return schedule.map((val) => {
+      var newArr = schedule.map((val) => {
         var fac = this.facilitators.find(
           (item) => item.id == val.facilitator_id
         );
@@ -558,6 +562,7 @@ export default {
           return fac.name;
         }
       });
+      return [...new Set(newArr)];
     },
     async getfacilitators() {
       return this.$http

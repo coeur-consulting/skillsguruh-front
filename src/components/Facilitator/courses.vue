@@ -806,7 +806,7 @@
                   >
                   <br />
                   <span class="course_time text-capitalize"
-                    ><b-icon icon="clock" class="mr-2"></b-icon>
+                    ><b-icon icon="clock" class="mr-1"></b-icon>
                     {{ course.courseoutline.duration }}</span
                   >
                 </div>
@@ -925,7 +925,10 @@
                     ></b-img>
 
                     <span style="line-height: 1.2">
-                      <span class="fs13"> 10</span> <br />
+                      <span class="fs13">
+                        {{ getmediacount(course.modules, "video") }}</span
+                      >
+                      <br />
                       <span class="fs13">Videos</span>
                     </span>
                   </div>
@@ -937,7 +940,10 @@
                     ></b-img>
 
                     <span style="line-height: 1.2">
-                      <span class="fs13">10</span> <br />
+                      <span class="fs13">
+                        {{ getmediacount(course.modules, "document") }}</span
+                      >
+                      <br />
                       <span class="fs13">Documents</span>
                     </span>
                   </div>
@@ -949,7 +955,10 @@
                     ></b-img>
 
                     <span style="line-height: 1.2">
-                      <span class="fs13">10</span> <br />
+                      <span class="fs13">
+                        {{ getmediacount(course.modules, "audio") }}</span
+                      >
+                      <br />
                       <span class="fs13">Audios</span>
                     </span>
                   </div>
@@ -1077,6 +1086,18 @@ export default {
     showcourse(val) {
       this.course = val;
     },
+    getmediacount(arr, media) {
+      var newarr = [];
+      arr.forEach((val) => {
+        JSON.parse(val.modules).forEach((item) => {
+          if (item.file_type.toLowerCase() == media.toLowerCase()) {
+            newarr.push(item);
+          }
+        });
+      });
+
+      return newarr.length;
+    },
     sortmodules(data) {
       if (!data.courseoutline) {
         return 0;
@@ -1088,7 +1109,7 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      return schedule.map((val) => {
+      var newArr = schedule.map((val) => {
         var fac = this.facilitators.find(
           (item) => item.id == val.facilitator_id
         );
@@ -1096,6 +1117,8 @@ export default {
           return fac.name;
         }
       });
+
+      return [...new Set(newArr)];
     },
     sorttimes(data) {
       if (!data.courseschedule) {
@@ -1138,9 +1161,9 @@ export default {
 
     getfacilitators() {
       this.$http
-        .get(`${this.$store.getters.url}/admin-get-facilitators`, {
+        .get(`${this.$store.getters.url}/facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
@@ -1157,7 +1180,7 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/courses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
@@ -1173,7 +1196,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/courses`, this.detail, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
@@ -1245,7 +1268,7 @@ export default {
           this.detail,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
             },
           }
         )
@@ -1267,7 +1290,7 @@ export default {
           this.$http
             .delete(`${this.$store.getters.url}/courses/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
               },
             })
             .then((res) => {

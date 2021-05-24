@@ -29,7 +29,7 @@
                     <span class="title h4">{{ discussion.name }} </span><br />
                     <span class="asked">
                       Created
-                      {{ discussion.created_at | moment("calendar") }}</span
+                      {{ discussion.created_at | moment("ll") }}</span
                     >
                   </div>
                 </div>
@@ -98,39 +98,6 @@
                     v-for="(item, index) in posts"
                     :key="index"
                   >
-                    <div class="d-flex align-items-center">
-                      <h6>
-                        <b-avatar
-                          size="sm"
-                          :src="item.admin.profile"
-                          v-if="item.admin"
-                          class="mr-2"
-                        ></b-avatar>
-                        <b-avatar
-                          size="sm"
-                          :src="item.user.profile"
-                          v-if="item.user"
-                          class="mr-2"
-                        ></b-avatar>
-                        <b-avatar
-                          size="sm"
-                          :src="item.facilitator.profile"
-                          v-if="item.facilitator"
-                          class="mr-2"
-                        ></b-avatar>
-                      </h6>
-                      <span v-if="item.admin" class="fs13 font-weight-bold">{{
-                        item.admin.name
-                      }}</span>
-                      <span v-if="item.user" class="fs13 font-weight-bold">{{
-                        item.user.name
-                      }}</span>
-                      <span
-                        v-if="item.facilitator"
-                        class="fs13 font-weight-bold"
-                        >{{ item.facilitator.name }}</span
-                      >
-                    </div>
                     <div>
                       <p class="fs14" v-if="item.message">
                         {{ item.message }}
@@ -234,7 +201,37 @@
                     </div>
 
                     <div class="d-flex justify-content-between">
-                      <span></span>
+                      <div class="d-flex align-items-center">
+                        <span>
+                          <b-avatar
+                            size="sm"
+                            :src="item.admin.profile"
+                            v-if="item.admin"
+                            class="mr-2"
+                          ></b-avatar>
+                          <b-avatar
+                            size="sm"
+                            :src="item.user.profile"
+                            v-if="item.user"
+                            class="mr-2"
+                          ></b-avatar>
+                          <b-avatar
+                            size="sm"
+                            :src="item.facilitator.profile"
+                            v-if="item.facilitator"
+                            class="mr-2"
+                          ></b-avatar>
+                        </span>
+                        <span v-if="item.admin" class="fs13">{{
+                          item.admin.name
+                        }}</span>
+                        <span v-if="item.user" class="fs13">{{
+                          item.user.name
+                        }}</span>
+                        <span v-if="item.facilitator" class="fs13">{{
+                          item.facilitator.name
+                        }}</span>
+                      </div>
                       <span>{{ item.created_at | moment("ll") }}</span>
                     </div>
                   </div>
@@ -323,7 +320,7 @@
             </div>
             <div
               class="py-3 text-left related_quest border"
-              v-if="related.length"
+              v-if="discussion.related"
             >
               <h6 class="mb-3 px-3">Related Discussions</h6>
               <div v-for="item in related" :key="item.id">

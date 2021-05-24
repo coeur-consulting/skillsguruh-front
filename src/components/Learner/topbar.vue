@@ -19,7 +19,8 @@
           <div class="logo">
             <b-img
               class="mr-2"
-              width="30"
+              width="30px"
+              style="width: 30px"
               height="auto"
               :src="$store.getters.admin.org_profile"
             ></b-img>
@@ -187,43 +188,282 @@
     </div>
 
     <div class="d-flex align-items-center">
-      <b-icon
-        id="bell"
-        icon="bell"
-        font-scale="1.2"
-        class="mr-4 text-dark-green"
-      ></b-icon>
-      <b-popover target="bell" triggers="hover" placement="bottom">
+      <div class="position-relative mr-4">
+        <b-icon
+          id="bell"
+          icon="bell"
+          font-scale="1.5rem"
+          class="text-dark-green"
+        ></b-icon>
+        <small class="notify_badge">
+          <b-badge variant="danger" v-if="unreadnotifications.length">{{
+            unreadnotifications.length
+          }}</b-badge></small
+        >
+      </div>
+      <b-popover
+        id="notification1"
+        target="bell"
+        triggers="hover"
+        placement="bottom"
+      >
         <template #title>Notifications</template>
-        <div class="noti">I am notification!</div>
+        <div class="notifications" v-if="notifications.length">
+          <div
+            class="notify border-bottom"
+            v-for="(item, id) in notifications"
+            :key="id"
+          >
+            <div
+              v-if="!item.read_at"
+              @click="$store.dispatch('markNotification', item.id)"
+            >
+              <span :class="{ 'font-weight-bold': !item.read_at }">
+                {{ item.data.notification }}</span
+              >
+              <br />
+              <span class="fs11">{{
+                item.created_at | moment("calendar")
+              }}</span>
+            </div>
+            <div v-else>
+              <span :class="{ 'font-weight-bold': !item.read_at }">
+                {{ item.data.notification }}</span
+              >
+              <br />
+              <span class="fs11">{{
+                item.created_at | moment("calendar")
+              }}</span>
+            </div>
+          </div>
+          <div class="text-center py-2 border-top text-dark-green fs11">
+            <span
+              class="cursor-pointer"
+              @click="$store.dispatch('markNotifications')"
+            >
+              Mark all as read</span
+            >
+          </div>
+        </div>
+        <div v-else class="text-center text-muted notify p-2">
+          No new notification !
+        </div>
       </b-popover>
+
       <b-icon
         icon="envelope"
-        font-scale="1.2"
+        id="inbox"
+        font-scale="1.5rem"
         class="mr-4 text-muted cursor-pointer"
       ></b-icon>
-      <b-avatar
-        :src="$store.getters.admin.profile"
-        id="profile"
-        class="cursor-pointer"
-        size="30px"
-      ></b-avatar>
-      <b-popover target="profile" id="prof" triggers="click" placement="bottom">
-        <div class="cursor-pointer px-3" @click="logout">Log out</div>
+
+      <b-popover id="inbox1" target="inbox" triggers="hover" placement="bottom">
+        <template #title>Inbox</template>
+        <div class="inbox py-3" v-if="chatters.length">
+          <div
+            class="inbox_message"
+            v-for="(message, index) in chatters"
+            :key="index"
+          >
+            <div class="px-3 py-3 d-flex border-bottom">
+              <b-avatar size="1.8rem" :src="message.profile"></b-avatar>
+
+              <div
+                class="message_text flex-1 px-2"
+                @click="
+                  getmessage(
+                    message.id,
+                    message.name,
+                    message.type,
+                    message.profile
+                  )
+                "
+              >
+                <span class="message_name fs12">{{ message.name }}</span>
+                <br />
+                <div class="last_message fs11">
+                  {{ message.message }}
+                </div>
+              </div>
+
+              <div>
+                <span class="message_time fs11">
+                  {{ message.time | moment("LT") }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          v-else
+          class="inbox d-flex justify-content-center align-content-center p-5"
+        >
+          <div class="text-muted">No Message Available</div>
+        </div>
       </b-popover>
+
+      <span @click="$router.push('/administrator/profile')">
+        <b-avatar
+          :src="$store.getters.admin.profile"
+          id="profile"
+          class="cursor-pointer"
+          size="30px"
+        ></b-avatar
+      ></span>
     </div>
+
+    <Minichat
+      class="minichats d-none d-md-block"
+      :user="'learner'"
+      :mini_info="mini_info"
+    />
   </div>
 </template>
 <script>
 import { PushRotate } from "vue-burger-menu";
+import Minichat from "../minichat";
 export default {
   components: {
     PushRotate,
+    Minichat,
+  },
+  data() {
+    return {
+      toggleMessage: true,
+      inboxes: [],
+      chatters: [],
+      current: {
+        id: "",
+        type: "",
+      },
+      mini_info: {
+        id: "",
+        name: "",
+        type: "",
+        profile: "",
+      },
+    };
+  },
+  mounted() {
+    this.getinbox();
   },
   methods: {
     logout() {
       localStorage.removeItem("authOrg");
       this.$router.push("/login");
+    },
+    markread() {
+      this.$http.get(`${this.$store.getters.url}/mark-notifications`, {
+        headers: {
+          Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+        },
+      });
+    },
+    getmessage(id, name, type, profile) {
+      this.current.id = id;
+      this.current.type = type;
+      this.mini_info.id = id;
+      this.mini_info.name = name;
+      this.mini_info.type = type;
+      this.mini_info.profile = profile;
+    },
+    getinbox() {
+      this.$http
+        .get(`${this.$store.getters.url}/inboxes`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.sortmessages(res.data.reverse());
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    async sortmessages(arr) {
+      this.inboxes = await arr.map((item) => {
+        var info = {};
+        if (item.admin_id && item.admin_id == this.$store.getters.admin.id) {
+          info.admin = item.admin_info || null;
+          info.user = item.learner_info || null;
+          info.facilitator = item.facilitator_info || null;
+          info.message = item.message || null;
+          info.time = item.created_at || null;
+        }
+        if (
+          item.receiver == "admin" &&
+          item.receiver_id == this.$store.getters.admin.id
+        ) {
+          info.admin = item.admin || null;
+          info.user = item.user || null;
+          info.facilitator = item.facilitator || null;
+          info.message = item.message || null;
+          info.time = item.created_at || null;
+        }
+        return info;
+      });
+      this.getChatters(this.inboxes);
+    },
+    getChatters(arr) {
+      var check = {};
+
+      arr.reverse().forEach((item) => {
+        var checkers = {};
+        if (item.admin) {
+          checkers.id = item.admin.id;
+          checkers.type = "admin";
+          checkers.name = item.admin.name;
+          checkers.message = item.message;
+          checkers.time = item.time;
+          checkers.profile = item.admin.profile;
+          check = this.chatters.find((val) => {
+            if (val.type == "admin" && val.id == item.admin.id) {
+              return val;
+            }
+          });
+        }
+        if (item.facilitator) {
+          checkers.id = item.facilitator.id;
+          checkers.type = "facilitator";
+          checkers.name = item.facilitator.name;
+          checkers.profile = item.facilitator.profile;
+          checkers.message = item.message;
+          checkers.time = item.time;
+          check = this.chatters.find((val) => {
+            if (val.type == "facilitator" && val.id == item.facilitator.id) {
+              return val;
+            }
+          });
+        }
+        if (item.user) {
+          checkers.id = item.user.id;
+          checkers.type = "user";
+          checkers.name = item.user.name;
+          checkers.message = item.message;
+          checkers.profile = item.user.profile;
+          checkers.time = item.time;
+          check = this.chatters.find((val) => {
+            if (val.type == "user" && val.id == item.user.id) {
+              return val;
+            }
+          });
+        }
+
+        if (!check) {
+          this.chatters.push(checkers);
+        }
+      });
+    },
+  },
+  computed: {
+    notifications() {
+      return this.$store.getters.notifications;
+    },
+    unreadnotifications() {
+      return this.$store.getters.notifications.filter((item) => !item.read_at);
     },
   },
 };
@@ -236,9 +476,6 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-}
-.noti {
-  width: 300px;
 }
 
 .side_header {

@@ -4,16 +4,57 @@
       <b-row>
         <b-col sm="8">
           <b-row class="mb-4 mb-sm-5">
-            <b-col>
-              <div class="box p-3">
-                <div class="d-flex align-items-center mb-1">
-                  <b-col cols="6">
-                    <div class="h6 mb-0 text-dark-green">Events</div></b-col
-                  >
-                  <b-col cols="6">
-                    <b-img fluid-grow src=""></b-img>
-                  </b-col>
-                </div>
+            <b-col class="position-relative">
+              <carousel
+                :perPage="1"
+                :paginationEnabled="false"
+                :autoplay="true"
+                v-if="comingevents.length"
+              >
+                <slide v-for="item in events" :key="item.id">
+                  <div class="box top_box flex-row p-0 position-relative">
+                    <div class="upcoming">Upcoming events</div>
+                    <b-col cols="5" class="h-100">
+                      <div
+                        class="p-3 d-flex flex-column justify-content-center h-100"
+                      >
+                        <div class="mb-3 h3 text-dark-green" v-if="item.title">
+                          {{ item.title }}
+                        </div>
+                        <div class="mb-1 fs13">
+                          {{ item.description }}
+                        </div>
+                        <div class="mb-1 fs13">
+                          Duration : {{ item.schedule }}
+                        </div>
+                        <div class="mb-1 fs12">
+                          Time : {{ item.start | moment("ll") }} -
+                          {{ item.end | moment("ll") }}
+                        </div>
+
+                        <div class="mt-3">
+                          <b-button
+                            pill
+                            size="sm"
+                            variant="outline-dark-green"
+                            @click="
+                              $router.push(`/administrator/event/${item.id}`)
+                            "
+                            >View Event</b-button
+                          >
+                        </div>
+                      </div>
+                    </b-col>
+                    <b-col cols="7" class="text-right p-0">
+                      <b-img :src="item.cover" fluid-grow></b-img>
+                    </b-col>
+                  </div>
+                </slide>
+              </carousel>
+              <div class="box top_box flex-row p-0" v-else>
+                <h3 class="text-muted py-5 text-center">
+                  No Upcoming Event Available !
+                </h3>
               </div>
             </b-col>
           </b-row>
@@ -36,7 +77,7 @@
                 <div class="w-100 p-3">
                   <b-table-simple responsive borderless>
                     <b-tbody>
-                      <b-tr>
+                      <b-tr v-if="daySchedule('monday').length">
                         <b-th sticky-column class="">Monday</b-th>
                         <b-td>
                           <div class="d-flex tabl">
@@ -75,7 +116,9 @@
                                   }}
                                 </span>
                               </div>
-                              <div class="fs14">{{ item.course.title }}</div>
+                              <div class="fs14" v-if="item.course.title">
+                                {{ item.course.title }}
+                              </div>
                               <div class="fs13 d-flex justify-content-between">
                                 <span> {{ item.facilitator.name }}</span>
                                 <b-icon
@@ -88,7 +131,7 @@
                           </div>
                         </b-td>
                       </b-tr>
-                      <b-tr>
+                      <b-tr v-if="daySchedule('tuesday').length">
                         <b-th sticky-column>Tuesday</b-th>
                         <b-td>
                           <div class="d-flex tabl">
@@ -126,7 +169,9 @@
                                   }}
                                 </span>
                               </div>
-                              <div class="fs14">{{ item.course.title }}</div>
+                              <div class="fs14" v-if="item.course.title">
+                                {{ item.course.title }}
+                              </div>
                               <div class="fs13 d-flex justify-content-between">
                                 <span> {{ item.facilitator.name }}</span>
                                 <b-icon
@@ -139,7 +184,7 @@
                           </div>
                         </b-td>
                       </b-tr>
-                      <b-tr>
+                      <b-tr v-if="daySchedule('wednesday').length">
                         <b-th sticky-column>Wednesday</b-th>
                         <b-td>
                           <div class="d-flex tabl">
@@ -177,7 +222,9 @@
                                   }}
                                 </span>
                               </div>
-                              <div class="fs14">{{ item.course.title }}</div>
+                              <div class="fs14" v-if="item.course.title">
+                                {{ item.course.title }}
+                              </div>
                               <div class="fs13 d-flex justify-content-between">
                                 <span> {{ item.facilitator.name }}</span>
                                 <b-icon
@@ -190,7 +237,7 @@
                           </div>
                         </b-td>
                       </b-tr>
-                      <b-tr>
+                      <b-tr v-if="daySchedule('thursday').length">
                         <b-th sticky-column>Thursday</b-th>
                         <b-td>
                           <div class="d-flex tabl">
@@ -228,7 +275,9 @@
                                   }}
                                 </span>
                               </div>
-                              <div class="fs14">{{ item.course.title }}</div>
+                              <div class="fs14" v-if="item.course.title">
+                                {{ item.course.title }}
+                              </div>
                               <div class="fs13 d-flex justify-content-between">
                                 <span> {{ item.facilitator.name }}</span>
                                 <b-icon
@@ -241,7 +290,7 @@
                           </div>
                         </b-td>
                       </b-tr>
-                      <b-tr>
+                      <b-tr v-if="daySchedule('friday').length">
                         <b-th sticky-column>Friday</b-th>
                         <b-td>
                           <div class="d-flex tabl">
@@ -279,7 +328,9 @@
                                   }}
                                 </span>
                               </div>
-                              <div class="fs14">{{ item.course.title }}</div>
+                              <div class="fs14" v-if="item.course.title">
+                                {{ item.course.title }}
+                              </div>
                               <div class="fs13 d-flex justify-content-between">
                                 <span> {{ item.facilitator.name }}</span>
                                 <b-icon
@@ -293,7 +344,7 @@
                         </b-td>
                       </b-tr>
 
-                      <b-tr>
+                      <b-tr v-if="daySchedule('saturday').length">
                         <b-th sticky-column>Saturday</b-th>
                         <b-td>
                           <div class="d-flex tabl">
@@ -332,7 +383,9 @@
                                   }}
                                 </span>
                               </div>
-                              <div class="fs14">{{ item.course.title }}</div>
+                              <div class="fs14" v-if="item.course.title">
+                                {{ item.course.title }}
+                              </div>
                               <div class="fs13 d-flex justify-content-between">
                                 <span> {{ item.facilitator.name }}</span>
                                 <b-icon
@@ -345,7 +398,7 @@
                           </div>
                         </b-td>
                       </b-tr>
-                      <b-tr>
+                      <b-tr v-if="daySchedule('sunday').length">
                         <b-th sticky-column>Sunday</b-th>
                         <b-td>
                           <div class="d-flex tabl">
@@ -384,7 +437,9 @@
                                   }}
                                 </span>
                               </div>
-                              <div class="fs14">{{ item.course.title }}</div>
+                              <div class="fs14" v-if="item.course.title">
+                                {{ item.course.title }}
+                              </div>
                               <div class="fs13 d-flex justify-content-between">
                                 <span> {{ item.facilitator.name }}</span>
                                 <b-icon
@@ -435,12 +490,32 @@
           <div class="turn_over_box">
             <div class="tob_1 mb-4">
               <vc-calendar
-                color="teal"
+                class="custom-calendar max-w-full"
+                :masks="masks"
+                :attributes="attributes"
+                disable-page-swipe
                 is-expanded
                 title-position="left"
-                show-weeknumbers
-                :attributes="attributes"
-              ></vc-calendar>
+              >
+                <template #day-popover>
+                  <div
+                    v-for="attr in attributes"
+                    :key="attr.key"
+                    class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"
+                    :class="attr.customData.class"
+                  >
+                    <p class="mb-1 text-capitalize">
+                      {{ attr.customData.title }}
+                    </p>
+                    <p class="fs11 mb-0 text-capitalize">
+                      {{ attr.customData.type }}
+                    </p>
+                    <p class="fs11 mb-0 text-capitalize">
+                      {{ attr.customData.duration }}
+                    </p>
+                  </div>
+                </template>
+              </vc-calendar>
             </div>
             <div class="tob_2">
               <div class="d-flex align-items-center p-3">
@@ -479,7 +554,10 @@
                         ></b-icon>
                       </b-iconstack>
                       <div>
-                        <span class="title font-weight-bold">
+                        <span
+                          class="title font-weight-bold"
+                          v-if="item.course.title"
+                        >
                           {{ item.course.title }}</span
                         >
                       </div>
@@ -650,7 +728,8 @@
 export default {
   data() {
     return {
-      color: ["red", "blue", "green", "brown", "purple"],
+      color: ["red", "blue", "green", "brown", "purple", "teal"],
+      events: [],
       facilitators: [],
       schedules: [],
       courses: [],
@@ -665,41 +744,52 @@ export default {
           },
         ],
       },
+      masks: {
+        weekdays: "WWW",
+      },
     };
   },
   components: {},
   watch: {},
-  mounted() {
-    this.getcourses();
-    this.getfacilitators();
-    this.getschedules();
+  created() {
+    this.getcourses().then(() => {
+      this.getfacilitators().then(() => {
+        this.getschedules();
+        this.getevents();
+      });
+    });
   },
   computed: {
+    myschedule() {
+      return this.events.map((item, index) => {
+        var res = {
+          key: index,
+
+          highlight: {
+            color: "teal",
+            fillMode: "light",
+            contentClass: "italic",
+          },
+          dot: false,
+          bar: false,
+          content: false,
+          popover: true,
+          customData: {
+            title: item.title,
+            duration: item.schedule,
+            type: item.type,
+            class: "bg-red-600 text-white",
+          },
+          dates: [new Date(item.start)],
+        };
+        return res;
+      });
+    },
     attributes() {
-      return [
-        // This is a single attribute
-        {
-          // An optional key can be used for retrieving this attribute later,
-          // and will most likely be derived from your data object
-          key: 1,
-          // Attribute type definitions
-          highlight: true, // Boolean, String, Object
-          dot: false, // Boolean, String, Object
-          bar: false, // Boolean, String, Object
-          content: false, // Boolean, String, Object
-          popover: {}, // Only objects allowed
-          // Your custom data object for later access, if needed
-          customData: {},
-          // We also need some dates to know where to display the attribute
-          // We use a single date here, but it could also be an array of dates,
-          //  a date range or a complex date pattern.
-          dates: new Date(),
-          // You can optionally provide dates to exclude
-          excludeDates: null,
-          // Think of `order` like `z-index`
-          order: 0,
-        },
-      ];
+      return this.myschedule;
+    },
+    comingevents() {
+      return this.events.filter((item) => item.status == "inactive");
     },
   },
   methods: {
@@ -763,6 +853,22 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.courses = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    async getevents() {
+      return this.$http
+        .get(`${this.$store.getters.url}/events`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.events = res.data;
           }
         })
         .catch((err) => {
@@ -876,6 +982,7 @@ td {
 .bg-light {
   color: black;
 }
+
 .box {
   min-height: 130px;
   display: flex;
@@ -887,6 +994,13 @@ td {
   box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35);
   border-radius: 8px;
   background: white;
+}
+.top_box {
+  height: 250px;
+  display: flex;
+  align-items: flex-start;
+  text-align: left;
+  overflow: hidden;
 }
 .new_add {
   color: rgba(0, 0, 0, 0.44);
@@ -957,6 +1071,20 @@ td {
 //   width: 600px;
 //   overflow-x: auto;
 // }
+.event_image {
+  border-radius: 10rem 0 0 0;
+  overflow: hidden;
+  width: 100%;
+}
+.upcoming {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 3px 15px;
+  background: var(--dark-green);
+  color: white;
+  font-size: 12px;
+}
 @media (max-width: 600px) {
   .box {
     margin-bottom: 24px;

@@ -23,6 +23,9 @@ export default {
     SideBar,
     TopBar,
   },
+  mounted() {
+    this.$store.dispatch("getNotifications", "organization");
+  },
 };
 </script>
 <style scoped>

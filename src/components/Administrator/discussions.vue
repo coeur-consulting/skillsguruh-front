@@ -180,23 +180,25 @@
             </div>
             <div class="py-3 text-left related_quest border">
               <h6 class="mb-3 px-3">Other Discussions</h6>
-              <div class="d-flex p-2 px-3">
-                <div>
-                  <span class="mr-3 related_count">2000</span>
+              <div v-if="otherdiscussion.length">
+                <div class="d-flex p-2 px-3">
+                  <div>
+                    <span class="mr-3 related_count">2000</span>
+                  </div>
+                  <span class="related text-left"
+                    >Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                    Beatae.</span
+                  >
                 </div>
-                <span class="related text-left"
-                  >Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Beatae.</span
-                >
-              </div>
-              <div class="d-flex p-2 px-3">
-                <div>
-                  <span class="mr-3 related_count">1200</span>
+                <div class="d-flex p-2 px-3">
+                  <div>
+                    <span class="mr-3 related_count">1200</span>
+                  </div>
+                  <span class="related text-left"
+                    >Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                    Beatae.</span
+                  >
                 </div>
-                <span class="related text-left"
-                  >Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Beatae.</span
-                >
               </div>
             </div>
           </div>
@@ -334,6 +336,9 @@ export default {
     this.gettags();
   },
   computed: {
+    otherdiscussion() {
+      return [];
+    },
     mostanswers() {
       var val = this.recentdiscussions.slice(0).sort((a, b) => {
         return b.discussionmessage.length - a.discussionmessage.length;

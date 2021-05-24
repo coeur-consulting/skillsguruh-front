@@ -1,5 +1,5 @@
 <template>
-  <div id="chart1">
+  <div id="chart1" style="overflow: hidden">
     <b-row class="border-bottom p-3">
       <b-col sm="4" class="mb-1 mb-sm-0"> <h6>Todo List</h6></b-col>
       <b-col sm="8">
@@ -80,16 +80,16 @@ export default {
     this.gettodos();
   },
   computed: {
-    token() {
+    useraccess() {
       var token = null;
       if (this.$props.user == "admin") {
-        return this.$store.getters.admin.access_token;
+        return this.$store.getters.admin;
       }
       if (this.$props.user == "facilitator") {
-        return this.$store.getters.facilitator.access_token;
+        return this.$store.getters.facilitator;
       }
       if (this.$props.user == "learner") {
-        return this.$store.getters.learner.access_token;
+        return this.$store.getters.learner;
       }
       return token;
     },
@@ -100,7 +100,7 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/todos`, {
           headers: {
-            Authorization: `Bearer ${this.token}`,
+            Authorization: `Bearer ${this.useraccess.access_token}`,
           },
         })
         .then((res) => {
@@ -119,7 +119,7 @@ export default {
           { todo: this.todo },
           {
             headers: {
-              Authorization: `Bearer ${this.token}`,
+              Authorization: `Bearer ${this.useraccess.access_token}`,
             },
           }
         )
@@ -143,7 +143,7 @@ export default {
           { todo: data, status: status },
           {
             headers: {
-              Authorization: `Bearer ${this.token}`,
+              Authorization: `Bearer ${this.useraccess.access_token}`,
             },
           }
         )
@@ -163,7 +163,7 @@ export default {
           this.$http
             .delete(`${this.$store.getters.url}/todos/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.token}`,
+                Authorization: `Bearer ${this.useraccess.access_token}`,
               },
             })
             .then((res) => {
@@ -182,7 +182,7 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/todos-destroy`, {
           headers: {
-            Authorization: `Bearer ${this.token}`,
+            Authorization: `Bearer ${this.useraccess.access_token}`,
           },
         })
         .then((res) => {

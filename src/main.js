@@ -13,6 +13,7 @@ import axios from "axios";
 import VueAxios from "vue-axios";
 import VueAnimateOnScroll from "vue-animate-onscroll";
 import VCalendar from "v-calendar";
+import VueClipboard from "vue-clipboard2";
 
 import "vue-toast-notification/dist/theme-sugar.css";
 import "animate.css";
@@ -34,7 +35,7 @@ Vue.use(VueToast, {
 Vue.use(VCalendar, {
   componentPrefix: "vc",
 });
-
+Vue.use(VueClipboard);
 Vue.component("apexchart", VueApexCharts);
 
 Vue.config.productionTip = false;
@@ -57,6 +58,32 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.typeAdmin)) {
     var admin = JSON.parse(localStorage.getItem("authAdmin"));
     if (!admin) {
+      next({
+        path: "/login",
+        query: { redirect: to.fullPath },
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+  if (to.matched.some((record) => record.meta.typeFacilitator)) {
+    var facilitator = JSON.parse(localStorage.getItem("authFacilitator"));
+    if (!facilitator) {
+      next({
+        path: "/login",
+        query: { redirect: to.fullPath },
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+  if (to.matched.some((record) => record.meta.typeLearner)) {
+    var learner = JSON.parse(localStorage.getItem("authLearner"));
+    if (!learner) {
       next({
         path: "/login",
         query: { redirect: to.fullPath },

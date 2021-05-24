@@ -31,7 +31,7 @@
                       class="text-dark-green mr-2 ic"
                       font-scale="1.5"
                     ></b-icon>
-                    <span class="mr-2">
+                    <span class="mr-2 text-dark-green">
                       {{
                         (newlyfacilitators / facilitators.length) * 100 || 0
                       }}%</span
@@ -70,7 +70,7 @@
                       class="text-dark-green mr-2 ic"
                       font-scale="1.5"
                     ></b-icon>
-                    <span class="mr-2">
+                    <span class="mr-2 text-dark-green">
                       {{ (newlyusers / users.length) * 100 || 0 }}%</span
                     >
                     <span>New Learners this month</span>
@@ -85,12 +85,32 @@
           <div class="turn_over_box">
             <div class="tob_1 mb-4">
               <vc-calendar
-                color="teal"
+                class="custom-calendar max-w-full"
+                :masks="masks"
+                :attributes="attributes"
+                disable-page-swipe
                 is-expanded
                 title-position="left"
-                show-weeknumbers
-                :attributes="attributes"
-              ></vc-calendar>
+              >
+                <template #day-popover>
+                  <div
+                    v-for="attr in attributes"
+                    :key="attr.key"
+                    class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"
+                    :class="attr.customData.class"
+                  >
+                    <p class="mb-1 text-capitalize">
+                      {{ attr.customData.title }}
+                    </p>
+                    <p class="fs11 mb-0 text-capitalize">
+                      {{ attr.customData.type }}
+                    </p>
+                    <p class="fs11 mb-0 text-capitalize">
+                      {{ attr.customData.duration }}
+                    </p>
+                  </div>
+                </template>
+              </vc-calendar>
             </div>
             <div class="tob_2">
               <Todo user="admin" />
@@ -111,6 +131,10 @@ export default {
       facilitators: [],
       users: [],
       todos: [],
+      events: [],
+      masks: {
+        weekdays: "WWW",
+      },
     };
   },
   components: {
@@ -118,11 +142,13 @@ export default {
     Todo,
   },
   watch: {},
-  mounted() {
+  created() {
     this.gettodos();
     this.getfacilitators();
     this.getusers();
+    this.getevents();
   },
+
   computed: {
     newlyfacilitators() {
       return this.facilitators.filter(
@@ -138,34 +164,53 @@ export default {
           new Date(item.created_at).getFullYear() == new Date().getFullYear()
       ).length;
     },
+    myschedule() {
+      return this.events.map((item, index) => {
+        var res = {
+          key: index,
+
+          highlight: {
+            color: "teal",
+            fillMode: "light",
+            contentClass: "italic",
+          },
+          dot: false,
+          bar: false,
+          content: false,
+          popover: true,
+          customData: {
+            title: item.title,
+            duration: item.schedule,
+            type: item.type,
+            class: "bg-red-600 text-white",
+          },
+          dates: [new Date(item.start)],
+        };
+        return res;
+      });
+    },
     attributes() {
-      return [
-        // This is a single attribute
-        {
-          // An optional key can be used for retrieving this attribute later,
-          // and will most likely be derived from your data object
-          key: 1,
-          // Attribute type definitions
-          highlight: true, // Boolean, String, Object
-          dot: false, // Boolean, String, Object
-          bar: false, // Boolean, String, Object
-          content: false, // Boolean, String, Object
-          popover: {}, // Only objects allowed
-          // Your custom data object for later access, if needed
-          customData: {},
-          // We also need some dates to know where to display the attribute
-          // We use a single date here, but it could also be an array of dates,
-          //  a date range or a complex date pattern.
-          dates: new Date(),
-          // You can optionally provide dates to exclude
-          excludeDates: null,
-          // Think of `order` like `z-index`
-          order: 0,
-        },
-      ];
+      return this.myschedule;
     },
   },
   methods: {
+    async getevents() {
+      return this.$http
+        .get(`${this.$store.getters.url}/events`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.events = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+
     gettodos() {
       this.$http
         .get(`${this.$store.getters.url}/todos`, {

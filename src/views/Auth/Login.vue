@@ -39,7 +39,7 @@
           <b-form @submit.prevent="register" class="user">
             <legend>Register as</legend>
             <b-form-row class="mb-4 my_type">
-              <b-col cols="4">
+              <b-col cols="3">
                 <div
                   class="type"
                   :class="{ selected_type: type == 'organization' }"
@@ -53,7 +53,18 @@
                   >
                 </div>
               </b-col>
-              <b-col cols="4">
+              <b-col cols="3">
+                <div class="type" :class="{ selected_type: type == 'admin' }">
+                  <b-form-radio
+                    class="reg"
+                    size="sm"
+                    v-model="type"
+                    value="admin"
+                    >Administrator</b-form-radio
+                  >
+                </div>
+              </b-col>
+              <b-col cols="3">
                 <div
                   class="type"
                   :class="{ selected_type: type == 'facilitator' }"
@@ -67,7 +78,7 @@
                   >
                 </div>
               </b-col>
-              <b-col cols="4">
+              <b-col cols="3">
                 <div class="type" :class="{ selected_type: type == 'learner' }">
                   <b-form-radio
                     class="reg"
@@ -184,6 +195,8 @@ export default {
     register() {
       var authOrg = {};
       var authAdmin = {};
+      var authFacilitator = {};
+      var authLearner = {};
 
       if (this.type == "organization") {
         let data = {
@@ -209,6 +222,7 @@ export default {
                 authOrg.name = res.data.name;
                 authOrg.email = res.data.name;
                 authOrg.profile = res.data.logo;
+                authOrg.referral = res.data.referral_code;
 
                 localStorage.setItem("authOrg", JSON.stringify(authOrg));
                 this.$toast.success("Login successful");
@@ -230,7 +244,7 @@ export default {
             this.$toast.error("Invalid credentials");
           });
       }
-      if (this.type == "facilitator") {
+      if (this.type == "admin") {
         let data = {
           grant_type: "password",
           client_id: 3,
@@ -256,6 +270,7 @@ export default {
                 authAdmin.profile = res.data.profile;
                 authAdmin.org_profile = res.data.organization.logo;
                 authAdmin.org_name = res.data.organization.name;
+                authAdmin.referral = res.data.referral_code;
 
                 localStorage.setItem("authAdmin", JSON.stringify(authAdmin));
                 this.$toast.success("Login successful");
@@ -274,23 +289,101 @@ export default {
             this.$toast.error("Invalid credentials");
           });
       }
-      if (this.type == "learner") {
+
+      if (this.type == "facilitator") {
+        let data = {
+          grant_type: "password",
+          client_id: 4,
+          client_secret: "NVXAR1hE3wGF6cz5lZKdo2rsaafzZ73sGGsBPH7h",
+          username: this.user.email,
+          password: this.user.password,
+        };
         this.$http
-          .post(`${this.$store.getters.url}/register-user`, this.user)
-          .then(() => {})
+          .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
+          .then((res) => {
+            authFacilitator.access_token = res.data.access_token;
+            authFacilitator.refresh_token = res.data.refresh_token;
+            this.$http
+              .get(`${this.$store.getters.url}/facilitator`, {
+                headers: {
+                  Authorization: `Bearer ${res.data.access_token}`,
+                },
+              })
+              .then((res) => {
+                authFacilitator.id = res.data.id;
+                authFacilitator.name = res.data.name;
+                authFacilitator.email = res.data.name;
+                authFacilitator.profile = res.data.profile;
+                authFacilitator.org_profile = res.data.organization.logo;
+                authFacilitator.org_name = res.data.organization.name;
+                authFacilitator.referral = res.data.referral_code;
+
+                localStorage.setItem(
+                  "authFacilitator",
+                  JSON.stringify(authFacilitator)
+                );
+                this.$toast.success("Login successful");
+
+                window.location.href = "/facilitator";
+              })
+              .catch(() => {
+                this.$toast.error("Invalid credentials");
+              });
+          })
           .catch((err) => {
-            if (err.response.data.errors.email[0]) {
-              this.$toast.error(err.response.data.errors.email[0]);
-            }
-            if (err.response.data.errors.phone[0]) {
-              this.$toast.error(err.response.data.errors.phone[0]);
-            }
-            if (err.response.data.errors.name[0]) {
-              this.$toast.error(err.response.data.errors.name[0]);
-            }
-            if (err.response.data.errors.password[0]) {
-              this.$toast.error(err.response.data.errors.password[0]);
-            }
+            console.log(
+              "🚀 ~ file: Login.vue ~ line 257 ~ register ~ err",
+              err
+            );
+            this.$toast.error("Invalid credentials");
+          });
+      }
+      if (this.type == "learner") {
+        let data = {
+          grant_type: "password",
+          client_id: 2,
+          client_secret: "OAniIlKCpBOv2oMpKVoRLBau55xLKbz1Qo5YNuee",
+          username: this.user.email,
+          password: this.user.password,
+        };
+        this.$http
+          .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
+          .then((res) => {
+            authFacilitator.access_token = res.data.access_token;
+            authFacilitator.refresh_token = res.data.refresh_token;
+            this.$http
+              .get(`${this.$store.getters.url}/user`, {
+                headers: {
+                  Authorization: `Bearer ${res.data.access_token}`,
+                },
+              })
+              .then((res) => {
+                authLearner.id = res.data.id;
+                authLearner.name = res.data.name;
+                authLearner.email = res.data.name;
+                authLearner.profile = res.data.profile;
+                authLearner.org_profile = res.data.organization.logo;
+                authLearner.org_name = res.data.organization.name;
+                authLearner.referral = res.data.referral_code;
+
+                localStorage.setItem(
+                  "authLearner",
+                  JSON.stringify(authLearner)
+                );
+                this.$toast.success("Login successful");
+
+                window.location.href = "/learner";
+              })
+              .catch(() => {
+                this.$toast.error("Invalid credentials");
+              });
+          })
+          .catch((err) => {
+            console.log(
+              "🚀 ~ file: Login.vue ~ line 257 ~ register ~ err",
+              err
+            );
+            this.$toast.error("Invalid credentials");
           });
       }
     },
