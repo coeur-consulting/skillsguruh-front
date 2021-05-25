@@ -104,7 +104,7 @@
               type="heatmap"
               height="200"
               :options="chartOptions1"
-              :series="series1.reverse()"
+              :series="series1.slice().reverse()"
             ></apexchart>
           </div>
         </div>
