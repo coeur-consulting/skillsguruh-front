@@ -111,7 +111,7 @@ export default {
     };
   },
   mounted() {
-    this.message = `https://skillsguruh.com/referral/?code=${this.$store.getters.facilitator.referral}`;
+    this.message = `https://skillsguruh.com/register/?referral_code=${this.$store.getters.facilitator.referral}`;
   },
   methods: {
     sendInvite() {},

@@ -107,11 +107,11 @@ export default {
   data() {
     return {
       email: "",
-      message: "https://skillsguruh.com/referral/?code=746476",
+      message: "https://skillsguruh.com/register/?referral_code=746476",
     };
   },
   mounted() {
-    this.message = `https://skillsguruh.com/referral/?code=${this.$store.getters.learner.referral}`;
+    this.message = `https://skillsguruh.com/register/?referral_code=${this.$store.getters.learner.referral}`;
   },
   methods: {
     sendInvite() {},
