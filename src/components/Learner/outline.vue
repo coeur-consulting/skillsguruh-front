@@ -84,7 +84,7 @@ export default {
           `${this.$store.getters.url}/courseoutlines/${this.$route.params.id}`,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
             },
           }
         )

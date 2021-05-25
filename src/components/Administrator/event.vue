@@ -51,13 +51,17 @@
             <span
               ><span class="font-weight-bold fs15">Start</span>
               <br />
-              <span class="fs16"> {{ event.start | moment("ll") }}</span></span
-            >
-            -
+              <span class="fs16">
+                {{ event.start | moment(" MMMM Do YYYY, h:mm:ss a") }}</span
+              >
+            </span>
+
             <span>
               <span class="font-weight-bold fs15"> End</span>
               <br />
-              <span class="fs16"> {{ event.end | moment("ll") }}</span></span
+              <span class="fs16">
+                {{ event.end | moment(" MMMM Do YYYY, h:mm:ss a") }}</span
+              ></span
             >
           </div>
 
@@ -175,7 +179,7 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.45);
   z-index: 1;
 }
 .event_content {

@@ -2,86 +2,101 @@
   <div>
     <b-container>
       <b-row>
-        <b-col sm="8">
-          <b-row class="mb-4 mb-sm-4">
-            <b-col sm="6">
-              <div class="box p-3">
-                <div class="d-flex align-items-center mb-1">
-                  <b-iconstack font-scale="2.5" class="mr-3">
-                    <b-icon
-                      stacked
-                      icon="circle-fill"
-                      variant="lighter-green"
-                    ></b-icon>
-                    <b-icon
-                      stacked
-                      icon="person-badge-fill"
-                      scale="0.5"
-                      variant="dark-green"
-                    ></b-icon>
-                  </b-iconstack>
-                  <div class="h6 mb-0 text-dark-green">Total Facilitators</div>
-                </div>
+        <b-col sm="9">
+          <div
+            class="top_banner text-left p-3 p-sm-5 rounded position-relative mb-5"
+          >
+            <h4 class="text-dark-green">
+              Welcome {{ $store.getters.learner.name }}
+            </h4>
+            <p>
+              Our Platform gives you access to up <br />
+              skills and socialize!
+            </p>
 
-                <div class="w-100 px-2">
-                  <div class="h2">{{ facilitators.length }}</div>
-                  <div class="new_add">
-                    <b-icon
-                      icon="graph-up"
-                      class="text-dark-green mr-2 ic"
-                      font-scale="1.5"
-                    ></b-icon>
-                    <span class="mr-2 text-dark-green">
-                      {{
-                        (newlyfacilitators / facilitators.length) * 100 || 0
-                      }}%</span
-                    >
-                    <span>New Facilitators this month</span>
-                  </div>
-                </div>
-              </div>
-            </b-col>
-            <b-col sm="6">
-              <div class="box p-3">
-                <div class="d-flex align-items-center mb-1">
-                  <b-iconstack font-scale="2.5" class="mr-3">
-                    <b-icon
-                      stacked
-                      icon="circle-fill"
-                      variant="lighter-green"
-                    ></b-icon>
-                    <b-icon
-                      stacked
-                      icon="people-fill"
-                      scale="0.5"
-                      variant="dark-green"
-                    ></b-icon>
-                  </b-iconstack>
-                  <div class="h6 mb-0 text-dark-green">Total Learners</div>
-                </div>
+            <b-img
+              class="learner_img"
+              :src="require('@/assets/images/learner.png')"
+            ></b-img>
+          </div>
 
-                <div class="w-100 px-2">
-                  <div class="h2">{{ users.length }}</div>
-                </div>
-                <div class="w-100">
-                  <div class="new_add">
-                    <b-icon
-                      icon="graph-up"
-                      class="text-dark-green mr-2 ic"
-                      font-scale="1.5"
-                    ></b-icon>
-                    <span class="mr-2 text-dark-green">
-                      {{ (newlyusers / users.length) * 100 || 0 }}%</span
+          <div class="recommended text-left mb-5">
+            <div class="d-flex align-items-center mb-3">
+              <h6 class="flex-1">Recommended Courses</h6>
+              <span class="fs14" @click="$router.push('/learner/courses')"
+                >More <b-icon icon="arrow-right"></b-icon
+              ></span>
+            </div>
+            <div>
+              <b-row>
+                <b-col
+                  sm="4"
+                  class="pr-3"
+                  v-for="item in courses.slice(0, 3)"
+                  :key="item.id"
+                >
+                  <div
+                    class="w-100 h-100 bg-white shadow-wm rounded p-4"
+                    @click="$router.push('/learner/courses')"
+                  >
+                    <b-iconstack font-scale="2.5" class="mr-2 mb-2">
+                      <b-icon
+                        stacked
+                        icon="circle-fill"
+                        variant="lighter-green"
+                      ></b-icon>
+                      <b-icon
+                        stacked
+                        icon="person-badge-fill"
+                        scale="0.5"
+                        variant="dark-green"
+                      ></b-icon>
+                    </b-iconstack>
+                    <div class="font-weight-bold fs14 mb-2 text-capitalize">
+                      {{ item.title }}
+                    </div>
+
+                    <div
+                      class="d-flex mb-1 text-muted fs-14 align-items-center"
                     >
-                    <span>New Learners this month</span>
+                      <b-icon class="mr-2" icon="calendar"></b-icon>
+                      <span>Jane Adaobi</span>
+                    </div>
+                    <div
+                      class="d-flex mb-1 text-muted fs-14 align-items-center"
+                    >
+                      <b-icon class="mr-2" icon="clock"></b-icon>
+                      <span>Monday 8:00 am</span>
+                    </div>
+                    <div
+                      class="d-flex mb-3 text-muted fs-14 align-items-center"
+                    >
+                      <b-icon class="mr-2" icon="layers"></b-icon>
+                      <span>{{ item.modules.length }} modules</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between fs13">
+                      <span>Progress</span><span>50%</span>
+                    </div>
+                    <b-progress
+                      :value="50"
+                      :max="100"
+                      show-value
+                      height=".8rem"
+                      class="mb-3"
+                      variant="dark-green"
+                    ></b-progress>
                   </div>
-                </div>
-              </div>
-            </b-col>
-          </b-row>
-          <FacilitatorTab />
+                </b-col>
+              </b-row>
+            </div>
+          </div>
+
+          <div class="discussions">
+            <Discussions></Discussions>
+          </div>
         </b-col>
-        <b-col sm="4" class="text-left">
+        <b-col sm="3" class="text-left">
           <div class="turn_over_box">
             <div class="tob_1 mb-4">
               <vc-calendar
@@ -112,8 +127,57 @@
                 </template>
               </vc-calendar>
             </div>
-            <div class="tob_2">
-              <Todo user="admin" />
+            <div class="tob_2 mb-4">
+              <Todo user="learner" />
+            </div>
+
+            <div class="tob_2 mb-4 p-3">
+              <h6 class="mb-3 font-weight-bold text-center">
+                Connect with people
+              </h6>
+
+              <div>
+                <div
+                  class="d-flex mb-3"
+                  v-for="user in users
+                    .filter((item) => item.id != $store.getters.learner.id)
+                    .slice(0, 5)"
+                  :key="user.id"
+                >
+                  <div class="d-flex flex-1">
+                    <b-avatar :src="user.profile" class="mr-2"></b-avatar>
+                    <div>
+                      <div class="fs12 font-weight-bold text-capitalize">
+                        {{ user.name }}
+                      </div>
+                      <div style="line-height: 1">
+                        <span class="fs11">Lagos,Nigeria</span> <br /><span
+                          class="fs11"
+                          >5 similar insights</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <b-dropdown
+                    size="sm"
+                    variant="transparent"
+                    no-caret
+                    class="no-focus drop"
+                  >
+                    <template #button-content>
+                      <b-icon
+                        icon="three-dots-vertical"
+                        font-scale="1.4"
+                      ></b-icon>
+                    </template>
+                    <b-dropdown-item
+                      class="fs12"
+                      @click="addconnections(user.id, 'user')"
+                      >Connect</b-dropdown-item
+                    >
+                  </b-dropdown>
+                </div>
+              </div>
             </div>
           </div>
         </b-col>
@@ -123,8 +187,8 @@
 </template>
 
 <script>
-import FacilitatorTab from "./facilitators";
 import Todo from "../Todo";
+import Discussions from "./minidiscussions";
 export default {
   data() {
     return {
@@ -132,14 +196,15 @@ export default {
       users: [],
       todos: [],
       events: [],
+      courses: [],
       masks: {
         weekdays: "WWW",
       },
     };
   },
   components: {
-    FacilitatorTab,
     Todo,
+    Discussions,
   },
   watch: {},
   created() {
@@ -147,6 +212,7 @@ export default {
     this.getfacilitators();
     this.getusers();
     this.getevents();
+    this.getcourses();
   },
 
   computed: {
@@ -198,7 +264,7 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/events`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {
@@ -215,7 +281,7 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/todos`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {
@@ -229,9 +295,9 @@ export default {
     },
     getfacilitators() {
       this.$http
-        .get(`${this.$store.getters.url}/admin-get-facilitators`, {
+        .get(`${this.$store.getters.url}/user-get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {
@@ -245,14 +311,50 @@ export default {
     },
     getusers() {
       this.$http
-        .get(`${this.$store.getters.url}/admin-get-users`, {
+        .get(`${this.$store.getters.url}/users`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {
           if (res.status == 200) {
             this.users = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    getcourses() {
+      this.$http
+        .get(`${this.$store.getters.url}/courses`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.courses = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    async addconnections(id, type) {
+      return this.$http
+        .post(
+          `${this.$store.getters.url}/connections`,
+          { following_id: id, follow_type: type },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.$toast.success("Successful");
           }
         })
         .catch((err) => {
@@ -265,6 +367,9 @@ export default {
 <style scoped lang="scss">
 .container {
   padding-top: 30px;
+}
+.top_banner {
+  background-color: rgba($color: #388087, $alpha: 0.2);
 }
 .box {
   min-height: 130px;
@@ -321,7 +426,7 @@ export default {
   padding: 0;
   background: white;
 }
-.admin_tab {
+.learner_tab {
   min-height: 400px;
 }
 .todos {
@@ -336,11 +441,16 @@ export default {
 .text-sm {
   font-size: 0.7rem;
 }
+.learner_img {
+  position: absolute;
+  top: -30%;
+  right: 15%;
+}
 @media (max-width: 600px) {
   .box {
     margin-bottom: 24px;
   }
-  .admin_tab {
+  .learner_tab {
     min-height: 200px;
   }
 }

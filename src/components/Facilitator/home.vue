@@ -71,7 +71,7 @@
                     <span class="mr-2 text-dark-green">
                       {{ (newlyCourses / courses.length) * 100 || 0 }}%</span
                     >
-                    <span>New Learners this month</span>
+                    <span>New Courses this month</span>
                   </div>
                 </div>
               </div>

@@ -7,7 +7,9 @@
           class="rounded-pill stat border-0"
           size="lg"
           v-model="feed.message"
-          :placeholder="'Whats on your mind ' + $store.getters.admin.name + '?'"
+          :placeholder="
+            'Whats on your mind ' + $store.getters.learner.name + '?'
+          "
         ></b-form-input>
         <emoji-picker @emoji="insertfeed" :search="search">
           <div
@@ -121,7 +123,30 @@
         <div class="mb-4">
           <div class="d-flex mb-3 pt-3">
             <div class="d-flex flex-1 text-left">
-              <b-avatar class="mr-2" size="3rem"></b-avatar>
+              <div class="font-weight-bold mr-2 mb-1" v-if="allcomments.admin">
+                <b-avatar
+                  class="mr-2"
+                  :src="allcomments.admin.profile"
+                  size="3rem"
+                ></b-avatar>
+              </div>
+              <div class="font-weight-bold mr-2 mb-1" v-if="allcomments.user">
+                <b-avatar
+                  class="mr-2"
+                  size="3rem"
+                  :src="allcomments.user.profile"
+                ></b-avatar>
+              </div>
+              <div
+                class="font-weight-bold mr-2 mb-1"
+                v-if="allcomments.facilitator"
+              >
+                <b-avatar
+                  size="3rem"
+                  class="mr-2"
+                  :src="allcomments.facilitator.profile"
+                ></b-avatar>
+              </div>
               <div class="profile">
                 <span class="name" v-if="allcomments.admin">{{
                   allcomments.admin.name
@@ -195,7 +220,11 @@
         <b-col sm="8">
           <div class="shadow-sm bg-white p-4 rounded-8 mb-4">
             <div class="d-flex align-items-center mb-3">
-              <b-avatar size="2.5rem" class="mr-3"></b-avatar>
+              <b-avatar
+                class="mr-2"
+                size="3rem"
+                :src="$store.getters.learner.profile"
+              ></b-avatar>
 
               <b-form-input
                 class="rounded-pill stat cursor-pointer"
@@ -203,7 +232,7 @@
                 readonly
                 @click="$bvModal.show('feed')"
                 :placeholder="
-                  'Whats on your mind ' + $store.getters.admin.name + '?'
+                  'Whats on your mind ' + $store.getters.learner.name + '?'
                 "
               ></b-form-input>
             </div>
@@ -245,7 +274,27 @@
               >
                 <div class="d-flex mb-3 px-3 pt-3">
                   <div class="d-flex flex-1 text-left">
-                    <b-avatar class="mr-2"></b-avatar>
+                    <div class="font-weight-bold mr-2 mb-1" v-if="feed.admin">
+                      <b-avatar
+                        class="mr-2"
+                        :src="feed.admin.profile"
+                      ></b-avatar>
+                    </div>
+                    <div class="font-weight-bold mr-2 mb-1" v-if="feed.user">
+                      <b-avatar
+                        class="mr-2"
+                        :src="feed.user.profile"
+                      ></b-avatar>
+                    </div>
+                    <div
+                      class="font-weight-bold mr-2 mb-1"
+                      v-if="feed.facilitator"
+                    >
+                      <b-avatar
+                        class="mr-2"
+                        :src="feed.facilitator.profile"
+                      ></b-avatar>
+                    </div>
                     <div class="profile">
                       <span class="name" v-if="feed.admin">{{
                         feed.admin.name
@@ -316,9 +365,9 @@
                     <b-icon
                       :icon="
                         feed.stars.find(
-                          (item) =>
+                          item =>
                             item.star &&
-                            item.admin_id == $store.getters.admin.id
+                            item.user_id == $store.getters.learner.id
                         )
                           ? 'star-fill'
                           : 'star'
@@ -326,7 +375,7 @@
                       class="text-blue mr-1"
                     ></b-icon>
                     <span>{{
-                      feed.stars.filter((item) => item.star).length
+                      feed.stars.filter(item => item.star).length
                     }}</span>
                     stars</span
                   >
@@ -336,9 +385,9 @@
                     ><b-icon
                       :icon="
                         feed.likes.find(
-                          (item) =>
+                          item =>
                             item.like &&
-                            item.admin_id == $store.getters.admin.id
+                            item.user_id == $store.getters.learner.id
                         )
                           ? 'heart-fill'
                           : 'heart'
@@ -346,7 +395,7 @@
                       class="text-danger mr-1"
                     ></b-icon>
                     <span>{{
-                      feed.likes.filter((item) => item.like).length
+                      feed.likes.filter(item => item.like).length
                     }}</span>
                     likes</span
                   >
@@ -480,7 +529,11 @@
             </div>
           </div>
         </b-col>
-        <Message class="d-none d-md-block" @getmessage="getmessage" />
+        <Message
+          class="d-none d-md-block"
+          @getmessage="getmessage"
+          :user="'learner'"
+        />
       </b-row>
 
       <div class="minichats d-none d-md-block">
@@ -503,7 +556,7 @@ export default {
       allcomments: [],
       feed: {
         media: "",
-        message: "",
+        message: ""
       },
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp"],
@@ -511,21 +564,21 @@ export default {
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       comment: {
         comment: "",
-        id: "",
+        id: ""
       },
       mini_info: {
         id: "",
         name: "",
         type: "",
-        profile: "",
-      },
+        profile: ""
+      }
     };
   },
   components: {
     Minichat,
     Message,
     EmojiPicker,
-    FeedUpload,
+    FeedUpload
   },
   mounted() {
     this.getfeeds();
@@ -573,15 +626,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/feeds`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201 || res.status == 200) {
             this.feeds = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -589,10 +642,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Feed Updated ");
             this.$bvModal.hide("feed");
@@ -600,11 +653,11 @@ export default {
 
             this.feed = {
               media: "",
-              message: "",
+              message: ""
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -618,10 +671,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/feed-comments`, this.comment, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.$toast.success("Comment updated ");
             // this.$bvModal.hide("feed");
@@ -630,11 +683,11 @@ export default {
 
             this.comment = {
               comment: "",
-              id: "",
+              id: ""
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -645,23 +698,23 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.feeds[index].likes.push(res.data);
           }
           if (res.status == 200) {
-            this.feeds[index].likes.map((item) => {
-              if (item.admin_id == this.$store.getters.admin.id) {
+            this.feeds[index].likes.map(item => {
+              if (item.user_id == this.$store.getters.learner.id) {
                 return (item.like = res.data.like);
               }
             });
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -672,48 +725,48 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.feeds[index].stars.push(res.data);
           }
           if (res.status == 200) {
-            this.feeds[index].stars.map((item) => {
-              if (item.admin_id == this.$store.getters.admin.id) {
+            this.feeds[index].stars.map(item => {
+              if (item.user_id == this.$store.getters.learner.id) {
                 return (item.star = res.data.star);
               }
             });
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/feeds/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 200) {
                 this.$toast.success("Feed deleted");
                 this.feeds.splice(index, 1);
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

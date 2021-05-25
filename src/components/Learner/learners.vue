@@ -356,9 +356,9 @@ export default {
   methods: {
     getusers() {
       this.$http
-        .get(`${this.$store.getters.url}/admin-get-users`, {
+        .get(`${this.$store.getters.url}/users`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {
@@ -374,9 +374,9 @@ export default {
 
     register() {
       this.$http
-        .post(`${this.$store.getters.url}/admin-register-user`, this.user, {
+        .post(`${this.$store.getters.url}/users`, this.user, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {
@@ -418,7 +418,7 @@ export default {
           this.user,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
             },
           }
         )

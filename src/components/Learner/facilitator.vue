@@ -321,9 +321,9 @@ export default {
   methods: {
     getfacilitators() {
       this.$http
-        .get(`${this.$store.getters.url}/get-facilitators`, {
+        .get(`${this.$store.getters.url}/user-get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {

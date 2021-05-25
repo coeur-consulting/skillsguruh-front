@@ -1,17 +1,27 @@
 <template>
   <div id="topbar">
-    <span class="d-none d-sm-block">
-      <b-input-group size="sm" class="mb-2 topbar_search">
-        <b-input-group-prepend is-text>
-          <b-icon icon="search" font-scale="1" class="text-muted"></b-icon>
-        </b-input-group-prepend>
+    <span class="d-none d-sm-block ml-auto mr-3 search">
+      <b-input-group size="sm" class="topbar_search">
         <b-form-input
           placeholder="Search"
-          class="bg-transparent border-0"
+          class="no-focus bg-transparent border-0"
           type="search"
           aria-label="Text input "
-        ></b-form-input> </b-input-group
+        ></b-form-input>
+        <b-input-group-append is-text>
+          <b-iconstack font-scale="2rem" class="mr-2">
+            <b-icon stacked icon="circle-fill" variant="lighter-green"></b-icon>
+            <b-icon
+              stacked
+              icon="search"
+              scale="0.5"
+              variant="dark-green"
+            ></b-icon>
+          </b-iconstack>
+        </b-input-group-append> </b-input-group
     ></span>
+
+    <span class="mr-4 fs14">{{ new Date() | moment("ll") }}</span>
 
     <div class="d-flex align-items-center d-sm-none">
       <div class="mr-3">
@@ -302,14 +312,15 @@
         </div>
       </b-popover>
 
-      <span @click="$router.push('/administrator/profile')">
+      <span @click="$router.push('/learner/profile')">
         <b-avatar
-          :src="$store.getters.admin.profile"
+          :src="$store.getters.learner.profile"
           id="profile"
-          class="cursor-pointer"
+          class="cursor-pointer mr-2"
           size="30px"
-        ></b-avatar
-      ></span>
+        ></b-avatar>
+        <span class="fs12">{{ $store.getters.learner.name }}</span></span
+      >
     </div>
 
     <Minichat
@@ -355,7 +366,7 @@ export default {
     markread() {
       this.$http.get(`${this.$store.getters.url}/mark-notifications`, {
         headers: {
-          Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
         },
       });
     },
@@ -371,7 +382,7 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/inboxes`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {
@@ -386,7 +397,8 @@ export default {
     async sortmessages(arr) {
       this.inboxes = await arr.map((item) => {
         var info = {};
-        if (item.admin_id && item.admin_id == this.$store.getters.admin.id) {
+
+        if (item.user_id && item.user_id == this.$store.getters.learner.id) {
           info.admin = item.admin_info || null;
           info.user = item.learner_info || null;
           info.facilitator = item.facilitator_info || null;
@@ -394,8 +406,8 @@ export default {
           info.time = item.created_at || null;
         }
         if (
-          item.receiver == "admin" &&
-          item.receiver_id == this.$store.getters.admin.id
+          item.receiver == "user" &&
+          item.receiver_id == this.$store.getters.learner.id
         ) {
           info.admin = item.admin || null;
           info.user = item.user || null;
@@ -403,6 +415,7 @@ export default {
           info.message = item.message || null;
           info.time = item.created_at || null;
         }
+
         return info;
       });
       this.getChatters(this.inboxes);
@@ -502,5 +515,12 @@ export default {
 .org_name {
   font-size: 17px;
   font-weight: 500;
+}
+.search {
+  width: 300px;
+  background: transparent;
+}
+::placeholder {
+  text-align: right;
 }
 </style>

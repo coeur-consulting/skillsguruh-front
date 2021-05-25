@@ -1,8 +1,10 @@
 <template>
   <div id="chart1" style="overflow: hidden">
     <b-row class="border-bottom p-3">
-      <b-col sm="4" class="mb-1 mb-sm-0"> <h6>Todo List</h6></b-col>
-      <b-col sm="8">
+      <b-col sm="12" class="mb-2 mb-sm-0 text-center">
+        <h6>Todo List</h6></b-col
+      >
+      <b-col sm="12">
         <b-form @submit.prevent="register">
           <b-input-group size="sm">
             <b-form-input
@@ -11,7 +13,7 @@
               v-model="todo"
             ></b-form-input>
             <b-input-group-append>
-              <b-button size="sm" type="submit" variant="dark-green"
+              <b-button size="sm" type="submit" variant="lighter-green"
                 ><b-icon icon="plus" font-scale="1.5"></b-icon
               ></b-button>
             </b-input-group-append>
@@ -57,9 +59,8 @@
     </div>
 
     <div class="text-center p-5" v-else>
-      <h6 class="text-muted">
-        You have no active Todo, <br />
-        try adding one now !
+      <h6 class="text-muted fs12">
+        You have no active Todo, try adding one now !
       </h6>
     </div>
   </div>

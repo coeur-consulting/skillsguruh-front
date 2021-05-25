@@ -566,9 +566,9 @@ export default {
     },
     async getfacilitators() {
       return this.$http
-        .get(`${this.$store.getters.url}/admin-get-facilitators`, {
+        .get(`${this.$store.getters.url}/user-get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {
@@ -585,7 +585,7 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/courses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {
@@ -619,7 +619,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/courseoutlines`, this.detail, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {
@@ -674,7 +674,7 @@ export default {
           this.detail,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
             },
           }
         )
@@ -709,7 +709,7 @@ export default {
           this.$http
             .delete(`${this.$store.getters.url}/courseoutlines/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+                Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
               },
             })
             .then((res) => {

@@ -164,7 +164,7 @@ export default {
           }
         }
         if (this.$props.user == "learner") {
-          if (item.admin_id && item.admin_id == this.useraccess.id) {
+          if (item.user_id && item.user_id == this.useraccess.id) {
             info.admin = item.admin_info || null;
             info.user = item.learner_info || null;
             info.facilitator = item.facilitator_info || null;
@@ -172,7 +172,7 @@ export default {
             info.time = item.created_at || null;
           }
           if (
-            item.receiver == "learner" &&
+            item.receiver == "user" &&
             item.receiver_id == this.useraccess.id
           ) {
             info.admin = item.admin || null;

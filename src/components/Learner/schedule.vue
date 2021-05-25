@@ -37,9 +37,7 @@
                             pill
                             size="sm"
                             variant="outline-dark-green"
-                            @click="
-                              $router.push(`/administrator/event/${item.id}`)
-                            "
+                            @click="$router.push(`/learner/event/${item.id}`)"
                             >View Event</b-button
                           >
                         </div>
@@ -94,23 +92,14 @@
                                 class="d-flex justify-content-between w-100 align-items-center"
                               >
                                 <span class="fs12">{{
-                                  new Date("2021-05-18 " + item.start_time)
-                                    | moment("LT")
+                                  item.start_time | moment("LT")
                                 }}</span>
                                 <span
                                   class="border rounded-pill px-3 py-1 bg-light fs11"
                                 >
-                                  {{
-                                    duration(
-                                      new Date("2021-05-18 " + item.start_time),
-                                      new Date("2021-05-18 " + item.end_time)
-                                    )
-                                  }}
-                                  hour{{
-                                    duration(
-                                      new Date("2021-05-18 " + item.start_time),
-                                      new Date("2021-05-18 " + item.end_time)
-                                    ) > 1
+                                  {{ duration(item.start_time, item.end_time) }}
+                                  week{{
+                                    duration(item.start_time, item.end_time) > 1
                                       ? "s"
                                       : ""
                                   }}
@@ -119,13 +108,22 @@
                               <div class="fs14" v-if="item.course.title">
                                 {{ item.course.title }}
                               </div>
-                              <div class="fs13 d-flex justify-content-between">
+                              <div
+                                class="fs13 d-flex justify-content-between mb-2"
+                                v-if="item.facilitator"
+                              >
                                 <span> {{ item.facilitator.name }}</span>
                                 <b-icon
                                   class="cursor-pointer"
                                   @click="drop(item.id)"
                                   icon="x"
                                 ></b-icon>
+                              </div>
+                              <div class="fs14" v-if="item.start_time">
+                                {{
+                                  item.start_time
+                                    | moment(" MMMM Do YYYY, h:mm:ss a")
+                                }}
                               </div>
                             </div>
                           </div>
@@ -148,22 +146,14 @@
                                 class="d-flex justify-content-between w-100 align-items-center"
                               >
                                 <span class="fs12">{{
-                                  new Date("2021-05-18 " + item.start_time)
-                                    | moment("LT")
+                                  item.start_time | moment("LT")
                                 }}</span>
                                 <span
                                   class="border rounded-pill px-3 py-1 bg-light fs11"
-                                  >{{
-                                    duration(
-                                      new Date("2021-05-18 " + item.start_time),
-                                      new Date("2021-05-18 " + item.end_time)
-                                    )
-                                  }}
-                                  hour{{
-                                    duration(
-                                      new Date("2021-05-18 " + item.start_time),
-                                      new Date("2021-05-18 " + item.end_time)
-                                    ) > 1
+                                >
+                                  {{ duration(item.start_time, item.end_time) }}
+                                  week{{
+                                    duration(item.start_time, item.end_time) > 1
                                       ? "s"
                                       : ""
                                   }}
@@ -172,13 +162,22 @@
                               <div class="fs14" v-if="item.course.title">
                                 {{ item.course.title }}
                               </div>
-                              <div class="fs13 d-flex justify-content-between">
+                              <div
+                                class="mb-2 fs13 d-flex justify-content-between"
+                                v-if="item.facilitator"
+                              >
                                 <span> {{ item.facilitator.name }}</span>
                                 <b-icon
                                   class="cursor-pointer"
                                   @click="drop(item.id)"
                                   icon="x"
                                 ></b-icon>
+                              </div>
+                              <div class="fs14" v-if="item.start_time">
+                                {{
+                                  item.start_time
+                                    | moment(" MMMM Do YYYY, h:mm:ss a")
+                                }}
                               </div>
                             </div>
                           </div>
@@ -201,22 +200,14 @@
                                 class="d-flex justify-content-between w-100 align-items-center"
                               >
                                 <span class="fs12">{{
-                                  new Date("2021-05-18 " + item.start_time)
-                                    | moment("LT")
+                                  item.start_time | moment("LT")
                                 }}</span>
                                 <span
                                   class="border rounded-pill px-3 py-1 bg-light fs11"
-                                  >{{
-                                    duration(
-                                      new Date("2021-05-18 " + item.start_time),
-                                      new Date("2021-05-18 " + item.end_time)
-                                    )
-                                  }}
-                                  hour{{
-                                    duration(
-                                      new Date("2021-05-18 " + item.start_time),
-                                      new Date("2021-05-18 " + item.end_time)
-                                    ) > 1
+                                >
+                                  {{ duration(item.start_time, item.end_time) }}
+                                  week{{
+                                    duration(item.start_time, item.end_time) > 1
                                       ? "s"
                                       : ""
                                   }}
@@ -225,13 +216,23 @@
                               <div class="fs14" v-if="item.course.title">
                                 {{ item.course.title }}
                               </div>
-                              <div class="fs13 d-flex justify-content-between">
+                              <div
+                                class="mb-2 fs13 d-flex justify-content-between"
+                                v-if="item.facilitator"
+                              >
                                 <span> {{ item.facilitator.name }}</span>
                                 <b-icon
                                   class="cursor-pointer"
                                   @click="drop(item.id)"
                                   icon="x"
                                 ></b-icon>
+                              </div>
+
+                              <div class="fs14" v-if="item.start_time">
+                                {{
+                                  item.start_time
+                                    | moment(" MMMM Do YYYY, h:mm:ss a")
+                                }}
                               </div>
                             </div>
                           </div>
@@ -254,22 +255,14 @@
                                 class="d-flex justify-content-between w-100 align-items-center"
                               >
                                 <span class="fs12">{{
-                                  new Date("2021-05-18 " + item.start_time)
-                                    | moment("LT")
+                                  item.start_time | moment("LT")
                                 }}</span>
                                 <span
                                   class="border rounded-pill px-3 py-1 bg-light fs11"
-                                  >{{
-                                    duration(
-                                      new Date("2021-05-18 " + item.start_time),
-                                      new Date("2021-05-18 " + item.end_time)
-                                    )
-                                  }}
-                                  hour{{
-                                    duration(
-                                      new Date("2021-05-18 " + item.start_time),
-                                      new Date("2021-05-18 " + item.end_time)
-                                    ) > 1
+                                >
+                                  {{ duration(item.start_time, item.end_time) }}
+                                  week{{
+                                    duration(item.start_time, item.end_time) > 1
                                       ? "s"
                                       : ""
                                   }}
@@ -278,13 +271,22 @@
                               <div class="fs14" v-if="item.course.title">
                                 {{ item.course.title }}
                               </div>
-                              <div class="fs13 d-flex justify-content-between">
+                              <div
+                                class="mb-2 fs13 d-flex justify-content-between"
+                                v-if="item.facilitator"
+                              >
                                 <span> {{ item.facilitator.name }}</span>
                                 <b-icon
                                   class="cursor-pointer"
                                   @click="drop(item.id)"
                                   icon="x"
                                 ></b-icon>
+                              </div>
+                              <div class="fs14" v-if="item.start_time">
+                                {{
+                                  item.start_time
+                                    | moment(" MMMM Do YYYY, h:mm:ss a")
+                                }}
                               </div>
                             </div>
                           </div>
@@ -307,22 +309,14 @@
                                 class="d-flex justify-content-between w-100 align-items-center"
                               >
                                 <span class="fs12">{{
-                                  new Date("2021-05-18 " + item.start_time)
-                                    | moment("LT")
+                                  item.start_time | moment("LT")
                                 }}</span>
                                 <span
                                   class="border rounded-pill px-3 py-1 bg-light fs11"
-                                  >{{
-                                    duration(
-                                      new Date("2021-05-18 " + item.start_time),
-                                      new Date("2021-05-18 " + item.end_time)
-                                    )
-                                  }}
-                                  hour{{
-                                    duration(
-                                      new Date("2021-05-18 " + item.start_time),
-                                      new Date("2021-05-18 " + item.end_time)
-                                    ) > 1
+                                >
+                                  {{ duration(item.start_time, item.end_time) }}
+                                  week{{
+                                    duration(item.start_time, item.end_time) > 1
                                       ? "s"
                                       : ""
                                   }}
@@ -331,13 +325,22 @@
                               <div class="fs14" v-if="item.course.title">
                                 {{ item.course.title }}
                               </div>
-                              <div class="fs13 d-flex justify-content-between">
+                              <div
+                                class="mb-2 fs13 d-flex justify-content-between"
+                                v-if="item.facilitator"
+                              >
                                 <span> {{ item.facilitator.name }}</span>
                                 <b-icon
                                   class="cursor-pointer"
                                   @click="drop(item.id)"
                                   icon="x"
                                 ></b-icon>
+                              </div>
+                              <div class="fs14" v-if="item.start_time">
+                                {{
+                                  item.start_time
+                                    | moment(" MMMM Do YYYY, h:mm:ss a")
+                                }}
                               </div>
                             </div>
                           </div>
@@ -361,23 +364,14 @@
                                 class="d-flex justify-content-between w-100 align-items-center"
                               >
                                 <span class="fs12">{{
-                                  new Date("2021-05-18 " + item.start_time)
-                                    | moment("LT")
+                                  item.start_time | moment("LT")
                                 }}</span>
                                 <span
                                   class="border rounded-pill px-3 py-1 bg-light fs11"
-                                  >{{
-                                    duration(
-                                      new Date("2021-05-18 " + item.start_time),
-                                      new Date("2021-05-18 " + item.end_time)
-                                    )
-                                  }}
-                                  hour
-                                  {{
-                                    duration(
-                                      new Date("2021-05-18 " + item.start_time),
-                                      new Date("2021-05-18 " + item.end_time)
-                                    ) > 1
+                                >
+                                  {{ duration(item.start_time, item.end_time) }}
+                                  week{{
+                                    duration(item.start_time, item.end_time) > 1
                                       ? "s"
                                       : ""
                                   }}
@@ -386,13 +380,22 @@
                               <div class="fs14" v-if="item.course.title">
                                 {{ item.course.title }}
                               </div>
-                              <div class="fs13 d-flex justify-content-between">
+                              <div
+                                class="mb-2 fs13 d-flex justify-content-between"
+                                v-if="item.facilitator"
+                              >
                                 <span> {{ item.facilitator.name }}</span>
                                 <b-icon
                                   class="cursor-pointer"
                                   @click="drop(item.id)"
                                   icon="x"
                                 ></b-icon>
+                              </div>
+                              <div class="fs14" v-if="item.start_time">
+                                {{
+                                  item.start_time
+                                    | moment(" MMMM Do YYYY, h:mm:ss a")
+                                }}
                               </div>
                             </div>
                           </div>
@@ -415,23 +418,14 @@
                                 class="d-flex justify-content-between w-100 align-items-center"
                               >
                                 <span class="fs12">{{
-                                  new Date("2021-05-18 " + item.start_time)
-                                    | moment("LT")
+                                  item.start_time | moment("LT")
                                 }}</span>
                                 <span
                                   class="border rounded-pill px-3 py-1 bg-light fs11"
-                                  >{{
-                                    duration(
-                                      new Date("2021-05-18 " + item.start_time),
-                                      new Date("2021-05-18 " + item.end_time)
-                                    )
-                                  }}
-                                  hour
-                                  {{
-                                    duration(
-                                      new Date("2021-05-18 " + item.start_time),
-                                      new Date("2021-05-18 " + item.end_time)
-                                    ) > 1
+                                >
+                                  {{ duration(item.start_time, item.end_time) }}
+                                  week{{
+                                    duration(item.start_time, item.end_time) > 1
                                       ? "s"
                                       : ""
                                   }}
@@ -440,13 +434,22 @@
                               <div class="fs14" v-if="item.course.title">
                                 {{ item.course.title }}
                               </div>
-                              <div class="fs13 d-flex justify-content-between">
+                              <div
+                                class="mb-2 fs13 d-flex justify-content-between"
+                                v-if="item.facilitator"
+                              >
                                 <span> {{ item.facilitator.name }}</span>
                                 <b-icon
                                   class="cursor-pointer"
                                   @click="drop(item.id)"
                                   icon="x"
                                 ></b-icon>
+                              </div>
+                              <div class="fs14" v-if="item.start_time">
+                                {{
+                                  item.start_time
+                                    | moment(" MMMM Do YYYY, h:mm:ss a")
+                                }}
                               </div>
                             </div>
                           </div>
@@ -497,23 +500,26 @@
                 is-expanded
                 title-position="left"
               >
-                <template #day-popover>
-                  <div
+                <template #day-popover="{ dayTitle, attributes }">
+                  <div class="text-xs text-gray-300 font-semibold text-center">
+                    {{ dayTitle }}
+                  </div>
+                  <popover-row
                     v-for="attr in attributes"
                     :key="attr.key"
-                    class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"
-                    :class="attr.customData.class"
+                    :attribute="attr"
+                    class="border-bottom pb-2"
                   >
-                    <p class="mb-1 text-capitalize">
-                      {{ attr.customData.title }}
-                    </p>
-                    <p class="fs11 mb-0 text-capitalize">
-                      {{ attr.customData.type }}
-                    </p>
-                    <p class="fs11 mb-0 text-capitalize">
-                      {{ attr.customData.duration }}
-                    </p>
-                  </div>
+                    <div>
+                      <p class="mb-1 text-capitalize">
+                        {{ attr.customData.title }}
+                      </p>
+                      <p class="fs11 mb-0 text-capitalize">
+                        <span class="mr-2"> {{ attr.customData.type }} -</span
+                        ><span> {{ attr.customData.duration }}</span>
+                      </p>
+                    </div>
+                  </popover-row>
                 </template>
               </vc-calendar>
             </div>
@@ -566,15 +572,9 @@
                       <span class="fs12"
                         ><b-icon icon="clock" class="mr-2"></b-icon>
                         <span
-                          >{{
-                            new Date("2021-05-18 " + item.start_time)
-                              | moment("LT")
-                          }}
+                          >{{ item.start_time | moment("LT") }}
                           -
-                          {{
-                            new Date("2021-05-18 " + item.end_time)
-                              | moment("LT")
-                          }}</span
+                          {{ item.end_time | moment("LT") }}</span
                         ></span
                       >
                     </div>
@@ -725,6 +725,8 @@
 </template>
 
 <script>
+import PopoverRow from "v-calendar/lib/components/popover-row.umd.min";
+
 export default {
   data() {
     return {
@@ -749,7 +751,9 @@ export default {
       },
     };
   },
-  components: {},
+  components: {
+    PopoverRow,
+  },
   watch: {},
   created() {
     this.getcourses().then(() => {
@@ -761,14 +765,51 @@ export default {
   },
   computed: {
     myschedule() {
-      return this.events.map((item, index) => {
+      return this.schedules.map((item, index) => {
         var res = {
           key: index,
 
           highlight: {
             color: "teal",
             fillMode: "light",
-            contentClass: "italic",
+            start: { fillMode: "outline" },
+            base: { fillMode: "light" },
+            end: { fillMode: "solid" },
+          },
+          dot: false,
+          bar: false,
+          content: false,
+          popover: true,
+          customData: {
+            title: item.course.title,
+            duration:
+              this.$moment(item.start_time).diff(
+                this.$moment(item.end_time),
+                "weeks"
+              ) + "weeks",
+            type: "Course",
+            class: "bg-red-600 text-white",
+          },
+          dates: {
+            start: new Date(item.start_time),
+            end: new Date(item.end_time),
+          },
+        };
+        return res;
+      });
+    },
+    myevents() {
+      return this.events.map((item, index) => {
+        var res = {
+          key: index,
+
+          highlight: {
+            color: "purple",
+            fillMode: "light",
+
+            start: { fillMode: "outline" },
+            base: { fillMode: "light" },
+            end: { fillMode: "solid" },
           },
           dot: false,
           bar: false,
@@ -780,13 +821,22 @@ export default {
             type: item.type,
             class: "bg-red-600 text-white",
           },
-          dates: [new Date(item.start)],
+          dates: { start: new Date(item.start), end: new Date(item.end) },
         };
         return res;
       });
     },
     attributes() {
-      return this.myschedule;
+      return this.myschedule.concat(this.myevents).map((item, index) => {
+        var res = {
+          key: index,
+          highlight: item.highlight,
+          popover: true,
+          customData: item.customData,
+          dates: item.dates,
+        };
+        return res;
+      });
     },
     comingevents() {
       return this.events.filter((item) => item.status == "inactive");
@@ -807,13 +857,13 @@ export default {
       });
     },
     duration(a, b) {
-      return this.$moment(b).diff(this.$moment(a), "hours");
+      return this.$moment(b).diff(this.$moment(a), "weeks");
     },
     async getschedules() {
       return this.$http
         .get(`${this.$store.getters.url}/courseschedules`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {
@@ -828,9 +878,9 @@ export default {
     },
     async getfacilitators() {
       return this.$http
-        .get(`${this.$store.getters.url}/admin-get-facilitators`, {
+        .get(`${this.$store.getters.url}/user-get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {
@@ -847,7 +897,7 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/courses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {
@@ -863,7 +913,7 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/events`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {
@@ -880,7 +930,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/courseschedules`, this.detail, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {
@@ -922,7 +972,7 @@ export default {
           this.detail,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
             },
           }
         )
@@ -948,7 +998,7 @@ export default {
           this.$http
             .delete(`${this.$store.getters.url}/courseschedules/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+                Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
               },
             })
             .then((res) => {

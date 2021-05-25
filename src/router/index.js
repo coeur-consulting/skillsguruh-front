@@ -610,6 +610,20 @@ const routes = [
         },
       },
       {
+        path: "course/:id",
+        name: "Facilitator course",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatorcourse" */ "@/components/Facilitator/course.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+
+      {
         path: "outlines",
         name: "Facilitator outlines",
         components: {
@@ -831,6 +845,19 @@ const routes = [
         },
       },
       {
+        path: "library",
+        name: "Learner library",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnerlibrary" */ "@/components/Learner/library.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
         path: "discussions",
         name: "Learner discussions",
         components: {
@@ -882,6 +909,20 @@ const routes = [
           typeLearner: true,
         },
       },
+      {
+        path: "course/:id",
+        name: "Learner course",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnercourse" */ "@/components/Learner/course.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+
       {
         path: "outlines",
         name: "Learner outlines",
@@ -1000,6 +1041,19 @@ const routes = [
         },
       },
       {
+        path: "media/:id",
+        name: "Learner media",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnermedia" */ "@/components/Learner/Media/index.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
         path: "view/:type/:id",
         name: "Learner viewprofile",
         components: {
@@ -1014,7 +1068,14 @@ const routes = [
       },
     ],
   },
-
+  {
+    path: "/course/:id",
+    name: "course",
+    components: {
+      default: () =>
+        import(/* webpackChunkName: "course" */ "@/components/course.vue"),
+    },
+  },
   {
     path: "*",
     name: "Not Found",

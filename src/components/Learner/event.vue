@@ -51,13 +51,17 @@
             <span
               ><span class="font-weight-bold fs15">Start</span>
               <br />
-              <span class="fs16"> {{ event.start | moment("ll") }}</span></span
-            >
-            -
+              <span class="fs16">
+                {{ event.start | moment(" MMMM Do YYYY, h:mm:ss a") }}</span
+              >
+            </span>
+
             <span>
               <span class="font-weight-bold fs15"> End</span>
               <br />
-              <span class="fs16"> {{ event.end | moment("ll") }}</span></span
+              <span class="fs16">
+                {{ event.end | moment(" MMMM Do YYYY, h:mm:ss a") }}</span
+              ></span
             >
           </div>
 
@@ -66,7 +70,7 @@
               >Event Link</span
             >
             <br />
-            <span class="fs16"> {{ event.url }}</span>
+            <div class="fs12">{{ event.url }}</div>
           </div>
           <div class="mb-1 px-3 py-2">
             <b-badge>{{ event.status }}</b-badge>
@@ -108,9 +112,9 @@ export default {
   methods: {
     async getfacilitators() {
       return this.$http
-        .get(`${this.$store.getters.url}/admin-get-facilitators`, {
+        .get(`${this.$store.getters.url}/user-get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {
@@ -126,7 +130,7 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/events/${this.$route.params.id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {

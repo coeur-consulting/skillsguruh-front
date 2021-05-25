@@ -238,11 +238,11 @@
           <b-col sm="6" v-if="discussion.type == 'private'">
             <b-form-group label="Select course">
               <b-form-select v-model="discussion.course_id">
-                <b-form-select-option value="private"
-                  >Private</b-form-select-option
-                >
-                <b-form-select-option value="public"
-                  >Public</b-form-select-option
+                <b-form-select-option
+                  :value="item.id"
+                  v-for="item in courses"
+                  :key="item.id"
+                  >{{ item.title }}</b-form-select-option
                 >
               </b-form-select>
             </b-form-group>
@@ -306,13 +306,15 @@
 
 <script>
 import VoerroTagsInput from "@voerro/vue-tagsinput";
-
+import Insight from "../insight.js";
 export default {
   data() {
     return {
+      Insight: [],
       show: "recent",
       discussions: [],
       recentdiscussions: [],
+      courses: [],
       discussion: {
         name: "",
         description: "",
@@ -333,7 +335,13 @@ export default {
   },
   mounted() {
     this.getdiscussions();
-    this.gettags();
+    this.mytags = Insight.map((item) => {
+      var dat = {
+        value: item,
+      };
+      return dat;
+    });
+    this.getcourses();
   },
   computed: {
     otherdiscussion() {
@@ -361,6 +369,22 @@ export default {
     },
   },
   methods: {
+    getcourses() {
+      this.$http
+        .get(`${this.$store.getters.url}/courses`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.courses = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     toggleData() {
       if (this.show == "recent") {
         this.discussions = this.recentdiscussions;
@@ -380,27 +404,22 @@ export default {
       var negative = val.filter((item) => !item.vote).length;
       return Number(positive) - Number(negative);
     },
-    gettags() {
-      this.$http
-        .get(`${this.$store.getters.url}/tags`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 200) {
-            this.mytags = res.data.map((item) => {
-              var dat = {
-                value: item.tag,
-              };
-              return dat;
-            });
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
-    },
+    // gettags() {
+    //   this.$http
+    //     .get(`${this.$store.getters.url}/tags`, {
+    //       headers: {
+    //         Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+    //       },
+    //     })
+    //     .then((res) => {
+    //       if (res.status == 200) {
+
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       this.$toast.error(err.response.data.message);
+    //     });
+    // },
     getdiscussions() {
       this.$http
         .get(`${this.$store.getters.url}/discussions`, {

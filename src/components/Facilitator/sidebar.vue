@@ -210,7 +210,7 @@ export default {
   },
   methods: {
     logout() {
-      localStorage.removeItem("authOrg");
+      localStorage.removeItem("authFacilitator");
       this.$router.push("/login");
     },
     getevents() {

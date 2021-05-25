@@ -72,17 +72,22 @@
             <b-icon icon="sliders"></b-icon>
           </div>
           <div class="py-4 suggestion_box" v-if="suggestedConnections.length">
-            <div class="d-flex align-items-end mb-4">
+            <div
+              class="d-flex align-items-end mb-4"
+              v-for="(item, id) in suggestedConnections"
+              :key="id"
+            >
               <div class="d-flex align-items-center flex-1">
                 <b-avatar class="mr-2" size="2rem"></b-avatar>
                 <div style="line-height: 1.2">
-                  <span class="fs14">John Doe</span> <br />
-                  <span class="fs12 text-muted">succy@gmail.com</span>
+                  <span class="fs14">{{ item.name }}</span> <br />
+                  <span class="fs12 text-muted">{{ item.email }}</span>
                 </div>
               </div>
 
               <div>
                 <b-button
+                  @click="addconnections(item.id, 'user')"
                   size="sm"
                   variant="outline-dark-green"
                   class="rounded-pill fs11"
@@ -150,12 +155,34 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/connections`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {
           if (res.status == 200) {
             this.connections = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+
+    async addconnections(id, type) {
+      return this.$http
+        .post(
+          `${this.$store.getters.url}/connections`,
+          { following_id: id, follow_type: type },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.$toast.success("Successful");
+            this.getconnections();
           }
         })
         .catch((err) => {

@@ -16,8 +16,8 @@
   </div>
 </template>
 <script>
-import SideBar from "@/components/Administrator/sidebar.vue";
-import TopBar from "@/components/Administrator/topbar.vue";
+import SideBar from "@/components/Learner/sidebar.vue";
+import TopBar from "@/components/Learner/topbar.vue";
 export default {
   components: {
     SideBar,

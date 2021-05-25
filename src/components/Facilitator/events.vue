@@ -64,7 +64,10 @@
                     <b-td>
                       <div class="text-left">{{ item.schedule }}</div>
                     </b-td>
-                    <b-td class="text-capitalize">{{ item.start }} </b-td>
+                    <b-td class="text-capitalize"
+                      >{{ item.start | moment("ll") }}
+                    </b-td>
+                    <b-td class="text-capitalize">{{ item.type }}</b-td>
                     <b-td
                       class="text-left"
                       :class="{
@@ -194,26 +197,24 @@
           <b-form-row class="mb-2">
             <b-col cols="6" class="pr-sm-3">
               <b-form-group label="Event Start">
-                <b-form-datepicker
-                  hide-header
-                  size="sm"
-                  :hour12="true"
-                  required
+                <vc-date-picker
+                  placeholder="Choose start time"
                   v-model="event.start"
-                  type="tel"
-                ></b-form-datepicker>
+                  mode="dateTime"
+                  :is24hr="false"
+                >
+                </vc-date-picker>
               </b-form-group>
             </b-col>
             <b-col cols="6" class="pr-sm-3">
               <b-form-group label="Event End">
-                <b-form-datepicker
-                  hide-header
-                  :hour12="true"
-                  size="sm"
-                  required
+                <vc-date-picker
+                  placeholder="Choose end time"
                   v-model="event.end"
-                  type="tel"
-                ></b-form-datepicker>
+                  mode="dateTime"
+                  :is24hr="false"
+                >
+                </vc-date-picker>
               </b-form-group>
             </b-col>
           </b-form-row>
@@ -348,26 +349,24 @@
           <b-form-row class="mb-2">
             <b-col cols="6" class="pr-sm-3">
               <b-form-group label="Event Start">
-                <b-form-datepicker
-                  hide-header
-                  size="sm"
-                  :hour12="true"
-                  required
+                <vc-date-picker
+                  placeholder="Choose end time"
                   v-model="event.start"
-                  type="tel"
-                ></b-form-datepicker>
+                  mode="dateTime"
+                  :is24hr="false"
+                >
+                </vc-date-picker>
               </b-form-group>
             </b-col>
             <b-col cols="6" class="pr-sm-3">
               <b-form-group label="Event End">
-                <b-form-datepicker
-                  hide-header
-                  :hour12="true"
-                  size="sm"
-                  required
+                <vc-date-picker
+                  placeholder="Choose end time"
                   v-model="event.end"
-                  type="tel"
-                ></b-form-datepicker>
+                  mode="dateTime"
+                  :is24hr="false"
+                >
+                </vc-date-picker>
               </b-form-group>
             </b-col>
           </b-form-row>

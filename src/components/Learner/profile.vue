@@ -164,9 +164,9 @@ export default {
     },
     getuser() {
       this.$http
-        .get(`${this.$store.getters.url}/admin`, {
+        .get(`${this.$store.getters.url}/user`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {
@@ -179,15 +179,15 @@ export default {
       this.$http
         .put(`${this.$store.getters.url}/admins/${this.user.id}`, this.user, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {
           if (res.status == 200) {
             this.user = res.data;
-            var authAdmin = JSON.parse(localStorage.getItem("authAdmin"));
-            authAdmin.profile = res.data.profile;
-            localStorage.setItem("authAdmin", JSON.stringify(authAdmin));
+            var authLearner = JSON.parse(localStorage.getItem("authLearner"));
+            authLearner.profile = res.data.profile;
+            localStorage.setItem("authLearner", JSON.stringify(authLearner));
             this.$toast.success("Updated successfully");
           }
         });
@@ -196,7 +196,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/update-password`, this.detail, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {

@@ -349,8 +349,8 @@ export default {
         this.$http
           .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
           .then((res) => {
-            authFacilitator.access_token = res.data.access_token;
-            authFacilitator.refresh_token = res.data.refresh_token;
+            authLearner.access_token = res.data.access_token;
+            authLearner.refresh_token = res.data.refresh_token;
             this.$http
               .get(`${this.$store.getters.url}/user`, {
                 headers: {
@@ -358,21 +358,23 @@ export default {
                 },
               })
               .then((res) => {
-                authLearner.id = res.data.id;
-                authLearner.name = res.data.name;
-                authLearner.email = res.data.name;
-                authLearner.profile = res.data.profile;
-                authLearner.org_profile = res.data.organization.logo;
-                authLearner.org_name = res.data.organization.name;
-                authLearner.referral = res.data.referral_code;
+                if (res.status == 200) {
+                  authLearner.id = res.data.id;
+                  authLearner.name = res.data.name;
+                  authLearner.email = res.data.name;
+                  authLearner.profile = res.data.profile;
+                  authLearner.org_profile = res.data.organization.logo;
+                  authLearner.org_name = res.data.organization.name;
+                  authLearner.referral = res.data.referral_code;
 
-                localStorage.setItem(
-                  "authLearner",
-                  JSON.stringify(authLearner)
-                );
-                this.$toast.success("Login successful");
+                  localStorage.setItem(
+                    "authLearner",
+                    JSON.stringify(authLearner)
+                  );
+                  this.$toast.success("Login successful");
 
-                window.location.href = "/learner";
+                  window.location.href = "/learner";
+                }
               })
               .catch(() => {
                 this.$toast.error("Invalid credentials");

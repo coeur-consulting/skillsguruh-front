@@ -199,7 +199,7 @@ export default {
   },
   methods: {
     logout() {
-      localStorage.removeItem("authOrg");
+      localStorage.removeItem("authAdmin");
       this.$router.push("/login");
     },
     getevents() {
