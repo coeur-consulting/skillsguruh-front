@@ -58,9 +58,23 @@
             font-scale="1.1"
             class="mr-3 text-dark-green"
           ></b-icon>
-          <span class="side-link"
-            ><span class="mr-5">Feeds</span>
-            <span><b-badge variant="danger" size="sm">14</b-badge></span></span
+          <span class="side-link"><span class="mr-5">Feeds</span> </span>
+        </div>
+      </router-link>
+      <router-link to="/learner/events">
+        <div class="side_item">
+          <b-icon
+            icon="bookmark"
+            font-scale="1.1"
+            class="mr-3 text-dark-green"
+          ></b-icon>
+          <span class="side-link">
+            <span class="mr-5">Events</span>
+            <span
+              ><b-badge variant="danger" size="sm">{{
+                activeaccount
+              }}</b-badge></span
+            ></span
           >
         </div>
       </router-link>

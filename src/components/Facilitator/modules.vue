@@ -623,8 +623,8 @@ export default {
         .then((res) => {
           if (res.status == 201) {
             this.$toast.success("Added successfully");
+            this.allmodules();
             this.$bvModal.hide("add");
-            this.modules.unshift(res.data);
             this.detail = {
               course_id: "",
               module: "",
@@ -708,7 +708,7 @@ export default {
             .then((res) => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
-                this.getmodules();
+                this.allmodules();
               }
             })
             .catch((err) => {

@@ -136,7 +136,7 @@
             <div>
               <span
                 v-if="item.type == 'public'"
-                @click="$router.push(`/administrator/discussion/${item.id}`)"
+                @click="$router.push(`/learner/discussion/${item.id}`)"
                 class="text-dark-green font-weight-bold cursor-pointer"
                 >Join Discussion</span
               >
@@ -168,6 +168,30 @@
         </div>
       </div>
     </div>
+    <b-modal
+      id="access"
+      title="Request Access"
+      hide-header
+      hide-footer
+      centered
+    >
+      <div class="text-center">
+        <p class="mb-4 fs16">Do you wish to join this discussion?</p>
+        <b-button
+          variant="outline-secondary"
+          class="mr-3"
+          size="sm"
+          @click="$bvModal.hide('access')"
+          >Cancel</b-button
+        >
+        <b-button
+          variant="secondary"
+          size="sm"
+          @click="$toast.success('Request sent succesfully')"
+          >Send a request</b-button
+        >
+      </div>
+    </b-modal>
   </div>
 </template>
 

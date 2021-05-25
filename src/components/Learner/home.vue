@@ -36,56 +36,60 @@
                   :key="item.id"
                 >
                   <div
-                    class="w-100 h-100 bg-white shadow-wm rounded p-4"
+                    class="w-100 h-100 bg-white shadow-wm rounded p-4 d-flex flex-column"
                     @click="$router.push('/learner/courses')"
                   >
-                    <b-iconstack font-scale="2.5" class="mr-2 mb-2">
-                      <b-icon
-                        stacked
-                        icon="circle-fill"
-                        variant="lighter-green"
-                      ></b-icon>
-                      <b-icon
-                        stacked
-                        icon="person-badge-fill"
-                        scale="0.5"
+                    <div class="flex-1">
+                      <b-iconstack font-scale="2.5" class="mr-2 mb-2">
+                        <b-icon
+                          stacked
+                          icon="circle-fill"
+                          variant="lighter-green"
+                        ></b-icon>
+                        <b-icon
+                          stacked
+                          icon="person-badge-fill"
+                          scale="0.5"
+                          variant="dark-green"
+                        ></b-icon>
+                      </b-iconstack>
+                      <div class="font-weight-bold fs14 mb-2 text-capitalize">
+                        {{ item.title }}
+                      </div>
+
+                      <div
+                        class="d-flex mb-1 text-muted fs-14 align-items-center"
+                      >
+                        <b-icon class="mr-2" icon="calendar"></b-icon>
+                        <span>Jane Adaobi</span>
+                      </div>
+                      <div
+                        class="d-flex mb-1 text-muted fs-14 align-items-center"
+                      >
+                        <b-icon class="mr-2" icon="clock"></b-icon>
+                        <span>Monday 8:00 am</span>
+                      </div>
+                      <div
+                        class="d-flex mb-3 text-muted fs-14 align-items-center"
+                      >
+                        <b-icon class="mr-2" icon="layers"></b-icon>
+                        <span>{{ item.modules.length }} modules</span>
+                      </div>
+                    </div>
+
+                    <div class="pt-3">
+                      <div class="d-flex justify-content-between fs13">
+                        <span>Progress</span><span>50%</span>
+                      </div>
+                      <b-progress
+                        :value="50"
+                        :max="100"
+                        show-value
+                        height=".8rem"
+                        class="mb-3"
                         variant="dark-green"
-                      ></b-icon>
-                    </b-iconstack>
-                    <div class="font-weight-bold fs14 mb-2 text-capitalize">
-                      {{ item.title }}
+                      ></b-progress>
                     </div>
-
-                    <div
-                      class="d-flex mb-1 text-muted fs-14 align-items-center"
-                    >
-                      <b-icon class="mr-2" icon="calendar"></b-icon>
-                      <span>Jane Adaobi</span>
-                    </div>
-                    <div
-                      class="d-flex mb-1 text-muted fs-14 align-items-center"
-                    >
-                      <b-icon class="mr-2" icon="clock"></b-icon>
-                      <span>Monday 8:00 am</span>
-                    </div>
-                    <div
-                      class="d-flex mb-3 text-muted fs-14 align-items-center"
-                    >
-                      <b-icon class="mr-2" icon="layers"></b-icon>
-                      <span>{{ item.modules.length }} modules</span>
-                    </div>
-
-                    <div class="d-flex justify-content-between fs13">
-                      <span>Progress</span><span>50%</span>
-                    </div>
-                    <b-progress
-                      :value="50"
-                      :max="100"
-                      show-value
-                      height=".8rem"
-                      class="mb-3"
-                      variant="dark-green"
-                    ></b-progress>
                   </div>
                 </b-col>
               </b-row>
@@ -139,7 +143,12 @@
                 Connect with people
               </h6>
 
-              <div>
+              <div
+                v-if="
+                  users.filter((item) => item.id != $store.getters.learner.id)
+                    .length
+                "
+              >
                 <div
                   class="d-flex mb-3"
                   v-for="user in users
@@ -181,6 +190,7 @@
                   </b-dropdown>
                 </div>
               </div>
+              <div class="text-muted text-center p-3 fs13">Unavailable</div>
             </div>
           </div>
         </b-col>

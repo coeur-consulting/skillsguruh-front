@@ -321,10 +321,7 @@
                 >Start a discussion</b-button
               >
             </div>
-            <div
-              class="py-3 text-left related_quest border"
-              v-if="related.length"
-            >
+            <div class="py-3 text-left related_quest border" v-if="related">
               <h6 class="mb-3 px-3">Related Discussions</h6>
               <div v-for="item in related" :key="item.id">
                 <div
@@ -332,7 +329,7 @@
                   v-if="item.type == 'public'"
                   @click="$router.push(`/administrator/discussion/${item.id}`)"
                 >
-                  <div>
+                  <div v-if="item.discussionmessage.length">
                     <div class="mr-3 related_count">
                       {{ item.discussionmessage.length }}
                     </div>
@@ -344,7 +341,7 @@
                   v-else
                   @click="$bvModal.show('access')"
                 >
-                  <div>
+                  <div v-if="item.discussionmessage.length">
                     <div class="mr-3 related_count">
                       {{ item.discussionmessage.length }}
                     </div>

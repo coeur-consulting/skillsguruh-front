@@ -690,85 +690,94 @@
               :key="index"
             >
               <div
-                class="bg-white shadow-sm p-3 text-left h-100 cursor-pointer position-relative"
+                class="bg-white shadow-sm p-3 text-left h-100 cursor-pointer position-relative d-flex flex-column"
                 @click="showcourse(course)"
               >
-                <b-dropdown
-                  size="sm"
-                  variant="transparent"
-                  no-caret
-                  class="no-focus dots"
-                >
-                  <template #button-content>
+                <div class="flex-1">
+                  <b-dropdown
+                    size="sm"
+                    variant="transparent"
+                    no-caret
+                    class="no-focus dots"
+                  >
+                    <template #button-content>
+                      <b-icon
+                        icon="three-dots-vertical"
+                        class="position-absolute"
+                      ></b-icon>
+                    </template>
+
+                    <b-dropdown-item class="fs12" @click="edit(course)"
+                      >Edit</b-dropdown-item
+                    >
+                    <b-dropdown-item
+                      class="fs12"
+                      @click="drop(course.id, index)"
+                      >Delete</b-dropdown-item
+                    >
+                  </b-dropdown>
+
+                  <b-iconstack font-scale="2.5" class="mr-2 mb-2">
                     <b-icon
-                      icon="three-dots-vertical"
-                      class="position-absolute"
+                      stacked
+                      icon="circle-fill"
+                      variant="lighter-green"
                     ></b-icon>
-                  </template>
-
-                  <b-dropdown-item class="fs12" @click="edit(course)"
-                    >Edit</b-dropdown-item
+                    <b-icon
+                      stacked
+                      icon="person-badge-fill"
+                      scale="0.5"
+                      variant="dark-green"
+                    ></b-icon>
+                  </b-iconstack>
+                  <div class="course_title mb-3">{{ course.title }}</div>
+                  <div
+                    class="course_fac d-flex align-items-start mb-2 text-capitalize"
+                    v-if="sortfacilitators(course).length"
                   >
-                  <b-dropdown-item class="fs12" @click="drop(course.id, index)"
-                    >Delete</b-dropdown-item
-                  >
-                </b-dropdown>
+                    <b-icon icon="display" class="text-muted mr-2"></b-icon>
+                    <span class="fs13">
+                      {{ sortfacilitators(course).join(" ") }}</span
+                    >
+                  </div>
+                  <div v-for="(time, id) in course.courseschedule" :key="id">
+                    <div class="course_time d-flex mb-2 text-capitalize">
+                      <b-icon
+                        icon="calendar"
+                        class="text-muted mr-2 e"
+                      ></b-icon>
+                      <div class="mb-2">
+                        <div class="fs14 text-capitalize mb-1">
+                          {{ time.day }}
+                        </div>
 
-                <b-iconstack font-scale="2.5" class="mr-2 mb-2">
-                  <b-icon
-                    stacked
-                    icon="circle-fill"
-                    variant="lighter-green"
-                  ></b-icon>
-                  <b-icon
-                    stacked
-                    icon="person-badge-fill"
-                    scale="0.5"
-                    variant="dark-green"
-                  ></b-icon>
-                </b-iconstack>
-                <div class="course_title mb-3">{{ course.title }}</div>
-                <div
-                  class="course_fac d-flex align-items-start mb-2 text-capitalize"
-                  v-if="sortfacilitators(course).length"
-                >
-                  <b-icon icon="display" class="text-muted mr-2"></b-icon>
-                  <span class="fs13">
-                    {{ sortfacilitators(course).join(" ") }}</span
-                  >
-                </div>
-                <div v-for="(time, id) in course.courseschedule" :key="id">
-                  <div class="course_time d-flex mb-2 text-capitalize">
-                    <b-icon icon="calendar" class="text-muted mr-2 e"></b-icon>
-                    <div class="mb-2">
-                      <div class="fs14 text-capitalize mb-1">
-                        {{ time.day }}
-                      </div>
-
-                      <div class="fs13">
-                        {{ time.start_time | moment("ll") }} -
-                        {{ time.end_time | moment("ll") }}
+                        <div class="fs13">
+                          {{ time.start_time | moment("ll") }} -
+                          {{ time.end_time | moment("ll") }}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div v-if="course" class="course_modules mb-3 py-2 fs13">
-                  <b-icon icon="layers" class="text-muted mr-2"></b-icon>
-                  <span class="fs13"> {{ sortmodules(course) }}</span>
-                  Modules
+                  <div v-if="course" class="course_modules mb-3 py-2 fs13">
+                    <b-icon icon="layers" class="text-muted mr-2"></b-icon>
+                    <span class="fs13"> {{ sortmodules(course) }}</span>
+                    Modules
+                  </div>
                 </div>
 
-                <div class="d-flex justify-content-between fs13">
-                  <span>Progress</span><span>50%</span>
+                <div class="pt-3">
+                  <div class="d-flex justify-content-between fs13">
+                    <span>Progress</span><span>50%</span>
+                  </div>
+                  <b-progress
+                    :value="50"
+                    :max="100"
+                    show-value
+                    height=".8rem"
+                    class="mb-3"
+                    variant="dark-green"
+                  ></b-progress>
                 </div>
-                <b-progress
-                  :value="50"
-                  :max="100"
-                  show-value
-                  height=".8rem"
-                  class="mb-3"
-                  variant="dark-green"
-                ></b-progress>
               </div>
             </b-col>
           </b-row>

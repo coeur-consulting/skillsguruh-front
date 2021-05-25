@@ -11,18 +11,6 @@
         >
           <div class="event_content">
             <div class="display-4 mb-3">{{ event.title }}</div>
-            <div>
-              <h6>Facilitators</h6>
-              <ul>
-                <li
-                  v-for="item in sortfacilitators"
-                  :key="item.id"
-                  class="text-capitalize"
-                >
-                  {{ item.name }}
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
 
@@ -51,7 +39,7 @@
             <span
               ><span class="font-weight-bold fs15">Start</span>
               <br />
-              <span class="fs16">
+              <span class="fs14">
                 {{ event.start | moment(" MMMM Do YYYY, h:mm:ss a") }}</span
               >
             </span>
@@ -59,7 +47,7 @@
             <span>
               <span class="font-weight-bold fs15"> End</span>
               <br />
-              <span class="fs16">
+              <span class="fs14">
                 {{ event.end | moment(" MMMM Do YYYY, h:mm:ss a") }}</span
               ></span
             >
@@ -81,6 +69,19 @@
         <div class="bg-white shadow-lg rounded text-left p-4">
           <h5 class="font-weight-bold">ABOUT THIS EVENT</h5>
           <p>{{ event.description }}</p>
+
+          <div v-if="sortfacilitators.length">
+            <h6>Facilitators</h6>
+            <ul>
+              <li
+                v-for="item in sortfacilitators"
+                :key="item.id"
+                class="text-capitalize"
+              >
+                {{ item.name }}
+              </li>
+            </ul>
+          </div>
         </div>
       </b-col>
     </b-row>
