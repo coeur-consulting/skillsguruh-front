@@ -9,8 +9,8 @@ export default new Vuex.Store({
     organization: JSON.parse(localStorage.getItem("authOrg")) || {},
     admin: JSON.parse(localStorage.getItem("authAdmin")) || {},
     facilitator: JSON.parse(localStorage.getItem("authFacilitator")) || {},
-    learner: JSON.parse(localStorage.getItem("authUser")) | {},
-    //  url: "http://localhost:8000/v1",
+    learner: JSON.parse(localStorage.getItem("authLearner")) || {},
+    //url: "http://localhost:8000/v1",
     url: "https://skillsguruh-api.herokuapp.com/v1",
   },
   mutations: {
