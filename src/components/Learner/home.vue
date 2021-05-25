@@ -107,23 +107,26 @@
                 is-expanded
                 title-position="left"
               >
-                <template #day-popover>
-                  <div
+                <template #day-popover="{ dayTitle, attributes }">
+                  <div class="text-xs text-gray-300 font-semibold text-center">
+                    {{ dayTitle }}
+                  </div>
+                  <popover-row
                     v-for="attr in attributes"
                     :key="attr.key"
-                    class="text-xs leading-tight rounded-sm p-1 mt-0 mb-1"
-                    :class="attr.customData.class"
+                    :attribute="attr"
+                    class="border-bottom pb-2"
                   >
-                    <p class="mb-1 text-capitalize">
-                      {{ attr.customData.title }}
-                    </p>
-                    <p class="fs11 mb-0 text-capitalize">
-                      {{ attr.customData.type }}
-                    </p>
-                    <p class="fs11 mb-0 text-capitalize">
-                      {{ attr.customData.duration }}
-                    </p>
-                  </div>
+                    <div>
+                      <p class="mb-1 text-capitalize">
+                        {{ attr.customData.title }}
+                      </p>
+                      <p class="fs11 mb-0 text-capitalize">
+                        <span class="mr-2"> {{ attr.customData.type }} -</span
+                        ><span> {{ attr.customData.duration }}</span>
+                      </p>
+                    </div>
+                  </popover-row>
                 </template>
               </vc-calendar>
             </div>
@@ -197,6 +200,7 @@ export default {
       todos: [],
       events: [],
       courses: [],
+      schedules: [],
       masks: {
         weekdays: "WWW",
       },
@@ -213,6 +217,7 @@ export default {
     this.getusers();
     this.getevents();
     this.getcourses();
+    this.getschedules();
   },
 
   computed: {
@@ -231,14 +236,51 @@ export default {
       ).length;
     },
     myschedule() {
-      return this.events.map((item, index) => {
+      return this.schedules.map((item, index) => {
         var res = {
           key: index,
 
           highlight: {
             color: "teal",
             fillMode: "light",
-            contentClass: "italic",
+            start: { fillMode: "outline" },
+            base: { fillMode: "light" },
+            end: { fillMode: "solid" },
+          },
+          dot: false,
+          bar: false,
+          content: false,
+          popover: true,
+          customData: {
+            title: item.course.title,
+            duration:
+              this.$moment(item.start_time).diff(
+                this.$moment(item.end_time),
+                "weeks"
+              ) + "weeks",
+            type: "Course",
+            class: "bg-red-600 text-white",
+          },
+          dates: {
+            start: new Date(item.start_time),
+            end: new Date(item.end_time),
+          },
+        };
+        return res;
+      });
+    },
+    myevents() {
+      return this.events.map((item, index) => {
+        var res = {
+          key: index,
+
+          highlight: {
+            color: "purple",
+            fillMode: "light",
+
+            start: { fillMode: "outline" },
+            base: { fillMode: "light" },
+            end: { fillMode: "solid" },
           },
           dot: false,
           bar: false,
@@ -250,16 +292,42 @@ export default {
             type: item.type,
             class: "bg-red-600 text-white",
           },
-          dates: [new Date(item.start)],
+          dates: { start: new Date(item.start), end: new Date(item.end) },
         };
         return res;
       });
     },
     attributes() {
-      return this.myschedule;
+      return this.myschedule.concat(this.myevents).map((item, index) => {
+        var res = {
+          key: index,
+          highlight: item.highlight,
+          popover: true,
+          customData: item.customData,
+          dates: item.dates,
+        };
+        return res;
+      });
     },
   },
   methods: {
+    async getschedules() {
+      return this.$http
+        .get(`${this.$store.getters.url}/courseschedules`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.schedules = res.data;
+            this.rows = res.data.length;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     async getevents() {
       return this.$http
         .get(`${this.$store.getters.url}/events`, {
