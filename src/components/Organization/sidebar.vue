@@ -82,6 +82,23 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  methods: {
+    logout() {
+      localStorage.removeItem("authOrg");
+      this.$router.push("/login");
+    },
+    markread() {
+      this.$http.get(`${this.$store.getters.url}/mark-notifications`, {
+        headers: {
+          Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+        },
+      });
+    },
+  },
+};
+</script>
 
 <style scoped>
 #sidebar {
