@@ -79,10 +79,20 @@
 
                     <div class="pt-3">
                       <div class="d-flex justify-content-between fs13">
-                        <span>Progress</span><span>50%</span>
+                        <span>Resources upload</span
+                        ><span
+                          >{{
+                            getProgress(
+                              item.courseoutline.modules,
+                              item.modules
+                            )
+                          }}%</span
+                        >
                       </div>
                       <b-progress
-                        :value="50"
+                        :value="
+                          getProgress(item.courseoutline.modules, item.modules)
+                        "
                         :max="100"
                         show-value
                         height=".8rem"
@@ -190,7 +200,9 @@
                   </b-dropdown>
                 </div>
               </div>
-              <div class="text-muted text-center p-3 fs13">Unavailable</div>
+              <div v-else class="text-muted text-center p-3 fs13">
+                Unavailable
+              </div>
             </div>
           </div>
         </b-col>
@@ -321,6 +333,24 @@ export default {
     },
   },
   methods: {
+    getProgress(a, b) {
+      var count = 0;
+
+      var modules = JSON.parse(a);
+
+      var resources = b;
+
+      modules.forEach((mod) => {
+        var val = resources.filter((item) => item.module == mod).length;
+
+        if (val) {
+          count++;
+        }
+      });
+
+      return (count / modules.length) * 100;
+    },
+
     async getschedules() {
       return this.$http
         .get(`${this.$store.getters.url}/courseschedules`, {

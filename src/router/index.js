@@ -218,12 +218,78 @@ const routes = [
         },
       },
       {
+        path: "questionnaire",
+        name: "Administrator questionnaire",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratorquestionnaire" */ "@/components/Administrator/Questionnaire/create.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+      {
+        path: "questionnaires",
+        name: "Administrator questionnaires",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratorquestionnaires" */ "@/components/Administrator/Questionnaire/index.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+      {
+        path: "questionnaire/edit/:id",
+        name: "Administrator questionnaires",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratorquestionnaireedit" */ "@/components/Administrator/Questionnaire/edit.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+      {
+        path: "questionnaire/view/:id",
+        name: "Administrator questionnairesview",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratorquestionnaireview" */ "@/components/Administrator/Questionnaire/view.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+      {
         path: "facilitator",
         name: "Administrator facilitator",
         components: {
           default: () =>
             import(
               /* webpackChunkName: "Administratorfacilitator" */ "@/components/Administrator/facilitator.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+
+      {
+        path: "modules",
+        name: "Administrator modules",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratormodules" */ "@/components/Administrator/modules.vue"
             ),
         },
         meta: {
@@ -486,6 +552,58 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "facilitatorsmodules" */ "@/components/Facilitator/modules.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "questionnaire",
+        name: "Facilitator questionnaire",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatorquestionnaire" */ "@/components/Facilitator/Questionnaire/create.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "questionnaires",
+        name: "Facilitator questionnaires",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatorquestionnaires" */ "@/components/Facilitator/Questionnaire/index.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "questionnaire/edit/:id",
+        name: "Facilitator questionnaires",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatorquestionnaireedit" */ "@/components/Facilitator/Questionnaire/edit.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "questionnaire/view/:id",
+        name: "Facilitators questionnairesview",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "facilitatorsquestionnaireview" */ "@/components/Facilitator/Questionnaire/view.vue"
             ),
         },
         meta: {
@@ -1074,6 +1192,16 @@ const routes = [
     components: {
       default: () =>
         import(/* webpackChunkName: "course" */ "@/components/course.vue"),
+    },
+  },
+  {
+    path: "/question",
+    name: "question",
+    components: {
+      default: () =>
+        import(
+          /* webpackChunkName: "question" */ "@/components/Questionnaire/index.vue"
+        ),
     },
   },
   {

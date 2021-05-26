@@ -201,8 +201,14 @@
                   placeholder="Choose start time"
                   v-model="event.start"
                   mode="dateTime"
-                  :is24hr="false"
                 >
+                  <template v-slot="{ inputValue, inputEvents }">
+                    <input
+                      class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+                      :value="inputValue"
+                      v-on="inputEvents"
+                    />
+                  </template>
                 </vc-date-picker>
               </b-form-group>
             </b-col>
@@ -212,8 +218,14 @@
                   placeholder="Choose end time"
                   v-model="event.end"
                   mode="dateTime"
-                  :is24hr="false"
                 >
+                  <template v-slot="{ inputValue, inputEvents }">
+                    <input
+                      class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+                      :value="inputValue"
+                      v-on="inputEvents"
+                    />
+                  </template>
                 </vc-date-picker>
               </b-form-group>
             </b-col>
@@ -355,6 +367,13 @@
                   mode="dateTime"
                   :is24hr="false"
                 >
+                  <template v-slot="{ inputValue, inputEvents }">
+                    <input
+                      class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+                      :value="inputValue"
+                      v-on="inputEvents"
+                    />
+                  </template>
                 </vc-date-picker>
               </b-form-group>
             </b-col>
@@ -366,6 +385,13 @@
                   mode="dateTime"
                   :is24hr="false"
                 >
+                  <template v-slot="{ inputValue, inputEvents }">
+                    <input
+                      class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+                      :value="inputValue"
+                      v-on="inputEvents"
+                    />
+                  </template>
                 </vc-date-picker>
               </b-form-group>
             </b-col>
@@ -500,8 +526,8 @@ export default {
         type: "",
         url: "",
         cover: "",
-        start: "",
-        end: "",
+        start: new Date(),
+        end: new Date(),
         resource: "",
         facilitators: [],
       },
@@ -589,8 +615,8 @@ export default {
               type: "",
               url: "",
               cover: "",
-              start: "",
-              end: "",
+              start: new Date(),
+              end: new Date(),
               resource: "",
               facilitators: [],
             };
@@ -634,8 +660,8 @@ export default {
               type: "",
               url: "",
               cover: "",
-              start: "",
-              end: "",
+              start: new Date(),
+              end: new Date(),
               resource: "",
               facilitators: [],
             };

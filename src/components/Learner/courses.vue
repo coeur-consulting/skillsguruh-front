@@ -39,12 +39,12 @@
           <b-row>
             <b-col
               sm="4"
-              class="mb-3"
+              class="mb-3 side_box"
               v-for="(course, index) in courses"
               :key="index"
             >
               <div
-                class="bg-white shadow-sm p-3 text-left h-100 cursor-pointer position-relative d-flex flex-column"
+                class="shadow-sm p-3 bg-white text-left h-100 cursor-pointer position-relative d-flex flex-column"
                 @click="showcourse(course)"
               >
                 <div class="flex-1">
@@ -84,36 +84,50 @@
                       variant="dark-green"
                     ></b-icon>
                   </b-iconstack>
-                  <div class="course_title mb-3">{{ course.title }}</div>
+                  <div class="course_title mb-1">{{ course.title }}</div>
+                  <div class="mb-3">
+                    <span class="fs13 overview text-muted">
+                      {{ course.description }}</span
+                    >
+                  </div>
                   <div
-                    class="course_fac d-flex align-items-start mb-2 text-capitalize"
+                    class="course_fac d-flex align-items-center mb-1 text-capitalize fs13"
                     v-if="sortfacilitators(course).length"
                   >
-                    <b-icon icon="display" class="text-muted mr-2"></b-icon>
+                    <b-icon
+                      icon="display"
+                      variant="dark-green"
+                      class="text-muted mr-2"
+                    ></b-icon>
                     <span class="fs13">
                       {{ sortfacilitators(course).join(" ") }}</span
                     >
                   </div>
-                  <div v-for="(time, id) in course.courseschedule" :key="id">
-                    <div class="course_time d-flex mb-2 text-capitalize">
-                      <b-icon
-                        icon="calendar"
-                        class="text-muted mr-2 e"
-                      ></b-icon>
-                      <div class="mb-2">
-                        <div class="fs14 text-capitalize mb-1">
-                          {{ time.day }}
-                        </div>
 
-                        <div class="fs13">
-                          {{ time.start_time | moment("ll") }} -
-                          {{ time.end_time | moment("ll") }}
-                        </div>
+                  <div
+                    class="course_time d-flex text-capitalize align-items-center fs13"
+                  >
+                    <b-icon
+                      icon="calendar"
+                      variant="dark-green"
+                      class="text-muted mr-2"
+                    ></b-icon>
+                    <div class="">
+                      <div class="text-capitalize">
+                        {{ course.courseoutline.duration }}
                       </div>
                     </div>
                   </div>
-                  <div v-if="course" class="course_modules mb-3 py-2 fs13">
-                    <b-icon icon="layers" class="text-muted mr-2"></b-icon>
+
+                  <div
+                    v-if="course"
+                    class="course_modules align-items-center fs13"
+                  >
+                    <b-icon
+                      icon="layers"
+                      variant="dark-green"
+                      class="text-muted mr-1"
+                    ></b-icon>
                     <span class="fs13"> {{ sortmodules(course) }}</span>
                     Modules
                   </div>
@@ -121,10 +135,20 @@
 
                 <div class="pt-3">
                   <div class="d-flex justify-content-between fs13">
-                    <span>Progress</span><span>50%</span>
+                    <span>Resources progress</span
+                    ><span
+                      >{{
+                        getProgress(
+                          course.courseoutline.modules,
+                          course.modules
+                        )
+                      }}%</span
+                    >
                   </div>
                   <b-progress
-                    :value="50"
+                    :value="
+                      getProgress(course.courseoutline.modules, course.modules)
+                    "
                     :max="100"
                     show-value
                     height=".8rem"
@@ -136,8 +160,11 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col sm="4" class="pl-3 h-100">
-          <div v-if="!course" class="sidebar bg-white">
+        <b-col sm="4" class="sidebar">
+          <div
+            v-if="!course"
+            class="h-100 d-flex align-items-center justify-content-center"
+          >
             <div class="text-center w-100">
               <b-img
                 class="mb-3"
@@ -148,7 +175,7 @@
             </div>
           </div>
 
-          <div class="text-left py-4 p-3 bg-white" v-if="course">
+          <div class="text-left py-4 p-2 bg-white" v-if="course">
             <div class="d-flex">
               <div class="course_title d-flex mb-3 flex-1">
                 <b-iconstack font-scale="2.5" class="mr-2 mb-2">
@@ -165,40 +192,37 @@
                   ></b-icon>
                 </b-iconstack>
                 <div>
-                  <div class="title text-capitalize mb-1" v-if="course.title">
-                    {{ course.title }}
-                  </div>
-
-                  <div class="course_time text-capitalize mb-2">
-                    <b-icon icon="clock" class="mr-1"></b-icon>
-                    {{ course.courseoutline.duration }}
-                  </div>
-                  <b-button
-                    v-if="!checkLibrary()"
-                    class="mx-auto"
-                    size="sm"
-                    @click="addtolibrary(course.id)"
-                    variant="dark-green"
-                    >Add to library</b-button
+                  <span class="title text-capitalize" v-if="course.title">
+                    {{ course.title }}</span
                   >
-                  <b-button
-                    size="sm"
-                    v-else
-                    disabled
-                    class="mx-auto"
-                    variant="dark-green"
-                    >Added to library</b-button
+                  <br />
+                  <span class="course_time text-capitalize"
+                    ><b-icon icon="clock" class="mr-1"></b-icon>
+                    {{ course.courseoutline.duration }}</span
                   >
                 </div>
+                <b-button
+                  v-if="!checkLibrary()"
+                  class="mx-auto"
+                  size="sm"
+                  @click="addtolibrary(course.id)"
+                  variant="dark-green"
+                  >Add to library</b-button
+                >
+                <b-button
+                  size="sm"
+                  v-else
+                  disabled
+                  class="mx-auto"
+                  variant="dark-green"
+                  >Added to library</b-button
+                >
               </div>
 
-              <b-img
-                style="width: 90px; height: 100%"
-                :src="course.cover"
-              ></b-img>
+              <b-img style="width: 80px" fluid :src="course.cover"></b-img>
             </div>
             <div
-              class="d-flex justify-content-between p-3 border-bottom mb-2 text-sm"
+              class="d-flex justify-content-between p-2 border-bottom mb-2 text-sm"
             >
               <span
                 class="cursor-pointer d-flex align-items-center"
@@ -246,49 +270,50 @@
                   class="mr-1"
                   icon="circle-fill"
                 ></b-icon>
-                Resources</span
+                Schedules</span
               >
             </div>
 
             <div v-if="toggleCourse == 1">
-              <div class="mb-3 px-3">
+              <div class="mb-3 px-2">
                 <h6 class="fs14">Course Description</h6>
                 <p class="fs13">
-                  {{ course.description }}
+                  {{ course.description ? course.description : "None" }}
                 </p>
               </div>
-              <div class="mb-3 px-3">
+              <div class="mb-3 px-2">
                 <h6 class="fs14 mb-1">Knowledge Area</h6>
                 <p class="fs13 text-capitalize">
-                  {{ course.courseoutline.knowledge_areas }}
+                  {{
+                    course.courseoutline.knowledge_areas
+                      ? course.courseoutline.knowledge_areas
+                      : "None"
+                  }}
                 </p>
               </div>
 
-              <div class="mb-3">
-                <div
-                  class="d-flex justify-content-around mb-1 px-3"
-                  v-for="(item, index) in course.courseschedule"
-                  :key="index"
-                >
-                  <b-col cols="5" class="border-right ti">
-                    <span class="fs14">Time</span> <br />
-                    <span class="text-sm">
-                      {{ item.start_time | moment("LT") }}</span
-                    >
-                  </b-col>
-
-                  <b-col cols="7" class="ti">
-                    <span class="fs14">Facilitator</span> <br />
-                    <span class="text-sm" v-if="item.facilitator_id != null">{{
-                      facilitators.find((val) => val.id == item.facilitator_id)
-                        .name
-                    }}</span>
-                    <span v-else class="text-sm">Unavailable</span>
-                  </b-col>
+              <div class="mb-3 px-2">
+                <div class="" v-if="course.courseschedule">
+                  <b-row>
+                    <b-col cols="6">
+                      <h6 class="fs14 font-weight-bold">Start date</h6>
+                      <span class="fs14">{{
+                        course.courseschedule[0].start_time
+                          | moment("MMM DD, YYYY")
+                      }}</span>
+                    </b-col>
+                    <b-col cols="6">
+                      <h6 class="fs14 font-weight-bold">End date</h6>
+                      <span class="fs14">{{
+                        course.courseschedule[0].end_time
+                          | moment("MMM DD, YYYY")
+                      }}</span>
+                    </b-col>
+                  </b-row>
                 </div>
               </div>
 
-              <div class="mb-3 px-3">
+              <div class="mb-3 px-2">
                 <h6 class="fs14">Additional Information</h6>
                 <p class="fs13">
                   {{
@@ -298,7 +323,7 @@
                   }}
                 </p>
               </div>
-              <div class="mb-3 px-3">
+              <div class="mb-3 px-2">
                 <h6 class="fs14">Certification</h6>
                 <p class="fs13 text-capitalize">
                   <b-icon
@@ -313,7 +338,7 @@
                 </p>
               </div>
               <div>
-                <h6 class="mb-3 fs14 px-3">Course Files</h6>
+                <h6 class="mb-3 fs14 px-2">Course Files</h6>
                 <div class="d-flex justify-content-between">
                   <div class="d-flex text-danger">
                     <b-img
@@ -367,76 +392,13 @@
               <h6 class="fs14">Course Modules</h6>
 
               <div
-                class="text-capitalize fs14 mb-2"
-                v-for="(item, index) in JSON.parse(
-                  course.courseoutline.modules
-                )"
-                :key="index"
-              >
-                <b-icon icon="check2-circle" variant="light-green"></b-icon>
-                {{ item }}
-              </div>
-            </div>
-            <div v-if="toggleCourse == 3" class="h-100 p-3">
-              <div class="mb-4">
-                <h6 class="fs14 mb-3">Overview</h6>
-
-                <p class="fs13">{{ course.courseoutline.overview }}</p>
-              </div>
-
-              <div>
-                <h6 class="fs14 mb-3">Faqs</h6>
-
-                <div class="accordion" role="tablist">
-                  <b-card
-                    no-body
-                    class="mb-1"
-                    v-for="(item, id) in JSON.parse(course.courseoutline.faqs)"
-                    :key="id"
-                  >
-                    <b-card-header
-                      header-tag="header"
-                      class="p-1 bg-light"
-                      role="tab"
-                    >
-                      <div v-b-toggle="'file' + id" variant="info">
-                        <b-icon
-                          icon="question-circle-fill"
-                          class="mr-2 text-light-green"
-                        ></b-icon>
-                        {{ item.question }}
-                      </div>
-                    </b-card-header>
-                    <b-collapse
-                      :id="'file' + id"
-                      accordion="my-accordion"
-                      role="tabpanel"
-                    >
-                      <b-card-body>
-                        <b-card-text class="px-0">
-                          <b-icon
-                            icon="check-circle-fill"
-                            class="mr-2 text-light-green"
-                          ></b-icon>
-                          {{ item.answer }}</b-card-text
-                        >
-                      </b-card-body>
-                    </b-collapse>
-                  </b-card>
-                </div>
-              </div>
-            </div>
-            <div v-if="toggleCourse == 4" class="h-100 p-3">
-              <h6 class="fs14 mb-3">Module Resources</h6>
-
-              <div
                 class="accordion"
                 role="tablist"
                 v-if="course.modules.length"
               >
                 <b-card
                   no-body
-                  class="mb-1"
+                  class="mb-4"
                   v-for="(item, id) in course.modules"
                   :key="id"
                 >
@@ -475,17 +437,127 @@
                 <b-button
                   v-if="!checkLibrary()"
                   class="mx-auto"
+                  size="sm"
                   block
                   @click="addtolibrary(course.id)"
                   variant="dark-green"
                   >Add to library</b-button
                 >
-                <b-button v-else class="mx-auto" block variant="dark-green"
+                <b-button
+                  size="sm"
+                  v-else
+                  block
+                  disabled
+                  class="mx-auto"
+                  variant="dark-green"
                   >Added to library</b-button
                 >
               </div>
-              <div class="p-4 text-muted text-center" v-else>
-                No resource available
+              <div class="" v-else>
+                <div
+                  class="text-capitalize fs14 mb-2"
+                  v-for="(item, index) in JSON.parse(
+                    course.courseoutline.modules
+                  )"
+                  :key="index"
+                >
+                  <b-icon icon="check2-circle" variant="light-green"></b-icon>
+                  {{ item }}
+                </div>
+              </div>
+            </div>
+            <div v-if="toggleCourse == 3" class="h-100 p-2">
+              <div class="mb-4">
+                <h6 class="fs14 mb-3">Overview</h6>
+
+                <p class="fs13">{{ course.courseoutline.overview }}</p>
+              </div>
+
+              <div>
+                <h6 class="fs14 mb-3">Faqs</h6>
+
+                <div class="accordion" role="tablist">
+                  <b-card
+                    no-body
+                    class="mb-1"
+                    v-for="(item, id) in JSON.parse(course.courseoutline.faqs)"
+                    :key="id"
+                  >
+                    <b-card-header
+                      header-tag="header"
+                      class="p-1 bg-light"
+                      role="tab"
+                    >
+                      <div v-b-toggle="'file' + id" variant="info" class="fs13">
+                        <b-icon
+                          icon="question-circle-fill"
+                          class="mr-2 text-light-green"
+                        ></b-icon>
+                        {{ item.question }}
+                      </div>
+                    </b-card-header>
+                    <b-collapse
+                      :id="'file' + id"
+                      accordion="my-accordion"
+                      role="tabpanel"
+                    >
+                      <b-card-body>
+                        <b-card-text class="px-0 fs13">
+                          <b-icon
+                            icon="check-circle-fill"
+                            class="mr-2 text-light-green"
+                          ></b-icon>
+                          {{ item.answer }}</b-card-text
+                        >
+                      </b-card-body>
+                    </b-collapse>
+                  </b-card>
+                </div>
+              </div>
+            </div>
+            <div v-if="toggleCourse == 4" class="h-100 p-2">
+              <h6 class="fs14 mb-3">Course Schedules</h6>
+              <div>
+                <b-row>
+                  <b-col
+                    cols="12"
+                    class="mb-3 px-3 border-bottom"
+                    v-for="(item, index) in course.courseschedule"
+                    :key="index"
+                  >
+                    <div class="mb-1">
+                      <span class="fs14 mr-2">Time: </span>
+                      <span class="text-sm font-weight-bold">
+                        {{ item.start_time | moment("LT") }}</span
+                      >
+                    </div>
+                    <div class="mb-1">
+                      <span class="fs14 mr-2">Date: </span>
+                      <span class="text-sm font-weight-bold">
+                        {{ item.start_time | moment("MMM DD, YYYY") }}</span
+                      >
+                    </div>
+                    <div class="mb-1">
+                      <span class="fs14 mr-2">Venue: </span>
+                      <span class="text-sm font-weight-bold">
+                        {{ item.url }}</span
+                      >
+                    </div>
+                    <div>
+                      <span class="fs14 mr-2">Facilitator: </span>
+                      <span
+                        class="text-sm font-weight-bold"
+                        v-if="item.facilitator_id != null"
+                        >{{
+                          facilitators.find(
+                            (val) => val.id == item.facilitator_id
+                          ).name
+                        }}</span
+                      >
+                      <span v-else class="text-sm">Unavailable</span>
+                    </div>
+                  </b-col>
+                </b-row>
               </div>
             </div>
           </div>
@@ -538,6 +610,24 @@ export default {
     },
   },
   methods: {
+    getProgress(a, b) {
+      var count = 0;
+
+      var modules = JSON.parse(a);
+
+      var resources = b;
+
+      modules.forEach((mod) => {
+        var val = resources.filter((item) => item.module == mod).length;
+
+        if (val) {
+          count++;
+        }
+      });
+
+      return (count / modules.length) * 100;
+    },
+
     addtolibrary(id) {
       if (!this.$store.getters.learner) {
         this.$toast.info("Login to add course");
@@ -599,10 +689,7 @@ export default {
           item.user_id == this.$store.getters.learner.id &&
           item.course_id == this.course.id
       );
-      console.log(
-        "🚀 ~ file: courses.vue ~ line 566 ~ checkLibrary ~ check",
-        check
-      );
+
       return check;
     },
 
@@ -882,9 +969,10 @@ export default {
 }
 .sidebar {
   background-color: white;
-  height: 79vh;
-  display: flex;
-  align-items: center;
+  height: calc(100vh - 80px);
+  position: fixed;
+  right: 0;
+  width: 25%;
 }
 .course_title {
   font-weight: 500;
@@ -919,6 +1007,16 @@ p {
   position: absolute;
   top: 20px;
   right: 10px;
+}
+.overview {
+  font-size: 13px;
+  color: rgba($color: #000000, $alpha: 0.54);
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .search {
   width: 300px;

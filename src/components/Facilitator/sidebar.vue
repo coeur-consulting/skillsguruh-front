@@ -82,6 +82,16 @@
             <span class="side-link">Course outline</span>
           </div>
         </router-link>
+        <router-link to="/facilitator/questionnaires">
+          <div class="side_item">
+            <b-icon
+              icon="card-list"
+              font-scale="1.1"
+              class="mr-3 text-dark-green"
+            ></b-icon>
+            <span class="side-link">Questionnaires</span>
+          </div>
+        </router-link>
         <router-link to="/facilitator/attendances">
           <div class="side_item">
             <b-icon

@@ -66,7 +66,7 @@
                       </div>
                     </b-td>
 
-                    <b-td class="text-center">
+                    <b-td class="text-left">
                       {{ JSON.parse(item.modules).length }}</b-td
                     >
 
@@ -563,9 +563,9 @@ export default {
     },
     async getfacilitators() {
       return this.$http
-        .get(`${this.$store.getters.url}/facilitators`, {
+        .get(`${this.$store.getters.url}/admin-get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
           },
         })
         .then((res) => {
@@ -582,7 +582,7 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/courses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
           },
         })
         .then((res) => {
@@ -599,7 +599,7 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/modules`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
           },
         })
         .then((res) => {
@@ -617,7 +617,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/modules`, this.detail, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
           },
         })
         .then((res) => {
@@ -650,26 +650,16 @@ export default {
               )
               .then((val) => {
                 if (val) {
+
                   this.$router.push(
-                    `/facilitator/questionnaire?module_id=${res.data.id}&module_name=${res.data.module}`
+                    `/administrator/questionnaire?module_id=${res.data.id}&module_name=${res.data.module}`
                   );
                 }
               });
           }
         })
         .catch((err) => {
-          if (err.response.data.errors.email[0]) {
-            this.$toast.error(err.response.data.errors.email[0]);
-          }
-          if (err.response.data.errors.phone[0]) {
-            this.$toast.error(err.response.data.errors.phone[0]);
-          }
-          if (err.response.data.errors.name[0]) {
-            this.$toast.error(err.response.data.errors.name[0]);
-          }
-          if (err.response.data.errors.password[0]) {
-            this.$toast.error(err.response.data.errors.password[0]);
-          }
+          this.$toast.error(err.response.data.message);
         });
     },
     edit(data) {
@@ -686,7 +676,7 @@ export default {
           this.detail,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
             },
           }
         )
@@ -719,7 +709,7 @@ export default {
           this.$http
             .delete(`${this.$store.getters.url}/modules/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+                Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
               },
             })
             .then((res) => {
