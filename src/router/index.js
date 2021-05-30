@@ -245,7 +245,7 @@ const routes = [
       },
       {
         path: "questionnaire/edit/:id",
-        name: "Administrator questionnaires",
+        name: "Administrator questionnairesedit",
         components: {
           default: () =>
             import(
@@ -586,7 +586,7 @@ const routes = [
       },
       {
         path: "questionnaire/edit/:id",
-        name: "Facilitator questionnaires",
+        name: "Facilitator questionnairesedit",
         components: {
           default: () =>
             import(
@@ -917,6 +917,19 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerfacilitator" */ "@/components/Learner/facilitator.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "questionnaire/:id",
+        name: "Learner questionnaire",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnerfacilitator" */ "@/components/Learner/viewQuestionnaire.vue"
             ),
         },
         meta: {
