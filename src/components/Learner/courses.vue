@@ -105,7 +105,7 @@
                   </div>
 
                   <div
-                    class="course_time d-flex text-capitalize align-items-center fs13"
+                    class="course_fac d-flex text-capitalize align-items-center fs13 mb-1"
                   >
                     <b-icon
                       icon="calendar"
@@ -119,10 +119,7 @@
                     </div>
                   </div>
 
-                  <div
-                    v-if="course"
-                    class="course_modules align-items-center fs13"
-                  >
+                  <div v-if="course" class="course_fac align-items-center fs13">
                     <b-icon
                       icon="layers"
                       variant="dark-green"
@@ -201,26 +198,28 @@
                     {{ course.courseoutline.duration }}</span
                   >
                 </div>
-                <b-button
-                  v-if="!checkLibrary()"
-                  class="mx-auto"
-                  size="sm"
-                  @click="addtolibrary(course.id)"
-                  variant="dark-green"
-                  >Add to library</b-button
-                >
-                <b-button
-                  size="sm"
-                  v-else
-                  disabled
-                  class="mx-auto"
-                  variant="dark-green"
-                  >Added to library</b-button
-                >
               </div>
 
               <b-img style="width: 80px" fluid :src="course.cover"></b-img>
             </div>
+            <span class="mr-2">
+              <b-button
+                v-if="!checkLibrary()"
+                class="mx-auto"
+                size="sm"
+                @click="addtolibrary(course.id)"
+                variant="dark-green"
+                >Add to library</b-button
+              >
+              <b-button
+                size="sm"
+                v-else
+                disabled
+                class="mx-auto"
+                variant="dark-green"
+                >Added to library</b-button
+              ></span
+            >
             <div
               class="d-flex justify-content-between p-2 border-bottom mb-2 text-sm"
             >
@@ -978,15 +977,15 @@ export default {
   font-weight: 500;
 }
 .course_fac {
-  font-size: 14px;
+  font-size: 13px;
   color: rgba($color: #000000, $alpha: 0.4);
 }
 .course_time {
-  font-size: 14px;
+  font-size: 13px;
   color: rgba($color: #000000, $alpha: 0.4);
 }
 .course_modules {
-  font-size: 14px;
+  font-size: 13px;
   color: rgba($color: #000000, $alpha: 0.4);
 }
 p {

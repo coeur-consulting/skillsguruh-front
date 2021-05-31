@@ -37,6 +37,6 @@ export default {
 }
 .content {
   height: 100vh;
-  overflow-x: scroll;
+  overflow-y: scroll;
 }
 </style>

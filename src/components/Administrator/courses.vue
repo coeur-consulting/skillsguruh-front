@@ -790,7 +790,7 @@
                   </div>
 
                   <div
-                    class="course_time d-flex text-capitalize align-items-center fs13"
+                    class="course_time d-flex text-capitalize align-items-center mb-1 fs13"
                   >
                     <b-icon
                       icon="calendar"
@@ -806,7 +806,7 @@
 
                   <div
                     v-if="course"
-                    class="course_modules align-items-center fs13"
+                    class="course_modules align-items-center mb-1 fs13"
                   >
                     <b-icon
                       icon="layers"
@@ -1612,15 +1612,15 @@ export default {
   font-weight: 500;
 }
 .course_fac {
-  font-size: 14px;
+  font-size: 13px;
   color: rgba($color: #000000, $alpha: 0.4);
 }
 .course_time {
-  font-size: 14px;
+  font-size: 13px;
   color: rgba($color: #000000, $alpha: 0.4);
 }
 .course_modules {
-  font-size: 14px;
+  font-size: 13px;
   color: rgba($color: #000000, $alpha: 0.4);
 }
 p {

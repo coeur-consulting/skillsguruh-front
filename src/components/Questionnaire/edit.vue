@@ -238,7 +238,8 @@
                             label="Answer"
                             v-if="
                               question.showAnswer &&
-                              question.type !== 'multiple'
+                              question.type !== 'multiple' &&
+                              question.type !== 'checkbox'
                             "
                           >
                             <b-form-input
@@ -252,7 +253,9 @@
                       <b-form-row
                         class="mb-3"
                         v-if="
-                          question.showAnswer && question.type == 'multiple'
+                          question.showAnswer &&
+                          (question.type == 'multiple' ||
+                            question.type == 'checkbox')
                         "
                       >
                         <b-col sm="12">

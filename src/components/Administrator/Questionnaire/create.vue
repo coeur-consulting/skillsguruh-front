@@ -252,8 +252,8 @@
                             label="Answer"
                             v-if="
                               question.showAnswer &&
-                              (question.type !== 'multiple' ||
-                                question.type !== 'checkbox')
+                              question.type !== 'multiple' &&
+                              question.type !== 'checkbox'
                             "
                           >
                             <b-form-input
@@ -431,7 +431,9 @@ export default {
         course_id: null,
         course_title: null,
         title: "",
-
+        showFeedback: false,
+        feedback: "",
+        showScores: false,
         sections: [
           {
             title: "",

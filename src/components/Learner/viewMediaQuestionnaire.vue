@@ -1,15 +1,15 @@
 <template>
   <div>
     <b-form @submit.prevent="submit">
-      <b-container class="p-5 text-left" v-if="questionnaire.sections">
+      <b-container class="py-3 px-0 text-left" v-if="questionnaire.sections">
         <div class="text-center">
-          <h3 class="mb-4">{{ questionnaire.title }}</h3>
+          <h4 class="mb-4">{{ questionnaire.title }}</h4>
         </div>
         <div>
           <div class="mb-4 border-bottom">
-            <h5 class="font-weight-bold mb-3">
+            <h6 class="font-weight-bold mb-3">
               {{ questionnaire.sections[section].title }}
-            </h5>
+            </h6>
 
             <div
               v-for="(question, index) in questionnaire.sections[section]
@@ -176,6 +176,7 @@
 </template>
 <script>
 export default {
+  props: ["id", "course_id"],
   data() {
     return {
       questionnaire: [],
@@ -191,14 +192,11 @@ export default {
   methods: {
     getQuestionnaire() {
       this.$http
-        .get(
-          `${this.$store.getters.url}/questionnaires/${this.$route.params.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
-          }
-        )
+        .get(`${this.$store.getters.url}/questionnaires/${this.$props.id}`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
         .then((res) => {
           if (res.status == 200) {
             this.questionnaire = res.data;
@@ -233,11 +231,63 @@ export default {
           question.responses;
         this.questionnaire.sections[this.section].questions[index].response =
           question.response;
-        console.log(
-          "🚀 ~ file: viewQuestionnaire.vue ~ line 222 ~ handleResponse ~  question.result",
-          this.questionnaire.sections[this.section].questions[index].responses
-        );
       }
+    },
+    submit() {
+      this.$bvModal.msgBoxConfirm("Are you sure?").then((response) => {
+        if (response) {
+          this.score = 0;
+
+          var score = 0;
+          var totalscore = 0;
+
+          this.questionnaire.sections.forEach((item) => {
+            item.questions.forEach((val) => {
+              if (val.asScore) {
+                totalscore = totalscore + val.score;
+              }
+              if (val.result) {
+                score = score + val.score;
+              }
+            });
+          });
+          this.totalscore = totalscore;
+
+          this.score = score;
+
+          var data = {
+            module_id: this.questionnaire.module_id,
+            course_id: this.$props.course_id,
+            content: this.questionnaire,
+            questionnaire_id: this.$props.id,
+          };
+          this.$http
+            .post(`${this.$store.getters.url}/answer-questionnaires`, data, {
+              headers: {
+                Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+              },
+            })
+            .then((res) => {
+              if (res.status == 201) {
+                this.$emit("handleCheck");
+                this.$bvModal
+                  .msgBoxOk(
+                    "Questionnaire was submitted successfully, Thank you for your feedback",
+                    {
+                      noCloseOnBackdrop: true,
+                      size: "sm",
+                      buttonSize: "sm",
+                      okVariant: "dark-green",
+                      headerClass: "p-2 border-bottom-0",
+                      footerClass: "p-2 border-top-0",
+                      centered: true,
+                    }
+                  )
+                  .then(() => {});
+              }
+            });
+        }
+      });
     },
   },
 };

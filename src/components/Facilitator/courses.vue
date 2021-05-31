@@ -776,7 +776,7 @@
                     >
                   </div>
                   <div
-                    class="course_fac d-flex align-items-center mb-1 text-capitalize fs13"
+                    class="course_fac d-flex align-items-center mb-1 text-capitalize mb-1 fs13"
                     v-if="sortfacilitators(course).length"
                   >
                     <b-icon
@@ -790,7 +790,7 @@
                   </div>
 
                   <div
-                    class="course_time d-flex text-capitalize align-items-center fs13"
+                    class="course_time d-flex text-capitalize align-items-center mb-1 fs13"
                   >
                     <b-icon
                       icon="calendar"
@@ -1607,15 +1607,15 @@ export default {
   font-weight: 500;
 }
 .course_fac {
-  font-size: 14px;
+  font-size: 13px;
   color: rgba($color: #000000, $alpha: 0.4);
 }
 .course_time {
-  font-size: 14px;
+  font-size: 13px;
   color: rgba($color: #000000, $alpha: 0.4);
 }
 .course_modules {
-  font-size: 14px;
+  font-size: 13px;
   color: rgba($color: #000000, $alpha: 0.4);
 }
 p {

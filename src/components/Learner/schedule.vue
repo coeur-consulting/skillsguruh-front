@@ -113,11 +113,6 @@
                                 v-if="item.facilitator"
                               >
                                 <span> {{ item.facilitator.name }}</span>
-                                <b-icon
-                                  class="cursor-pointer"
-                                  @click="drop(item.id)"
-                                  icon="x"
-                                ></b-icon>
                               </div>
                               <div class="fs14" v-if="item.start_time">
                                 {{
@@ -167,11 +162,6 @@
                                 v-if="item.facilitator"
                               >
                                 <span> {{ item.facilitator.name }}</span>
-                                <b-icon
-                                  class="cursor-pointer"
-                                  @click="drop(item.id)"
-                                  icon="x"
-                                ></b-icon>
                               </div>
                               <div class="fs14" v-if="item.start_time">
                                 {{
@@ -221,11 +211,6 @@
                                 v-if="item.facilitator"
                               >
                                 <span> {{ item.facilitator.name }}</span>
-                                <b-icon
-                                  class="cursor-pointer"
-                                  @click="drop(item.id)"
-                                  icon="x"
-                                ></b-icon>
                               </div>
 
                               <div class="fs14" v-if="item.start_time">
@@ -276,11 +261,6 @@
                                 v-if="item.facilitator"
                               >
                                 <span> {{ item.facilitator.name }}</span>
-                                <b-icon
-                                  class="cursor-pointer"
-                                  @click="drop(item.id)"
-                                  icon="x"
-                                ></b-icon>
                               </div>
                               <div class="fs14" v-if="item.start_time">
                                 {{
@@ -330,11 +310,6 @@
                                 v-if="item.facilitator"
                               >
                                 <span> {{ item.facilitator.name }}</span>
-                                <b-icon
-                                  class="cursor-pointer"
-                                  @click="drop(item.id)"
-                                  icon="x"
-                                ></b-icon>
                               </div>
                               <div class="fs14" v-if="item.start_time">
                                 {{
@@ -385,11 +360,6 @@
                                 v-if="item.facilitator"
                               >
                                 <span> {{ item.facilitator.name }}</span>
-                                <b-icon
-                                  class="cursor-pointer"
-                                  @click="drop(item.id)"
-                                  icon="x"
-                                ></b-icon>
                               </div>
                               <div class="fs14" v-if="item.start_time">
                                 {{
@@ -439,11 +409,6 @@
                                 v-if="item.facilitator"
                               >
                                 <span> {{ item.facilitator.name }}</span>
-                                <b-icon
-                                  class="cursor-pointer"
-                                  @click="drop(item.id)"
-                                  icon="x"
-                                ></b-icon>
                               </div>
                               <div class="fs14" v-if="item.start_time">
                                 {{

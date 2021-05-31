@@ -48,8 +48,8 @@
           <div></div>
         </b-col>
         <b-col sm="8" class="p-3 bg-white shadow-sm">
-          <h5 class="mb-3 text-left">Your Library</h5>
-          <div class="d-flex justify-content-between">
+          <div class="d-flex justify-content-between mb-3">
+            <h5 class="text-left">Your Library</h5>
             <div class="search mb-4">
               <b-input-group size="sm" class="topbar_search">
                 <b-form-input
@@ -121,11 +121,7 @@
                 <div class="pl-4">
                   <div class="mb-2">
                     <b-button block variant="danger" disabled size="sm"
-                      ><b-icon
-                        icon="download"
-                        font-scale=".9rem"
-                        class="mr-2"
-                      ></b-icon>
+                      ><b-icon icon="download" class="mr-2"></b-icon>
                       Download</b-button
                     >
                   </div>
@@ -135,12 +131,8 @@
                       variant="dark-green"
                       size="sm"
                       @click="$router.push(`/learner/media/${item.course.id}`)"
-                      ><b-icon
-                        icon="book"
-                        font-scale=".9rem"
-                        class="mr-2"
-                      ></b-icon>
-                      View course</b-button
+                      ><b-icon icon="book" class="mr-2"></b-icon> View
+                      course</b-button
                     >
                   </div>
                 </div>
