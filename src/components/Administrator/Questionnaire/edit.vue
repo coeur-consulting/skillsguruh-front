@@ -439,6 +439,7 @@ export default {
                 question: "",
                 response: "",
                 responses: [],
+                result: "",
                 type: "short",
                 options: [
                   {
@@ -505,6 +506,9 @@ export default {
           {
             fixed: false,
             question: "",
+            response: "",
+            responses: [],
+            result: "",
             type: "short",
             options: [
               {
@@ -529,7 +533,11 @@ export default {
     },
     addquestion(idx) {
       this.questionnaire.sections[idx].questions.push({
+        fixed: false,
         question: "",
+        response: "",
+        responses: [],
+        result: "",
         type: "short",
         options: [
           {

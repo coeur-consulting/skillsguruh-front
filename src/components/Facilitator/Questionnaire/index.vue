@@ -27,7 +27,7 @@
                 <b-button
                   variant="dark-green"
                   size="sm"
-                  @click="$bvModal.show('add')"
+                  @click="$router.push('/facilitator/questionnaire')"
                 >
                   <b-icon icon="plus" font-scale="1.5"></b-icon
                 ></b-button>

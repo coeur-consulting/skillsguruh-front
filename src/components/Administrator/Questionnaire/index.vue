@@ -6,7 +6,7 @@
           <div
             class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-4"
           >
-            <h6 class="mb-3 mb-sm-0">questionnaire Modules</h6>
+            <h6 class="mb-3 mb-sm-0">Questionnaires</h6>
             <div>
               <b-form-input
                 placeholder="Search"
@@ -27,7 +27,7 @@
                 <b-button
                   variant="dark-green"
                   size="sm"
-                  @click="$bvModal.show('add')"
+                  @click="$router.push('/administrator/questionnaire')"
                 >
                   <b-icon icon="plus" font-scale="1.5"></b-icon
                 ></b-button>
