@@ -2,8 +2,8 @@
   <div>
     <b-form @submit.prevent="submit">
       <b-container class="py-3 px-0 text-left" v-if="questionnaire.sections">
-        <div class="text-center">
-          <h4 class="mb-4">{{ questionnaire.title }}</h4>
+        <div class="text-left">
+          <h5 class="mb-4">{{ questionnaire.title }}</h5>
         </div>
         <div>
           <div class="mb-4 border-bottom">
