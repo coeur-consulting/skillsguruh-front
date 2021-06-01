@@ -48,9 +48,6 @@
                     :options="question.options"
                     value-field="title"
                     text-field="title"
-                    :disabled="
-                      question.responses.length >= question.answers.length
-                    "
                   ></b-form-checkbox-group>
                 </div>
 
@@ -61,9 +58,6 @@
                     :options="question.options"
                     value-field="title"
                     text-field="title"
-                    :disabled="
-                      question.responses.length >= question.answers.length
-                    "
                   ></b-form-checkbox-group>
                 </div>
 
