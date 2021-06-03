@@ -129,12 +129,11 @@
                 </b-col>
               </b-form-row>
 
-              <b-form-row class="mb-2">
+              <b-form-row class="mb-2" v-if="selected_type != 'organizaton'">
                 <b-col sm="5" class="pr-sm-3">
                   <b-form-group label="Referral code(optional)">
                     <b-form-input
                       size="lg"
-                      required
                       v-model="user.referral"
                       type="tel"
                       placeholder="Do you have a referral code?"
