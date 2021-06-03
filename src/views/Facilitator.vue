@@ -13,18 +13,56 @@
         </b-col>
       </b-row>
     </b-container>
+    <b-modal id="insight" size="xl" hide-footer hide-header>
+      <Insight
+        @skip="skip"
+        :user="$store.getters.facilitator"
+        :type="'facilitator'"
+      />
+    </b-modal>
   </div>
 </template>
 <script>
 import SideBar from "@/components/Facilitator/sidebar.vue";
 import TopBar from "@/components/Facilitator/topbar.vue";
+import Insight from "@/components/InterestComponent";
 export default {
   components: {
     SideBar,
     TopBar,
+    Insight,
   },
   mounted() {
     this.$store.dispatch("getNotifications", "facilitator");
+
+    this.getloginhistory();
+  },
+  methods: {
+    skip() {
+      this.$bvModal.hide("insight");
+    },
+    getloginhistory() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/login-history`,
+
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            if (res.data.length == 1) {
+              this.$bvModal.show("insight");
+            }
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
   },
 };
 </script>

@@ -24,7 +24,9 @@
 
           <div class="mb-4">
             <h6 class="font-weight-bold">Knowledge Area</h6>
-            <span class="text-capitalize">{{ outline.knowledge_areas }}</span>
+            <span class="text-capitalize">{{
+              JSON.parse(outline.knowledge_areas).value
+            }}</span>
           </div>
 
           <div class="mb-4">

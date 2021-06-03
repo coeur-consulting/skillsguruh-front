@@ -69,12 +69,13 @@
                     </b-td>
                     <b-td class="text-capitalize">{{ item.type }}</b-td>
                     <b-td
-                      class="text-left"
+                      class="text-left text-capitalize"
                       :class="{
-                        'text-success': item.status,
-                        'text-danger': !item.status,
+                        'text-success': item.status == 'active',
+                        'text-danger': item.status == 'expired',
+                        'text-primary': item.status == 'pending',
                       }"
-                      >{{ item.status ? "Active" : "Inactive" }}</b-td
+                      >{{ item.status }}</b-td
                     >
                     <b-td
                       ><b-icon

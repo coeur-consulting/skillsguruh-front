@@ -37,7 +37,7 @@
             ></b-img>
           </div>
           <b-form @submit.prevent="register" class="user">
-            <legend>Register as</legend>
+            <legend>Login as</legend>
             <b-form-row class="mb-4 my_type">
               <b-col cols="3">
                 <div
@@ -138,6 +138,14 @@
                   >
                 </div>
               </b-form-group>
+            </div>
+            <div>
+              Don't have an account?
+              <span
+                class="text-dark-green fs16"
+                @click="$router.push('/register')"
+                >Register</span
+              >
             </div>
 
             <div>
@@ -314,6 +322,7 @@ export default {
                 authFacilitator.name = res.data.name;
                 authFacilitator.email = res.data.name;
                 authFacilitator.profile = res.data.profile;
+                authFacilitator.interests = res.data.interests;
                 authFacilitator.org_profile = res.data.organization.logo;
                 authFacilitator.org_name = res.data.organization.name;
                 authFacilitator.referral = res.data.referral_code;
@@ -363,6 +372,7 @@ export default {
                   authLearner.name = res.data.name;
                   authLearner.email = res.data.name;
                   authLearner.profile = res.data.profile;
+                  authLearner.interests = res.data.interests;
                   authLearner.org_profile = res.data.organization.logo;
                   authLearner.org_name = res.data.organization.name;
                   authLearner.referral = res.data.referral_code;

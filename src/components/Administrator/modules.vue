@@ -528,6 +528,9 @@ export default {
     this.getcourses();
     this.allmodules();
     this.getfacilitators();
+    if (this.$route.query.showing) {
+      this.search = this.$route.query.showing;
+    }
   },
   methods: {
     getUpload(val, id) {
@@ -650,7 +653,6 @@ export default {
               )
               .then((val) => {
                 if (val) {
-
                   this.$router.push(
                     `/administrator/questionnaire?module_id=${res.data.id}&module_name=${res.data.module}`
                   );

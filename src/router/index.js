@@ -218,6 +218,19 @@ const routes = [
         },
       },
       {
+        path: "team",
+        name: "Administrator team",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratorteam" */ "@/components/Administrator/team.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+      {
         path: "questionnaire",
         name: "Administrator questionnaire",
         components: {

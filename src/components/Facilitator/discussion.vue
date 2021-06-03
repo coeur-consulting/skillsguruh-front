@@ -394,6 +394,7 @@ export default {
       aud_ext: ["mp3"],
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       discussion: {},
+
       info: {
         attachment: "",
         message: "",

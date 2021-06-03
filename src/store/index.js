@@ -10,7 +10,7 @@ export default new Vuex.Store({
     admin: JSON.parse(localStorage.getItem("authAdmin")) || {},
     facilitator: JSON.parse(localStorage.getItem("authFacilitator")) || {},
     learner: JSON.parse(localStorage.getItem("authLearner")) || {},
-    //url: "http://localhost:8000/v1",
+    // url: "http://localhost:8000/v1",
     url: "https://skillsguruh-api.herokuapp.com/v1",
   },
   mutations: {
@@ -65,22 +65,22 @@ export default new Vuex.Store({
           });
       }
     },
-    markNotifications({ commit, state }) {
+    markNotifications({ commit, state }, user) {
       Vue.axios
         .get(`${state.url}/mark-notifications`, {
           headers: {
-            Authorization: `Bearer ${state.admin.access_token}`,
+            Authorization: `Bearer ${user.access_token}`,
           },
         })
         .then((response) => {
           commit("SET_NOTIFICATION", response.data);
         });
     },
-    postNotifications({ commit, state }, data) {
+    postNotifications({ commit, state }, data, user) {
       Vue.axios
         .post(`${state.url}/unread-notifications`, data, {
           headers: {
-            Authorization: `Bearer ${state.admin.access_token}`,
+            Authorization: `Bearer ${user.access_token}`,
           },
         })
         .then((response) => {
@@ -89,9 +89,9 @@ export default new Vuex.Store({
     },
     markNotification({ commit, state }, data) {
       Vue.axios
-        .get(`${state.url}/mark-notification/${data}`, {
+        .get(`${state.url}/mark-notification/${data.id}`, {
           headers: {
-            Authorization: `Bearer ${state.admin.access_token}`,
+            Authorization: `Bearer ${data.user.access_token}`,
           },
         })
         .then((response) => {

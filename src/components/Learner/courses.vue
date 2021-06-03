@@ -18,17 +18,24 @@
                     v-model="search"
                   ></b-form-input>
                   <b-input-group-append is-text>
-                    <b-iconstack font-scale="2rem" class="mr-2">
+                    <b-iconstack font-scale="2.5" class="mr-2 mb-2">
                       <b-icon
                         stacked
                         icon="circle-fill"
-                        variant="lighter-green"
+                        :style="
+                          `color:${
+                            JSON.parse(course.courseoutline.knowledge_areas)
+                              .color
+                          }`
+                        "
                       ></b-icon>
                       <b-icon
                         stacked
-                        icon="search"
+                        :icon="
+                          JSON.parse(course.courseoutline.knowledge_areas).icon
+                        "
                         scale="0.5"
-                        variant="dark-green"
+                        variant="light"
                       ></b-icon>
                     </b-iconstack>
                   </b-input-group-append>
@@ -75,13 +82,19 @@
                     <b-icon
                       stacked
                       icon="circle-fill"
-                      variant="lighter-green"
+                      :style="
+                        `color:${
+                          JSON.parse(course.courseoutline.knowledge_areas).color
+                        }`
+                      "
                     ></b-icon>
                     <b-icon
                       stacked
-                      icon="person-badge-fill"
+                      :icon="
+                        JSON.parse(course.courseoutline.knowledge_areas).icon
+                      "
                       scale="0.5"
-                      variant="dark-green"
+                      variant="light"
                     ></b-icon>
                   </b-iconstack>
                   <div class="course_title mb-1">{{ course.title }}</div>
@@ -179,13 +192,19 @@
                   <b-icon
                     stacked
                     icon="circle-fill"
-                    variant="lighter-green"
+                    :style="
+                      `color:${
+                        JSON.parse(course.courseoutline.knowledge_areas).color
+                      }`
+                    "
                   ></b-icon>
                   <b-icon
                     stacked
-                    icon="person-badge-fill"
+                    :icon="
+                      JSON.parse(course.courseoutline.knowledge_areas).icon
+                    "
                     scale="0.5"
-                    variant="dark-green"
+                    variant="light"
                   ></b-icon>
                 </b-iconstack>
                 <div>
@@ -549,7 +568,7 @@
                         v-if="item.facilitator_id != null"
                         >{{
                           facilitators.find(
-                            (val) => val.id == item.facilitator_id
+                            val => val.id == item.facilitator_id
                           ).name
                         }}</span
                       >
@@ -592,7 +611,7 @@ export default {
       newmodule: "",
       facilitators: [],
       toggleCourse: 1,
-      library: [],
+      library: []
     };
   },
   components: {},
@@ -603,10 +622,10 @@ export default {
   },
   computed: {
     filteredCourse() {
-      return this.courses.filter((item) =>
+      return this.courses.filter(item =>
         item.title.toLowerCase().includes(this.search.toLowerCase())
       );
-    },
+    }
   },
   methods: {
     getProgress(a, b) {
@@ -616,8 +635,8 @@ export default {
 
       var resources = b;
 
-      modules.forEach((mod) => {
-        var val = resources.filter((item) => item.module == mod).length;
+      modules.forEach(mod => {
+        var val = resources.filter(item => item.module == mod).length;
 
         if (val) {
           count++;
@@ -636,20 +655,20 @@ export default {
         .post(
           `${this.$store.getters.url}/libraries`,
           {
-            course_id: id,
+            course_id: id
           },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.library.push(res.data);
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -662,15 +681,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/libraries`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.library = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -684,7 +703,7 @@ export default {
       }
 
       var check = this.library.find(
-        (item) =>
+        item =>
           item.user_id == this.$store.getters.learner.id &&
           item.course_id == this.course.id
       );
@@ -697,8 +716,8 @@ export default {
       if (!arr.length) {
         return 0;
       }
-      arr.forEach((val) => {
-        JSON.parse(val.modules).forEach((item) => {
+      arr.forEach(val => {
+        JSON.parse(val.modules).forEach(item => {
           if (item.file_type.toLowerCase() == media.toLowerCase()) {
             newarr.push(item);
           }
@@ -721,10 +740,10 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      var newArr = schedule.map((val) => {
+      var newArr = schedule.map(val => {
         if (val.facilitator_id) {
           var fac = this.facilitators.find(
-            (item) => item.id == val.facilitator_id
+            item => item.id == val.facilitator_id
           );
           if (fac) {
             return fac.name;
@@ -739,7 +758,7 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      return schedule.map((item) => {
+      return schedule.map(item => {
         var res = ` ${item.day} ${this.$moment(
           new Date("2021-05-18 " + item.start_time)
         ).format("LT")}`;
@@ -755,7 +774,7 @@ export default {
         url: "",
         start_time: "",
         end_time: "",
-        facilitator_id: null,
+        facilitator_id: null
       });
     },
     addmodule() {
@@ -770,7 +789,7 @@ export default {
     addfaq() {
       this.detail.outline.faqs.push({
         question: "",
-        answer: "",
+        answer: ""
       });
     },
 
@@ -778,32 +797,32 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/user-get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
 
     getcourses() {
       this.$http
-        .get(`${this.$store.getters.url}/courses`, {
+        .get(`${this.$store.getters.url}/interest-courses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.courses = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -811,10 +830,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/courses`, this.detail, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.$toast.success("Course created");
             this.courses.unshift(res.data);
@@ -824,7 +843,7 @@ export default {
                 title: "",
                 code: "",
                 description: "",
-                cover: "",
+                cover: ""
               },
               outline: {
                 overview: "",
@@ -834,11 +853,11 @@ export default {
                 faqs: [
                   {
                     question: "",
-                    answer: "",
-                  },
+                    answer: ""
+                  }
                 ],
                 certification: null,
-                additional_info: "",
+                additional_info: ""
               },
               schedule: [
                 {
@@ -848,13 +867,13 @@ export default {
                   day: "",
                   start_time: "",
                   end_time: "",
-                  facilitator_id: null,
-                },
-              ],
+                  facilitator_id: null
+                }
+              ]
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -864,7 +883,7 @@ export default {
           title: val.title,
           code: val.code,
           description: val.description,
-          cover: val.cover,
+          cover: val.cover
         },
         outline: {
           overview: val.courseoutline.overview,
@@ -873,9 +892,9 @@ export default {
           modules: JSON.parse(val.courseoutline.modules),
           faqs: JSON.parse(val.courseoutline.faqs),
           certification: val.courseoutline.certification,
-          additional_info: val.courseoutline.additional_info,
+          additional_info: val.courseoutline.additional_info
         },
-        schedule: val.courseschedule,
+        schedule: val.courseschedule
       };
       this.$bvModal.show("update");
     },
@@ -886,11 +905,11 @@ export default {
           this.detail,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Update successful");
             this.$bvModal.hide("update");
@@ -901,7 +920,7 @@ export default {
                 title: "",
                 code: "",
                 description: "",
-                cover: "",
+                cover: ""
               },
               outline: {
                 overview: "",
@@ -911,11 +930,11 @@ export default {
                 faqs: [
                   {
                     question: "",
-                    answer: "",
-                  },
+                    answer: ""
+                  }
                 ],
                 certification: null,
-                additional_info: "",
+                additional_info: ""
               },
               schedule: [
                 {
@@ -925,38 +944,38 @@ export default {
                   day: "",
                   start_time: "",
                   end_time: "",
-                  facilitator_id: null,
-                },
-              ],
+                  facilitator_id: null
+                }
+              ]
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/courses/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.courses.splice(index, 1);
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

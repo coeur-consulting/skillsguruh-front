@@ -72,8 +72,10 @@
                           class="text-muted"
                           v-if="item.loginhistory.length"
                           >{{
-                            item.loginhistory[item.loginhistory.length - 1]
-                              .record | duration("humanize", true)
+                            $moment(
+                              item.loginhistory[item.loginhistory.length - 1]
+                                .record
+                            ).fromNow()
                           }}</span
                         >
                       </div>

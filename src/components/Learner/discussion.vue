@@ -26,7 +26,9 @@
                     ></b-avatar>
                   </div>
                   <div class="text-left next_dis">
-                    <span class="title h4">{{ discussion.name }} </span><br />
+                    <span class="title h4 text-capitalize"
+                      >{{ discussion.name }} </span
+                    ><br />
                     <span class="asked">
                       Created
                       {{ discussion.created_at | moment("calendar") }}</span
@@ -412,7 +414,7 @@ export default {
   },
   computed: {
     related() {
-      if (!this.discussion.related.length) {
+      if (!this.discussion.related) {
         return [];
       }
       return this.discussion.related.filter(

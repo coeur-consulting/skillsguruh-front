@@ -349,8 +349,11 @@
               <b-col sm="6" class="mb-3 px-3">
                 <b-form-group label="Knowledge area">
                   <b-form-select v-model="detail.knowledge_area">
-                    <b-form-select-option value="primary"
-                      >Primary</b-form-select-option
+                    <b-form-select-option
+                      :value="ins"
+                      v-for="(ins, id) in insight"
+                      :key="id"
+                      >{{ ins.value }}</b-form-select-option
                     >
                   </b-form-select>
                 </b-form-group>
@@ -504,6 +507,7 @@
   </div>
 </template>
 <script>
+import Insight from "../insight.js";
 export default {
   data() {
     return {
@@ -515,6 +519,7 @@ export default {
       outlines: [],
       newmodule: "",
       facilitators: [],
+      insight: [],
       detail: {
         course_id: "",
         overview: "",
@@ -545,8 +550,12 @@ export default {
     },
   },
   mounted() {
+    this.insight = Insight;
     this.getcourses();
     this.getfacilitators();
+    if (this.$route.query.showing) {
+      this.search = this.$route.query.showing;
+    }
   },
   methods: {
     sortfacilitators(data) {

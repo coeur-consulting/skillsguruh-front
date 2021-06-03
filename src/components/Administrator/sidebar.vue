@@ -10,30 +10,29 @@
       <h5 class="mb-0">{{ $store.getters.admin.org_name }}</h5>
     </div>
     <div class="side_items">
-      <router-link to="/administrator">
-        <div class="side_item">
-          <b-icon
-            icon="grid1x2"
-            font-scale="1.1"
-            class="mr-3 text-dark-green"
-          ></b-icon>
-          <span class="side-link">Dashboard</span>
-        </div>
-      </router-link>
-
       <div>
-        <h6 class="mt-3 mb-1 text-dark-green side_header">TEAM</h6>
-        <router-link to="/administrator/facilitators">
+        <h6 class="mt-3 mb-1 text-dark-green side_header">PERSONAL</h6>
+        <router-link to="/administrator">
+          <div class="side_item">
+            <b-icon
+              icon="grid1x2"
+              font-scale="1.1"
+              class="mr-3 text-dark-green"
+            ></b-icon>
+            <span class="side-link">Dashboard</span>
+          </div>
+        </router-link>
+        <router-link to="/administrator/team">
           <div class="side_item">
             <b-icon
               icon="person-badge"
               font-scale="1.1"
               class="mr-3 text-dark-green"
             ></b-icon>
-            <span class="side-link">Facilitators</span>
+            <span class="side-link">Team</span>
           </div>
         </router-link>
-        <router-link to="/administrator/learners">
+        <!-- <router-link to="/administrator/learners">
           <div class="side_item">
             <b-icon
               icon="people"
@@ -42,22 +41,19 @@
             ></b-icon>
             <span class="side-link">Learners</span>
           </div>
-        </router-link>
-      </div>
-      <div>
-        <h6 class="mt-3 mb-1 text-dark-green side_header">COMMUNITY</h6>
-
-        <router-link to="/administrator/connections">
+        </router-link> -->
+        <router-link to="/administrator/schedule">
           <div class="side_item">
             <b-icon
-              icon="link45deg"
+              icon="calendar-event"
               font-scale="1.1"
               class="mr-3 text-dark-green"
             ></b-icon>
-            <span class="side-link">Connections</span>
+            <span class="side-link">Schedule</span>
           </div>
         </router-link>
       </div>
+
       <div>
         <h6 class="mt-3 mb-1 text-dark-green side_header">PROGRAMS</h6>
 
@@ -71,7 +67,7 @@
             <span class="side-link">Courses</span>
           </div>
         </router-link>
-        <router-link to="/administrator/outlines">
+        <!-- <router-link to="/administrator/outlines">
           <div class="side_item">
             <b-icon
               icon="card-list"
@@ -90,7 +86,7 @@
             ></b-icon>
             <span class="side-link">Course modules</span>
           </div>
-        </router-link>
+        </router-link> -->
         <router-link to="/administrator/questionnaires">
           <div class="side_item">
             <b-icon
@@ -103,8 +99,18 @@
         </router-link>
       </div>
       <div>
-        <h6 class="mt-3 mb-1 text-dark-green side_header">ACTIVITIES</h6>
+        <h6 class="mt-3 mb-1 text-dark-green side_header">COMMUNITY</h6>
 
+        <router-link to="/administrator/connections">
+          <div class="side_item">
+            <b-icon
+              icon="link45deg"
+              font-scale="1.1"
+              class="mr-3 text-dark-green"
+            ></b-icon>
+            <span class="side-link">Connections</span>
+          </div>
+        </router-link>
         <router-link to="/administrator/feeds">
           <div class="side_item">
             <b-icon
@@ -147,16 +153,6 @@
       <div>
         <h6 class="mt-3 mb-1 text-dark-green side_header">OTHERS</h6>
 
-        <router-link to="/administrator/schedule">
-          <div class="side_item">
-            <b-icon
-              icon="calendar-event"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">Schedule</span>
-          </div>
-        </router-link>
         <router-link to="/administrator/insights">
           <div class="side_item">
             <b-icon
@@ -171,16 +167,6 @@
           <div class="side_item">
             <b-icon
               icon="signpost-split"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">Referrals</span>
-          </div>
-        </router-link>
-        <router-link to="/administrator/bonuses">
-          <div class="side_item">
-            <b-icon
-              icon="credit-card"
               font-scale="1.1"
               class="mr-3 text-dark-green"
             ></b-icon>

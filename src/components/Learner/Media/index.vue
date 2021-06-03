@@ -43,45 +43,30 @@
                       </div>
                     </b-tab>
                     <b-tab title="Faqs">
-                      <b-card
-                        no-body
-                        class="mb-1"
+                      <div
+                        class="mb-4 bg-light border"
                         v-for="(item, id) in faqs"
                         :key="id"
                       >
-                        <b-card-header
-                          header-tag="header"
-                          class="p-1 bg-light"
-                          role="tab"
-                        >
-                          <div
-                            v-b-toggle="'file' + id"
-                            variant="info"
-                            class="fs13"
-                          >
+                        <div class="p-2 bg-light">
+                          <div class="fs13">
                             <b-icon
                               icon="question-circle-fill"
                               class="mr-2 text-light-green"
                             ></b-icon>
                             {{ item.question }}
                           </div>
-                        </b-card-header>
-                        <b-collapse
-                          :id="'file' + id"
-                          accordion="my-accordion"
-                          role="tabpanel"
-                        >
-                          <b-card-body>
-                            <b-card-text class="px-0 fs13">
-                              <b-icon
-                                icon="check-circle-fill"
-                                class="mr-2 text-light-green"
-                              ></b-icon>
-                              {{ item.answer }}</b-card-text
-                            >
-                          </b-card-body>
-                        </b-collapse>
-                      </b-card>
+                        </div>
+                        <div :id="'file' + id" class="p-2 bg-white">
+                          <p class="fs13">
+                            <b-icon
+                              icon="check-circle-fill"
+                              class="mr-2 text-light-green"
+                            ></b-icon>
+                            {{ item.answer }}
+                          </p>
+                        </div>
+                      </div>
                     </b-tab>
                     <b-tab title="Notes">
                       <b-card-text>{{ notes }}</b-card-text>

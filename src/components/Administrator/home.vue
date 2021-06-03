@@ -254,7 +254,7 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
-            this.events = res.data;
+            this.events = res.data.filter((item) => item.status !== "expired");
           }
         })
         .catch((err) => {

@@ -128,6 +128,20 @@
                   </b-form-group>
                 </b-col>
               </b-form-row>
+
+              <b-form-row class="mb-2">
+                <b-col sm="5" class="pr-sm-3">
+                  <b-form-group label="Referral code(optional)">
+                    <b-form-input
+                      size="lg"
+                      required
+                      v-model="user.referral"
+                      type="tel"
+                      placeholder="Do you have a referral code?"
+                    ></b-form-input>
+                  </b-form-group>
+                </b-col>
+              </b-form-row>
               <b-form-row class="mb-2">
                 <b-col class="pr-sm-3">
                   <label for="">
@@ -220,9 +234,15 @@ export default {
         phone: "",
         password: "",
         profile: "",
+        referral: "",
       },
       agree: false,
     };
+  },
+  mounted() {
+    if (this.$route.query.referral_code) {
+      this.user.referral = this.$route.query.referral_code;
+    }
   },
   components: {
     Upload,
@@ -297,8 +317,20 @@ export default {
         }
         if (this.type == "learner") {
           this.$http
-            .post(`${this.$store.getters.url}/register-user`, this.user)
-            .then(() => {})
+            .post(`${this.$store.getters.url}/user-register`, this.user)
+            .then((res) => {
+              if (res.status == 201) {
+                this.$toast.success("Registration successful");
+                this.$router.push("/login");
+                this.user = {
+                  name: "",
+                  email: "",
+                  phone: "",
+                  password: "",
+                  profile: "",
+                };
+              }
+            })
             .catch((err) => {
               if (err.response.data.errors.email[0]) {
                 this.$toast.error(err.response.data.errors.email[0]);

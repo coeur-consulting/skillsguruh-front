@@ -56,8 +56,8 @@
                   </b-dropdown>
                   <div class="side_dis">
                     <b-avatar
-                      v-if="item.creator == 'facilitator'"
-                      :src="item.facilitator.profile"
+                      v-if="item.creator == 'admin'"
+                      :src="item.admin.profile"
                     ></b-avatar>
                     <b-avatar
                       v-if="item.creator == 'user'"
@@ -140,7 +140,7 @@
                     >
                     <span
                       v-else
-                      @click="$bvModal.show('access')"
+                      @click="joindiscussion(item)"
                       class="text-dark-green font-weight-bold cursor-pointer"
                       >Join Discussion</span
                     >
@@ -181,22 +181,19 @@
             <div class="py-3 text-left related_quest border">
               <h6 class="mb-3 px-3">Other Discussions</h6>
               <div v-if="otherdiscussion.length">
-                <div class="d-flex p-2 px-3">
+                <div
+                  class="d-flex p-2 px-3"
+                  v-for="(dis, id) in otherdiscussion.slice(0, 6)"
+                  :key="id"
+                >
                   <div>
-                    <span class="mr-3 related_count">2000</span>
+                    <span class="mr-3 related_count">{{
+                      dis.discussionmessage.length
+                    }}</span>
                   </div>
-                  <span class="related text-left"
-                    >Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                    Beatae.</span
-                  >
-                </div>
-                <div class="d-flex p-2 px-3">
-                  <div>
-                    <span class="mr-3 related_count">1200</span>
-                  </div>
-                  <span class="related text-left"
-                    >Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                    Beatae.</span
+                  <span
+                    class="related text-left text-capitalize font-weight-bold"
+                    >{{ dis.name }}</span
                   >
                 </div>
               </div>
@@ -314,6 +311,7 @@ export default {
       discussions: [],
       recentdiscussions: [],
       courses: [],
+      otherdiscussion: [],
       discussion: {
         name: "",
         description: "",
@@ -334,18 +332,11 @@ export default {
   },
   mounted() {
     this.getdiscussions();
-    this.mytags = Insight.map((item) => {
-      var dat = {
-        value: item,
-      };
-      return dat;
-    });
+    this.mytags = Insight;
     this.getcourses();
+    this.getothers();
   },
   computed: {
-    otherdiscussion() {
-      return [];
-    },
     mostanswers() {
       var val = this.recentdiscussions.slice(0).sort((a, b) => {
         return b.discussionmessage.length - a.discussionmessage.length;
@@ -368,6 +359,32 @@ export default {
     },
   },
   methods: {
+    joindiscussion(item) {
+      if (
+        item.facilitator &&
+        item.facilitator.id == this.$store.getters.facilitator.id
+      ) {
+        this.$router.push(`/facilitator/discussion/${item.id}`);
+      } else {
+        this.$bvModal.show("access");
+      }
+    },
+    getothers() {
+      this.$http
+        .get(`${this.$store.getters.url}/other-discussions`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.otherdiscussion = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     getcourses() {
       this.$http
         .get(`${this.$store.getters.url}/courses`, {

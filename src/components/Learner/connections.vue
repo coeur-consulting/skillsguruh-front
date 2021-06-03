@@ -19,62 +19,83 @@
           </div>
 
           <div class="py-4 connection_box">
-            <div
-              class="d-flex align-items-end mb-4"
-              v-for="(item, id) in filteredConnections"
-              :key="id"
-            >
-              <div class="d-flex align-items-center flex-1">
-                <b-avatar class="mr-2" size="2.8rem"></b-avatar>
+            <div v-for="(item, id) in filteredConnections" :key="id">
+              <div
+                v-if="item.user_follower"
+                class="d-flex align-items-end mb-4"
+              >
+                <div class="d-flex align-items-center flex-1">
+                  <b-avatar class="mr-2" size="2.8rem"></b-avatar>
+                  <div>
+                    <span>{{ item.user_follower.name }}</span> <br />
+                    <span class="fs14 text-muted">{{
+                      item.user_follower.email
+                    }}</span>
+                  </div>
+                </div>
+
                 <div>
-                  <span>{{ item.user_follower.name }}</span> <br />
-                  <span class="fs14 text-muted">{{
-                    item.user_follower.email
-                  }}</span>
+                  <b-button
+                    variant="outline-dark-green"
+                    size="sm"
+                    class="mr-3 rounded-pill"
+                    @click="
+                      getmessage(
+                        item.user_follower.id,
+                        item.user_follower.name,
+                        'user',
+                        item.user_follower.profile
+                      )
+                    "
+                    >Message</b-button
+                  >
+                  <b-icon icon="three-dots-vertical"></b-icon>
                 </div>
               </div>
+              <div v-else class="d-flex align-items-end mb-4">
+                <div class="d-flex align-items-center flex-1">
+                  <b-avatar class="mr-2" size="2.8rem"></b-avatar>
+                  <div>
+                    <span>{{ item.facilitator_follower.name }}</span> <br />
+                    <span class="fs14 text-muted">{{
+                      item.facilitator_follower.email
+                    }}</span>
+                  </div>
+                </div>
 
-              <div>
-                <b-button
-                  variant="outline-dark-green"
-                  size="sm"
-                  class="mr-3 rounded-pill"
-                  @click="
-                    getmessage(
-                      item.user_follower.id,
-                      item.user_follower.name,
-                      'user',
-                      item.user_follower.profile
-                    )
-                  "
-                  >Message</b-button
-                >
-                <b-icon icon="three-dots-vertical"></b-icon>
+                <div>
+                  <b-button
+                    variant="outline-dark-green"
+                    size="sm"
+                    class="mr-3 rounded-pill"
+                    @click="
+                      getmessage(
+                        item.facilitator_follower.id,
+                        item.facilitator_follower.name,
+                        'user',
+                        item.facilitator_follower.profile
+                      )
+                    "
+                    >Message</b-button
+                  >
+                  <b-icon icon="three-dots-vertical"></b-icon>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </b-col>
       <b-col sm="5">
-        <div class="box p-4">
-          <h6 class="mb-3">Suggested connections</h6>
-          <div class="px-3 py-2 d-flex align-items-center search bg-light">
-            <b-icon icon="search"></b-icon>
-            <b-form-input
-              autocomplete="off"
-              autocorrect="off"
-              size="sm"
-              v-model="suggested_search"
-              class="flex-1 border-0 no-focus search-bg"
-              type="search"
-              placeholder="Search name"
-            ></b-form-input>
-            <b-icon icon="sliders"></b-icon>
-          </div>
-          <div class="py-4 suggestion_box" v-if="suggestedConnections.length">
+        <div class="box p-4 mb-5">
+          <h6 class="mb-3">Suggested Learners</h6>
+
+          <div
+            class="py-1 suggestion_box"
+            v-if="filteredLearnerSuggested.length"
+          >
             <div
               class="d-flex align-items-end mb-4"
-              v-for="(item, id) in suggestedConnections"
+              v-for="(item, id) in filteredLearnerSuggested.slice(0, 9)"
               :key="id"
             >
               <div class="d-flex align-items-center flex-1">
@@ -95,6 +116,45 @@
                 >
               </div>
             </div>
+          </div>
+          <div v-else class="p-3">
+            <h6 class="text-muted text-center">Not available</h6>
+          </div>
+        </div>
+        <div class="box p-4">
+          <h6 class="mb-3">Suggested Facilitators</h6>
+
+          <div
+            class="py-2 suggestion_box"
+            v-if="filteredFacilitatorSuggested.length"
+          >
+            <div
+              class="d-flex align-items-end mb-4"
+              v-for="(item, id) in filteredFacilitatorSuggested.slice(0, 9)"
+              :key="id"
+            >
+              <div class="d-flex align-items-center flex-1">
+                <b-avatar class="mr-2" size="2rem"></b-avatar>
+                <div style="line-height: 1.2">
+                  <span class="fs14">{{ item.name }}</span> <br />
+                  <span class="fs12 text-muted">{{ item.email }}</span>
+                </div>
+              </div>
+
+              <div>
+                <b-button
+                  @click="addconnections(item.id, 'facilitator')"
+                  size="sm"
+                  variant="outline-dark-green"
+                  class="rounded-pill fs11"
+                  >Connect</b-button
+                >
+              </div>
+            </div>
+          </div>
+
+          <div v-else class="p-3">
+            <h6 class="text-muted text-center">Not available</h6>
           </div>
         </div>
       </b-col>
@@ -121,7 +181,8 @@ export default {
       search: "",
       suggested_search: "",
       connections: [],
-      suggestedConnections: [],
+      learner_connections: [],
+      facilitators_connections: [],
     };
   },
   components: {
@@ -129,22 +190,78 @@ export default {
   },
   mounted() {
     this.getconnections();
+    this.getUsersWithInterest();
+    this.getFacilitatorsWithInterest();
   },
   computed: {
     filteredConnections() {
-      return this.connections.filter((item) =>
-        item.user_follower.name
-          .toLowerCase()
-          .includes(this.search.toLowerCase())
+      return this.connections.filter((item) => {
+        if (item.user_follower) {
+          return item.user_follower.name
+            .toLowerCase()
+            .includes(this.search.toLowerCase());
+        }
+        if (item.facilitator_follower) {
+          return item.facilitator_follower.name
+            .toLowerCase()
+            .includes(this.search.toLowerCase());
+        }
+      });
+    },
+    filteredLearnerSuggested() {
+      return this.learner_connections.filter(
+        (item) =>
+          !this.connections
+            .filter((ite) => ite.user_follower)
+            .map((val) => val.user_follower.id)
+            .includes(item.id)
       );
     },
-    filteredSuggested() {
-      return this.suggestedConnections.filter((item) =>
-        item.includes(this.suggested_search)
+    filteredFacilitatorSuggested() {
+      return this.facilitators_connections.filter(
+        (item) =>
+          !this.connections
+            .filter((ite) => ite.facilitator_follower)
+            .map((val) => val.facilitator_follower.id)
+            .includes(item.id)
       );
     },
   },
   methods: {
+    getUsersWithInterest() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/identical-learners`,
+
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.learner_connections = res.data;
+          }
+        });
+    },
+    getFacilitatorsWithInterest() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/identical-facilitators`,
+
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.facilitators_connections = res.data;
+          }
+        });
+    },
     getmessage(id, name, type, profile) {
       this.mini_info.id = id;
       this.mini_info.name = name;

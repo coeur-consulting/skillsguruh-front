@@ -61,7 +61,15 @@
             <div class="fs12">{{ event.url }}</div>
           </div>
           <div class="mb-1 px-3 py-2">
-            <b-badge>{{ event.status }}</b-badge>
+            <b-badge
+              class="text-capitalize"
+              :class="{
+                'bg-success': event.status == 'active',
+                'bg-danger': event.status == 'expired',
+                'bg-primary': event.status == 'pending',
+              }"
+              >{{ event.status }}</b-badge
+            >
           </div>
         </div>
       </b-col>

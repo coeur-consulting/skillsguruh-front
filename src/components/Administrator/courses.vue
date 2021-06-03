@@ -77,7 +77,12 @@
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Course Cover">
-                <Upload @getUpload="getUpload">
+                <Upload
+                  @getUpload="getUpload"
+                  :id="'image'"
+                  :type="'image'"
+                  :file_type="'image'"
+                >
                   <div class="text-center">
                     <b-icon icon="image" font-scale="6rem"></b-icon>
                   </div>
@@ -108,7 +113,7 @@
                     :value="ins"
                     v-for="(ins, id) in insight"
                     :key="id"
-                    >{{ ins }}</b-form-select-option
+                    >{{ ins.value }}</b-form-select-option
                   >
                 </b-form-select>
               </b-form-group>
@@ -203,7 +208,7 @@
 
           <b-form-row class="px-1">
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="certification">
+              <b-form-group label="Certification">
                 <b-form-row>
                   <b-col sm="3">
                     <b-form-radio
@@ -262,10 +267,14 @@
                 </b-form-group>
               </b-col>
               <b-col sm="6" class="mb-3 px-3">
-                <b-form-group label="Url (optional)">
+                <b-form-group label="Venue">
+                  <b-form-input
+                    v-model="item.venue"
+                    placeholder="Enter course Venue"
+                  ></b-form-input>
                   <b-form-input
                     v-model="item.url"
-                    placeholder="Enter url link"
+                    placeholder="Enter url link (optional)"
                   ></b-form-input>
                 </b-form-group>
               </b-col>
@@ -451,7 +460,7 @@
                     :value="ins"
                     v-for="(ins, id) in insight"
                     :key="id"
-                    >{{ ins }}</b-form-select-option
+                    >{{ ins.value }}</b-form-select-option
                   >
                 </b-form-select>
               </b-form-group>
@@ -546,7 +555,7 @@
 
           <b-form-row class="px-1">
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="certification">
+              <b-form-group label="Certification">
                 <b-form-row>
                   <b-col sm="3">
                     <b-form-radio
@@ -746,13 +755,31 @@
                       ></b-icon>
                     </template>
 
+                    <b-dropdown-item
+                      class="fs12"
+                      @click="
+                        $router.push(
+                          `/administrator/outlines?showing=${course.title}`
+                        )
+                      "
+                      >View outline</b-dropdown-item
+                    >
+                    <b-dropdown-item
+                      class="fs12"
+                      @click="
+                        $router.push(
+                          `/administrator/modules?showing=${course.title}`
+                        )
+                      "
+                      >View modules</b-dropdown-item
+                    >
                     <b-dropdown-item class="fs12" @click="edit(course)"
-                      >Edit</b-dropdown-item
+                      >Edit course</b-dropdown-item
                     >
                     <b-dropdown-item
                       class="fs12"
                       @click="drop(course.id, index)"
-                      >Delete</b-dropdown-item
+                      >Delete course</b-dropdown-item
                     >
                   </b-dropdown>
 
@@ -760,15 +787,20 @@
                     <b-icon
                       stacked
                       icon="circle-fill"
-                      variant="lighter-green"
+                      :style="`color:${
+                        JSON.parse(course.courseoutline.knowledge_areas).color
+                      }`"
                     ></b-icon>
                     <b-icon
                       stacked
-                      icon="person-badge-fill"
+                      :icon="
+                        JSON.parse(course.courseoutline.knowledge_areas).icon
+                      "
                       scale="0.5"
-                      variant="dark-green"
+                      variant="light"
                     ></b-icon>
                   </b-iconstack>
+
                   <div class="course_title mb-1">{{ course.title }}</div>
                   <div class="mb-3">
                     <span class="fs13 overview text-muted">
@@ -868,13 +900,17 @@
                   <b-icon
                     stacked
                     icon="circle-fill"
-                    variant="lighter-green"
+                    :style="`color:${
+                      JSON.parse(course.courseoutline.knowledge_areas).color
+                    }`"
                   ></b-icon>
                   <b-icon
                     stacked
-                    icon="person-badge-fill"
+                    :icon="
+                      JSON.parse(course.courseoutline.knowledge_areas).icon
+                    "
                     scale="0.5"
-                    variant="dark-green"
+                    variant="light"
                   ></b-icon>
                 </b-iconstack>
                 <div>
@@ -956,7 +992,7 @@
                 <p class="fs13 text-capitalize">
                   {{
                     course.courseoutline.knowledge_areas
-                      ? course.courseoutline.knowledge_areas
+                      ? JSON.parse(course.courseoutline.knowledge_areas).value
                       : "None"
                   }}
                 </p>
@@ -1191,7 +1227,13 @@
                     <div class="mb-1">
                       <span class="fs14 mr-2">Venue: </span>
                       <span class="text-sm font-weight-bold">
-                        {{ item.url }}</span
+                        {{ item.venue ? item.venue : "None" }}</span
+                      >
+                    </div>
+                    <div class="mb-1">
+                      <span class="fs14 mr-2">Url: </span>
+                      <span class="text-sm font-weight-bold">
+                        {{ item.url ? item.url : "None" }}</span
                       >
                     </div>
                     <div>
@@ -1234,7 +1276,7 @@
   </div>
 </template>
 <script>
-import Upload from "@/components/feedupload.vue";
+import Upload from "@/components/fileupload.vue";
 import Insight from "../insight.js";
 export default {
   data() {
@@ -1272,6 +1314,7 @@ export default {
             type: "course",
             event_type: "class",
             url: "",
+            venue: "",
             day: "monday",
             start_time: new Date(),
             end_time: new Date(),
@@ -1369,6 +1412,7 @@ export default {
       this.detail.schedule.push({
         day: "monday",
         url: "",
+        venue: "",
         start_time: "",
         end_time: "",
         facilitator_id: null,
@@ -1462,6 +1506,7 @@ export default {
                   type: "course",
                   event_type: "class",
                   url: "",
+                  venue: "",
                   day: "monday",
                   start_time: new Date(),
                   end_time: new Date(),
@@ -1556,6 +1601,7 @@ export default {
                   type: "course",
                   event_type: "class",
                   url: "",
+                  venue: "",
                   day: "monday",
                   start_time: new Date(),
                   end_time: new Date(),

@@ -252,7 +252,7 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
-            this.events = res.data;
+            this.events = res.data.filter((item) => item.status !== "expired");
           }
         })
         .catch((err) => {
@@ -268,15 +268,18 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
-            this.schedules = res.data;
-            this.rows = res.data.length;
+            this.schedules = res.data.filter(
+              (item) =>
+                this.$moment().isBefore(item.start_time) &&
+                this.$moment().isBefore(item.end_time)
+            );
+            this.rows = this.schedules.length;
           }
         })
         .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
-
     gettodos() {
       this.$http
         .get(`${this.$store.getters.url}/todos`, {

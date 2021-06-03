@@ -32,8 +32,8 @@
                 <b-col
                   sm="4"
                   class="pr-3"
-                  v-for="item in courses.slice(0, 3)"
-                  :key="item.id"
+                  v-for="course in courses.slice(0, 3)"
+                  :key="course.id"
                 >
                   <div
                     class="w-100 h-100 bg-white shadow-wm rounded p-4 d-flex flex-column"
@@ -53,27 +53,52 @@
                           variant="dark-green"
                         ></b-icon>
                       </b-iconstack>
-                      <div class="font-weight-bold fs14 mb-2 text-capitalize">
-                        {{ item.title }}
+                      <div class="course_title mb-1">{{ course.title }}</div>
+                      <div class="mb-3">
+                        <span class="fs13 overview text-muted">
+                          {{ course.description }}</span
+                        >
+                      </div>
+                      <div
+                        class="course_fac d-flex align-items-center mb-1 text-capitalize fs13"
+                        v-if="sortfacilitators(course).length"
+                      >
+                        <b-icon
+                          icon="display"
+                          variant="dark-green"
+                          class="text-muted mr-2"
+                        ></b-icon>
+                        <span class="fs13">
+                          {{ sortfacilitators(course).join(" ") }}</span
+                        >
                       </div>
 
                       <div
-                        class="d-flex mb-1 text-muted fs-14 align-items-center"
+                        class="course_fac d-flex text-capitalize align-items-center fs13 mb-1"
                       >
-                        <b-icon class="mr-2" icon="calendar"></b-icon>
-                        <span>Jane Adaobi</span>
+                        <b-icon
+                          icon="calendar"
+                          variant="dark-green"
+                          class="text-muted mr-2"
+                        ></b-icon>
+                        <div class="">
+                          <div class="text-capitalize">
+                            {{ course.courseoutline.duration }}
+                          </div>
+                        </div>
                       </div>
+
                       <div
-                        class="d-flex mb-1 text-muted fs-14 align-items-center"
+                        v-if="course"
+                        class="course_fac align-items-center fs13"
                       >
-                        <b-icon class="mr-2" icon="clock"></b-icon>
-                        <span>Monday 8:00 am</span>
-                      </div>
-                      <div
-                        class="d-flex mb-3 text-muted fs-14 align-items-center"
-                      >
-                        <b-icon class="mr-2" icon="layers"></b-icon>
-                        <span>{{ item.modules.length }} modules</span>
+                        <b-icon
+                          icon="layers"
+                          variant="dark-green"
+                          class="text-muted mr-1"
+                        ></b-icon>
+                        <span class="fs13"> {{ sortmodules(course) }}</span>
+                        Modules
                       </div>
                     </div>
 
@@ -83,15 +108,18 @@
                         ><span
                           >{{
                             getProgress(
-                              item.courseoutline.modules,
-                              item.modules
+                              course.courseoutline.modules,
+                              course.modules
                             )
                           }}%</span
                         >
                       </div>
                       <b-progress
                         :value="
-                          getProgress(item.courseoutline.modules, item.modules)
+                          getProgress(
+                            course.courseoutline.modules,
+                            course.modules
+                          )
                         "
                         :max="100"
                         show-value
@@ -149,25 +177,20 @@
             </div>
 
             <div class="tob_2 mb-4 p-3">
-              <h6 class="mb-3 font-weight-bold text-center">
-                Connect with people
-              </h6>
+              <h6 class="mb-3 text-center">Connect with people</h6>
 
-              <div
-                v-if="
-                  users.filter((item) => item.id != $store.getters.learner.id)
-                    .length
-                "
-              >
+              <div v-if="connections.length">
                 <div
                   class="d-flex mb-3"
-                  v-for="user in users
-                    .filter((item) => item.id != $store.getters.learner.id)
-                    .slice(0, 5)"
+                  v-for="user in connections.slice(0, 5)"
                   :key="user.id"
                 >
                   <div class="d-flex flex-1">
-                    <b-avatar :src="user.profile" class="mr-2"></b-avatar>
+                    <b-avatar
+                      size="sm"
+                      :src="user.profile"
+                      class="mr-2"
+                    ></b-avatar>
                     <div>
                       <div class="fs12 font-weight-bold text-capitalize">
                         {{ user.name }}
@@ -175,7 +198,7 @@
                       <div style="line-height: 1">
                         <span class="fs11">Lagos,Nigeria</span> <br /><span
                           class="fs11"
-                          >5 similar insights</span
+                          >{{ user.similar }} similar insights</span
                         >
                       </div>
                     </div>
@@ -223,6 +246,7 @@ export default {
       events: [],
       courses: [],
       schedules: [],
+      connections: [],
       masks: {
         weekdays: "WWW",
       },
@@ -240,6 +264,9 @@ export default {
     this.getevents();
     this.getcourses();
     this.getschedules();
+  },
+  mounted() {
+    this.getUsersWithInterest();
   },
 
   computed: {
@@ -333,6 +360,47 @@ export default {
     },
   },
   methods: {
+    sortmodules(data) {
+      if (!data.courseoutline) {
+        return 0;
+      }
+      return JSON.parse(data.courseoutline.modules).length;
+    },
+    sortfacilitators(data) {
+      if (!data.courseschedule) {
+        return "Unavailable";
+      }
+      var schedule = data.courseschedule;
+      var newArr = schedule.map((val) => {
+        if (val.facilitator_id) {
+          var fac = this.facilitators.find(
+            (item) => item.id == val.facilitator_id
+          );
+          if (fac) {
+            return fac.name;
+          }
+        }
+      });
+
+      return [...new Set(newArr)];
+    },
+    getUsersWithInterest() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/identical-learners`,
+
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.connections = res.data;
+          }
+        });
+    },
     getProgress(a, b) {
       var count = 0;
 
@@ -355,13 +423,17 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/courseschedules`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
           if (res.status == 200) {
-            this.schedules = res.data;
-            this.rows = res.data.length;
+            this.schedules = res.data.filter(
+              (item) =>
+                this.$moment().isBefore(item.start_time) &&
+                this.$moment().isBefore(item.end_time)
+            );
+            this.rows = this.schedules.length;
           }
         })
         .catch((err) => {
@@ -377,7 +449,7 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
-            this.events = res.data;
+            this.events = res.data.filter((item) => item.status !== "expired");
           }
         })
         .catch((err) => {
@@ -435,7 +507,7 @@ export default {
     },
     getcourses() {
       this.$http
-        .get(`${this.$store.getters.url}/courses`, {
+        .get(`${this.$store.getters.url}/interest-courses`, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },

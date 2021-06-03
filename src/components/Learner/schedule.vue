@@ -11,9 +11,18 @@
                 :autoplay="true"
                 v-if="comingevents.length"
               >
-                <slide v-for="item in events" :key="item.id">
+                <slide v-for="item in comingevents" :key="item.id">
                   <div class="box top_box flex-row p-0 position-relative">
-                    <div class="upcoming">Upcoming events</div>
+                    <div
+                      class="upcoming text-capitalize"
+                      :class="{
+                        'bg-success': item.status == 'active',
+                        'bg-danger': item.status == 'expired',
+                        'bg-primary': item.status == 'pending',
+                      }"
+                    >
+                      {{ item.status }} event
+                    </div>
                     <b-col cols="5" class="h-100">
                       <div
                         class="p-3 d-flex flex-column justify-content-center h-100"
@@ -804,7 +813,9 @@ export default {
       });
     },
     comingevents() {
-      return this.events.filter((item) => item.status == "inactive");
+      return this.events
+        .filter((item) => item.status !== "expired")
+        .slice(0, 5);
     },
   },
   methods: {
@@ -828,13 +839,17 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/courseschedules`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
           if (res.status == 200) {
-            this.schedules = res.data;
-            this.rows = res.data.length;
+            this.schedules = res.data.filter(
+              (item) =>
+                this.$moment().isBefore(item.start_time) &&
+                this.$moment().isBefore(item.end_time)
+            );
+            this.rows = this.schedules.length;
           }
         })
         .catch((err) => {

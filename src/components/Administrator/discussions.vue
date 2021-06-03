@@ -56,8 +56,8 @@
                   </b-dropdown>
                   <div class="side_dis">
                     <b-avatar
-                      v-if="item.creator == 'admin'"
-                      :src="item.admin.profile"
+                      v-if="item.creator == 'facilitator'"
+                      :src="item.facilitator.profile"
                     ></b-avatar>
                     <b-avatar
                       v-if="item.creator == 'user'"
@@ -133,14 +133,14 @@
                     <span
                       v-if="item.type == 'public'"
                       @click="
-                        $router.push(`/administrator/discussion/${item.id}`)
+                        $router.push(`/facilitator/discussion/${item.id}`)
                       "
                       class="text-dark-green font-weight-bold cursor-pointer"
                       >Join Discussion</span
                     >
                     <span
                       v-else
-                      @click="$bvModal.show('access')"
+                      @click="joindiscussion(item)"
                       class="text-dark-green font-weight-bold cursor-pointer"
                       >Join Discussion</span
                     >
@@ -181,22 +181,19 @@
             <div class="py-3 text-left related_quest border">
               <h6 class="mb-3 px-3">Other Discussions</h6>
               <div v-if="otherdiscussion.length">
-                <div class="d-flex p-2 px-3">
+                <div
+                  class="d-flex p-2 px-3"
+                  v-for="(dis, id) in otherdiscussion.slice(0, 6)"
+                  :key="id"
+                >
                   <div>
-                    <span class="mr-3 related_count">2000</span>
+                    <span class="mr-3 related_count">{{
+                      dis.discussionmessage.length
+                    }}</span>
                   </div>
-                  <span class="related text-left"
-                    >Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                    Beatae.</span
-                  >
-                </div>
-                <div class="d-flex p-2 px-3">
-                  <div>
-                    <span class="mr-3 related_count">1200</span>
-                  </div>
-                  <span class="related text-left"
-                    >Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                    Beatae.</span
+                  <span
+                    class="related text-left text-capitalize font-weight-bold"
+                    >{{ dis.name }}</span
                   >
                 </div>
               </div>
@@ -310,11 +307,11 @@ import Insight from "../insight.js";
 export default {
   data() {
     return {
-      Insight: [],
       show: "recent",
       discussions: [],
       recentdiscussions: [],
       courses: [],
+      otherdiscussion: [],
       discussion: {
         name: "",
         description: "",
@@ -335,18 +332,11 @@ export default {
   },
   mounted() {
     this.getdiscussions();
-    this.mytags = Insight.map((item) => {
-      var dat = {
-        value: item,
-      };
-      return dat;
-    });
+    this.mytags = Insight;
     this.getcourses();
+    this.getothers();
   },
   computed: {
-    otherdiscussion() {
-      return [];
-    },
     mostanswers() {
       var val = this.recentdiscussions.slice(0).sort((a, b) => {
         return b.discussionmessage.length - a.discussionmessage.length;
@@ -369,6 +359,29 @@ export default {
     },
   },
   methods: {
+    joindiscussion(item) {
+      if (item.admin && item.admin.id == this.$store.getters.admin.id) {
+        this.$router.push(`/administrator/discussion/${item.id}`);
+      } else {
+        this.$bvModal.show("access");
+      }
+    },
+    getothers() {
+      this.$http
+        .get(`${this.$store.getters.url}/other-discussions`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.otherdiscussion = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     getcourses() {
       this.$http
         .get(`${this.$store.getters.url}/courses`, {
@@ -404,22 +417,27 @@ export default {
       var negative = val.filter((item) => !item.vote).length;
       return Number(positive) - Number(negative);
     },
-    // gettags() {
-    //   this.$http
-    //     .get(`${this.$store.getters.url}/tags`, {
-    //       headers: {
-    //         Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-    //       },
-    //     })
-    //     .then((res) => {
-    //       if (res.status == 200) {
-
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       this.$toast.error(err.response.data.message);
-    //     });
-    // },
+    gettags() {
+      this.$http
+        .get(`${this.$store.getters.url}/tags`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.mytags = res.data.map((item) => {
+              var dat = {
+                value: item.tag,
+              };
+              return dat;
+            });
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     getdiscussions() {
       this.$http
         .get(`${this.$store.getters.url}/discussions`, {
@@ -477,7 +495,7 @@ export default {
           this.$http
             .delete(`${this.$store.getters.url}/discussions/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+                Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
               },
             })
             .then((res) => {
@@ -544,6 +562,7 @@ export default {
   font-size: 15px;
   font-weight: 500;
   color: rgba($color: #000000, $alpha: 0.64);
+  text-transform: capitalize;
 }
 .main_text {
   display: -webkit-box;

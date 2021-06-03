@@ -66,6 +66,39 @@
             </b-form-row>
             <b-form-row>
               <b-col sm="6">
+                <b-form-group label="Age">
+                  <b-form-input v-model="user.age" type="number"></b-form-input
+                ></b-form-group>
+              </b-col>
+              <b-col sm="6">
+                <b-form-group label="Gender">
+                  <b-form-select v-model="user.gender">
+                    <b-form-select-option value="male"
+                      >Male</b-form-select-option
+                    >
+                    <b-form-select-option value="female"
+                      >Female</b-form-select-option
+                    >
+                  </b-form-select></b-form-group
+                ></b-col
+              >
+            </b-form-row>
+            <b-form-row>
+              <b-col sm="6">
+                <b-form-group label="State">
+                  <b-form-input v-model="user.state"></b-form-input
+                ></b-form-group>
+              </b-col>
+              <b-col sm="6">
+                <b-form-group label="Country">
+                  <b-form-input
+                    type="text"
+                    v-model="user.country"
+                  ></b-form-input></b-form-group
+              ></b-col>
+            </b-form-row>
+            <b-form-row>
+              <b-col sm="6">
                 <b-form-group label="Phone">
                   <b-form-input v-model="user.phone"></b-form-input
                 ></b-form-group>

@@ -77,7 +77,6 @@
               v-model="message"
               readonly
               class="text-align flex-1 rounded-pill no-focus"
-              placeholder=" https://skillsguruh.com/referral/?code=746476"
             >
             </b-form-input>
           </div>
@@ -107,14 +106,34 @@ export default {
   data() {
     return {
       email: "",
-      message: "https://skillsguruh.com/referral/?code=746476",
+      message: `https://skillsguruh.herokuapp.com/register/?referral_code=${this.$store.getters.facilitator.referral}`,
     };
   },
   mounted() {
-    this.message = `https://skillsguruh.com/register/?referral_code=${this.$store.getters.facilitator.referral}`;
+    this.message = `https://skillsguruh.herokuapp.com/register/?referral_code=${this.$store.getters.facilitator.referral}`;
   },
   methods: {
-    sendInvite() {},
+    sendInvite() {
+      var data = {
+        email: this.email,
+        code: this.$store.getters.facilitator.referral,
+      };
+      this.$http
+        .post(`${this.$store.getters.url}/send-referral`, data, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.$toast.success("Invite sent");
+            this.email = "";
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     onCopy: function (e) {
       alert("You just copied the following text to the clipboard: " + e.text);
     },

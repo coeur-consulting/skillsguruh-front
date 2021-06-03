@@ -25,13 +25,13 @@
             >
               <b-icon icon="funnel"></b-icon>
               <div>
-                <b-button variant="dark-green" size="sm">
+                <!-- <b-button variant="dark-green" size="sm">
                   <b-icon
                     icon="plus"
                     @click="$bvModal.show('add')"
                     font-scale="1.5"
                   ></b-icon
-                ></b-button>
+                ></b-button> -->
               </div>
             </div>
 
@@ -72,8 +72,10 @@
                           class="text-muted"
                           v-if="item.loginhistory.length"
                           >{{
-                            item.loginhistory[item.loginhistory.length - 1]
-                              .record | duration("humanize", true)
+                            $moment(
+                              item.loginhistory[item.loginhistory.length - 1]
+                                .record
+                            ).fromNow()
                           }}</span
                         >
                       </div>

@@ -25,6 +25,17 @@
           <b-icon v-if="type == 'notification'" icon="chevron-right"></b-icon>
         </div>
         <div
+          class="mb-3 px-2 cursor-pointer d-flex fs14"
+          @click="type = 'preference'"
+          :class="{ 'font-weight-bold': type == 'preference' }"
+        >
+          <span class="flex-1">
+            <b-icon class="mr-2" icon="nut"></b-icon>
+            <span class="">Preferences</span>
+          </span>
+          <b-icon v-if="type == 'preference'" icon="chevron-right"></b-icon>
+        </div>
+        <div
           class="px-2 fs14 cursor-pointer d-flex"
           :class="{ 'font-weight-bold': type == 'security' }"
           @click="type = 'security'"
@@ -66,6 +77,39 @@
             </b-form-row>
             <b-form-row>
               <b-col sm="6">
+                <b-form-group label="Age">
+                  <b-form-input v-model="user.age" type="number"></b-form-input
+                ></b-form-group>
+              </b-col>
+              <b-col sm="6">
+                <b-form-group label="Gender">
+                  <b-form-select v-model="user.gender">
+                    <b-form-select-option value="male"
+                      >Male</b-form-select-option
+                    >
+                    <b-form-select-option value="female"
+                      >Female</b-form-select-option
+                    >
+                  </b-form-select></b-form-group
+                ></b-col
+              >
+            </b-form-row>
+            <b-form-row>
+              <b-col sm="6">
+                <b-form-group label="State">
+                  <b-form-input v-model="user.state"></b-form-input
+                ></b-form-group>
+              </b-col>
+              <b-col sm="6">
+                <b-form-group label="Country">
+                  <b-form-input
+                    type="text"
+                    v-model="user.country"
+                  ></b-form-input></b-form-group
+              ></b-col>
+            </b-form-row>
+            <b-form-row>
+              <b-col sm="6">
                 <b-form-group label="Phone">
                   <b-form-input v-model="user.phone"></b-form-input
                 ></b-form-group>
@@ -91,11 +135,15 @@
             <h5 class="font-weight-bold mb-4">Notifications</h5>
 
             <div
-              class="d-flex mb-3 align-items-center"
+              class="d-flex mb-3"
               v-for="item in notifications"
               :key="item.id"
             >
-              <b-icon variant="dark-green" icon="bell" class="mr-2"></b-icon>
+              <b-icon
+                variant="dark-green"
+                icon="bell-fill"
+                class="mr-2 mt-1"
+              ></b-icon>
               <span> {{ item.data.notification }}</span>
             </div>
           </div>
@@ -128,6 +176,12 @@
             </b-form>
           </div>
         </div>
+
+        <div v-if="type == 'preference'" class="p-4">
+          <div class="pt-5 text-left preference">
+            <Interest />
+          </div>
+        </div>
       </b-col>
     </b-row>
   </b-container>
@@ -135,6 +189,7 @@
 
 <script>
 import Upload from "../fileupload";
+import Interest from "../InterestComponent";
 export default {
   data() {
     return {
@@ -148,6 +203,7 @@ export default {
   },
   components: {
     Upload,
+    Interest,
   },
   mounted() {
     this.getuser();
@@ -230,5 +286,9 @@ export default {
 .notif {
   width: 80%;
   margin: 0 auto;
+}
+.preference {
+  max-height: 80vh;
+  overflow: scroll;
 }
 </style>

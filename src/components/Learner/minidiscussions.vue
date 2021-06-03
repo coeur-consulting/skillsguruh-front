@@ -142,7 +142,7 @@
               >
               <span
                 v-else
-                @click="$bvModal.show('access')"
+                @click="joindiscussion(item)"
                 class="text-dark-green font-weight-bold cursor-pointer"
                 >Join Discussion</span
               >
@@ -256,6 +256,13 @@ export default {
     },
   },
   methods: {
+    joindiscussion(item) {
+      if (item.user && item.user.id == this.$store.getters.learner.id) {
+        this.$router.push(`/learner/discussion/${item.id}`);
+      } else {
+        this.$bvModal.show("access");
+      }
+    },
     getcourses() {
       this.$http
         .get(`${this.$store.getters.url}/courses`, {

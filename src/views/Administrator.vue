@@ -13,18 +13,28 @@
         </b-col>
       </b-row>
     </b-container>
+    <b-modal id="insight" size="xl" hide-footer hide-header>
+      <Insight @skip="skip" :user="$store.getters.admin" />
+    </b-modal>
   </div>
 </template>
 <script>
 import SideBar from "@/components/Administrator/sidebar.vue";
 import TopBar from "@/components/Administrator/topbar.vue";
+import Insight from "@/components/InterestComponent";
 export default {
   components: {
     SideBar,
     TopBar,
+    Insight,
   },
   mounted() {
     this.$store.dispatch("getNotifications", "admin");
+  },
+  methods: {
+    skip() {
+      this.$bvModal.hide("insight");
+    },
   },
 };
 </script>

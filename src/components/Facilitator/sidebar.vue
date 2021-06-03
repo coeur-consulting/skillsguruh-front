@@ -10,21 +10,29 @@
       <h5 class="mb-0">{{ $store.getters.facilitator.org_name }}</h5>
     </div>
     <div class="side_items">
-      <router-link to="/facilitator">
-        <div class="side_item">
-          <b-icon
-            icon="grid1x2"
-            font-scale="1.1"
-            class="mr-3 text-dark-green"
-          ></b-icon>
-          <span class="side-link">Dashboard</span>
-        </div>
-      </router-link>
-
       <div>
-        <h6 class="mt-3 mb-1 text-dark-green side_header">TEAM</h6>
-
+        <h6 class="mt-3 mb-1 text-dark-green side_header">PERSONAL</h6>
+        <router-link to="/facilitator">
+          <div class="side_item">
+            <b-icon
+              icon="grid1x2"
+              font-scale="1.1"
+              class="mr-3 text-dark-green"
+            ></b-icon>
+            <span class="side-link">Dashboard</span>
+          </div>
+        </router-link>
         <router-link to="/facilitator/learners">
+          <div class="side_item">
+            <b-icon
+              icon="person-badge"
+              font-scale="1.1"
+              class="mr-3 text-dark-green"
+            ></b-icon>
+            <span class="side-link">Learners</span>
+          </div>
+        </router-link>
+        <!-- <router-link to="/facilitator/learners">
           <div class="side_item">
             <b-icon
               icon="people"
@@ -32,6 +40,61 @@
               class="mr-3 text-dark-green"
             ></b-icon>
             <span class="side-link">Learners</span>
+          </div>
+        </router-link> -->
+        <router-link to="/facilitator/schedule">
+          <div class="side_item">
+            <b-icon
+              icon="calendar-event"
+              font-scale="1.1"
+              class="mr-3 text-dark-green"
+            ></b-icon>
+            <span class="side-link">Schedule</span>
+          </div>
+        </router-link>
+      </div>
+
+      <div>
+        <h6 class="mt-3 mb-1 text-dark-green side_header">PROGRAMS</h6>
+
+        <router-link to="/facilitator/courses">
+          <div class="side_item">
+            <b-icon
+              icon="book"
+              font-scale="1.1"
+              class="mr-3 text-dark-green"
+            ></b-icon>
+            <span class="side-link">Courses</span>
+          </div>
+        </router-link>
+        <!-- <router-link to="/facilitator/outlines">
+          <div class="side_item">
+            <b-icon
+              icon="card-list"
+              font-scale="1.1"
+              class="mr-3 text-dark-green"
+            ></b-icon>
+            <span class="side-link">Course outline</span>
+          </div>
+        </router-link>
+        <router-link to="/facilitator/modules">
+          <div class="side_item">
+            <b-icon
+              icon="card-list"
+              font-scale="1.1"
+              class="mr-3 text-dark-green"
+            ></b-icon>
+            <span class="side-link">Course modules</span>
+          </div>
+        </router-link> -->
+        <router-link to="/facilitator/questionnaires">
+          <div class="side_item">
+            <b-icon
+              icon="card-list"
+              font-scale="1.1"
+              class="mr-3 text-dark-green"
+            ></b-icon>
+            <span class="side-link">Questionnaires</span>
           </div>
         </router-link>
       </div>
@@ -48,64 +111,6 @@
             <span class="side-link">Connections</span>
           </div>
         </router-link>
-      </div>
-      <div>
-        <h6 class="mt-3 mb-1 text-dark-green side_header">PROGRAMS</h6>
-
-        <router-link to="/facilitator/courses">
-          <div class="side_item">
-            <b-icon
-              icon="book"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">Courses</span>
-          </div>
-        </router-link>
-        <router-link to="/facilitator/modules">
-          <div class="side_item">
-            <b-icon
-              icon="person-badge"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">Modules</span>
-          </div>
-        </router-link>
-        <router-link to="/facilitator/outlines">
-          <div class="side_item">
-            <b-icon
-              icon="card-list"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">Course outline</span>
-          </div>
-        </router-link>
-        <router-link to="/facilitator/questionnaires">
-          <div class="side_item">
-            <b-icon
-              icon="card-list"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">Questionnaires</span>
-          </div>
-        </router-link>
-        <router-link to="/facilitator/attendances">
-          <div class="side_item">
-            <b-icon
-              icon="card-list"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">Attendances </span>
-          </div>
-        </router-link>
-      </div>
-      <div>
-        <h6 class="mt-3 mb-1 text-dark-green side_header">ACTIVITIES</h6>
-
         <router-link to="/facilitator/feeds">
           <div class="side_item">
             <b-icon
@@ -114,16 +119,6 @@
               class="mr-3 text-dark-green"
             ></b-icon>
             <span class="side-link"><span class="mr-5">Feeds</span> </span>
-          </div>
-        </router-link>
-        <router-link to="/facilitator/discussions">
-          <div class="side_item">
-            <b-icon
-              icon="chat-left-quote"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">Discussions</span>
           </div>
         </router-link>
         <router-link to="/facilitator/events">
@@ -143,21 +138,21 @@
             >
           </div>
         </router-link>
+        <router-link to="/facilitator/discussions">
+          <div class="side_item">
+            <b-icon
+              icon="chat-left-quote"
+              font-scale="1.1"
+              class="mr-3 text-dark-green"
+            ></b-icon>
+            <span class="side-link">Discussions</span>
+          </div>
+        </router-link>
       </div>
 
       <div>
         <h6 class="mt-3 mb-1 text-dark-green side_header">OTHERS</h6>
 
-        <router-link to="/facilitator/schedule">
-          <div class="side_item">
-            <b-icon
-              icon="calendar-event"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">Schedule</span>
-          </div>
-        </router-link>
         <router-link to="/facilitator/insights">
           <div class="side_item">
             <b-icon
@@ -172,16 +167,6 @@
           <div class="side_item">
             <b-icon
               icon="signpost-split"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">Referrals</span>
-          </div>
-        </router-link>
-        <router-link to="/facilitator/bonuses">
-          <div class="side_item">
-            <b-icon
-              icon="credit-card"
               font-scale="1.1"
               class="mr-3 text-dark-green"
             ></b-icon>
@@ -215,7 +200,7 @@ export default {
   },
   methods: {
     logout() {
-      localStorage.removeItem("authFacilitator");
+      localStorage.removeItem("authfacilitator");
       this.$router.push("/login");
     },
     getevents() {

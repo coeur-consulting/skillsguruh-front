@@ -11,9 +11,18 @@
                 :autoplay="true"
                 v-if="comingevents.length"
               >
-                <slide v-for="item in events" :key="item.id">
+                <slide v-for="item in comingevents" :key="item.id">
                   <div class="box top_box flex-row p-0 position-relative">
-                    <div class="upcoming">Upcoming events</div>
+                    <div
+                      class="upcoming text-capitalize"
+                      :class="{
+                        'bg-success': item.status == 'active',
+                        'bg-danger': item.status == 'expired',
+                        'bg-primary': item.status == 'pending',
+                      }"
+                    >
+                      {{ item.status }} event
+                    </div>
                     <b-col cols="5" class="h-100">
                       <div
                         class="p-3 d-flex flex-column justify-content-center h-100"
@@ -841,13 +850,16 @@ export default {
       });
     },
     comingevents() {
-      return this.events.filter((item) => item.status == "inactive");
+      return this.events.filter((item) => item.status != "expired").slice(0, 5);
     },
   },
   methods: {
     daySchedule(day) {
       return this.schedules.filter(
-        (item) => item.day.toLowerCase() == day.toLowerCase()
+        (item) =>
+          this.$moment(item.start_time, "YYYY-MM-DD HH:mm:ss")
+            .format("dddd")
+            .toLowerCase() == day.toLowerCase()
       );
     },
     addschedule() {
@@ -870,8 +882,12 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
-            this.schedules = res.data;
-            this.rows = res.data.length;
+            this.schedules = res.data.filter(
+              (item) =>
+                this.$moment().isBefore(item.start_time) &&
+                this.$moment().isBefore(item.end_time)
+            );
+            this.rows = this.schedules.length;
           }
         })
         .catch((err) => {

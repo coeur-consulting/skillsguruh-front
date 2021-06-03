@@ -11,9 +11,18 @@
                 :autoplay="true"
                 v-if="comingevents.length"
               >
-                <slide v-for="item in events" :key="item.id">
+                <slide v-for="item in comingevents" :key="item.id">
                   <div class="box top_box flex-row p-0 position-relative">
-                    <div class="upcoming">Upcoming events</div>
+                    <div
+                      class="upcoming text-capitalize"
+                      :class="{
+                        'bg-success': item.status == 'active',
+                        'bg-danger': item.status == 'expired',
+                        'bg-primary': item.status == 'pending',
+                      }"
+                    >
+                      {{ item.status }} event
+                    </div>
                     <b-col cols="5" class="h-100">
                       <div
                         class="p-3 d-flex flex-column justify-content-center h-100"
@@ -637,35 +646,11 @@
           >
             <b-form-row>
               <b-col sm="6" class="mb-3 px-3">
-                <b-form-group label="Day">
-                  <b-form-select v-model="item.day">
-                    <b-form-select-option value="monday"
-                      >Monday</b-form-select-option
-                    >
-                    <b-form-select-option value="tuesday"
-                      >Tuesday</b-form-select-option
-                    >
-                    <b-form-select-option value="wednesday"
-                      >Wednesday</b-form-select-option
-                    >
-                    <b-form-select-option value="thursday"
-                      >Thursday</b-form-select-option
-                    >
-                    <b-form-select-option value="friday"
-                      >Friday</b-form-select-option
-                    >
-                    <b-form-select-option value="saturday"
-                      >Saturday</b-form-select-option
-                    >
-                    <b-form-select-option value="sunday"
-                      >Sunday</b-form-select-option
-                    >
-                  </b-form-select>
-                </b-form-group>
-              </b-col>
-              <b-col sm="6" class="mb-3 px-3">
                 <b-form-group label="Facilitator">
                   <b-form-select v-model="item.facilitator_id">
+                    <b-form-select-option :value="null"
+                      >None</b-form-select-option
+                    >
                     <b-form-select-option
                       :value="item.id"
                       v-for="(item, id) in facilitators"
@@ -675,24 +660,54 @@
                   >
                 </b-form-group>
               </b-col>
+              <b-col sm="6" class="mb-3 px-3">
+                <b-form-group label="Venue">
+                  <b-form-input
+                    v-model="item.venue"
+                    placeholder="Enter course Venue"
+                  ></b-form-input>
+                  <b-form-input
+                    v-model="item.url"
+                    placeholder="Enter url link (optional)"
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
             </b-form-row>
             <b-form-row>
               <b-col sm="6" class="mb-3 px-3">
                 <b-form-group label="Start time">
-                  <b-form-timepicker
-                    :hour12="true"
+                  <vc-date-picker
                     placeholder="Choose start time"
                     v-model="item.start_time"
-                  ></b-form-timepicker>
+                    mode="dateTime"
+                    :is24hr="false"
+                  >
+                    <template v-slot="{ inputValue, inputEvents }">
+                      <input
+                        class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+                        :value="inputValue"
+                        v-on="inputEvents"
+                      />
+                    </template>
+                  </vc-date-picker>
                 </b-form-group>
               </b-col>
               <b-col sm="6" class="mb-3 px-3">
                 <b-form-group label="End time">
-                  <b-form-timepicker
-                    :hour12="true"
-                    placeholder="Choose end time"
+                  <vc-date-picker
+                    placeholder="Choose start time"
                     v-model="item.end_time"
-                  ></b-form-timepicker>
+                    mode="dateTime"
+                    :is24hr="false"
+                  >
+                    <template v-slot="{ inputValue, inputEvents }">
+                      <input
+                        class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+                        :value="inputValue"
+                        v-on="inputEvents"
+                      />
+                    </template>
+                  </vc-date-picker>
                 </b-form-group>
               </b-col>
             </b-form-row>
@@ -742,8 +757,10 @@ export default {
         schedule: [
           {
             day: "",
-            start_time: "",
-            end_time: "",
+            venue: "",
+            url: "",
+            start_time: new Date(),
+            end_time: new Date(),
             facilitator_id: null,
           },
         ],
@@ -841,13 +858,18 @@ export default {
       });
     },
     comingevents() {
-      return this.events.filter((item) => item.status == "inactive");
+      return this.events
+        .filter((item) => item.status !== "expired")
+        .slice(0, 5);
     },
   },
   methods: {
     daySchedule(day) {
       return this.schedules.filter(
-        (item) => item.day.toLowerCase() == day.toLowerCase()
+        (item) =>
+          this.$moment(item.start_time, "YYYY-MM-DD HH:mm:ss")
+            .format("dddd")
+            .toLowerCase() == day.toLowerCase()
       );
     },
     addschedule() {
@@ -865,13 +887,17 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/courseschedules`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
           if (res.status == 200) {
-            this.schedules = res.data;
-            this.rows = res.data.length;
+            this.schedules = res.data.filter(
+              (item) =>
+                this.$moment().isBefore(item.start_time) &&
+                this.$moment().isBefore(item.end_time)
+            );
+            this.rows = this.schedules.length;
           }
         })
         .catch((err) => {
@@ -920,7 +946,7 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
-            this.events = res.data;
+            this.events = res.data.filter((item) => item.status !== "expired");
           }
         })
         .catch((err) => {
@@ -942,6 +968,8 @@ export default {
             this.schedules.unshift(res.data);
             this.detail.schedule = {
               day: "",
+              venue: "",
+              url: "",
               start_time: "",
               end_time: "",
               facilitator_id: null,

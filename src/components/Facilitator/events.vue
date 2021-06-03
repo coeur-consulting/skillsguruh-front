@@ -69,12 +69,13 @@
                     </b-td>
                     <b-td class="text-capitalize">{{ item.type }}</b-td>
                     <b-td
-                      class="text-left"
+                      class="text-left text-capitalize"
                       :class="{
-                        'text-success': item.status,
-                        'text-danger': !item.status,
+                        'text-success': item.status == 'active',
+                        'text-danger': item.status == 'expired',
+                        'text-primary': item.status == 'pending',
                       }"
-                      >{{ item.status ? "Active" : "Inactive" }}</b-td
+                      >{{ item.status }}</b-td
                     >
                     <b-td
                       ><b-icon
@@ -180,6 +181,18 @@
               </b-form-group>
             </b-col>
           </b-form-row>
+          <b-form-row class="mb-2">
+            <b-col sm="6" class="pr-sm-3">
+              <b-form-group label="Event venue">
+                <b-form-input
+                  size="lg"
+                  v-model="event.venue"
+                  required
+                  placeholder="Enter event venue"
+                ></b-form-input>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
 
           <b-form-row class="mb-2">
             <b-col sm="12" class="pr-sm-3">
@@ -201,7 +214,6 @@
                   placeholder="Choose start time"
                   v-model="event.start"
                   mode="dateTime"
-                  :is24hr="false"
                 >
                   <template v-slot="{ inputValue, inputEvents }">
                     <input
@@ -219,7 +231,6 @@
                   placeholder="Choose end time"
                   v-model="event.end"
                   mode="dateTime"
-                  :is24hr="false"
                 >
                   <template v-slot="{ inputValue, inputEvents }">
                     <input
@@ -236,7 +247,6 @@
             <b-col sm="6" class="pr-sm-3">
               <b-form-group label="Event type">
                 <b-form-select
-                  size="lg"
                   v-model="event.type"
                   required
                   placeholder="Choose type of event"
@@ -342,6 +352,19 @@
                   required
                   v-model="event.duration"
                   placeholder="Enter event duration.. e.g 2 weeks"
+                ></b-form-input>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+
+          <b-form-row class="mb-2">
+            <b-col sm="6" class="pr-sm-3">
+              <b-form-group label="Event venue">
+                <b-form-input
+                  size="lg"
+                  v-model="event.venue"
+                  required
+                  placeholder="Enter event venue"
                 ></b-form-input>
               </b-form-group>
             </b-col>
@@ -497,7 +520,7 @@
               :value="item.id"
               v-for="(item, id) in facilitators"
               :key="id"
-              >{{ item.title }}</b-form-checkbox
+              >{{ item.name }}</b-form-checkbox
             ></b-col
           >
         </b-row>
@@ -523,6 +546,7 @@ export default {
       facilitators: [],
       event: {
         title: "",
+        venue: "",
         duration: "",
         description: "",
         type: "",
@@ -614,6 +638,7 @@ export default {
               title: "",
               duration: "",
               description: "",
+              venue: "",
               type: "",
               url: "",
               cover: "",
@@ -657,6 +682,7 @@ export default {
             this.$bvModal.hide("edit");
             this.event = {
               title: "",
+              venue: "",
               duration: "",
               description: "",
               type: "",
