@@ -429,7 +429,7 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/courseschedules`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {
@@ -631,6 +631,17 @@ export default {
   position: absolute;
   top: -30%;
   right: 15%;
+}
+.overview {
+  font-size: 13px;
+  color: rgba($color: #000000, $alpha: 0.54);
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
 }
 @media (max-width: 600px) {
   .box {
