@@ -821,7 +821,10 @@ export default {
   methods: {
     daySchedule(day) {
       return this.schedules.filter(
-        (item) => item.day.toLowerCase() == day.toLowerCase()
+        (item) =>
+          this.$moment(item.start_time, "YYYY-MM-DD HH:mm:ss")
+            .format("dddd")
+            .toLowerCase() == day.toLowerCase()
       );
     },
     addschedule() {
