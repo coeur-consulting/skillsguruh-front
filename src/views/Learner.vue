@@ -31,17 +31,6 @@ export default {
   mounted() {
     this.$store.dispatch("getNotifications", "learner");
     this.getloginhistory();
-    this.$http
-      .get(
-        `${this.$store.getters.url}/send-mail`,
-
-        {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
-        }
-      )
-      .then();
   },
   methods: {
     skip() {

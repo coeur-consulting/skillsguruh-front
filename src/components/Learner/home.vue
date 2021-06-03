@@ -44,13 +44,19 @@
                         <b-icon
                           stacked
                           icon="circle-fill"
-                          variant="lighter-green"
+                          :style="`color:${
+                            JSON.parse(course.courseoutline.knowledge_areas)
+                              .color
+                          }`"
                         ></b-icon>
                         <b-icon
                           stacked
-                          icon="person-badge-fill"
+                          :icon="
+                            JSON.parse(course.courseoutline.knowledge_areas)
+                              .icon
+                          "
                           scale="0.5"
-                          variant="dark-green"
+                          variant="light"
                         ></b-icon>
                       </b-iconstack>
                       <div class="course_title mb-1">{{ course.title }}</div>

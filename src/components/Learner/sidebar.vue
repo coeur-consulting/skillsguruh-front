@@ -12,7 +12,7 @@
     <div class="side_items">
       <div>
         <h6 class="mt-3 mb-1 text-dark-green side_header">PERSONAL</h6>
-        <router-link to="/learners">
+        <router-link to="/learner">
           <div class="side_item">
             <b-icon
               icon="grid1x2"
