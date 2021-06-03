@@ -11,6 +11,7 @@
               <b-form-input
                 placeholder="Search"
                 size="sm"
+                readonly
                 type="search"
                 class="search"
                 v-model="search"

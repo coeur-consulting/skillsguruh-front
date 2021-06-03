@@ -551,7 +551,13 @@
                     <div class="mb-1">
                       <span class="fs14 mr-2">Venue: </span>
                       <span class="text-sm font-weight-bold">
-                        {{ item.url }}</span
+                        {{ item.venue ? item.venue : "None" }}</span
+                      >
+                    </div>
+                    <div class="mb-1">
+                      <span class="fs14 mr-2">Url: </span>
+                      <span class="text-sm font-weight-bold">
+                        {{ item.url ? item.url : "None" }}</span
                       >
                     </div>
                     <div>

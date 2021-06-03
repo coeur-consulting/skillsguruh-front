@@ -392,7 +392,6 @@ export default {
         chart: {
           height: 200,
           type: "heatmap",
-          toolbar: false,
         },
         dataLabels: {
           enabled: false,

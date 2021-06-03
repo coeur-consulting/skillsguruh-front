@@ -637,6 +637,19 @@ const routes = [
         },
       },
       {
+        path: "team",
+        name: "Facilitator team",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "facilitatorlearners" */ "@/components/Facilitator/team.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
         path: "facilitator",
         name: " facilitator",
         components: {

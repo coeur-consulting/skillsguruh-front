@@ -5,12 +5,12 @@
         Switch Team
       </b-form-checkbox>
     </div>
-    <Facilitator v-if="team" />
+    <Admin v-if="team" />
     <Learners v-else />
   </div>
 </template>
 <script>
-import Facilitator from "./facilitators";
+import Admin from "./admins";
 import Learners from "./learners";
 export default {
   data() {
@@ -19,7 +19,7 @@ export default {
     };
   },
   components: {
-    Facilitator,
+    Admin,
     Learners,
   },
 };

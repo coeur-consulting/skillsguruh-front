@@ -27,7 +27,10 @@
                       <div
                         class="p-3 d-flex flex-column justify-content-center h-100"
                       >
-                        <div class="mb-3 h5 text-dark-green" v-if="item.title">
+                        <div
+                          class="mb-3 h5 text-dark-green overview"
+                          v-if="item.title"
+                        >
                           {{ item.title }}
                         </div>
                         <div class="mb-1 fs13">

@@ -261,10 +261,9 @@
               </b-form-group>
             </b-col>
             <b-col sm="6" class="pr-sm-3">
-              <b-form-group label="Event Url">
+              <b-form-group label="Event Url (optional)">
                 <b-form-input
                   size="lg"
-                  required
                   v-model="event.url"
                   placeholder="Enter event link"
                 ></b-form-input>
@@ -440,10 +439,9 @@
               </b-form-group>
             </b-col>
             <b-col sm="6" class="pr-sm-3">
-              <b-form-group label="Event Url">
+              <b-form-group label="Event Url (optional)">
                 <b-form-input
                   size="lg"
-                  required
                   v-model="event.url"
                   placeholder="Enter event link"
                 ></b-form-input>

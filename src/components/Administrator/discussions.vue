@@ -370,7 +370,7 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/other-discussions`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
           },
         })
         .then((res) => {

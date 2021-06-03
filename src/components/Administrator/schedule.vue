@@ -27,7 +27,10 @@
                       <div
                         class="p-3 d-flex flex-column justify-content-center h-100"
                       >
-                        <div class="mb-3 h5 text-dark-green" v-if="item.title">
+                        <div
+                          class="mb-3 h5 text-dark-green overview"
+                          v-if="item.title"
+                        >
                           {{ item.title }}
                         </div>
                         <div class="mb-1 fs13">
@@ -887,7 +890,7 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/courseschedules`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
           },
         })
         .then((res) => {

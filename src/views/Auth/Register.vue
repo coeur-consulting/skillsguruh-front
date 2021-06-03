@@ -129,7 +129,7 @@
                 </b-col>
               </b-form-row>
 
-              <b-form-row class="mb-2" v-if="selected_type != 'organizaton'">
+              <b-form-row class="mb-2" v-if="type != 'organization'">
                 <b-col sm="5" class="pr-sm-3">
                   <b-form-group label="Referral code(optional)">
                     <b-form-input

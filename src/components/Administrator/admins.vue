@@ -347,7 +347,7 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/get-admins`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
           },
         })
         .then((res) => {
@@ -365,7 +365,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/register-admin`, this.user, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
           },
         })
         .then((res) => {
@@ -407,7 +407,7 @@ export default {
           this.user,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
             },
           }
         )
@@ -433,7 +433,7 @@ export default {
           this.$http
             .delete(`${this.$store.getters.url}/delete-admin/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+                Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
               },
             })
             .then((res) => {

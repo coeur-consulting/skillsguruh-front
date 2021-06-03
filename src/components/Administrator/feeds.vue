@@ -68,8 +68,8 @@
           :src="feed.media"
         ></b-img>
         <video
+          controls
           width="100%"
-          height="200px"
           v-if="feed.media && vid_ext.includes(getextension(feed.media))"
           :src="feed.media"
           class="fluid-grow"
@@ -338,8 +338,8 @@
                       :src="feed.media"
                     ></b-img>
                     <video
+                      controls
                       width="100%"
-                      height="200px"
                       v-if="
                         feed.media && vid_ext.includes(getextension(feed.media))
                       "
@@ -527,6 +527,8 @@
               </div>
             </div>
           </div>
+
+          <div v-else class="text-center p-4">No feed Available</div>
         </b-col>
         <Message
           class="d-none d-md-block"

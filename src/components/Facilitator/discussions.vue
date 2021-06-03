@@ -373,7 +373,7 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/other-discussions`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
@@ -498,7 +498,7 @@ export default {
           this.$http
             .delete(`${this.$store.getters.url}/discussions/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
               },
             })
             .then((res) => {

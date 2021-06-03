@@ -339,9 +339,9 @@ export default {
   methods: {
     getadmins() {
       this.$http
-        .get(`${this.$store.getters.url}/get-admins`, {
+        .get(`${this.$store.getters.url}/facilitator-get-admins`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
@@ -359,7 +359,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/register-facilitator`, this.user, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
@@ -401,7 +401,7 @@ export default {
           this.user,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
             },
           }
         )
@@ -427,7 +427,7 @@ export default {
           this.$http
             .delete(`${this.$store.getters.url}/delete-facilitator/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
               },
             })
             .then((res) => {

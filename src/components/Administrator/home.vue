@@ -33,7 +33,9 @@
                     ></b-icon>
                     <span class="mr-2 text-dark-green">
                       {{
-                        (newlyfacilitators / facilitators.length) * 100 || 0
+                        Math.round(
+                          (newlyfacilitators / facilitators.length) * 100
+                        ) || 0
                       }}%</span
                     >
                     <span>New Facilitators this month</span>
@@ -71,7 +73,9 @@
                       font-scale="1.5"
                     ></b-icon>
                     <span class="mr-2 text-dark-green">
-                      {{ (newlyusers / users.length) * 100 || 0 }}%</span
+                      {{
+                        Math.round((newlyusers / users.length) * 100) || 0
+                      }}%</span
                     >
                     <span>New Learners this month</span>
                   </div>

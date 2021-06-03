@@ -10,6 +10,7 @@
             <div>
               <b-form-input
                 placeholder="Search"
+                readonly
                 size="sm"
                 type="search"
                 class="search"

@@ -6,11 +6,14 @@
           <div
             class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-4"
           >
-            <h6 class="mb-3 mb-sm-0">Course Modules</h6>
+            <h6 class="mb-3 mb-sm-0 text-capitalize">
+              {{ $route.query.showing }} Modules
+            </h6>
             <div>
               <b-form-input
                 placeholder="Search"
                 size="sm"
+                readonly
                 type="search"
                 class="search"
                 v-model="search"

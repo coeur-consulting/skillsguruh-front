@@ -22,14 +22,14 @@
             <span class="side-link">Dashboard</span>
           </div>
         </router-link>
-        <router-link to="/facilitator/learners">
+        <router-link to="/facilitator/team">
           <div class="side_item">
             <b-icon
               icon="person-badge"
               font-scale="1.1"
               class="mr-3 text-dark-green"
             ></b-icon>
-            <span class="side-link">Learners</span>
+            <span class="side-link">Team</span>
           </div>
         </router-link>
         <!-- <router-link to="/facilitator/learners">
