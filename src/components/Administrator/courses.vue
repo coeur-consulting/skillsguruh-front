@@ -1017,16 +1017,23 @@
                     <span>Resources upload</span
                     ><span
                       >{{
-                        getProgress(
-                          course.courseoutline.modules,
-                          course.modules
+                        Math.floor(
+                          getProgress(
+                            course.courseoutline.modules,
+                            course.modules
+                          )
                         )
                       }}%</span
                     >
                   </div>
                   <b-progress
                     :value="
-                      getProgress(course.courseoutline.modules, course.modules)
+                      Math.floor(
+                        getProgress(
+                          course.courseoutline.modules,
+                          course.modules
+                        )
+                      )
                     "
                     :max="100"
                     show-value

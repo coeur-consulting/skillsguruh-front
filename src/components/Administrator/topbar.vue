@@ -223,22 +223,22 @@
                 })
               "
             >
-              <span :class="{ 'font-weight-bold': !item.read_at }">
-                {{ item.data.notification }}</span
-              >
-              <br />
-              <span class="fs11">{{
-                item.created_at | moment("calendar")
-              }}</span>
+              <div class="fs12" :class="{ 'font-weight-bold': !item.read_at }">
+                {{ item.data.notification }}
+              </div>
+
+              <div class="fs11 text-right">
+                {{ item.created_at | moment("calendar") }}
+              </div>
             </div>
             <div v-else>
-              <span :class="{ 'font-weight-bold': !item.read_at }">
-                {{ item.data.notification }}</span
-              >
-              <br />
-              <span class="fs11">{{
-                item.created_at | moment("calendar")
-              }}</span>
+              <div class="fs12" :class="{ 'font-weight-bold': !item.read_at }">
+                {{ item.data.notification }}
+              </div>
+
+              <div class="fs11 text-right">
+                {{ item.created_at | moment("calendar") }}
+              </div>
             </div>
           </div>
           <div class="text-center py-2 border-top text-dark-green fs11">

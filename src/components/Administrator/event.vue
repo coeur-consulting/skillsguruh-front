@@ -94,7 +94,7 @@
               <h5 class="font-weight-bold">ABOUT THIS EVENT</h5>
               <p>{{ event.description }}</p>
 
-              <div v-if="sortfacilitators">
+              <div v-if="sortfacilitators.length">
                 <h6>Facilitators</h6>
                 <ul>
                   <li
@@ -157,7 +157,7 @@ export default {
   computed: {
     sortfacilitators() {
       if (!this.event.facilitators) {
-        return "Unavailable";
+        return [];
       }
       return this.facilitators.filter((val) =>
         JSON.parse(this.event.facilitators).includes(val.id)

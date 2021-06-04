@@ -64,7 +64,7 @@
           </div>
           <div class="demo">
             <MapChart
-              :countryData="{ US: 4, CA: 7, GB: 8, IE: 14, ES: 21, NG: 87 }"
+              :countryData="countryData"
               highColor="#377f87"
               lowColor="#c2eece"
               countryStrokeColor="#909090"
@@ -118,9 +118,12 @@ import MapChart from "vue-chart-map";
 export default {
   data() {
     return {
+      learners: [],
+      courses: [],
       gender: "",
       about: "audience",
-      series: [33, 33, 33],
+      countryData: { US: 0, CA: 0, GB: 0, IE: 0, ES: 0, NG: 87 },
+      series: [33.3, 33.3, 33.3],
       chartOptions: {
         chart: {
           type: "pie",
@@ -403,27 +406,50 @@ export default {
   components: {
     MapChart,
   },
+  mounted() {
+    this.getlearners();
+  },
+  watch: {
+    learners: "getGender",
+  },
+  computed: {
+    male() {
+      return this.learners.filter((item) => item.gender == "male").length;
+    },
+    female() {
+      return this.learners.filter((item) => item.gender == "male").length;
+    },
+    others() {
+      return this.learners.filter(
+        (item) => item.gender !== "male" && item.gender !== "female"
+      ).length;
+    },
+    countries() {
+      return this.learners.map((item) => item.country);
+    },
+    states() {
+      return this.learners.map((item) => item.state);
+    },
+  },
   methods: {
-    initPie() {
-      this.series = [this.males, this.females, this.others];
-      this.chartOptions = {
-        chart: {
-          type: "pie",
-        },
-        colors: ["#377f87", "#3d96a5", "#6beed1"],
-        labels: ["Learners", "Facilitators", "Administrators"],
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {},
-              legend: {
-                position: "bottom",
-              },
-            },
+    getGender() {
+      this.series = [this.male, this.female, this.others];
+    },
+    getlearners() {
+      this.$http
+        .get(`${this.$store.getters.url}/admin-get-users`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
           },
-        ],
-      };
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.learners = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
     },
   },
 };

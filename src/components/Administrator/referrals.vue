@@ -96,6 +96,25 @@
       <b-col sm="5">
         <div class="box p-4">
           <h6>Referral List</h6>
+
+          <b-table-simple>
+            <b-thead>
+              <b-tr>
+                <b-th>Name</b-th>
+                <b-th>Earning</b-th>
+              </b-tr>
+            </b-thead>
+            <b-tbody>
+              <b-tr>
+                <b-td></b-td>
+                <b-td></b-td>
+              </b-tr>
+              <b-tr>
+                <b-td>Total earnings</b-td>
+                <b-td> NGN 0.00</b-td>
+              </b-tr>
+            </b-tbody>
+          </b-table-simple>
         </div>
       </b-col>
     </b-row>

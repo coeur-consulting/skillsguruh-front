@@ -96,6 +96,29 @@
       <b-col sm="5">
         <div class="box p-4">
           <h6>Referral List</h6>
+
+          <b-table-simple v-if="referrals.length">
+            <b-thead>
+              <b-tr>
+                <b-th>Name</b-th>
+                <b-th>Earning</b-th>
+              </b-tr>
+            </b-thead>
+            <b-tbody>
+              <b-tr v-for="item in referrals" :key="item.id">
+                <b-td class="text-capitalize">{{
+                  item.learner_detail.name
+                }}</b-td>
+                <b-td>NGN 10.00</b-td>
+              </b-tr>
+              <b-tr>
+                <b-td>Total earnings</b-td>
+                <b-td class="text-dark-green font-weight-bold">
+                  NGN {{ referrals.length * 10 }}.00</b-td
+                >
+              </b-tr>
+            </b-tbody>
+          </b-table-simple>
         </div>
       </b-col>
     </b-row>
@@ -105,14 +128,32 @@
 export default {
   data() {
     return {
+      referrals: [],
       email: "",
       message: `https://skillsguruh.herokuapp.com/register/?referral_code=${this.$store.getters.learner.referral}`,
     };
   },
   mounted() {
+    this.getreferrals();
     this.message = `https://skillsguruh.herokuapp.com/register/?referral_code=${this.$store.getters.learner.referral}`;
   },
   methods: {
+    getreferrals() {
+      this.$http
+        .get(`${this.$store.getters.url}/referrals`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.referrals = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     sendInvite() {
       var data = {
         email: this.email,

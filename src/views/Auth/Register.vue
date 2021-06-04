@@ -269,16 +269,16 @@ export default {
               }
             })
             .catch((err) => {
-              if (err.response.data.errors.email[0]) {
+              if (err.response.data.errors.email) {
                 this.$toast.error(err.response.data.errors.email[0]);
               }
-              if (err.response.data.errors.phone[0]) {
+              if (err.response.data.errors.phone) {
                 this.$toast.error(err.response.data.errors.phone[0]);
               }
-              if (err.response.data.errors.name[0]) {
+              if (err.response.data.errors.name) {
                 this.$toast.error(err.response.data.errors.name[0]);
               }
-              if (err.response.data.errors.password[0]) {
+              if (err.response.data.errors.password) {
                 this.$toast.error(err.response.data.errors.password[0]);
               }
             });
@@ -300,16 +300,16 @@ export default {
               }
             })
             .catch((err) => {
-              if (err.response.data.errors.email[0]) {
+              if (err.response.data.errors.email) {
                 this.$toast.error(err.response.data.errors.email[0]);
               }
-              if (err.response.data.errors.phone[0]) {
+              if (err.response.data.errors.phone) {
                 this.$toast.error(err.response.data.errors.phone[0]);
               }
-              if (err.response.data.errors.name[0]) {
+              if (err.response.data.errors.name) {
                 this.$toast.error(err.response.data.errors.name[0]);
               }
-              if (err.response.data.errors.password[0]) {
+              if (err.response.data.errors.password) {
                 this.$toast.error(err.response.data.errors.password[0]);
               }
             });
@@ -331,16 +331,16 @@ export default {
               }
             })
             .catch((err) => {
-              if (err.response.data.errors.email[0]) {
+              if (err.response.data.errors.email) {
                 this.$toast.error(err.response.data.errors.email[0]);
               }
-              if (err.response.data.errors.phone[0]) {
+              if (err.response.data.errors.phone) {
                 this.$toast.error(err.response.data.errors.phone[0]);
               }
-              if (err.response.data.errors.name[0]) {
+              if (err.response.data.errors.name) {
                 this.$toast.error(err.response.data.errors.name[0]);
               }
-              if (err.response.data.errors.password[0]) {
+              if (err.response.data.errors.password) {
                 this.$toast.error(err.response.data.errors.password[0]);
               }
             });

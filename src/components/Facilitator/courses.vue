@@ -877,17 +877,40 @@
             <div class="">
               <h4>Courses</h4>
             </div>
-            <div v-if="courses.length" class="text-right">
-              <b-button variant="dark-green" @click="$bvModal.show('addcourse')"
-                >Create new course</b-button
-              >
+            <div class="text-right">
+              <div class="search">
+                <b-input-group class="topbar_search bg-white">
+                  <b-form-input
+                    placeholder="Search course name"
+                    class="no-focus border-0"
+                    type="search"
+                    aria-label="Text input "
+                    v-model="search"
+                  ></b-form-input>
+                  <b-input-group-append is-text>
+                    <b-iconstack font-scale="1.4" class="">
+                      <b-icon
+                        stacked
+                        icon="circle-fill"
+                        variant="lighter-green"
+                      ></b-icon>
+                      <b-icon
+                        stacked
+                        icon="search"
+                        scale="0.5"
+                        variant="dark-green"
+                      ></b-icon>
+                    </b-iconstack>
+                  </b-input-group-append>
+                </b-input-group>
+              </div>
             </div>
           </div>
           <b-row>
             <b-col
               sm="4"
               class="mb-3 side_box"
-              v-for="(course, index) in courses"
+              v-for="(course, index) in filteredCourse"
               :key="index"
             >
               <div
@@ -1017,16 +1040,23 @@
                     <span>Resources upload</span
                     ><span
                       >{{
-                        getProgress(
-                          course.courseoutline.modules,
-                          course.modules
+                        Math.floor(
+                          getProgress(
+                            course.courseoutline.modules,
+                            course.modules
+                          )
                         )
                       }}%</span
                     >
                   </div>
                   <b-progress
                     :value="
-                      getProgress(course.courseoutline.modules, course.modules)
+                      Math.floor(
+                        getProgress(
+                          course.courseoutline.modules,
+                          course.modules
+                        )
+                      )
                     "
                     :max="100"
                     show-value
@@ -1446,6 +1476,7 @@ export default {
       current_schedule: 0,
       insight: [],
       courses: [],
+      search: "",
       course: null,
       type: 1,
       newmodule: "",
@@ -1494,6 +1525,13 @@ export default {
     this.getcourses();
     this.getfacilitators();
     this.insight = Insight;
+  },
+  computed: {
+    filteredCourse() {
+      return this.courses.filter((item) =>
+        item.title.toLowerCase().includes(this.search.toLowerCase())
+      );
+    },
   },
   methods: {
     getProgress(a, b) {

@@ -97,7 +97,8 @@ export default {
   name: "CloudinaryUpload",
   data() {
     return {
-      img_ext: ["jpg", "png", "jpeg", "gif"],
+      img_ext: ["jpg", "png", "jpg ", "gif"],
+      vid_ext: ["mp4", "3gp", "mov", "flv"],
       filesSelectedLength: 0,
       file: [],
       filetype: "",
@@ -170,7 +171,7 @@ export default {
       };
       xhr.onload = () => {
         if (xhr.status === 200) {
-          // Success! You probably want to save the URL somewhere
+          // Success! You probably wantto save the URL somewhere
           this.progress = "Completed";
 
           var response = JSON.parse(xhr.response);

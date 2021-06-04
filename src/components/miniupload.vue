@@ -97,7 +97,7 @@ export default {
   data() {
     return {
       img_ext: ["jpg", "png", "jpeg", "gif"],
-      vid_ext: ["mp4", "3gp"],
+      vid_ext: ["mp4", "3gp", "mov", "flv"],
       aud_ext: ["mp3"],
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       filesSelectedLength: 0,

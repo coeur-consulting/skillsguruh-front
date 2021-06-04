@@ -157,7 +157,7 @@ export default {
   computed: {
     sortfacilitators() {
       if (!this.event.facilitators) {
-        return "Unavailable";
+        return [];
       }
       return this.facilitators.filter((val) =>
         JSON.parse(this.event.facilitators).includes(val.id)

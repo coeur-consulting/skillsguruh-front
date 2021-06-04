@@ -102,11 +102,13 @@
               </b-col>
               <b-col sm="6">
                 <b-form-group label="Country">
-                  <b-form-input
-                    type="text"
-                    v-model="user.country"
-                  ></b-form-input></b-form-group
-              ></b-col>
+                  <b-form-select v-model="user.country">
+                    <b-form-select-option value="NG"
+                      >Nigeria</b-form-select-option
+                    >
+                  </b-form-select>
+                </b-form-group></b-col
+              >
             </b-form-row>
             <b-form-row>
               <b-col sm="6">
