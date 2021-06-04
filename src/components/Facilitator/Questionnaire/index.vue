@@ -6,10 +6,11 @@
           <div
             class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-4"
           >
-            <h6 class="mb-3 mb-sm-0">questionnaire Modules</h6>
+            <h6 class="mb-3 mb-sm-0">Questionnaires</h6>
             <div>
               <b-form-input
                 placeholder="Search"
+                readonly
                 size="sm"
                 type="search"
                 class="search"
@@ -23,15 +24,7 @@
               class="d-flex justify-content-between align-items-center p-3 e"
             >
               <b-icon icon="funnel"></b-icon>
-              <div>
-                <b-button
-                  variant="dark-green"
-                  size="sm"
-                  @click="$router.push('/facilitator/questionnaire')"
-                >
-                  <b-icon icon="plus" font-scale="1.5"></b-icon
-                ></b-button>
-              </div>
+              <div></div>
             </div>
 
             <div class="">
@@ -148,7 +141,7 @@ export default {
     filter() {
       return this.questionnaires
         .filter((item) =>
-          item.title.toLowerCase().includes(this.search.toLowerCase())
+          item.module.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
           this.perPage * this.currentPage - this.perPage,
@@ -158,6 +151,9 @@ export default {
   },
   mounted() {
     this.getquestionnaires();
+    if (this.$route.query.showing) {
+      this.search = this.$route.query.showing;
+    }
   },
   methods: {
     async getquestionnaires() {

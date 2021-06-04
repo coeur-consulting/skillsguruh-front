@@ -773,6 +773,15 @@
                       "
                       >View modules</b-dropdown-item
                     >
+                    <b-dropdown-item
+                      class="fs12"
+                      @click="
+                        $router.push(
+                          `/administrator/questionnaires?showing=${course.title}`
+                        )
+                      "
+                      >View questionnaires</b-dropdown-item
+                    >
                     <b-dropdown-item class="fs12" @click="edit(course)"
                       >Edit course</b-dropdown-item
                     >

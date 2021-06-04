@@ -179,7 +179,7 @@
 
         <div v-if="type == 'preference'" class="p-4">
           <div class="pt-5 text-left preference">
-            <Interest />
+            <Interest :user="$store.getters.learner" :type="'learner'" />
           </div>
         </div>
       </b-col>

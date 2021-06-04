@@ -34,7 +34,9 @@
                       font-scale="1.5"
                     ></b-icon>
                     <span class="mr-2 text-dark-green">
-                      {{ (newlyusers / users.length) * 100 || 0 }}%</span
+                      {{
+                        Math.round((newlyusers / users.length) * 100) || 0
+                      }}%</span
                     >
                     <span>New Learners this month</span>
                   </div>
@@ -69,7 +71,9 @@
                       font-scale="1.5"
                     ></b-icon>
                     <span class="mr-2 text-dark-green">
-                      {{ (newlyCourses / courses.length) * 100 || 0 }}%</span
+                      {{
+                        Math.round((newlyCourses / courses.length) * 100) || 0
+                      }}%</span
                     >
                     <span>New Courses this month</span>
                   </div>

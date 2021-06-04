@@ -24,13 +24,13 @@
             >
               <b-icon icon="funnel"></b-icon>
               <div>
-                <b-button variant="dark-green" size="sm">
+                <!-- <b-button variant="dark-green" size="sm">
                   <b-icon
                     icon="plus"
                     @click="$bvModal.show('add')"
                     font-scale="1.5"
                   ></b-icon
-                ></b-button>
+                ></b-button> -->
               </div>
             </div>
 
@@ -45,7 +45,7 @@
                     <b-th></b-th> </b-tr
                 ></b-thead>
                 <b-tbody>
-                  <b-tr v-for="(item, index) in filter" :key="item.id">
+                  <b-tr v-for="item in filter" :key="item.id">
                     <b-td>
                       <div class="d-flex">
                         <b-avatar
@@ -93,24 +93,6 @@
                           >
                             <b-icon class="mr-2" icon="eye"></b-icon
                             ><span>View</span>
-                          </small>
-                          <br />
-                          <hr class="my-1" />
-                          <small
-                            class="px-0 text-left cursor-pointer"
-                            @click="edit(item)"
-                          >
-                            <b-icon class="mr-2" icon="pencil"></b-icon
-                            ><span>Edit</span>
-                          </small>
-                          <br />
-                          <hr class="my-1" />
-                          <small
-                            class="px-0 cursor-pointer"
-                            @click="drop(item.id, index)"
-                          >
-                            <b-icon class="mr-2" icon="trash"></b-icon
-                            ><span>Drop</span>
                           </small>
                         </div>
                       </b-popover>

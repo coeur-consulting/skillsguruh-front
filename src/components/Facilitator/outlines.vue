@@ -548,6 +548,9 @@ export default {
   mounted() {
     this.getcourses();
     this.getfacilitators();
+    if (this.$route.query.showing) {
+      this.search = this.$route.query.showing;
+    }
   },
   methods: {
     sortfacilitators(data) {

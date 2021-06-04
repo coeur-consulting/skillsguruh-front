@@ -87,16 +87,6 @@
             <span class="side-link">Course modules</span>
           </div>
         </router-link> -->
-        <router-link to="/administrator/questionnaires">
-          <div class="side_item">
-            <b-icon
-              icon="card-list"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">Questionnaires</span>
-          </div>
-        </router-link>
       </div>
       <div>
         <h6 class="mt-3 mb-1 text-dark-green side_header">COMMUNITY</h6>

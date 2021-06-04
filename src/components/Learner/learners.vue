@@ -156,16 +156,8 @@
               <div>
                 <b-img :src="require('@/assets/images/creator.svg')"></b-img>
                 <h6 class="text-muted my-3 fs14">
-                  It appears you havent added any Learner yet,
-                  <br class="d-none d-sm-block" />
-                  Add your first Learner now!
+                  It appears you haven no event available,
                 </h6>
-                <b-button
-                  @click="$bvModal.show('add')"
-                  variant="dark-green"
-                  size="lg"
-                  >Add Learner</b-button
-                >
               </div>
             </div>
           </div>

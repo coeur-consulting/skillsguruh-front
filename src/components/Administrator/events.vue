@@ -3,152 +3,153 @@
     <b-container>
       <b-row>
         <b-col class="mb-5 mb-sm-0">
-          <div
-            class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-4"
-          >
-            <h6 class="mb-3 mb-sm-0">Events</h6>
-            <div>
-              <b-form-input
-                placeholder="Search"
-                size="sm"
-                type="search"
-                class="search"
-                v-model="search"
-              ></b-form-input>
-            </div>
-          </div>
-
-          <div class="shadow bg-white">
+          <div class="shadow rounded bg-white">
             <div
-              v-if="events.length"
-              class="d-flex justify-content-between align-items-center p-3 e"
+              class="top_heading p-4 border-bottom mb-4 d-flex justify-content-between"
             >
-              <b-icon icon="funnel"></b-icon>
+              <h4>Events</h4>
               <div>
-                <b-button variant="dark-green" size="sm">
-                  <b-icon
-                    icon="plus"
-                    @click="$bvModal.show('add')"
-                    font-scale="1.5"
-                  ></b-icon
-                ></b-button>
+                <b-form-input
+                  placeholder="Search"
+                  size="sm"
+                  type="search"
+                  class="search"
+                  v-model="search"
+                ></b-form-input>
               </div>
             </div>
 
-            <div class="" v-if="events.length">
-              <b-table-simple class="org_home_table text-left" responsive="sm">
-                <b-thead>
-                  <b-tr class="text-left">
-                    <b-th class="text-muted">Name</b-th>
-                    <b-th class="text-muted">Duration</b-th>
-                    <b-th class="text-muted">Time</b-th>
-                    <b-th class="text-muted">Type</b-th>
-                    <b-th class="text-muted">Status</b-th>
-                    <b-th></b-th> </b-tr
-                ></b-thead>
-                <b-tbody>
-                  <b-tr v-for="(item, index) in filter" :key="item.id">
-                    <b-td>
-                      <div class="d-flex">
-                        <b-avatar
-                          :src="item.cover"
-                          size="sm"
-                          rounded
-                          class="mr-2"
-                        ></b-avatar>
-                        <div class="text-left">
-                          <span class="text-capitalize">{{ item.title }}</span>
-                        </div>
-                      </div>
-                    </b-td>
-                    <b-td>
-                      <div class="text-left">{{ item.schedule }}</div>
-                    </b-td>
-                    <b-td class="text-capitalize"
-                      >{{ item.start | moment("ll") }}
-                    </b-td>
-                    <b-td class="text-capitalize">{{ item.type }}</b-td>
-                    <b-td
-                      class="text-left text-capitalize"
-                      :class="{
-                        'text-success': item.status == 'active',
-                        'text-danger': item.status == 'expired',
-                        'text-primary': item.status == 'pending',
-                      }"
-                      >{{ item.status }}</b-td
-                    >
-                    <b-td
-                      ><b-icon
-                        icon="chevron-down"
-                        class="cursor-pointer"
-                        :id="item.id.toString() + item.title"
-                      ></b-icon>
-                      <b-popover
-                        :target="item.id.toString() + item.title"
-                        triggers="hover"
-                        placement="bottom"
-                      >
-                        <div class="">
-                          <small
-                            class="px-0 text-left cursor-pointer"
-                            @click="view(item.id)"
-                          >
-                            <b-icon class="mr-2" icon="eye"></b-icon
-                            ><span>View</span>
-                          </small>
-                          <br />
-                          <hr class="my-1" />
-                          <small
-                            class="px-0 text-left cursor-pointer"
-                            @click="edit(item)"
-                          >
-                            <b-icon class="mr-2" icon="pencil"></b-icon
-                            ><span>Edit</span>
-                          </small>
-                          <br />
-                          <hr class="my-1" />
-                          <small
-                            class="px-0 cursor-pointer"
-                            @click="drop(item.id, index)"
-                          >
-                            <b-icon class="mr-2" icon="trash"></b-icon
-                            ><span>Drop</span>
-                          </small>
-                        </div>
-                      </b-popover>
-                    </b-td>
-                  </b-tr>
-                </b-tbody>
-              </b-table-simple>
-              <div class="p-3 d-flex justify-content-between">
-                <div class="fs12 text-muted">
-                  Showing 1-10 of {{ events.length }} items
+            <div class="event-container py-5">
+              <div
+                class="border-bottom py-3 d-flex mb-4 justify-content-between"
+              >
+                <div class="d-flex">
+                  <span
+                    class="mr-4 d-flex align-items-center"
+                    @click="showing = 'upcoming'"
+                    ><b-icon
+                      :icon="showing == 'upcoming' ? 'circle-fill' : 'circle'"
+                      font-scale=".7rem"
+                      variant="dark-green"
+                      class="mr-1"
+                    ></b-icon>
+                    Upcoming Events</span
+                  >
+                  <span
+                    @click="showing = 'past'"
+                    class="d-flex align-items-center"
+                    ><b-icon
+                      :icon="showing == 'past' ? 'circle-fill' : 'circle'"
+                      class="mr-1"
+                      font-scale=".7rem"
+                      variant="dark-green"
+                    ></b-icon>
+                    Past Events</span
+                  >
                 </div>
-                <b-pagination
-                  pills
-                  size="sm"
-                  variant="dark-green"
-                  align="right"
-                  v-model="currentPage"
-                  :total-rows="rows"
-                  :per-page="perPage"
-                ></b-pagination>
-              </div>
-            </div>
-            <div v-else class="text-center admin_tab p-3 p-sm-5">
-              <div>
-                <b-img :src="require('@/assets/images/creator.svg')"></b-img>
-                <h6 class="text-muted my-3 fs14">
-                  It appears you havent added any Event yet,
-                  <br class="d-none d-sm-block" />
-                  Add your first Event now!
-                </h6>
-                <b-button
+
+                <span
+                  class="text-dark-green font-weight-bold"
                   @click="$bvModal.show('add')"
-                  variant="dark-green"
-                  size="lg"
-                  >Add Event</b-button
+                  >Create Event</span
                 >
+              </div>
+              <div class="events" v-if="filter.length">
+                <div
+                  class="border rounded text-left mb-5 position-relative"
+                  v-for="item in filter"
+                  :key="item.id"
+                >
+                  <div class="options">
+                    <b-icon
+                      icon="three-dots"
+                      class="cursor-pointer"
+                      :id="item.id.toString() + item.title"
+                    ></b-icon>
+                    <b-popover
+                      :target="item.id.toString() + item.title"
+                      triggers="hover"
+                      placement="bottom"
+                    >
+                      <div class="">
+                        <small
+                          class="px-0 text-left cursor-pointer"
+                          @click="edit(item)"
+                        >
+                          <b-icon class="mr-2" icon="pencil"></b-icon
+                          ><span>Edit</span>
+                        </small>
+                        <br />
+                        <hr class="my-1" />
+                        <small
+                          class="px-0 cursor-pointer"
+                          @click="drop(item.id, index)"
+                        >
+                          <b-icon class="mr-2" icon="trash"></b-icon
+                          ><span>Drop</span>
+                        </small>
+                      </div>
+                    </b-popover>
+                  </div>
+                  <div class="px-3 py-2">
+                    <h5 class="text-capitalize">{{ item.title }}</h5>
+                    <p class="mb-1 text-muted fs15">
+                      <b-icon
+                        icon="calendar2-check"
+                        class="mr-2 text-muted"
+                      ></b-icon>
+                      {{ item.schedule }}
+                    </p>
+                    <div class="d-flex">
+                      <b-icon
+                        class="mr-2 text-muted"
+                        icon="info-circle"
+                      ></b-icon>
+                      <p class="description text-muted">
+                        {{ item.description }}
+                      </p>
+                    </div>
+                  </div>
+                  <b-img fluid-grow :src="item.cover"></b-img>
+                  <div
+                    class="bg-lighter-green px-3 py-2 text-left text-dark-green"
+                  >
+                    <span @click="view(item.id)">
+                      <span class=""> View Event </span>
+                      <b-icon icon="chevron-double-right"></b-icon>
+                    </span>
+                  </div>
+                </div>
+                <div class="py-3 d-flex justify-content-between">
+                  <div class="fs12 text-muted">
+                    Showing 1-10 of {{ filter.length }} items
+                  </div>
+                  <b-pagination
+                    pills
+                    size="sm"
+                    variant="dark-green"
+                    align="right"
+                    v-model="currentPage"
+                    :total-rows="rows"
+                    :per-page="perPage"
+                  ></b-pagination>
+                </div>
+              </div>
+              <div v-else class="text-center admin_tab p-3 p-sm-5">
+                <div>
+                  <b-img :src="require('@/assets/images/creator.svg')"></b-img>
+                  <h6 class="text-muted my-3 fs14">
+                    It appears you haven't added any Event yet,
+                    <br class="d-none d-sm-block" />
+                    Add your first Event now!
+                  </h6>
+                  <b-button
+                    @click="$bvModal.show('add')"
+                    variant="dark-green"
+                    size="lg"
+                    >Add Event</b-button
+                  >
+                </div>
               </div>
             </div>
           </div>
@@ -542,6 +543,7 @@ export default {
       perPage: 10,
       events: [],
       facilitators: [],
+      showing: "upcoming",
       event: {
         title: "",
         venue: "",
@@ -562,7 +564,7 @@ export default {
   },
   computed: {
     filter() {
-      return this.events
+      var event = this.events
         .filter((item) =>
           item.title.toLowerCase().includes(this.search.toLowerCase())
         )
@@ -570,6 +572,11 @@ export default {
           this.perPage * this.currentPage - this.perPage,
           this.perPage * this.currentPage
         );
+
+      if (this.showing == "upcoming") {
+        return event.filter((item) => item.status != "expired");
+      }
+      return event.filter((item) => item.status == "expired");
     },
   },
   mounted() {
@@ -728,6 +735,14 @@ export default {
 .container {
   padding-top: 30px;
 }
+.event-container {
+  width: 65%;
+  margin: 0 auto;
+}
+.events {
+  max-height: 70vh;
+  overflow: auto;
+}
 .shadow {
   box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;
@@ -744,5 +759,21 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.description {
+  font-size: 15px;
+  color: rgba($color: #000000, $alpha: 0.54);
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+.options {
+  position: absolute;
+  right: 15px;
+  top: 15px;
 }
 </style>

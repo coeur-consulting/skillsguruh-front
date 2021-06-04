@@ -28,12 +28,12 @@
                         class="p-3 d-flex flex-column justify-content-center h-100"
                       >
                         <div
-                          class="mb-3 h5 text-dark-green overview"
+                          class="mb-3 h3 fs16 text-dark-green"
                           v-if="item.title"
                         >
                           {{ item.title }}
                         </div>
-                        <div class="mb-1 fs13">
+                        <div class="mb-1 fs13 overview">
                           {{ item.description }}
                         </div>
                         <div class="mb-1 fs13">
@@ -55,7 +55,7 @@
                         </div>
                       </div>
                     </b-col>
-                    <b-col cols="7" class="text-right p-0">
+                    <b-col cols="7" class="text-right p-0 brad">
                       <b-img :src="item.cover" fluid-grow></b-img>
                     </b-col>
                   </div>

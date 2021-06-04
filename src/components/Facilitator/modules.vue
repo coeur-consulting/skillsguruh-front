@@ -531,6 +531,9 @@ export default {
     this.getcourses();
     this.allmodules();
     this.getfacilitators();
+    if (this.$route.query.showing) {
+      this.search = this.$route.query.showing;
+    }
   },
   methods: {
     getUpload(val, id) {

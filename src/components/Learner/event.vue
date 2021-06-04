@@ -3,9 +3,14 @@
     <b-row class="main bg-white">
       <b-col
         sm="12"
-        class="text-left p-4 main-bg h-100 mb-4"
+        class="text-left p-4 main-bg h-100 mb-4 position-relative"
         :style="{ backgroundImage: `url(${event.cover})` }"
       >
+        <div class="back text-left text-white">
+          <span @click="$router.go(-1)" class="cursor-pointer">
+            <b-icon icon="arrow-left"></b-icon> Back</span
+          >
+        </div>
         <div
           class="event-overlay d-flex flex-column justify-content-center p-5 text-white"
         >
@@ -15,82 +20,122 @@
         </div>
 
         <div class="event_box shadow-lg">
-          <h6 class="mb-1 font-weight-bolder px-3 py-2 text-dark-green">
-            When & Where
-          </h6>
+          <div class="d-flex justify-content-between">
+            <h6 class="font-weight-bolder px-3 py-2 text-dark-green">
+              When & Where
+            </h6>
+            <div class="mb-1 px-3 py-2">
+              <b-badge
+                class="text-capitalize"
+                :class="{
+                  'bg-success': event.status == 'active',
+                  'bg-danger': event.status == 'expired',
+                  'bg-primary': event.status == 'pending',
+                }"
+                >{{ event.status }}</b-badge
+              >
+            </div>
+          </div>
           <div class="mb-1 px-3 py-1 border-bottom">
-            <span class="font-weight-bold fs14 text-dark-green"
+            <span class="font-weight-bold fs13 text-dark-green"
               >Event Type</span
             >
             <br />
-            <span class="fs16 text-capitalize"> {{ event.type }}</span>
+            <span class="fs14 text-capitalize"> {{ event.type }}</span>
           </div>
           <div class="mb-1 px-3 py-1">
-            <span class="font-weight-bold fs14 text-dark-green"
+            <span class="font-weight-bold fs13 text-dark-green"
               >Event Duration</span
             >
             <br />
-            <span class="fs16"> {{ event.schedule }}</span>
+            <span class="fs14"> {{ event.schedule }}</span>
           </div>
 
           <div
-            class="mb-1 px-3 py-2 bg-dark-green text-white d-flex justify-content-between"
+            class="px-3 py-2 bg-dark-green text-white d-flex justify-content-between"
           >
             <span
-              ><span class="font-weight-bold fs15">Start</span>
+              ><span class="font-weight-bold fs13">Start</span>
               <br />
-              <span class="fs14">
+              <span class="fs13">
                 {{ event.start | moment(" MMMM Do YYYY, h:mm:ss a") }}</span
               >
             </span>
 
             <span>
-              <span class="font-weight-bold fs15"> End</span>
+              <span class="font-weight-bold fs13"> End</span>
               <br />
-              <span class="fs14">
+              <span class="fs13">
                 {{ event.end | moment(" MMMM Do YYYY, h:mm:ss a") }}</span
               ></span
             >
           </div>
+          <div class="px-3 py-2 fs15 bg-light">
+            <span class="font-weight-bold fs13 text-dark-green"
+              >Event Venue</span
+            >
+            <br />
+            <div class="fs12">{{ event.venue }}</div>
+          </div>
 
           <div class="mb-1 px-3 py-2 fs15 bg-light">
-            <span class="font-weight-bold fs14 text-dark-green"
+            <span class="font-weight-bold fs13 text-dark-green"
               >Event Link</span
             >
             <br />
             <div class="fs12">{{ event.url }}</div>
           </div>
-          <div class="mb-1 px-3 py-2">
-            <b-badge
-              class="text-capitalize"
-              :class="{
-                'bg-success': event.status == 'active',
-                'bg-danger': event.status == 'expired',
-                'bg-primary': event.status == 'pending',
-              }"
-              >{{ event.status }}</b-badge
-            >
-          </div>
         </div>
       </b-col>
-      <b-col class="h-100 p-5">
-        <div class="bg-white shadow-lg rounded text-left p-4">
-          <h5 class="font-weight-bold">ABOUT THIS EVENT</h5>
-          <p>{{ event.description }}</p>
+      <b-col class="h-100">
+        <b-row>
+          <b-col sm="7">
+            <div class="bg-white shadow rounded text-left p-4">
+              <h5 class="font-weight-bold">ABOUT THIS EVENT</h5>
+              <p>{{ event.description }}</p>
 
-          <div v-if="sortfacilitators.length">
-            <h6>Facilitators</h6>
-            <ul>
-              <li
-                v-for="item in sortfacilitators"
-                :key="item.id"
-                class="text-capitalize"
-              >
-                {{ item.name }}
-              </li>
-            </ul>
-          </div>
-        </div>
+              <div v-if="sortfacilitators">
+                <h6>Facilitators</h6>
+                <ul>
+                  <li
+                    v-for="item in sortfacilitators"
+                    :key="item.id"
+                    class="text-capitalize"
+                  >
+                    {{ item.name }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </b-col>
+          <b-col sm="5" class="pl-3">
+            <div class="bg-white shadow p-1 rounded">
+              <video
+                controls
+                :src="event.resource"
+                width="100%"
+                fluid-grow
+                v-if="vid_ext.includes(this.getextension(event.resource))"
+              ></video>
+              <div v-else>
+                <a
+                  :href="event.resource"
+                  download=""
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div class="rounded shadow p-4 bg-white d_file">
+                    <h5 class="mb-2">Download event resource</h5>
+                    <b-icon
+                      icon="cloud-download"
+                      class="text-muted"
+                      font-scale="3rem"
+                    ></b-icon></div
+                ></a>
+              </div>
+            </div>
+          </b-col>
+        </b-row>
       </b-col>
     </b-row>
   </b-container>
@@ -101,6 +146,7 @@ export default {
     return {
       event: {},
       facilitators: [],
+      vid_ext: ["mp4", "3gp"],
     };
   },
   mounted() {
@@ -119,6 +165,14 @@ export default {
     },
   },
   methods: {
+    getextension(fileName) {
+      if (fileName) {
+        var regex = new RegExp("[^.]+$");
+        var extension = fileName.match(regex);
+
+        return extension[0];
+      }
+    },
     async getfacilitators() {
       return this.$http
         .get(`${this.$store.getters.url}/user-get-facilitators`, {
@@ -193,5 +247,14 @@ export default {
 }
 .event_content {
   width: 50%;
+}
+span {
+  line-height: 1.3;
+}
+.back {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 999;
 }
 </style>

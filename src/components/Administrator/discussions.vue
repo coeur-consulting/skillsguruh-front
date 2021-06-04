@@ -56,8 +56,8 @@
                   </b-dropdown>
                   <div class="side_dis">
                     <b-avatar
-                      v-if="item.creator == 'facilitator'"
-                      :src="item.facilitator.profile"
+                      v-if="item.creator == 'admin'"
+                      :src="item.admin.profile"
                     ></b-avatar>
                     <b-avatar
                       v-if="item.creator == 'user'"
@@ -132,9 +132,7 @@
                   <div>
                     <span
                       v-if="item.type == 'public'"
-                      @click="
-                        $router.push(`/facilitator/discussion/${item.id}`)
-                      "
+                      @click="$router.push(`/admin/discussion/${item.id}`)"
                       class="text-dark-green font-weight-bold cursor-pointer"
                       >Join Discussion</span
                     >

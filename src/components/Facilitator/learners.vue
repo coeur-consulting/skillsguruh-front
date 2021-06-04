@@ -46,7 +46,7 @@
                     <b-th></b-th> </b-tr
                 ></b-thead>
                 <b-tbody>
-                  <b-tr v-for="(item, index) in filter" :key="item.id">
+                  <b-tr v-for="item in filter" :key="item.id">
                     <b-td>
                       <div class="d-flex">
                         <b-avatar
@@ -112,24 +112,6 @@
                           >
                             <b-icon class="mr-2" icon="eye"></b-icon
                             ><span>View</span>
-                          </small>
-                          <br />
-                          <hr class="my-1" />
-                          <small
-                            class="px-0 text-left cursor-pointer"
-                            @click="edit(item)"
-                          >
-                            <b-icon class="mr-2" icon="pencil"></b-icon
-                            ><span>Edit</span>
-                          </small>
-                          <br />
-                          <hr class="my-1" />
-                          <small
-                            class="px-0 cursor-pointer"
-                            @click="drop(item.id, index)"
-                          >
-                            <b-icon class="mr-2" icon="trash"></b-icon
-                            ><span>Drop</span>
                           </small>
                         </div>
                       </b-popover>

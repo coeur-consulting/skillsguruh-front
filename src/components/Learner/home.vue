@@ -36,7 +36,7 @@
                   :key="course.id"
                 >
                   <div
-                    class="w-100 h-100 bg-white shadow-wm rounded p-4 d-flex flex-column"
+                    class="w-100 h-100 bg-white shadow rounded p-4 d-flex flex-column"
                     @click="$router.push('/learner/courses')"
                   >
                     <div class="flex-1">
@@ -66,7 +66,7 @@
                         >
                       </div>
                       <div
-                        class="course_fac d-flex align-items-center mb-1 text-capitalize fs13"
+                        class="course_fac d-flex align-items-center mb-1 text-capitalize fs13 text-muted"
                         v-if="sortfacilitators(course).length"
                       >
                         <b-icon
@@ -74,7 +74,7 @@
                           variant="dark-green"
                           class="text-muted mr-2"
                         ></b-icon>
-                        <span class="fs13">
+                        <span class="fs13 text-muted">
                           {{ sortfacilitators(course).join(" ") }}</span
                         >
                       </div>
@@ -88,7 +88,7 @@
                           class="text-muted mr-2"
                         ></b-icon>
                         <div class="">
-                          <div class="text-capitalize">
+                          <div class="text-capitalize text-muted">
                             {{ course.courseoutline.duration }}
                           </div>
                         </div>
@@ -96,7 +96,7 @@
 
                       <div
                         v-if="course"
-                        class="course_fac align-items-center fs13"
+                        class="course_fac align-items-center fs13 text-muted"
                       >
                         <b-icon
                           icon="layers"

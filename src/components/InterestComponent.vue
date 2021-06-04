@@ -2,10 +2,18 @@
   <div>
     <b-container fluid>
       <h5 class="text-center mb-4">Choose your interests</h5>
+      <div class="py-4 text-center">
+        <b-form-input
+          class="search"
+          placeholder="Search interest"
+          v-model="search"
+          type="search"
+        ></b-form-input>
+      </div>
       <b-row>
         <b-col
           sm="3"
-          v-for="interest in interests"
+          v-for="interest in filteredInterest"
           :key="interest.value"
           class="mb-4"
         >
@@ -56,10 +64,28 @@ export default {
     return {
       interests: [],
       selected_interests: [],
+      search: "",
     };
   },
   mounted() {
     this.interests = Interest;
+    if (this.$props.type == "learner") {
+      this.selected_interests = JSON.parse(
+        this.$store.getters.learner.interests
+      );
+    }
+    if (this.$props.type == "facilitator") {
+      this.selected_interests = JSON.parse(
+        this.$store.getters.facilitator.interests
+      );
+    }
+  },
+  computed: {
+    filteredInterest() {
+      return this.interests.filter((item) =>
+        item.value.toLowerCase().includes(this.search.toLowerCase())
+      );
+    },
   },
   methods: {
     skip() {
@@ -93,19 +119,11 @@ export default {
             if (this.$props.type == "learner") {
               user = JSON.parse(localStorage.getItem("authLearner"));
               user.interests = res.data.interests;
-              console.log(
-                "🚀 ~ file: InterestComponent.vue ~ line 96 ~ .then ~ user learner",
-                user
-              );
               localStorage.setItem("authLearner", JSON.stringify(user));
             }
             if (this.$props.type == "facilitator") {
               user = JSON.parse(localStorage.getItem("authFacilitator"));
               user.interests = res.data.interests;
-              console.log(
-                "🚀 ~ file: InterestComponent.vue ~ line 102 ~ .then ~ user facilit",
-                user
-              );
               localStorage.setItem("authFacilitator", JSON.stringify(user));
             }
 
@@ -125,5 +143,11 @@ export default {
 .icon {
   position: absolute;
   left: 20px;
+}
+@media (min-width: 600px) {
+  .search {
+    width: 50%;
+    margin: 0 auto;
+  }
 }
 </style>

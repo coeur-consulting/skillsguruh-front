@@ -9,7 +9,7 @@
             </div>
             <div class="text-right">
               <div class="search">
-                <b-input-group size="sm" class="topbar_search">
+                <b-input-group class="topbar_search bg-white">
                   <b-form-input
                     placeholder="Search course name"
                     class="no-focus border-0"
@@ -18,7 +18,7 @@
                     v-model="search"
                   ></b-form-input>
                   <b-input-group-append is-text>
-                    <b-iconstack font-scale="2" class="mr-2 mb-2">
+                    <b-iconstack font-scale="1.4" class="">
                       <b-icon
                         stacked
                         icon="circle-fill"
