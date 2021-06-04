@@ -106,7 +106,7 @@ label {
 <script>
 export default {
   name: "CloudinaryUpload",
-  props: ["id", "type", "file_type"],
+  props: ["id", "type", "file_type", "image"],
   data() {
     return {
       img_ext: ["jpg", "png", "jpeg", "gif"],
@@ -128,6 +128,11 @@ export default {
     };
   },
 
+  mounted() {
+    if (this.$props.image) {
+      this.uploadedFileUrl = this.$props.image;
+    }
+  },
   computed: {},
   methods: {
     getextension(fileName) {

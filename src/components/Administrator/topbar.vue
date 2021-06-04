@@ -216,7 +216,12 @@
           >
             <div
               v-if="!item.read_at"
-              @click="$store.dispatch('markNotification', item.id)"
+              @click="
+                $store.dispatch('markNotification', {
+                  id: item.id,
+                  user: $store.getters.admin,
+                })
+              "
             >
               <span :class="{ 'font-weight-bold': !item.read_at }">
                 {{ item.data.notification }}</span
@@ -239,7 +244,9 @@
           <div class="text-center py-2 border-top text-dark-green fs11">
             <span
               class="cursor-pointer"
-              @click="$store.dispatch('markNotifications')"
+              @click="
+                $store.dispatch('markNotifications', $store.getters.admin)
+              "
             >
               Mark all as read</span
             >

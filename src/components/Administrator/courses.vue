@@ -51,6 +51,7 @@
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Course title">
                 <b-form-input
+                  required
                   placeholder="Enter course title"
                   v-model="detail.general.title"
                 ></b-form-input>
@@ -69,6 +70,7 @@
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Course Description">
                 <b-form-textarea
+                  required
                   v-model="detail.general.description"
                   rows="5"
                   placeholder="Enter Description"
@@ -84,7 +86,11 @@
                   :file_type="'image'"
                 >
                   <div class="text-center">
-                    <b-icon icon="image" font-scale="6rem"></b-icon>
+                    <b-icon
+                      icon="image"
+                      class="text-muted"
+                      font-scale="6rem"
+                    ></b-icon>
                   </div>
                 </Upload>
               </b-form-group>
@@ -97,6 +103,7 @@
               <b-form-group label="Overview">
                 <b-textarea
                   rows="3"
+                  required
                   v-model="detail.outline.overview"
                 ></b-textarea>
               </b-form-group>
@@ -106,6 +113,7 @@
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Knowledge area">
                 <b-form-select
+                  required
                   class="text-capitalize"
                   v-model="detail.outline.knowledge_area"
                 >
@@ -250,90 +258,161 @@
             v-for="(item, id) in detail.schedule"
             :key="id"
           >
-            <b-form-row>
-              <b-col sm="6" class="mb-3 px-3">
-                <b-form-group label="Facilitator">
-                  <b-form-select v-model="item.facilitator_id">
-                    <b-form-select-option :value="null"
-                      >None</b-form-select-option
+            <div
+              class="p-2 rounded d-flex justify-content-between shadow"
+              v-if="id != current_schedule"
+            >
+              <div>
+                <span class="mr-3"
+                  >Start Date :
+                  {{
+                    item.start_time | moment("dddd, MMMM D YYYY, h:mm a")
+                  }}</span
+                >
+                <br />
+                <span class="mr-3"
+                  >End Date :
+                  {{
+                    item.end_time | moment("dddd, MMMM D YYYY, h:mm a")
+                  }}</span
+                >
+              </div>
+              <div>
+                <b-iconstack font-scale="1.1" class="mr-2" @click="addschedule">
+                  <b-icon
+                    stacked
+                    icon="circle-fill"
+                    variant="dark-green"
+                  ></b-icon>
+                  <b-icon
+                    stacked
+                    icon="plus-circle-fill"
+                    scale="0.5"
+                    variant="white"
+                  ></b-icon>
+                </b-iconstack>
+
+                <b-iconstack
+                  font-scale="1.1"
+                  class="mr-2"
+                  @click="current_schedule = id"
+                >
+                  <b-icon stacked icon="circle-fill" variant="warning"></b-icon>
+                  <b-icon
+                    icon="pencil-fill"
+                    stacked
+                    scale="0.5"
+                    variant="white"
+                  ></b-icon>
+                </b-iconstack>
+
+                <b-iconstack
+                  font-scale="1.1"
+                  v-if="detail.schedule.length > 1"
+                  @click="detail.schedule.splice(id, 1)"
+                >
+                  <b-icon stacked icon="circle-fill" variant="danger"></b-icon>
+                  <b-icon
+                    icon="trash2-fill"
+                    stacked
+                    scale="0.5"
+                    variant="white"
+                  ></b-icon>
+                </b-iconstack>
+              </div>
+            </div>
+            <div v-if="id == current_schedule">
+              <div class="text-right">
+                <b-icon
+                  icon="chevron-up"
+                  @click="current_schedule = null"
+                ></b-icon>
+              </div>
+              <b-form-row>
+                <b-col sm="6" class="mb-3 px-3">
+                  <b-form-group label="Facilitator">
+                    <b-form-select v-model="item.facilitator_id">
+                      <b-form-select-option :value="null"
+                        >None</b-form-select-option
+                      >
+                      <b-form-select-option
+                        :value="item.id"
+                        v-for="(item, id) in facilitators"
+                        :key="id"
+                        >{{ item.name }}</b-form-select-option
+                      ></b-form-select
                     >
-                    <b-form-select-option
-                      :value="item.id"
-                      v-for="(item, id) in facilitators"
-                      :key="id"
-                      >{{ item.name }}</b-form-select-option
-                    ></b-form-select
-                  >
-                </b-form-group>
-              </b-col>
-              <b-col sm="6" class="mb-3 px-3">
-                <b-form-group label="Venue">
-                  <b-form-input
-                    v-model="item.venue"
-                    placeholder="Enter course Venue"
-                  ></b-form-input>
-                  <b-form-input
-                    v-model="item.url"
-                    placeholder="Enter url link (optional)"
-                  ></b-form-input>
-                </b-form-group>
-              </b-col>
-            </b-form-row>
-            <b-form-row>
-              <b-col sm="6" class="mb-3 px-3">
-                <b-form-group label="Start time">
-                  <vc-date-picker
-                    placeholder="Choose start time"
-                    v-model="item.start_time"
-                    mode="dateTime"
-                    :is24hr="false"
-                  >
-                    <template v-slot="{ inputValue, inputEvents }">
-                      <input
-                        class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
-                        :value="inputValue"
-                        v-on="inputEvents"
-                      />
-                    </template>
-                  </vc-date-picker>
-                </b-form-group>
-              </b-col>
-              <b-col sm="6" class="mb-3 px-3">
-                <b-form-group label="End time">
-                  <vc-date-picker
-                    placeholder="Choose start time"
-                    v-model="item.end_time"
-                    mode="dateTime"
-                    :is24hr="false"
-                  >
-                    <template v-slot="{ inputValue, inputEvents }">
-                      <input
-                        class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
-                        :value="inputValue"
-                        v-on="inputEvents"
-                      />
-                    </template>
-                  </vc-date-picker>
-                </b-form-group>
-              </b-col>
-            </b-form-row>
-            <div>
-              <b-button
-                variant="outline-dark-green"
-                class="my-2 mr-2"
-                size="sm"
-                @click="detail.schedule.splice(id, 1)"
-                v-if="detail.schedule.length > 1"
-                >Delete schedule</b-button
-              >
-              <b-button
-                variant="dark-green"
-                class="my-2"
-                size="sm"
-                @click="addschedule"
-                v-if="detail.schedule.length == id + 1"
-                >Add new schedule</b-button
-              >
+                  </b-form-group>
+                </b-col>
+                <b-col sm="6" class="mb-3 px-3">
+                  <b-form-group label="Venue">
+                    <b-form-input
+                      v-model="item.venue"
+                      placeholder="Enter course Venue"
+                    ></b-form-input>
+                    <b-form-input
+                      v-model="item.url"
+                      placeholder="Enter url link (optional)"
+                    ></b-form-input>
+                  </b-form-group>
+                </b-col>
+              </b-form-row>
+              <b-form-row>
+                <b-col sm="6" class="mb-3 px-3">
+                  <b-form-group label="Start time">
+                    <vc-date-picker
+                      placeholder="Choose start time"
+                      v-model="item.start_time"
+                      mode="dateTime"
+                      :is24hr="false"
+                    >
+                      <template v-slot="{ inputValue, inputEvents }">
+                        <input
+                          class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+                          :value="inputValue"
+                          v-on="inputEvents"
+                        />
+                      </template>
+                    </vc-date-picker>
+                  </b-form-group>
+                </b-col>
+                <b-col sm="6" class="mb-3 px-3">
+                  <b-form-group label="End time">
+                    <vc-date-picker
+                      placeholder="Choose start time"
+                      v-model="item.end_time"
+                      mode="dateTime"
+                      :is24hr="false"
+                    >
+                      <template v-slot="{ inputValue, inputEvents }">
+                        <input
+                          class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+                          :value="inputValue"
+                          v-on="inputEvents"
+                        />
+                      </template>
+                    </vc-date-picker>
+                  </b-form-group>
+                </b-col>
+              </b-form-row>
+              <div>
+                <b-button
+                  variant="outline-dark-green"
+                  class="my-2 mr-2"
+                  size="sm"
+                  @click="detail.schedule.splice(id, 1)"
+                  v-if="detail.schedule.length > 1"
+                  >Delete schedule</b-button
+                >
+                <b-button
+                  variant="dark-green"
+                  class="my-2"
+                  size="sm"
+                  @click="addschedule"
+                  v-if="detail.schedule.length == id + 1"
+                  >Add new schedule</b-button
+                >
+              </div>
             </div>
           </div>
         </b-container>
@@ -403,6 +482,7 @@
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Course title">
                 <b-form-input
+                  required
                   placeholder="Enter course title"
                   v-model="detail.general.title"
                 ></b-form-input>
@@ -421,6 +501,7 @@
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Course Description">
                 <b-form-textarea
+                  required
                   v-model="detail.general.description"
                   rows="5"
                   placeholder="Enter Description"
@@ -429,9 +510,19 @@
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Course Cover">
-                <Upload @getUpload="getUpload">
+                <Upload
+                  @getUpload="getUpload"
+                  :id="'image'"
+                  :type="'image'"
+                  :file_type="'image'"
+                  :image="detail.general.cover"
+                >
                   <div class="text-center">
-                    <b-icon icon="image" font-scale="6rem"></b-icon>
+                    <b-icon
+                      icon="image"
+                      class="text-muted"
+                      font-scale="6rem"
+                    ></b-icon>
                   </div>
                 </Upload>
               </b-form-group>
@@ -443,6 +534,7 @@
             <b-col class="mb-2 px-3">
               <b-form-group label="Overview">
                 <b-textarea
+                  required
                   rows="3"
                   v-model="detail.outline.overview"
                 ></b-textarea>
@@ -455,6 +547,7 @@
                 <b-form-select
                   class="text-capitalize"
                   v-model="detail.outline.knowledge_area"
+                  required
                 >
                   <b-form-select-option
                     :value="ins"
@@ -468,6 +561,7 @@
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Duration">
                 <b-form-input
+                  required
                   v-model="detail.outline.duration"
                   placeholder="Enter course duration"
                 ></b-form-input>
@@ -597,102 +691,161 @@
             v-for="(item, id) in detail.schedule"
             :key="id"
           >
-            <b-form-row>
-              <b-col sm="6" class="mb-3 px-3">
-                <b-form-group label="Day">
-                  <b-form-select v-model="item.day">
-                    <b-form-select-option value="monday"
-                      >Monday</b-form-select-option
+            <div
+              class="p-2 rounded d-flex justify-content-between shadow"
+              v-if="id != current_schedule"
+            >
+              <div>
+                <span class="mr-3"
+                  >Start Date :
+                  {{
+                    item.start_time | moment("dddd, MMMM D YYYY, h:mm a")
+                  }}</span
+                >
+                <br />
+                <span class="mr-3"
+                  >End Date :
+                  {{
+                    item.end_time | moment("dddd, MMMM D YYYY, h:mm a")
+                  }}</span
+                >
+              </div>
+              <div>
+                <b-iconstack font-scale="1.1" class="mr-2" @click="addschedule">
+                  <b-icon
+                    stacked
+                    icon="circle-fill"
+                    variant="dark-green"
+                  ></b-icon>
+                  <b-icon
+                    stacked
+                    icon="plus-circle-fill"
+                    scale="0.5"
+                    variant="white"
+                  ></b-icon>
+                </b-iconstack>
+
+                <b-iconstack
+                  font-scale="1.1"
+                  class="mr-2"
+                  @click="current_schedule = id"
+                >
+                  <b-icon stacked icon="circle-fill" variant="warning"></b-icon>
+                  <b-icon
+                    icon="pencil-fill"
+                    stacked
+                    scale="0.5"
+                    variant="white"
+                  ></b-icon>
+                </b-iconstack>
+
+                <b-iconstack
+                  font-scale="1.1"
+                  v-if="detail.schedule.length > 1"
+                  @click="detail.schedule.splice(id, 1)"
+                >
+                  <b-icon stacked icon="circle-fill" variant="danger"></b-icon>
+                  <b-icon
+                    icon="trash2-fill"
+                    stacked
+                    scale="0.5"
+                    variant="white"
+                  ></b-icon>
+                </b-iconstack>
+              </div>
+            </div>
+            <div v-if="id == current_schedule">
+              <div class="text-right">
+                <b-icon
+                  icon="chevron-up"
+                  @click="current_schedule = null"
+                ></b-icon>
+              </div>
+              <b-form-row>
+                <b-col sm="6" class="mb-3 px-3">
+                  <b-form-group label="Facilitator">
+                    <b-form-select v-model="item.facilitator_id">
+                      <b-form-select-option :value="null"
+                        >None</b-form-select-option
+                      >
+                      <b-form-select-option
+                        :value="item.id"
+                        v-for="(item, id) in facilitators"
+                        :key="id"
+                        >{{ item.name }}</b-form-select-option
+                      ></b-form-select
                     >
-                    <b-form-select-option value="tuesday"
-                      >Tuesday</b-form-select-option
+                  </b-form-group>
+                </b-col>
+                <b-col sm="6" class="mb-3 px-3">
+                  <b-form-group label="Venue">
+                    <b-form-input
+                      v-model="item.venue"
+                      placeholder="Enter course Venue"
+                    ></b-form-input>
+                    <b-form-input
+                      v-model="item.url"
+                      placeholder="Enter url link (optional)"
+                    ></b-form-input>
+                  </b-form-group>
+                </b-col>
+              </b-form-row>
+              <b-form-row>
+                <b-col sm="6" class="mb-3 px-3">
+                  <b-form-group label="Start time">
+                    <vc-date-picker
+                      placeholder="Choose start time"
+                      v-model="item.start_time"
+                      mode="dateTime"
+                      :is24hr="false"
                     >
-                    <b-form-select-option value="wednesday"
-                      >Wednesday</b-form-select-option
+                      <template v-slot="{ inputValue, inputEvents }">
+                        <input
+                          class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+                          :value="inputValue"
+                          v-on="inputEvents"
+                        />
+                      </template>
+                    </vc-date-picker>
+                  </b-form-group>
+                </b-col>
+                <b-col sm="6" class="mb-3 px-3">
+                  <b-form-group label="End time">
+                    <vc-date-picker
+                      placeholder="Choose start time"
+                      v-model="item.end_time"
+                      mode="dateTime"
+                      :is24hr="false"
                     >
-                    <b-form-select-option value="thursday"
-                      >Thursday</b-form-select-option
-                    >
-                    <b-form-select-option value="friday"
-                      >Friday</b-form-select-option
-                    >
-                    <b-form-select-option value="saturday"
-                      >Saturday</b-form-select-option
-                    >
-                    <b-form-select-option value="sunday"
-                      >Sunday</b-form-select-option
-                    >
-                  </b-form-select>
-                </b-form-group>
-              </b-col>
-              <b-col sm="6" class="mb-3 px-3">
-                <b-form-group label="Facilitator">
-                  <b-form-select v-model="item.facilitator_id">
-                    <b-form-select-option
-                      :value="item.id"
-                      v-for="(item, id) in facilitators"
-                      :key="id"
-                      >{{ item.name }}</b-form-select-option
-                    ></b-form-select
-                  >
-                </b-form-group>
-              </b-col>
-            </b-form-row>
-            <b-form-row>
-              <b-col sm="6" class="mb-3 px-3">
-                <b-form-group label="Start time">
-                  <vc-date-picker
-                    placeholder="Choose end time"
-                    v-model="item.start_time"
-                    mode="dateTime"
-                    :is24hr="false"
-                  >
-                    <template v-slot="{ inputValue, inputEvents }">
-                      <input
-                        class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
-                        :value="inputValue"
-                        v-on="inputEvents"
-                      />
-                    </template>
-                  </vc-date-picker>
-                </b-form-group>
-              </b-col>
-              <b-col sm="6" class="mb-3 px-3">
-                <b-form-group label="End time">
-                  <vc-date-picker
-                    placeholder="Choose end time"
-                    v-model="item.end_time"
-                    mode="dateTime"
-                    :is24hr="false"
-                  >
-                    <template v-slot="{ inputValue, inputEvents }">
-                      <input
-                        class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
-                        :value="inputValue"
-                        v-on="inputEvents"
-                      />
-                    </template>
-                  </vc-date-picker>
-                </b-form-group>
-              </b-col>
-            </b-form-row>
-            <div>
-              <b-button
-                variant="outline-dark-green"
-                class="my-2 mr-2"
-                size="sm"
-                @click="detail.schedule.splice(id, 1)"
-                v-if="detail.schedule.length > 1"
-                >Delete schedule</b-button
-              >
-              <b-button
-                variant="dark-green"
-                class="my-2"
-                size="sm"
-                @click="addschedule"
-                v-if="detail.schedule.length == id + 1"
-                >Add new schedule</b-button
-              >
+                      <template v-slot="{ inputValue, inputEvents }">
+                        <input
+                          class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+                          :value="inputValue"
+                          v-on="inputEvents"
+                        />
+                      </template>
+                    </vc-date-picker>
+                  </b-form-group>
+                </b-col>
+              </b-form-row>
+              <div>
+                <b-button
+                  variant="outline-dark-green"
+                  class="my-2 mr-2"
+                  size="sm"
+                  @click="detail.schedule.splice(id, 1)"
+                  v-if="detail.schedule.length > 1"
+                  >Delete schedule</b-button
+                >
+                <b-button
+                  variant="dark-green"
+                  class="my-2"
+                  size="sm"
+                  @click="addschedule"
+                  v-if="detail.schedule.length == id + 1"
+                  >Add new schedule</b-button
+                >
+              </div>
             </div>
           </div>
         </b-container>
@@ -755,7 +908,7 @@
                       ></b-icon>
                     </template>
 
-                    <b-dropdown-item
+                    <!-- <b-dropdown-item
                       class="fs12"
                       @click="
                         $router.push(
@@ -763,7 +916,7 @@
                         )
                       "
                       >View outline</b-dropdown-item
-                    >
+                    > -->
                     <b-dropdown-item
                       class="fs12"
                       @click="
@@ -771,7 +924,7 @@
                           `/administrator/modules?showing=${course.title}`
                         )
                       "
-                      >View modules</b-dropdown-item
+                      >View resources</b-dropdown-item
                     >
                     <b-dropdown-item
                       class="fs12"
@@ -861,7 +1014,7 @@
 
                 <div class="pt-3">
                   <div class="d-flex justify-content-between fs13">
-                    <span>Resources progress</span
+                    <span>Resources upload</span
                     ><span
                       >{{
                         getProgress(
@@ -1290,6 +1443,7 @@ import Insight from "../insight.js";
 export default {
   data() {
     return {
+      current_schedule: 0,
       insight: [],
       courses: [],
       course: null,
@@ -1422,10 +1576,11 @@ export default {
         day: "monday",
         url: "",
         venue: "",
-        start_time: "",
-        end_time: "",
+        start_time: new Date(),
+        end_time: new Date(),
         facilitator_id: null,
       });
+      this.current_schedule = this.detail.schedule.length - 1;
     },
     addmodule() {
       if (!this.newmodule) {
@@ -1556,7 +1711,7 @@ export default {
         },
         outline: {
           overview: val.courseoutline.overview,
-          knowledge_area: val.courseoutline.knowledge_areas,
+          knowledge_area: JSON.parse(val.courseoutline.knowledge_areas),
           duration: val.courseoutline.duration,
           modules: JSON.parse(val.courseoutline.modules),
           faqs: JSON.parse(val.courseoutline.faqs),
@@ -1565,6 +1720,7 @@ export default {
         },
         schedule: val.courseschedule,
       };
+
       this.$bvModal.show("update");
     },
     updatecourse() {

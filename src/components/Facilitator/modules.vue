@@ -7,7 +7,7 @@
             class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-4"
           >
             <h6 class="mb-3 mb-sm-0 text-capitalize">
-              {{ $route.query.showing }} Modules
+              {{ $route.query.showing }} Resources
             </h6>
             <div>
               <b-form-input
@@ -86,7 +86,7 @@
                         placement="bottom"
                       >
                         <div class="">
-                          <!-- <small
+                          <small
                             class="px-0 text-left cursor-pointer"
                             @click="
                               $router.push(
@@ -98,7 +98,7 @@
                             ><span>View</span>
                           </small>
                           <br />
-                          <hr class="my-1" /> -->
+                          <hr class="my-1" />
                           <small
                             class="px-0 text-left cursor-pointer"
                             @click="edit(item)"
@@ -141,7 +141,7 @@
       </b-row>
     </b-container>
 
-    <b-modal id="add" hide-footer centered size="lg" title="Add Course Module">
+    <b-modal id="add" hide-footer centered size="lg" title="Add Resource">
       <b-form @submit.prevent="register" class="user">
         <div>
           <b-container>
@@ -308,7 +308,7 @@
       size="lg"
       title="Edit Course Module"
     >
-      <b-form @submit.prevent="register" class="user">
+      <b-form @submit.prevent="register" class="user" title="Edit Resource">
         <div>
           <b-container>
             <b-form-row class="mb-4">

@@ -67,7 +67,7 @@
             ></b-icon>
             <span class="side-link">
               <span class="mr-5">Events</span>
-              <span
+              <span v-if="activeaccount"
                 ><b-badge variant="danger" size="sm">{{
                   activeaccount
                 }}</b-badge></span
@@ -166,7 +166,7 @@ export default {
   },
   computed: {
     activeaccount() {
-      return this.events.filter((item) => item.status).length;
+      return this.events.filter((item) => item.status == "active").length;
     },
   },
   methods: {
