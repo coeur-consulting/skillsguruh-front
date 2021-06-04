@@ -220,11 +220,14 @@ export default {
     },
     getuser() {
       this.$http
-        .get(`${this.$store.getters.url}/user`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
-        })
+        .get(
+          `${this.$store.getters.url}/users/${this.$store.getters.learner.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          }
+        )
         .then((res) => {
           if (res.status == 200) {
             this.user = res.data;
@@ -233,7 +236,7 @@ export default {
     },
     updateuser() {
       this.$http
-        .put(`${this.$store.getters.url}/admins/${this.user.id}`, this.user, {
+        .put(`${this.$store.getters.url}/users/${this.user.id}`, this.user, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },

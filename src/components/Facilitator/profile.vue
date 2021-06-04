@@ -25,6 +25,17 @@
           <b-icon v-if="type == 'notification'" icon="chevron-right"></b-icon>
         </div>
         <div
+          class="mb-3 px-2 cursor-pointer d-flex fs14"
+          @click="type = 'preference'"
+          :class="{ 'font-weight-bold': type == 'preference' }"
+        >
+          <span class="flex-1">
+            <b-icon class="mr-2" icon="nut"></b-icon>
+            <span class="">Preferences</span>
+          </span>
+          <b-icon v-if="type == 'preference'" icon="chevron-right"></b-icon>
+        </div>
+        <div
           class="px-2 fs14 cursor-pointer d-flex"
           :class="{ 'font-weight-bold': type == 'security' }"
           @click="type = 'security'"
@@ -124,11 +135,15 @@
             <h5 class="font-weight-bold mb-4">Notifications</h5>
 
             <div
-              class="d-flex mb-3 align-items-center"
+              class="d-flex mb-3"
               v-for="item in notifications"
               :key="item.id"
             >
-              <b-icon variant="dark-green" icon="bell" class="mr-2"></b-icon>
+              <b-icon
+                variant="dark-green"
+                icon="bell-fill"
+                class="mr-2 mt-1"
+              ></b-icon>
               <span> {{ item.data.notification }}</span>
             </div>
           </div>
@@ -161,6 +176,15 @@
             </b-form>
           </div>
         </div>
+
+        <div v-if="type == 'preference'" class="p-4">
+          <div class="pt-5 text-left preference">
+            <Interest
+              :user="$store.getters.facilitator"
+              :type="'facilitator'"
+            />
+          </div>
+        </div>
       </b-col>
     </b-row>
   </b-container>
@@ -168,6 +192,7 @@
 
 <script>
 import Upload from "../fileupload";
+import Interest from "../InterestComponent";
 export default {
   data() {
     return {
@@ -181,6 +206,7 @@ export default {
   },
   components: {
     Upload,
+    Interest,
   },
   mounted() {
     this.getuser();
@@ -197,11 +223,14 @@ export default {
     },
     getuser() {
       this.$http
-        .get(`${this.$store.getters.url}/facilitator`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
-        })
+        .get(
+          `${this.$store.getters.url}/facilitators/${this.$store.getters.facilitator.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
+          }
+        )
         .then((res) => {
           if (res.status == 200) {
             this.user = res.data;
@@ -210,17 +239,26 @@ export default {
     },
     updateuser() {
       this.$http
-        .put(`${this.$store.getters.url}/admins/${this.user.id}`, this.user, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
-        })
+        .put(
+          `${this.$store.getters.url}/facilitators/${this.user.id}`,
+          this.user,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
+          }
+        )
         .then((res) => {
           if (res.status == 200) {
             this.user = res.data;
-            var authAdmin = JSON.parse(localStorage.getItem("authAdmin"));
-            authAdmin.profile = res.data.profile;
-            localStorage.setItem("authAdmin", JSON.stringify(authAdmin));
+            var authFacilitator = JSON.parse(
+              localStorage.getItem("authFacilitator")
+            );
+            authFacilitator.profile = res.data.profile;
+            localStorage.setItem(
+              "authFacilitator",
+              JSON.stringify(authFacilitator)
+            );
             this.$toast.success("Updated successfully");
           }
         });
@@ -263,5 +301,9 @@ export default {
 .notif {
   width: 80%;
   margin: 0 auto;
+}
+.preference {
+  max-height: 80vh;
+  overflow: scroll;
 }
 </style>
