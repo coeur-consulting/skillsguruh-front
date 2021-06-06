@@ -12,7 +12,7 @@
           <b-col sm="6">
             <div class="banner-text mb-5">
               <h1 class="mb-4 mt-4 mt-sm-0">
-                A platform for employees and business owners to upskill
+                Here you can truly have it all. A Social Learning Place!
               </h1>
               <p>Enjoy a more engaging and organized virtual learning</p>
             </div>
@@ -27,7 +27,7 @@
                 variant="outline-dark-green"
                 @click="$router.push('/register')"
               >
-                Become a Facilitator</b-button
+                Connect & Learn</b-button
               >
             </div>
 
@@ -42,7 +42,7 @@
                 variant="outline-dark-green"
                 @click="$router.push('/register')"
               >
-                Become a Facilitator</b-button
+                Connect & Learn</b-button
               >
             </div>
           </b-col>
@@ -64,10 +64,9 @@
                 Join has an Organization and onboard your employees
               </h2>
               <p class="mb-4 pr-3">
-                Join the platform as an organization and onboard your employee.
                 No longer do your employees have to struggle to get on the same
-                page. Keep teams aligned and productive with tailor-made courses
-                that improve their skills.
+                page. Keep teams aligned and productive by signing them up to
+                tailor-made courses that improve their skills.
               </p>
               <b-button
                 size="lg"
@@ -99,17 +98,16 @@
           </b-col>
           <b-col sm="6" class="d-flex align-items-center">
             <div class="onboard">
-              <h2 class="mb-4">
-                Join as a facilitator and share your skills and expertise
-              </h2>
+              <h2 class="mb-4">Share your skills and expertise</h2>
               <p class="mb-4 pr-3">
                 Now you can put your knowledge to work. Convert what you know to
-                a course and enjoy teaching a more engaged group of learners.
-                Manage your private group, collaborate with other experts and
-                extend your expertise to external learners.
+                a course in minutes and enjoy teaching a more engaged group of
+                learners. Manage your private group, connect with external
+                learners and collaborate with other experts— the choice is
+                yours!
               </p>
               <b-button size="lg" variant="dark-green" class="px-5">
-                Share Your Knowledge
+                Start Teaching
               </b-button>
             </div>
           </b-col>
@@ -118,15 +116,15 @@
         <b-row class="">
           <b-col sm="6" class="d-flex align-items-center">
             <div class="onboard">
-              <h2 class="mb-4">
-                Join as a learner and get access to expert and other learners
-                like you
-              </h2>
+              <h2 class="mb-4">Shared interest is all you need</h2>
               <p class="mb-4 pr-3">
-                Connect with experts and learners with similar interests. Join
-                trending discussions and lend your voice to issues of public
-                interest. You can be social even while learning.
+                Connect with experts and learners with similar interests to gain
+                rich insight to your most pressing questions, then pay it
+                forward by lending your voice to trending discussions. Maximize
+                the group access feature and make learning a party with your
+                friends.
               </p>
+              <p>Yes, you can be social even while learning.</p>
               <b-button
                 size="lg"
                 variant="dark-green"
@@ -155,8 +153,9 @@
           <b-col class="ex-facilitators text-center">
             <h2 class="mb-4">Most Popular Facilitators</h2>
             <p class="mb-5">
-              Connect with experts and learners with similar interests. <br />
-              Join trending discussions and lend your voice to issues of
+              All our facilitators are awesome, but these ones really stand
+              <br />
+              out in our community. Get to know them!
             </p>
 
             <b-row class="facilitators">
@@ -221,10 +220,9 @@
       <b-container>
         <b-row>
           <b-col class="text-center learners">
-            <h2 class="mb-4">Learner’s Experience</h2>
+            <h2 class="mb-4">SKILLSGURUH STORIES</h2>
             <p class="mb-5">
-              Connect with experts and learners with similar interests. <br />
-              Join trending discussions and lend your voice to issues of
+              Stories of people whose lives were changed through SkillsGuruh
             </p>
 
             <div class="shadow learner position-relative">
@@ -276,11 +274,12 @@
                           font-scale="3.5"
                         ></b-icon>
                         <p>
-                          Every aspect of learning in skillsguruh as brought my
-                          business closer and close to my dream business, im so
-                          grateful to this platform
+                          My Customer Service team took the course on marketing
+                          and I can already see the impact in their productivity
+                          and results. Kudos to the SkillsGuruh team for such
+                          innovation.
                         </p>
-                        <div class="test-1">Jane Doe</div>
+                        <div class="test-1">Oscar Eze— Entrepreneur, Lagos</div>
                       </div>
                     </b-col>
                   </b-row>
@@ -303,11 +302,41 @@
                           font-scale="3.5"
                         ></b-icon>
                         <p>
-                          Every aspect of learning in skillsguruh as brought my
-                          business closer and close to my dream business, im so
-                          grateful to this platform
+                          Thanks to SkillsGuruh I’ve been able to establish
+                          myself as a supply chain expert. I find the groups to
+                          be more engaged due to their shared interests and that
+                          really drives me to be my best.
                         </p>
-                        <div class="test-1">Jane Doe</div>
+                        <div class="test-1">Umoh— Entrepreneur, Uyo</div>
+                      </div>
+                    </b-col>
+                  </b-row>
+                </slide>
+                <slide>
+                  <b-row>
+                    <b-col sm="4" class="d-flex align-items-center">
+                      <div class="p-4">
+                        <b-img
+                          class="learner-img"
+                          :src="require('../assets/images/test.png')"
+                        ></b-img>
+                      </div>
+                    </b-col>
+                    <b-col sm="8" class="d-flex align-items-center">
+                      <div class="text-center p-4 py-5">
+                        <b-icon
+                          icon="chat-quote-fill"
+                          class="text-dark-green mb-4"
+                          font-scale="3.5"
+                        ></b-icon>
+                        <p>
+                          I invited my friends to take the BizGuruh course on
+                          self-discovery via the free group access and that just
+                          took us all to the next level. We’ve recently launched
+                          our business and I can confirm that winning is
+                          sweetest with my tribe.
+                        </p>
+                        <div class="test-1">Yetty — Student, Enugu</div>
                       </div>
                     </b-col>
                   </b-row>
