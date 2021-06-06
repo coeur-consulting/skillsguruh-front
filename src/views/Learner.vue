@@ -28,11 +28,17 @@ export default {
     TopBar,
     Insight,
   },
+  watch: {
+    $route: "getnotification",
+  },
   mounted() {
-    this.$store.dispatch("getNotifications", "learner");
+    this.getnotification();
     this.getloginhistory();
   },
   methods: {
+    getnotification() {
+      this.$store.dispatch("getNotifications", "learner");
+    },
     skip() {
       this.$bvModal.hide("insight");
     },

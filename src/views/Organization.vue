@@ -23,8 +23,16 @@ export default {
     SideBar,
     TopBar,
   },
+  watch: {
+    $route: "getnotification",
+  },
   mounted() {
-    this.$store.dispatch("getNotifications", "organization");
+    this.getnotification();
+  },
+  methods: {
+    getnotification() {
+      this.$store.dispatch("getNotifications", "learner");
+    },
   },
 };
 </script>
