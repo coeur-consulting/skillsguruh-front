@@ -49,6 +49,9 @@ html {
 .cursor-disabled {
   cursor: not-allowed;
 }
+.cursor-copy {
+  cursor: copy;
+}
 .brad {
   border-radius: 0 3rem 0 6rem;
   overflow: hidden;
@@ -152,9 +155,19 @@ a:hover {
   background-color: #f7f8fa;
   border-color: var(--dark-green);
 }
-.notifications.inbox {
+.notifications.inbox,
+.notification_container {
   max-height: 400px;
   overflow: auto;
+}
+.notification_container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.notification_container {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 #inbox1 {
   box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;

@@ -70,13 +70,13 @@
           </div>
         </div>
 
-        <div class="box p-5 text-center">
+        <div class="box p-3 text-center mb-4">
           <div class="mb-3 border px-4 py-2 rounded-pill d-flex text-muted">
             <b-icon icon="link45deg" font-scale="1.5rem"></b-icon>
             <b-form-input
               v-model="message"
               readonly
-              class="text-align flex-1 rounded-pill no-focus"
+              class="text-align flex-1 rounded-pill no-focus fs13"
             >
             </b-form-input>
           </div>
@@ -92,16 +92,43 @@
             >
           </div>
         </div>
+
+        <div class="box text-left">
+          <h6 class="mb-4 py-2 px-3">Course Referral List</h6>
+          <b-table-simple class="border-top-0">
+            <b-thead class="border-0">
+              <b-tr>
+                <b-th class="fs14">Course</b-th>
+                <b-th class="fs14">Referral link</b-th>
+              </b-tr>
+            </b-thead>
+            <b-tbody>
+              <b-tr v-for="item in communities_link" :key="item.id">
+                <b-td class="fs13">{{ item.course.title }}</b-td>
+                <b-td
+                  class="fs13 cursor-copy"
+                  v-clipboard:copy="
+                    `https://skillsguruh.herokuapp.com/register/?referral_code=${item.code}`
+                  "
+                  v-clipboard:success="onCopy"
+                  >{{
+                    `https://skillsguruh.herokuapp.com/register/?referral_code=${item.code}`
+                  }}</b-td
+                >
+              </b-tr>
+            </b-tbody>
+          </b-table-simple>
+        </div>
       </b-col>
       <b-col sm="5">
-        <div class="box p-4">
-          <h6>Referral List</h6>
+        <div class="box">
+          <h6 class="mb-4 py-2 px-3">Referral List</h6>
 
           <b-table-simple v-if="referrals.length">
             <b-thead>
               <b-tr>
-                <b-th>Name</b-th>
-                <b-th>Earning</b-th>
+                <b-th class="fs14">Name</b-th>
+                <b-th class="fs14">Earning</b-th>
               </b-tr>
             </b-thead>
             <b-tbody>
@@ -109,11 +136,11 @@
                 <b-td class="text-capitalize">{{
                   item.learner_detail.name
                 }}</b-td>
-                <b-td>NGN 10.00</b-td>
+                <b-td class="fs14">NGN 10.00</b-td>
               </b-tr>
               <b-tr>
                 <b-td>Total earnings</b-td>
-                <b-td class="text-dark-green font-weight-bold">
+                <b-td class="text-dark-green font-weight-bold fs14">
                   NGN {{ referrals.length * 10 }}.00</b-td
                 >
               </b-tr>
@@ -131,10 +158,12 @@ export default {
       referrals: [],
       email: "",
       message: `https://skillsguruh.herokuapp.com/register/?referral_code=${this.$store.getters.learner.referral}`,
+      communities_link: [],
     };
   },
   mounted() {
     this.getreferrals();
+    this.getcommunity();
     this.message = `https://skillsguruh.herokuapp.com/register/?referral_code=${this.$store.getters.learner.referral}`;
   },
   methods: {
@@ -148,6 +177,22 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.referrals = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    getcommunity() {
+      this.$http
+        .get(`${this.$store.getters.url}/add-community`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.communities_link = res.data;
           }
         })
         .catch((err) => {

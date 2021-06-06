@@ -107,31 +107,33 @@
       >
         <template #title>Notifications</template>
         <div class="notifications" v-if="notifications.length">
-          <div
-            class="notify border-bottom"
-            v-for="(item, id) in notifications"
-            :key="id"
-          >
+          <div class="notification_container">
             <div
-              v-if="!item.read_at"
-              @click="$store.dispatch('markNotification', item.id)"
+              class="notify border-bottom"
+              v-for="(item, id) in notifications"
+              :key="id"
             >
-              <span :class="{ 'font-weight-bold': !item.read_at }">
-                {{ item.data.notification }}</span
+              <div
+                v-if="!item.read_at"
+                @click="$store.dispatch('markNotification', item.id)"
               >
-              <br />
-              <span class="fs11">{{
-                item.created_at | moment("calendar")
-              }}</span>
-            </div>
-            <div v-else>
-              <span :class="{ 'font-weight-bold': !item.read_at }">
-                {{ item.data.notification }}</span
-              >
-              <br />
-              <span class="fs11">{{
-                item.created_at | moment("calendar")
-              }}</span>
+                <span :class="{ 'font-weight-bold': !item.read_at }">
+                  {{ item.data.notification }}</span
+                >
+                <br />
+                <span class="fs11">{{
+                  item.created_at | moment("calendar")
+                }}</span>
+              </div>
+              <div v-else>
+                <span :class="{ 'font-weight-bold': !item.read_at }">
+                  {{ item.data.notification }}</span
+                >
+                <br />
+                <span class="fs11">{{
+                  item.created_at | moment("calendar")
+                }}</span>
+              </div>
             </div>
           </div>
           <div class="text-center py-2 border-top text-dark-green fs11">

@@ -643,6 +643,32 @@
         </b-col>
       </b-row>
     </b-container>
+
+    <b-modal id="courselink" centered hide-footer hide-header>
+      <div class="box p-5 text-center">
+        <div class="mb-3 border px-4 py-2 rounded-pill d-flex text-muted">
+          <b-icon icon="link45deg" font-scale="1.5rem"></b-icon>
+          <b-form-input
+            v-model="message"
+            readonly
+            class="text-align flex-1 rounded-pill no-focus"
+          >
+          </b-form-input>
+        </div>
+        <div>
+          <b-button
+            variant="lighter-green"
+            type="button"
+            v-clipboard:copy="message"
+            v-clipboard:success="onCopy"
+            v-clipboard:error="onError"
+            class="rounded px-4"
+            >Copy link</b-button
+          >
+        </div>
+        <p>You can find your course referral link in your bonus page</p>
+      </div>
+    </b-modal>
   </div>
 </template>
 <script>
@@ -658,6 +684,7 @@ export default {
       toggleCourse: 1,
       library: [],
       communitylink: [],
+      course_link: "",
     };
   },
   components: {},
@@ -675,6 +702,13 @@ export default {
     },
   },
   methods: {
+    onCopy: function (e) {
+      alert("You just copied the following text to the clipboard: " + e.text);
+    },
+    onError: function (e) {
+      alert("Failed to copy the text to the clipboard");
+      console.log(e);
+    },
     getProgress(a, b) {
       var count = 0;
 
@@ -714,6 +748,9 @@ export default {
         .then((res) => {
           if (res.status == 201) {
             this.communitylink.push(res.data);
+            this.message = `https://skillsguruh.herokuapp.com/register/?referral_type=community&referral_code=${res.data.code}`;
+            this.$toast.info("Course link created");
+            this.$bvModal.show("courselink");
           }
         })
         .catch((err) => {
@@ -756,6 +793,7 @@ export default {
         .then((res) => {
           if (res.status == 201) {
             this.library.push(res.data);
+            this.$toast.success("Added to library");
           }
         })
         .catch((err) => {

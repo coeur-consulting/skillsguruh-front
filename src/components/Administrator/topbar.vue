@@ -209,35 +209,43 @@
       >
         <template #title>Notifications</template>
         <div class="notifications" v-if="notifications.length">
-          <div
-            class="notify border-bottom"
-            v-for="(item, id) in notifications"
-            :key="id"
-          >
+          <div class="notification_container">
             <div
-              v-if="!item.read_at"
-              @click="
-                $store.dispatch('markNotification', {
-                  id: item.id,
-                  user: $store.getters.admin,
-                })
-              "
+              class="notify border-bottom"
+              v-for="(item, id) in notifications"
+              :key="id"
             >
-              <div class="fs12" :class="{ 'font-weight-bold': !item.read_at }">
-                {{ item.data.notification }}
-              </div>
+              <div
+                v-if="!item.read_at"
+                @click="
+                  $store.dispatch('markNotification', {
+                    id: item.id,
+                    user: $store.getters.admin,
+                  })
+                "
+              >
+                <div
+                  class="fs12"
+                  :class="{ 'font-weight-bold': !item.read_at }"
+                >
+                  {{ item.data.notification }}
+                </div>
 
-              <div class="fs11 text-right">
-                {{ item.created_at | moment("calendar") }}
+                <div class="fs11 text-right">
+                  {{ item.created_at | moment("calendar") }}
+                </div>
               </div>
-            </div>
-            <div v-else>
-              <div class="fs12" :class="{ 'font-weight-bold': !item.read_at }">
-                {{ item.data.notification }}
-              </div>
+              <div v-else>
+                <div
+                  class="fs12"
+                  :class="{ 'font-weight-bold': !item.read_at }"
+                >
+                  {{ item.data.notification }}
+                </div>
 
-              <div class="fs11 text-right">
-                {{ item.created_at | moment("calendar") }}
+                <div class="fs11 text-right">
+                  {{ item.created_at | moment("calendar") }}
+                </div>
               </div>
             </div>
           </div>
