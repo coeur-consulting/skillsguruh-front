@@ -60,7 +60,7 @@
           <span class="side-link">Schedule</span>
         </div>
       </router-link>
-      <router-link to="/organization/chat">
+      <!-- <router-link to="/organization/chat">
         <div class="side_item">
           <b-icon
             icon="chat-square-text"
@@ -69,7 +69,7 @@
           ></b-icon>
           <span class="side-link">Chat</span>
         </div>
-      </router-link>
+      </router-link> -->
 
       <div class="side_item mt-4" @click="logout">
         <b-icon

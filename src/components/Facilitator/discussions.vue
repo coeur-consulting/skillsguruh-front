@@ -209,11 +209,13 @@
           <b-form-input
             placeholder="Give a title"
             v-model="discussion.name"
+            required
           ></b-form-input>
         </b-form-group>
 
         <b-form-group label="Description">
           <b-form-textarea
+            required
             v-model="discussion.description"
             placeholder="Write a brief Description"
           ></b-form-textarea

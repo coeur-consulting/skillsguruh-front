@@ -129,7 +129,7 @@
                 </b-col>
               </b-form-row>
 
-              <b-form-row class="mb-2" v-if="type != 'organization'">
+              <b-form-row class="mb-2">
                 <b-col sm="5" class="pr-sm-3">
                   <b-form-group label="Referral code(optional)">
                     <b-form-input
@@ -234,6 +234,7 @@ export default {
         password: "",
         profile: "",
         referral: "",
+        referral_type: "",
       },
       agree: false,
     };
@@ -241,6 +242,12 @@ export default {
   mounted() {
     if (this.$route.query.referral_code) {
       this.user.referral = this.$route.query.referral_code;
+      this.user.referral_type = "normal";
+    }
+
+    if (this.$route.query.community_referral) {
+      this.user.referral = this.$route.query.community_referral;
+      this.user.referral_type = "community_course";
     }
   },
   components: {

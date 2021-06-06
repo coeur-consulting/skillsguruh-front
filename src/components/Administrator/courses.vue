@@ -66,6 +66,35 @@
               </b-form-group>
             </b-col>
           </b-form-row>
+
+          <b-form-row>
+            <b-col sm="6" class="mb-3 px-3">
+              <b-form-group label="Course Type">
+                <b-form-radio-group
+                  id="radio-group-2"
+                  v-model="detail.general.type"
+                  :aria-describedby="ariaDescribedby"
+                  name="radio-sub-component"
+                >
+                  <b-form-radio value="free">Free</b-form-radio>
+                  <b-form-radio value="paid">Paid</b-form-radio>
+                  <b-form-radio value="community">Community</b-form-radio>
+                </b-form-radio-group>
+              </b-form-group>
+            </b-col>
+            <b-col
+              sm="6"
+              class="mb-3 px-3"
+              v-if="detail.general.type !== 'free'"
+            >
+              <b-form-group label="Course amount">
+                <b-form-input
+                  v-model="detail.general.amount"
+                  placeholder=""
+                ></b-form-input>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
           <b-form-row>
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Course Description">
@@ -493,6 +522,34 @@
                 <b-form-input
                   v-model="detail.general.code"
                   placeholder="Enter course code (optional)"
+                ></b-form-input>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+          <b-form-row>
+            <b-col sm="6" class="mb-3 px-3">
+              <b-form-group label="Course Type">
+                <b-form-radio-group
+                  id="radio-group-2"
+                  v-model="detail.general.type"
+                  :aria-describedby="ariaDescribedby"
+                  name="radio-sub-component"
+                >
+                  <b-form-radio value="free">Free</b-form-radio>
+                  <b-form-radio value="paid">Paid</b-form-radio>
+                  <b-form-radio value="community">Community</b-form-radio>
+                </b-form-radio-group>
+              </b-form-group>
+            </b-col>
+            <b-col
+              sm="6"
+              class="mb-3 px-3"
+              v-if="detail.general.type !== 'free'"
+            >
+              <b-form-group label="Course amount">
+                <b-form-input
+                  v-model="detail.general.amount"
+                  placeholder=""
                 ></b-form-input>
               </b-form-group>
             </b-col>
@@ -971,7 +1028,7 @@
                   </div>
                   <div
                     class="course_fac d-flex align-items-center mb-1 text-capitalize fs13"
-                    v-if="sortfacilitators(course).length"
+                    v-if="sortfacilitators(course).length == 1"
                   >
                     <b-icon
                       icon="display"
@@ -981,6 +1038,17 @@
                     <span class="fs13">
                       {{ sortfacilitators(course).join(" ") }}</span
                     >
+                  </div>
+                  <div
+                    class="course_fac d-flex align-items-center mb-1 text-capitalize fs13"
+                    v-else
+                  >
+                    <b-icon
+                      icon="display"
+                      variant="dark-green"
+                      class="text-muted mr-2"
+                    ></b-icon>
+                    <span class="fs13"> Multiple Facilitators</span>
                   </div>
 
                   <div
@@ -1464,6 +1532,8 @@ export default {
           code: "",
           description: "",
           cover: "",
+          type: "free",
+          amount: "",
         },
         outline: {
           overview: "",
@@ -1657,6 +1727,8 @@ export default {
                 code: "",
                 description: "",
                 cover: "",
+                type: "free",
+                amount: "",
               },
               outline: {
                 overview: "",
@@ -1715,6 +1787,8 @@ export default {
           code: val.code,
           description: val.description,
           cover: val.cover,
+          type: val.type,
+          amount: val.amount,
         },
         outline: {
           overview: val.courseoutline.overview,
@@ -1753,6 +1827,8 @@ export default {
                 code: "",
                 description: "",
                 cover: "",
+                type: "free",
+                cost: "",
               },
               outline: {
                 overview: "",

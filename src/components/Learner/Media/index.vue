@@ -13,18 +13,33 @@
               <h5 class="font-weight-bold text-capitalize">
                 {{ media.title }}
               </h5>
+              <p>{{ media.overview }}</p>
 
               <div>
                 <div no-body class="library-card">
                   <b-tabs card class="library">
                     <b-tab title="Overview" active>
                       <div>
-                        <h6 class="font-weight-bold">About</h6>
-                        <b-card-text>{{ media.overview }}</b-card-text>
+                        <h6 class="font-weight-bold">About this course</h6>
+
+                        <b-card-text>{{ course.description }}</b-card-text>
                       </div>
                     </b-tab>
                     <b-tab title="Questionnaire">
-                      <div class="text-center py-3" v-if="checked">
+                      <div v-if="course.questionnaire">
+                        <div
+                          v-for="(item, id) in course.questionnaire"
+                          class="p-2 bg-white mb-2 d-flex fs14 justify-content-between align-items-center rounded"
+                          :key="id"
+                          @click="viewquestion(item.id)"
+                        >
+                          <span> {{ item.title }}</span>
+
+                          <b-icon icon="chevron-right"></b-icon>
+                        </div>
+                      </div>
+
+                      <!-- <div class="text-center py-3" v-if="checked">
                         <p class="text-muted mb-3 fs16">Already Submitted</p>
                         <b-icon
                           icon="check2-circle"
@@ -32,23 +47,17 @@
                           variant="dark-green"
                         ></b-icon>
                       </div>
-                      <div v-else>
-                        <Questionnaire
-                          @handleCheck="handleCheck"
-                          :id="questionnaire_id"
-                          v-if="questionnaire_id"
-                          :course_id="$route.params.id"
-                        />
-                        <b-card-text v-else>None Available</b-card-text>
-                      </div>
+
+                        -->
+                      <b-card-text v-else>None Available</b-card-text>
                     </b-tab>
                     <b-tab title="Faqs">
                       <div
-                        class="mb-4 bg-light border"
+                        class="mb-4 bg-light rounded border"
                         v-for="(item, id) in faqs"
                         :key="id"
                       >
-                        <div class="p-2 bg-light">
+                        <div class="p-2 bg-light rounded">
                           <div class="fs13">
                             <b-icon
                               icon="question-circle-fill"
@@ -88,7 +97,7 @@
             >
               <b-card-header
                 header-tag="header"
-                class="p-1 bg-light"
+                class="p-1 bg-light rounded"
                 role="tab"
               >
                 <div v-b-toggle="'module' + id" variant="info">
@@ -106,7 +115,8 @@
                   v-for="(mod, index) in JSON.parse(item.modules)"
                   :key="index"
                 >
-                  <b-card-text class="d-flex text-capitalize align-items-center"
+                  <b-card-text
+                    class="d-flex text-capitalize align-items-center mb-2"
                     ><span class="flex-1">{{ mod.title }}</span>
                     <span>
                       <span class="fs11 mr-3">{{ mod.file_type }}</span>
@@ -128,6 +138,19 @@
                       >
                     </span>
                   </b-card-text>
+                  <div v-if="item.questionnaire">
+                    <h6 class="fs12 font-weight-bold mb-2">Questionnaire</h6>
+                    <div
+                      v-for="(item, id) in item.questionnaire"
+                      class="p-2 bg-light rounded mb-2 fs14 d-flex justify-content-between align-items-center"
+                      :key="id"
+                      @click="viewquestion(item.id)"
+                    >
+                      <span> {{ item.title }}</span>
+
+                      <b-icon icon="chevron-right"></b-icon>
+                    </div>
+                  </div>
                 </b-card-body>
               </b-collapse>
             </b-card>
@@ -143,7 +166,7 @@
               >
                 <b-card-header
                   header-tag="header"
-                  class="p-1 bg-light"
+                  class="p-1 bg-light rounded"
                   role="tab"
                 >
                   <div v-b-toggle="'module' + id" variant="info">
@@ -166,6 +189,13 @@
         </b-col>
       </b-row>
     </b-container>
+    <b-modal id="questionnaire" hide-footer centered size="lg">
+      <Questionnaire
+        @handleCheck="handleCheck"
+        :id="questionnaire_id"
+        :course_id="$route.params.id"
+      />
+    </b-modal>
   </div>
 </template>
 
@@ -199,7 +229,7 @@ export default {
   },
   methods: {
     handleCheck() {
-      this.getLibrary();
+      this.$bvModal.hide("questionnaire");
     },
     getQuestionnaire() {
       this.$http
@@ -214,7 +244,6 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.myquestionnaire = res.data;
-            this.checkQuestionnnaire();
           }
         });
     },
@@ -257,18 +286,25 @@ export default {
       } else {
         this.questionnaire_id = null;
       }
-      this.checkQuestionnnaire();
     },
-    checkQuestionnnaire() {
-      this.checked = this.myquestionnaire.find(
-        (item) =>
-          item.module_id == this.module_id &&
-          item.questionnaire_id == this.questionnaire_id
-      );
-    },
+
     viewquestion(id) {
-      this.id = id;
-      this.$bvModal.show("questionnaire");
+      this.$http
+        .get(`${this.$store.getters.url}/answer-questionnaires/${id}`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            if (!res.data) {
+              this.questionnaire_id = id;
+              this.$bvModal.show("questionnaire");
+            } else {
+              this.$toast.info("Already submitted");
+            }
+          }
+        });
     },
   },
 };

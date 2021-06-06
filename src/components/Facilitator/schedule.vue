@@ -46,13 +46,23 @@
 
                         <div class="mt-3">
                           <b-button
+                            v-if="$moment().isAfter(item.start)"
                             pill
                             size="sm"
                             variant="outline-dark-green"
                             @click="
-                              $router.push(`/facilitator/event/${item.id}`)
+                              $router.push(`/administrator/event/${item.id}`)
                             "
                             >View Event</b-button
+                          >
+                          <a v-else :href="item.url" target="_blank">
+                            <b-button
+                              pill
+                              size="sm"
+                              variant="lighter-green"
+                              class="text-dark-green"
+                              >Attend event</b-button
+                            ></a
                           >
                         </div>
                       </div>
@@ -133,11 +143,8 @@
                                   icon="x"
                                 ></b-icon>
                               </div>
-                              <div class="fs14" v-if="item.start_time">
-                                {{
-                                  item.start_time
-                                    | moment(" MMMM Do YYYY, h:mm:ss a")
-                                }}
+                              <div class="fs12" v-if="item.start_time">
+                                {{ item.start_time | moment(" MMMM Do YYYY") }}
                               </div>
                             </div>
                           </div>
@@ -187,11 +194,8 @@
                                   icon="x"
                                 ></b-icon>
                               </div>
-                              <div class="fs14" v-if="item.start_time">
-                                {{
-                                  item.start_time
-                                    | moment(" MMMM Do YYYY, h:mm:ss a")
-                                }}
+                              <div class="fs12" v-if="item.start_time">
+                                {{ item.start_time | moment(" MMMM Do YYYY") }}
                               </div>
                             </div>
                           </div>
@@ -242,11 +246,8 @@
                                 ></b-icon>
                               </div>
 
-                              <div class="fs14" v-if="item.start_time">
-                                {{
-                                  item.start_time
-                                    | moment(" MMMM Do YYYY, h:mm:ss a")
-                                }}
+                              <div class="fs12" v-if="item.start_time">
+                                {{ item.start_time | moment(" MMMM Do YYYY") }}
                               </div>
                             </div>
                           </div>
@@ -296,11 +297,8 @@
                                   icon="x"
                                 ></b-icon>
                               </div>
-                              <div class="fs14" v-if="item.start_time">
-                                {{
-                                  item.start_time
-                                    | moment(" MMMM Do YYYY, h:mm:ss a")
-                                }}
+                              <div class="fs12" v-if="item.start_time">
+                                {{ item.start_time | moment(" MMMM Do YYYY") }}
                               </div>
                             </div>
                           </div>
@@ -350,11 +348,8 @@
                                   icon="x"
                                 ></b-icon>
                               </div>
-                              <div class="fs14" v-if="item.start_time">
-                                {{
-                                  item.start_time
-                                    | moment(" MMMM Do YYYY, h:mm:ss a")
-                                }}
+                              <div class="fs12" v-if="item.start_time">
+                                {{ item.start_time | moment(" MMMM Do YYYY") }}
                               </div>
                             </div>
                           </div>
@@ -405,11 +400,8 @@
                                   icon="x"
                                 ></b-icon>
                               </div>
-                              <div class="fs14" v-if="item.start_time">
-                                {{
-                                  item.start_time
-                                    | moment(" MMMM Do YYYY, h:mm:ss a")
-                                }}
+                              <div class="fs12" v-if="item.start_time">
+                                {{ item.start_time | moment(" MMMM Do YYYY") }}
                               </div>
                             </div>
                           </div>
@@ -459,11 +451,8 @@
                                   icon="x"
                                 ></b-icon>
                               </div>
-                              <div class="fs14" v-if="item.start_time">
-                                {{
-                                  item.start_time
-                                    | moment(" MMMM Do YYYY, h:mm:ss a")
-                                }}
+                              <div class="fs12" v-if="item.start_time">
+                                {{ item.start_time | moment(" MMMM Do YYYY") }}
                               </div>
                             </div>
                           </div>
@@ -539,10 +528,10 @@
             </div>
             <div class="tob_2">
               <div class="d-flex align-items-center p-3">
-                <h6 class="flex-1">Course schedule</h6>
-                <b-form-select class="border-0" style="width: 100px" size="sm">
+                <h6 class="flex-1 fs15">Today's Course schedule</h6>
+                <!-- <b-form-select class="border-0" style="width: 100px" size="sm">
                   <b-form-select-option value="">Today</b-form-select-option>
-                </b-form-select>
+                </b-form-select> -->
               </div>
               <div class="schedule">
                 <div
@@ -568,7 +557,7 @@
                         ></b-icon>
                         <b-icon
                           stacked
-                          icon="person-badge-fill"
+                          icon="calendar"
                           scale="0.5"
                           variant="dark-green"
                         ></b-icon>
@@ -599,12 +588,16 @@
                       >
                     </div>
 
-                    <b-button
-                      block
-                      variant="lighter-green"
-                      class="text-dark-green"
-                      >Reschedule</b-button
-                    >
+                    <div class="text-right">
+                      <a :href="item.url" target="_blank">
+                        <b-button
+                          block
+                          variant="lighter-green"
+                          class="text-dark-green"
+                          >Attend course</b-button
+                        ></a
+                      >
+                    </div>
                   </div>
                 </div>
                 <div v-else class="p-4 text-center">
@@ -647,84 +640,161 @@
             v-for="(item, id) in detail.schedule"
             :key="id"
           >
-            <b-form-row>
-              <b-col sm="6" class="mb-3 px-3">
-                <b-form-group label="Day">
-                  <b-form-select v-model="item.day">
-                    <b-form-select-option value="monday"
-                      >Monday</b-form-select-option
+            <div
+              class="p-2 rounded d-flex justify-content-between shadow"
+              v-if="id != current_schedule"
+            >
+              <div>
+                <span class="mr-3"
+                  >Start Date :
+                  {{
+                    item.start_time | moment("dddd, MMMM D YYYY, h:mm a")
+                  }}</span
+                >
+                <br />
+                <span class="mr-3"
+                  >End Date :
+                  {{
+                    item.end_time | moment("dddd, MMMM D YYYY, h:mm a")
+                  }}</span
+                >
+              </div>
+              <div>
+                <b-iconstack font-scale="1.1" class="mr-2" @click="addschedule">
+                  <b-icon
+                    stacked
+                    icon="circle-fill"
+                    variant="dark-green"
+                  ></b-icon>
+                  <b-icon
+                    stacked
+                    icon="plus-circle-fill"
+                    scale="0.5"
+                    variant="white"
+                  ></b-icon>
+                </b-iconstack>
+
+                <b-iconstack
+                  font-scale="1.1"
+                  class="mr-2"
+                  @click="current_schedule = id"
+                >
+                  <b-icon stacked icon="circle-fill" variant="warning"></b-icon>
+                  <b-icon
+                    icon="pencil-fill"
+                    stacked
+                    scale="0.5"
+                    variant="white"
+                  ></b-icon>
+                </b-iconstack>
+
+                <b-iconstack
+                  font-scale="1.1"
+                  v-if="detail.schedule.length > 1"
+                  @click="detail.schedule.splice(id, 1)"
+                >
+                  <b-icon stacked icon="circle-fill" variant="danger"></b-icon>
+                  <b-icon
+                    icon="trash2-fill"
+                    stacked
+                    scale="0.5"
+                    variant="white"
+                  ></b-icon>
+                </b-iconstack>
+              </div>
+            </div>
+            <div v-if="id == current_schedule">
+              <div class="text-right">
+                <b-icon
+                  icon="chevron-up"
+                  @click="current_schedule = null"
+                ></b-icon>
+              </div>
+              <b-form-row>
+                <b-col sm="6" class="mb-3 px-3">
+                  <b-form-group label="Facilitator">
+                    <b-form-select v-model="item.facilitator_id">
+                      <b-form-select-option :value="null"
+                        >None</b-form-select-option
+                      >
+                      <b-form-select-option
+                        :value="item.id"
+                        v-for="(item, id) in facilitators"
+                        :key="id"
+                        >{{ item.name }}</b-form-select-option
+                      ></b-form-select
                     >
-                    <b-form-select-option value="tuesday"
-                      >Tuesday</b-form-select-option
+                  </b-form-group>
+                </b-col>
+                <b-col sm="6" class="mb-3 px-3">
+                  <b-form-group label="Venue">
+                    <b-form-input
+                      v-model="item.venue"
+                      placeholder="Enter course Venue"
+                    ></b-form-input>
+                    <b-form-input
+                      v-model="item.url"
+                      placeholder="Enter url link (optional)"
+                    ></b-form-input>
+                  </b-form-group>
+                </b-col>
+              </b-form-row>
+              <b-form-row>
+                <b-col sm="6" class="mb-3 px-3">
+                  <b-form-group label="Start time">
+                    <vc-date-picker
+                      placeholder="Choose start time"
+                      v-model="item.start_time"
+                      mode="dateTime"
+                      :is24hr="false"
                     >
-                    <b-form-select-option value="wednesday"
-                      >Wednesday</b-form-select-option
+                      <template v-slot="{ inputValue, inputEvents }">
+                        <input
+                          class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+                          :value="inputValue"
+                          v-on="inputEvents"
+                        />
+                      </template>
+                    </vc-date-picker>
+                  </b-form-group>
+                </b-col>
+                <b-col sm="6" class="mb-3 px-3">
+                  <b-form-group label="End time">
+                    <vc-date-picker
+                      placeholder="Choose start time"
+                      v-model="item.end_time"
+                      mode="dateTime"
+                      :is24hr="false"
                     >
-                    <b-form-select-option value="thursday"
-                      >Thursday</b-form-select-option
-                    >
-                    <b-form-select-option value="friday"
-                      >Friday</b-form-select-option
-                    >
-                    <b-form-select-option value="saturday"
-                      >Saturday</b-form-select-option
-                    >
-                    <b-form-select-option value="sunday"
-                      >Sunday</b-form-select-option
-                    >
-                  </b-form-select>
-                </b-form-group>
-              </b-col>
-              <b-col sm="6" class="mb-3 px-3">
-                <b-form-group label="Facilitator">
-                  <b-form-select v-model="item.facilitator_id">
-                    <b-form-select-option
-                      :value="item.id"
-                      v-for="(item, id) in facilitators"
-                      :key="id"
-                      >{{ item.name }}</b-form-select-option
-                    ></b-form-select
-                  >
-                </b-form-group>
-              </b-col>
-            </b-form-row>
-            <b-form-row>
-              <b-col sm="6" class="mb-3 px-3">
-                <b-form-group label="Start time">
-                  <b-form-timepicker
-                    :hour12="true"
-                    placeholder="Choose start time"
-                    v-model="item.start_time"
-                  ></b-form-timepicker>
-                </b-form-group>
-              </b-col>
-              <b-col sm="6" class="mb-3 px-3">
-                <b-form-group label="End time">
-                  <b-form-timepicker
-                    :hour12="true"
-                    placeholder="Choose end time"
-                    v-model="item.end_time"
-                  ></b-form-timepicker>
-                </b-form-group>
-              </b-col>
-            </b-form-row>
-            <div>
-              <b-button
-                variant="outline-dark-green"
-                class="my-2 mr-3"
-                size="sm"
-                @click="detail.schedule.splice(id, 1)"
-                v-if="detail.schedule.length > 1"
-                >Delete schedule</b-button
-              >
-              <b-button
-                variant="dark-green"
-                class="my-2"
-                size="sm"
-                @click="addschedule"
-                v-if="detail.schedule.length == id + 1"
-                >Add new schedule</b-button
-              >
+                      <template v-slot="{ inputValue, inputEvents }">
+                        <input
+                          class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+                          :value="inputValue"
+                          v-on="inputEvents"
+                        />
+                      </template>
+                    </vc-date-picker>
+                  </b-form-group>
+                </b-col>
+              </b-form-row>
+              <div>
+                <b-button
+                  variant="outline-dark-green"
+                  class="my-2 mr-2"
+                  size="sm"
+                  @click="detail.schedule.splice(id, 1)"
+                  v-if="detail.schedule.length > 1"
+                  >Delete schedule</b-button
+                >
+                <b-button
+                  variant="dark-green"
+                  class="my-2"
+                  size="sm"
+                  @click="addschedule"
+                  v-if="detail.schedule.length == id + 1"
+                  >Add new schedule</b-button
+                >
+              </div>
             </div>
           </div>
           <div class="text-center my-3">
@@ -958,11 +1028,13 @@ export default {
           if (res.status == 201) {
             this.$toast.success("Added successfully");
             this.$bvModal.hide("add");
-            this.schedules.unshift(res.data);
+            this.getschedules();
             this.detail.schedule = {
               day: "",
-              start_time: "",
-              end_time: "",
+              venue: "",
+              url: "",
+              start_time: new Date(),
+              end_time: new Date(),
               facilitator_id: null,
             };
           }
@@ -1132,7 +1204,7 @@ td {
   font-size: 0.7rem;
 }
 .schedule {
-  height: 300px;
+  max-height: 400px;
   overflow: auto;
 }
 .m_schedule {

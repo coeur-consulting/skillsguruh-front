@@ -205,6 +205,7 @@
       <b-form @submit.prevent="creatediscussion">
         <b-form-group label="Title">
           <b-form-input
+            required
             placeholder="Give a title"
             v-model="discussion.name"
           ></b-form-input>
@@ -212,6 +213,7 @@
 
         <b-form-group label="Description">
           <b-form-textarea
+            required
             v-model="discussion.description"
             placeholder="Write a brief Description"
           ></b-form-textarea
@@ -288,10 +290,7 @@
           @click="$bvModal.hide('access')"
           >Cancel</b-button
         >
-        <b-button
-          variant="secondary"
-          size="sm"
-          @click="$toast.success('Request sent succesfully')"
+        <b-button variant="secondary" size="sm" @click="requestAccess"
           >Send a request</b-button
         >
       </div>
@@ -320,6 +319,7 @@ export default {
       tags: [],
       mytags: [],
       otherdiscussion: [],
+      discussion_id: null,
     };
   },
   components: {
@@ -357,10 +357,32 @@ export default {
     },
   },
   methods: {
+    requestAccess() {
+      var data = {
+        discussion_id: this.discussion_id,
+      };
+
+      this.$http
+        .post(`${this.$store.getters.url}/join-discussion`, data, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.$toast.info("Your request has been sent");
+            this.$bvModal.hide("access");
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     joindiscussion(item) {
       if (item.user && item.user.id == this.$store.getters.learner.id) {
         this.$router.push(`/learner/discussion/${item.id}`);
       } else {
+        this.discussion_id = item.id;
         this.$bvModal.show("access");
       }
     },

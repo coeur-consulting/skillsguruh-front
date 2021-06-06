@@ -100,7 +100,7 @@
                   </div>
                   <div
                     class="course_fac d-flex align-items-center mb-1 text-capitalize fs13"
-                    v-if="sortfacilitators(course).length"
+                    v-if="sortfacilitators(course).length == 1"
                   >
                     <b-icon
                       icon="display"
@@ -110,6 +110,17 @@
                     <span class="fs13">
                       {{ sortfacilitators(course).join(" ") }}</span
                     >
+                  </div>
+                  <div
+                    class="course_fac d-flex align-items-center mb-1 text-capitalize fs13"
+                    v-else
+                  >
+                    <b-icon
+                      icon="display"
+                      variant="dark-green"
+                      class="text-muted mr-2"
+                    ></b-icon>
+                    <span class="fs13"> Multiple Facilitators</span>
                   </div>
 
                   <div
@@ -221,7 +232,7 @@
 
               <b-img style="width: 80px" fluid :src="course.cover"></b-img>
             </div>
-            <span class="mr-2">
+            <span class="mr-2" v-if="course.type == 'free'">
               <b-button
                 v-if="!checkLibrary()"
                 class="mx-auto"
@@ -239,6 +250,53 @@
                 >Added to library</b-button
               ></span
             >
+            <span class="mr-2" v-if="course.type == 'paid'">
+              <b-button
+                v-if="!checkLibrary()"
+                class="mx-auto"
+                size="sm"
+                @click="addtolibrary(course.id)"
+                variant="dark-green"
+                >Purchase Course</b-button
+              >
+              <b-button
+                size="sm"
+                v-else
+                disabled
+                class="mx-auto"
+                variant="dark-green"
+                >Purchased</b-button
+              ></span
+            >
+
+            <span class="mr-2" v-if="course.type == 'community'">
+              <b-button
+                v-if="checkLibrary()"
+                class="mx-auto"
+                size="sm"
+                disabled
+                variant="dark-green"
+                >Added to library</b-button
+              >
+              <span v-else>
+                <b-button
+                  v-if="!checkCommunity(course.id)"
+                  size="sm"
+                  class="mx-auto"
+                  @click="apply(course.id, course.amount)"
+                  variant="dark-green"
+                  >Apply for course</b-button
+                >
+                <b-button
+                  size="sm"
+                  v-else
+                  disabled
+                  class="mx-auto"
+                  variant="dark-green"
+                  >Applied</b-button
+                >
+              </span>
+            </span>
             <div
               class="d-flex justify-content-between p-2 border-bottom mb-2 text-sm"
             >
@@ -451,25 +509,6 @@
                     </b-card-body>
                   </b-collapse>
                 </b-card>
-
-                <b-button
-                  v-if="!checkLibrary()"
-                  class="mx-auto"
-                  size="sm"
-                  block
-                  @click="addtolibrary(course.id)"
-                  variant="dark-green"
-                  >Add to library</b-button
-                >
-                <b-button
-                  size="sm"
-                  v-else
-                  block
-                  disabled
-                  class="mx-auto"
-                  variant="dark-green"
-                  >Added to library</b-button
-                >
               </div>
               <div class="" v-else>
                 <div
@@ -618,6 +657,7 @@ export default {
       facilitators: [],
       toggleCourse: 1,
       library: [],
+      communitylink: [],
     };
   },
   components: {},
@@ -625,6 +665,7 @@ export default {
     this.getcourses();
     this.getfacilitators();
     this.getLibrary();
+    this.getCommunity();
   },
   computed: {
     filteredCourse() {
@@ -652,6 +693,49 @@ export default {
       return (count / modules.length) * 100;
     },
 
+    apply(id, amount) {
+      if (!this.$store.getters.learner) {
+        this.$toast.info("Login to add course");
+        return;
+      }
+      this.$http
+        .post(
+          `${this.$store.getters.url}/apply-community`,
+          {
+            amount: amount,
+            course_id: id,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 201) {
+            this.communitylink.push(res.data);
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    getCommunity() {
+      this.$http
+        .get(`${this.$store.getters.url}/apply-community`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.communitylink = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     addtolibrary(id) {
       if (!this.$store.getters.learner) {
         this.$toast.info("Login to add course");
@@ -699,6 +783,19 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
+    checkCommunity() {
+      if (!this.$store.getters.learner) {
+        this.$toast.info("Login to add course");
+        return;
+      }
+
+      var check = this.communitylink.find(
+        (item) => item.course_id == this.course.id
+      );
+
+      return check;
+    },
+
     checkLibrary() {
       if (!this.$store.getters.learner) {
         this.$toast.info("Login to add course");

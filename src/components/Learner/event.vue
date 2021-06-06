@@ -78,12 +78,14 @@
             <div class="fs12">{{ event.venue }}</div>
           </div>
 
-          <div class="mb-1 px-3 py-2 fs15 bg-light">
+          <div class="mb-1 px-3 py-2 fs15 bg-light" v-if="event.url">
             <span class="font-weight-bold fs13 text-dark-green"
               >Event Link</span
             >
             <br />
-            <div class="fs12">{{ event.url }}</div>
+            <div class="fs12">
+              <a :href="event.url" target="_blank">{{ event.url }}</a>
+            </div>
           </div>
         </div>
       </b-col>
@@ -108,7 +110,7 @@
               </div>
             </div>
           </b-col>
-          <b-col sm="5" class="pl-3">
+          <b-col sm="5" class="pl-3" v-if="event.resource">
             <div class="bg-white shadow p-1 rounded">
               <video
                 controls
@@ -124,7 +126,9 @@
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <div class="rounded shadow p-4 bg-white d_file">
+                  <div
+                    class="rounded shadow p-4 bg-lighter-green d_file cursor-pointer"
+                  >
                     <h5 class="mb-2">Download event resource</h5>
                     <b-icon
                       icon="cloud-download"

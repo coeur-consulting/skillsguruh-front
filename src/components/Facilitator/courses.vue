@@ -994,7 +994,7 @@
                   </div>
                   <div
                     class="course_fac d-flex align-items-center mb-1 text-capitalize fs13"
-                    v-if="sortfacilitators(course).length"
+                    v-if="sortfacilitators(course).length == 1"
                   >
                     <b-icon
                       icon="display"
@@ -1004,6 +1004,17 @@
                     <span class="fs13">
                       {{ sortfacilitators(course).join(" ") }}</span
                     >
+                  </div>
+                  <div
+                    class="course_fac d-flex align-items-center mb-1 text-capitalize fs13"
+                    v-else
+                  >
+                    <b-icon
+                      icon="display"
+                      variant="dark-green"
+                      class="text-muted mr-2"
+                    ></b-icon>
+                    <span class="fs13"> Multiple Facilitators</span>
                   </div>
 
                   <div

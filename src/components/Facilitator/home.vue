@@ -6,76 +6,84 @@
           <b-row class="mb-4 mb-sm-4">
             <b-col sm="6">
               <div class="box p-3">
-                <div class="d-flex align-items-center mb-1">
-                  <b-iconstack font-scale="2.5" class="mr-3">
-                    <b-icon
-                      stacked
-                      icon="circle-fill"
-                      variant="lighter-green"
-                    ></b-icon>
-                    <b-icon
-                      stacked
-                      icon="people-fill"
-                      scale="0.5"
-                      variant="dark-green"
-                    ></b-icon>
-                  </b-iconstack>
-                  <div class="h6 mb-0 text-dark-green">Total Learners</div>
-                </div>
-
-                <div class="w-100 px-2">
+                <div
+                  class="w-100 px-2 d-flex justify-content-between align-items-center mb-4"
+                >
+                  <div class="d-flex align-items-center mb-1">
+                    <b-iconstack font-scale="2.5" class="mr-3">
+                      <b-icon
+                        stacked
+                        icon="circle-fill"
+                        variant="lighter-green"
+                      ></b-icon>
+                      <b-icon
+                        stacked
+                        icon="people-fill"
+                        scale="0.5"
+                        variant="dark-green"
+                      ></b-icon>
+                    </b-iconstack>
+                    <div class="h6 mb-0 text-dark-green">
+                      Total <br />
+                      Learners
+                    </div>
+                  </div>
                   <div class="h2">{{ users.length }}</div>
                 </div>
-                <div class="w-100">
-                  <div class="new_add">
-                    <b-icon
-                      icon="graph-up"
-                      class="text-dark-green mr-2 ic"
-                      font-scale="1.5"
-                    ></b-icon>
-                    <span class="mr-2 text-dark-green">
+                <div class="w-100 px-2">
+                  <div class="new_add d-flex align-items-center">
+                    <b-img
+                      class="mr-2"
+                      :src="require('@/assets/images/profit.svg')"
+                      width="24"
+                    ></b-img>
+                    <span class="mr-2 mt-1 text-dark-green">
                       {{
                         Math.round((newlyusers / users.length) * 100) || 0
                       }}%</span
                     >
-                    <span>New Learners this month</span>
+                    <span class="mt-1">New Learners this month</span>
                   </div>
                 </div>
               </div>
             </b-col>
             <b-col sm="6">
               <div class="box p-3">
-                <div class="d-flex align-items-center mb-1">
-                  <b-iconstack font-scale="2.5" class="mr-3">
-                    <b-icon
-                      stacked
-                      icon="circle-fill"
-                      variant="lighter-green"
-                    ></b-icon>
-                    <b-icon
-                      stacked
-                      icon="person-badge-fill"
-                      scale="0.5"
-                      variant="dark-green"
-                    ></b-icon>
-                  </b-iconstack>
-                  <div class="h6 mb-0 text-dark-green">Total Courses</div>
+                <div
+                  class="d-flex w-100 justify-content-between align-items-center mb-4"
+                >
+                  <div class="d-flex align-items-center mb-1">
+                    <b-iconstack font-scale="2.5" class="mr-3">
+                      <b-icon
+                        stacked
+                        icon="circle-fill"
+                        variant="lighter-green"
+                      ></b-icon>
+                      <b-icon
+                        stacked
+                        icon="person-badge-fill"
+                        scale="0.5"
+                        variant="dark-green"
+                      ></b-icon>
+                    </b-iconstack>
+                    <div class="h6 mb-0 text-dark-green">Total Courses</div>
+                  </div>
+                  <div class="h2">{{ courses.length }}</div>
                 </div>
 
                 <div class="w-100 px-2">
-                  <div class="h2">{{ courses.length }}</div>
-                  <div class="new_add">
-                    <b-icon
-                      icon="graph-up"
-                      class="text-dark-green mr-2 ic"
-                      font-scale="1.5"
-                    ></b-icon>
-                    <span class="mr-2 text-dark-green">
+                  <div class="new_add d-flex align-items-center">
+                    <b-img
+                      class="mr-2"
+                      :src="require('@/assets/images/profit.svg')"
+                      width="24"
+                    ></b-img>
+                    <span class="mr-2 mt-1 text-dark-green">
                       {{
                         Math.round((newlyCourses / courses.length) * 100) || 0
                       }}%</span
                     >
-                    <span>New Courses this month</span>
+                    <span class="mt-1">New Courses this month</span>
                   </div>
                 </div>
               </div>
@@ -357,16 +365,20 @@ export default {
   font-size: 14px;
 }
 .box:hover {
-  background: linear-gradient(127.24deg, #388087 28.41%, #c2edce 100%);
+  background: linear-gradient(
+    127.24deg,
+    var(--lighter-green) 28.41%,
+    #c2edce 100%
+  );
 }
-.box:hover > div > div,
-.box:hover > div > .h6 {
-  color: white !important;
-}
+// .box:hover > div > div,
+// .box:hover > div > .h6 {
+//   color: white !important;
+// }
 
-.box:hover > div > .new_add > .ic {
-  color: white !important;
-}
+// .box:hover > div > .new_add > .ic {
+//   color: white !important;
+// }
 .shadow {
   box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;

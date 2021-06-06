@@ -372,12 +372,16 @@ export default {
   font-size: 14px;
 }
 .box:hover {
-  background: linear-gradient(127.24deg, #388087 28.41%, #c2edce 100%);
+  background: linear-gradient(
+    127.24deg,
+    var(--lighter-green) 28.41%,
+    #c2edce 100%
+  );
 }
-.box:hover > div > div,
-.box:hover > div > .h6 {
-  color: white !important;
-}
+// .box:hover > div > div,
+// .box:hover > div > .h6 {
+//   color: white !important;
+// }
 
 // .box:hover > div > .b-iconstack > g > .ic {
 //   color: white !important;

@@ -166,6 +166,7 @@
                   <b-form-select
                     v-model="detail.module"
                     class="text-capitalize"
+                    required
                   >
                     <b-form-select-option disabled value=""
                       >Choose Module</b-form-select-option
@@ -181,153 +182,204 @@
               </b-col>
             </b-form-row>
 
-            <b-form-row>
-              <b-col
-                sm="12"
-                class="p-3"
-                v-for="(item, id) in detail.modules"
-                :key="id"
-              >
-                <div
-                  class="p-2 rounded d-flex justify-content-between shadow"
-                  v-if="id != current_module"
+            <div>
+              <h6 class="px-2">Upload Resource</h6>
+              <b-form-row>
+                <b-col
+                  sm="6"
+                  class="p-3"
+                  v-for="(item, id) in detail.modules"
+                  :key="id"
                 >
-                  <div>
-                    <b-icon icon="grid" class="mr-2"></b-icon>
-                    <span class="mr-3 text-capitalize"> {{ item.title }}</span>
-                  </div>
-                  <div>
-                    <b-iconstack
-                      font-scale="1.1"
-                      class="mr-2"
-                      @click="addmodule"
-                    >
-                      <b-icon
-                        stacked
-                        icon="circle-fill"
-                        variant="dark-green"
-                      ></b-icon>
-                      <b-icon
-                        stacked
-                        icon="plus"
-                        scale="0.5"
-                        variant="white"
-                      ></b-icon>
-                    </b-iconstack>
-
-                    <b-iconstack
-                      font-scale="1.1"
-                      class="mr-2"
-                      @click="current_module = id"
-                    >
-                      <b-icon
-                        stacked
-                        icon="circle-fill"
-                        variant="warning"
-                      ></b-icon>
-                      <b-icon
-                        icon="pencil-fill"
-                        stacked
-                        scale="0.5"
-                        variant="white"
-                      ></b-icon>
-                    </b-iconstack>
-
-                    <b-iconstack
-                      font-scale="1.1"
-                      v-if="detail.modules.length > 1"
-                      @click="detail.modules.splice(id, 1)"
-                    >
-                      <b-icon
-                        stacked
-                        icon="circle-fill"
-                        variant="danger"
-                      ></b-icon>
-                      <b-icon
-                        icon="trash2-fill"
-                        stacked
-                        scale="0.5"
-                        variant="white"
-                      ></b-icon>
-                    </b-iconstack>
-                  </div>
-                </div>
-                <div class="bg-light p-3 rounded" v-if="id == current_module">
-                  <div class="d-flex justify-content-between">
-                    <div class="py-3 text-right">
-                      <b-button
-                        v-if="detail.modules.length > 1"
-                        variant="outline-light-green"
-                        class="mr-3 rounded-circle shadow"
-                        size="sm"
-                        @click="detail.modules.splice(id, 1)"
-                        ><b-icon icon="x" font-scale="1.5rem"></b-icon
-                      ></b-button>
-                      <b-button
-                        v-if="detail.modules.length == id + 1"
-                        variant="lighter-green"
-                        class="rounded-circle shadow"
-                        size="sm"
-                        @click="addmodule"
-                        ><b-icon icon="plus" font-scale="1.5rem"></b-icon
-                      ></b-button>
+                  <div
+                    class="p-2 rounded d-flex justify-content-between shadow"
+                    v-if="id != current_module"
+                  >
+                    <div>
+                      <b-icon icon="grid" class="mr-2"></b-icon>
+                      <span class="mr-3 text-capitalize">
+                        {{ item.title }}</span
+                      >
                     </div>
+                    <div>
+                      <b-iconstack
+                        font-scale="1.1"
+                        class="mr-2"
+                        @click="addmodule"
+                      >
+                        <b-icon
+                          stacked
+                          icon="circle-fill"
+                          variant="dark-green"
+                        ></b-icon>
+                        <b-icon
+                          stacked
+                          icon="plus"
+                          scale="0.9"
+                          variant="white"
+                        ></b-icon>
+                      </b-iconstack>
 
+                      <b-iconstack
+                        font-scale="1.1"
+                        class="mr-2"
+                        @click="current_module = id"
+                      >
+                        <b-icon
+                          stacked
+                          icon="circle-fill"
+                          variant="warning"
+                        ></b-icon>
+                        <b-icon
+                          icon="pencil-fill"
+                          stacked
+                          scale="0.5"
+                          variant="white"
+                        ></b-icon>
+                      </b-iconstack>
+
+                      <b-iconstack
+                        font-scale="1.1"
+                        v-if="detail.modules.length > 1"
+                        @click="detail.modules.splice(id, 1)"
+                      >
+                        <b-icon
+                          stacked
+                          icon="circle-fill"
+                          variant="danger"
+                        ></b-icon>
+                        <b-icon
+                          icon="trash2-fill"
+                          stacked
+                          scale="0.5"
+                          variant="white"
+                        ></b-icon>
+                      </b-iconstack>
+                    </div>
+                  </div>
+                  <div class="bg-light p-3 rounded" v-if="id == current_module">
+                    <div class="d-flex justify-content-between">
+                      <div class="py-3 text-right">
+                        <b-iconstack
+                          font-scale="1.5"
+                          class="mr-2"
+                          @click="addmodule"
+                        >
+                          <b-icon
+                            stacked
+                            icon="circle-fill"
+                            variant="dark-green"
+                          ></b-icon>
+                          <b-icon
+                            stacked
+                            icon="plus"
+                            scale="0.9"
+                            variant="white"
+                          ></b-icon>
+                        </b-iconstack>
+
+                        <b-iconstack
+                          font-scale="1.5"
+                          v-if="detail.modules.length > 1"
+                          @click="detail.modules.splice(id, 1)"
+                        >
+                          <b-icon
+                            stacked
+                            icon="circle-fill"
+                            variant="danger"
+                          ></b-icon>
+                          <b-icon
+                            icon="trash2-fill"
+                            stacked
+                            scale="0.6"
+                            variant="white"
+                          ></b-icon>
+                        </b-iconstack>
+                      </div>
+
+                      <b-icon
+                        icon="chevron-up"
+                        @click="current_module = null"
+                      ></b-icon>
+                    </div>
+                    <b-form-group label=" Title">
+                      <b-form-input
+                        size="sm"
+                        v-model="item.title"
+                        placeholder="Enter Title"
+                      ></b-form-input>
+                    </b-form-group>
+                    <b-form-group label=" Overview">
+                      <b-form-textarea
+                        size="sm"
+                        v-model="item.overview"
+                        placeholder="Enter Overview"
+                      ></b-form-textarea>
+                    </b-form-group>
+                    <b-form-row>
+                      <b-col sm="4">
+                        <b-form-group label="File type">
+                          <b-form-select size="sm" v-model="item.file_type">
+                            <b-form-select disabled value=""
+                              >Choose file type</b-form-select
+                            >
+                            <b-form-select-option value="video"
+                              >Video</b-form-select-option
+                            >
+                            <b-form-select-option value="audio"
+                              >Audio</b-form-select-option
+                            >
+                            <b-form-select-option value="document"
+                              >Document</b-form-select-option
+                            >
+                          </b-form-select>
+                        </b-form-group>
+                      </b-col>
+                    </b-form-row>
+                    <b-form-group
+                      label="Upload Resource File"
+                      class="text-center"
+                    >
+                      <Upload
+                        @getUpload="getUpload"
+                        :id="'file-' + id"
+                        :type="'document'"
+                        :file_type="item.file_type"
+                      >
+                        <b-icon
+                          icon="cloud-upload"
+                          class="text-muted"
+                          font-scale="3.5rem"
+                        ></b-icon>
+                      </Upload>
+                    </b-form-group>
+                  </div>
+                </b-col>
+              </b-form-row>
+            </div>
+            <b-form-row>
+              <b-col>
+                <div class="px-2 mt-3">
+                  <h6>Questionnaires</h6>
+
+                  <div
+                    v-for="(item, id) in detail.questionnaires"
+                    :key="id"
+                    class="d-flex justify-content-between px-2 py-2 rounded"
+                  >
+                    <div class="text-capitalize">
+                      <span class="mr-2">{{ id + 1 }}.</span> {{ item.title }}
+                    </div>
                     <b-icon
-                      icon="chevron-up"
-                      @click="current_module = null"
+                      icon="x"
+                      @click="detail.questionnaires.splice(id, 1)"
+                      font-scale="1.5"
                     ></b-icon>
                   </div>
-                  <b-form-group label=" Title">
-                    <b-form-input
-                      size="sm"
-                      v-model="item.title"
-                      placeholder="Enter Title"
-                    ></b-form-input>
-                  </b-form-group>
-                  <b-form-group label=" Overview">
-                    <b-form-textarea
-                      size="sm"
-                      v-model="item.overview"
-                      placeholder="Enter Overview"
-                    ></b-form-textarea>
-                  </b-form-group>
-                  <b-form-row>
-                    <b-col sm="4">
-                      <b-form-group label="File type">
-                        <b-form-select size="sm" v-model="item.file_type">
-                          <b-form-select disabled value=""
-                            >Choose file type</b-form-select
-                          >
-                          <b-form-select-option value="video"
-                            >Video</b-form-select-option
-                          >
-                          <b-form-select-option value="audio"
-                            >Audio</b-form-select-option
-                          >
-                          <b-form-select-option value="document"
-                            >Document</b-form-select-option
-                          >
-                        </b-form-select>
-                      </b-form-group>
-                    </b-col>
-                  </b-form-row>
-                  <b-form-group
-                    label="Upload Resource File"
-                    class="text-center"
-                  >
-                    <Upload
-                      @getUpload="getUpload"
-                      :id="'file-' + id"
-                      :type="'document'"
-                      :file_type="item.file_type"
+                  <b-form-group class="">
+                    <b-button size="sm" @click="$bvModal.show('question')"
+                      >Add Questionnaire (optional)</b-button
                     >
-                      <b-icon
-                        icon="cloud-upload"
-                        class="text-muted"
-                        font-scale="3.5rem"
-                      ></b-icon>
-                    </Upload>
                   </b-form-group>
                 </div>
               </b-col>
@@ -362,7 +414,7 @@
                 size="lg"
                 class="px-5 d-none d-sm-block mx-auto"
               >
-                Create Module
+                Add Resource
               </b-button>
               <b-button
                 type="submit"
@@ -371,7 +423,7 @@
                 block
                 class="px-5 d-sm-none mx-auto"
               >
-                Create Module
+                Add Resource
               </b-button>
             </div>
           </b-form-group>
@@ -410,6 +462,7 @@
                   <b-form-select
                     v-model="detail.module"
                     class="text-capitalize"
+                    required
                   >
                     <b-form-select-option disabled value=""
                       >Choose Module</b-form-select-option
@@ -427,7 +480,7 @@
 
             <b-form-row>
               <b-col
-                sm="12"
+                sm="6"
                 class="p-3"
                 v-for="(item, id) in detail.modules"
                 :key="id"
@@ -454,7 +507,7 @@
                       <b-icon
                         stacked
                         icon="plus"
-                        scale="0.5"
+                        scale="0.9"
                         variant="white"
                       ></b-icon>
                     </b-iconstack>
@@ -499,22 +552,41 @@
                 <div class="bg-light p-3 rounded" v-if="id == current_module">
                   <div class="d-flex justify-content-between">
                     <div class="py-3 text-right">
-                      <b-button
-                        v-if="detail.modules.length > 1"
-                        variant="outline-light-green"
-                        class="mr-3 rounded-circle shadow"
-                        size="sm"
-                        @click="detail.modules.splice(id, 1)"
-                        ><b-icon icon="x" font-scale="1.5rem"></b-icon
-                      ></b-button>
-                      <b-button
-                        v-if="detail.modules.length == id + 1"
-                        variant="lighter-green"
-                        class="rounded-circle shadow"
-                        size="sm"
+                      <b-iconstack
+                        font-scale="1.5"
+                        class="mr-2"
                         @click="addmodule"
-                        ><b-icon icon="plus" font-scale="1.5rem"></b-icon
-                      ></b-button>
+                      >
+                        <b-icon
+                          stacked
+                          icon="circle-fill"
+                          variant="dark-green"
+                        ></b-icon>
+                        <b-icon
+                          stacked
+                          icon="plus"
+                          scale="0.9"
+                          variant="white"
+                        ></b-icon>
+                      </b-iconstack>
+
+                      <b-iconstack
+                        font-scale="1.5"
+                        v-if="detail.modules.length > 1"
+                        @click="detail.modules.splice(id, 1)"
+                      >
+                        <b-icon
+                          stacked
+                          icon="circle-fill"
+                          variant="danger"
+                        ></b-icon>
+                        <b-icon
+                          icon="trash2-fill"
+                          stacked
+                          scale="0.6"
+                          variant="white"
+                        ></b-icon>
+                      </b-iconstack>
                     </div>
 
                     <b-icon
@@ -612,7 +684,7 @@
                 size="lg"
                 class="px-5 d-none d-sm-block mx-auto"
               >
-                Add Resource
+                Update Resource
               </b-button>
               <b-button
                 type="submit"
@@ -621,17 +693,22 @@
                 block
                 class="px-5 d-sm-none mx-auto"
               >
-                Add Resource
+                Update Resource
               </b-button>
             </div>
           </b-form-group>
         </div>
       </b-form>
     </b-modal>
+
+    <b-modal id="question" size="xl" hide-footer centered>
+      <questionnaire @getQuestionnaire="getQuestionnaire"></questionnaire>
+    </b-modal>
   </div>
 </template>
 <script>
 import Upload from "../fileupload";
+import questionnaire from "./Questionnaire/resourceQuestionnaire";
 export default {
   data() {
     return {
@@ -658,11 +735,14 @@ export default {
           },
         ],
         cover_image: "",
+        questionnaires: [],
       },
+      questionnaires: [],
     };
   },
   components: {
     Upload,
+    questionnaire,
   },
   computed: {
     filter() {
@@ -692,6 +772,10 @@ export default {
     }
   },
   methods: {
+    getQuestionnaire(val) {
+      this.detail.questionnaires.push(val);
+      this.$bvModal.hide("question");
+    },
     getUpload(val, id) {
       if (id == "cover") {
         this.detail.cover_image = val;
@@ -806,23 +890,23 @@ export default {
               ],
               cover_image: "",
             };
-            this.$bvModal
-              .msgBoxConfirm(
-                "Do you wish to add a questionnaire to this module?",
-                {
-                  size: "sm",
-                  buttonSize: "sm",
-                  okVariant: "success",
-                  centered: true,
-                }
-              )
-              .then((val) => {
-                if (val) {
-                  this.$router.push(
-                    `/administrator/questionnaire?module_id=${res.data.id}&module_name=${res.data.module}`
-                  );
-                }
-              });
+            // this.$bvModal
+            //   .msgBoxConfirm(
+            //     "Do you wish to add a questionnaire to this module?",
+            //     {
+            //       size: "sm",
+            //       buttonSize: "sm",
+            //       okVariant: "success",
+            //       centered: true,
+            //     }
+            //   )
+            //   .then((val) => {
+            //     if (val) {
+            //       this.$router.push(
+            //         `/administrator/questionnaire?module_id=${res.data.id}&module_name=${res.data.module}`
+            //       );
+            //     }
+            //   });
           }
         })
         .catch((err) => {

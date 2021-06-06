@@ -46,11 +46,23 @@
 
                         <div class="mt-3">
                           <b-button
+                            v-if="$moment().isAfter(item.start)"
                             pill
                             size="sm"
                             variant="outline-dark-green"
-                            @click="$router.push(`/learner/event/${item.id}`)"
+                            @click="
+                              $router.push(`/administrator/event/${item.id}`)
+                            "
                             >View Event</b-button
+                          >
+                          <a v-else :href="item.url" target="_blank">
+                            <b-button
+                              pill
+                              size="sm"
+                              variant="lighter-green"
+                              class="text-dark-green"
+                              >Attend event</b-button
+                            ></a
                           >
                         </div>
                       </div>
@@ -126,11 +138,8 @@
                               >
                                 <span> {{ item.facilitator.name }}</span>
                               </div>
-                              <div class="fs14" v-if="item.start_time">
-                                {{
-                                  item.start_time
-                                    | moment(" MMMM Do YYYY, h:mm:ss a")
-                                }}
+                              <div class="fs12" v-if="item.start_time">
+                                {{ item.start_time | moment(" MMMM Do YYYY") }}
                               </div>
                             </div>
                           </div>
@@ -175,11 +184,8 @@
                               >
                                 <span> {{ item.facilitator.name }}</span>
                               </div>
-                              <div class="fs14" v-if="item.start_time">
-                                {{
-                                  item.start_time
-                                    | moment(" MMMM Do YYYY, h:mm:ss a")
-                                }}
+                              <div class="fs12" v-if="item.start_time">
+                                {{ item.start_time | moment(" MMMM Do YYYY") }}
                               </div>
                             </div>
                           </div>
@@ -225,11 +231,8 @@
                                 <span> {{ item.facilitator.name }}</span>
                               </div>
 
-                              <div class="fs14" v-if="item.start_time">
-                                {{
-                                  item.start_time
-                                    | moment(" MMMM Do YYYY, h:mm:ss a")
-                                }}
+                              <div class="fs12" v-if="item.start_time">
+                                {{ item.start_time | moment(" MMMM Do YYYY") }}
                               </div>
                             </div>
                           </div>
@@ -274,11 +277,8 @@
                               >
                                 <span> {{ item.facilitator.name }}</span>
                               </div>
-                              <div class="fs14" v-if="item.start_time">
-                                {{
-                                  item.start_time
-                                    | moment(" MMMM Do YYYY, h:mm:ss a")
-                                }}
+                              <div class="fs12" v-if="item.start_time">
+                                {{ item.start_time | moment(" MMMM Do YYYY") }}
                               </div>
                             </div>
                           </div>
@@ -323,11 +323,8 @@
                               >
                                 <span> {{ item.facilitator.name }}</span>
                               </div>
-                              <div class="fs14" v-if="item.start_time">
-                                {{
-                                  item.start_time
-                                    | moment(" MMMM Do YYYY, h:mm:ss a")
-                                }}
+                              <div class="fs12" v-if="item.start_time">
+                                {{ item.start_time | moment(" MMMM Do YYYY") }}
                               </div>
                             </div>
                           </div>
@@ -373,11 +370,8 @@
                               >
                                 <span> {{ item.facilitator.name }}</span>
                               </div>
-                              <div class="fs14" v-if="item.start_time">
-                                {{
-                                  item.start_time
-                                    | moment(" MMMM Do YYYY, h:mm:ss a")
-                                }}
+                              <div class="fs12" v-if="item.start_time">
+                                {{ item.start_time | moment(" MMMM Do YYYY") }}
                               </div>
                             </div>
                           </div>
@@ -422,11 +416,8 @@
                               >
                                 <span> {{ item.facilitator.name }}</span>
                               </div>
-                              <div class="fs14" v-if="item.start_time">
-                                {{
-                                  item.start_time
-                                    | moment(" MMMM Do YYYY, h:mm:ss a")
-                                }}
+                              <div class="fs12" v-if="item.start_time">
+                                {{ item.start_time | moment(" MMMM Do YYYY") }}
                               </div>
                             </div>
                           </div>
@@ -531,7 +522,7 @@
                         ></b-icon>
                         <b-icon
                           stacked
-                          icon="person-badge-fill"
+                          icon="calendar"
                           scale="0.5"
                           variant="dark-green"
                         ></b-icon>
@@ -562,12 +553,16 @@
                       >
                     </div>
 
-                    <b-button
-                      block
-                      variant="lighter-green"
-                      class="text-dark-green"
-                      >Reschedule</b-button
-                    >
+                    <div class="text-right">
+                      <a :href="item.url" target="_blank">
+                        <b-button
+                          block
+                          variant="lighter-green"
+                          class="text-dark-green"
+                          >Attend course</b-button
+                        ></a
+                      >
+                    </div>
                   </div>
                 </div>
                 <div v-else class="p-4 text-center">

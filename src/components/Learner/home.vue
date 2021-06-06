@@ -66,17 +66,28 @@
                         >
                       </div>
                       <div
-                        class="course_fac d-flex align-items-center mb-1 text-capitalize fs13 text-muted"
-                        v-if="sortfacilitators(course).length"
+                        class="course_fac d-flex align-items-center mb-1 text-capitalize fs13"
+                        v-if="sortfacilitators(course).length == 1"
                       >
                         <b-icon
                           icon="display"
                           variant="dark-green"
                           class="text-muted mr-2"
                         ></b-icon>
-                        <span class="fs13 text-muted">
+                        <span class="fs13">
                           {{ sortfacilitators(course).join(" ") }}</span
                         >
+                      </div>
+                      <div
+                        class="course_fac d-flex align-items-center mb-1 text-capitalize fs13"
+                        v-else
+                      >
+                        <b-icon
+                          icon="display"
+                          variant="dark-green"
+                          class="text-muted mr-2"
+                        ></b-icon>
+                        <span class="fs13"> Multiple Facilitators</span>
                       </div>
 
                       <div
@@ -113,18 +124,22 @@
                         <span>Resources upload</span
                         ><span
                           >{{
-                            getProgress(
-                              course.courseoutline.modules,
-                              course.modules
+                            Math.floor(
+                              getProgress(
+                                course.courseoutline.modules,
+                                course.modules
+                              )
                             )
                           }}%</span
                         >
                       </div>
                       <b-progress
                         :value="
-                          getProgress(
-                            course.courseoutline.modules,
-                            course.modules
+                          Math.floor(
+                            getProgress(
+                              course.courseoutline.modules,
+                              course.modules
+                            )
                           )
                         "
                         :max="100"
@@ -540,6 +555,7 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
+            this.getUsersWithInterest();
             this.$toast.success("Successful");
           }
         })
