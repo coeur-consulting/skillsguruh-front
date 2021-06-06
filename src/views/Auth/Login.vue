@@ -142,7 +142,7 @@
             <div>
               Don't have an account?
               <span
-                class="text-dark-green fs16"
+                class="text-dark-green fs16 cursor-pointer"
                 @click="$router.push('/register')"
                 >Register</span
               >
