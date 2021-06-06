@@ -320,7 +320,29 @@
                     <template #button-content>
                       <b-icon icon="three-dots" font-scale="1.4"></b-icon>
                     </template>
-                    <b-dropdown-item class="fs12" @click="drop(feed.id, index)"
+                    <b-dropdown-item
+                      class="fs12"
+                      @click="drop(feed.id, index)"
+                      v-if="
+                        feed.facilitator &&
+                        feed.facilitator.id == $store.getters.facilitator.id
+                      "
+                      >Delete</b-dropdown-item
+                    >
+                    <b-dropdown-item
+                      class="fs12"
+                      @click="drop(feed.id, index)"
+                      v-if="
+                        feed.admin && feed.admin.id == $store.getters.admin.id
+                      "
+                      >Delete</b-dropdown-item
+                    >
+                    <b-dropdown-item
+                      class="fs12"
+                      @click="drop(feed.id, index)"
+                      v-if="
+                        feed.user && feed.user.id == $store.getters.learner.id
+                      "
                       >Delete</b-dropdown-item
                     >
                   </b-dropdown>

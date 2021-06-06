@@ -938,7 +938,7 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/courseschedules`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {
