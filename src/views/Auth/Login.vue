@@ -236,19 +236,11 @@ export default {
                 this.$toast.success("Login successful");
                 window.location.href = "/organization";
               })
-              .catch((err) => {
-                console.log(
-                  "🚀 ~ file: Login.vue ~ line 217 ~ .then ~ err",
-                  err
-                );
+              .catch(() => {
                 this.$toast.error("Invalid credentials");
               });
           })
-          .catch((err) => {
-            console.log(
-              "🚀 ~ file: Login.vue ~ line 221 ~ register ~ err",
-              err
-            );
+          .catch(() => {
             this.$toast.error("Invalid credentials");
           });
       }
