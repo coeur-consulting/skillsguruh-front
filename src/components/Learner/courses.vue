@@ -47,6 +47,9 @@
                 class="shadow-sm p-3 bg-white text-left h-100 cursor-pointer position-relative d-flex flex-column"
                 @click="showcourse(course)"
               >
+                <div class="ribbon text-capitalize">
+                  <span>{{ course.type }}</span>
+                </div>
                 <div class="flex-1">
                   <!-- <b-dropdown
                     size="sm"
@@ -351,6 +354,11 @@
             </div>
 
             <div v-if="toggleCourse == 1">
+              <div class="mb-3 px-2">
+                <h6 class="fs14">Course Access</h6>
+                <p class="fs13 text-capitalize mb-1">Type: {{ course.type }}</p>
+                <p class="fs13">Fee: {{ course.amount }} Referrals</p>
+              </div>
               <div class="mb-3 px-2">
                 <h6 class="fs14">Course Description</h6>
                 <p class="fs13">
@@ -685,6 +693,7 @@ export default {
       library: [],
       communitylink: [],
       course_link: "",
+      message: "",
     };
   },
   components: {},

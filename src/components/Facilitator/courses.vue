@@ -917,6 +917,9 @@
                 class="shadow-sm p-3 bg-white text-left h-100 cursor-pointer position-relative d-flex flex-column"
                 @click="showcourse(course)"
               >
+                <div class="ribbon text-capitalize">
+                  <span>{{ course.type }}</span>
+                </div>
                 <div class="flex-1">
                   <b-dropdown
                     size="sm"

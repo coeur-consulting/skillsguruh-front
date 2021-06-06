@@ -36,9 +36,12 @@
                   :key="course.id"
                 >
                   <div
-                    class="w-100 h-100 bg-white shadow rounded p-4 d-flex flex-column"
+                    class="w-100 h-100 bg-white shadow rounded p-4 d-flex flex-column position-relative"
                     @click="$router.push('/learner/courses')"
                   >
+                    <div class="ribbon text-capitalize">
+                      <span>{{ course.type }}</span>
+                    </div>
                     <div class="flex-1">
                       <b-iconstack font-scale="2.5" class="mr-2 mb-2">
                         <b-icon
