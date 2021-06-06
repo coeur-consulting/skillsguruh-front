@@ -397,7 +397,14 @@
                     >
                       <template v-slot="{ inputValue, inputEvents }">
                         <input
-                          class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+                          class="
+                            px-2
+                            py-1
+                            border
+                            rounded
+                            focus:outline-none
+                            focus:border-blue-300
+                          "
                           :value="inputValue"
                           v-on="inputEvents"
                         />
@@ -415,7 +422,14 @@
                     >
                       <template v-slot="{ inputValue, inputEvents }">
                         <input
-                          class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+                          class="
+                            px-2
+                            py-1
+                            border
+                            rounded
+                            focus:outline-none
+                            focus:border-blue-300
+                          "
                           :value="inputValue"
                           v-on="inputEvents"
                         />
@@ -858,7 +872,14 @@
                     >
                       <template v-slot="{ inputValue, inputEvents }">
                         <input
-                          class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+                          class="
+                            px-2
+                            py-1
+                            border
+                            rounded
+                            focus:outline-none
+                            focus:border-blue-300
+                          "
                           :value="inputValue"
                           v-on="inputEvents"
                         />
@@ -876,7 +897,14 @@
                     >
                       <template v-slot="{ inputValue, inputEvents }">
                         <input
-                          class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+                          class="
+                            px-2
+                            py-1
+                            border
+                            rounded
+                            focus:outline-none
+                            focus:border-blue-300
+                          "
                           :value="inputValue"
                           v-on="inputEvents"
                         />
@@ -948,7 +976,17 @@
               :key="index"
             >
               <div
-                class="shadow-sm p-3 bg-white text-left h-100 cursor-pointer position-relative d-flex flex-column"
+                class="
+                  shadow-sm
+                  p-3
+                  bg-white
+                  text-left
+                  h-100
+                  cursor-pointer
+                  position-relative
+                  d-flex
+                  flex-column
+                "
                 @click="showcourse(course)"
               >
                 <div class="ribbon text-capitalize">
@@ -1030,7 +1068,14 @@
                     >
                   </div>
                   <div
-                    class="course_fac d-flex align-items-center mb-1 text-capitalize fs13"
+                    class="
+                      course_fac
+                      d-flex
+                      align-items-center
+                      mb-1
+                      text-capitalize
+                      fs13
+                    "
                     v-if="sortfacilitators(course).length == 1"
                   >
                     <b-icon
@@ -1043,7 +1088,14 @@
                     >
                   </div>
                   <div
-                    class="course_fac d-flex align-items-center mb-1 text-capitalize fs13"
+                    class="
+                      course_fac
+                      d-flex
+                      align-items-center
+                      mb-1
+                      text-capitalize
+                      fs13
+                    "
                     v-else
                   >
                     <b-icon
@@ -1055,7 +1107,14 @@
                   </div>
 
                   <div
-                    class="course_time d-flex text-capitalize align-items-center mb-1 fs13"
+                    class="
+                      course_time
+                      d-flex
+                      text-capitalize
+                      align-items-center
+                      mb-1
+                      fs13
+                    "
                   >
                     <b-icon
                       icon="calendar"
@@ -1168,7 +1227,14 @@
               <b-img style="width: 80px" fluid :src="course.cover"></b-img>
             </div>
             <div
-              class="d-flex justify-content-between p-2 border-bottom mb-2 text-sm"
+              class="
+                d-flex
+                justify-content-between
+                p-2
+                border-bottom
+                mb-2
+                text-sm
+              "
             >
               <span
                 class="cursor-pointer d-flex align-items-center"
@@ -1904,6 +1970,7 @@ export default {
   position: fixed;
   right: 0;
   width: 25%;
+  overflow-y: scroll;
 }
 .course_title {
   font-weight: 500;

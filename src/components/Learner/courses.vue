@@ -44,7 +44,17 @@
               :key="index"
             >
               <div
-                class="shadow-sm p-3 bg-white text-left h-100 cursor-pointer position-relative d-flex flex-column"
+                class="
+                  shadow-sm
+                  p-3
+                  bg-white
+                  text-left
+                  h-100
+                  cursor-pointer
+                  position-relative
+                  d-flex
+                  flex-column
+                "
                 @click="showcourse(course)"
               >
                 <div class="ribbon text-capitalize">
@@ -102,7 +112,14 @@
                     >
                   </div>
                   <div
-                    class="course_fac d-flex align-items-center mb-1 text-capitalize fs13"
+                    class="
+                      course_fac
+                      d-flex
+                      align-items-center
+                      mb-1
+                      text-capitalize
+                      fs13
+                    "
                     v-if="sortfacilitators(course).length == 1"
                   >
                     <b-icon
@@ -115,7 +132,14 @@
                     >
                   </div>
                   <div
-                    class="course_fac d-flex align-items-center mb-1 text-capitalize fs13"
+                    class="
+                      course_fac
+                      d-flex
+                      align-items-center
+                      mb-1
+                      text-capitalize
+                      fs13
+                    "
                     v-else
                   >
                     <b-icon
@@ -127,7 +151,14 @@
                   </div>
 
                   <div
-                    class="course_fac d-flex text-capitalize align-items-center fs13 mb-1"
+                    class="
+                      course_fac
+                      d-flex
+                      text-capitalize
+                      align-items-center
+                      fs13
+                      mb-1
+                    "
                   >
                     <b-icon
                       icon="calendar"
@@ -301,7 +332,14 @@
               </span>
             </span>
             <div
-              class="d-flex justify-content-between p-2 border-bottom mb-2 text-sm"
+              class="
+                d-flex
+                justify-content-between
+                p-2
+                border-bottom
+                mb-2
+                text-sm
+              "
             >
               <span
                 class="cursor-pointer d-flex align-items-center"
@@ -354,10 +392,13 @@
             </div>
 
             <div v-if="toggleCourse == 1">
-              <div class="mb-3 px-2">
+              <div class="mb-3 px-2" v-if="course.type !== 'free'">
                 <h6 class="fs14">Course Access</h6>
                 <p class="fs13 text-capitalize mb-1">Type: {{ course.type }}</p>
-                <p class="fs13">Fee: {{ course.amount }} Referrals</p>
+                <p class="fs13">
+                  Fee: {{ course.amount }}
+                  {{ course.type == "community" ? "Referrals" : "Naira" }}
+                </p>
               </div>
               <div class="mb-3 px-2">
                 <h6 class="fs14">Course Description</h6>
@@ -1141,6 +1182,7 @@ export default {
   position: fixed;
   right: 0;
   width: 25%;
+  overflow-y: scroll;
 }
 .course_title {
   font-weight: 500;
