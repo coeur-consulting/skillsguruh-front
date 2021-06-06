@@ -25,7 +25,13 @@
                     </div>
                     <b-col cols="5" class="h-100">
                       <div
-                        class="p-3 d-flex flex-column justify-content-center h-100"
+                        class="
+                          p-3
+                          d-flex
+                          flex-column
+                          justify-content-center
+                          h-100
+                        "
                       >
                         <div
                           class="mb-3 h3 fs16 text-dark-green"
@@ -46,13 +52,14 @@
 
                         <div class="mt-3">
                           <b-button
-                            v-if="$moment().isAfter(item.start)"
+                            v-if="
+                              $moment().isBefore(item.start) ||
+                              $moment().isAfter(item.end)
+                            "
                             pill
                             size="sm"
                             variant="outline-dark-green"
-                            @click="
-                              $router.push(`/administrator/event/${item.id}`)
-                            "
+                            @click="$router.push(`/learner/event/${item.id}`)"
                             >View Event</b-button
                           >
                           <a v-else :href="item.url" target="_blank">
@@ -85,7 +92,14 @@
             <b-col>
               <div class="box" v-if="schedules.length">
                 <div
-                  class="d-flex justify-content-between align-items-center p-3 w-100 border-bottom"
+                  class="
+                    d-flex
+                    justify-content-between
+                    align-items-center
+                    p-3
+                    w-100
+                    border-bottom
+                  "
                 >
                   <b-button
                     size="sm"
@@ -113,13 +127,25 @@
                               }"
                             >
                               <div
-                                class="d-flex justify-content-between w-100 align-items-center"
+                                class="
+                                  d-flex
+                                  justify-content-between
+                                  w-100
+                                  align-items-center
+                                "
                               >
                                 <span class="fs12">{{
                                   item.start_time | moment("LT")
                                 }}</span>
                                 <span
-                                  class="border rounded-pill px-3 py-1 bg-light fs11"
+                                  class="
+                                    border
+                                    rounded-pill
+                                    px-3
+                                    py-1
+                                    bg-light
+                                    fs11
+                                  "
                                 >
                                   {{ duration(item.start_time, item.end_time) }}
                                   week{{
@@ -159,13 +185,25 @@
                               }"
                             >
                               <div
-                                class="d-flex justify-content-between w-100 align-items-center"
+                                class="
+                                  d-flex
+                                  justify-content-between
+                                  w-100
+                                  align-items-center
+                                "
                               >
                                 <span class="fs12">{{
                                   item.start_time | moment("LT")
                                 }}</span>
                                 <span
-                                  class="border rounded-pill px-3 py-1 bg-light fs11"
+                                  class="
+                                    border
+                                    rounded-pill
+                                    px-3
+                                    py-1
+                                    bg-light
+                                    fs11
+                                  "
                                 >
                                   {{ duration(item.start_time, item.end_time) }}
                                   week{{
@@ -205,13 +243,25 @@
                               }"
                             >
                               <div
-                                class="d-flex justify-content-between w-100 align-items-center"
+                                class="
+                                  d-flex
+                                  justify-content-between
+                                  w-100
+                                  align-items-center
+                                "
                               >
                                 <span class="fs12">{{
                                   item.start_time | moment("LT")
                                 }}</span>
                                 <span
-                                  class="border rounded-pill px-3 py-1 bg-light fs11"
+                                  class="
+                                    border
+                                    rounded-pill
+                                    px-3
+                                    py-1
+                                    bg-light
+                                    fs11
+                                  "
                                 >
                                   {{ duration(item.start_time, item.end_time) }}
                                   week{{
@@ -252,13 +302,25 @@
                               }"
                             >
                               <div
-                                class="d-flex justify-content-between w-100 align-items-center"
+                                class="
+                                  d-flex
+                                  justify-content-between
+                                  w-100
+                                  align-items-center
+                                "
                               >
                                 <span class="fs12">{{
                                   item.start_time | moment("LT")
                                 }}</span>
                                 <span
-                                  class="border rounded-pill px-3 py-1 bg-light fs11"
+                                  class="
+                                    border
+                                    rounded-pill
+                                    px-3
+                                    py-1
+                                    bg-light
+                                    fs11
+                                  "
                                 >
                                   {{ duration(item.start_time, item.end_time) }}
                                   week{{
@@ -298,13 +360,25 @@
                               }"
                             >
                               <div
-                                class="d-flex justify-content-between w-100 align-items-center"
+                                class="
+                                  d-flex
+                                  justify-content-between
+                                  w-100
+                                  align-items-center
+                                "
                               >
                                 <span class="fs12">{{
                                   item.start_time | moment("LT")
                                 }}</span>
                                 <span
-                                  class="border rounded-pill px-3 py-1 bg-light fs11"
+                                  class="
+                                    border
+                                    rounded-pill
+                                    px-3
+                                    py-1
+                                    bg-light
+                                    fs11
+                                  "
                                 >
                                   {{ duration(item.start_time, item.end_time) }}
                                   week{{
@@ -345,13 +419,25 @@
                               }"
                             >
                               <div
-                                class="d-flex justify-content-between w-100 align-items-center"
+                                class="
+                                  d-flex
+                                  justify-content-between
+                                  w-100
+                                  align-items-center
+                                "
                               >
                                 <span class="fs12">{{
                                   item.start_time | moment("LT")
                                 }}</span>
                                 <span
-                                  class="border rounded-pill px-3 py-1 bg-light fs11"
+                                  class="
+                                    border
+                                    rounded-pill
+                                    px-3
+                                    py-1
+                                    bg-light
+                                    fs11
+                                  "
                                 >
                                   {{ duration(item.start_time, item.end_time) }}
                                   week{{
@@ -391,13 +477,25 @@
                               }"
                             >
                               <div
-                                class="d-flex justify-content-between w-100 align-items-center"
+                                class="
+                                  d-flex
+                                  justify-content-between
+                                  w-100
+                                  align-items-center
+                                "
                               >
                                 <span class="fs12">{{
                                   item.start_time | moment("LT")
                                 }}</span>
                                 <span
-                                  class="border rounded-pill px-3 py-1 bg-light fs11"
+                                  class="
+                                    border
+                                    rounded-pill
+                                    px-3
+                                    py-1
+                                    bg-light
+                                    fs11
+                                  "
                                 >
                                   {{ duration(item.start_time, item.end_time) }}
                                   week{{
@@ -432,7 +530,7 @@
                   <b-img :src="require('@/assets/images/creator.svg')"></b-img>
                   <h6 class="text-muted my-3 fs14">
                     It appears you havent added any Schedule yet,
-                    <br class="d-none d-sm-block" />
+                    <!-- <br class="d-none d-sm-block" />
 
                     Have you set up your courses ?
                     <span
@@ -450,7 +548,7 @@
                       size="sm"
                       @click="$bvModal.show('add')"
                       >Add a schedule now
-                    </b-button>
+                    </b-button> -->
                   </h6>
                 </div>
               </div>

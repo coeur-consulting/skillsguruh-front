@@ -357,7 +357,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="interactions text-left px-3 py-3">
+                <div class="interactions text-left px-3 py-3 border-bottom">
                   <span
                     class="mr-3 cursor-pointer"
                     @click="toggleStar(feed.id, index)"
@@ -410,7 +410,10 @@
                     <b-icon icon="share"></b-icon>
                   </span>
                 </div>
-                <div class="comments px-3 pt-2 border-top text-left">
+                <div
+                  class="comments px-3 pt-2 border-bottom text-left"
+                  v-if="feed.comments.length"
+                >
                   <span
                     v-if="feed.comments.length"
                     class="comment_header mb-2 cursor-pointer"
@@ -446,10 +449,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="px-3 py-1 comment_header mb-1 text-left">
+                <!-- <div class="px-3 py-1 comment_header mb-1 text-left">
                   {{ feed.created_at | moment("calendar") }}
-                </div>
-                <div class="interact text-left px-3 pb-1 border-top">
+                </div> -->
+                <div class="interact text-left px-3 pb-1">
                   <b-input-group class="mt-1">
                     <template #append>
                       <b-input-group-text

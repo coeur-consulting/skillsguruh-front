@@ -29,7 +29,16 @@
                       <div v-if="course.questionnaire">
                         <div
                           v-for="(item, id) in course.questionnaire"
-                          class="p-2 bg-white mb-2 d-flex fs14 justify-content-between align-items-center rounded"
+                          class="
+                            p-2
+                            bg-white
+                            mb-2
+                            d-flex
+                            fs14
+                            justify-content-between
+                            align-items-center
+                            rounded
+                          "
                           :key="id"
                           @click="viewquestion(item.id)"
                         >
@@ -138,11 +147,20 @@
                       >
                     </span>
                   </b-card-text>
-                  <div v-if="item.questionnaire">
+                  <div v-if="item.questionnaire.length">
                     <h6 class="fs12 font-weight-bold mb-2">Questionnaire</h6>
                     <div
                       v-for="(item, id) in item.questionnaire"
-                      class="p-2 bg-light rounded mb-2 fs14 d-flex justify-content-between align-items-center"
+                      class="
+                        p-2
+                        bg-light
+                        rounded
+                        mb-2
+                        fs14
+                        d-flex
+                        justify-content-between
+                        align-items-center
+                      "
                       :key="id"
                       @click="viewquestion(item.id)"
                     >

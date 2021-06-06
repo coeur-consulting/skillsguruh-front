@@ -11,7 +11,7 @@ export default {
 <style scoped>
 video {
   width: 100%;
-  min-height: 500px;
+  height: 500px;
   background: black;
 }
 </style>
