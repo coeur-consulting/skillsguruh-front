@@ -303,7 +303,7 @@
               ></span
             >
 
-            <span class="mr-2" v-if="course.type == 'community'">
+            <span class="mr-2" v-if="course.type == 'group'">
               <b-button
                 v-if="checkLibrary()"
                 class="mx-auto"
@@ -397,7 +397,7 @@
                 <p class="fs13 text-capitalize mb-1">Type: {{ course.type }}</p>
                 <p class="fs13">
                   Fee: {{ course.amount }}
-                  {{ course.type == "community" ? "Referrals" : "Naira" }}
+                  {{ course.type == "group" ? "Participants" : "Naira" }}
                 </p>
               </div>
               <div class="mb-3 px-2">
