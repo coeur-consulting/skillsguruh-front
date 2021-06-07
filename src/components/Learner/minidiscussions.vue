@@ -13,28 +13,34 @@
     </div>
     <div class="shadow-sm bg-white py-4 rounded">
       <div
-        class="top_header border-bottom d-flex justify-content-between position-relative"
+        class="
+          top_header
+          border-bottom
+          d-flex
+          justify-content-between
+          position-relative
+        "
       >
         <div :class="{ active: show == 'recent' }" @click="show = 'recent'">
-          Recent discussions
+          Recent Discussions
         </div>
         <div
           :class="{ active: show == 'mostanswers' }"
           @click="show = 'mostanswers'"
         >
-          Most answers
+          Most Answers
         </div>
         <div
           :class="{ active: show == 'recentanswers' }"
           @click="show = 'recentanswers'"
         >
-          Recent answers
+          Recent Answers
         </div>
         <div
           :class="{ active: show == 'mostvisits' }"
           @click="show = 'mostvisits'"
         >
-          Most visit
+          Most Visited
         </div>
       </div>
       <div class="main_content" v-if="filterDiscusions.length">
@@ -91,7 +97,15 @@
           </div>
           <div class="top_dis d-flex align-items-start">
             <div
-              class="side_dis d-flex flex-column align-items-center justify-content-center text-center vote"
+              class="
+                side_dis
+                d-flex
+                flex-column
+                align-items-center
+                justify-content-center
+                text-center
+                vote
+              "
             >
               <b-icon
                 icon="caret-up-fill"

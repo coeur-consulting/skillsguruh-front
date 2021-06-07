@@ -16,7 +16,7 @@
                     <div
                       class="upcoming text-capitalize"
                       :class="{
-                        'bg-success': item.status == 'active',
+                        'bg-success': item.status == 'ongoing',
                         'bg-danger': item.status == 'expired',
                         'bg-primary': item.status == 'pending',
                       }"

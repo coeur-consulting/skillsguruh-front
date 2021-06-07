@@ -66,6 +66,53 @@
               </b-form-group>
             </b-col>
           </b-form-row>
+
+          <b-form-row>
+            <b-col sm="6" class="mb-3 px-3">
+              <b-form-group label="Course Type">
+                <b-form-radio-group
+                  id="radio-group-2"
+                  v-model="detail.general.type"
+                  :aria-describedby="ariaDescribedby"
+                  name="radio-sub-component"
+                >
+                  <b-form-radio value="free">Free</b-form-radio>
+                  <b-form-radio value="paid">Paid</b-form-radio>
+                  <b-form-radio value="group">Group</b-form-radio>
+                </b-form-radio-group>
+              </b-form-group>
+            </b-col>
+            <b-col
+              sm="6"
+              class="mb-3 px-3"
+              v-if="detail.general.type == 'paid'"
+            >
+              <b-form-group label="Course amount">
+                <b-form-input
+                  type="number"
+                  v-model="detail.general.amount"
+                  placeholder=""
+                ></b-form-input>
+              </b-form-group>
+            </b-col>
+
+            <b-col
+              sm="6"
+              class="mb-3 px-3"
+              v-if="detail.general.type == 'group'"
+            >
+              <b-form-group label="No of participants">
+                <b-form-select v-model="detail.general.amount">
+                  <b-form-select-option :value="null"
+                    >Select a number</b-form-select-option
+                  >
+                  <b-form-select-option v-for="n in 100" :key="n">{{
+                    n
+                  }}</b-form-select-option>
+                </b-form-select>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
           <b-form-row>
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Course Description">
@@ -513,6 +560,34 @@
           </b-form-row>
           <b-form-row>
             <b-col sm="6" class="mb-3 px-3">
+              <b-form-group label="Course Type">
+                <b-form-radio-group
+                  id="radio-group-2"
+                  v-model="detail.general.type"
+                  :aria-describedby="ariaDescribedby"
+                  name="radio-sub-component"
+                >
+                  <b-form-radio value="free">Free</b-form-radio>
+                  <b-form-radio value="paid">Paid</b-form-radio>
+                  <b-form-radio value="community">Community</b-form-radio>
+                </b-form-radio-group>
+              </b-form-group>
+            </b-col>
+            <b-col
+              sm="6"
+              class="mb-3 px-3"
+              v-if="detail.general.type !== 'free'"
+            >
+              <b-form-group label="Course amount">
+                <b-form-input
+                  v-model="detail.general.amount"
+                  placeholder=""
+                ></b-form-input>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+          <b-form-row>
+            <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Course Description">
                 <b-form-textarea
                   required
@@ -905,40 +980,17 @@
             <div class="">
               <h4>Courses</h4>
             </div>
-            <div class="text-right">
-              <div class="search">
-                <b-input-group class="topbar_search bg-white">
-                  <b-form-input
-                    placeholder="Search course name"
-                    class="no-focus border-0"
-                    type="search"
-                    aria-label="Text input "
-                    v-model="search"
-                  ></b-form-input>
-                  <b-input-group-append is-text>
-                    <b-iconstack font-scale="1.4" class="">
-                      <b-icon
-                        stacked
-                        icon="circle-fill"
-                        variant="lighter-green"
-                      ></b-icon>
-                      <b-icon
-                        stacked
-                        icon="search"
-                        scale="0.5"
-                        variant="dark-green"
-                      ></b-icon>
-                    </b-iconstack>
-                  </b-input-group-append>
-                </b-input-group>
-              </div>
+            <div v-if="courses.length" class="text-right">
+              <b-button variant="dark-green" @click="$bvModal.show('addcourse')"
+                >Create new course</b-button
+              >
             </div>
           </div>
           <b-row>
             <b-col
               sm="4"
               class="mb-3 side_box"
-              v-for="(course, index) in filteredCourse"
+              v-for="(course, index) in courses"
               :key="index"
             >
               <div
@@ -1556,7 +1608,6 @@ export default {
       current_schedule: 0,
       insight: [],
       courses: [],
-      search: "",
       course: null,
       type: 1,
       newmodule: "",
@@ -1568,6 +1619,8 @@ export default {
           code: "",
           description: "",
           cover: "",
+          type: "free",
+          amount: "",
         },
         outline: {
           overview: "",
@@ -1605,13 +1658,6 @@ export default {
     this.getcourses();
     this.getfacilitators();
     this.insight = Insight;
-  },
-  computed: {
-    filteredCourse() {
-      return this.courses.filter((item) =>
-        item.title.toLowerCase().includes(this.search.toLowerCase())
-      );
-    },
   },
   methods: {
     getProgress(a, b) {
@@ -1768,6 +1814,8 @@ export default {
                 code: "",
                 description: "",
                 cover: "",
+                type: "free",
+                amount: "",
               },
               outline: {
                 overview: "",
@@ -1826,6 +1874,8 @@ export default {
           code: val.code,
           description: val.description,
           cover: val.cover,
+          type: val.type,
+          amount: val.amount,
         },
         outline: {
           overview: val.courseoutline.overview,
@@ -1864,6 +1914,8 @@ export default {
                 code: "",
                 description: "",
                 cover: "",
+                type: "free",
+                cost: "",
               },
               outline: {
                 overview: "",

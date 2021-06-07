@@ -78,20 +78,38 @@
                 >
                   <b-form-radio value="free">Free</b-form-radio>
                   <b-form-radio value="paid">Paid</b-form-radio>
-                  <b-form-radio value="community">Community</b-form-radio>
+                  <b-form-radio value="group">Group</b-form-radio>
                 </b-form-radio-group>
               </b-form-group>
             </b-col>
             <b-col
               sm="6"
               class="mb-3 px-3"
-              v-if="detail.general.type !== 'free'"
+              v-if="detail.general.type == 'paid'"
             >
               <b-form-group label="Course amount">
                 <b-form-input
+                  type="number"
                   v-model="detail.general.amount"
                   placeholder=""
                 ></b-form-input>
+              </b-form-group>
+            </b-col>
+
+            <b-col
+              sm="6"
+              class="mb-3 px-3"
+              v-if="detail.general.type == 'group'"
+            >
+              <b-form-group label="No of participants">
+                <b-form-select v-model="detail.general.amount">
+                  <b-form-select-option :value="null"
+                    >Select a number</b-form-select-option
+                  >
+                  <b-form-select-option v-for="n in 100" :key="n">{{
+                    n
+                  }}</b-form-select-option>
+                </b-form-select>
               </b-form-group>
             </b-col>
           </b-form-row>

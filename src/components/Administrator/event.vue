@@ -12,7 +12,14 @@
           >
         </div>
         <div
-          class="event-overlay d-flex flex-column justify-content-center p-5 text-white"
+          class="
+            event-overlay
+            d-flex
+            flex-column
+            justify-content-center
+            p-5
+            text-white
+          "
         >
           <div class="event_content">
             <div class="display-4 mb-3">{{ event.title }}</div>
@@ -28,7 +35,7 @@
               <b-badge
                 class="text-capitalize"
                 :class="{
-                  'bg-success': event.status == 'active',
+                  'bg-success': event.status == 'ongoing',
                   'bg-danger': event.status == 'expired',
                   'bg-primary': event.status == 'pending',
                 }"
@@ -52,7 +59,14 @@
           </div>
 
           <div
-            class="px-3 py-2 bg-dark-green text-white d-flex justify-content-between"
+            class="
+              px-3
+              py-2
+              bg-dark-green
+              text-white
+              d-flex
+              justify-content-between
+            "
           >
             <span
               ><span class="font-weight-bold fs13">Start</span>
