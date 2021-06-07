@@ -169,7 +169,11 @@ a:hover {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
-
+.dots {
+  position: absolute;
+  bottom: 20px;
+  right: 10px;
+}
 .ribbon {
   position: absolute;
   right: -5px;

@@ -1213,11 +1213,7 @@ p {
 .addmodule {
   width: 400px;
 }
-.dots {
-  position: absolute;
-  top: 20px;
-  right: 10px;
-}
+
 .overview {
   font-size: 13px;
   color: rgba($color: #000000, $alpha: 0.54);

@@ -33,7 +33,7 @@ export default {
   },
   mounted() {
     this.getnotification();
-    this.getloginhistory();
+    // this.getloginhistory();
   },
   methods: {
     getnotification() {

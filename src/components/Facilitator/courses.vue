@@ -74,7 +74,6 @@
                   size="sm"
                   id="radio-group-2"
                   v-model="detail.general.type"
-                  :aria-describedby="ariaDescribedby"
                   name="radio-sub-component"
                 >
                   <b-form-radio value="free">Free</b-form-radio>
@@ -567,7 +566,6 @@
                   size="sm"
                   id="radio-group-2"
                   v-model="detail.general.type"
-                  :aria-describedby="ariaDescribedby"
                   name="radio-sub-component"
                 >
                   <b-form-radio value="free">Free</b-form-radio>
@@ -2041,11 +2039,7 @@ p {
 .addmodule {
   width: 400px;
 }
-.dots {
-  position: absolute;
-  top: 20px;
-  right: 10px;
-}
+
 .overview {
   font-size: 13px;
   color: rgba($color: #000000, $alpha: 0.54);
