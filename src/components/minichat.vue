@@ -1,27 +1,23 @@
 <template>
-  <div class="reply_box bg-white shadow border" v-if="showall">
+  <div class="reply_box bg-white shadow border" v-if="showAll">
     <div
-      class="d-flex px-2 py-2 align-items-center border-bottom bg-dark-green text-white"
+      class="d-flex px-2 py-2 align-items-center border-bottom bg-lighter-green"
     >
       <div class="d-flex flex-1 align-items-center">
-        <b-avatar
-          size="2rem"
-          :src="mini_info.profile"
-          class="mr-2 text-white"
-        ></b-avatar>
-        <span class="chat_name text-white">{{ mini_info.name }}</span>
+        <b-avatar size="2rem" :src="mini_info.profile" class="mr-2"></b-avatar>
+        <span class="chat_name">{{ mini_info.name }}</span>
       </div>
       <div class="d-flex align-items-center">
         <b-icon
-          class="mr-3 cursor-pointer text-white"
+          class="mr-3 cursor-pointer"
           icon="arrows-angle-expand"
           @click="open = !open"
         ></b-icon>
         <b-icon
           font-scale="1.5"
-          class="cursor-pointer text-white"
+          class="cursor-pointer"
           icon="x"
-          @click="showall = false"
+          @click="closeChat"
         ></b-icon>
       </div>
     </div>
@@ -37,7 +33,13 @@
             "
           >
             <div
-              class="d-flex flex-1 align-items-center justify-content-between mb-1"
+              class="
+                d-flex
+                flex-1
+                align-items-center
+                justify-content-between
+                mb-1
+              "
             >
               <span
                 class="chatting_name font-weight-bold mr-3"
@@ -101,11 +103,9 @@
 </template>
 <script>
 export default {
-  props: ["mini_info", "user"],
+  props: ["mini_info", "user", "open", "showAll"],
   data() {
     return {
-      showall: false,
-      open: false,
       inboxes: [],
       inbox: {
         mesage: "",
@@ -118,12 +118,7 @@ export default {
   mounted() {
     this.getinbox();
   },
-  watch: {
-    mini_info: {
-      deep: true,
-      handler: "togglechat",
-    },
-  },
+
   computed: {
     useraccess() {
       var token = null;
@@ -156,9 +151,8 @@ export default {
     },
   },
   methods: {
-    togglechat() {
-      this.showall = true;
-      this.open = true;
+    closeChat() {
+      this.$emit("togglechat");
     },
     getinbox() {
       this.$http
@@ -307,6 +301,7 @@ export default {
   left: 30%;
   border-radius: 10px 10px 0 0;
   z-index: 999;
+  overflow: hidden;
 }
 .reply {
   height: 360px;
@@ -317,7 +312,7 @@ export default {
   padding: 10px;
   background-color: #fbfbfb;
   border-radius: 0 10px 10px 0;
-  border-left: 3px solid var(--dark-green);
+  border-left: 3px solid var(--lighter-green);
   width: 90%;
   margin-right: auto;
 }

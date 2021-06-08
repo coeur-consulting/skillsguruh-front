@@ -10,9 +10,24 @@
               <PdfMedia v-if="type == 'document'" :media="media" />
             </div>
             <div class="text-left py-3 pr-3">
-              <h5 class="font-weight-bold text-capitalize">
-                {{ media.title }}
-              </h5>
+              <div class="d-flex align-items-center mb-3">
+                <h6
+                  class="
+                    text-capitalize
+                    font-weight-bold
+                    text-left
+                    pr-3
+                    border-right
+                  "
+                >
+                  {{ course.title }}
+                </h6>
+
+                <h6 class="text-capitalize ml-3">
+                  {{ media.title }}
+                </h6>
+              </div>
+
               <p>{{ media.overview }}</p>
 
               <div>
@@ -44,7 +59,18 @@
                         >
                           <span> {{ item.title }}</span>
 
-                          <b-icon icon="chevron-right"></b-icon>
+                          <b-iconstack font-scale="1.5">
+                            <b-icon
+                              stacked
+                              icon="circle-fill"
+                              variant="light"
+                            ></b-icon>
+                            <b-icon
+                              stacked
+                              icon="chevron-right"
+                              scale="0.5"
+                            ></b-icon>
+                          </b-iconstack>
                         </div>
                       </div>
 
@@ -109,14 +135,23 @@
                 class="p-1 bg-light rounded"
                 role="tab"
               >
-                <div
-                  v-b-toggle="'module' + id"
-                  variant="info"
-                  @click="updateProgress(id + 1, course.modules.length)"
+                <b-form-checkbox
+                  :disabled="id + 1 <= Number(current)"
+                  :checked="id + 1 <= Number(current)"
                 >
-                  <b-icon icon="check2-circle" variant="light-green"></b-icon>
-                  {{ item.module }}
-                </div>
+                  <div
+                    v-b-toggle="'module' + id"
+                    variant="info"
+                    @click="updateProgress(id + 1, course.modules.length)"
+                  >
+                    <b-icon
+                      icon="check2-circle"
+                      class="mr-2"
+                      variant="light-green"
+                    ></b-icon>
+                    {{ item.module }}
+                  </div>
+                </b-form-checkbox>
               </b-card-header>
               <b-collapse
                 :id="'module' + id"
@@ -170,7 +205,18 @@
                     >
                       <span> {{ item.title }}</span>
 
-                      <b-icon icon="chevron-right"></b-icon>
+                      <b-iconstack font-scale="1.5">
+                        <b-icon
+                          stacked
+                          icon="circle-fill"
+                          variant="white"
+                        ></b-icon>
+                        <b-icon
+                          stacked
+                          icon="chevron-right"
+                          scale="0.5"
+                        ></b-icon>
+                      </b-iconstack>
                     </div>
                   </div>
                 </b-card-body>
@@ -238,6 +284,7 @@ export default {
       module_id: null,
       myquestionnaire: [],
       checked: {},
+      current: null,
     };
   },
   components: {
@@ -292,6 +339,7 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
+            this.current = res.data.current_module;
             this.course = res.data.course;
             this.faqs = JSON.parse(res.data.course.courseoutline.faqs);
             this.notes = res.data.course.courseoutline.additional_info;
@@ -350,5 +398,11 @@ export default {
 .main_cont {
   max-height: calc(100vh - 80px);
   overflow-y: auto;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.main_cont::-webkit-scrollbar {
+  display: none;
 }
 </style>

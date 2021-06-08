@@ -186,7 +186,7 @@
                                   course.courseoutline.modules,
                                   course.modules
                                 )
-                              )
+                              ) || 0
                             }}%</span
                           >
                         </div>
@@ -889,7 +889,7 @@ export default {
 .card-img,
 .card-img-top {
   height: 8rem;
-  object-fit: contain;
+  object-fit: cover;
 }
 @media (max-width: 600px) {
   .box {

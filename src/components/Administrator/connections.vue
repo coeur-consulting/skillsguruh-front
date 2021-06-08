@@ -98,6 +98,9 @@
       class="minichats d-none d-md-block"
       :user="'admin'"
       :mini_info="mini_info"
+      :open="open"
+      :showAll="showAll"
+      @togglechat="togglechat"
     />
   </b-container>
 </template>
@@ -117,6 +120,8 @@ export default {
       suggested_search: "",
       connections: [],
       suggestedConnections: [],
+      open: false,
+      showAll: false,
     };
   },
   components: {
@@ -140,11 +145,23 @@ export default {
     },
   },
   methods: {
+    togglechat() {
+      this.mini_info = {
+        id: "",
+        name: "",
+        type: "",
+        profile: "",
+      };
+      this.open = false;
+      this.showAll = false;
+    },
     getmessage(id, name, type, profile) {
       this.mini_info.id = id;
       this.mini_info.name = name;
       this.mini_info.type = type;
       this.mini_info.profile = profile;
+      this.open = true;
+      this.showAll = true;
     },
     async getconnections() {
       return this.$http

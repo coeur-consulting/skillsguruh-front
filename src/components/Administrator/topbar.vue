@@ -331,6 +331,9 @@
       class="minichats d-none d-md-block"
       :user="'admin'"
       :mini_info="mini_info"
+      :open="open"
+      :showAll="showAll"
+      @togglechat="togglechat"
     />
   </div>
 </template>
@@ -357,12 +360,24 @@ export default {
         type: "",
         profile: "",
       },
+      open: false,
+      showAll: false,
     };
   },
   mounted() {
     this.getinbox();
   },
   methods: {
+    togglechat() {
+      this.mini_info = {
+        id: "",
+        name: "",
+        type: "",
+        profile: "",
+      };
+      this.open = false;
+      this.showAll = false;
+    },
     logout() {
       localStorage.removeItem("authOrg");
       this.$router.push("/login");
@@ -381,6 +396,8 @@ export default {
       this.mini_info.name = name;
       this.mini_info.type = type;
       this.mini_info.profile = profile;
+      this.open = true;
+      this.showAll = true;
     },
     getinbox() {
       this.$http

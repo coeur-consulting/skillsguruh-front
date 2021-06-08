@@ -204,7 +204,7 @@
                             course.courseoutline.modules,
                             course.modules
                           )
-                        )
+                        ) || 0
                       }}%</span
                     >
                   </div>

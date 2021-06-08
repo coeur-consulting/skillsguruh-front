@@ -127,9 +127,19 @@
         </div>
       </div>
     </div>
+    <div class="minichats d-none d-md-block">
+      <MiniBox
+        :user="user"
+        :mini_info="mini_info"
+        :open="open"
+        :showAll="showAll"
+        @togglechat="togglechat"
+      />
+    </div>
   </div>
 </template>
 <script>
+import MiniBox from "./minichat.vue";
 export default {
   props: ["user"],
   data() {
@@ -138,11 +148,22 @@ export default {
       toggleMessage: true,
       inboxes: [],
       chatters: [],
+      open: false,
+      showAll: false,
+      mini_info: {
+        id: "",
+        name: "",
+        type: "",
+        profile: "",
+      },
       current: {
         id: "",
         type: "",
       },
     };
+  },
+  components: {
+    MiniBox,
   },
   mounted() {
     this.getinbox();
@@ -164,10 +185,23 @@ export default {
   },
 
   methods: {
+    togglechat() {
+      this.mini_info = {
+        id: "",
+        name: "",
+        type: "",
+        profile: "",
+      };
+      this.open = false;
+      this.showAll = false;
+    },
     getmessage(id, name, type, profile) {
-      this.current.id = id;
-      this.current.type = type;
-      this.$emit("getmessage", id, name, type, profile);
+      this.mini_info.id = id;
+      this.mini_info.name = name;
+      this.mini_info.type = type;
+      this.mini_info.profile = profile;
+      this.open = true;
+      this.showAll = true;
     },
     getinbox() {
       this.$http

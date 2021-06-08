@@ -36,7 +36,7 @@
 
                 <div>
                   <b-button
-                    variant="outline-dark-green"
+                    variant="lighter-green"
                     size="sm"
                     class="mr-3 rounded-pill"
                     @click="
@@ -65,14 +65,14 @@
 
                 <div>
                   <b-button
-                    variant="outline-dark-green"
+                    variant="lighter-green"
                     size="sm"
                     class="mr-3 rounded-pill"
                     @click="
                       getmessage(
                         item.facilitator_follower.id,
                         item.facilitator_follower.name,
-                        'user',
+                        'facilitator',
                         item.facilitator_follower.profile
                       )
                     "
@@ -169,6 +169,9 @@
       class="minichats d-none d-md-block"
       :user="'learner'"
       :mini_info="mini_info"
+      :open="open"
+      :showAll="showAll"
+      @togglechat="togglechat"
     />
   </b-container>
 </template>
@@ -189,6 +192,8 @@ export default {
       connections: [],
       learner_connections: [],
       facilitators_connections: [],
+      open: false,
+      showAll: false,
     };
   },
   components: {
@@ -239,6 +244,16 @@ export default {
     },
   },
   methods: {
+    togglechat() {
+      this.mini_info = {
+        id: "",
+        name: "",
+        type: "",
+        profile: "",
+      };
+      this.open = false;
+      this.showAll = false;
+    },
     getUsersWithInterest() {
       this.$http
         .get(
@@ -278,6 +293,8 @@ export default {
       this.mini_info.name = name;
       this.mini_info.type = type;
       this.mini_info.profile = profile;
+      this.open = true;
+      this.showAll = true;
     },
     async getconnections() {
       return this.$http

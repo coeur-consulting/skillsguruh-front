@@ -33,7 +33,7 @@
               Course Outline</span
             >
             <span
-              class="d-flex align-items-center fs13 cursor-pointer"
+              class="mr-5 d-flex align-items-center fs13 cursor-pointer"
               :class="{ 'text-dark-green': type == 3 }"
               @click="type = 3"
             >
@@ -43,6 +43,18 @@
                 font-scale=".45rem"
               ></b-icon
               >Course Schedule</span
+            >
+            <span
+              class="d-flex align-items-center fs13 cursor-pointer"
+              :class="{ 'text-dark-green': type == 4 }"
+              @click="type = 4"
+            >
+              <b-icon
+                icon="circle-fill"
+                class="mr-1"
+                font-scale=".45rem"
+              ></b-icon
+              >Course Questionnaire</span
             >
           </b-container>
         </div>
@@ -478,13 +490,46 @@
             </div>
           </div>
         </b-container>
+
+        <b-container v-show="type == 4" class="h-100 p-2">
+          <b-form-row>
+            <b-col>
+              <div class="px-2 mt-3">
+                <h6>Questionnaires</h6>
+
+                <div
+                  v-for="(item, id) in detail.questionnaires"
+                  :key="id"
+                  class="d-flex justify-content-between px-2 py-2 rounded"
+                >
+                  <div class="text-capitalize">
+                    <span class="mr-2">{{ id + 1 }}.</span> {{ item.title }}
+                  </div>
+                  <b-icon
+                    icon="x"
+                    @click="detail.questionnaires.splice(id, 1)"
+                    font-scale="1.5"
+                  ></b-icon>
+                </div>
+                <b-form-group class="">
+                  <b-button
+                    size="sm"
+                    variant="lighter-green"
+                    @click="$bvModal.show('question')"
+                    >Add Questionnaire (optional)</b-button
+                  >
+                </b-form-group>
+              </div>
+            </b-col>
+          </b-form-row>
+        </b-container>
         <div class="text-center py-3">
           <b-button
             size="lg"
             class="px-5"
             type="button"
             @click="type++"
-            v-show="type <= 2"
+            v-show="type <= 3"
             variant="secondary"
             >Next</b-button
           >
@@ -492,7 +537,7 @@
             size="lg"
             class="px-5"
             type="submit"
-            v-show="type === 3"
+            v-show="type === 4"
             variant="secondary"
             >Create course</b-button
           >
@@ -526,7 +571,7 @@
               Course Outline</span
             >
             <span
-              class="d-flex align-items-center fs13 cursor-pointer"
+              class="mr-5 d-flex align-items-center fs13 cursor-pointer"
               :class="{ 'text-dark-green': type == 3 }"
               @click="type = 3"
             >
@@ -536,6 +581,18 @@
                 font-scale=".45rem"
               ></b-icon
               >Course Schedule</span
+            >
+            <span
+              class="d-flex align-items-center fs13 cursor-pointer"
+              :class="{ 'text-dark-green': type == 4 }"
+              @click="type = 4"
+            >
+              <b-icon
+                icon="circle-fill"
+                class="mr-1"
+                font-scale=".45rem"
+              ></b-icon
+              >Course Questionnaire</span
             >
           </b-container>
         </div>
@@ -972,13 +1029,45 @@
             </div>
           </div>
         </b-container>
+        <b-container v-show="type == 4" class="h-100 p-2">
+          <b-form-row>
+            <b-col>
+              <div class="px-2 mt-3">
+                <h6>Questionnaires</h6>
+
+                <div
+                  v-for="(item, id) in detail.questionnaires"
+                  :key="id"
+                  class="d-flex justify-content-between px-2 py-2 rounded"
+                >
+                  <div class="text-capitalize">
+                    <span class="mr-2">{{ id + 1 }}.</span> {{ item.title }}
+                  </div>
+                  <b-icon
+                    icon="x"
+                    @click="detail.questionnaires.splice(id, 1)"
+                    font-scale="1.5"
+                  ></b-icon>
+                </div>
+                <b-form-group class="">
+                  <b-button
+                    size="sm"
+                    variant="lighter-green"
+                    @click="$bvModal.show('question')"
+                    >Add Questionnaire (optional)</b-button
+                  >
+                </b-form-group>
+              </div>
+            </b-col>
+          </b-form-row>
+        </b-container>
         <div class="text-center py-3">
           <b-button
             size="lg"
             class="px-5"
             type="button"
             @click="type++"
-            v-show="type <= 2"
+            v-show="type <= 3"
             variant="secondary"
             >Next</b-button
           >
@@ -986,12 +1075,15 @@
             size="lg"
             class="px-5"
             type="submit"
-            v-show="type === 3"
+            v-show="type === 4"
             variant="secondary"
             >Update course</b-button
           >
         </div>
       </b-form>
+    </b-modal>
+    <b-modal id="question" size="xl" hide-footer centered>
+      <questionnaire @getQuestionnaire="getQuestionnaire"></questionnaire>
     </b-modal>
     <b-container fluid class="pr-sm-0">
       <div>
@@ -1088,12 +1180,9 @@
                       <b-icon
                         stacked
                         icon="circle-fill"
-                        :style="
-                          `color:${
-                            JSON.parse(course.courseoutline.knowledge_areas)
-                              .color
-                          }`
-                        "
+                        :style="`color:${
+                          JSON.parse(course.courseoutline.knowledge_areas).color
+                        }`"
                       ></b-icon>
                       <b-icon
                         stacked
@@ -1196,7 +1285,7 @@
                               course.courseoutline.modules,
                               course.modules
                             )
-                          )
+                          ) || 0
                         }}%</span
                       >
                     </div>
@@ -1371,11 +1460,9 @@
                     <b-icon
                       stacked
                       icon="circle-fill"
-                      :style="
-                        `color:${
-                          JSON.parse(course.courseoutline.knowledge_areas).color
-                        }`
-                      "
+                      :style="`color:${
+                        JSON.parse(course.courseoutline.knowledge_areas).color
+                      }`"
                     ></b-icon>
                     <b-icon
                       stacked
@@ -1731,7 +1818,7 @@
                           v-if="item.facilitator_id != null"
                           >{{
                             facilitators.find(
-                              val => val.id == item.facilitator_id
+                              (val) => val.id == item.facilitator_id
                             ).name
                           }}</span
                         >
@@ -1767,6 +1854,7 @@
 <script>
 import Upload from "@/components/fileupload.vue";
 import Insight from "../insight.js";
+import questionnaire from "./Questionnaire/resourceQuestionnaire";
 export default {
   data() {
     return {
@@ -1786,7 +1874,7 @@ export default {
           description: "",
           cover: "",
           type: "free",
-          amount: null
+          amount: null,
         },
         outline: {
           overview: "",
@@ -1796,11 +1884,11 @@ export default {
           faqs: [
             {
               question: "",
-              answer: ""
-            }
+              answer: "",
+            },
           ],
           certification: null,
-          additional_info: ""
+          additional_info: "",
         },
         schedule: [
           {
@@ -1811,14 +1899,17 @@ export default {
             day: "monday",
             start_time: new Date(),
             end_time: new Date(),
-            facilitator_id: null
-          }
-        ]
-      }
+            facilitator_id: null,
+          },
+        ],
+        questionnaires: [],
+      },
+      questionnaires: [],
     };
   },
   components: {
-    Upload
+    Upload,
+    questionnaire,
   },
   mounted() {
     this.getcourses();
@@ -1826,6 +1917,10 @@ export default {
     this.insight = Insight;
   },
   methods: {
+    getQuestionnaire(val) {
+      this.detail.questionnaires.push(val);
+      this.$bvModal.hide("question");
+    },
     getProgress(a, b) {
       var count = 0;
 
@@ -1833,8 +1928,8 @@ export default {
 
       var resources = b;
 
-      modules.forEach(mod => {
-        var val = resources.filter(item => item.module == mod).length;
+      modules.forEach((mod) => {
+        var val = resources.filter((item) => item.module == mod).length;
 
         if (val) {
           count++;
@@ -1849,8 +1944,8 @@ export default {
       if (!arr.length) {
         return 0;
       }
-      arr.forEach(val => {
-        JSON.parse(val.modules).forEach(item => {
+      arr.forEach((val) => {
+        JSON.parse(val.modules).forEach((item) => {
           if (item.file_type.toLowerCase() == media.toLowerCase()) {
             newarr.push(item);
           }
@@ -1873,10 +1968,10 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      var newArr = schedule.map(val => {
+      var newArr = schedule.map((val) => {
         if (val.facilitator_id) {
           var fac = this.facilitators.find(
-            item => item.id == val.facilitator_id
+            (item) => item.id == val.facilitator_id
           );
           if (fac) {
             return fac.name;
@@ -1891,7 +1986,7 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      return schedule.map(item => {
+      return schedule.map((item) => {
         var res = ` ${item.day} ${this.$moment(
           new Date("2021-05-18 " + item.start_time)
         ).format("LT")}`;
@@ -1908,7 +2003,7 @@ export default {
         venue: "",
         start_time: new Date(),
         end_time: new Date(),
-        facilitator_id: null
+        facilitator_id: null,
       });
       this.current_schedule = this.detail.schedule.length - 1;
     },
@@ -1924,7 +2019,7 @@ export default {
     addfaq() {
       this.detail.outline.faqs.push({
         question: "",
-        answer: ""
+        answer: "",
       });
     },
 
@@ -1932,15 +2027,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/admin-get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1949,16 +2044,16 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/courses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.courses = res.data;
             this.showCourse = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1966,10 +2061,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/courses`, this.detail, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.$toast.success("Course created");
 
@@ -1982,7 +2077,7 @@ export default {
                 description: "",
                 cover: "",
                 type: "free",
-                amount: null
+                amount: null,
               },
               outline: {
                 overview: "",
@@ -1992,11 +2087,11 @@ export default {
                 faqs: [
                   {
                     question: "",
-                    answer: ""
-                  }
+                    answer: "",
+                  },
                 ],
                 certification: null,
-                additional_info: ""
+                additional_info: "",
               },
               schedule: [
                 {
@@ -2007,30 +2102,30 @@ export default {
                   day: "monday",
                   start_time: new Date(),
                   end_time: new Date(),
-                  facilitator_id: null
-                }
-              ]
+                  facilitator_id: null,
+                },
+              ],
             };
-            this.$bvModal
-              .msgBoxConfirm(
-                "Do you wish to add a questionnaire to this course?",
-                {
-                  size: "sm",
-                  buttonSize: "sm",
-                  okVariant: "success",
-                  centered: true
-                }
-              )
-              .then(val => {
-                if (val) {
-                  this.$router.push(
-                    `/administrator/questionnaire?course_id=${res.data.id}&course_title=${res.data.title}`
-                  );
-                }
-              });
+            // this.$bvModal
+            //   .msgBoxConfirm(
+            //     "Do you wish to add a questionnaire to this course?",
+            //     {
+            //       size: "sm",
+            //       buttonSize: "sm",
+            //       okVariant: "success",
+            //       centered: true,
+            //     }
+            //   )
+            //   .then((val) => {
+            //     if (val) {
+            //       this.$router.push(
+            //         `/administrator/questionnaire?course_id=${res.data.id}&course_title=${res.data.title}`
+            //       );
+            //     }
+            //   });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -2042,7 +2137,7 @@ export default {
           description: val.description,
           cover: val.cover,
           type: val.type,
-          amount: val.amount
+          amount: val.amount,
         },
         outline: {
           overview: val.courseoutline.overview,
@@ -2051,9 +2146,9 @@ export default {
           modules: JSON.parse(val.courseoutline.modules),
           faqs: JSON.parse(val.courseoutline.faqs),
           certification: val.courseoutline.certification,
-          additional_info: val.courseoutline.additional_info
+          additional_info: val.courseoutline.additional_info,
         },
-        schedule: val.courseschedule
+        schedule: val.courseschedule,
       };
 
       this.$bvModal.show("update");
@@ -2065,11 +2160,11 @@ export default {
           this.detail,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Update successful");
             this.$bvModal.hide("update");
@@ -2082,7 +2177,7 @@ export default {
                 description: "",
                 cover: "",
                 type: "free",
-                cost: ""
+                cost: "",
               },
               outline: {
                 overview: "",
@@ -2092,11 +2187,11 @@ export default {
                 faqs: [
                   {
                     question: "",
-                    answer: ""
-                  }
+                    answer: "",
+                  },
                 ],
                 certification: null,
-                additional_info: ""
+                additional_info: "",
               },
               schedule: [
                 {
@@ -2107,38 +2202,38 @@ export default {
                   day: "monday",
                   start_time: new Date(),
                   end_time: new Date(),
-                  facilitator_id: null
-                }
-              ]
+                  facilitator_id: null,
+                },
+              ],
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/courses/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-              }
+                Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+              },
             })
-            .then(res => {
+            .then((res) => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.courses.splice(index, 1);
               }
             })
-            .catch(err => {
+            .catch((err) => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

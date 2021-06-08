@@ -165,7 +165,7 @@
                     class="rounded mb-4"
                     :src="require('../assets/images/test.png')"
                   ></b-img>
-                  <div>John Snow</div>
+                  <div>Ada Okafor</div>
                   <div class="text-muted"><small>Facilitator</small></div>
                   <div>
                     <b-icon class="text-gold" icon="star-fill"></b-icon>
@@ -182,7 +182,7 @@
                     class="rounded mb-4"
                     :src="require('../assets/images/test.png')"
                   ></b-img>
-                  <div>John Snow</div>
+                  <div>John Obi Uchendu</div>
                   <div class="text-muted"><small>Facilitator</small></div>
                   <div>
                     <b-icon class="text-gold" icon="star-fill"></b-icon>
@@ -199,7 +199,7 @@
                     class="rounded mb-4"
                     :src="require('../assets/images/test.png')"
                   ></b-img>
-                  <div>John Snow</div>
+                  <div>Nkechi Ezeukwu</div>
                   <div class="text-muted"><small>Facilitator</small></div>
                   <div>
                     <b-icon class="text-gold" icon="star-fill"></b-icon>
@@ -385,6 +385,15 @@
 <style scoped lang="scss">
 #main {
   overflow-x: hidden;
+}
+#main ::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.notification_container {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 #banner {
   position: relative;

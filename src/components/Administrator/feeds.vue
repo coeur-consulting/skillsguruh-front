@@ -563,7 +563,7 @@
       </b-row>
 
       <div class="minichats d-none d-md-block">
-        <Minichat :mini_info="mini_info" :user="'admin'" />
+        <Minichat :user="'admin'" />
       </div>
     </b-container>
   </div>

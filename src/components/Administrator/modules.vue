@@ -4,7 +4,13 @@
       <b-row>
         <b-col class="mb-5 mb-sm-0">
           <div
-            class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-4"
+            class="
+              d-flex
+              flex-column flex-sm-row
+              justify-content-between
+              align-items-center
+              mb-4
+            "
           >
             <h6 class="mb-3 mb-sm-0 text-capitalize">
               {{ $route.query.showing }} Resources
@@ -377,7 +383,10 @@
                     ></b-icon>
                   </div>
                   <b-form-group class="">
-                    <b-button size="sm" @click="$bvModal.show('question')"
+                    <b-button
+                      size="sm"
+                      variant="lighter-green"
+                      @click="$bvModal.show('question')"
                       >Add Questionnaire (optional)</b-button
                     >
                   </b-form-group>
@@ -649,6 +658,36 @@
               </b-col>
             </b-form-row>
             <b-form-row>
+              <b-col>
+                <div class="px-2 mt-3">
+                  <h6>Questionnaires</h6>
+
+                  <div
+                    v-for="(item, id) in detail.questionnaires"
+                    :key="id"
+                    class="d-flex justify-content-between px-2 py-2 rounded"
+                  >
+                    <div class="text-capitalize">
+                      <span class="mr-2">{{ id + 1 }}.</span> {{ item.title }}
+                    </div>
+                    <b-icon
+                      icon="x"
+                      @click="detail.questionnaires.splice(id, 1)"
+                      font-scale="1.5"
+                    ></b-icon>
+                  </div>
+                  <b-form-group class="">
+                    <b-button
+                      size="sm"
+                      variant="lighter-green"
+                      @click="$bvModal.show('question')"
+                      >Add Questionnaire (optional)</b-button
+                    >
+                  </b-form-group>
+                </div>
+              </b-col>
+            </b-form-row>
+            <b-form-row>
               <b-col sm="6" class="px-3">
                 <div class="p-3 rounded">
                   <b-form-group label=" Cover image">
@@ -890,23 +929,6 @@ export default {
               ],
               cover_image: "",
             };
-            // this.$bvModal
-            //   .msgBoxConfirm(
-            //     "Do you wish to add a questionnaire to this module?",
-            //     {
-            //       size: "sm",
-            //       buttonSize: "sm",
-            //       okVariant: "success",
-            //       centered: true,
-            //     }
-            //   )
-            //   .then((val) => {
-            //     if (val) {
-            //       this.$router.push(
-            //         `/administrator/questionnaire?module_id=${res.data.id}&module_name=${res.data.module}`
-            //       );
-            //     }
-            //   });
           }
         })
         .catch((err) => {

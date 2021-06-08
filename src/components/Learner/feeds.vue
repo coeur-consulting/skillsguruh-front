@@ -598,23 +598,14 @@
             </div>
           </div>
         </b-col>
-        <Message
-          class="d-none d-md-block"
-          @getmessage="getmessage"
-          :user="'learner'"
-        />
+        <Message class="d-none d-md-block" :user="'learner'" />
       </b-row>
-
-      <div class="minichats d-none d-md-block">
-        <Minichat :mini_info="mini_info" :user="'learner'" />
-      </div>
     </b-container>
   </div>
 </template>
 <script>
 import EmojiPicker from "vue-emoji-picker";
 import FeedUpload from "../feedupload";
-import Minichat from "../minichat";
 import Message from "../messagecomponent";
 export default {
   data() {
@@ -628,8 +619,8 @@ export default {
         message: "",
       },
       img_ext: ["jpg", "png", "jpeg", "gif"],
-      vid_ext: ["mp4", "3gp"],
-      aud_ext: ["mp3"],
+      vid_ext: ["mp4", "3gp", "flv", "mov"],
+      aud_ext: ["mp3", "aac"],
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       comment: {
         comment: "",
@@ -645,7 +636,6 @@ export default {
     };
   },
   components: {
-    Minichat,
     Message,
     EmojiPicker,
     FeedUpload,
@@ -654,12 +644,6 @@ export default {
     this.getfeeds();
   },
   methods: {
-    getmessage(id, name, type, profile) {
-      this.mini_info.id = id;
-      this.mini_info.name = name;
-      this.mini_info.type = type;
-      this.mini_info.profile = profile;
-    },
     showcomments(feed) {
       this.allcomments = feed;
       this.$bvModal.show("allcomments");

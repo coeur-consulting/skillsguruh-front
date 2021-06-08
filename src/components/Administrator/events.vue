@@ -339,8 +339,15 @@ export default {
 }
 .events {
   max-height: 70vh;
-  overflow: auto;
+  overflow-y: auto;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
+
+.events::-webkit-scrollbar {
+  display: none;
+}
+
 .shadow {
   box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;
