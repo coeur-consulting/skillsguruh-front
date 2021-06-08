@@ -2,7 +2,7 @@
   <div>
     <b-container>
       <b-row class="mb-5">
-        <b-col sm="3">
+        <b-col sm="4">
           <div class="box">
             <div class="d-flex align-items-center mb-3">
               <b-iconstack font-scale="2.5" class="mr-3">
@@ -32,7 +32,7 @@
             </div>
           </div>
         </b-col>
-        <b-col sm="3">
+        <b-col sm="4">
           <div class="box">
             <div class="d-flex align-items-center mb-3">
               <b-iconstack font-scale="2.5" class="mr-3">
@@ -61,7 +61,7 @@
             </div>
           </div>
         </b-col>
-        <b-col sm="3">
+        <b-col sm="4">
           <div class="box">
             <div class="d-flex align-items-center mb-3">
               <b-iconstack font-scale="2.5" class="mr-3">
@@ -96,7 +96,7 @@
           <AdminTab />
         </b-col>
         <b-col sm="4" class="text-left">
-          <h6 class="mb-4">Turn Over</h6>
+          <h6 class="mb-4">Team Chart</h6>
 
           <div class="turn_over_box">
             <div class="tob_1 mb-4">
@@ -189,7 +189,7 @@ export default {
         },
 
         xaxis: {
-          categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+          categories: ["Learners", "Facilitators", "Administrators"],
           position: "top",
           axisBorder: {
             show: false,
@@ -348,6 +348,19 @@ export default {
           },
         ],
       };
+      this.initLine();
+    },
+    initLine() {
+      this.series1 = [
+        {
+          name: "Team",
+          data: [
+            this.users.length,
+            this.facilitators.length,
+            this.admins.length,
+          ],
+        },
+      ];
     },
   },
 };
@@ -366,6 +379,7 @@ export default {
   padding: 15px;
   box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35);
   border-radius: 8px;
+  background: white;
 }
 .new_add {
   color: rgba(0, 0, 0, 0.44);

@@ -125,17 +125,35 @@
                     type="submit"
                     variant="dark-green"
                     size="lg"
-                    class="px-5 d-none d-sm-block"
-                    >Login</b-button
+                    class="px-5 d-none d-sm-flex align-items-center"
+                    :disabled="loading"
                   >
+                    <span>Login</span>
+                    <b-icon
+                      icon="three-dots"
+                      v-if="loading"
+                      animation="cylon"
+                      class="ml-3"
+                      font-scale="1.5"
+                    ></b-icon
+                  ></b-button>
                   <b-button
                     type="submit"
                     variant="dark-green"
                     size="lg"
                     block
-                    class="px-5 d-sm-none"
-                    >Login</b-button
+                    :disabled="loading"
+                    class="px-5 d-flex d-sm-none"
                   >
+                    <span>Login</span>
+                    <b-icon
+                      icon="three-dots"
+                      v-if="loading"
+                      animation="cylon"
+                      class="ml-3"
+                      font-scale="1.5"
+                    ></b-icon
+                  ></b-button>
                 </div>
               </b-form-group>
             </div>
@@ -185,6 +203,7 @@ export default {
   data() {
     return {
       type: "organization",
+      loading: false,
       user: {
         name: "",
         email: "",
@@ -201,6 +220,7 @@ export default {
       this.user.profile = val;
     },
     register() {
+      this.loading = true;
       var authOrg = {};
       var authAdmin = {};
       var authFacilitator = {};
@@ -237,10 +257,12 @@ export default {
                 window.location.href = "/organization";
               })
               .catch(() => {
+                this.loading = false;
                 this.$toast.error("Invalid credentials");
               });
           })
           .catch(() => {
+            this.loading = false;
             this.$toast.error("Invalid credentials");
           });
       }
@@ -281,11 +303,8 @@ export default {
                 this.$toast.error("Invalid credentials");
               });
           })
-          .catch((err) => {
-            console.log(
-              "🚀 ~ file: Login.vue ~ line 257 ~ register ~ err",
-              err
-            );
+          .catch(() => {
+            this.loading = false;
             this.$toast.error("Invalid credentials");
           });
       }
@@ -331,11 +350,8 @@ export default {
                 this.$toast.error("Invalid credentials");
               });
           })
-          .catch((err) => {
-            console.log(
-              "🚀 ~ file: Login.vue ~ line 257 ~ register ~ err",
-              err
-            );
+          .catch(() => {
+            this.loading = false;
             this.$toast.error("Invalid credentials");
           });
       }
@@ -382,11 +398,8 @@ export default {
                 this.$toast.error("Invalid credentials");
               });
           })
-          .catch((err) => {
-            console.log(
-              "🚀 ~ file: Login.vue ~ line 257 ~ register ~ err",
-              err
-            );
+          .catch(() => {
+            this.loading = false;
             this.$toast.error("Invalid credentials");
           });
       }

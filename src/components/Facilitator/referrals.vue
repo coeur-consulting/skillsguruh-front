@@ -1,12 +1,12 @@
 <template>
   <b-container class="py-5 px-3 text-left">
     <b-row>
-      <b-col sm="7">
+      <b-col sm="7" v-if="showRef">
         <div class="box p-4 mb-4">
           <h6 class="font-weight-bold mb-4">Invite Friends and Earn Points</h6>
 
           <div class="mb-3">
-            <b-row class="">
+            <b-row class="mb-3">
               <b-col cols="4">
                 <b-img :src="require('@/assets/images/bonus.png')"></b-img
               ></b-col>
@@ -19,22 +19,58 @@
                   class="text-center p-3 mb-4"
                   @submit.prevent="sendInvite"
                 >
-                  <div
-                    class="px-3 py-2 d-flex align-items-center search bg-light mb-3"
-                  >
-                    <b-icon icon="envelope"></b-icon>
-                    <b-form-input
-                      autocomplete="off"
-                      autocorrect="off"
-                      size="sm"
-                      class="flex-1 border-0 no-focus search-bg"
-                      type="search"
-                      required
-                      v-model="email"
-                      placeholder="Enter an email address"
-                    ></b-form-input>
+                  <div>
+                    <div
+                      v-for="(item, id) in inviteUsers.users"
+                      :key="id"
+                      class="mb-1 text-center"
+                    >
+                      <div
+                        class="
+                          px-3
+                          py-2
+                          d-flex
+                          align-items-center
+                          search
+                          bg-light
+                          mb-3
+                        "
+                      >
+                        <b-icon icon="envelope"></b-icon>
+                        <b-form-input
+                          autocomplete="off"
+                          autocorrect="off"
+                          size="sm"
+                          class="flex-1 border-0 no-focus search-bg"
+                          type="search"
+                          required
+                          v-model="item.email"
+                          placeholder="Enter an email address"
+                        ></b-form-input>
+                        <b-icon
+                          v-if="inviteUsers.users.length > 1"
+                          icon="x"
+                          font-scale="1.4"
+                          class="ml-2"
+                          @click="inviteUsers.users.splice(id, 1)"
+                        ></b-icon>
+                      </div>
+                    </div>
+                    <div class="text-center mt-3">
+                      <b-button
+                        size="sm"
+                        class="mr-3"
+                        variant="lighter-green"
+                        @click="addinvite"
+                      >
+                        <b-icon icon="plus" font-scale="1.4"></b-icon> Add
+                        email</b-button
+                      >
+                      <b-button size="sm" variant="dark-green" type="submit">
+                        Send Invite
+                      </b-button>
+                    </div>
                   </div>
-                  <b-button variant="dark-green" type="submit">Invite</b-button>
                 </b-form>
 
                 <div>
@@ -67,61 +103,96 @@
                 </div>
               </b-col>
             </b-row>
+            <div class="p-3 text-center mb-4">
+              <div class="mb-3 border px-4 py-2 rounded d-flex text-muted">
+                <b-icon icon="link45deg" font-scale="1.5rem"></b-icon>
+                <b-form-input
+                  v-model="message"
+                  readonly
+                  class="text-align flex-1 rounded-pill no-focus fs13"
+                >
+                </b-form-input>
+              </div>
+              <div>
+                <b-button
+                  variant="lighter-green"
+                  type="button"
+                  v-clipboard:copy="message"
+                  v-clipboard:success="onCopy"
+                  v-clipboard:error="onError"
+                  class="rounded px-4"
+                  >Copy link</b-button
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </b-col>
+      <b-col sm="7" v-else class="p-5">
+        <div class="d-flex w-100 mb-3 box">
+          <div class="mr-2">
+            <b-skeleton type="avatar"></b-skeleton>
+          </div>
+          <div class="w-100">
+            <div class="mb-3">
+              <b-skeleton-img no-aspect height="150px"></b-skeleton-img>
+            </div>
+            <b-skeleton animation="wave" width="85%"></b-skeleton>
+            <b-skeleton animation="wave" width="35%"></b-skeleton>
           </div>
         </div>
 
-        <div class="box p-5 text-center">
-          <div class="mb-3 border px-4 py-2 rounded-pill d-flex text-muted">
-            <b-icon icon="link45deg" font-scale="1.5rem"></b-icon>
-            <b-form-input
-              v-model="message"
-              readonly
-              class="text-align flex-1 rounded-pill no-focus"
-            >
-            </b-form-input>
+        <div class="d-flex w-100 mb-3">
+          <div class="mr-2 mb-3">
+            <b-skeleton type="avatar"></b-skeleton>
           </div>
-          <div>
-            <b-button
-              variant="lighter-green"
-              type="button"
-              v-clipboard:copy="message"
-              v-clipboard:success="onCopy"
-              v-clipboard:error="onError"
-              class="rounded px-4"
-              >Copy link</b-button
-            >
+          <div class="w-100">
+            <div class="mb-3">
+              <b-skeleton-img no-aspect height="150px"></b-skeleton-img>
+            </div>
+            <b-skeleton animation="wave" width="85%"></b-skeleton>
+            <b-skeleton animation="wave" width="35%"></b-skeleton>
           </div>
         </div>
       </b-col>
       <b-col sm="5">
-        <div class="box p-4">
-          <h6>Referral List</h6>
+        <div class="box">
+          <h6 class="mb-4 py-2 px-3">Referral List</h6>
 
-          <b-table-simple v-if="referrals.length">
-            <b-thead>
-              <b-tr>
-                <b-th>Name</b-th>
-                <b-th>Earning</b-th>
-              </b-tr>
-            </b-thead>
-            <b-tbody>
-              <b-tr v-for="item in referrals" :key="item.id">
-                <b-td class="text-capitalize">{{
-                  item.learner_detail
-                    ? item.learner_detail.name
-                    : item.facilitator_detail.name
-                }}</b-td>
-                <b-td>NGN 10.00</b-td>
-              </b-tr>
+          <div class="" v-if="showReferral">
+            <b-table-simple v-if="referrals.length">
+              <b-thead>
+                <b-tr>
+                  <b-th class="fs14">Name</b-th>
+                  <b-th class="fs14">Earning</b-th>
+                </b-tr>
+              </b-thead>
+              <b-tbody>
+                <b-tr v-for="item in referrals" :key="item.id">
+                  <b-td class="text-capitalize">{{
+                    item.facilitator_detail.name
+                  }}</b-td>
+                  <b-td class="fs14">NGN 10.00</b-td>
+                </b-tr>
+                <b-tr>
+                  <b-td>Total earnings</b-td>
+                  <b-td class="text-dark-green font-weight-bold fs14">
+                    NGN {{ referrals.length * 10 }}.00</b-td
+                  >
+                </b-tr>
+              </b-tbody>
+            </b-table-simple>
 
-              <b-tr>
-                <b-td>Total earnings</b-td>
-                <b-td class="text-dark-green font-weight-bold">
-                  NGN {{ referrals.length * 10 }}.00</b-td
-                >
-              </b-tr>
-            </b-tbody>
-          </b-table-simple>
+            <h6 v-else class="text-center text-muted">No Data Available</h6>
+          </div>
+
+          <div v-else>
+            <b-skeleton-table
+              :rows="3"
+              :columns="2"
+              :table-props="{ bordered: true, striped: true }"
+            ></b-skeleton-table>
+          </div>
         </div>
       </b-col>
     </b-row>
@@ -131,16 +202,34 @@
 export default {
   data() {
     return {
+      showCommunity: false,
+      showReferral: false,
+      showRef: false,
+      inviteUsers: {
+        code: "",
+        users: [
+          {
+            email: "",
+          },
+        ],
+      },
       referrals: [],
       email: "",
-      message: `https://skillsguruh.herokuapp.com/register/?referral_code=${this.$store.getters.facilitator.referral}`,
+      message: `https://skillsguruh.herokuapp.com/register/?referral_type=normal&referral_code=${this.$store.getters.facilitator.referral}`,
+      communities_link: [],
     };
   },
   mounted() {
     this.getreferrals();
-    this.message = `https://skillsguruh.herokuapp.com/register/?referral_code=${this.$store.getters.facilitator.referral}`;
+    this.getcommunity();
+    this.message = `https://skillsguruh.herokuapp.com/register/?referral_type=normal&referral_code=${this.$store.getters.facilitator.referral}`;
   },
   methods: {
+    addinvite() {
+      this.inviteUsers.users.push({
+        email: "",
+      });
+    },
     getreferrals() {
       this.$http
         .get(`${this.$store.getters.url}/referrals`, {
@@ -151,6 +240,25 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.referrals = res.data;
+            this.showReferral = true;
+            this.showRef = true;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    getcommunity() {
+      this.$http
+        .get(`${this.$store.getters.url}/add-community`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.communities_link = res.data;
+            this.showCommunity = true;
           }
         })
         .catch((err) => {
@@ -159,7 +267,7 @@ export default {
     },
     sendInvite() {
       var data = {
-        email: this.email,
+        emails: this.inviteUsers.users,
         code: this.$store.getters.facilitator.referral,
       };
       this.$http

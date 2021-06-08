@@ -9,6 +9,9 @@
                 :perPage="1"
                 :paginationEnabled="false"
                 :autoplay="true"
+                :speed="1000"
+                :autoplayTimeout="5000"
+                :loop="true"
                 v-if="comingevents.length"
               >
                 <slide v-for="item in comingevents" :key="item.id">
@@ -186,15 +189,50 @@
                                     fs11
                                   "
                                 >
-                                  {{
-                                    duration(item.dates.start, item.dates.end)
-                                  }}
-                                  week{{
-                                    duration(item.dates.start, item.dates.end) >
-                                    1
-                                      ? "s"
-                                      : ""
-                                  }}
+                                  <span
+                                    v-if="
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        'weeks'
+                                      ) > 0
+                                    "
+                                  >
+                                    {{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "weeks"
+                                      )
+                                    }}
+                                    week{{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "weeks"
+                                      ) > 1
+                                        ? "s"
+                                        : ""
+                                    }}
+                                  </span>
+                                  <span v-else>
+                                    {{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "days"
+                                      )
+                                    }}
+                                    day{{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "days"
+                                      ) > 1
+                                        ? "s"
+                                        : ""
+                                    }}
+                                  </span>
                                 </span>
                               </div>
                               <div class="fs14" v-if="item.customData.title">
@@ -203,6 +241,7 @@
 
                               <div class="fs12 mb-1" v-if="item.dates.start">
                                 {{ item.dates.start | moment(" MMMM Do YYYY") }}
+                                - {{ item.dates.end | moment(" MMMM Do YYYY") }}
                               </div>
                               <div class="fs12">
                                 {{ item.dates.start | moment("LT") }}
@@ -246,15 +285,50 @@
                                     fs11
                                   "
                                 >
-                                  {{
-                                    duration(item.dates.start, item.dates.end)
-                                  }}
-                                  week{{
-                                    duration(item.dates.start, item.dates.end) >
-                                    1
-                                      ? "s"
-                                      : ""
-                                  }}
+                                  <span
+                                    v-if="
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        'weeks'
+                                      ) > 0
+                                    "
+                                  >
+                                    {{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "weeks"
+                                      )
+                                    }}
+                                    week{{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "weeks"
+                                      ) > 1
+                                        ? "s"
+                                        : ""
+                                    }}
+                                  </span>
+                                  <span v-else>
+                                    {{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "days"
+                                      )
+                                    }}
+                                    day{{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "days"
+                                      ) > 1
+                                        ? "s"
+                                        : ""
+                                    }}
+                                  </span>
                                 </span>
                               </div>
                               <div class="fs14" v-if="item.customData.title">
@@ -263,6 +337,7 @@
 
                               <div class="fs12 mb-1" v-if="item.dates.start">
                                 {{ item.dates.start | moment(" MMMM Do YYYY") }}
+                                - {{ item.dates.end | moment(" MMMM Do YYYY") }}
                               </div>
                               <div class="fs12">
                                 {{ item.dates.start | moment("LT") }}
@@ -306,15 +381,50 @@
                                     fs11
                                   "
                                 >
-                                  {{
-                                    duration(item.dates.start, item.dates.end)
-                                  }}
-                                  week{{
-                                    duration(item.dates.start, item.dates.end) >
-                                    1
-                                      ? "s"
-                                      : ""
-                                  }}
+                                  <span
+                                    v-if="
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        'weeks'
+                                      ) > 0
+                                    "
+                                  >
+                                    {{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "weeks"
+                                      )
+                                    }}
+                                    week{{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "weeks"
+                                      ) > 1
+                                        ? "s"
+                                        : ""
+                                    }}
+                                  </span>
+                                  <span v-else>
+                                    {{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "days"
+                                      )
+                                    }}
+                                    day{{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "days"
+                                      ) > 1
+                                        ? "s"
+                                        : ""
+                                    }}
+                                  </span>
                                 </span>
                               </div>
                               <div class="fs14" v-if="item.customData.title">
@@ -323,6 +433,7 @@
 
                               <div class="fs12 mb-1" v-if="item.dates.start">
                                 {{ item.dates.start | moment(" MMMM Do YYYY") }}
+                                - {{ item.dates.end | moment(" MMMM Do YYYY") }}
                               </div>
                               <div class="fs12">
                                 {{ item.dates.start | moment("LT") }}
@@ -366,15 +477,50 @@
                                     fs11
                                   "
                                 >
-                                  {{
-                                    duration(item.dates.start, item.dates.end)
-                                  }}
-                                  week{{
-                                    duration(item.dates.start, item.dates.end) >
-                                    1
-                                      ? "s"
-                                      : ""
-                                  }}
+                                  <span
+                                    v-if="
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        'weeks'
+                                      ) > 0
+                                    "
+                                  >
+                                    {{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "weeks"
+                                      )
+                                    }}
+                                    week{{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "weeks"
+                                      ) > 1
+                                        ? "s"
+                                        : ""
+                                    }}
+                                  </span>
+                                  <span v-else>
+                                    {{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "days"
+                                      )
+                                    }}
+                                    day{{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "days"
+                                      ) > 1
+                                        ? "s"
+                                        : ""
+                                    }}
+                                  </span>
                                 </span>
                               </div>
                               <div class="fs14" v-if="item.customData.title">
@@ -383,6 +529,7 @@
 
                               <div class="fs12 mb-1" v-if="item.dates.start">
                                 {{ item.dates.start | moment(" MMMM Do YYYY") }}
+                                - {{ item.dates.end | moment(" MMMM Do YYYY") }}
                               </div>
                               <div class="fs12">
                                 {{ item.dates.start | moment("LT") }}
@@ -426,15 +573,50 @@
                                     fs11
                                   "
                                 >
-                                  {{
-                                    duration(item.dates.start, item.dates.end)
-                                  }}
-                                  week{{
-                                    duration(item.dates.start, item.dates.end) >
-                                    1
-                                      ? "s"
-                                      : ""
-                                  }}
+                                  <span
+                                    v-if="
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        'weeks'
+                                      ) > 0
+                                    "
+                                  >
+                                    {{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "weeks"
+                                      )
+                                    }}
+                                    week{{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "weeks"
+                                      ) > 1
+                                        ? "s"
+                                        : ""
+                                    }}
+                                  </span>
+                                  <span v-else>
+                                    {{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "days"
+                                      )
+                                    }}
+                                    day{{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "days"
+                                      ) > 1
+                                        ? "s"
+                                        : ""
+                                    }}
+                                  </span>
                                 </span>
                               </div>
                               <div class="fs14" v-if="item.customData.title">
@@ -443,6 +625,7 @@
 
                               <div class="fs12 mb-1" v-if="item.dates.start">
                                 {{ item.dates.start | moment(" MMMM Do YYYY") }}
+                                - {{ item.dates.end | moment(" MMMM Do YYYY") }}
                               </div>
                               <div class="fs12">
                                 {{ item.dates.start | moment("LT") }}
@@ -486,15 +669,50 @@
                                     fs11
                                   "
                                 >
-                                  {{
-                                    duration(item.dates.start, item.dates.end)
-                                  }}
-                                  week{{
-                                    duration(item.dates.start, item.dates.end) >
-                                    1
-                                      ? "s"
-                                      : ""
-                                  }}
+                                  <span
+                                    v-if="
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        'weeks'
+                                      ) > 0
+                                    "
+                                  >
+                                    {{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "weeks"
+                                      )
+                                    }}
+                                    week{{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "weeks"
+                                      ) > 1
+                                        ? "s"
+                                        : ""
+                                    }}
+                                  </span>
+                                  <span v-else>
+                                    {{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "days"
+                                      )
+                                    }}
+                                    day{{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "days"
+                                      ) > 1
+                                        ? "s"
+                                        : ""
+                                    }}
+                                  </span>
                                 </span>
                               </div>
                               <div class="fs14" v-if="item.customData.title">
@@ -503,6 +721,7 @@
 
                               <div class="fs12 mb-1" v-if="item.dates.start">
                                 {{ item.dates.start | moment(" MMMM Do YYYY") }}
+                                - {{ item.dates.end | moment(" MMMM Do YYYY") }}
                               </div>
                               <div class="fs12">
                                 {{ item.dates.start | moment("LT") }}
@@ -546,15 +765,50 @@
                                     fs11
                                   "
                                 >
-                                  {{
-                                    duration(item.dates.start, item.dates.end)
-                                  }}
-                                  week{{
-                                    duration(item.dates.start, item.dates.end) >
-                                    1
-                                      ? "s"
-                                      : ""
-                                  }}
+                                  <span
+                                    v-if="
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        'weeks'
+                                      ) > 0
+                                    "
+                                  >
+                                    {{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "weeks"
+                                      )
+                                    }}
+                                    week{{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "weeks"
+                                      ) > 1
+                                        ? "s"
+                                        : ""
+                                    }}
+                                  </span>
+                                  <span v-else>
+                                    {{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "days"
+                                      )
+                                    }}
+                                    day{{
+                                      duration(
+                                        item.dates.start,
+                                        item.dates.end,
+                                        "days"
+                                      ) > 1
+                                        ? "s"
+                                        : ""
+                                    }}
+                                  </span>
                                 </span>
                               </div>
                               <div class="fs14" v-if="item.customData.title">
@@ -563,6 +817,7 @@
 
                               <div class="fs12 mb-1" v-if="item.dates.start">
                                 {{ item.dates.start | moment(" MMMM Do YYYY") }}
+                                - {{ item.dates.end | moment(" MMMM Do YYYY") }}
                               </div>
                               <div class="fs12">
                                 {{ item.dates.start | moment("LT") }}

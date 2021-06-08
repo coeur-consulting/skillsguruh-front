@@ -168,17 +168,33 @@
                     type="submit"
                     variant="dark-green"
                     size="lg"
+                    :disabled="loading"
                     class="px-5 d-none d-sm-block"
-                    >Register</b-button
-                  >
+                    >Register
+                    <b-icon
+                      icon="three-dots"
+                      v-if="loading"
+                      animation="cylon"
+                      class="ml-3"
+                      font-scale="1.5"
+                    ></b-icon
+                  ></b-button>
                   <b-button
                     type="submit"
                     variant="dark-green"
                     size="lg"
                     block
+                    :disabled="loading"
                     class="px-5 d-sm-none"
-                    >Register</b-button
-                  >
+                    >Register
+                    <b-icon
+                      icon="three-dots"
+                      v-if="loading"
+                      animation="cylon"
+                      class="ml-3"
+                      font-scale="1.5"
+                    ></b-icon
+                  ></b-button>
                 </div>
                 <div>
                   <span class="login fs14">
@@ -227,6 +243,7 @@ export default {
   data() {
     return {
       type: "organization",
+      loading: false,
       user: {
         name: "",
         email: "",
@@ -259,6 +276,7 @@ export default {
     },
     register() {
       if (this.agree) {
+        this.loading = true;
         if (this.type == "organization") {
           this.$http
             .post(`${this.$store.getters.url}/register-organization`, this.user)
@@ -276,6 +294,7 @@ export default {
               }
             })
             .catch((err) => {
+              this.loading = false;
               if (err.response.data.errors.email) {
                 this.$toast.error(err.response.data.errors.email[0]);
               }
@@ -307,6 +326,7 @@ export default {
               }
             })
             .catch((err) => {
+              this.loading = false;
               if (err.response.data.errors.email) {
                 this.$toast.error(err.response.data.errors.email[0]);
               }
@@ -338,6 +358,7 @@ export default {
               }
             })
             .catch((err) => {
+              this.loading = false;
               if (err.response.data.errors.email) {
                 this.$toast.error(err.response.data.errors.email[0]);
               }

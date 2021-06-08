@@ -1,7 +1,7 @@
 <template>
   <b-container class="py-5 px-3 text-left">
     <b-row>
-      <b-col sm="7">
+      <b-col sm="7" v-if="showRef">
         <div class="box p-4 mb-4">
           <h6 class="font-weight-bold mb-4">Invite Friends and Earn Points</h6>
 
@@ -163,6 +163,33 @@
           </div>
         </div>
       </b-col>
+      <b-col sm="7" v-else class="p-5">
+        <div class="d-flex w-100 mb-3 box">
+          <div class="mr-2">
+            <b-skeleton type="avatar"></b-skeleton>
+          </div>
+          <div class="w-100">
+            <div class="mb-3">
+              <b-skeleton-img no-aspect height="150px"></b-skeleton-img>
+            </div>
+            <b-skeleton animation="wave" width="85%"></b-skeleton>
+            <b-skeleton animation="wave" width="35%"></b-skeleton>
+          </div>
+        </div>
+
+        <div class="d-flex w-100 mb-3">
+          <div class="mr-2 mb-3">
+            <b-skeleton type="avatar"></b-skeleton>
+          </div>
+          <div class="w-100">
+            <div class="mb-3">
+              <b-skeleton-img no-aspect height="150px"></b-skeleton-img>
+            </div>
+            <b-skeleton animation="wave" width="85%"></b-skeleton>
+            <b-skeleton animation="wave" width="35%"></b-skeleton>
+          </div>
+        </div>
+      </b-col>
       <b-col sm="5">
         <div class="box">
           <h6 class="mb-4 py-2 px-3">Referral List</h6>
@@ -212,6 +239,7 @@ export default {
     return {
       showCommunity: false,
       showReferral: false,
+      showRef: false,
       inviteUsers: {
         code: "",
         users: [
@@ -248,6 +276,7 @@ export default {
           if (res.status == 200) {
             this.referrals = res.data;
             this.showReferral = true;
+            this.showRef = true;
           }
         })
         .catch((err) => {

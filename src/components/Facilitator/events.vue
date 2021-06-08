@@ -66,63 +66,93 @@
                   >
                 </div>
               </div>
-              <div class="events" v-if="filter.length">
-                <div
-                  class="border rounded text-left mb-5 position-relative"
-                  v-for="item in filter"
-                  :key="item.id"
-                >
-                  <div class="px-3 py-2">
-                    <h5 class="text-capitalize">{{ item.title }}</h5>
-                    <p class="mb-1 text-muted fs15">
-                      <b-icon
-                        icon="calendar2-check"
-                        class="mr-2 text-muted"
-                      ></b-icon>
-                      {{ item.schedule }}
-                    </p>
-                    <div class="d-flex">
-                      <b-icon
-                        class="mr-2 text-muted"
-                        icon="info-circle"
-                      ></b-icon>
-                      <p class="description text-muted">
-                        {{ item.description }}
+              <div v-if="showEvents">
+                <div class="events" v-if="filter.length">
+                  <div
+                    class="border rounded text-left mb-5 position-relative"
+                    v-for="item in filter"
+                    :key="item.id"
+                  >
+                    <div class="px-3 py-2">
+                      <h5 class="text-capitalize">{{ item.title }}</h5>
+                      <p class="mb-1 text-muted fs15">
+                        <b-icon
+                          icon="calendar2-check"
+                          class="mr-2 text-muted"
+                        ></b-icon>
+                        {{ item.schedule }}
                       </p>
+                      <div class="d-flex">
+                        <b-icon
+                          class="mr-2 text-muted"
+                          icon="info-circle"
+                        ></b-icon>
+                        <p class="description text-muted">
+                          {{ item.description }}
+                        </p>
+                      </div>
+                    </div>
+                    <b-img fluid-grow :src="item.cover"></b-img>
+                    <div
+                      class="
+                        bg-lighter-green
+                        px-3
+                        py-2
+                        text-left text-dark-green
+                      "
+                    >
+                      <span @click="view(item.id)">
+                        <span class=""> View Event </span>
+                        <b-icon icon="chevron-double-right"></b-icon>
+                      </span>
                     </div>
                   </div>
-                  <b-img fluid-grow :src="item.cover"></b-img>
-                  <div
-                    class="bg-lighter-green px-3 py-2 text-left text-dark-green"
-                  >
-                    <span @click="view(item.id)">
-                      <span class=""> View Event </span>
-                      <b-icon icon="chevron-double-right"></b-icon>
-                    </span>
+                  <div class="py-3 d-flex justify-content-between">
+                    <div class="fs12 text-muted">
+                      Showing 1-10 of {{ filter.length }} items
+                    </div>
+                    <b-pagination
+                      pills
+                      size="sm"
+                      variant="dark-green"
+                      align="right"
+                      v-model="currentPage"
+                      :total-rows="rows"
+                      :per-page="perPage"
+                    ></b-pagination>
                   </div>
                 </div>
-                <div class="py-3 d-flex justify-content-between">
-                  <div class="fs12 text-muted">
-                    Showing 1-10 of {{ filter.length }} items
+                <div v-else class="text-center admin_tab p-3 p-sm-5">
+                  <div>
+                    <b-img
+                      :src="require('@/assets/images/creator.svg')"
+                    ></b-img>
+                    <h6 class="text-muted my-3 fs14">
+                      It appears you have no event,
+                      <br class="d-none d-sm-block" />
+                    </h6>
                   </div>
-                  <b-pagination
-                    pills
-                    size="sm"
-                    variant="dark-green"
-                    align="right"
-                    v-model="currentPage"
-                    :total-rows="rows"
-                    :per-page="perPage"
-                  ></b-pagination>
                 </div>
               </div>
-              <div v-else class="text-center admin_tab p-3 p-sm-5">
-                <div>
-                  <b-img :src="require('@/assets/images/creator.svg')"></b-img>
-                  <h6 class="text-muted my-3 fs14">
-                    It appears you have no event,
-                    <br class="d-none d-sm-block" />
-                  </h6>
+              <div v-else class="p-3">
+                <div class="w-100 mb-3">
+                  <div class="w-100">
+                    <div class="mb-3">
+                      <b-skeleton-img no-aspect height="250px"></b-skeleton-img>
+                    </div>
+                    <b-skeleton animation="wave" width="85%"></b-skeleton>
+                    <b-skeleton animation="wave" width="35%"></b-skeleton>
+                  </div>
+                </div>
+
+                <div class="w-100 mb-3">
+                  <div class="w-100">
+                    <div class="mb-3">
+                      <b-skeleton-img no-aspect height="250px"></b-skeleton-img>
+                    </div>
+                    <b-skeleton animation="wave" width="85%"></b-skeleton>
+                    <b-skeleton animation="wave" width="35%"></b-skeleton>
+                  </div>
                 </div>
               </div>
             </div>
@@ -156,6 +186,7 @@ export default {
         resource: "",
         facilitators: [],
       },
+      showEvents: false,
     };
   },
   components: {},
@@ -220,6 +251,7 @@ export default {
           if (res.status == 200) {
             this.events = res.data;
             this.rows = res.data.length;
+            this.showEvents = true;
           }
         })
         .catch((err) => {

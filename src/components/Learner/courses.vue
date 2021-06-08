@@ -531,16 +531,13 @@
             </div>
 
             <div v-if="toggleCourse == 1">
-              <div
-                class="mb-4 px-2 d-flex justify-content-between"
-                v-if="course.type !== 'free'"
-              >
+              <div class="mb-4 px-2 d-flex justify-content-between">
                 <div>
                   <h6 class="fs14">Course Access</h6>
                   <p class="fs13 text-capitalize mb-1">
                     Type: {{ course.type }}
                   </p>
-                  <p class="fs13">
+                  <p class="fs13" v-if="course.type !== 'free'">
                     {{ course.amount }}
                     {{ course.type == "group" ? "Participants" : "Naira" }}
                   </p>

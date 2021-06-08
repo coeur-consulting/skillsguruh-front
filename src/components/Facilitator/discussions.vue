@@ -38,151 +38,183 @@
                 Private
               </div>
             </div>
-            <div class="main_content" v-if="discussions.length">
-              <div
-                class="content border-bottom p-3 pt-4 pb-5 cursor-pointer"
-                v-for="(item, index) in discussions"
-                :key="index"
-              >
+            <div v-if="showDiscussions">
+              <div class="main_content" v-if="discussions.length">
                 <div
-                  class="
-                    top_dis
-                    d-flex
-                    align-items-center
-                    mb-2
-                    position-relative
-                  "
+                  class="content border-bottom p-3 pt-4 pb-5 cursor-pointer"
+                  v-for="(item, index) in discussions"
+                  :key="index"
                 >
-                  <b-dropdown
-                    size="sm"
-                    variant="transparent"
-                    no-caret
-                    class="no-focus drop"
-                  >
-                    <template #button-content>
-                      <b-icon icon="three-dots" font-scale="1.4"></b-icon>
-                    </template>
-                    <b-dropdown-item class="fs12" @click="drop(item.id, index)"
-                      >Delete</b-dropdown-item
-                    >
-                  </b-dropdown>
-                  <div class="side_dis">
-                    <b-avatar
-                      v-if="item.creator == 'admin'"
-                      :src="item.admin.profile"
-                    ></b-avatar>
-                    <b-avatar
-                      v-if="item.creator == 'user'"
-                      :src="item.user.profile"
-                    ></b-avatar>
-                    <b-avatar
-                      v-if="item.creator == 'facilitator'"
-                      :src="item.facilitator.profile"
-                    ></b-avatar>
-                  </div>
-                  <div class="text-left next_dis">
-                    <span>
-                      <span class="asked mr-2">
-                        Started {{ item.created_at | moment("calendar") }}</span
-                      >
-                      <span class="mr-2 fs13"
-                        ><b-badge
-                          class="text-capitalize font-weight-normal"
-                          variant="dark-green"
-                          >{{ item.type }}</b-badge
-                        ></span
-                      >
-                    </span>
-                    <br />
-                    <span class="title">{{ item.name }} </span>
-                  </div>
-                </div>
-                <div class="top_dis d-flex align-items-start">
                   <div
                     class="
-                      side_dis
+                      top_dis
                       d-flex
-                      flex-column
                       align-items-center
-                      justify-content-center
-                      text-center
-                      vote
+                      mb-2
+                      position-relative
                     "
                   >
-                    <b-icon
-                      icon="caret-up-fill"
-                      font-scale="1.2"
-                      class="cursor-pointer"
-                    ></b-icon>
-                    <span v-if="item.discussionvote">
-                      <span v-if="vote(item.discussionvote) > 0">+</span>
-                      <span v-if="vote(item.discussionvote) < 0">-</span
-                      >{{ vote(item.discussionvote) }}</span
+                    <b-dropdown
+                      size="sm"
+                      variant="transparent"
+                      no-caret
+                      class="no-focus drop"
                     >
-                    <span v-else>0</span>
-
-                    <b-icon
-                      icon="caret-down-fill"
-                      font-scale="1.2"
-                      class="cursor-pointer"
-                    ></b-icon>
+                      <template #button-content>
+                        <b-icon icon="three-dots" font-scale="1.4"></b-icon>
+                      </template>
+                      <b-dropdown-item
+                        class="fs12"
+                        @click="drop(item.id, index)"
+                        >Delete</b-dropdown-item
+                      >
+                    </b-dropdown>
+                    <div class="side_dis">
+                      <b-avatar
+                        v-if="item.creator == 'admin'"
+                        :src="item.admin.profile"
+                      ></b-avatar>
+                      <b-avatar
+                        v-if="item.creator == 'user'"
+                        :src="item.user.profile"
+                      ></b-avatar>
+                      <b-avatar
+                        v-if="item.creator == 'facilitator'"
+                        :src="item.facilitator.profile"
+                      ></b-avatar>
+                    </div>
+                    <div class="text-left next_dis">
+                      <span>
+                        <span class="asked mr-2">
+                          Started
+                          {{ item.created_at | moment("calendar") }}</span
+                        >
+                        <span class="mr-2 fs13"
+                          ><b-badge
+                            class="text-capitalize font-weight-normal"
+                            variant="dark-green"
+                            >{{ item.type }}</b-badge
+                          ></span
+                        >
+                      </span>
+                      <br />
+                      <span class="title">{{ item.name }} </span>
+                    </div>
                   </div>
-                  <div class="text-left next_dis">
-                    <div class="main_text">
-                      {{ item.description }}
+                  <div class="top_dis d-flex align-items-start">
+                    <div
+                      class="
+                        side_dis
+                        d-flex
+                        flex-column
+                        align-items-center
+                        justify-content-center
+                        text-center
+                        vote
+                      "
+                    >
+                      <b-icon
+                        icon="caret-up-fill"
+                        font-scale="1.2"
+                        class="cursor-pointer"
+                      ></b-icon>
+                      <span v-if="item.discussionvote">
+                        <span v-if="vote(item.discussionvote) > 0">+</span>
+                        <span v-if="vote(item.discussionvote) < 0">-</span
+                        >{{ vote(item.discussionvote) }}</span
+                      >
+                      <span v-else>0</span>
+
+                      <b-icon
+                        icon="caret-down-fill"
+                        font-scale="1.2"
+                        class="cursor-pointer"
+                      ></b-icon>
+                    </div>
+                    <div class="text-left next_dis">
+                      <div class="main_text">
+                        {{ item.description }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="bottom_bar d-flex justify-content-between">
+                    <div>
+                      <span class="mr-4"
+                        ><b-icon icon="chat" class="mr-1"></b-icon>
+                        <span>{{ item.discussionmessage.length }}</span>
+                        answers</span
+                      >
+                      <span class="mr-4"
+                        ><b-icon icon="eye-fill" class="mr-1"></b-icon>
+                        <span v-if="item.discussionview">{{
+                          item.discussionview.view || 0
+                        }}</span>
+                        <span v-else>{{ 0 }}</span> views</span
+                      >
+                    </div>
+                    <div>
+                      <span
+                        v-if="item.type == 'public'"
+                        @click="
+                          $router.push(`/facilitator/discussion/${item.id}`)
+                        "
+                        class="text-dark-green font-weight-bold cursor-pointer"
+                        >Join Discussion</span
+                      >
+                      <span
+                        v-else
+                        @click="joindiscussion(item)"
+                        class="text-dark-green font-weight-bold cursor-pointer"
+                        >Join Discussion</span
+                      >
                     </div>
                   </div>
                 </div>
+              </div>
 
-                <div class="bottom_bar d-flex justify-content-between">
-                  <div>
-                    <span class="mr-4"
-                      ><b-icon icon="chat" class="mr-1"></b-icon>
-                      <span>{{ item.discussionmessage.length }}</span>
-                      answers</span
-                    >
-                    <span class="mr-4"
-                      ><b-icon icon="eye-fill" class="mr-1"></b-icon>
-                      <span v-if="item.discussionview">{{
-                        item.discussionview.view || 0
-                      }}</span>
-                      <span v-else>{{ 0 }}</span> views</span
-                    >
-                  </div>
-                  <div>
-                    <span
-                      v-if="item.type == 'public'"
-                      @click="
-                        $router.push(`/facilitator/discussion/${item.id}`)
-                      "
-                      class="text-dark-green font-weight-bold cursor-pointer"
-                      >Join Discussion</span
-                    >
-                    <span
-                      v-else
-                      @click="joindiscussion(item)"
-                      class="text-dark-green font-weight-bold cursor-pointer"
-                      >Join Discussion</span
-                    >
-                  </div>
+              <div v-else class="text-center admin_tab p-3 p-sm-5">
+                <div>
+                  <b-img :src="require('@/assets/images/creator.svg')"></b-img>
+                  <h6 class="text-muted my-3 fs14">
+                    It appears you havent added any Discussion yet,
+                    <br class="d-none d-sm-block" />
+                    Start your first Discussion now!
+                  </h6>
+                  <b-button
+                    @click="$bvModal.show('start')"
+                    variant="dark-green"
+                    size="lg"
+                    >Start a Discussion</b-button
+                  >
                 </div>
               </div>
             </div>
+            <div v-else class="p-5">
+              <div class="d-flex w-100 mb-3">
+                <div class="mr-2">
+                  <b-skeleton type="avatar"></b-skeleton>
+                </div>
+                <div class="w-100">
+                  <div class="mb-3">
+                    <b-skeleton-img no-aspect height="150px"></b-skeleton-img>
+                  </div>
+                  <b-skeleton animation="wave" width="85%"></b-skeleton>
+                  <b-skeleton animation="wave" width="35%"></b-skeleton>
+                </div>
+              </div>
 
-            <div v-else class="text-center admin_tab p-3 p-sm-5">
-              <div>
-                <b-img :src="require('@/assets/images/creator.svg')"></b-img>
-                <h6 class="text-muted my-3 fs14">
-                  It appears you havent added any Discussion yet,
-                  <br class="d-none d-sm-block" />
-                  Start your first Discussion now!
-                </h6>
-                <b-button
-                  @click="$bvModal.show('start')"
-                  variant="dark-green"
-                  size="lg"
-                  >Start a Discussion</b-button
-                >
+              <div class="d-flex w-100 mb-3">
+                <div class="mr-2 mb-3">
+                  <b-skeleton type="avatar"></b-skeleton>
+                </div>
+                <div class="w-100">
+                  <div class="mb-3">
+                    <b-skeleton-img no-aspect height="150px"></b-skeleton-img>
+                  </div>
+                  <b-skeleton animation="wave" width="85%"></b-skeleton>
+                  <b-skeleton animation="wave" width="35%"></b-skeleton>
+                </div>
               </div>
             </div>
           </div>
@@ -200,21 +232,57 @@
             </div>
             <div class="py-3 text-left related_quest border">
               <h6 class="mb-3 px-3">Other Discussions</h6>
-              <div v-if="otherdiscussion.length">
-                <div
-                  class="d-flex p-2 px-3"
-                  v-for="(dis, id) in otherdiscussion.slice(0, 6)"
-                  :key="id"
-                >
-                  <div>
-                    <span class="mr-3 related_count">{{
-                      dis.discussionmessage.length
-                    }}</span>
-                  </div>
-                  <span
-                    class="related text-left text-capitalize font-weight-bold"
-                    >{{ dis.name }}</span
+              <div v-if="showOther">
+                <div v-if="otherdiscussion.length">
+                  <div
+                    class="d-flex p-2 px-3"
+                    v-for="(dis, id) in otherdiscussion.slice(0, 6)"
+                    :key="id"
                   >
+                    <div>
+                      <span class="mr-3 related_count">{{
+                        dis.discussionmessage.length
+                      }}</span>
+                    </div>
+                    <span
+                      class="related text-left text-capitalize font-weight-bold"
+                      >{{ dis.name }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div v-else class="p-3 w-100">
+                <div class="d-flex w-100 mb-3">
+                  <div class="mr-2 w-25">
+                    <b-skeleton animation="wave" width="100%"></b-skeleton>
+                  </div>
+                  <div class="w-75">
+                    <b-skeleton animation="wave" width="100%"></b-skeleton>
+                  </div>
+                </div>
+                <div class="d-flex w-100 mb-3">
+                  <div class="mr-2 w-25">
+                    <b-skeleton animation="wave" width="100%"></b-skeleton>
+                  </div>
+                  <div class="w-75">
+                    <b-skeleton animation="wave" width="100%"></b-skeleton>
+                  </div>
+                </div>
+                <div class="d-flex w-100 mb-3">
+                  <div class="mr-2 w-25">
+                    <b-skeleton animation="wave" width="100%"></b-skeleton>
+                  </div>
+                  <div class="w-75">
+                    <b-skeleton animation="wave" width="100%"></b-skeleton>
+                  </div>
+                </div>
+                <div class="d-flex w-100 mb-3">
+                  <div class="mr-2 w-25">
+                    <b-skeleton animation="wave" width="100%"></b-skeleton>
+                  </div>
+                  <div class="w-75">
+                    <b-skeleton animation="wave" width="100%"></b-skeleton>
+                  </div>
                 </div>
               </div>
             </div>
@@ -344,6 +412,8 @@ export default {
       tag: "",
       tags: [],
       mytags: [],
+      showDiscussions: false,
+      showOther: false,
     };
   },
   components: {
@@ -401,6 +471,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.otherdiscussion = res.data;
+            this.showOther = true;
           }
         })
         .catch((err) => {
@@ -482,6 +553,7 @@ export default {
           if (res.status == 200) {
             this.recentdiscussions = res.data;
             this.toggleData();
+            this.showDiscussions = true;
           }
         })
         .catch((err) => {

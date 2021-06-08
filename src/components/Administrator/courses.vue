@@ -544,6 +544,25 @@
         </div>
       </b-form>
     </b-modal>
+    <b-modal id="filter" hide-footer hide-header centered>
+      <div>
+        <div>
+          <h6 class="">Sort by</h6>
+          <b-form-group label="Category">
+            <b-form-radio-group v-model="course_type">
+              <b-form-radio value="">General</b-form-radio>
+              <b-form-radio value="free">Free</b-form-radio>
+              <b-form-radio value="paid">Paid</b-form-radio>
+              <b-form-radio value="group">Group</b-form-radio>
+            </b-form-radio-group>
+          </b-form-group>
+          <b-form-group>
+            <b-form-checkbox v-model="recent">Recent</b-form-checkbox>
+            <b-form-checkbox v-model="trending">Trending</b-form-checkbox>
+          </b-form-group>
+        </div>
+      </div>
+    </b-modal>
     <b-modal size="lg" id="update" centered hide-footer title="Update  course">
       <b-form @submit.prevent="updatecourse">
         <div class="mb-3 border-bottom">
@@ -1093,7 +1112,46 @@
               <div class="">
                 <h4>Courses</h4>
               </div>
-              <div v-if="courses.length" class="text-right">
+              <div class="d-flex text-right">
+                <div class="text-right d-flex align-items-center mr-3">
+                  <b-icon
+                    class="mr-3"
+                    :icon="alpha ? 'sort-alpha-up' : 'sort-alpha-down'"
+                    @click="alpha = !alpha"
+                  ></b-icon>
+
+                  <b-icon
+                    class="mr-3"
+                    icon="funnel"
+                    @click="$bvModal.show('filter')"
+                  ></b-icon>
+                  <div class="search">
+                    <b-input-group class="topbar_search bg-white">
+                      <b-form-input
+                        placeholder="Search by title, interest"
+                        class="no-focus border-0"
+                        type="search"
+                        aria-label="Text input "
+                        v-model="search"
+                      ></b-form-input>
+                      <b-input-group-append is-text>
+                        <b-iconstack font-scale="1.4" class="">
+                          <b-icon
+                            stacked
+                            icon="circle-fill"
+                            variant="lighter-green"
+                          ></b-icon>
+                          <b-icon
+                            stacked
+                            icon="search"
+                            scale="0.5"
+                            variant="dark-green"
+                          ></b-icon>
+                        </b-iconstack>
+                      </b-input-group-append>
+                    </b-input-group>
+                  </div>
+                </div>
                 <b-button
                   variant="dark-green"
                   @click="$bvModal.show('addcourse')"
@@ -1105,7 +1163,7 @@
               <b-col
                 sm="4"
                 class="mb-3 side_box"
-                v-for="(course, index) in courses"
+                v-for="(course, index) in filteredCourse"
                 :key="index"
               >
                 <div
@@ -1548,6 +1606,26 @@
               </div>
 
               <div v-if="toggleCourse == 1">
+                <div class="mb-4 px-2 d-flex justify-content-between">
+                  <div>
+                    <h6 class="fs14">Course Access</h6>
+                    <p class="fs13 text-capitalize mb-1">
+                      Type: {{ course.type }}
+                    </p>
+                    <p class="fs13" v-if="course.type !== 'free'">
+                      {{ course.amount }}
+                      {{ course.type == "group" ? "Participants" : "Naira" }}
+                    </p>
+                  </div>
+                  <div class="text-right" v-if="checkCommunity(course.id)">
+                    <b-button
+                      class="ml-auto"
+                      @click="getcode(course.id)"
+                      size="sm"
+                      >Invite friends</b-button
+                    >
+                  </div>
+                </div>
                 <div class="mb-3 px-2">
                   <h6 class="fs14">Course Description</h6>
                   <p class="fs13">
@@ -1859,6 +1937,7 @@ export default {
   data() {
     return {
       current_schedule: 0,
+      search: "",
       insight: [],
       courses: [],
       course: null,
@@ -1905,6 +1984,10 @@ export default {
         questionnaires: [],
       },
       questionnaires: [],
+      course_type: "",
+      recent: false,
+      trending: false,
+      alpha: false,
     };
   },
   components: {
@@ -1915,6 +1998,37 @@ export default {
     this.getcourses();
     this.getfacilitators();
     this.insight = Insight;
+  },
+  computed: {
+    filteredCourse() {
+      var title = this.courses.filter(
+        (item) =>
+          item.title.toLowerCase().includes(this.search.toLowerCase()) ||
+          JSON.parse(item.courseoutline.knowledge_areas)
+            .value.toLowerCase()
+            .includes(this.search)
+      );
+      if (this.alpha) {
+        title.sort((a, b) => {
+          return a.title.localeCompare(b.title);
+        });
+      }
+      var courseType;
+      if (this.course_type == "free") {
+        courseType = title.filter((item) => item.type == "free");
+      } else if (this.course_type == "paid") {
+        courseType = title.filter((item) => item.type == "paid");
+      } else if (this.course_type == "group") {
+        courseType = title.filter((item) => item.type == "group");
+      } else {
+        courseType = title;
+      }
+
+      if (this.recent) {
+        return courseType.slice().reverse();
+      }
+      return courseType;
+    },
   },
   methods: {
     getQuestionnaire(val) {
