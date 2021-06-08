@@ -1,6 +1,6 @@
 <template>
   <b-container class="p-0 pb-5">
-    <b-row class="main bg-white">
+    <b-row class="main bg-white" v-if="showEvent">
       <b-col
         sm="12"
         class="text-left p-4 main-bg h-100 mb-4 position-relative"
@@ -103,6 +103,7 @@
           </div>
         </div>
       </b-col>
+
       <b-col class="h-100">
         <b-row>
           <b-col sm="7">
@@ -163,6 +164,17 @@
         </b-row>
       </b-col>
     </b-row>
+    <b-row v-else>
+      <b-col cols="12" class="mb-4">
+        <b-skeleton-img no-aspect height="350px"></b-skeleton-img>
+      </b-col>
+      <b-col cols="7">
+        <b-skeleton-img></b-skeleton-img>
+      </b-col>
+      <b-col>
+        <b-skeleton-img></b-skeleton-img>
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 <script>
@@ -171,7 +183,8 @@ export default {
     return {
       event: {},
       facilitators: [],
-      vid_ext: ["mp4", "3gp"],
+      vid_ext: ["mp4", "3gp", "mov", "flv"],
+      showEvent: false,
     };
   },
   mounted() {
@@ -224,6 +237,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.event = res.data;
+            this.showEvent = true;
           }
         })
         .catch((err) => {

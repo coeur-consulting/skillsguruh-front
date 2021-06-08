@@ -109,7 +109,11 @@
                 class="p-1 bg-light rounded"
                 role="tab"
               >
-                <div v-b-toggle="'module' + id" variant="info">
+                <div
+                  v-b-toggle="'module' + id"
+                  variant="info"
+                  @click="updateProgress(id + 1, course.modules.length)"
+                >
                   <b-icon icon="check2-circle" variant="light-green"></b-icon>
                   {{ item.module }}
                 </div>
@@ -248,6 +252,20 @@ export default {
   methods: {
     handleCheck() {
       this.$bvModal.hide("questionnaire");
+    },
+    updateProgress(current, total) {
+      var data = {
+        id: this.$route.params.id,
+        total_modules: total,
+        current_module: current,
+      };
+      this.$http
+        .post(`${this.$store.getters.url}/update/progress`, data, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then();
     },
     getQuestionnaire() {
       this.$http

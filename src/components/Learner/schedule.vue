@@ -4,7 +4,7 @@
       <b-row>
         <b-col sm="8">
           <b-row class="mb-4 mb-sm-5">
-            <b-col class="position-relative">
+            <b-col class="position-relative" v-if="showEvent">
               <carousel
                 :perPage="1"
                 :paginationEnabled="false"
@@ -62,15 +62,25 @@
                             @click="$router.push(`/learner/event/${item.id}`)"
                             >View Event</b-button
                           >
-                          <a v-else :href="item.url" target="_blank">
+                          <div v-else>
                             <b-button
+                              class="mr-3"
                               pill
                               size="sm"
-                              variant="lighter-green"
-                              class="text-dark-green"
-                              >Attend event</b-button
-                            ></a
-                          >
+                              variant="outline-dark-green"
+                              @click="$router.push(`/learner/event/${item.id}`)"
+                              >View Event</b-button
+                            >
+                            <a :href="item.url" target="_blank">
+                              <b-button
+                                pill
+                                size="sm"
+                                variant="lighter-green"
+                                class="text-dark-green"
+                                >Attend event</b-button
+                              ></a
+                            >
+                          </div>
                         </div>
                       </div>
                     </b-col>
@@ -86,9 +96,33 @@
                 </h3>
               </div>
             </b-col>
+            <b-col class="w-100" v-else>
+              <div class="box p-4">
+                <b-row class="w-100">
+                  <b-col cols="4">
+                    <div class="p-1">
+                      <b-skeleton animation="wave" width="100%"></b-skeleton>
+                      <b-skeleton animation="wave" width="25%"></b-skeleton>
+                    </div>
+                    <div class="p-1">
+                      <b-skeleton animation="wave" width="100%"></b-skeleton>
+                      <b-skeleton animation="wave" width="25%"></b-skeleton>
+                    </div>
+                    <div class="p-1">
+                      <b-skeleton animation="wave" width="100%"></b-skeleton>
+                      <b-skeleton animation="wave" width="25%"></b-skeleton>
+                    </div>
+                  </b-col>
+
+                  <b-col cols="8" class="">
+                    <b-skeleton-img no-aspect height="150px"></b-skeleton-img>
+                  </b-col>
+                </b-row>
+              </div>
+            </b-col>
           </b-row>
 
-          <b-row>
+          <b-row v-if="showTable">
             <b-col>
               <div class="box" v-if="schedules.length">
                 <div
@@ -101,12 +135,12 @@
                     border-bottom
                   "
                 >
-                  <b-button
+                  <!-- <b-button
                     size="sm"
                     variant="dark-green"
                     @click="$bvModal.show('add')"
                     ><b-icon icon="plus"></b-icon
-                  ></b-button>
+                  ></b-button> -->
                   <span>{{ new Date() | moment("LL") }}</span>
                 </div>
 
@@ -134,9 +168,10 @@
                                   align-items-center
                                 "
                               >
-                                <span class="fs12">{{
-                                  item.start_time | moment("LT")
-                                }}</span>
+                                <span
+                                  class="fs12 text-capitalize font-weight-bold"
+                                  >{{ item.customData.type }}</span
+                                >
                                 <span
                                   class="
                                     border
@@ -147,32 +182,33 @@
                                     fs11
                                   "
                                 >
-                                  {{ duration(item.start_time, item.end_time) }}
+                                  {{
+                                    duration(item.dates.start, item.dates.end)
+                                  }}
                                   week{{
-                                    duration(item.start_time, item.end_time) > 1
+                                    duration(item.dates.start, item.dates.end) >
+                                    1
                                       ? "s"
                                       : ""
                                   }}
                                 </span>
                               </div>
-                              <div class="fs14" v-if="item.course.title">
-                                {{ item.course.title }}
+                              <div class="fs14" v-if="item.customData.title">
+                                {{ item.customData.title }}
                               </div>
-                              <div
-                                class="fs13 d-flex justify-content-between mb-2"
-                                v-if="item.facilitator"
-                              >
-                                <span> {{ item.facilitator.name }}</span>
+
+                              <div class="fs12 mb-1" v-if="item.dates.start">
+                                {{ item.dates.start | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12" v-if="item.start_time">
-                                {{ item.start_time | moment(" MMMM Do YYYY") }}
+                              <div class="fs12">
+                                {{ item.dates.start | moment("LT") }}
                               </div>
                             </div>
                           </div>
                         </b-td>
                       </b-tr>
                       <b-tr v-if="daySchedule('tuesday').length">
-                        <b-th sticky-column>Tuesday</b-th>
+                        <b-th sticky-column class="">Tuesday</b-th>
                         <b-td>
                           <div class="d-flex tabl">
                             <div
@@ -192,9 +228,10 @@
                                   align-items-center
                                 "
                               >
-                                <span class="fs12">{{
-                                  item.start_time | moment("LT")
-                                }}</span>
+                                <span
+                                  class="fs12 text-capitalize font-weight-bold"
+                                  >{{ item.customData.type }}</span
+                                >
                                 <span
                                   class="
                                     border
@@ -205,32 +242,33 @@
                                     fs11
                                   "
                                 >
-                                  {{ duration(item.start_time, item.end_time) }}
+                                  {{
+                                    duration(item.dates.start, item.dates.end)
+                                  }}
                                   week{{
-                                    duration(item.start_time, item.end_time) > 1
+                                    duration(item.dates.start, item.dates.end) >
+                                    1
                                       ? "s"
                                       : ""
                                   }}
                                 </span>
                               </div>
-                              <div class="fs14" v-if="item.course.title">
-                                {{ item.course.title }}
+                              <div class="fs14" v-if="item.customData.title">
+                                {{ item.customData.title }}
                               </div>
-                              <div
-                                class="mb-2 fs13 d-flex justify-content-between"
-                                v-if="item.facilitator"
-                              >
-                                <span> {{ item.facilitator.name }}</span>
+
+                              <div class="fs12 mb-1" v-if="item.dates.start">
+                                {{ item.dates.start | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12" v-if="item.start_time">
-                                {{ item.start_time | moment(" MMMM Do YYYY") }}
+                              <div class="fs12">
+                                {{ item.dates.start | moment("LT") }}
                               </div>
                             </div>
                           </div>
                         </b-td>
                       </b-tr>
                       <b-tr v-if="daySchedule('wednesday').length">
-                        <b-th sticky-column>Wednesday</b-th>
+                        <b-th sticky-column class="">Wednesday</b-th>
                         <b-td>
                           <div class="d-flex tabl">
                             <div
@@ -250,9 +288,10 @@
                                   align-items-center
                                 "
                               >
-                                <span class="fs12">{{
-                                  item.start_time | moment("LT")
-                                }}</span>
+                                <span
+                                  class="fs12 text-capitalize font-weight-bold"
+                                  >{{ item.customData.type }}</span
+                                >
                                 <span
                                   class="
                                     border
@@ -263,33 +302,33 @@
                                     fs11
                                   "
                                 >
-                                  {{ duration(item.start_time, item.end_time) }}
+                                  {{
+                                    duration(item.dates.start, item.dates.end)
+                                  }}
                                   week{{
-                                    duration(item.start_time, item.end_time) > 1
+                                    duration(item.dates.start, item.dates.end) >
+                                    1
                                       ? "s"
                                       : ""
                                   }}
                                 </span>
                               </div>
-                              <div class="fs14" v-if="item.course.title">
-                                {{ item.course.title }}
-                              </div>
-                              <div
-                                class="mb-2 fs13 d-flex justify-content-between"
-                                v-if="item.facilitator"
-                              >
-                                <span> {{ item.facilitator.name }}</span>
+                              <div class="fs14" v-if="item.customData.title">
+                                {{ item.customData.title }}
                               </div>
 
-                              <div class="fs12" v-if="item.start_time">
-                                {{ item.start_time | moment(" MMMM Do YYYY") }}
+                              <div class="fs12 mb-1" v-if="item.dates.start">
+                                {{ item.dates.start | moment(" MMMM Do YYYY") }}
+                              </div>
+                              <div class="fs12">
+                                {{ item.dates.start | moment("LT") }}
                               </div>
                             </div>
                           </div>
                         </b-td>
                       </b-tr>
                       <b-tr v-if="daySchedule('thursday').length">
-                        <b-th sticky-column>Thursday</b-th>
+                        <b-th sticky-column class="">Thursday</b-th>
                         <b-td>
                           <div class="d-flex tabl">
                             <div
@@ -309,9 +348,10 @@
                                   align-items-center
                                 "
                               >
-                                <span class="fs12">{{
-                                  item.start_time | moment("LT")
-                                }}</span>
+                                <span
+                                  class="fs12 text-capitalize font-weight-bold"
+                                  >{{ item.customData.type }}</span
+                                >
                                 <span
                                   class="
                                     border
@@ -322,32 +362,33 @@
                                     fs11
                                   "
                                 >
-                                  {{ duration(item.start_time, item.end_time) }}
+                                  {{
+                                    duration(item.dates.start, item.dates.end)
+                                  }}
                                   week{{
-                                    duration(item.start_time, item.end_time) > 1
+                                    duration(item.dates.start, item.dates.end) >
+                                    1
                                       ? "s"
                                       : ""
                                   }}
                                 </span>
                               </div>
-                              <div class="fs14" v-if="item.course.title">
-                                {{ item.course.title }}
+                              <div class="fs14" v-if="item.customData.title">
+                                {{ item.customData.title }}
                               </div>
-                              <div
-                                class="mb-2 fs13 d-flex justify-content-between"
-                                v-if="item.facilitator"
-                              >
-                                <span> {{ item.facilitator.name }}</span>
+
+                              <div class="fs12 mb-1" v-if="item.dates.start">
+                                {{ item.dates.start | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12" v-if="item.start_time">
-                                {{ item.start_time | moment(" MMMM Do YYYY") }}
+                              <div class="fs12">
+                                {{ item.dates.start | moment("LT") }}
                               </div>
                             </div>
                           </div>
                         </b-td>
                       </b-tr>
                       <b-tr v-if="daySchedule('friday').length">
-                        <b-th sticky-column>Friday</b-th>
+                        <b-th sticky-column class="">Friday</b-th>
                         <b-td>
                           <div class="d-flex tabl">
                             <div
@@ -367,9 +408,10 @@
                                   align-items-center
                                 "
                               >
-                                <span class="fs12">{{
-                                  item.start_time | moment("LT")
-                                }}</span>
+                                <span
+                                  class="fs12 text-capitalize font-weight-bold"
+                                  >{{ item.customData.type }}</span
+                                >
                                 <span
                                   class="
                                     border
@@ -380,33 +422,33 @@
                                     fs11
                                   "
                                 >
-                                  {{ duration(item.start_time, item.end_time) }}
+                                  {{
+                                    duration(item.dates.start, item.dates.end)
+                                  }}
                                   week{{
-                                    duration(item.start_time, item.end_time) > 1
+                                    duration(item.dates.start, item.dates.end) >
+                                    1
                                       ? "s"
                                       : ""
                                   }}
                                 </span>
                               </div>
-                              <div class="fs14" v-if="item.course.title">
-                                {{ item.course.title }}
+                              <div class="fs14" v-if="item.customData.title">
+                                {{ item.customData.title }}
                               </div>
-                              <div
-                                class="mb-2 fs13 d-flex justify-content-between"
-                                v-if="item.facilitator"
-                              >
-                                <span> {{ item.facilitator.name }}</span>
+
+                              <div class="fs12 mb-1" v-if="item.dates.start">
+                                {{ item.dates.start | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12" v-if="item.start_time">
-                                {{ item.start_time | moment(" MMMM Do YYYY") }}
+                              <div class="fs12">
+                                {{ item.dates.start | moment("LT") }}
                               </div>
                             </div>
                           </div>
                         </b-td>
                       </b-tr>
-
                       <b-tr v-if="daySchedule('saturday').length">
-                        <b-th sticky-column>Saturday</b-th>
+                        <b-th sticky-column class="">Saturday</b-th>
                         <b-td>
                           <div class="d-flex tabl">
                             <div
@@ -426,9 +468,10 @@
                                   align-items-center
                                 "
                               >
-                                <span class="fs12">{{
-                                  item.start_time | moment("LT")
-                                }}</span>
+                                <span
+                                  class="fs12 text-capitalize font-weight-bold"
+                                  >{{ item.customData.type }}</span
+                                >
                                 <span
                                   class="
                                     border
@@ -439,32 +482,33 @@
                                     fs11
                                   "
                                 >
-                                  {{ duration(item.start_time, item.end_time) }}
+                                  {{
+                                    duration(item.dates.start, item.dates.end)
+                                  }}
                                   week{{
-                                    duration(item.start_time, item.end_time) > 1
+                                    duration(item.dates.start, item.dates.end) >
+                                    1
                                       ? "s"
                                       : ""
                                   }}
                                 </span>
                               </div>
-                              <div class="fs14" v-if="item.course.title">
-                                {{ item.course.title }}
+                              <div class="fs14" v-if="item.customData.title">
+                                {{ item.customData.title }}
                               </div>
-                              <div
-                                class="mb-2 fs13 d-flex justify-content-between"
-                                v-if="item.facilitator"
-                              >
-                                <span> {{ item.facilitator.name }}</span>
+
+                              <div class="fs12 mb-1" v-if="item.dates.start">
+                                {{ item.dates.start | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12" v-if="item.start_time">
-                                {{ item.start_time | moment(" MMMM Do YYYY") }}
+                              <div class="fs12">
+                                {{ item.dates.start | moment("LT") }}
                               </div>
                             </div>
                           </div>
                         </b-td>
                       </b-tr>
                       <b-tr v-if="daySchedule('sunday').length">
-                        <b-th sticky-column>Sunday</b-th>
+                        <b-th sticky-column class="">Sunday</b-th>
                         <b-td>
                           <div class="d-flex tabl">
                             <div
@@ -484,9 +528,10 @@
                                   align-items-center
                                 "
                               >
-                                <span class="fs12">{{
-                                  item.start_time | moment("LT")
-                                }}</span>
+                                <span
+                                  class="fs12 text-capitalize font-weight-bold"
+                                  >{{ item.customData.type }}</span
+                                >
                                 <span
                                   class="
                                     border
@@ -497,25 +542,26 @@
                                     fs11
                                   "
                                 >
-                                  {{ duration(item.start_time, item.end_time) }}
+                                  {{
+                                    duration(item.dates.start, item.dates.end)
+                                  }}
                                   week{{
-                                    duration(item.start_time, item.end_time) > 1
+                                    duration(item.dates.start, item.dates.end) >
+                                    1
                                       ? "s"
                                       : ""
                                   }}
                                 </span>
                               </div>
-                              <div class="fs14" v-if="item.course.title">
-                                {{ item.course.title }}
+                              <div class="fs14" v-if="item.customData.title">
+                                {{ item.customData.title }}
                               </div>
-                              <div
-                                class="mb-2 fs13 d-flex justify-content-between"
-                                v-if="item.facilitator"
-                              >
-                                <span> {{ item.facilitator.name }}</span>
+
+                              <div class="fs12 mb-1" v-if="item.dates.start">
+                                {{ item.dates.start | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12" v-if="item.start_time">
-                                {{ item.start_time | moment(" MMMM Do YYYY") }}
+                              <div class="fs12">
+                                {{ item.dates.start | moment("LT") }}
                               </div>
                             </div>
                           </div>
@@ -554,6 +600,14 @@
               </div>
             </b-col>
           </b-row>
+
+          <div class="box p-5" v-else>
+            <b-skeleton-table
+              :rows="5"
+              :columns="3"
+              :table-props="{ bordered: true, striped: true }"
+            ></b-skeleton-table>
+          </div>
         </b-col>
         <b-col sm="4" class="text-left">
           <div class="turn_over_box">
@@ -596,7 +650,7 @@
                   <b-form-select-option value="">Today</b-form-select-option>
                 </b-form-select>
               </div>
-              <div class="schedule">
+              <div class="schedule" v-if="showschedule">
                 <div
                   v-if="
                     daySchedule(
@@ -665,6 +719,21 @@
                 </div>
                 <div v-else class="p-4 text-center">
                   <p class="text-muted">Nothing Scheduled Today</p>
+                </div>
+              </div>
+
+              <div v-else class="p-4">
+                <div class="p-1">
+                  <b-skeleton animation="wave" width="100%"></b-skeleton>
+                  <b-skeleton animation="wave" width="25%"></b-skeleton>
+                </div>
+                <div class="p-1">
+                  <b-skeleton animation="wave" width="100%"></b-skeleton>
+                  <b-skeleton animation="wave" width="25%"></b-skeleton>
+                </div>
+                <div class="p-1">
+                  <b-skeleton animation="wave" width="100%"></b-skeleton>
+                  <b-skeleton animation="wave" width="25%"></b-skeleton>
                 </div>
               </div>
             </div>
@@ -819,6 +888,9 @@ export default {
       masks: {
         weekdays: "WWW",
       },
+      showTable: false,
+      showEvent: false,
+      showschedule: false,
     };
   },
   components: {
@@ -834,6 +906,9 @@ export default {
     });
   },
   computed: {
+    joinedSchedule() {
+      return this.myschedule.concat(this.myevents);
+    },
     myschedule() {
       return this.schedules.map((item, index) => {
         var res = {
@@ -916,11 +991,13 @@ export default {
   },
   methods: {
     daySchedule(day) {
-      return this.schedules.filter(
+      return this.joinedSchedule.filter(
         (item) =>
-          this.$moment(item.start_time, "YYYY-MM-DD HH:mm:ss")
+          (this.$moment(item.dates.start, "YYYY-MM-DD HH:mm:ss")
             .format("dddd")
-            .toLowerCase() == day.toLowerCase()
+            .toLowerCase() == day.toLowerCase() &&
+            this.$moment().isBefore(item.dates.start)) ||
+          this.$moment().isAfter(item.dates.end)
       );
     },
     addschedule() {
@@ -949,6 +1026,8 @@ export default {
                 this.$moment().isBefore(item.end_time)
             );
             this.rows = this.schedules.length;
+            this.showTable = true;
+            this.showschedule = true;
           }
         })
         .catch((err) => {
@@ -998,6 +1077,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.events = res.data;
+            this.showEvent = true;
           }
         })
         .catch((err) => {

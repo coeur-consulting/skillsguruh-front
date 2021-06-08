@@ -4,14 +4,21 @@
       <b-row>
         <b-col sm="9">
           <div
-            class="top_banner text-left p-3 p-sm-5 rounded position-relative mb-5"
+            class="
+              top_banner
+              text-left
+              p-3 p-sm-5
+              rounded
+              position-relative
+              mb-5
+            "
           >
             <h4 class="text-dark-green">
-              Welcome {{ $store.getters.learner.name }}
+              Hello {{ $store.getters.learner.name }}
             </h4>
-            <p>
-              Our Platform gives you access to up <br />
-              skills and socialize!
+            <p class="w-50">
+              Remember to meet at least one person, learn at least one new thing
+              and teach at least one new person.
             </p>
 
             <b-img
@@ -21,141 +28,308 @@
           </div>
 
           <div class="recommended text-left mb-5">
-            <div class="d-flex align-items-center mb-3">
-              <h6 class="flex-1">Recommended Courses</h6>
+            <div class="d-flex align-items-center mb-3 w-100">
+              <div class="d-flex flex-1">
+                <h6
+                  class="pr-3 border-right cursor-pointer"
+                  :class="courseShown == 'enrolled' ? '' : 'text-muted'"
+                  @click="courseShown = 'enrolled'"
+                >
+                  Enrolled Courses
+                </h6>
+                <h6
+                  class="pl-3 cursor-pointer"
+                  :class="courseShown == 'recommended' ? '' : 'text-muted'"
+                  @click="courseShown = 'recommended'"
+                >
+                  Recommended Courses
+                </h6>
+              </div>
               <span class="fs14" @click="$router.push('/learner/courses')"
                 >More <b-icon icon="arrow-right"></b-icon
               ></span>
             </div>
-            <div>
-              <b-row>
-                <b-col
-                  sm="4"
-                  class="pr-3"
-                  v-for="course in courses.slice(0, 3)"
-                  :key="course.id"
-                >
-                  <div
-                    class="w-100 h-100 bg-white shadow rounded p-4 d-flex flex-column position-relative"
-                    @click="$router.push('/learner/courses')"
+            <div v-if="showEnrolled">
+              <div v-if="courseShown == 'recommended'">
+                <b-row v-if="courses.length">
+                  <b-col
+                    sm="4"
+                    class="pr-3"
+                    v-for="course in courses.slice(0, 3)"
+                    :key="course.id"
                   >
-                    <div class="ribbon text-capitalize">
-                      <span>{{ course.type }}</span>
-                    </div>
-                    <div class="flex-1">
-                      <b-iconstack font-scale="2.5" class="mr-2 mb-2">
-                        <b-icon
-                          stacked
-                          icon="circle-fill"
-                          :style="`color:${
-                            JSON.parse(course.courseoutline.knowledge_areas)
-                              .color
-                          }`"
-                        ></b-icon>
-                        <b-icon
-                          stacked
-                          :icon="
-                            JSON.parse(course.courseoutline.knowledge_areas)
-                              .icon
+                    <div
+                      class="
+                        w-100
+                        h-100
+                        bg-white
+                        shadow
+                        rounded
+                        p-4
+                        d-flex
+                        flex-column
+                        position-relative
+                      "
+                      @click="$router.push('/learner/courses')"
+                    >
+                      <div class="ribbon text-capitalize">
+                        <span>{{ course.type }}</span>
+                      </div>
+                      <div class="flex-1">
+                        <b-iconstack font-scale="2.5" class="mr-2 mb-2">
+                          <b-icon
+                            stacked
+                            icon="circle-fill"
+                            :style="`color:${
+                              JSON.parse(course.courseoutline.knowledge_areas)
+                                .color
+                            }`"
+                          ></b-icon>
+                          <b-icon
+                            stacked
+                            :icon="
+                              JSON.parse(course.courseoutline.knowledge_areas)
+                                .icon
+                            "
+                            scale="0.5"
+                            variant="light"
+                          ></b-icon>
+                        </b-iconstack>
+                        <div class="course_title mb-1">{{ course.title }}</div>
+                        <div class="mb-3">
+                          <span class="fs13 overview text-muted">
+                            {{ course.description }}</span
+                          >
+                        </div>
+                        <div
+                          class="
+                            course_fac
+                            d-flex
+                            align-items-center
+                            mb-1
+                            text-capitalize
+                            fs13
                           "
-                          scale="0.5"
-                          variant="light"
-                        ></b-icon>
-                      </b-iconstack>
-                      <div class="course_title mb-1">{{ course.title }}</div>
-                      <div class="mb-3">
-                        <span class="fs13 overview text-muted">
-                          {{ course.description }}</span
+                          v-if="sortfacilitators(course).length == 1"
                         >
-                      </div>
-                      <div
-                        class="course_fac d-flex align-items-center mb-1 text-capitalize fs13"
-                        v-if="sortfacilitators(course).length == 1"
-                      >
-                        <b-icon
-                          icon="display"
-                          variant="dark-green"
-                          class="text-muted mr-2"
-                        ></b-icon>
-                        <span class="fs13">
-                          {{ sortfacilitators(course).join(" ") }}</span
+                          <b-icon
+                            icon="display"
+                            variant="dark-green"
+                            class="text-muted mr-2"
+                          ></b-icon>
+                          <span class="fs13">
+                            {{ sortfacilitators(course).join(" ") }}</span
+                          >
+                        </div>
+                        <div
+                          class="
+                            course_fac
+                            d-flex
+                            align-items-center
+                            mb-1
+                            text-capitalize
+                            fs13
+                          "
+                          v-else
                         >
-                      </div>
-                      <div
-                        class="course_fac d-flex align-items-center mb-1 text-capitalize fs13"
-                        v-else
-                      >
-                        <b-icon
-                          icon="display"
-                          variant="dark-green"
-                          class="text-muted mr-2"
-                        ></b-icon>
-                        <span class="fs13"> Multiple Facilitators</span>
-                      </div>
+                          <b-icon
+                            icon="display"
+                            variant="dark-green"
+                            class="text-muted mr-2"
+                          ></b-icon>
+                          <span class="fs13"> Multiple Facilitators</span>
+                        </div>
 
-                      <div
-                        class="course_fac d-flex text-capitalize align-items-center fs13 mb-1"
-                      >
-                        <b-icon
-                          icon="calendar"
-                          variant="dark-green"
-                          class="text-muted mr-2"
-                        ></b-icon>
-                        <div class="">
-                          <div class="text-capitalize text-muted">
-                            {{ course.courseoutline.duration }}
+                        <div
+                          class="
+                            course_fac
+                            d-flex
+                            text-capitalize
+                            align-items-center
+                            fs13
+                            mb-1
+                          "
+                        >
+                          <b-icon
+                            icon="calendar"
+                            variant="dark-green"
+                            class="text-muted mr-2"
+                          ></b-icon>
+                          <div class="">
+                            <div class="text-capitalize text-muted">
+                              {{ course.courseoutline.duration }}
+                            </div>
                           </div>
+                        </div>
+
+                        <div
+                          v-if="course"
+                          class="course_fac align-items-center fs13 text-muted"
+                        >
+                          <b-icon
+                            icon="layers"
+                            variant="dark-green"
+                            class="text-muted mr-1"
+                          ></b-icon>
+                          <span class="fs13"> {{ sortmodules(course) }}</span>
+                          Modules
                         </div>
                       </div>
 
-                      <div
-                        v-if="course"
-                        class="course_fac align-items-center fs13 text-muted"
-                      >
-                        <b-icon
-                          icon="layers"
-                          variant="dark-green"
-                          class="text-muted mr-1"
-                        ></b-icon>
-                        <span class="fs13"> {{ sortmodules(course) }}</span>
-                        Modules
-                      </div>
-                    </div>
-
-                    <div class="pt-3">
-                      <div class="d-flex justify-content-between fs13">
-                        <span>Resources upload</span
-                        ><span
-                          >{{
+                      <div class="pt-3">
+                        <div class="d-flex justify-content-between fs13">
+                          <span>Resources upload</span
+                          ><span
+                            >{{
+                              Math.floor(
+                                getProgress(
+                                  course.courseoutline.modules,
+                                  course.modules
+                                )
+                              )
+                            }}%</span
+                          >
+                        </div>
+                        <b-progress
+                          :value="
                             Math.floor(
                               getProgress(
                                 course.courseoutline.modules,
                                 course.modules
                               )
                             )
-                          }}%</span
+                          "
+                          :max="100"
+                          show-value
+                          height=".8rem"
+                          class="mb-3"
+                          variant="dark-green"
+                        ></b-progress>
+                      </div>
+                    </div>
+                  </b-col>
+                </b-row>
+
+                <div v-else class="w-100 p-5 text-center text-muted">
+                  <h5>No course available</h5>
+                </div>
+              </div>
+              <div v-if="courseShown == 'enrolled'">
+                <b-row v-if="library.length">
+                  <b-col
+                    sm="4"
+                    class="pr-3"
+                    v-for="item in library.slice(0, 3)"
+                    :key="item.id"
+                  >
+                    <b-card
+                      :title="item.course.title"
+                      :img-src="item.course.cover"
+                      img-alt="Image"
+                      img-top
+                      tag="article"
+                      style="max-width: 20rem"
+                      class="mb-2 shadow border-0"
+                    >
+                      <b-card-text class="overview">
+                        {{ item.course.description }}
+                      </b-card-text>
+                      <b-card-text
+                        class="fs13 text-muted d-flex align-items-center mb-2"
+                        v-if="item.course.modules"
+                      >
+                        <b-iconstack font-scale="1.5rem" class="mr-2">
+                          <b-icon
+                            stacked
+                            icon="circle-fill"
+                            variant="lighter-green"
+                          ></b-icon>
+                          <b-icon
+                            stacked
+                            icon="book"
+                            scale="0.5"
+                            variant="dark-green"
+                          ></b-icon>
+                        </b-iconstack>
+                        <span> {{ item.course.modules.length }} modules</span>
+                      </b-card-text>
+                      <div class="mt-3">
+                        <div class="mb-2 fs12">Your progress</div>
+                        <b-progress
+                          :max="100"
+                          height=".8rem"
+                          class="mb-3"
+                          variant="dark-green"
+                        >
+                          <b-progress-bar
+                            :value="item.progress"
+                            :label="`${Math.round(item.progress)}%`"
+                          ></b-progress-bar>
+                        </b-progress>
+                      </div>
+
+                      <div class="">
+                        <b-button
+                          @click="
+                            $router.push(`/learner/media/${item.course.id}`)
+                          "
+                          size="sm"
+                          variant="lighter-green"
+                          >Continue course</b-button
                         >
                       </div>
-                      <b-progress
-                        :value="
-                          Math.floor(
-                            getProgress(
-                              course.courseoutline.modules,
-                              course.modules
-                            )
-                          )
-                        "
-                        :max="100"
-                        show-value
-                        height=".8rem"
-                        class="mb-3"
-                        variant="dark-green"
-                      ></b-progress>
-                    </div>
-                  </div>
-                </b-col>
-              </b-row>
+                    </b-card>
+                  </b-col>
+                </b-row>
+                <div v-else class="w-100 p-5 text-center text-muted">
+                  <h5>No course available</h5>
+                </div>
+              </div>
             </div>
+            <b-row v-else>
+              <b-col>
+                <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="65%"
+                ></b-skeleton>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="55%"
+                ></b-skeleton>
+                <b-skeleton animation="fade" width="59%"></b-skeleton>
+              </b-col>
+              <b-col>
+                <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="65%"
+                ></b-skeleton>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="55%"
+                ></b-skeleton>
+                <b-skeleton animation="fade" width="59%"></b-skeleton>
+              </b-col>
+              <b-col>
+                <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="65%"
+                ></b-skeleton>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="55%"
+                ></b-skeleton>
+                <b-skeleton animation="fade" width="59%"></b-skeleton>
+              </b-col>
+            </b-row>
           </div>
 
           <div class="discussions">
@@ -203,52 +377,75 @@
             <div class="tob_2 mb-4 p-3">
               <h6 class="mb-3 text-center">Connect with people</h6>
 
-              <div v-if="connections.length">
-                <div
-                  class="d-flex mb-3"
-                  v-for="user in connections.slice(0, 5)"
-                  :key="user.id"
-                >
-                  <div class="d-flex flex-1">
-                    <b-avatar
-                      size="sm"
-                      :src="user.profile"
-                      class="mr-2"
-                    ></b-avatar>
-                    <div>
-                      <div class="fs12 font-weight-bold text-capitalize">
-                        {{ user.name }}
-                      </div>
-                      <div style="line-height: 1">
-                        <span class="fs11">Lagos,Nigeria</span> <br /><span
-                          class="fs11"
-                          >{{ user.similar }} similar insights</span
-                        >
+              <div v-if="showConnect">
+                <div v-if="connections.length">
+                  <div
+                    class="d-flex mb-3"
+                    v-for="user in connections.slice(0, 5)"
+                    :key="user.id"
+                  >
+                    <div class="d-flex flex-1">
+                      <b-avatar
+                        size="sm"
+                        :src="user.profile"
+                        class="mr-2"
+                      ></b-avatar>
+                      <div>
+                        <div class="fs12 font-weight-bold text-capitalize">
+                          {{ user.name }}
+                        </div>
+                        <div style="line-height: 1">
+                          <span class="fs11">Lagos,Nigeria</span> <br /><span
+                            class="fs11"
+                            >{{ user.similar }} similar insights</span
+                          >
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <b-dropdown
-                    size="sm"
-                    variant="transparent"
-                    no-caret
-                    class="no-focus drop"
-                  >
-                    <template #button-content>
-                      <b-icon
-                        icon="three-dots-vertical"
-                        font-scale="1.4"
-                      ></b-icon>
-                    </template>
-                    <b-dropdown-item
-                      class="fs12"
-                      @click="addconnections(user.id, 'user')"
-                      >Connect</b-dropdown-item
+                    <b-dropdown
+                      size="sm"
+                      variant="transparent"
+                      no-caret
+                      class="no-focus drop"
                     >
-                  </b-dropdown>
+                      <template #button-content>
+                        <b-icon
+                          icon="three-dots-vertical"
+                          font-scale="1.4"
+                        ></b-icon>
+                      </template>
+                      <b-dropdown-item
+                        class="fs12"
+                        @click="addconnections(user.id, 'user')"
+                        >Connect</b-dropdown-item
+                      >
+                    </b-dropdown>
+                  </div>
+                </div>
+                <div v-else class="text-muted text-center p-3 fs13">
+                  Unavailable
                 </div>
               </div>
-              <div v-else class="text-muted text-center p-3 fs13">
-                Unavailable
+
+              <div v-else>
+                <div class="d-flex w-100 mb-3">
+                  <div class="mr-2">
+                    <b-skeleton type="avatar"></b-skeleton>
+                  </div>
+                  <div class="w-100">
+                    <b-skeleton animation="wave" width="85%"></b-skeleton>
+                    <b-skeleton animation="wave" width="35%"></b-skeleton>
+                  </div>
+                </div>
+                <div class="d-flex w-100">
+                  <div class="mr-2">
+                    <b-skeleton type="avatar"></b-skeleton>
+                  </div>
+                  <div class="w-100">
+                    <b-skeleton animation="wave" width="85%"></b-skeleton>
+                    <b-skeleton animation="wave" width="35%"></b-skeleton>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -264,6 +461,7 @@ import Discussions from "./minidiscussions";
 export default {
   data() {
     return {
+      courseShown: "enrolled",
       facilitators: [],
       users: [],
       todos: [],
@@ -274,6 +472,10 @@ export default {
       masks: {
         weekdays: "WWW",
       },
+      library: [],
+      showEnrolled: false,
+      showConnect: false,
+      showDiscussion: false,
     };
   },
   components: {
@@ -288,6 +490,7 @@ export default {
     this.getevents();
     this.getcourses();
     this.getschedules();
+    this.getLibrary();
   },
   mounted() {
     this.getUsersWithInterest();
@@ -422,6 +625,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.connections = res.data;
+            this.showConnect = true;
           }
         });
     },
@@ -442,7 +646,23 @@ export default {
 
       return (count / modules.length) * 100;
     },
-
+    getLibrary() {
+      this.$http
+        .get(`${this.$store.getters.url}/libraries`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.library = res.data;
+            this.showEnrolled = true;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     async getschedules() {
       return this.$http
         .get(`${this.$store.getters.url}/courseschedules`, {
@@ -576,6 +796,10 @@ export default {
 .top_banner {
   background-color: rgba($color: #388087, $alpha: 0.2);
 }
+.card-title {
+  margin-bottom: 0.35rem;
+  font-size: 0.9rem;
+}
 .box {
   min-height: 130px;
   display: flex;
@@ -661,6 +885,11 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.3;
+}
+.card-img,
+.card-img-top {
+  height: 8rem;
+  object-fit: contain;
 }
 @media (max-width: 600px) {
   .box {

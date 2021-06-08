@@ -2,7 +2,7 @@
   <div id="chart1" style="overflow: hidden">
     <b-row class="border-bottom p-3">
       <b-col sm="12" class="mb-2 mb-sm-0 text-center">
-        <h6>ToDo List</h6></b-col
+        <h6>Todo List</h6></b-col
       >
       <b-col sm="12">
         <b-form @submit.prevent="register">
@@ -21,47 +21,63 @@
       ></b-col>
     </b-row>
 
-    <div v-if="todos.length">
-      <div class="todos d-flex flex-column">
-        <div class="mb-2" v-for="(item, index) in todos" :key="index">
-          <div class="todo d-flex align-items-center w-100 p-2 rounded">
-            <div class="flex-1">
-              <b-form-checkbox
-                class="w-100"
-                :checked="item.status ? true : false"
-                @change="update(index, item.id, item.todo, item.status)"
-                size="sm"
-                ><span :class="{ strike: item.status }">{{ item.todo }} </span
-                ><br />
-                <span class="text-muted text-sm mr-5">{{
-                  item.created_at | moment("LL")
-                }}</span>
-                <span
-                  class="text-sm"
-                  :class="{
-                    'text-success': item.status,
-                    'text-danger': !item.status,
-                  }"
-                  >{{ item.status ? "Completed" : "Incomplete" }}</span
-                >
-              </b-form-checkbox>
+    <div v-if="showTodo">
+      <div v-if="todos.length">
+        <div class="todos d-flex flex-column">
+          <div class="mb-2" v-for="(item, index) in todos" :key="index">
+            <div class="todo d-flex align-items-center w-100 p-2 rounded">
+              <div class="flex-1">
+                <b-form-checkbox
+                  class="w-100"
+                  :checked="item.status ? true : false"
+                  @change="update(index, item.id, item.todo, item.status)"
+                  size="sm"
+                  ><span :class="{ strike: item.status }">{{ item.todo }} </span
+                  ><br />
+                  <span class="text-muted text-sm mr-5">{{
+                    item.created_at | moment("LL")
+                  }}</span>
+                  <span
+                    class="text-sm"
+                    :class="{
+                      'text-success': item.status,
+                      'text-danger': !item.status,
+                    }"
+                    >{{ item.status ? "Completed" : "Incomplete" }}</span
+                  >
+                </b-form-checkbox>
+              </div>
+              <b-icon @click="drop(item.id, index)" icon="trash"></b-icon>
             </div>
-            <b-icon @click="drop(item.id, index)" icon="trash"></b-icon>
           </div>
+        </div>
+
+        <div class="text-right p-3" v-if="todos.length">
+          <small class="text-dark-green" @click="dropall"
+            >Clear <b-icon icon=" x-circle-fill"></b-icon
+          ></small>
         </div>
       </div>
 
-      <div class="text-right p-3" v-if="todos.length">
-        <small class="text-dark-green" @click="dropall"
-          >Clear <b-icon icon=" x-circle-fill"></b-icon
-        ></small>
+      <div class="text-center p-5" v-else>
+        <h6 class="text-muted fs12">
+          You have no active Todo, try adding one now !
+        </h6>
       </div>
     </div>
-
-    <div class="text-center p-5" v-else>
-      <h6 class="text-muted fs12">
-        You have no active Todo, try adding one now !
-      </h6>
+    <div class="p-3" v-else>
+      <div class="p-1">
+        <b-skeleton animation="wave" width="100%"></b-skeleton>
+        <b-skeleton animation="wave" width="25%"></b-skeleton>
+      </div>
+      <div class="p-1">
+        <b-skeleton animation="wave" width="100%"></b-skeleton>
+        <b-skeleton animation="wave" width="25%"></b-skeleton>
+      </div>
+      <div class="p-1">
+        <b-skeleton animation="wave" width="100%"></b-skeleton>
+        <b-skeleton animation="wave" width="25%"></b-skeleton>
+      </div>
     </div>
   </div>
 </template>
@@ -74,6 +90,7 @@ export default {
     return {
       todos: [],
       todo: "",
+      showTodo: false,
     };
   },
 
@@ -107,6 +124,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.todos = res.data;
+            this.showTodo = true;
           }
         })
         .catch((err) => {

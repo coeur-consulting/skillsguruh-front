@@ -7,7 +7,14 @@
             <b-col sm="6">
               <div class="box p-3">
                 <div
-                  class="w-100 px-2 d-flex justify-content-between align-items-center mb-4"
+                  class="
+                    w-100
+                    px-2
+                    d-flex
+                    justify-content-between
+                    align-items-center
+                    mb-4
+                  "
                 >
                   <div class="d-flex align-items-center mb-1">
                     <b-iconstack font-scale="2.5" class="mr-3">
@@ -50,7 +57,13 @@
             <b-col sm="6">
               <div class="box p-3">
                 <div
-                  class="d-flex w-100 justify-content-between align-items-center mb-4"
+                  class="
+                    d-flex
+                    w-100
+                    justify-content-between
+                    align-items-center
+                    mb-4
+                  "
                 >
                   <div class="d-flex align-items-center mb-1">
                     <b-iconstack font-scale="2.5" class="mr-3">
@@ -66,7 +79,10 @@
                         variant="dark-green"
                       ></b-icon>
                     </b-iconstack>
-                    <div class="h6 mb-0 text-dark-green">Total Courses</div>
+                    <div class="h6 mb-0 text-dark-green">
+                      Total <br />
+                      Courses
+                    </div>
                   </div>
                   <div class="h2">{{ courses.length }}</div>
                 </div>

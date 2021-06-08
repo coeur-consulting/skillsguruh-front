@@ -1006,7 +1006,7 @@
               >
             </div>
           </div>
-          <b-row>
+          <b-row v-if="showCourse">
             <b-col
               sm="4"
               class="mb-3 side_box"
@@ -1211,6 +1211,134 @@
                   ></b-progress>
                 </div>
               </div>
+            </b-col>
+          </b-row>
+          <b-row v-else>
+            <b-col sm="4" class="mb-4">
+              <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="65%"
+              ></b-skeleton>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="55%"
+              ></b-skeleton>
+              <b-skeleton animation="fade" width="59%"></b-skeleton>
+            </b-col>
+            <b-col sm="4" class="mb-4">
+              <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="65%"
+              ></b-skeleton>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="55%"
+              ></b-skeleton>
+              <b-skeleton animation="fade" width="59%"></b-skeleton>
+            </b-col>
+            <b-col sm="4" class="mb-4">
+              <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="65%"
+              ></b-skeleton>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="55%"
+              ></b-skeleton>
+              <b-skeleton animation="fade" width="59%"></b-skeleton>
+            </b-col>
+            <b-col sm="4" class="mb-4">
+              <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="65%"
+              ></b-skeleton>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="55%"
+              ></b-skeleton>
+              <b-skeleton animation="fade" width="59%"></b-skeleton>
+            </b-col>
+            <b-col sm="4" class="mb-4">
+              <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="65%"
+              ></b-skeleton>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="55%"
+              ></b-skeleton>
+              <b-skeleton animation="fade" width="59%"></b-skeleton>
+            </b-col>
+            <b-col sm="4" class="mb-4">
+              <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="65%"
+              ></b-skeleton>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="55%"
+              ></b-skeleton>
+              <b-skeleton animation="fade" width="59%"></b-skeleton>
+            </b-col>
+            <b-col sm="4" class="mb-4">
+              <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="65%"
+              ></b-skeleton>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="55%"
+              ></b-skeleton>
+              <b-skeleton animation="fade" width="59%"></b-skeleton>
+            </b-col>
+            <b-col sm="4" class="mb-4">
+              <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="65%"
+              ></b-skeleton>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="55%"
+              ></b-skeleton>
+              <b-skeleton animation="fade" width="59%"></b-skeleton>
+            </b-col>
+            <b-col sm="4" class="mb-4">
+              <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="65%"
+              ></b-skeleton>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="55%"
+              ></b-skeleton>
+              <b-skeleton animation="fade" width="59%"></b-skeleton>
             </b-col>
           </b-row>
         </b-col>
@@ -1633,6 +1761,7 @@ export default {
       newmodule: "",
       facilitators: [],
       toggleCourse: 1,
+      showCourse: false,
       detail: {
         general: {
           title: "",
@@ -1809,6 +1938,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.courses = res.data;
+            this.showCourse = true;
           }
         })
         .catch((err) => {

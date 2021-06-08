@@ -7,11 +7,22 @@
             <div class="">
               <h4>Courses</h4>
             </div>
-            <div class="text-right">
+            <div class="text-right d-flex align-items-center">
+              <b-icon
+                class="mr-3"
+                :icon="alpha ? 'sort-alpha-up' : 'sort-alpha-down'"
+                @click="alpha = !alpha"
+              ></b-icon>
+
+              <b-icon
+                class="mr-3"
+                icon="funnel"
+                @click="$bvModal.show('filter')"
+              ></b-icon>
               <div class="search">
                 <b-input-group class="topbar_search bg-white">
                   <b-form-input
-                    placeholder="Search course name"
+                    placeholder="Search by title, interest"
                     class="no-focus border-0"
                     type="search"
                     aria-label="Text input "
@@ -36,11 +47,11 @@
               </div>
             </div>
           </div>
-          <b-row>
+          <b-row v-if="showCourse">
             <b-col
               sm="4"
               class="mb-3 side_box"
-              v-for="(course, index) in courses"
+              v-for="(course, index) in filteredCourse"
               :key="index"
             >
               <div
@@ -214,6 +225,134 @@
                   ></b-progress>
                 </div>
               </div>
+            </b-col>
+          </b-row>
+          <b-row v-else>
+            <b-col sm="4" class="mb-4">
+              <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="65%"
+              ></b-skeleton>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="55%"
+              ></b-skeleton>
+              <b-skeleton animation="fade" width="59%"></b-skeleton>
+            </b-col>
+            <b-col sm="4" class="mb-4">
+              <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="65%"
+              ></b-skeleton>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="55%"
+              ></b-skeleton>
+              <b-skeleton animation="fade" width="59%"></b-skeleton>
+            </b-col>
+            <b-col sm="4" class="mb-4">
+              <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="65%"
+              ></b-skeleton>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="55%"
+              ></b-skeleton>
+              <b-skeleton animation="fade" width="59%"></b-skeleton>
+            </b-col>
+            <b-col sm="4" class="mb-4">
+              <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="65%"
+              ></b-skeleton>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="55%"
+              ></b-skeleton>
+              <b-skeleton animation="fade" width="59%"></b-skeleton>
+            </b-col>
+            <b-col sm="4" class="mb-4">
+              <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="65%"
+              ></b-skeleton>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="55%"
+              ></b-skeleton>
+              <b-skeleton animation="fade" width="59%"></b-skeleton>
+            </b-col>
+            <b-col sm="4" class="mb-4">
+              <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="65%"
+              ></b-skeleton>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="55%"
+              ></b-skeleton>
+              <b-skeleton animation="fade" width="59%"></b-skeleton>
+            </b-col>
+            <b-col sm="4" class="mb-4">
+              <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="65%"
+              ></b-skeleton>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="55%"
+              ></b-skeleton>
+              <b-skeleton animation="fade" width="59%"></b-skeleton>
+            </b-col>
+            <b-col sm="4" class="mb-4">
+              <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="65%"
+              ></b-skeleton>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="55%"
+              ></b-skeleton>
+              <b-skeleton animation="fade" width="59%"></b-skeleton>
+            </b-col>
+            <b-col sm="4" class="mb-4">
+              <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="65%"
+              ></b-skeleton>
+              <b-skeleton
+                animation="fade"
+                class="mb-2"
+                width="55%"
+              ></b-skeleton>
+              <b-skeleton animation="fade" width="59%"></b-skeleton>
             </b-col>
           </b-row>
         </b-col>
@@ -392,21 +531,36 @@
             </div>
 
             <div v-if="toggleCourse == 1">
-              <div class="mb-3 px-2" v-if="course.type !== 'free'">
-                <h6 class="fs14">Course Access</h6>
-                <p class="fs13 text-capitalize mb-1">Type: {{ course.type }}</p>
-                <p class="fs13">
-                  Fee: {{ course.amount }}
-                  {{ course.type == "group" ? "Participants" : "Naira" }}
-                </p>
+              <div
+                class="mb-4 px-2 d-flex justify-content-between"
+                v-if="course.type !== 'free'"
+              >
+                <div>
+                  <h6 class="fs14">Course Access</h6>
+                  <p class="fs13 text-capitalize mb-1">
+                    Type: {{ course.type }}
+                  </p>
+                  <p class="fs13">
+                    {{ course.amount }}
+                    {{ course.type == "group" ? "Participants" : "Naira" }}
+                  </p>
+                </div>
+                <div class="text-right" v-if="checkCommunity(course.id)">
+                  <b-button
+                    class="ml-auto"
+                    @click="getcode(course.id)"
+                    size="sm"
+                    >Invite friends</b-button
+                  >
+                </div>
               </div>
-              <div class="mb-3 px-2">
+              <div class="mb-4 px-2">
                 <h6 class="fs14">Course Description</h6>
                 <p class="fs13">
                   {{ course.description ? course.description : "None" }}
                 </p>
               </div>
-              <div class="mb-3 px-2">
+              <div class="mb-4 px-2">
                 <h6 class="fs14 mb-1">Knowledge Area</h6>
                 <p class="fs13 text-capitalize">
                   {{
@@ -417,7 +571,7 @@
                 </p>
               </div>
 
-              <div class="mb-3 px-2">
+              <div class="mb-4 px-2">
                 <div class="" v-if="course.courseschedule">
                   <b-row>
                     <b-col cols="6">
@@ -438,7 +592,7 @@
                 </div>
               </div>
 
-              <div class="mb-3 px-2">
+              <div class="mb-4 px-2">
                 <h6 class="fs14">Additional Information</h6>
                 <p class="fs13">
                   {{
@@ -448,7 +602,7 @@
                   }}
                 </p>
               </div>
-              <div class="mb-3 px-2">
+              <div class="mb-4 px-2">
                 <h6 class="fs14">Certification</h6>
                 <p class="fs13 text-capitalize">
                   <b-icon
@@ -463,7 +617,7 @@
                 </p>
               </div>
               <div>
-                <h6 class="mb-3 fs14 px-2">Course Files</h6>
+                <h6 class="mb-4 fs14 px-2">Course Files</h6>
                 <div class="d-flex justify-content-between">
                   <div class="d-flex text-danger">
                     <b-img
@@ -574,7 +728,7 @@
             </div>
             <div v-if="toggleCourse == 3" class="h-100 p-2">
               <div class="mb-4">
-                <h6 class="fs14 mb-3">Overview</h6>
+                <h6 class="fs14 mb-4">Overview</h6>
 
                 <p class="fs13">{{ course.courseoutline.overview }}</p>
               </div>
@@ -627,7 +781,7 @@
                 <b-row>
                   <b-col
                     cols="12"
-                    class="mb-3 px-3 border-bottom"
+                    class="mb-4 px-3 border-bottom"
                     v-for="(item, index) in course.courseschedule"
                     :key="index"
                   >
@@ -679,7 +833,7 @@
         <b-col class="empty rounded p-5 text-center">
           <h2 class="mb-3 px-3 text-muted">No Course Available</h2>
           <b-img
-            class="mb-3 px-3"
+            class="mb-4 px-3"
             :src="require('@/assets/images/creator.svg')"
           ></b-img>
           <p class="mb-3">
@@ -694,28 +848,63 @@
     </b-container>
 
     <b-modal id="courselink" centered hide-footer hide-header>
-      <div class="box p-5 text-center">
-        <div class="mb-3 border px-4 py-2 rounded-pill d-flex text-muted">
+      <div class="box p-3 text-center">
+        <div class="mb-4 border px-4 py-2 rounded-pill d-flex text-muted">
           <b-icon icon="link45deg" font-scale="1.5rem"></b-icon>
-          <b-form-input
-            v-model="message"
-            readonly
-            class="text-align flex-1 rounded-pill no-focus"
-          >
-          </b-form-input>
-        </div>
-        <div>
-          <b-button
-            variant="lighter-green"
-            type="button"
+
+          <span
             v-clipboard:copy="message"
             v-clipboard:success="onCopy"
             v-clipboard:error="onError"
-            class="rounded px-4"
-            >Copy link</b-button
+            >{{ message }}</span
           >
         </div>
-        <p>You can find your course referral link in your bonus page</p>
+        <h6 class="text-center">Invite your friends</h6>
+        <div>
+          <div
+            v-for="(item, id) in inviteUsers.users"
+            :key="id"
+            class="mb-1 text-center"
+          >
+            <b-form-input
+              v-model="item.email"
+              placeholder="Enter email address"
+            ></b-form-input>
+          </div>
+          <div class="text-center mt-3">
+            <b-button
+              size="sm"
+              class="mr-3"
+              variant="lighter-green"
+              @click="addinvite"
+            >
+              <b-icon icon="plus" font-scale="1.4"></b-icon> Add email</b-button
+            >
+            <b-button size="sm" variant="dark-green" @click="sendinvite">
+              Send Invite
+            </b-button>
+          </div>
+        </div>
+      </div>
+    </b-modal>
+
+    <b-modal id="filter" hide-footer hide-header centered>
+      <div>
+        <div>
+          <h6 class="">Sort by</h6>
+          <b-form-group label="Category">
+            <b-form-radio-group v-model="course_type">
+              <b-form-radio value="">General</b-form-radio>
+              <b-form-radio value="free">Free</b-form-radio>
+              <b-form-radio value="paid">Paid</b-form-radio>
+              <b-form-radio value="group">Group</b-form-radio>
+            </b-form-radio-group>
+          </b-form-group>
+          <b-form-group>
+            <b-form-checkbox v-model="recent">Recent</b-form-checkbox>
+            <b-form-checkbox v-model="trending">Trending</b-form-checkbox>
+          </b-form-group>
+        </div>
       </div>
     </b-modal>
   </div>
@@ -724,6 +913,14 @@
 export default {
   data() {
     return {
+      inviteUsers: {
+        code: "",
+        users: [
+          {
+            email: "",
+          },
+        ],
+      },
       courses: [],
       search: "",
       course: null,
@@ -735,6 +932,11 @@ export default {
       communitylink: [],
       course_link: "",
       message: "",
+      course_type: "",
+      recent: false,
+      trending: false,
+      alpha: false,
+      showCourse: false,
     };
   },
   components: {},
@@ -746,12 +948,52 @@ export default {
   },
   computed: {
     filteredCourse() {
-      return this.courses.filter((item) =>
-        item.title.toLowerCase().includes(this.search.toLowerCase())
+      var title = this.courses.filter(
+        (item) =>
+          item.title.toLowerCase().includes(this.search.toLowerCase()) ||
+          JSON.parse(item.courseoutline.knowledge_areas)
+            .value.toLowerCase()
+            .includes(this.search)
       );
+      if (this.alpha) {
+        title.sort((a, b) => {
+          return a.title.localeCompare(b.title);
+        });
+      }
+      var courseType;
+      if (this.course_type == "free") {
+        courseType = title.filter((item) => item.type == "free");
+      } else if (this.course_type == "paid") {
+        courseType = title.filter((item) => item.type == "paid");
+      } else if (this.course_type == "group") {
+        courseType = title.filter((item) => item.type == "group");
+      } else {
+        courseType = title;
+      }
+
+      if (this.recent) {
+        return courseType.slice().reverse();
+      }
+      return courseType;
     },
   },
   methods: {
+    sendinvite() {
+      this.$http.post(
+        `${this.$store.getters.url}/send/invite`,
+        this.inviteUsers,
+        {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        }
+      );
+    },
+    addinvite() {
+      this.inviteUsers.users.push({
+        email: "",
+      });
+    },
     onCopy: function (e) {
       alert("You just copied the following text to the clipboard: " + e.text);
     },
@@ -798,8 +1040,35 @@ export default {
         .then((res) => {
           if (res.status == 201) {
             this.communitylink.push(res.data);
-            this.message = `https://skillsguruh.herokuapp.com/register/?referral_type=community&referral_code=${res.data.code}`;
+            this.message = `https://skillsguruh.herokuapp.com/register/?referral_type=group&referral_code=${res.data.code}`;
             this.$toast.info("Course link created");
+            this.inviteUsers.code = res.data.code;
+            this.$bvModal.show("courselink");
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    getcode(id) {
+      if (!this.$store.getters.learner) {
+        this.$toast.info("Login to add course");
+        return;
+      }
+      this.$http
+        .get(
+          `${this.$store.getters.url}/apply-community/${id}`,
+
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.message = `https://skillsguruh.herokuapp.com/register/?referral_type=group&referral_code=${res.data.code}`;
+            this.inviteUsers.code = res.data.code;
             this.$bvModal.show("courselink");
           }
         })
@@ -1011,6 +1280,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.courses = res.data;
+            this.showCourse = true;
           }
         })
         .catch((err) => {

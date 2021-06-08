@@ -77,5 +77,13 @@ export default {
 .content {
   height: 100vh;
   overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+.notification_container {
 }
 </style>

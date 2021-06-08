@@ -6,40 +6,82 @@
         <b-col sm="4" class="text-left pr-4">
           <div class="bg-white w-100 h-100 p-3 shadow-sm rounded">
             <h6 class="px-2 mb-4 text-muted">Recently Added</h6>
-            <div
-              class="d-flex mb-5"
-              v-for="(item, id) in recentlyAdded"
-              :key="id"
-            >
-              <div style="width:80px; height100px" class="mr-3">
-                <b-img :src="item.course.cover" fluid-grow></b-img>
-              </div>
+            <div v-if="showRecent">
+              <div
+                class="d-flex mb-5"
+                v-for="(item, id) in recentlyAdded"
+                :key="id"
+              >
+                <div style="width:80px; height100px" class="mr-3">
+                  <b-img :src="item.course.cover" fluid-grow></b-img>
+                </div>
 
-              <div>
-                <div class="fs14 font-weight-bold mb-2 text-capitalize">
-                  {{ item.course.title }}
-                </div>
-                <div class="fs14 text-muted">
-                  <b-icon icon="book" class="mr-2"></b-icon>
-                  {{ item.course.modules.length }} modules
-                </div>
                 <div>
-                  <b-button-group size="sm">
-                    <b-button variant="danger" disabled>
+                  <div class="fs14 font-weight-bold mb-2 text-capitalize">
+                    {{ item.course.title }}
+                  </div>
+                  <div class="fs14 text-muted">
+                    <b-icon icon="book" class="mr-2"></b-icon>
+                    {{ item.course.modules.length }} modules
+                  </div>
+                  <div>
+                    <b-button-group size="sm">
+                      <!-- <b-button variant="danger" disabled>
                       <b-icon
                         icon="download"
                         font-scale=".9rem"
                         variant="white"
                       ></b-icon
-                    ></b-button>
-                    <b-button
-                      variant="dark-green"
-                      size="sm"
-                      @click="$router.push(`/learner/media/${item.course.id}`)"
-                    >
-                      <span class="fs13"> View course</span>
-                    </b-button>
-                  </b-button-group>
+                    ></b-button> -->
+                      <b-button
+                        variant="dark-green"
+                        size="sm"
+                        @click="
+                          $router.push(`/learner/media/${item.course.id}`)
+                        "
+                      >
+                        <span class="fs13"> View course</span>
+                      </b-button>
+                    </b-button-group>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div v-else>
+              <div class="mb-4 d-flex w-100">
+                <div class="mb-3 w-50 mr-3">
+                  <b-skeleton-img></b-skeleton-img>
+                </div>
+                <div class="w-50">
+                  <b-skeleton
+                    animation="fade"
+                    class="mb-2"
+                    width="65%"
+                  ></b-skeleton>
+                  <b-skeleton
+                    animation="fade"
+                    class="mb-2"
+                    width="55%"
+                  ></b-skeleton>
+                  <b-skeleton animation="fade" width="59%"></b-skeleton>
+                </div>
+              </div>
+              <div class="mb-4 d-flex w-100">
+                <div class="mb-3 w-50 mr-3">
+                  <b-skeleton-img></b-skeleton-img>
+                </div>
+                <div class="w-50">
+                  <b-skeleton
+                    animation="fade"
+                    class="mb-2"
+                    width="65%"
+                  ></b-skeleton>
+                  <b-skeleton
+                    animation="fade"
+                    class="mb-2"
+                    width="55%"
+                  ></b-skeleton>
+                  <b-skeleton animation="fade" width="59%"></b-skeleton>
                 </div>
               </div>
             </div>
@@ -47,11 +89,22 @@
           <div></div>
         </b-col>
         <b-col sm="8" class="p-3 bg-white shadow-sm rounded">
-          <div class="d-flex justify-content-between mb-3">
-            <div class="search mb-4">
+          <div class="text-right mb-3">
+            <b-icon
+              class="mr-3"
+              :icon="alpha ? 'sort-alpha-up' : 'sort-alpha-down'"
+              @click="alpha = !alpha"
+            ></b-icon>
+
+            <b-icon
+              class="mr-3"
+              icon="funnel"
+              @click="$bvModal.show('filter')"
+            ></b-icon>
+            <div class="search align-items-center mb-4">
               <b-input-group class="topbar_search rounded-pill">
                 <b-form-input
-                  placeholder="Search course"
+                  placeholder="Search by title, interest"
                   class="no-focus bg-light border-0"
                   type="search"
                   size="lg"
@@ -100,15 +153,23 @@
               </b-iconstack>
             </div>
           </div>
-          <div v-if="library">
-            <b-row>
+          <div>
+            <b-row v-if="showLibrary">
               <b-col
                 :sm="list ? 12 : 4"
                 v-for="(item, id) in filteredLibrary"
                 :key="id"
               >
                 <div
-                  class="d-flex justify-content-between p-2 border rounded mb-4 text-left"
+                  class="
+                    d-flex
+                    justify-content-between
+                    p-2
+                    border
+                    rounded
+                    mb-4
+                    text-left
+                  "
                   :class="list ? 'flex-row' : 'flex-column'"
                 >
                   <b-col
@@ -126,8 +187,28 @@
                       <div class="fs14 font-weight-bold mb-1">
                         {{ item.course.title }}
                       </div>
-                      <div class="fs14 overview">
+                      <div class="fs14 overview mb-2">
                         {{ item.course.description }}
+                      </div>
+                      <div class="fs14 overview text-capitalize">
+                        {{
+                          JSON.parse(item.course.courseoutline.knowledge_areas)
+                            .value
+                        }}
+                      </div>
+                      <div class="mt-3">
+                        <div class="mb-2 fs12">Your progress</div>
+                        <b-progress
+                          :max="100"
+                          height=".8rem"
+                          class="mb-3"
+                          variant="dark-green"
+                        >
+                          <b-progress-bar
+                            :value="item.progress"
+                            :label="`${Math.round(item.progress)}%`"
+                          ></b-progress-bar>
+                        </b-progress>
                       </div>
                     </div>
                   </b-col>
@@ -160,7 +241,7 @@
 
                     <div :class="list ? 'pl-4' : ''">
                       <div class="mb-2">
-                        <b-button
+                        <!-- <b-button
                           block
                           variant="danger"
                           disabled
@@ -168,7 +249,7 @@
                           size="sm"
                           ><b-icon icon="download" class="mr-2"></b-icon>
                           Download</b-button
-                        >
+                        > -->
                       </div>
                       <div>
                         <b-button
@@ -187,10 +268,115 @@
                 </div>
               </b-col>
             </b-row>
+            <b-row v-else>
+              <b-col sm="4" class="mb-4">
+                <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="65%"
+                ></b-skeleton>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="55%"
+                ></b-skeleton>
+                <b-skeleton animation="fade" width="59%"></b-skeleton>
+              </b-col>
+              <b-col sm="4" class="mb-4">
+                <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="65%"
+                ></b-skeleton>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="55%"
+                ></b-skeleton>
+                <b-skeleton animation="fade" width="59%"></b-skeleton>
+              </b-col>
+              <b-col sm="4" class="mb-4">
+                <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="65%"
+                ></b-skeleton>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="55%"
+                ></b-skeleton>
+                <b-skeleton animation="fade" width="59%"></b-skeleton>
+              </b-col>
+              <b-col sm="4" class="mb-4">
+                <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="65%"
+                ></b-skeleton>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="55%"
+                ></b-skeleton>
+                <b-skeleton animation="fade" width="59%"></b-skeleton>
+              </b-col>
+              <b-col sm="4" class="mb-4">
+                <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="65%"
+                ></b-skeleton>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="55%"
+                ></b-skeleton>
+                <b-skeleton animation="fade" width="59%"></b-skeleton>
+              </b-col>
+              <b-col sm="4" class="mb-4">
+                <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="65%"
+                ></b-skeleton>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="55%"
+                ></b-skeleton>
+                <b-skeleton animation="fade" width="59%"></b-skeleton>
+              </b-col>
+            </b-row>
           </div>
         </b-col>
       </b-row>
     </b-container>
+    <b-modal id="filter" hide-footer hide-header centered>
+      <div>
+        <div>
+          <h6 class="">Sort by</h6>
+          <b-form-group label="Category">
+            <b-form-radio-group v-model="course_type">
+              <b-form-radio value="">General</b-form-radio>
+              <b-form-radio value="free">Free</b-form-radio>
+              <b-form-radio value="paid">Paid</b-form-radio>
+              <b-form-radio value="group">Group</b-form-radio>
+            </b-form-radio-group>
+          </b-form-group>
+          <!-- <b-form-group>
+            <b-form-checkbox v-model="recent">Recent</b-form-checkbox>
+            <b-form-checkbox v-model="trending">Trending</b-form-checkbox>
+          </b-form-group> -->
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -201,6 +387,12 @@ export default {
       library: [],
       search: "",
       list: true,
+      course_type: "",
+      recent: false,
+      trending: false,
+      alpha: false,
+      showLibrary: false,
+      showRecent: false,
     };
   },
   mounted() {
@@ -208,9 +400,33 @@ export default {
   },
   computed: {
     filteredLibrary() {
-      return this.library.filter((item) =>
-        item.course.title.toLowerCase().includes(this.search.toLowerCase())
+      var title = this.library.filter(
+        (item) =>
+          item.course.title.toLowerCase().includes(this.search.toLowerCase()) ||
+          JSON.parse(item.course.courseoutline.knowledge_areas)
+            .value.toLowerCase()
+            .includes(this.search)
       );
+      if (this.alpha) {
+        title.sort((a, b) => {
+          return a.course.title.localeCompare(b.course.title);
+        });
+      }
+      var courseType;
+      if (this.course_type == "free") {
+        courseType = title.filter((item) => item.course.type == "free");
+      } else if (this.course_type == "paid") {
+        courseType = title.filter((item) => item.course.type == "paid");
+      } else if (this.course_type == "group") {
+        courseType = title.filter((item) => item.course.type == "group");
+      } else {
+        courseType = title;
+      }
+
+      if (this.recent) {
+        return courseType.slice().reverse();
+      }
+      return courseType;
     },
     recentlyAdded() {
       return this.library.slice().reverse().splice(0, 6);
@@ -227,6 +443,8 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.library = res.data;
+            this.showLibrary = true;
+            this.showRecent = true;
           }
         })
         .catch((err) => {

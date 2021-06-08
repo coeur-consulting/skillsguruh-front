@@ -87,15 +87,12 @@
       </b-col>
       <b-col sm="5">
         <div class="box p-4 mb-5">
-          <h6 class="mb-3">Suggested Learners</h6>
+          <h6 class="mb-3">Suggested</h6>
 
-          <div
-            class="py-1 suggestion_box"
-            v-if="filteredLearnerSuggested.length"
-          >
+          <div class="py-1 suggestion_box" v-if="joinedUsers.length">
             <div
               class="d-flex align-items-end mb-4"
-              v-for="(item, id) in filteredLearnerSuggested.slice(0, 9)"
+              v-for="(item, id) in joinedUsers.slice(0, 9)"
               :key="id"
             >
               <div class="d-flex align-items-center flex-1">
@@ -108,6 +105,15 @@
 
               <div>
                 <b-button
+                  v-if="item.qualifications"
+                  @click="addconnections(item.id, 'facilitator')"
+                  size="sm"
+                  variant="outline-dark-green"
+                  class="rounded-pill fs11"
+                  >Connect</b-button
+                >
+                <b-button
+                  v-else
                   @click="addconnections(item.id, 'user')"
                   size="sm"
                   variant="outline-dark-green"
@@ -121,7 +127,7 @@
             <h6 class="text-muted text-center">Not available</h6>
           </div>
         </div>
-        <div class="box p-4">
+        <!-- <div class="box p-4">
           <h6 class="mb-3">Suggested Facilitators</h6>
 
           <div
@@ -156,7 +162,7 @@
           <div v-else class="p-3">
             <h6 class="text-muted text-center">Not available</h6>
           </div>
-        </div>
+        </div> -->
       </b-col>
     </b-row>
     <Minichat
@@ -194,6 +200,11 @@ export default {
     this.getFacilitatorsWithInterest();
   },
   computed: {
+    joinedUsers() {
+      return this.filteredLearnerSuggested.concat(
+        this.filteredFacilitatorSuggested
+      );
+    },
     filteredConnections() {
       return this.connections.filter((item) => {
         if (item.user_follower) {

@@ -240,14 +240,14 @@ export default {
     };
   },
   mounted() {
-    if (this.$route.query.referral_code) {
+    if (this.$route.query.referral_type == "normal") {
       this.user.referral = this.$route.query.referral_code;
       this.user.referral_type = "normal";
     }
 
-    if (this.$route.query.community_referral) {
+    if (this.$route.query.referral_type == "group") {
       this.user.referral = this.$route.query.community_referral;
-      this.user.referral_type = "community_course";
+      this.user.referral_type = "group_course";
     }
   },
   components: {

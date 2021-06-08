@@ -4,7 +4,13 @@
       <b-row>
         <b-col class="mb-5 mb-sm-0">
           <div
-            class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-4"
+            class="
+              d-flex
+              flex-column flex-sm-row
+              justify-content-between
+              align-items-center
+              mb-4
+            "
           >
             <h6 class="mb-3 mb-sm-0">Facilitators</h6>
             <div>
@@ -18,7 +24,7 @@
             </div>
           </div>
 
-          <div class="shadow bg-white">
+          <div class="shadow bg-white" v-if="showTable">
             <div
               v-if="users.length"
               class="d-flex justify-content-between align-items-center p-3 e"
@@ -168,6 +174,13 @@
                 >
               </div>
             </div>
+          </div>
+          <div class="shadow bg-white p-5" v-else>
+            <b-skeleton-table
+              :rows="8"
+              :columns="4"
+              :table-props="{ bordered: true, striped: true }"
+            ></b-skeleton-table>
           </div>
         </b-col>
       </b-row>
@@ -338,6 +351,7 @@ export default {
         phone: "",
         password: "",
       },
+      showTable: false,
     };
   },
   computed: {
@@ -367,6 +381,7 @@ export default {
           if (res.status == 200) {
             this.users = res.data;
             this.rows = res.data.length;
+            this.showTable = true;
           }
         })
         .catch((err) => {

@@ -24,42 +24,107 @@
         </div>
       </div>
 
-      <div class="message_box py-3" v-if="chatters.length">
-        <div v-for="(message, index) in chatters" :key="index">
-          <div class="message px-3 py-3 d-flex border-bottom">
-            <b-avatar size="2.2rem" :src="message.profile"></b-avatar>
+      <div v-if="showMessage">
+        <div class="message_box py-3" v-if="chatters.length">
+          <div v-for="(message, index) in chatters" :key="index">
+            <div class="message px-3 py-3 d-flex border-bottom">
+              <b-avatar size="2.2rem" :src="message.profile"></b-avatar>
 
-            <div
-              class="message_text flex-1 px-2"
-              @click="
-                getmessage(
-                  message.id,
-                  message.name,
-                  message.type,
-                  message.profile
-                )
-              "
-            >
-              <span class="message_name">{{ message.name }}</span>
-              <br />
-              <div class="last_message">
-                {{ message.message }}
-              </div>
-            </div>
-
-            <div>
-              <span class="message_time">
-                {{ message.time | moment("LT") }}</span
+              <div
+                class="message_text flex-1 px-2"
+                @click="
+                  getmessage(
+                    message.id,
+                    message.name,
+                    message.type,
+                    message.profile
+                  )
+                "
               >
+                <span class="message_name">{{ message.name }}</span>
+                <br />
+                <div class="last_message">
+                  {{ message.message }}
+                </div>
+              </div>
+
+              <div>
+                <span class="message_time">
+                  {{ message.time | moment("LT") }}</span
+                >
+              </div>
             </div>
           </div>
         </div>
+        <div
+          v-else
+          class="
+            message_box
+            d-flex
+            justify-content-center
+            align-content-center
+            p-5
+          "
+        >
+          <div class="text-muted">No Message Available</div>
+        </div>
       </div>
-      <div
-        v-else
-        class="message_box d-flex justify-content-center align-content-center p-5"
-      >
-        <div class="text-muted">No Message Available</div>
+
+      <div v-else class="p-3 message_box">
+        <div class="d-flex w-100 mb-3">
+          <div class="mr-2">
+            <b-skeleton type="avatar"></b-skeleton>
+          </div>
+          <div class="w-100">
+            <b-skeleton animation="wave" width="85%"></b-skeleton>
+            <b-skeleton animation="wave" width="35%"></b-skeleton>
+          </div>
+        </div>
+        <div class="d-flex w-100 mb-3">
+          <div class="mr-2">
+            <b-skeleton type="avatar"></b-skeleton>
+          </div>
+          <div class="w-100">
+            <b-skeleton animation="wave" width="85%"></b-skeleton>
+            <b-skeleton animation="wave" width="35%"></b-skeleton>
+          </div>
+        </div>
+        <div class="d-flex w-100 mb-3">
+          <div class="mr-2">
+            <b-skeleton type="avatar"></b-skeleton>
+          </div>
+          <div class="w-100">
+            <b-skeleton animation="wave" width="85%"></b-skeleton>
+            <b-skeleton animation="wave" width="35%"></b-skeleton>
+          </div>
+        </div>
+        <div class="d-flex w-100 mb-3">
+          <div class="mr-2">
+            <b-skeleton type="avatar"></b-skeleton>
+          </div>
+          <div class="w-100">
+            <b-skeleton animation="wave" width="85%"></b-skeleton>
+            <b-skeleton animation="wave" width="35%"></b-skeleton>
+          </div>
+        </div>
+        <div class="d-flex w-100 mb-3">
+          <div class="mr-2">
+            <b-skeleton type="avatar"></b-skeleton>
+          </div>
+          <div class="w-100">
+            <b-skeleton animation="wave" width="85%"></b-skeleton>
+            <b-skeleton animation="wave" width="35%"></b-skeleton>
+          </div>
+        </div>
+        <div class="d-flex w-100 mb-3">
+          <div class="mr-2">
+            <b-skeleton type="avatar"></b-skeleton>
+          </div>
+          <div class="w-100">
+            <b-skeleton animation="wave" width="85%"></b-skeleton>
+            <b-skeleton animation="wave" width="35%"></b-skeleton>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -69,6 +134,7 @@ export default {
   props: ["user"],
   data() {
     return {
+      showMessage: false,
       toggleMessage: true,
       inboxes: [],
       chatters: [],
@@ -113,6 +179,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.sortmessages(res.data.reverse());
+            this.showMessage = true;
           }
         })
         .catch((err) => {

@@ -4,7 +4,13 @@
       <b-row>
         <b-col class="mb-5 mb-sm-0 px-0">
           <div
-            class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-4"
+            class="
+              d-flex
+              flex-column flex-sm-row
+              justify-content-between
+              align-items-center
+              mb-4
+            "
           >
             <h6 class="mb-3 mb-sm-0">Facilitators</h6>
             <div>
@@ -34,7 +40,7 @@
               </div>
             </div>
 
-            <div class="">
+            <div class="" v-if="showTable">
               <b-table-simple class="org_home_table text-left" responsive="sm">
                 <b-thead>
                   <b-tr class="text-left">
@@ -130,6 +136,13 @@
                   :per-page="perPage"
                 ></b-pagination>
               </div>
+            </div>
+            <div v-else>
+              <b-skeleton-table
+                :rows="5"
+                :columns="4"
+                :table-props="{ bordered: true, striped: true }"
+              ></b-skeleton-table>
             </div>
           </div>
         </b-col>
@@ -301,6 +314,7 @@ export default {
         phone: "",
         password: "",
       },
+      showTable: false,
     };
   },
   computed: {

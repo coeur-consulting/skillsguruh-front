@@ -5,9 +5,15 @@
         <b-col sm="8">
           <b-row class="mb-4 mb-sm-4">
             <b-col sm="6">
-              <div class="box p-3">
+              <div class="box p-3" v-if="showFacilitator">
                 <div
-                  class="d-flex justify-content-between w-100 align-items-center mb-4"
+                  class="
+                    d-flex
+                    justify-content-between
+                    w-100
+                    align-items-center
+                    mb-4
+                  "
                 >
                   <div class="d-flex align-items-center mb-1">
                     <b-iconstack font-scale="2.5" class="mr-3">
@@ -49,11 +55,32 @@
                   </div>
                 </div>
               </div>
+
+              <div class="box p-3" v-else>
+                <div class="d-flex w-100 mb-3">
+                  <div class="mr-2">
+                    <b-skeleton type="avatar"></b-skeleton>
+                  </div>
+                  <div class="w-100">
+                    <b-skeleton animation="wave" width="85%"></b-skeleton>
+                    <b-skeleton animation="wave" width="35%"></b-skeleton>
+                  </div>
+                </div>
+                <div class="w-100">
+                  <b-skeleton animation="wave" width="100%"></b-skeleton>
+                </div>
+              </div>
             </b-col>
             <b-col sm="6">
-              <div class="box p-3">
+              <div class="box p-3" v-if="showLearner">
                 <div
-                  class="d-flex justify-content-between align-items-center w-100 mb-4"
+                  class="
+                    d-flex
+                    justify-content-between
+                    align-items-center
+                    w-100
+                    mb-4
+                  "
                 >
                   <div class="d-flex align-items-center mb-1">
                     <b-iconstack font-scale="2.5" class="mr-3">
@@ -92,6 +119,20 @@
                     >
                     <span class="mt-1">New Learners this month</span>
                   </div>
+                </div>
+              </div>
+              <div class="box p-3" v-else>
+                <div class="d-flex w-100 mb-3">
+                  <div class="mr-2">
+                    <b-skeleton type="avatar"></b-skeleton>
+                  </div>
+                  <div class="w-100">
+                    <b-skeleton animation="wave" width="85%"></b-skeleton>
+                    <b-skeleton animation="wave" width="35%"></b-skeleton>
+                  </div>
+                </div>
+                <div class="w-100">
+                  <b-skeleton animation="wave" width="100%"></b-skeleton>
                 </div>
               </div>
             </b-col>
@@ -156,6 +197,9 @@ export default {
       masks: {
         weekdays: "WWW",
       },
+      showLearner: false,
+      showFacilitator: false,
+      showTable: false,
     };
   },
   components: {
@@ -321,6 +365,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.facilitators = res.data;
+            this.showFacilitator = true;
           }
         })
         .catch((err) => {
@@ -337,6 +382,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.users = res.data;
+            this.showLearner = true;
           }
         })
         .catch((err) => {

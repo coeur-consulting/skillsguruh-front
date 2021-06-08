@@ -110,7 +110,7 @@
             <span class="side-link">Library</span>
           </div>
         </router-link>
-        <router-link to="/learner/assessments">
+        <!-- <router-link to="/learner/assessments">
           <div class="side_item">
             <b-icon
               icon="card-list"
@@ -129,7 +129,7 @@
             ></b-icon>
             <span class="side-link">Grades</span>
           </div>
-        </router-link>
+        </router-link> -->
       </div>
       <div>
         <h6 class="mt-3 mb-1 text-dark-green side_header">EARN</h6>

@@ -17,7 +17,7 @@
                 :class="{ active: show == 'recent' }"
                 @click="show = 'recent'"
               >
-                Recent Discussions
+                Recent
               </div>
               <div
                 :class="{ active: show == 'mostanswers' }"
@@ -26,16 +26,16 @@
                 Most Answers
               </div>
               <div
-                :class="{ active: show == 'recentanswers' }"
-                @click="show = 'recentanswers'"
+                :class="{ active: show == 'trending' }"
+                @click="show = 'trending'"
               >
-                Recent Answers
+                Trending
               </div>
               <div
-                :class="{ active: show == 'mostvisits' }"
-                @click="show = 'mostvisits'"
+                :class="{ active: show == 'private' }"
+                @click="show = 'private'"
               >
-                Most Visited
+                Private
               </div>
             </div>
             <div class="main_content" v-if="discussions.length">
@@ -425,16 +425,24 @@ export default {
     },
     toggleData() {
       if (this.show == "recent") {
-        this.discussions = this.recentdiscussions;
+        this.discussions = this.recentdiscussions.filter(
+          (item) => item.type == "public"
+        );
       }
       if (this.show == "mostanswers") {
-        this.discussions = this.mostanswers;
+        this.discussions = this.mostanswers.filter(
+          (item) => item.type == "public"
+        );
       }
       if (this.show == "mostvisits") {
-        this.discussions = this.mostvisits;
+        this.discussions = this.mostvisits.filter(
+          (item) => item.type == "public"
+        );
       }
-      if (this.show == "recentanswers") {
-        this.discussions = this.recentanswers;
+      if (this.show == "private") {
+        this.discussions = this.recentdiscussions.filter(
+          (item) => item.type == "private"
+        );
       }
     },
     vote(val) {

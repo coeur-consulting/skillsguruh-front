@@ -59,22 +59,28 @@
                             pill
                             size="sm"
                             variant="outline-dark-green"
-                            @click="
-                              $router.push(
-                                `/organizationistrator/event/${item.id}`
-                              )
-                            "
+                            @click="$router.push(`/learner/event/${item.id}`)"
                             >View Event</b-button
                           >
-                          <a v-else :href="item.url" target="_blank">
+                          <div v-else>
                             <b-button
+                              class="mr-3"
                               pill
                               size="sm"
-                              variant="lighter-green"
-                              class="text-dark-green"
-                              >Attend event</b-button
-                            ></a
-                          >
+                              variant="outline-dark-green"
+                              @click="$router.push(`/learner/event/${item.id}`)"
+                              >View Event</b-button
+                            >
+                            <a :href="item.url" target="_blank">
+                              <b-button
+                                pill
+                                size="sm"
+                                variant="lighter-green"
+                                class="text-dark-green"
+                                >Attend event</b-button
+                              ></a
+                            >
+                          </div>
                         </div>
                       </div>
                     </b-col>
@@ -105,12 +111,12 @@
                     border-bottom
                   "
                 >
-                  <b-button
+                  <!-- <b-button
                     size="sm"
                     variant="dark-green"
                     @click="$bvModal.show('add')"
                     ><b-icon icon="plus"></b-icon
-                  ></b-button>
+                  ></b-button> -->
                   <span>{{ new Date() | moment("LL") }}</span>
                 </div>
 
@@ -138,9 +144,10 @@
                                   align-items-center
                                 "
                               >
-                                <span class="fs12">{{
-                                  item.start_time | moment("LT")
-                                }}</span>
+                                <span
+                                  class="fs12 text-capitalize font-weight-bold"
+                                  >{{ item.customData.type }}</span
+                                >
                                 <span
                                   class="
                                     border
@@ -151,37 +158,33 @@
                                     fs11
                                   "
                                 >
-                                  {{ duration(item.start_time, item.end_time) }}
+                                  {{
+                                    duration(item.dates.start, item.dates.end)
+                                  }}
                                   week{{
-                                    duration(item.start_time, item.end_time) > 1
+                                    duration(item.dates.start, item.dates.end) >
+                                    1
                                       ? "s"
                                       : ""
                                   }}
                                 </span>
                               </div>
-                              <div class="fs14" v-if="item.course.title">
-                                {{ item.course.title }}
+                              <div class="fs14" v-if="item.customData.title">
+                                {{ item.customData.title }}
                               </div>
-                              <div
-                                class="fs13 d-flex justify-content-between mb-2"
-                                v-if="item.facilitator"
-                              >
-                                <span> {{ item.facilitator.name }}</span>
-                                <b-icon
-                                  class="cursor-pointer"
-                                  @click="drop(item.id)"
-                                  icon="x"
-                                ></b-icon>
+
+                              <div class="fs12 mb-1" v-if="item.dates.start">
+                                {{ item.dates.start | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12" v-if="item.start_time">
-                                {{ item.start_time | moment(" MMMM Do YYYY") }}
+                              <div class="fs12">
+                                {{ item.dates.start | moment("LT") }}
                               </div>
                             </div>
                           </div>
                         </b-td>
                       </b-tr>
                       <b-tr v-if="daySchedule('tuesday').length">
-                        <b-th sticky-column>Tuesday</b-th>
+                        <b-th sticky-column class="">Tuesday</b-th>
                         <b-td>
                           <div class="d-flex tabl">
                             <div
@@ -201,9 +204,10 @@
                                   align-items-center
                                 "
                               >
-                                <span class="fs12">{{
-                                  item.start_time | moment("LT")
-                                }}</span>
+                                <span
+                                  class="fs12 text-capitalize font-weight-bold"
+                                  >{{ item.customData.type }}</span
+                                >
                                 <span
                                   class="
                                     border
@@ -214,37 +218,33 @@
                                     fs11
                                   "
                                 >
-                                  {{ duration(item.start_time, item.end_time) }}
+                                  {{
+                                    duration(item.dates.start, item.dates.end)
+                                  }}
                                   week{{
-                                    duration(item.start_time, item.end_time) > 1
+                                    duration(item.dates.start, item.dates.end) >
+                                    1
                                       ? "s"
                                       : ""
                                   }}
                                 </span>
                               </div>
-                              <div class="fs14" v-if="item.course.title">
-                                {{ item.course.title }}
+                              <div class="fs14" v-if="item.customData.title">
+                                {{ item.customData.title }}
                               </div>
-                              <div
-                                class="mb-2 fs13 d-flex justify-content-between"
-                                v-if="item.facilitator"
-                              >
-                                <span> {{ item.facilitator.name }}</span>
-                                <b-icon
-                                  class="cursor-pointer"
-                                  @click="drop(item.id)"
-                                  icon="x"
-                                ></b-icon>
+
+                              <div class="fs12 mb-1" v-if="item.dates.start">
+                                {{ item.dates.start | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12" v-if="item.start_time">
-                                {{ item.start_time | moment(" MMMM Do YYYY") }}
+                              <div class="fs12">
+                                {{ item.dates.start | moment("LT") }}
                               </div>
                             </div>
                           </div>
                         </b-td>
                       </b-tr>
                       <b-tr v-if="daySchedule('wednesday').length">
-                        <b-th sticky-column>Wednesday</b-th>
+                        <b-th sticky-column class="">Wednesday</b-th>
                         <b-td>
                           <div class="d-flex tabl">
                             <div
@@ -264,9 +264,10 @@
                                   align-items-center
                                 "
                               >
-                                <span class="fs12">{{
-                                  item.start_time | moment("LT")
-                                }}</span>
+                                <span
+                                  class="fs12 text-capitalize font-weight-bold"
+                                  >{{ item.customData.type }}</span
+                                >
                                 <span
                                   class="
                                     border
@@ -277,38 +278,33 @@
                                     fs11
                                   "
                                 >
-                                  {{ duration(item.start_time, item.end_time) }}
+                                  {{
+                                    duration(item.dates.start, item.dates.end)
+                                  }}
                                   week{{
-                                    duration(item.start_time, item.end_time) > 1
+                                    duration(item.dates.start, item.dates.end) >
+                                    1
                                       ? "s"
                                       : ""
                                   }}
                                 </span>
                               </div>
-                              <div class="fs14" v-if="item.course.title">
-                                {{ item.course.title }}
-                              </div>
-                              <div
-                                class="mb-2 fs13 d-flex justify-content-between"
-                                v-if="item.facilitator"
-                              >
-                                <span> {{ item.facilitator.name }}</span>
-                                <b-icon
-                                  class="cursor-pointer"
-                                  @click="drop(item.id)"
-                                  icon="x"
-                                ></b-icon>
+                              <div class="fs14" v-if="item.customData.title">
+                                {{ item.customData.title }}
                               </div>
 
-                              <div class="fs12" v-if="item.start_time">
-                                {{ item.start_time | moment(" MMMM Do YYYY") }}
+                              <div class="fs12 mb-1" v-if="item.dates.start">
+                                {{ item.dates.start | moment(" MMMM Do YYYY") }}
+                              </div>
+                              <div class="fs12">
+                                {{ item.dates.start | moment("LT") }}
                               </div>
                             </div>
                           </div>
                         </b-td>
                       </b-tr>
                       <b-tr v-if="daySchedule('thursday').length">
-                        <b-th sticky-column>Thursday</b-th>
+                        <b-th sticky-column class="">Thursday</b-th>
                         <b-td>
                           <div class="d-flex tabl">
                             <div
@@ -328,9 +324,10 @@
                                   align-items-center
                                 "
                               >
-                                <span class="fs12">{{
-                                  item.start_time | moment("LT")
-                                }}</span>
+                                <span
+                                  class="fs12 text-capitalize font-weight-bold"
+                                  >{{ item.customData.type }}</span
+                                >
                                 <span
                                   class="
                                     border
@@ -341,37 +338,33 @@
                                     fs11
                                   "
                                 >
-                                  {{ duration(item.start_time, item.end_time) }}
+                                  {{
+                                    duration(item.dates.start, item.dates.end)
+                                  }}
                                   week{{
-                                    duration(item.start_time, item.end_time) > 1
+                                    duration(item.dates.start, item.dates.end) >
+                                    1
                                       ? "s"
                                       : ""
                                   }}
                                 </span>
                               </div>
-                              <div class="fs14" v-if="item.course.title">
-                                {{ item.course.title }}
+                              <div class="fs14" v-if="item.customData.title">
+                                {{ item.customData.title }}
                               </div>
-                              <div
-                                class="mb-2 fs13 d-flex justify-content-between"
-                                v-if="item.facilitator"
-                              >
-                                <span> {{ item.facilitator.name }}</span>
-                                <b-icon
-                                  class="cursor-pointer"
-                                  @click="drop(item.id)"
-                                  icon="x"
-                                ></b-icon>
+
+                              <div class="fs12 mb-1" v-if="item.dates.start">
+                                {{ item.dates.start | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12" v-if="item.start_time">
-                                {{ item.start_time | moment(" MMMM Do YYYY") }}
+                              <div class="fs12">
+                                {{ item.dates.start | moment("LT") }}
                               </div>
                             </div>
                           </div>
                         </b-td>
                       </b-tr>
                       <b-tr v-if="daySchedule('friday').length">
-                        <b-th sticky-column>Friday</b-th>
+                        <b-th sticky-column class="">Friday</b-th>
                         <b-td>
                           <div class="d-flex tabl">
                             <div
@@ -391,9 +384,10 @@
                                   align-items-center
                                 "
                               >
-                                <span class="fs12">{{
-                                  item.start_time | moment("LT")
-                                }}</span>
+                                <span
+                                  class="fs12 text-capitalize font-weight-bold"
+                                  >{{ item.customData.type }}</span
+                                >
                                 <span
                                   class="
                                     border
@@ -404,38 +398,33 @@
                                     fs11
                                   "
                                 >
-                                  {{ duration(item.start_time, item.end_time) }}
+                                  {{
+                                    duration(item.dates.start, item.dates.end)
+                                  }}
                                   week{{
-                                    duration(item.start_time, item.end_time) > 1
+                                    duration(item.dates.start, item.dates.end) >
+                                    1
                                       ? "s"
                                       : ""
                                   }}
                                 </span>
                               </div>
-                              <div class="fs14" v-if="item.course.title">
-                                {{ item.course.title }}
+                              <div class="fs14" v-if="item.customData.title">
+                                {{ item.customData.title }}
                               </div>
-                              <div
-                                class="mb-2 fs13 d-flex justify-content-between"
-                                v-if="item.facilitator"
-                              >
-                                <span> {{ item.facilitator.name }}</span>
-                                <b-icon
-                                  class="cursor-pointer"
-                                  @click="drop(item.id)"
-                                  icon="x"
-                                ></b-icon>
+
+                              <div class="fs12 mb-1" v-if="item.dates.start">
+                                {{ item.dates.start | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12" v-if="item.start_time">
-                                {{ item.start_time | moment(" MMMM Do YYYY") }}
+                              <div class="fs12">
+                                {{ item.dates.start | moment("LT") }}
                               </div>
                             </div>
                           </div>
                         </b-td>
                       </b-tr>
-
                       <b-tr v-if="daySchedule('saturday').length">
-                        <b-th sticky-column>Saturday</b-th>
+                        <b-th sticky-column class="">Saturday</b-th>
                         <b-td>
                           <div class="d-flex tabl">
                             <div
@@ -455,9 +444,10 @@
                                   align-items-center
                                 "
                               >
-                                <span class="fs12">{{
-                                  item.start_time | moment("LT")
-                                }}</span>
+                                <span
+                                  class="fs12 text-capitalize font-weight-bold"
+                                  >{{ item.customData.type }}</span
+                                >
                                 <span
                                   class="
                                     border
@@ -468,37 +458,33 @@
                                     fs11
                                   "
                                 >
-                                  {{ duration(item.start_time, item.end_time) }}
+                                  {{
+                                    duration(item.dates.start, item.dates.end)
+                                  }}
                                   week{{
-                                    duration(item.start_time, item.end_time) > 1
+                                    duration(item.dates.start, item.dates.end) >
+                                    1
                                       ? "s"
                                       : ""
                                   }}
                                 </span>
                               </div>
-                              <div class="fs14" v-if="item.course.title">
-                                {{ item.course.title }}
+                              <div class="fs14" v-if="item.customData.title">
+                                {{ item.customData.title }}
                               </div>
-                              <div
-                                class="mb-2 fs13 d-flex justify-content-between"
-                                v-if="item.facilitator"
-                              >
-                                <span> {{ item.facilitator.name }}</span>
-                                <b-icon
-                                  class="cursor-pointer"
-                                  @click="drop(item.id)"
-                                  icon="x"
-                                ></b-icon>
+
+                              <div class="fs12 mb-1" v-if="item.dates.start">
+                                {{ item.dates.start | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12" v-if="item.start_time">
-                                {{ item.start_time | moment(" MMMM Do YYYY") }}
+                              <div class="fs12">
+                                {{ item.dates.start | moment("LT") }}
                               </div>
                             </div>
                           </div>
                         </b-td>
                       </b-tr>
                       <b-tr v-if="daySchedule('sunday').length">
-                        <b-th sticky-column>Sunday</b-th>
+                        <b-th sticky-column class="">Sunday</b-th>
                         <b-td>
                           <div class="d-flex tabl">
                             <div
@@ -518,9 +504,10 @@
                                   align-items-center
                                 "
                               >
-                                <span class="fs12">{{
-                                  item.start_time | moment("LT")
-                                }}</span>
+                                <span
+                                  class="fs12 text-capitalize font-weight-bold"
+                                  >{{ item.customData.type }}</span
+                                >
                                 <span
                                   class="
                                     border
@@ -531,30 +518,26 @@
                                     fs11
                                   "
                                 >
-                                  {{ duration(item.start_time, item.end_time) }}
+                                  {{
+                                    duration(item.dates.start, item.dates.end)
+                                  }}
                                   week{{
-                                    duration(item.start_time, item.end_time) > 1
+                                    duration(item.dates.start, item.dates.end) >
+                                    1
                                       ? "s"
                                       : ""
                                   }}
                                 </span>
                               </div>
-                              <div class="fs14" v-if="item.course.title">
-                                {{ item.course.title }}
+                              <div class="fs14" v-if="item.customData.title">
+                                {{ item.customData.title }}
                               </div>
-                              <div
-                                class="mb-2 fs13 d-flex justify-content-between"
-                                v-if="item.facilitator"
-                              >
-                                <span> {{ item.facilitator.name }}</span>
-                                <b-icon
-                                  class="cursor-pointer"
-                                  @click="drop(item.id)"
-                                  icon="x"
-                                ></b-icon>
+
+                              <div class="fs12 mb-1" v-if="item.dates.start">
+                                {{ item.dates.start | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12" v-if="item.start_time">
-                                {{ item.start_time | moment(" MMMM Do YYYY") }}
+                              <div class="fs12">
+                                {{ item.dates.start | moment("LT") }}
                               </div>
                             </div>
                           </div>
@@ -569,13 +552,13 @@
                   <b-img :src="require('@/assets/images/creator.svg')"></b-img>
                   <h6 class="text-muted my-3 fs14">
                     It appears you havent added any Schedule yet,
-                    <br class="d-none d-sm-block" />
+                    <!-- <br class="d-none d-sm-block" />
 
                     Have you set up your courses ?
                     <span
                       ><router-link
                         class="text-dark-green"
-                        to="/organizationistrator/courses?action=setupcourse"
+                        to="/administrator/courses?action=setupcourse"
                         >Set up Now</router-link
                       ></span
                     >
@@ -587,7 +570,7 @@
                       size="sm"
                       @click="$bvModal.show('add')"
                       >Add a schedule now
-                    </b-button>
+                    </b-button> -->
                   </h6>
                 </div>
               </div>
@@ -630,10 +613,10 @@
             </div>
             <div class="tob_2">
               <div class="d-flex align-items-center p-3">
-                <h6 class="flex-1 fs15">Today's Course schedule</h6>
-                <!-- <b-form-select class="border-0" style="width: 100px" size="sm">
+                <h6 class="flex-1">Course schedule</h6>
+                <b-form-select class="border-0" style="width: 100px" size="sm">
                   <b-form-select-option value="">Today</b-form-select-option>
-                </b-form-select> -->
+                </b-form-select>
               </div>
               <div class="schedule">
                 <div
@@ -659,7 +642,7 @@
                         ></b-icon>
                         <b-icon
                           stacked
-                          icon="person-badge-fill"
+                          icon="calendar"
                           scale="0.5"
                           variant="dark-green"
                         ></b-icon>
@@ -690,14 +673,16 @@
                       >
                     </div>
 
-                    <a :href="item.url" target="_blank">
-                      <b-button
-                        block
-                        variant="lighter-green"
-                        class="text-dark-green"
-                        >Attend course</b-button
-                      ></a
-                    >
+                    <div class="text-right">
+                      <a :href="item.url" target="_blank">
+                        <b-button
+                          block
+                          variant="lighter-green"
+                          class="text-dark-green"
+                          >Attend course</b-button
+                        ></a
+                      >
+                    </div>
                   </div>
                 </div>
                 <div v-else class="p-4 text-center">
@@ -740,175 +725,84 @@
             v-for="(item, id) in detail.schedule"
             :key="id"
           >
-            <div
-              class="p-2 rounded d-flex justify-content-between shadow"
-              v-if="id != current_schedule"
-            >
-              <div>
-                <span class="mr-3"
-                  >Start Date :
-                  {{
-                    item.start_time | moment("dddd, MMMM D YYYY, h:mm a")
-                  }}</span
-                >
-                <br />
-                <span class="mr-3"
-                  >End Date :
-                  {{
-                    item.end_time | moment("dddd, MMMM D YYYY, h:mm a")
-                  }}</span
-                >
-              </div>
-              <div>
-                <b-iconstack font-scale="1.1" class="mr-2" @click="addschedule">
-                  <b-icon
-                    stacked
-                    icon="circle-fill"
-                    variant="dark-green"
-                  ></b-icon>
-                  <b-icon
-                    stacked
-                    icon="plus-circle-fill"
-                    scale="0.5"
-                    variant="white"
-                  ></b-icon>
-                </b-iconstack>
-
-                <b-iconstack
-                  font-scale="1.1"
-                  class="mr-2"
-                  @click="current_schedule = id"
-                >
-                  <b-icon stacked icon="circle-fill" variant="warning"></b-icon>
-                  <b-icon
-                    icon="pencil-fill"
-                    stacked
-                    scale="0.5"
-                    variant="white"
-                  ></b-icon>
-                </b-iconstack>
-
-                <b-iconstack
-                  font-scale="1.1"
-                  v-if="detail.schedule.length > 1"
-                  @click="detail.schedule.splice(id, 1)"
-                >
-                  <b-icon stacked icon="circle-fill" variant="danger"></b-icon>
-                  <b-icon
-                    icon="trash2-fill"
-                    stacked
-                    scale="0.5"
-                    variant="white"
-                  ></b-icon>
-                </b-iconstack>
-              </div>
-            </div>
-            <div v-if="id == current_schedule">
-              <div class="text-right">
-                <b-icon
-                  icon="chevron-up"
-                  @click="current_schedule = null"
-                ></b-icon>
-              </div>
-              <b-form-row>
-                <b-col sm="6" class="mb-3 px-3">
-                  <b-form-group label="Facilitator">
-                    <b-form-select v-model="item.facilitator_id">
-                      <b-form-select-option :value="null"
-                        >None</b-form-select-option
-                      >
-                      <b-form-select-option
-                        :value="item.id"
-                        v-for="(item, id) in facilitators"
-                        :key="id"
-                        >{{ item.name }}</b-form-select-option
-                      ></b-form-select
+            <b-form-row>
+              <b-col sm="6" class="mb-3 px-3">
+                <b-form-group label="Day">
+                  <b-form-select v-model="item.day">
+                    <b-form-select-option value="monday"
+                      >Monday</b-form-select-option
                     >
-                  </b-form-group>
-                </b-col>
-                <b-col sm="6" class="mb-3 px-3">
-                  <b-form-group label="Venue">
-                    <b-form-input
-                      v-model="item.venue"
-                      placeholder="Enter course Venue"
-                    ></b-form-input>
-                    <b-form-input
-                      v-model="item.url"
-                      placeholder="Enter url link (optional)"
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-              </b-form-row>
-              <b-form-row>
-                <b-col sm="6" class="mb-3 px-3">
-                  <b-form-group label="Start time">
-                    <vc-date-picker
-                      placeholder="Choose start time"
-                      v-model="item.start_time"
-                      mode="dateTime"
-                      :is24hr="false"
+                    <b-form-select-option value="tuesday"
+                      >Tuesday</b-form-select-option
                     >
-                      <template v-slot="{ inputValue, inputEvents }">
-                        <input
-                          class="
-                            px-2
-                            py-1
-                            border
-                            rounded
-                            focus:outline-none
-                            focus:border-blue-300
-                          "
-                          :value="inputValue"
-                          v-on="inputEvents"
-                        />
-                      </template>
-                    </vc-date-picker>
-                  </b-form-group>
-                </b-col>
-                <b-col sm="6" class="mb-3 px-3">
-                  <b-form-group label="End time">
-                    <vc-date-picker
-                      placeholder="Choose start time"
-                      v-model="item.end_time"
-                      mode="dateTime"
-                      :is24hr="false"
+                    <b-form-select-option value="wednesday"
+                      >Wednesday</b-form-select-option
                     >
-                      <template v-slot="{ inputValue, inputEvents }">
-                        <input
-                          class="
-                            px-2
-                            py-1
-                            border
-                            rounded
-                            focus:outline-none
-                            focus:border-blue-300
-                          "
-                          :value="inputValue"
-                          v-on="inputEvents"
-                        />
-                      </template>
-                    </vc-date-picker>
-                  </b-form-group>
-                </b-col>
-              </b-form-row>
-              <div>
-                <b-button
-                  variant="outline-dark-green"
-                  class="my-2 mr-2"
-                  size="sm"
-                  @click="detail.schedule.splice(id, 1)"
-                  v-if="detail.schedule.length > 1"
-                  >Delete schedule</b-button
-                >
-                <b-button
-                  variant="dark-green"
-                  class="my-2"
-                  size="sm"
-                  @click="addschedule"
-                  v-if="detail.schedule.length == id + 1"
-                  >Add new schedule</b-button
-                >
-              </div>
+                    <b-form-select-option value="thursday"
+                      >Thursday</b-form-select-option
+                    >
+                    <b-form-select-option value="friday"
+                      >Friday</b-form-select-option
+                    >
+                    <b-form-select-option value="saturday"
+                      >Saturday</b-form-select-option
+                    >
+                    <b-form-select-option value="sunday"
+                      >Sunday</b-form-select-option
+                    >
+                  </b-form-select>
+                </b-form-group>
+              </b-col>
+              <b-col sm="6" class="mb-3 px-3">
+                <b-form-group label="Facilitator">
+                  <b-form-select v-model="item.facilitator_id">
+                    <b-form-select-option
+                      :value="item.id"
+                      v-for="(item, id) in facilitators"
+                      :key="id"
+                      >{{ item.name }}</b-form-select-option
+                    ></b-form-select
+                  >
+                </b-form-group>
+              </b-col>
+            </b-form-row>
+            <b-form-row>
+              <b-col sm="6" class="mb-3 px-3">
+                <b-form-group label="Start time">
+                  <b-form-timepicker
+                    :hour12="true"
+                    placeholder="Choose start time"
+                    v-model="item.start_time"
+                  ></b-form-timepicker>
+                </b-form-group>
+              </b-col>
+              <b-col sm="6" class="mb-3 px-3">
+                <b-form-group label="End time">
+                  <b-form-timepicker
+                    :hour12="true"
+                    placeholder="Choose end time"
+                    v-model="item.end_time"
+                  ></b-form-timepicker>
+                </b-form-group>
+              </b-col>
+            </b-form-row>
+            <div>
+              <b-button
+                variant="outline-dark-green"
+                class="my-2 mr-3"
+                size="sm"
+                @click="detail.schedule.splice(id, 1)"
+                v-if="detail.schedule.length > 1"
+                >Delete schedule</b-button
+              >
+              <b-button
+                variant="dark-green"
+                class="my-2"
+                size="sm"
+                @click="addschedule"
+                v-if="detail.schedule.length == id + 1"
+                >Add new schedule</b-button
+              >
             </div>
           </div>
           <div class="text-center my-3">
@@ -965,6 +859,9 @@ export default {
     });
   },
   computed: {
+    joinedSchedule() {
+      return this.myschedule.concat(this.myevents);
+    },
     myschedule() {
       return this.schedules.map((item, index) => {
         var res = {
@@ -1047,11 +944,13 @@ export default {
   },
   methods: {
     daySchedule(day) {
-      return this.schedules.filter(
+      return this.joinedSchedule.filter(
         (item) =>
-          this.$moment(item.start_time, "YYYY-MM-DD HH:mm:ss")
+          (this.$moment(item.dates.start, "YYYY-MM-DD HH:mm:ss")
             .format("dddd")
-            .toLowerCase() == day.toLowerCase()
+            .toLowerCase() == day.toLowerCase() &&
+            this.$moment().isBefore(item.dates.start)) ||
+          this.$moment().isAfter(item.dates.end)
       );
     },
     addschedule() {
