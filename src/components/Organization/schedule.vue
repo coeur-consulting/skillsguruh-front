@@ -4,13 +4,13 @@
       <b-row>
         <b-col sm="8">
           <b-row class="mb-4 mb-sm-5">
-            <b-col class="position-relative">
+            <b-col class="position-relative" v-if="showEvent">
               <carousel
                 :perPage="1"
                 :paginationEnabled="false"
                 :autoplay="true"
-                :speed="1000"
                 :autoplayTimeout="5000"
+                :speed="1000"
                 :loop="true"
                 v-if="comingevents.length"
               >
@@ -62,7 +62,9 @@
                             pill
                             size="sm"
                             variant="outline-dark-green"
-                            @click="$router.push(`/learner/event/${item.id}`)"
+                            @click="
+                              $router.push(`/administrator/event/${item.id}`)
+                            "
                             >View Event</b-button
                           >
                           <div v-else>
@@ -71,10 +73,12 @@
                               pill
                               size="sm"
                               variant="outline-dark-green"
-                              @click="$router.push(`/learner/event/${item.id}`)"
+                              @click="
+                                $router.push(`/administrator/event/${item.id}`)
+                              "
                               >View Event</b-button
                             >
-                            <a :href="item.url" target="_blank">
+                            <a v-if="item.url" :href="item.url" target="_blank">
                               <b-button
                                 pill
                                 size="sm"
@@ -99,30 +103,35 @@
                 </h3>
               </div>
             </b-col>
+            <b-col class="w-100" v-else>
+              <div class="box p-4">
+                <b-row class="w-100">
+                  <b-col cols="4">
+                    <div class="p-1">
+                      <b-skeleton animation="wave" width="100%"></b-skeleton>
+                      <b-skeleton animation="wave" width="25%"></b-skeleton>
+                    </div>
+                    <div class="p-1">
+                      <b-skeleton animation="wave" width="100%"></b-skeleton>
+                      <b-skeleton animation="wave" width="25%"></b-skeleton>
+                    </div>
+                    <div class="p-1">
+                      <b-skeleton animation="wave" width="100%"></b-skeleton>
+                      <b-skeleton animation="wave" width="25%"></b-skeleton>
+                    </div>
+                  </b-col>
+
+                  <b-col cols="8" class="">
+                    <b-skeleton-img no-aspect height="150px"></b-skeleton-img>
+                  </b-col>
+                </b-row>
+              </div>
+            </b-col>
           </b-row>
 
-          <b-row>
+          <b-row v-if="showTable">
             <b-col>
               <div class="box" v-if="schedules.length">
-                <div
-                  class="
-                    d-flex
-                    justify-content-between
-                    align-items-center
-                    p-3
-                    w-100
-                    border-bottom
-                  "
-                >
-                  <!-- <b-button
-                    size="sm"
-                    variant="dark-green"
-                    @click="$bvModal.show('add')"
-                    ><b-icon icon="plus"></b-icon
-                  ></b-button> -->
-                  <span>{{ new Date() | moment("LL") }}</span>
-                </div>
-
                 <div class="w-100 p-3">
                   <b-table-simple responsive borderless>
                     <b-tbody>
@@ -215,8 +224,10 @@
                                 {{ item.dates.start | moment(" MMMM Do YYYY") }}
                                 - {{ item.dates.end | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12">
-                                {{ item.dates.start | moment("LT") }}
+                              <div class="d-flex justify-content-between">
+                                <div class="fs12">
+                                  {{ item.dates.start | moment("LT") }}
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -311,8 +322,10 @@
                                 {{ item.dates.start | moment(" MMMM Do YYYY") }}
                                 - {{ item.dates.end | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12">
-                                {{ item.dates.start | moment("LT") }}
+                              <div class="d-flex justify-content-between">
+                                <div class="fs12">
+                                  {{ item.dates.start | moment("LT") }}
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -407,8 +420,10 @@
                                 {{ item.dates.start | moment(" MMMM Do YYYY") }}
                                 - {{ item.dates.end | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12">
-                                {{ item.dates.start | moment("LT") }}
+                              <div class="d-flex justify-content-between">
+                                <div class="fs12">
+                                  {{ item.dates.start | moment("LT") }}
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -503,8 +518,10 @@
                                 {{ item.dates.start | moment(" MMMM Do YYYY") }}
                                 - {{ item.dates.end | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12">
-                                {{ item.dates.start | moment("LT") }}
+                              <div class="d-flex justify-content-between">
+                                <div class="fs12">
+                                  {{ item.dates.start | moment("LT") }}
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -599,8 +616,10 @@
                                 {{ item.dates.start | moment(" MMMM Do YYYY") }}
                                 - {{ item.dates.end | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12">
-                                {{ item.dates.start | moment("LT") }}
+                              <div class="d-flex justify-content-between">
+                                <div class="fs12">
+                                  {{ item.dates.start | moment("LT") }}
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -695,8 +714,10 @@
                                 {{ item.dates.start | moment(" MMMM Do YYYY") }}
                                 - {{ item.dates.end | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12">
-                                {{ item.dates.start | moment("LT") }}
+                              <div class="d-flex justify-content-between">
+                                <div class="fs12">
+                                  {{ item.dates.start | moment("LT") }}
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -791,8 +812,10 @@
                                 {{ item.dates.start | moment(" MMMM Do YYYY") }}
                                 - {{ item.dates.end | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12">
-                                {{ item.dates.start | moment("LT") }}
+                              <div class="d-flex justify-content-between">
+                                <div class="fs12">
+                                  {{ item.dates.start | moment("LT") }}
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -807,13 +830,13 @@
                   <b-img :src="require('@/assets/images/creator.svg')"></b-img>
                   <h6 class="text-muted my-3 fs14">
                     It appears you havent added any Schedule yet,
-                    <!-- <br class="d-none d-sm-block" />
+                    <br class="d-none d-sm-block" />
 
                     Have you set up your courses ?
                     <span
                       ><router-link
                         class="text-dark-green"
-                        to="/administrator/courses?action=setupcourse"
+                        to="/facilitator/courses?action=setupcourse"
                         >Set up Now</router-link
                       ></span
                     >
@@ -825,12 +848,20 @@
                       size="sm"
                       @click="$bvModal.show('add')"
                       >Add a schedule now
-                    </b-button> -->
+                    </b-button>
                   </h6>
                 </div>
               </div>
             </b-col>
           </b-row>
+
+          <div class="box p-5" v-else>
+            <b-skeleton-table
+              :rows="5"
+              :columns="3"
+              :table-props="{ bordered: true, striped: true }"
+            ></b-skeleton-table>
+          </div>
         </b-col>
         <b-col sm="4" class="text-left">
           <div class="turn_over_box">
@@ -868,12 +899,12 @@
             </div>
             <div class="tob_2">
               <div class="d-flex align-items-center p-3">
-                <h6 class="flex-1">Course schedule</h6>
+                <h6 class="flex-1">Today schedule</h6>
                 <b-form-select class="border-0" style="width: 100px" size="sm">
                   <b-form-select-option value="">Today</b-form-select-option>
                 </b-form-select>
               </div>
-              <div class="schedule">
+              <div class="schedule" v-if="showschedule">
                 <div v-if="todaySchedule().length">
                   <div
                     class="p-3 border-bottom"
@@ -897,9 +928,9 @@
                       <div>
                         <span
                           class="title font-weight-bold"
-                          v-if="item.course.title"
+                          v-if="item.customData.title"
                         >
-                          {{ item.course.title }}</span
+                          {{ item.customData.title }}</span
                         >
                       </div>
                     </div>
@@ -907,9 +938,9 @@
                       <span class="fs12"
                         ><b-icon icon="clock" class="mr-2"></b-icon>
                         <span
-                          >{{ item.start_time | moment("LT") }}
+                          >{{ item.dates.start | moment("LT") }}
                           -
-                          {{ item.end_time | moment("LT") }}</span
+                          {{ item.dates.end | moment("LT") }}</span
                         ></span
                       >
                     </div>
@@ -920,8 +951,8 @@
                       >
                     </div>
 
-                    <div class="text-right">
-                      <a :href="item.customData.url" target="_blank">
+                    <!-- <div class="text-right" v-if="item.custoData.url">
+                      <a :href="item.custoData.url" target="_blank">
                         <b-button
                           block
                           variant="lighter-green"
@@ -929,11 +960,26 @@
                           >Attend
                         </b-button></a
                       >
-                    </div>
+                    </div> -->
                   </div>
                 </div>
                 <div v-else class="p-4 text-center">
                   <p class="text-muted">Nothing Scheduled Today</p>
+                </div>
+              </div>
+
+              <div v-else class="p-4">
+                <div class="p-1">
+                  <b-skeleton animation="wave" width="100%"></b-skeleton>
+                  <b-skeleton animation="wave" width="25%"></b-skeleton>
+                </div>
+                <div class="p-1">
+                  <b-skeleton animation="wave" width="100%"></b-skeleton>
+                  <b-skeleton animation="wave" width="25%"></b-skeleton>
+                </div>
+                <div class="p-1">
+                  <b-skeleton animation="wave" width="100%"></b-skeleton>
+                  <b-skeleton animation="wave" width="25%"></b-skeleton>
                 </div>
               </div>
             </div>
@@ -941,125 +987,6 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-modal
-      id="add"
-      hide-footer
-      centered
-      size="lg"
-      title="Add Course Schedule"
-    >
-      <b-container>
-        <b-form @submit.prevent="register">
-          <b-form-row>
-            <b-col sm="5" class="px-3">
-              <b-form-group label="Course">
-                <b-form-select v-model="detail.course_id">
-                  <b-form-select-option value=""
-                    >Choose Course</b-form-select-option
-                  >
-                  <b-form-select-option
-                    :value="item.id"
-                    v-for="(item, id) in courses"
-                    :key="id"
-                    >{{ item.title }}</b-form-select-option
-                  ></b-form-select
-                >
-              </b-form-group>
-            </b-col>
-          </b-form-row>
-          <div
-            class="border p-3 rounded mb-3"
-            v-for="(item, id) in detail.schedule"
-            :key="id"
-          >
-            <b-form-row>
-              <b-col sm="6" class="mb-3 px-3">
-                <b-form-group label="Day">
-                  <b-form-select v-model="item.day">
-                    <b-form-select-option value="monday"
-                      >Monday</b-form-select-option
-                    >
-                    <b-form-select-option value="tuesday"
-                      >Tuesday</b-form-select-option
-                    >
-                    <b-form-select-option value="wednesday"
-                      >Wednesday</b-form-select-option
-                    >
-                    <b-form-select-option value="thursday"
-                      >Thursday</b-form-select-option
-                    >
-                    <b-form-select-option value="friday"
-                      >Friday</b-form-select-option
-                    >
-                    <b-form-select-option value="saturday"
-                      >Saturday</b-form-select-option
-                    >
-                    <b-form-select-option value="sunday"
-                      >Sunday</b-form-select-option
-                    >
-                  </b-form-select>
-                </b-form-group>
-              </b-col>
-              <b-col sm="6" class="mb-3 px-3">
-                <b-form-group label="Facilitator">
-                  <b-form-select v-model="item.facilitator_id">
-                    <b-form-select-option
-                      :value="item.id"
-                      v-for="(item, id) in facilitators"
-                      :key="id"
-                      >{{ item.name }}</b-form-select-option
-                    ></b-form-select
-                  >
-                </b-form-group>
-              </b-col>
-            </b-form-row>
-            <b-form-row>
-              <b-col sm="6" class="mb-3 px-3">
-                <b-form-group label="Start time">
-                  <b-form-timepicker
-                    :hour12="true"
-                    placeholder="Choose start time"
-                    v-model="item.start_time"
-                  ></b-form-timepicker>
-                </b-form-group>
-              </b-col>
-              <b-col sm="6" class="mb-3 px-3">
-                <b-form-group label="End time">
-                  <b-form-timepicker
-                    :hour12="true"
-                    placeholder="Choose end time"
-                    v-model="item.end_time"
-                  ></b-form-timepicker>
-                </b-form-group>
-              </b-col>
-            </b-form-row>
-            <div>
-              <b-button
-                variant="outline-dark-green"
-                class="my-2 mr-3"
-                size="sm"
-                @click="detail.schedule.splice(id, 1)"
-                v-if="detail.schedule.length > 1"
-                >Delete schedule</b-button
-              >
-              <b-button
-                variant="dark-green"
-                class="my-2"
-                size="sm"
-                @click="addschedule"
-                v-if="detail.schedule.length == id + 1"
-                >Add new schedule</b-button
-              >
-            </div>
-          </div>
-          <div class="text-center my-3">
-            <b-button size="lg" variant="dark-green" type="submit"
-              >Create schedule</b-button
-            >
-          </div>
-        </b-form>
-      </b-container>
-    </b-modal>
   </div>
 </template>
 
@@ -1075,6 +1002,9 @@ export default {
       schedules: [],
       courses: [],
       current_schedule: 0,
+      showTable: false,
+      showEvent: false,
+      showschedule: false,
       detail: {
         course_id: null,
         schedule: [
@@ -1244,6 +1174,9 @@ export default {
                 this.$moment().isBefore(item.end_time)
             );
             this.rows = this.schedules.length;
+            this.showschedule = true;
+            this.showEvent = true;
+            this.showTable = true;
           }
         })
         .catch((err) => {

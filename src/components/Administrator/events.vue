@@ -135,7 +135,10 @@
                   </div>
                   <div class="py-3 d-flex justify-content-between">
                     <div class="fs12 text-muted">
-                      Showing 1-10 of {{ filter.length }} items
+                      Showing {{ perPage * currentPage - perPage + 1 }}-{{
+                        perPage * currentPage
+                      }}
+                      of {{ filter.length }} items
                     </div>
                     <b-pagination
                       pills

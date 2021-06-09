@@ -78,7 +78,7 @@
                               "
                               >View Event</b-button
                             >
-                            <a :href="item.url" target="_blank">
+                            <a v-if="item.url" :href="item.url" target="_blank">
                               <b-button
                                 pill
                                 size="sm"
@@ -243,8 +243,22 @@
                                 {{ item.dates.start | moment(" MMMM Do YYYY") }}
                                 - {{ item.dates.end | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12">
-                                {{ item.dates.start | moment("LT") }}
+                              <div class="d-flex justify-content-between">
+                                <div class="fs12">
+                                  {{ item.dates.start | moment("LT") }}
+                                </div>
+                                <b-icon
+                                  icon="trash-fill"
+                                  font-scale=".9"
+                                  v-if="item.customData.type == 'Course'"
+                                  @click="dropschedule(item.customData.id, id)"
+                                ></b-icon>
+                                <b-icon
+                                  icon="trash-fill"
+                                  font-scale=".9"
+                                  v-else
+                                  @click="dropevent(item.customData.id, id)"
+                                ></b-icon>
                               </div>
                             </div>
                           </div>
@@ -339,8 +353,22 @@
                                 {{ item.dates.start | moment(" MMMM Do YYYY") }}
                                 - {{ item.dates.end | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12">
-                                {{ item.dates.start | moment("LT") }}
+                              <div class="d-flex justify-content-between">
+                                <div class="fs12">
+                                  {{ item.dates.start | moment("LT") }}
+                                </div>
+                                <b-icon
+                                  icon="trash-fill"
+                                  font-scale=".9"
+                                  v-if="item.customData.type == 'Course'"
+                                  @click="dropschedule(item.customData.id, id)"
+                                ></b-icon>
+                                <b-icon
+                                  icon="trash-fill"
+                                  font-scale=".9"
+                                  v-else
+                                  @click="dropevent(item.customData.id, id)"
+                                ></b-icon>
                               </div>
                             </div>
                           </div>
@@ -435,8 +463,22 @@
                                 {{ item.dates.start | moment(" MMMM Do YYYY") }}
                                 - {{ item.dates.end | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12">
-                                {{ item.dates.start | moment("LT") }}
+                              <div class="d-flex justify-content-between">
+                                <div class="fs12">
+                                  {{ item.dates.start | moment("LT") }}
+                                </div>
+                                <b-icon
+                                  icon="trash-fill"
+                                  font-scale=".9"
+                                  v-if="item.customData.type == 'Course'"
+                                  @click="dropschedule(item.customData.id, id)"
+                                ></b-icon>
+                                <b-icon
+                                  icon="trash-fill"
+                                  font-scale=".9"
+                                  v-else
+                                  @click="dropevent(item.customData.id, id)"
+                                ></b-icon>
                               </div>
                             </div>
                           </div>
@@ -531,8 +573,22 @@
                                 {{ item.dates.start | moment(" MMMM Do YYYY") }}
                                 - {{ item.dates.end | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12">
-                                {{ item.dates.start | moment("LT") }}
+                              <div class="d-flex justify-content-between">
+                                <div class="fs12">
+                                  {{ item.dates.start | moment("LT") }}
+                                </div>
+                                <b-icon
+                                  icon="trash-fill"
+                                  font-scale=".9"
+                                  v-if="item.customData.type == 'Course'"
+                                  @click="dropschedule(item.customData.id, id)"
+                                ></b-icon>
+                                <b-icon
+                                  icon="trash-fill"
+                                  font-scale=".9"
+                                  v-else
+                                  @click="dropevent(item.customData.id, id)"
+                                ></b-icon>
                               </div>
                             </div>
                           </div>
@@ -627,8 +683,22 @@
                                 {{ item.dates.start | moment(" MMMM Do YYYY") }}
                                 - {{ item.dates.end | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12">
-                                {{ item.dates.start | moment("LT") }}
+                              <div class="d-flex justify-content-between">
+                                <div class="fs12">
+                                  {{ item.dates.start | moment("LT") }}
+                                </div>
+                                <b-icon
+                                  icon="trash-fill"
+                                  font-scale=".9"
+                                  v-if="item.customData.type == 'Course'"
+                                  @click="dropschedule(item.customData.id, id)"
+                                ></b-icon>
+                                <b-icon
+                                  icon="trash-fill"
+                                  font-scale=".9"
+                                  v-else
+                                  @click="dropevent(item.customData.id, id)"
+                                ></b-icon>
                               </div>
                             </div>
                           </div>
@@ -723,8 +793,22 @@
                                 {{ item.dates.start | moment(" MMMM Do YYYY") }}
                                 - {{ item.dates.end | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12">
-                                {{ item.dates.start | moment("LT") }}
+                              <div class="d-flex justify-content-between">
+                                <div class="fs12">
+                                  {{ item.dates.start | moment("LT") }}
+                                </div>
+                                <b-icon
+                                  icon="trash-fill"
+                                  font-scale=".9"
+                                  v-if="item.customData.type == 'Course'"
+                                  @click="dropschedule(item.customData.id, id)"
+                                ></b-icon>
+                                <b-icon
+                                  icon="trash-fill"
+                                  font-scale=".9"
+                                  v-else
+                                  @click="dropevent(item.customData.id, id)"
+                                ></b-icon>
                               </div>
                             </div>
                           </div>
@@ -819,8 +903,22 @@
                                 {{ item.dates.start | moment(" MMMM Do YYYY") }}
                                 - {{ item.dates.end | moment(" MMMM Do YYYY") }}
                               </div>
-                              <div class="fs12">
-                                {{ item.dates.start | moment("LT") }}
+                              <div class="d-flex justify-content-between">
+                                <div class="fs12">
+                                  {{ item.dates.start | moment("LT") }}
+                                </div>
+                                <b-icon
+                                  icon="trash-fill"
+                                  font-scale=".9"
+                                  v-if="item.customData.type == 'Course'"
+                                  @click="dropschedule(item.customData.id, id)"
+                                ></b-icon>
+                                <b-icon
+                                  icon="trash-fill"
+                                  font-scale=".9"
+                                  v-else
+                                  @click="dropevent(item.customData.id, id)"
+                                ></b-icon>
                               </div>
                             </div>
                           </div>
@@ -904,7 +1002,7 @@
             </div>
             <div class="tob_2">
               <div class="d-flex align-items-center p-3">
-                <h6 class="flex-1">Course schedule</h6>
+                <h6 class="flex-1">Today schedule</h6>
                 <b-form-select class="border-0" style="width: 100px" size="sm">
                   <b-form-select-option value="">Today</b-form-select-option>
                 </b-form-select>
@@ -956,7 +1054,7 @@
                       >
                     </div>
 
-                    <div class="text-right">
+                    <!-- <div class="text-right" v-if="item.custoData.url">
                       <a :href="item.custoData.url" target="_blank">
                         <b-button
                           block
@@ -965,7 +1063,7 @@
                           >Attend
                         </b-button></a
                       >
-                    </div>
+                    </div> -->
                   </div>
                 </div>
                 <div v-else class="p-4 text-center">
@@ -1528,6 +1626,7 @@ export default {
           content: false,
           popover: true,
           customData: {
+            id: item.id,
             title: item.course.title,
             url: item.url,
             duration:
@@ -1564,6 +1663,7 @@ export default {
           content: false,
           popover: true,
           customData: {
+            id: item.id,
             title: item.title,
             duration: item.schedule,
             type: item.type,
@@ -1824,7 +1924,28 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
-    drop(id) {
+    dropevent(id) {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+        if (val) {
+          this.$http
+            .delete(`${this.$store.getters.url}/events/${id}`, {
+              headers: {
+                Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+              },
+            })
+            .then((res) => {
+              if (res.status == 200) {
+                this.$toast.success("Removed successfully");
+                this.getevents();
+              }
+            })
+            .catch((err) => {
+              this.$toast.error(err.response.data.message);
+            });
+        }
+      });
+    },
+    dropschedule(id) {
       this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
           this.$http

@@ -271,7 +271,7 @@
                 <div
                   v-for="(feed, index) in feeds"
                   :key="index"
-                  class="shadow-sm bg-white rounded-8 mb-4"
+                  class="shadow-sm bg-white rounded-8 mb-5"
                 >
                   <div class="d-flex mb-3 px-3 pt-3">
                     <div class="d-flex flex-1 text-left">
@@ -314,6 +314,9 @@
                     </div>
 
                     <b-dropdown
+                      v-if="
+                        feed.user && feed.user.id == $store.getters.learner.id
+                      "
                       size="sm"
                       variant="transparent"
                       no-caret
@@ -322,23 +325,7 @@
                       <template #button-content>
                         <b-icon icon="three-dots" font-scale="1.4"></b-icon>
                       </template>
-                      <b-dropdown-item
-                        class="fs12"
-                        @click="drop(feed.id, index)"
-                        v-if="
-                          feed.facilitator &&
-                          feed.facilitator.id == $store.getters.facilitator.id
-                        "
-                        >Delete</b-dropdown-item
-                      >
-                      <b-dropdown-item
-                        class="fs12"
-                        @click="drop(feed.id, index)"
-                        v-if="
-                          feed.admin && feed.admin.id == $store.getters.admin.id
-                        "
-                        >Delete</b-dropdown-item
-                      >
+
                       <b-dropdown-item
                         class="fs12"
                         @click="drop(feed.id, index)"
@@ -543,15 +530,14 @@
                           </emoji-picker>
                         </b-input-group-text>
                       </template>
-                      <b-form-textarea
-                        size="sm"
+                      <b-form-input
                         autocomplete="off"
                         autocorrect="off"
                         rows="1"
                         v-model="comment.comment"
                         placeholder="Add comment"
                         class="border-0 no-focus"
-                      ></b-form-textarea>
+                      ></b-form-input>
                     </b-input-group>
                   </div>
                 </div>
@@ -694,6 +680,9 @@ export default {
         });
     },
     post() {
+      if (!this.feed.message) {
+        return;
+      }
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
           headers: {

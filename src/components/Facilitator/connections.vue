@@ -179,6 +179,40 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
+    getUsersWithInterest() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/identical-learners`,
+
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.learner_connections = res.data;
+          }
+        });
+    },
+    getFacilitatorsWithInterest() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/identical-facilitators`,
+
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.facilitators_connections = res.data;
+          }
+        });
+    },
   },
 };
 </script>

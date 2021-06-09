@@ -3,7 +3,7 @@
     <b-container>
       <b-row>
         <b-col sm="8">
-          <b-row class="mb-4 mb-sm-4">
+          <b-row class="mb-5 mb-sm-5">
             <b-col sm="6">
               <div class="box p-3">
                 <div
@@ -224,6 +224,12 @@
 
                       <div class="pt-3">
                         <div class="mb-2 fs12 text-muted">
+                          <b-icon
+                            icon="people-fill"
+                            font-scale="1.5"
+                            class="mr-1"
+                            variant="dark-green"
+                          ></b-icon>
                           {{ item.count }}
                           {{ item.count > 1 ? "students" : "student" }}
                         </div>

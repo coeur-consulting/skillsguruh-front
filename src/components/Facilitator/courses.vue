@@ -1170,7 +1170,7 @@
             <b-row v-if="showCourse">
               <b-col
                 sm="4"
-                class="mb-3 side_box"
+                class="mb-4 side_box"
                 v-for="(course, index) in filteredCourse"
                 :key="index"
               >

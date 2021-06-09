@@ -73,7 +73,7 @@
                 <div class="events" v-if="filter.length">
                   <div
                     class="border rounded text-left mb-5 position-relative"
-                    v-for="item in filter"
+                    v-for="(item, index) in filter"
                     :key="item.id"
                   >
                     <div class="px-3 py-2 d-flex">
@@ -97,6 +97,10 @@
                         </div>
                       </div>
                       <b-dropdown
+                        v-if="
+                          item.facilitator_id &&
+                          item.facilitator_id == $store.getters.facilitator.id
+                        "
                         size="sm"
                         variant="transparent"
                         no-caret

@@ -31,13 +31,13 @@
             >
               <b-icon icon="funnel"></b-icon>
               <div>
-                <!-- <b-button variant="dark-green" size="sm">
+                <b-button variant="dark-green" size="sm">
                   <b-icon
                     icon="plus"
                     @click="$bvModal.show('add')"
                     font-scale="1.5"
                   ></b-icon
-                ></b-button> -->
+                ></b-button>
               </div>
             </div>
 
@@ -145,7 +145,10 @@
               </b-table-simple>
               <div class="p-3 d-flex justify-content-between">
                 <div class="fs12 text-muted">
-                  Showing 1-10 of {{ users.length }} items
+                  Showing {{ perPage * currentPage - perPage + 1 }}-{{
+                    perPage * currentPage
+                  }}
+                  of {{ users.length }} items
                 </div>
                 <b-pagination
                   pills

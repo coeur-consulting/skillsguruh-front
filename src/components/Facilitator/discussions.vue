@@ -9,7 +9,7 @@
                 top_header
                 border-bottom
                 d-flex
-                justify-content-between
+                justify-content-around
                 position-relative
               "
             >
@@ -42,7 +42,7 @@
               <div class="main_content" v-if="discussions.length">
                 <div
                   class="content border-bottom p-3 pt-4 pb-5 cursor-pointer"
-                  v-for="(item, index) in discussions"
+                  v-for="(item, index) in filteredDiscussions"
                   :key="index"
                 >
                   <div
@@ -419,9 +419,7 @@ export default {
   components: {
     "tags-input": VoerroTagsInput,
   },
-  watch: {
-    show: "toggleData",
-  },
+
   mounted() {
     this.getdiscussions();
     this.mytags = Insight;
@@ -429,25 +427,31 @@ export default {
     this.getothers();
   },
   computed: {
-    mostanswers() {
-      var val = this.recentdiscussions.slice(0).sort((a, b) => {
-        return b.discussionmessage.length - a.discussionmessage.length;
-      });
-
-      return val;
-    },
-    mostvisits() {
-      var val = this.recentdiscussions.slice(0).sort((a, b) => {
-        return (
-          (b.discussionview ? b.discussionview.view : 0) -
-          (a.discussionview ? a.discussionview.view : 0)
-        );
-      });
-
-      return val;
-    },
-    recentanswers() {
-      return this.recentdiscussions;
+    filteredDiscussions() {
+      if (this.show == "recent") {
+        return this.discussions.filter((item) => item.type == "public");
+      }
+      if (this.show == "mostanswers") {
+        return this.discussions
+          .filter((item) => item.type == "public")
+          .sort((a, b) => {
+            return b.discussionmessage.length - a.discussionmessage.length;
+          });
+      }
+      if (this.show == "trending") {
+        return this.discussions
+          .filter((item) => item.type == "public")
+          .sort((a, b) => {
+            return (
+              (b.discussionview ? b.discussionview.view : 0) -
+              (a.discussionview ? a.discussionview.view : 0)
+            );
+          });
+      }
+      if (this.show == "private") {
+        return this.discussions.filter((item) => item.type == "private");
+      }
+      return [];
     },
   },
   methods: {
@@ -494,28 +498,7 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
-    toggleData() {
-      if (this.show == "recent") {
-        this.discussions = this.recentdiscussions.filter(
-          (item) => item.type == "public"
-        );
-      }
-      if (this.show == "mostanswers") {
-        this.discussions = this.mostanswers.filter(
-          (item) => item.type == "public"
-        );
-      }
-      if (this.show == "mostvisits") {
-        this.discussions = this.mostvisits.filter(
-          (item) => item.type == "public"
-        );
-      }
-      if (this.show == "private") {
-        this.discussions = this.recentdiscussions.filter(
-          (item) => item.type == "private"
-        );
-      }
-    },
+
     vote(val) {
       var positive = val.filter((item) => item.vote).length;
       var negative = val.filter((item) => !item.vote).length;
@@ -551,8 +534,8 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
-            this.recentdiscussions = res.data;
-            this.toggleData();
+            this.discussions = res.data;
+
             this.showDiscussions = true;
           }
         })

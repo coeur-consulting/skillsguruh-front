@@ -4,7 +4,13 @@
       <b-row>
         <b-col class="mb-5 mb-sm-0">
           <div
-            class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-4"
+            class="
+              d-flex
+              flex-column flex-sm-row
+              justify-content-between
+              align-items-center
+              mb-4
+            "
           >
             <h6 class="mb-3 mb-sm-0">Administrators</h6>
             <div>
@@ -42,8 +48,9 @@
                     <b-th class="text-muted">Last login</b-th>
                     <b-th class="text-muted">Role</b-th>
                     <b-th class="text-muted">Status</b-th>
-                    <b-th></b-th> </b-tr
-                ></b-thead>
+                    <!-- <b-th></b-th>  -->
+                  </b-tr>
+                </b-thead>
                 <b-tbody>
                   <b-tr v-for="item in filter" :key="item.id">
                     <b-td>
@@ -75,7 +82,7 @@
                       }"
                       >{{ item.verification ? "Active" : "Inactive" }}</b-td
                     >
-                    <b-td
+                    <!-- <b-td
                       ><b-icon
                         icon="chevron-down"
                         class="cursor-pointer"
@@ -96,13 +103,16 @@
                           </small>
                         </div>
                       </b-popover>
-                    </b-td>
+                    </b-td> -->
                   </b-tr>
                 </b-tbody>
               </b-table-simple>
               <div class="p-3 d-flex justify-content-between">
                 <div class="fs12 text-muted">
-                  Showing 1-10 of {{ users.length }} items
+                  Showing {{ perPage * currentPage - perPage + 1 }}-{{
+                    perPage * currentPage
+                  }}
+                  of {{ users.length }} items
                 </div>
                 <b-pagination
                   pills

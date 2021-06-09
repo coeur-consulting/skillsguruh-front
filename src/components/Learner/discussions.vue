@@ -55,6 +55,9 @@
                     "
                   >
                     <b-dropdown
+                      v-if="
+                        item.user && item.user.id == $store.getters.learner.id
+                      "
                       size="sm"
                       variant="transparent"
                       no-caret
