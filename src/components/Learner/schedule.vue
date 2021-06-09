@@ -905,7 +905,7 @@
                   <b-form-select-option value="">Today</b-form-select-option>
                 </b-form-select>
               </div>
-              <div class="schedule" v-if="showschedule">
+              <!-- <div class="schedule" v-if="showschedule">
                 <div
                   v-if="
                     daySchedule(
@@ -975,9 +975,9 @@
                 <div v-else class="p-4 text-center">
                   <p class="text-muted">Nothing Scheduled Today</p>
                 </div>
-              </div>
+              </div> -->
 
-              <div v-else class="p-4">
+              <!-- <div v-else class="p-4">
                 <div class="p-1">
                   <b-skeleton animation="wave" width="100%"></b-skeleton>
                   <b-skeleton animation="wave" width="25%"></b-skeleton>
@@ -990,7 +990,7 @@
                   <b-skeleton animation="wave" width="100%"></b-skeleton>
                   <b-skeleton animation="wave" width="25%"></b-skeleton>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </b-col>
