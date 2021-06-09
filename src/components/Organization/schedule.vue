@@ -1199,14 +1199,17 @@ export default {
   },
   methods: {
     daySchedule(day) {
-      return this.joinedSchedule.filter(
-        (item) =>
-          (this.$moment(item.dates.start, "YYYY-MM-DD HH:mm:ss")
-            .format("dddd")
-            .toLowerCase() == day.toLowerCase() &&
-            this.$moment().isBefore(item.dates.start)) ||
-          this.$moment().isAfter(item.dates.end)
-      );
+      if (this.joinedSchedule.length) {
+        return this.joinedSchedule.filter(
+          (item) =>
+            (this.$moment(item.dates.start, "YYYY-MM-DD HH:mm:ss")
+              .format("dddd")
+              .toLowerCase() == day.toLowerCase() &&
+              this.$moment().isBefore(item.dates.start)) ||
+            this.$moment().isAfter(item.dates.end)
+        );
+      }
+      return [];
     },
     addschedule() {
       this.detail.schedule.push({
