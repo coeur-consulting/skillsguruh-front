@@ -478,7 +478,7 @@ img {
   line-height: 1.3;
 }
 .course_img {
-  width: 120px;
+  min-width: 120px;
   height: 80px;
 }
 .course_img2 {
