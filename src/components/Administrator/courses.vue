@@ -115,11 +115,15 @@
               v-if="detail.general.type == 'group'"
             >
               <b-form-group label="No of participants">
-                <b-form-select size="sm" v-model="detail.general.amount">
+                <b-form-select
+                  size="sm"
+                  required
+                  v-model="detail.general.amount"
+                >
                   <b-form-select-option :value="null"
                     >Select a number</b-form-select-option
                   >
-                  <b-form-select-option v-for="n in 100" :key="n">{{
+                  <b-form-select-option v-for="n in 100" :key="n" :value="n">{{
                     n
                   }}</b-form-select-option>
                 </b-form-select>
@@ -671,11 +675,15 @@
               v-if="detail.general.type == 'group'"
             >
               <b-form-group label="No of participants">
-                <b-form-select size="sm" v-model="detail.general.amount">
+                <b-form-select
+                  size="sm"
+                  required
+                  v-model="detail.general.amount"
+                >
                   <b-form-select-option :value="null"
                     >Select a number</b-form-select-option
                   >
-                  <b-form-select-option v-for="n in 100" :key="n">{{
+                  <b-form-select-option v-for="n in 100" :key="n" :value="n">{{
                     n
                   }}</b-form-select-option>
                 </b-form-select>
@@ -1617,14 +1625,6 @@
                       {{ course.type == "group" ? "Participants" : "Naira" }}
                     </p>
                   </div>
-                  <div class="text-right" v-if="checkCommunity(course.id)">
-                    <b-button
-                      class="ml-auto"
-                      @click="getcode(course.id)"
-                      size="sm"
-                      >Invite friends</b-button
-                    >
-                  </div>
                 </div>
                 <div class="mb-3 px-2">
                   <h6 class="fs14">Course Description</h6>
@@ -2263,6 +2263,7 @@ export default {
           additional_info: val.courseoutline.additional_info,
         },
         schedule: val.courseschedule,
+        questionnaire: val.questionnaire,
       };
 
       this.$bvModal.show("update");

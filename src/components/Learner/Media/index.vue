@@ -112,6 +112,47 @@
                         </div>
                       </div>
                     </b-tab>
+                    <b-tab title="Reviews">
+                      <div class="p-3 mb-3">
+                        <b-form @submit.prevent="postReview">
+                          <b-form-group>
+                            <b-form-textarea v-model="review"></b-form-textarea>
+                          </b-form-group>
+                          <b-form-group class="mb-3">
+                            <star-rating
+                              v-model="score"
+                              :star-size="20"
+                              :show-rating="false"
+                            ></star-rating>
+                          </b-form-group>
+                          <b-button type="submit">Post a review</b-button>
+                        </b-form>
+                      </div>
+
+                      <div
+                        v-for="review in reviews"
+                        :key="review.id"
+                        class="d-flex mb-3 align-items-start"
+                      >
+                        <b-avatar
+                          class="mr-2"
+                          :src="review.user.profile"
+                          size="2rem"
+                        ></b-avatar>
+                        <div>
+                          <span class="fs12 font-weight-bold">{{
+                            review.user.name
+                          }}</span>
+                          <p class="fs15 mb-1">{{ review.review }}</p>
+                          <star-rating
+                            v-model="review.score"
+                            :star-size="16"
+                            :read-only="true"
+                            :show-rating="false"
+                          ></star-rating>
+                        </div>
+                      </div>
+                    </b-tab>
                     <b-tab title="Notes">
                       <b-card-text>{{ notes }}</b-card-text>
                     </b-tab>
@@ -272,6 +313,7 @@ import AudioMedia from "./audio";
 import VideoMedia from "./video";
 import PdfMedia from "./pdf";
 import Questionnaire from "../viewMediaQuestionnaire";
+import StarRating from "vue-star-rating";
 export default {
   data() {
     return {
@@ -285,6 +327,9 @@ export default {
       myquestionnaire: [],
       checked: {},
       current: null,
+      review: null,
+      score: null,
+      reviews: [],
     };
   },
   components: {
@@ -292,6 +337,7 @@ export default {
     VideoMedia,
     PdfMedia,
     Questionnaire,
+    StarRating,
   },
   created() {
     this.getLibrary();
@@ -299,6 +345,24 @@ export default {
   methods: {
     handleCheck() {
       this.$bvModal.hide("questionnaire");
+    },
+    postReview() {
+      var data = {
+        id: this.$route.params.id,
+        review: this.review,
+        score: this.score,
+      };
+      this.$http
+        .post(`${this.$store.getters.url}/reviews`, data, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 201) {
+            this.reviews.unshift(res.data);
+          }
+        });
     },
     updateProgress(current, total) {
       var data = {
@@ -339,6 +403,7 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
+            this.reviews = res.data.course.review;
             this.current = res.data.current_module;
             this.course = res.data.course;
             this.faqs = JSON.parse(res.data.course.courseoutline.faqs);

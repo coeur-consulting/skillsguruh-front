@@ -105,7 +105,211 @@
               </div>
             </b-col>
           </b-row>
-          <LearnerTab />
+          <div class="recommended text-left mb-5">
+            <div class="d-flex align-items-center mb-3 w-100">
+              <div class="d-flex flex-1">
+                <h6
+                  class="pr-3 border-right cursor-pointer"
+                  :class="courseShown == 'toprated' ? '' : 'text-muted'"
+                  @click="courseShown = 'toprated'"
+                >
+                  Top Rated
+                </h6>
+                <h6
+                  class="pl-3 cursor-pointer"
+                  :class="courseShown == 'mostenrolled' ? '' : 'text-muted'"
+                  @click="courseShown = 'mostenrolled'"
+                >
+                  Most Enrolled
+                </h6>
+              </div>
+              <span class="fs14" @click="$router.push('/learner/courses')"
+                >More <b-icon icon="arrow-right"></b-icon
+              ></span>
+            </div>
+            <div v-if="showEnrolled">
+              <div v-if="courseShown == 'mostenrolled'">
+                <b-row v-if="mostenrolledcourse.length">
+                  <b-col
+                    sm="4"
+                    class="pr-3"
+                    v-for="item in mostenrolledcourse.slice(0, 3)"
+                    :key="item.id"
+                  >
+                    <div
+                      class="
+                        w-100
+                        h-100
+                        bg-white
+                        shadow
+                        rounded
+                        p-4
+                        d-flex
+                        flex-column
+                        position-relative
+                      "
+                      @click="$router.push('/learner/courses')"
+                    >
+                      <div class="ribbon text-capitalize">
+                        <span>{{ item.course.type }}</span>
+                      </div>
+                      <div class="flex-1">
+                        <b-iconstack font-scale="2.5" class="mr-2 mb-2">
+                          <b-icon
+                            stacked
+                            icon="circle-fill"
+                            :style="`color:${
+                              JSON.parse(
+                                item.course.courseoutline.knowledge_areas
+                              ).color
+                            }`"
+                          ></b-icon>
+                          <b-icon
+                            stacked
+                            :icon="
+                              JSON.parse(
+                                item.course.courseoutline.knowledge_areas
+                              ).icon
+                            "
+                            scale="0.5"
+                            variant="light"
+                          ></b-icon>
+                        </b-iconstack>
+                        <div class="course_title mb-1">
+                          {{ item.course.title }}
+                        </div>
+                        <div class="mb-3">
+                          <span class="fs13 overview text-muted">
+                            {{ item.course.description }}</span
+                          >
+                        </div>
+
+                        <div
+                          class="
+                            course_fac
+                            d-flex
+                            text-capitalize
+                            align-items-center
+                            fs13
+                            mb-1
+                          "
+                        >
+                          <b-icon
+                            icon="calendar"
+                            variant="dark-green"
+                            class="text-muted mr-2"
+                          ></b-icon>
+                          <div class="">
+                            <div class="text-capitalize text-muted">
+                              {{ item.course.courseoutline.duration }}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div
+                          v-if="item.course"
+                          class="course_fac align-items-center fs13 text-muted"
+                        >
+                          <b-icon
+                            icon="layers"
+                            variant="dark-green"
+                            class="text-muted mr-1"
+                          ></b-icon>
+                          <span class="fs13">
+                            {{ sortmodules(item.course) }}</span
+                          >
+                          Modules
+                        </div>
+                      </div>
+
+                      <div class="pt-3">
+                        <div class="d-flex justify-content-between fs13">
+                          <span>Resources upload</span
+                          ><span
+                            >{{
+                              Math.floor(
+                                getProgress(
+                                  item.course.courseoutline.modules,
+                                  item.course.modules
+                                )
+                              ) || 0
+                            }}%</span
+                          >
+                        </div>
+                        <b-progress
+                          :value="
+                            Math.floor(
+                              getProgress(
+                                item.course.courseoutline.modules,
+                                item.course.modules
+                              )
+                            )
+                          "
+                          :max="100"
+                          show-value
+                          height=".8rem"
+                          class="mb-3"
+                          variant="dark-green"
+                        ></b-progress>
+                      </div>
+                    </div>
+                  </b-col>
+                </b-row>
+
+                <div v-else class="w-100 p-5 text-center text-muted">
+                  <h5>No course available</h5>
+                </div>
+              </div>
+            </div>
+            <b-row v-else>
+              <b-col>
+                <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="65%"
+                ></b-skeleton>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="55%"
+                ></b-skeleton>
+                <b-skeleton animation="fade" width="59%"></b-skeleton>
+              </b-col>
+              <b-col>
+                <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="65%"
+                ></b-skeleton>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="55%"
+                ></b-skeleton>
+                <b-skeleton animation="fade" width="59%"></b-skeleton>
+              </b-col>
+              <b-col>
+                <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="65%"
+                ></b-skeleton>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="55%"
+                ></b-skeleton>
+                <b-skeleton animation="fade" width="59%"></b-skeleton>
+              </b-col>
+            </b-row>
+          </div>
+
+          <div class="discussions">
+            <Discussions></Discussions>
+          </div>
         </b-col>
         <b-col sm="4" class="text-left">
           <div class="turn_over_box">
@@ -152,8 +356,8 @@
 </template>
 
 <script>
-import LearnerTab from "./learners";
 import Todo from "../Todo";
+import Discussions from "./minidiscussions";
 export default {
   data() {
     return {
@@ -162,13 +366,18 @@ export default {
       todos: [],
       events: [],
       schedules: [],
+      showEnrolled: false,
+      showConnect: false,
+      showDiscussion: false,
+      courseShown: "mostenrolled",
+      mostenrolledcourse: [],
       masks: {
         weekdays: "WWW",
       },
     };
   },
   components: {
-    LearnerTab,
+    Discussions,
     Todo,
   },
   watch: {},
@@ -178,9 +387,23 @@ export default {
     this.getevents();
     this.getcourses();
     this.getschedules();
+    this.mostenrolled();
+    this.toprated();
   },
 
   computed: {
+    getenrolledcount() {
+      return this.courses.slice().sort((a, b) => {
+        return b - a;
+      });
+    },
+
+    getrating() {
+      return this.courses.map((item) => item.review).map((val) => val.score);
+      //  .reduce((a, b) => {
+      //     return Number(a.score) + Number(b.score);
+      //   }, 0)
+    },
     newlyCourses() {
       return this.courses.filter(
         (item) =>
@@ -271,6 +494,137 @@ export default {
     },
   },
   methods: {
+    mostenrolled() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/mostenrolled`,
+
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.mostenrolledcourse = res.data;
+          }
+        });
+    },
+    toprated() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/toprated`,
+
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.toprated = res.data;
+          }
+        });
+    },
+    sortmodules(data) {
+      if (!data.courseoutline) {
+        return 0;
+      }
+      return JSON.parse(data.courseoutline.modules).length;
+    },
+    getProgress(a, b) {
+      var count = 0;
+
+      var modules = JSON.parse(a);
+
+      var resources = b;
+
+      modules.forEach((mod) => {
+        var val = resources.filter((item) => item.module == mod).length;
+
+        if (val) {
+          count++;
+        }
+      });
+
+      return (count / modules.length) * 100;
+    },
+    sortfacilitators(data) {
+      if (!data.courseschedule) {
+        return "Unavailable";
+      }
+      var schedule = data.courseschedule;
+      var newArr = schedule.map((val) => {
+        if (val.facilitator_id) {
+          var fac = this.facilitators.find(
+            (item) => item.id == val.facilitator_id
+          );
+          if (fac) {
+            return fac.name;
+          }
+        }
+      });
+
+      return [...new Set(newArr)];
+    },
+    getUsersWithInterest() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/identical-learners`,
+
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.connections = res.data;
+            this.showConnect = true;
+          }
+        });
+    },
+    getcourses() {
+      this.$http
+        .get(`${this.$store.getters.url}/courses`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.courses = res.data;
+            this.showEnrolled = true;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    async addconnections(id, type) {
+      return this.$http
+        .post(
+          `${this.$store.getters.url}/connections`,
+          { following_id: id, follow_type: type },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.getUsersWithInterest();
+            this.$toast.success("Successful");
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     async getevents() {
       return this.$http
         .get(`${this.$store.getters.url}/events`, {
@@ -335,22 +689,6 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.users = res.data;
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
-    },
-    getcourses() {
-      this.$http
-        .get(`${this.$store.getters.url}/courses`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 200) {
-            this.courses = res.data;
           }
         })
         .catch((err) => {

@@ -115,11 +115,15 @@
               v-if="detail.general.type == 'group'"
             >
               <b-form-group label="No of participants">
-                <b-form-select size="sm" v-model="detail.general.amount">
+                <b-form-select
+                  size="sm"
+                  required
+                  v-model="detail.general.amount"
+                >
                   <b-form-select-option :value="null"
                     >Select a number</b-form-select-option
                   >
-                  <b-form-select-option v-for="n in 100" :key="n">{{
+                  <b-form-select-option v-for="n in 100" :key="n" :value="n">{{
                     n
                   }}</b-form-select-option>
                 </b-form-select>
@@ -671,11 +675,15 @@
               v-if="detail.general.type == 'group'"
             >
               <b-form-group label="No of participants">
-                <b-form-select size="sm" v-model="detail.general.amount">
+                <b-form-select
+                  size="sm"
+                  required
+                  v-model="detail.general.amount"
+                >
                   <b-form-select-option :value="null"
                     >Select a number</b-form-select-option
                   >
-                  <b-form-select-option v-for="n in 100" :key="n">{{
+                  <b-form-select-option v-for="n in 100" :key="n" :value="n">{{
                     n
                   }}</b-form-select-option>
                 </b-form-select>
