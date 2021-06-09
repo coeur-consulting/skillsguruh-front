@@ -934,8 +934,8 @@
                           block
                           variant="lighter-green"
                           class="text-dark-green"
-                          >Attend course</b-button
-                        ></a
+                          >Attend
+                        </b-button></a
                       >
                     </div>
                   </div>
