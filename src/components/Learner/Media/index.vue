@@ -125,7 +125,9 @@
                               :show-rating="false"
                             ></star-rating>
                           </b-form-group>
-                          <b-button type="submit">Post a review</b-button>
+                          <b-button size="sm" type="submit"
+                            >Leave a review</b-button
+                          >
                         </b-form>
                       </div>
 

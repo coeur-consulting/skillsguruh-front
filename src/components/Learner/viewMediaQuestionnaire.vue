@@ -84,13 +84,22 @@
                   </div>
                 </div>
                 <div v-if="question.type == 'checkbox'">
-                  <b-form-checkbox-group
-                    @change="handleResponse(question, index)"
-                    v-model="question.responses"
-                    :options="question.options"
-                    value-field="title"
-                    text-field="title"
-                  ></b-form-checkbox-group>
+                  {{ question.limit }}
+                  <div>
+                    <b-form-checkbox
+                      v-for="(item, index) in question.options"
+                      :key="index"
+                      :value="index"
+                      v-model="question.responses"
+                      :disabled="
+                        question.responses.length > 1 &&
+                        question.responses.indexOf(index) === -1
+                      "
+                      inline
+                    >
+                      {{ item.title }}
+                    </b-form-checkbox>
+                  </div>
                 </div>
 
                 <div v-if="question.type == 'boolean'">
@@ -226,6 +235,7 @@ export default {
                 responses: [],
                 result: "",
                 type: "short",
+                limit: 1,
                 options: [
                   {
                     title: "",
