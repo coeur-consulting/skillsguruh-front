@@ -449,9 +449,10 @@ export default {
             if (!res.data) {
               this.questionnaire_id = id;
               this.$bvModal.show("questionnaire");
-            } else {
-              this.$toast.info("Already submitted");
+              return;
             }
+            console.log("addes");
+            this.$toast.info("Already submitted");
           }
         });
     },

@@ -1,15 +1,18 @@
 <template>
   <div>
     <b-form @submit.prevent="submit">
-      <b-container class="p-5 text-left" v-if="questionnaire.sections">
-        <div class="text-center">
-          <h3 class="mb-4">{{ questionnaire.title }}</h3>
+      <b-container class="py-3 px-0 text-left" v-if="questionnaire.sections">
+        <div class="text-left">
+          <h5 class="mb-4">{{ questionnaire.title }}</h5>
+          <div>
+            <em class="text-lighter-green fs12">{{ questionnaire.hint }}</em>
+          </div>
         </div>
         <div>
           <div class="mb-4 border-bottom">
-            <h5 class="font-weight-bold mb-3">
+            <h6 class="font-weight-bold mb-3">
               {{ questionnaire.sections[section].title }}
-            </h5>
+            </h6>
 
             <div
               v-for="(question, index) in questionnaire.sections[section]
@@ -48,35 +51,38 @@
                   ></b-form-radio-group>
                 </div>
                 <div v-if="question.type == 'multiple'">
-                  <b-form-checkbox-group
-                    @change="handleResponse(question, index)"
-                    v-model="question.responses"
-                    :options="question.options"
-                    value-field="title"
-                    text-field="title"
-                  ></b-form-checkbox-group>
-
                   <div
-                    v-for="(item, id) in question.responses"
+                    v-for="(item, id) in question.options"
                     :key="id"
-                    class="d-flex align-items-center"
+                    class="d-flex align-items-center mb-1"
                   >
                     <b-form-input
                       v-model="item.title"
-                      :placeholder="placeholder"
+                      :placeholder="question.placeholder"
                     ></b-form-input>
-                    <b-button @click="question.responses.splice(id, 1)">
-                      <b-icon icon="x"></b-icon
-                    ></b-button>
-                    <b-button
-                      variant="lighter-green"
-                      @click="question.responses.push({ title: '' })"
-                    >
-                      <b-icon icon="plus"></b-icon
-                    ></b-button>
+                    <b-button-group>
+                      <b-button
+                        v-if="
+                          questionnaire.sections[section].questions[index]
+                            .options.length > 1
+                        "
+                        @click="
+                          questionnaire.sections[section].questions[
+                            index
+                          ].options.splice(id, 1)
+                        "
+                      >
+                        <b-icon icon="x"></b-icon
+                      ></b-button>
+                      <b-button
+                        variant="lighter-green"
+                        @click="addoption(index)"
+                      >
+                        <b-icon icon="plus"></b-icon
+                      ></b-button>
+                    </b-button-group>
                   </div>
                 </div>
-
                 <div v-if="question.type == 'checkbox'">
                   <b-form-checkbox-group
                     @change="handleResponse(question, index)"
@@ -198,7 +204,48 @@
 export default {
   data() {
     return {
-      questionnaire: [],
+      questionnaire: {
+        id: null,
+        module_id: null,
+        module_name: "",
+        course_id: null,
+        course_title: null,
+        title: "",
+        showFeedback: false,
+        feedback: "",
+        showScores: false,
+        sections: [
+          {
+            title: "",
+            questions: [
+              {
+                fixed: false,
+                question: "",
+                response: "",
+                responses: [],
+                result: "",
+                type: "short",
+                options: [
+                  {
+                    title: "",
+                  },
+                ],
+                showAnswer: false,
+                answer: "",
+                answers: [
+                  {
+                    title: "",
+                  },
+                ],
+                placeholder: "",
+                hint: "",
+                asScore: false,
+                score: 0,
+              },
+            ],
+          },
+        ],
+      },
       section: 0,
       responses: [],
       score: 0,
@@ -221,10 +268,23 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.questionnaire = res.data;
+            this.questionnaire.id = res.data.id;
+            this.questionnaire.module_id = res.data.module_id;
+            this.questionnaire.module_name = res.data.module_name;
+            this.questionnaire.course_id = res.data.course_id;
+            this.questionnaire.course_title = res.data.course_title;
+            this.questionnaire.title = res.data.title;
+            this.questionnaire.showFeedback = res.data.showFeedback;
+            this.questionnaire.feedback = res.data.feedback;
+            this.questionnaire.showScores = res.data.showScores;
             this.questionnaire.sections = JSON.parse(res.data.content);
           }
         });
+    },
+    addoption(index) {
+      this.questionnaire.sections[this.section].questions[index].options.push({
+        title: null,
+      });
     },
     handleResponse(question, index) {
       var correct = 0;
