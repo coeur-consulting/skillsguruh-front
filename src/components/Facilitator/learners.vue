@@ -4,7 +4,13 @@
       <b-row>
         <b-col class="mb-5 mb-sm-0">
           <div
-            class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-4"
+            class="
+              d-flex
+              flex-column flex-sm-row
+              justify-content-between
+              align-items-center
+              mb-4
+            "
           >
             <h6 class="mb-3 mb-sm-0">Learners</h6>
             <div>
@@ -25,13 +31,13 @@
             >
               <b-icon icon="funnel"></b-icon>
               <div>
-                <!-- <b-button variant="dark-green" size="sm">
+                <b-button variant="dark-green" size="sm">
                   <b-icon
                     icon="plus"
                     @click="$bvModal.show('add')"
                     font-scale="1.5"
                   ></b-icon
-                ></b-button> -->
+                ></b-button>
               </div>
             </div>
 

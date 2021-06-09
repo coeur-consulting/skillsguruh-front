@@ -65,6 +65,9 @@
                     Past Events</span
                   >
                 </div>
+                <b-button @click="$bvModal.show('add')" variant="lighter-green">
+                  <b-icon icon="plus" font-scale="1.5"></b-icon
+                ></b-button>
               </div>
               <div v-if="showEvents">
                 <div class="events" v-if="filter.length">
@@ -73,24 +76,47 @@
                     v-for="item in filter"
                     :key="item.id"
                   >
-                    <div class="px-3 py-2">
-                      <h5 class="text-capitalize">{{ item.title }}</h5>
-                      <p class="mb-1 text-muted fs15">
-                        <b-icon
-                          icon="calendar2-check"
-                          class="mr-2 text-muted"
-                        ></b-icon>
-                        {{ item.schedule }}
-                      </p>
-                      <div class="d-flex">
-                        <b-icon
-                          class="mr-2 text-muted"
-                          icon="info-circle"
-                        ></b-icon>
-                        <p class="description text-muted">
-                          {{ item.description }}
+                    <div class="px-3 py-2 d-flex">
+                      <div class="flex-1">
+                        <h5 class="text-capitalize">{{ item.title }}</h5>
+                        <p class="mb-1 text-muted fs15">
+                          <b-icon
+                            icon="calendar2-check"
+                            class="mr-2 text-muted"
+                          ></b-icon>
+                          {{ item.schedule }}
                         </p>
+                        <div class="d-flex">
+                          <b-icon
+                            class="mr-2 text-muted"
+                            icon="info-circle"
+                          ></b-icon>
+                          <p class="description text-muted">
+                            {{ item.description }}
+                          </p>
+                        </div>
                       </div>
+                      <b-dropdown
+                        size="sm"
+                        variant="transparent"
+                        no-caret
+                        class="no-focus"
+                      >
+                        <template #button-content>
+                          <b-icon
+                            icon="three-dots-vertical"
+                            font-scale="1.4"
+                          ></b-icon>
+                        </template>
+                        <b-dropdown-item class="fs13" @click="edit(item)"
+                          >Edit</b-dropdown-item
+                        >
+                        <b-dropdown-item
+                          class="fs13"
+                          @click="drop(item.id, index)"
+                          >Delete</b-dropdown-item
+                        >
+                      </b-dropdown>
                     </div>
                     <b-img fluid-grow :src="item.cover"></b-img>
                     <div
@@ -159,10 +185,419 @@
           </div>
         </b-col>
       </b-row>
+      <b-modal id="add" hide-footer centered size="lg" title="Add Event">
+        <b-form @submit.prevent="register" class="event">
+          <div>
+            <b-form-row class="mb-2">
+              <b-col sm="6" class="pr-sm-3">
+                <b-form-group label="Event name">
+                  <b-form-input
+                    size="lg"
+                    v-model="event.title"
+                    required
+                    placeholder="Enter event name"
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+              <b-col sm="6" class="pr-sm-3">
+                <b-form-group label="Event Duration">
+                  <b-form-input
+                    size="lg"
+                    required
+                    v-model="event.duration"
+                    placeholder="Enter event duration.. e.g 2 weeks"
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+            </b-form-row>
+            <b-form-row class="mb-2">
+              <b-col sm="6" class="pr-sm-3">
+                <b-form-group label="Event venue">
+                  <b-form-input
+                    size="lg"
+                    v-model="event.venue"
+                    required
+                    placeholder="Enter event venue"
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+            </b-form-row>
+
+            <b-form-row class="mb-2">
+              <b-col sm="12" class="pr-sm-3">
+                <b-form-group label="Event Description">
+                  <b-form-textarea
+                    size="lg"
+                    v-model="event.description"
+                    required
+                    placeholder="Describe this event"
+                  ></b-form-textarea>
+                </b-form-group>
+              </b-col>
+            </b-form-row>
+
+            <b-form-row class="mb-2">
+              <b-col cols="6" class="pr-sm-3">
+                <b-form-group label="Event Start">
+                  <vc-date-picker
+                    placeholder="Choose start time"
+                    v-model="event.start"
+                    mode="dateTime"
+                  >
+                    <template v-slot="{ inputValue, inputEvents }">
+                      <input
+                        class="
+                          px-2
+                          py-1
+                          border
+                          rounded
+                          focus:outline-none
+                          focus:border-blue-300
+                        "
+                        :value="inputValue"
+                        v-on="inputEvents"
+                      />
+                    </template>
+                  </vc-date-picker>
+                </b-form-group>
+              </b-col>
+              <b-col cols="6" class="pr-sm-3">
+                <b-form-group label="Event End">
+                  <vc-date-picker
+                    placeholder="Choose end time"
+                    v-model="event.end"
+                    mode="dateTime"
+                  >
+                    <template v-slot="{ inputValue, inputEvents }">
+                      <input
+                        class="
+                          px-2
+                          py-1
+                          border
+                          rounded
+                          focus:outline-none
+                          focus:border-blue-300
+                        "
+                        :value="inputValue"
+                        v-on="inputEvents"
+                      />
+                    </template>
+                  </vc-date-picker>
+                </b-form-group>
+              </b-col>
+            </b-form-row>
+            <b-form-row class="mb-2">
+              <b-col sm="6" class="pr-sm-3">
+                <b-form-group label="Event type">
+                  <b-form-select
+                    v-model="event.type"
+                    required
+                    placeholder="Choose type of event"
+                  >
+                    <b-form-select-option value=""
+                      >Choose event type</b-form-select-option
+                    >
+                    <b-form-select-option value="seminar"
+                      >Seminar</b-form-select-option
+                    >
+                  </b-form-select>
+                </b-form-group>
+              </b-col>
+              <b-col sm="6" class="pr-sm-3">
+                <b-form-group label="Event Url (optional)">
+                  <b-form-input
+                    size="lg"
+                    v-model="event.url"
+                    placeholder="Enter event link"
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+            </b-form-row>
+            <b-form-row class="mb-2">
+              <b-col sm="6" class="pr-sm-3">
+                <b-form-group label="Event resource(optional)">
+                  <Upload
+                    class="text-center"
+                    :id="'resource'"
+                    @getUpload="getUpload"
+                  >
+                    <b-icon
+                      class="text-muted ml-3"
+                      icon="files"
+                      font-scale="4rem"
+                    ></b-icon
+                  ></Upload>
+                </b-form-group>
+              </b-col>
+              <b-col sm="6" class="pr-sm-3">
+                <b-form-group label="Upload event cover">
+                  <Upload
+                    class="text-left"
+                    :id="'cover'"
+                    @getUpload="getUpload"
+                  >
+                    <b-icon
+                      class="text-muted ml-3"
+                      icon="card-image"
+                      font-scale="4rem"
+                    ></b-icon>
+                  </Upload>
+                </b-form-group>
+              </b-col>
+            </b-form-row>
+            <b-form-row class="mb-2">
+              <b-col sm="12" class="pr-sm-3">
+                <b-form-group label="Add Facilitators to event (optional)">
+                  <b-button size="sm" @click="$bvModal.show('addfac')"
+                    >Click to add Facilitators to event</b-button
+                  >
+                </b-form-group>
+              </b-col>
+            </b-form-row>
+
+            <b-form-group class="mt-4">
+              <div class="mb-3 text-center">
+                <b-button
+                  type="submit"
+                  variant="dark-green"
+                  size="lg"
+                  class="px-5 d-none d-sm-block mx-auto"
+                  >Register</b-button
+                >
+                <b-button
+                  type="submit"
+                  variant="dark-green"
+                  size="lg"
+                  block
+                  class="px-5 d-sm-none mx-auto"
+                  >Register</b-button
+                >
+              </div>
+            </b-form-group>
+          </div>
+        </b-form>
+      </b-modal>
+      <b-modal id="edit" hide-footer centered size="lg" title="Update Event">
+        <b-form @submit.prevent="update" class="event">
+          <div>
+            <b-form-row class="mb-2">
+              <b-col sm="6" class="pr-sm-3">
+                <b-form-group label="Event name">
+                  <b-form-input
+                    size="lg"
+                    v-model="event.title"
+                    required
+                    placeholder="Enter event name"
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+              <b-col sm="6" class="pr-sm-3">
+                <b-form-group label="Event Duration">
+                  <b-form-input
+                    size="lg"
+                    required
+                    v-model="event.duration"
+                    placeholder="Enter event duration.. e.g 2 weeks"
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+            </b-form-row>
+
+            <b-form-row class="mb-2">
+              <b-col sm="6" class="pr-sm-3">
+                <b-form-group label="Event venue">
+                  <b-form-input
+                    size="lg"
+                    v-model="event.venue"
+                    required
+                    placeholder="Enter event venue"
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+            </b-form-row>
+
+            <b-form-row class="mb-2">
+              <b-col sm="12" class="pr-sm-3">
+                <b-form-group label="Event Description">
+                  <b-form-textarea
+                    size="lg"
+                    v-model="event.description"
+                    required
+                    placeholder="Describe this event"
+                  ></b-form-textarea>
+                </b-form-group>
+              </b-col>
+            </b-form-row>
+
+            <b-form-row class="mb-2">
+              <b-col cols="6" class="pr-sm-3">
+                <b-form-group label="Event Start">
+                  <vc-date-picker
+                    placeholder="Choose end time"
+                    v-model="event.start"
+                    mode="dateTime"
+                    :is24hr="false"
+                  >
+                    <template v-slot="{ inputValue, inputEvents }">
+                      <input
+                        class="
+                          px-2
+                          py-1
+                          border
+                          rounded
+                          focus:outline-none
+                          focus:border-blue-300
+                        "
+                        :value="inputValue"
+                        v-on="inputEvents"
+                      />
+                    </template>
+                  </vc-date-picker>
+                </b-form-group>
+              </b-col>
+              <b-col cols="6" class="pr-sm-3">
+                <b-form-group label="Event End">
+                  <vc-date-picker
+                    placeholder="Choose end time"
+                    v-model="event.end"
+                    mode="dateTime"
+                    :is24hr="false"
+                  >
+                    <template v-slot="{ inputValue, inputEvents }">
+                      <input
+                        class="
+                          px-2
+                          py-1
+                          border
+                          rounded
+                          focus:outline-none
+                          focus:border-blue-300
+                        "
+                        :value="inputValue"
+                        v-on="inputEvents"
+                      />
+                    </template>
+                  </vc-date-picker>
+                </b-form-group>
+              </b-col>
+            </b-form-row>
+            <b-form-row class="mb-2">
+              <b-col sm="6" class="pr-sm-3">
+                <b-form-group label="Event type">
+                  <b-form-select
+                    size="lg"
+                    v-model="event.type"
+                    required
+                    placeholder="Choose type of event"
+                  >
+                    <b-form-select-option value=""
+                      >Choose event type</b-form-select-option
+                    >
+                    <b-form-select-option value="seminar"
+                      >Seminar</b-form-select-option
+                    >
+                  </b-form-select>
+                </b-form-group>
+              </b-col>
+              <b-col sm="6" class="pr-sm-3">
+                <b-form-group label="Event Url (optional)">
+                  <b-form-input
+                    size="lg"
+                    v-model="event.url"
+                    placeholder="Enter event link"
+                  ></b-form-input>
+                </b-form-group>
+              </b-col>
+            </b-form-row>
+            <b-form-row class="mb-2">
+              <b-col sm="6" class="pr-sm-3">
+                <b-form-group label="Event resource(optional)">
+                  <Upload
+                    class="text-center"
+                    :id="'resource'"
+                    @getUpload="getUpload"
+                  >
+                    <b-icon
+                      class="text-muted ml-3"
+                      icon="files"
+                      font-scale="4rem"
+                    ></b-icon
+                  ></Upload>
+                </b-form-group>
+              </b-col>
+              <b-col sm="6" class="pr-sm-3">
+                <b-form-group label="Upload event cover">
+                  <Upload
+                    class="text-left"
+                    :id="'cover'"
+                    @getUpload="getUpload"
+                  >
+                    <b-icon
+                      class="text-muted ml-3"
+                      icon="card-image"
+                      font-scale="4rem"
+                    ></b-icon>
+                  </Upload>
+                </b-form-group>
+              </b-col>
+            </b-form-row>
+            <b-form-row class="mb-2">
+              <b-col sm="12" class="pr-sm-3">
+                <b-form-group label="Add Facilitators to event (optional)">
+                  <b-button size="sm" @click="$bvModal.show('addfac')"
+                    >Click to add Facilitators to event</b-button
+                  >
+                </b-form-group>
+              </b-col>
+            </b-form-row>
+
+            <b-form-group class="mt-4">
+              <div class="mb-3 text-center w-100">
+                <b-button
+                  type="submit"
+                  variant="dark-green"
+                  size="lg"
+                  class="px-5 d-none d-sm-block mx-auto"
+                  >Update</b-button
+                >
+                <b-button
+                  type="submit"
+                  variant="dark-green"
+                  size="lg"
+                  block
+                  class="px-5 d-sm-none mx-auto"
+                  >Update</b-button
+                >
+              </div>
+            </b-form-group>
+          </div>
+        </b-form>
+      </b-modal>
+      <b-modal id="addfac" size="lg" hide-footer hide-header centered>
+        <div class="p-4">
+          <h6 class="text-center mb-3">Select Facilitators</h6>
+          <b-row>
+            <b-col cols="4">
+              <b-form-checkbox
+                v-model="event.facilitators"
+                :value="item.id"
+                v-for="(item, id) in facilitators"
+                :key="id"
+                >{{ item.name }}</b-form-checkbox
+              ></b-col
+            >
+          </b-row>
+
+          <div class="text-center my-3">
+            <b-button @click="$bvModal.hide('addfac')">Close</b-button>
+          </div>
+        </div>
+      </b-modal>
     </b-container>
   </div>
 </template>
 <script>
+import Upload from "../fileupload";
 export default {
   data() {
     return {
@@ -189,7 +624,9 @@ export default {
       showEvents: false,
     };
   },
-  components: {},
+  components: {
+    Upload,
+  },
   computed: {
     filter() {
       var event = this.events

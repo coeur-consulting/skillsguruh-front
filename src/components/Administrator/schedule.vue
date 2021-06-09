@@ -9,8 +9,8 @@
                 :perPage="1"
                 :paginationEnabled="false"
                 :autoplay="true"
-                :speed="1000"
                 :autoplayTimeout="5000"
+                :speed="1000"
                 :loop="true"
                 v-if="comingevents.length"
               >
@@ -841,7 +841,7 @@
                     <span
                       ><router-link
                         class="text-dark-green"
-                        to="/administrator/courses?action=setupcourse"
+                        to="/facilitator/courses?action=setupcourse"
                         >Set up Now</router-link
                       ></span
                     >
@@ -1000,130 +1000,458 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-modal
-      id="add"
-      hide-footer
-      centered
-      size="lg"
-      title="Add Course Schedule"
-    >
+    <b-modal id="add" hide-footer centered size="lg" title="Add Schedule">
       <b-container>
-        <b-form @submit.prevent="register">
-          <b-form-row>
-            <b-col sm="5" class="px-3">
-              <b-form-group label="Course">
-                <b-form-select v-model="detail.course_id">
-                  <b-form-select-option value=""
-                    >Choose Course</b-form-select-option
-                  >
-                  <b-form-select-option
-                    :value="item.id"
-                    v-for="(item, id) in courses"
-                    :key="id"
-                    >{{ item.title }}</b-form-select-option
-                  ></b-form-select
-                >
-              </b-form-group>
-            </b-col>
-          </b-form-row>
-          <div
-            class="border p-3 rounded mb-3"
-            v-for="(item, id) in detail.schedule"
-            :key="id"
+        <b-row v-if="schedule_num == 1">
+          <b-col cols="6" class="" @click="schedule_num = 2">
+            <div class="p-5 text-center shadow-sm bg-lighter-green rounded">
+              <h4>Course</h4>
+            </div></b-col
           >
-            <b-form-row>
-              <b-col sm="6" class="mb-3 px-3">
-                <b-form-group label="Day">
-                  <b-form-select v-model="item.day">
-                    <b-form-select-option value="monday"
-                      >Monday</b-form-select-option
+          <b-col cols="6" class="" @click="schedule_num = 3">
+            <div class="p-5 text-center shadow-sm bg-lighter-green rounded">
+              <h4>Event</h4>
+            </div></b-col
+          >
+        </b-row>
+
+        <b-row v-if="schedule_num == 3">
+          <b-col>
+            <b-form @submit.prevent="addevent" class="event">
+              <div>
+                <b-form-row class="mb-2">
+                  <b-col sm="6" class="pr-sm-3">
+                    <b-form-group label="Event name">
+                      <b-form-input
+                        size="lg"
+                        v-model="event.title"
+                        required
+                        placeholder="Enter event name"
+                      ></b-form-input>
+                    </b-form-group>
+                  </b-col>
+                  <b-col sm="6" class="pr-sm-3">
+                    <b-form-group label="Event Duration">
+                      <b-form-input
+                        size="lg"
+                        required
+                        v-model="event.duration"
+                        placeholder="Enter event duration.. e.g 2 weeks"
+                      ></b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-form-row>
+                <b-form-row class="mb-2">
+                  <b-col sm="6" class="pr-sm-3">
+                    <b-form-group label="Event venue">
+                      <b-form-input
+                        size="lg"
+                        v-model="event.venue"
+                        required
+                        placeholder="Enter event venue"
+                      ></b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-form-row>
+
+                <b-form-row class="mb-2">
+                  <b-col sm="12" class="pr-sm-3">
+                    <b-form-group label="Event Description">
+                      <b-form-textarea
+                        size="lg"
+                        v-model="event.description"
+                        required
+                        placeholder="Describe this event"
+                      ></b-form-textarea>
+                    </b-form-group>
+                  </b-col>
+                </b-form-row>
+
+                <b-form-row class="mb-2">
+                  <b-col cols="6" class="pr-sm-3">
+                    <b-form-group label="Event Start">
+                      <vc-date-picker
+                        placeholder="Choose start time"
+                        v-model="event.start"
+                        mode="dateTime"
+                      >
+                        <template v-slot="{ inputValue, inputEvents }">
+                          <input
+                            class="
+                              px-2
+                              py-1
+                              border
+                              rounded
+                              focus:outline-none
+                              focus:border-blue-300
+                            "
+                            :value="inputValue"
+                            v-on="inputEvents"
+                          />
+                        </template>
+                      </vc-date-picker>
+                    </b-form-group>
+                  </b-col>
+                  <b-col cols="6" class="pr-sm-3">
+                    <b-form-group label="Event End">
+                      <vc-date-picker
+                        placeholder="Choose end time"
+                        v-model="event.end"
+                        mode="dateTime"
+                      >
+                        <template v-slot="{ inputValue, inputEvents }">
+                          <input
+                            class="
+                              px-2
+                              py-1
+                              border
+                              rounded
+                              focus:outline-none
+                              focus:border-blue-300
+                            "
+                            :value="inputValue"
+                            v-on="inputEvents"
+                          />
+                        </template>
+                      </vc-date-picker>
+                    </b-form-group>
+                  </b-col>
+                </b-form-row>
+                <b-form-row class="mb-2">
+                  <b-col sm="6" class="pr-sm-3">
+                    <b-form-group label="Event type">
+                      <b-form-select
+                        v-model="event.type"
+                        required
+                        placeholder="Choose type of event"
+                      >
+                        <b-form-select-option value=""
+                          >Choose event type</b-form-select-option
+                        >
+                        <b-form-select-option value="seminar"
+                          >Seminar</b-form-select-option
+                        >
+                      </b-form-select>
+                    </b-form-group>
+                  </b-col>
+                  <b-col sm="6" class="pr-sm-3">
+                    <b-form-group label="Event Url (optional)">
+                      <b-form-input
+                        size="lg"
+                        v-model="event.url"
+                        placeholder="Enter event link"
+                      ></b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-form-row>
+                <b-form-row class="mb-2">
+                  <b-col sm="6" class="pr-sm-3">
+                    <b-form-group label="Event resource(optional)">
+                      <Upload
+                        class="text-center"
+                        :id="'resource'"
+                        @getUpload="getUpload"
+                      >
+                        <b-icon
+                          class="text-muted ml-3"
+                          icon="files"
+                          font-scale="4rem"
+                        ></b-icon
+                      ></Upload>
+                    </b-form-group>
+                  </b-col>
+                  <b-col sm="6" class="pr-sm-3">
+                    <b-form-group label="Upload event cover">
+                      <Upload
+                        class="text-left"
+                        :id="'cover'"
+                        @getUpload="getUpload"
+                      >
+                        <b-icon
+                          class="text-muted ml-3"
+                          icon="card-image"
+                          font-scale="4rem"
+                        ></b-icon>
+                      </Upload>
+                    </b-form-group>
+                  </b-col>
+                </b-form-row>
+                <b-form-row class="mb-2">
+                  <b-col sm="12" class="pr-sm-3">
+                    <b-form-group label="Add Facilitators to event (optional)">
+                      <b-button size="sm" @click="$bvModal.show('addfac')"
+                        >Click to add Facilitators to event</b-button
+                      >
+                    </b-form-group>
+                  </b-col>
+                </b-form-row>
+
+                <b-form-group class="mt-4">
+                  <div class="mb-3 text-center">
+                    <b-button
+                      type="submit"
+                      variant="dark-green"
+                      size="lg"
+                      class="px-5 d-none d-sm-block mx-auto"
+                      >Create event</b-button
                     >
-                    <b-form-select-option value="tuesday"
-                      >Tuesday</b-form-select-option
+                    <b-button
+                      type="submit"
+                      variant="dark-green"
+                      size="lg"
+                      block
+                      class="px-5 d-sm-none mx-auto"
+                      >Create event</b-button
                     >
-                    <b-form-select-option value="wednesday"
-                      >Wednesday</b-form-select-option
-                    >
-                    <b-form-select-option value="thursday"
-                      >Thursday</b-form-select-option
-                    >
-                    <b-form-select-option value="friday"
-                      >Friday</b-form-select-option
-                    >
-                    <b-form-select-option value="saturday"
-                      >Saturday</b-form-select-option
-                    >
-                    <b-form-select-option value="sunday"
-                      >Sunday</b-form-select-option
-                    >
-                  </b-form-select>
+                  </div>
                 </b-form-group>
-              </b-col>
-              <b-col sm="6" class="mb-3 px-3">
-                <b-form-group label="Facilitator">
-                  <b-form-select v-model="item.facilitator_id">
-                    <b-form-select-option
-                      :value="item.id"
-                      v-for="(item, id) in facilitators"
-                      :key="id"
-                      >{{ item.name }}</b-form-select-option
-                    ></b-form-select
-                  >
-                </b-form-group>
-              </b-col>
-            </b-form-row>
-            <b-form-row>
-              <b-col sm="6" class="mb-3 px-3">
-                <b-form-group label="Start time">
-                  <b-form-timepicker
-                    :hour12="true"
-                    placeholder="Choose start time"
-                    v-model="item.start_time"
-                  ></b-form-timepicker>
-                </b-form-group>
-              </b-col>
-              <b-col sm="6" class="mb-3 px-3">
-                <b-form-group label="End time">
-                  <b-form-timepicker
-                    :hour12="true"
-                    placeholder="Choose end time"
-                    v-model="item.end_time"
-                  ></b-form-timepicker>
-                </b-form-group>
-              </b-col>
-            </b-form-row>
-            <div>
-              <b-button
-                variant="outline-dark-green"
-                class="my-2 mr-3"
-                size="sm"
-                @click="detail.schedule.splice(id, 1)"
-                v-if="detail.schedule.length > 1"
-                >Delete schedule</b-button
+              </div>
+            </b-form>
+          </b-col>
+        </b-row>
+        <b-row v-if="schedule_num == 2">
+          <b-col>
+            <b-form @submit.prevent="register">
+              <b-form-row>
+                <b-col sm="5" class="px-3">
+                  <b-form-group label="Course">
+                    <b-form-select v-model="detail.course_id">
+                      <b-form-select-option value=""
+                        >Choose Course</b-form-select-option
+                      >
+                      <b-form-select-option
+                        :value="item.id"
+                        v-for="(item, id) in courses"
+                        :key="id"
+                        >{{ item.title }}</b-form-select-option
+                      ></b-form-select
+                    >
+                  </b-form-group>
+                </b-col>
+              </b-form-row>
+              <div
+                class="border p-3 rounded mb-3"
+                v-for="(item, id) in detail.schedule"
+                :key="id"
               >
-              <b-button
-                variant="dark-green"
-                class="my-2"
-                size="sm"
-                @click="addschedule"
-                v-if="detail.schedule.length == id + 1"
-                >Add new schedule</b-button
-              >
-            </div>
-          </div>
-          <div class="text-center my-3">
-            <b-button size="lg" variant="dark-green" type="submit"
-              >Create schedule</b-button
-            >
-          </div>
-        </b-form>
+                <div
+                  class="p-2 rounded d-flex justify-content-between shadow"
+                  v-if="id != current_schedule"
+                >
+                  <div>
+                    <span class="mr-3"
+                      >Start Date :
+                      {{
+                        item.start_time | moment("dddd, MMMM D YYYY, h:mm a")
+                      }}</span
+                    >
+                    <br />
+                    <span class="mr-3"
+                      >End Date :
+                      {{
+                        item.end_time | moment("dddd, MMMM D YYYY, h:mm a")
+                      }}</span
+                    >
+                  </div>
+                  <div>
+                    <b-iconstack
+                      font-scale="1.1"
+                      class="mr-2"
+                      @click="addschedule"
+                    >
+                      <b-icon
+                        stacked
+                        icon="circle-fill"
+                        variant="dark-green"
+                      ></b-icon>
+                      <b-icon
+                        stacked
+                        icon="plus-circle-fill"
+                        scale="0.5"
+                        variant="white"
+                      ></b-icon>
+                    </b-iconstack>
+
+                    <b-iconstack
+                      font-scale="1.1"
+                      class="mr-2"
+                      @click="current_schedule = id"
+                    >
+                      <b-icon
+                        stacked
+                        icon="circle-fill"
+                        variant="warning"
+                      ></b-icon>
+                      <b-icon
+                        icon="pencil-fill"
+                        stacked
+                        scale="0.5"
+                        variant="white"
+                      ></b-icon>
+                    </b-iconstack>
+
+                    <b-iconstack
+                      font-scale="1.1"
+                      v-if="detail.schedule.length > 1"
+                      @click="detail.schedule.splice(id, 1)"
+                    >
+                      <b-icon
+                        stacked
+                        icon="circle-fill"
+                        variant="danger"
+                      ></b-icon>
+                      <b-icon
+                        icon="trash2-fill"
+                        stacked
+                        scale="0.5"
+                        variant="white"
+                      ></b-icon>
+                    </b-iconstack>
+                  </div>
+                </div>
+                <div v-if="id == current_schedule">
+                  <div class="text-right">
+                    <b-icon
+                      icon="chevron-up"
+                      @click="current_schedule = null"
+                    ></b-icon>
+                  </div>
+                  <b-form-row>
+                    <b-col sm="6" class="mb-3 px-3">
+                      <b-form-group label="Facilitator">
+                        <b-form-select v-model="item.facilitator_id">
+                          <b-form-select-option :value="null"
+                            >None</b-form-select-option
+                          >
+                          <b-form-select-option
+                            :value="item.id"
+                            v-for="(item, id) in facilitators"
+                            :key="id"
+                            >{{ item.name }}</b-form-select-option
+                          ></b-form-select
+                        >
+                      </b-form-group>
+                    </b-col>
+                    <b-col sm="6" class="mb-3 px-3">
+                      <b-form-group label="Venue">
+                        <b-form-input
+                          v-model="item.venue"
+                          placeholder="Enter course Venue"
+                        ></b-form-input>
+                        <b-form-input
+                          v-model="item.url"
+                          placeholder="Enter url link (optional)"
+                        ></b-form-input>
+                      </b-form-group>
+                    </b-col>
+                  </b-form-row>
+                  <b-form-row>
+                    <b-col sm="6" class="mb-3 px-3">
+                      <b-form-group label="Start time">
+                        <vc-date-picker
+                          placeholder="Choose start time"
+                          v-model="item.start_time"
+                          mode="dateTime"
+                          :is24hr="false"
+                        >
+                          <template v-slot="{ inputValue, inputEvents }">
+                            <input
+                              class="
+                                px-2
+                                py-1
+                                border
+                                rounded
+                                focus:outline-none
+                                focus:border-blue-300
+                              "
+                              :value="inputValue"
+                              v-on="inputEvents"
+                            />
+                          </template>
+                        </vc-date-picker>
+                      </b-form-group>
+                    </b-col>
+                    <b-col sm="6" class="mb-3 px-3">
+                      <b-form-group label="End time">
+                        <vc-date-picker
+                          placeholder="Choose start time"
+                          v-model="item.end_time"
+                          mode="dateTime"
+                          :is24hr="false"
+                        >
+                          <template v-slot="{ inputValue, inputEvents }">
+                            <input
+                              class="
+                                px-2
+                                py-1
+                                border
+                                rounded
+                                focus:outline-none
+                                focus:border-blue-300
+                              "
+                              :value="inputValue"
+                              v-on="inputEvents"
+                            />
+                          </template>
+                        </vc-date-picker>
+                      </b-form-group>
+                    </b-col>
+                  </b-form-row>
+                  <div>
+                    <b-button
+                      variant="outline-dark-green"
+                      class="my-2 mr-2"
+                      size="sm"
+                      @click="detail.schedule.splice(id, 1)"
+                      v-if="detail.schedule.length > 1"
+                      >Delete schedule</b-button
+                    >
+                    <b-button
+                      variant="dark-green"
+                      class="my-2"
+                      size="sm"
+                      @click="addschedule"
+                      v-if="detail.schedule.length == id + 1"
+                      >Add new schedule</b-button
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="text-center my-3">
+                <b-button size="lg" variant="dark-green" type="submit"
+                  >Create schedule</b-button
+                >
+              </div>
+            </b-form>
+          </b-col>
+        </b-row>
       </b-container>
+    </b-modal>
+    <b-modal id="addfac" size="lg" hide-footer hide-header centered>
+      <div class="p-4">
+        <h6 class="text-center mb-3">Select Facilitators</h6>
+        <b-row>
+          <b-col cols="4">
+            <b-form-checkbox
+              v-model="event.facilitators"
+              :value="item.id"
+              v-for="(item, id) in facilitators"
+              :key="id"
+              >{{ item.name }}</b-form-checkbox
+            ></b-col
+          >
+        </b-row>
+
+        <div class="text-center my-3">
+          <b-button @click="$bvModal.hide('addfac')">Close</b-button>
+        </div>
+      </div>
     </b-modal>
   </div>
 </template>
 <script>
 import PopoverRow from "v-calendar/lib/components/popover-row.umd.min";
-
+import Upload from "../fileupload";
 export default {
   data() {
     return {
@@ -1133,6 +1461,19 @@ export default {
       schedules: [],
       courses: [],
       current_schedule: 0,
+      schedule_num: 1,
+      event: {
+        title: "",
+        duration: "",
+        description: "",
+        type: "",
+        url: "",
+        cover: "",
+        start: "",
+        end: "",
+        resource: "",
+        facilitators: [],
+      },
       detail: {
         course_id: null,
         schedule: [
@@ -1156,6 +1497,7 @@ export default {
   },
   components: {
     PopoverRow,
+    Upload,
   },
   watch: {},
   created() {
@@ -1164,6 +1506,13 @@ export default {
         this.getschedules();
         this.getevents();
       });
+    });
+  },
+  mounted() {
+    this.$root.$on("bv::modal::hide", (bvEvent, modalId) => {
+      if (modalId !== "addfac") {
+        this.schedule_num = 1;
+      }
     });
   },
   computed: {
@@ -1251,6 +1600,14 @@ export default {
     },
   },
   methods: {
+    getUpload(val, id) {
+      if (id == "cover") {
+        this.event.cover = val;
+      }
+      if (id == "resource") {
+        this.event.resource = val;
+      }
+    },
     daySchedule(day) {
       return this.joinedSchedule.filter(
         (item) =>
@@ -1361,6 +1718,7 @@ export default {
             this.$toast.success("Added successfully");
             this.$bvModal.hide("add");
             this.getschedules();
+            this.schedule_num = 1;
             this.detail.schedule = {
               day: "",
               venue: "",
@@ -1368,6 +1726,48 @@ export default {
               start_time: new Date(),
               end_time: new Date(),
               facilitator_id: null,
+            };
+          }
+        })
+        .catch((err) => {
+          if (err.response.data.errors.email[0]) {
+            this.$toast.error(err.response.data.errors.email[0]);
+          }
+          if (err.response.data.errors.phone[0]) {
+            this.$toast.error(err.response.data.errors.phone[0]);
+          }
+          if (err.response.data.errors.name[0]) {
+            this.$toast.error(err.response.data.errors.name[0]);
+          }
+          if (err.response.data.errors.password[0]) {
+            this.$toast.error(err.response.data.errors.password[0]);
+          }
+        });
+    },
+    addevent() {
+      this.$http
+        .post(`${this.$store.getters.url}/events`, this.event, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 201) {
+            this.$toast.success("Added successfully");
+            this.$bvModal.hide("add");
+            this.events.unshift(res.data);
+            this.schedule_num = 1;
+            this.event = {
+              title: "",
+              duration: "",
+              description: "",
+              type: "",
+              url: "",
+              cover: "",
+              start: "",
+              end: "",
+              resource: "",
+              facilitators: [],
             };
           }
         })

@@ -2,7 +2,7 @@
   <div id="chart1" style="overflow: hidden">
     <b-row class="border-bottom p-3">
       <b-col sm="12" class="mb-2 mb-sm-0 text-center">
-        <h6>Todo List</h6></b-col
+        <h6>To do List</h6></b-col
       >
       <b-col sm="12">
         <b-form @submit.prevent="register">
