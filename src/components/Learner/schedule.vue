@@ -905,7 +905,7 @@
                   <b-form-select-option value="">Today</b-form-select-option>
                 </b-form-select>
               </div>
-              <!-- <div class="schedule" v-if="showschedule">
+              <div class="schedule" v-if="showschedule">
                 <div
                   v-if="
                     daySchedule(
@@ -935,10 +935,7 @@
                         ></b-icon>
                       </b-iconstack>
                       <div>
-                        <span
-                          class="title font-weight-bold"
-                          v-if="item.course.title"
-                        >
+                        <span class="title font-weight-bold" v-if="item.course">
                           {{ item.course.title }}</span
                         >
                       </div>
@@ -975,7 +972,7 @@
                 <div v-else class="p-4 text-center">
                   <p class="text-muted">Nothing Scheduled Today</p>
                 </div>
-              </div> -->
+              </div>
 
               <!-- <div v-else class="p-4">
                 <div class="p-1">

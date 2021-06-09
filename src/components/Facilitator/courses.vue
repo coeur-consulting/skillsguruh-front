@@ -1644,7 +1644,7 @@
                 </div>
 
                 <div class="mb-3 px-2">
-                  <div class="" v-if="course.courseschedule">
+                  <div class="" v-if="course.courseschedule.length">
                     <b-row>
                       <b-col cols="6">
                         <h6 class="fs14 font-weight-bold">Start date</h6>
@@ -1858,7 +1858,7 @@
               <div v-if="toggleCourse == 4" class="h-100 p-2">
                 <h6 class="fs14 mb-3">Course Schedules</h6>
                 <div>
-                  <b-row>
+                  <b-row v-if="course.courseschedule.length">
                     <b-col
                       cols="12"
                       class="mb-3 px-3 border-bottom"
