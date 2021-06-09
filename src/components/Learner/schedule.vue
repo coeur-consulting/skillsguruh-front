@@ -947,9 +947,9 @@
                       <span class="fs12"
                         ><b-icon icon="clock" class="mr-2"></b-icon>
                         <span
-                          >{{ item.date.start | moment("LT") }}
+                          >{{ item.dates.start | moment("LT") }}
                           -
-                          {{ item.date.end | moment("LT") }}</span
+                          {{ item.dates.end | moment("LT") }}</span
                         ></span
                       >
                     </div>
@@ -1182,6 +1182,7 @@ export default {
           popover: true,
           customData: {
             title: item.course.title,
+            url: item.url,
             duration:
               this.$moment(item.start_time).diff(
                 this.$moment(item.end_time),
@@ -1217,6 +1218,7 @@ export default {
           popover: true,
           customData: {
             title: item.title,
+            url: item.url,
             duration: item.schedule,
             type: item.type,
             class: "bg-red-600 text-white",
