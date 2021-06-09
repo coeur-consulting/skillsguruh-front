@@ -974,7 +974,7 @@
                 </div>
               </div>
 
-              <!-- <div v-else class="p-4">
+              <div v-else class="p-4">
                 <div class="p-1">
                   <b-skeleton animation="wave" width="100%"></b-skeleton>
                   <b-skeleton animation="wave" width="25%"></b-skeleton>
@@ -987,7 +987,7 @@
                   <b-skeleton animation="wave" width="100%"></b-skeleton>
                   <b-skeleton animation="wave" width="25%"></b-skeleton>
                 </div>
-              </div> -->
+              </div>
             </div>
           </div>
         </b-col>
