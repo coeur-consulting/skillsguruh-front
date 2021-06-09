@@ -868,6 +868,7 @@
             ></b-skeleton-table>
           </div>
         </b-col>
+
         <b-col sm="4" class="text-left">
           <div class="turn_over_box">
             <div class="tob_1 mb-4">
@@ -904,7 +905,7 @@
             </div>
             <div class="tob_2">
               <div class="d-flex align-items-center p-3">
-                <h6 class="flex-1">Course schedule</h6>
+                <h6 class="flex-1">Today schedule</h6>
                 <b-form-select class="border-0" style="width: 100px" size="sm">
                   <b-form-select-option value="">Today</b-form-select-option>
                 </b-form-select>
@@ -917,6 +918,11 @@
                     ).length
                   "
                 >
+                  {{
+                    daySchedule(
+                      new Date().toLocaleString("en-us", { weekday: "long" })
+                    )
+                  }}
                   <div
                     class="p-3 border-bottom"
                     v-for="(item, id) in daySchedule(
@@ -941,9 +947,9 @@
                       <div>
                         <span
                           class="title font-weight-bold"
-                          v-if="item.course.title"
+                          v-if="item.customData.title"
                         >
-                          {{ item.course.title }}</span
+                          {{ item.customData.title }}</span
                         >
                       </div>
                     </div>
@@ -951,9 +957,9 @@
                       <span class="fs12"
                         ><b-icon icon="clock" class="mr-2"></b-icon>
                         <span
-                          >{{ item.start_time | moment("LT") }}
+                          >{{ item.dates.start | moment("LT") }}
                           -
-                          {{ item.end_time | moment("LT") }}</span
+                          {{ item.dates.end | moment("LT") }}</span
                         ></span
                       >
                     </div>
@@ -1621,6 +1627,23 @@ export default {
       }
       return [];
     },
+    todaySchedule(day) {
+      console.log(
+        "🚀 ~ file: schedule.vue ~ line 1613 ~ daySchedule ~ day",
+        day
+      );
+      if (this.joinedSchedule.length) {
+        return this.joinedSchedule.filter(
+          (item) =>
+            (this.$moment(item.dates.start, "YYYY-MM-DD HH:mm:ss")
+              .format("dddd")
+              .toLowerCase() == day.toLowerCase() &&
+              this.$moment().isBefore(item.dates.start)) ||
+            this.$moment().isAfter(item.dates.end)
+        );
+      }
+      return [];
+    },
     addschedule() {
       this.detail.schedule.push({
         day: "monday",
@@ -1809,8 +1832,8 @@ export default {
             this.$toast.success("Updated successfully");
             this.detail.schedule = {
               day: "",
-              start_time: "",
-              end_time: "",
+              start_time: new Date(),
+              end_time: new Date(),
               facilitator_id: null,
             };
             this.getschedules();

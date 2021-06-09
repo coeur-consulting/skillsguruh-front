@@ -941,9 +941,9 @@
                       <div>
                         <span
                           class="title font-weight-bold"
-                          v-if="item.course.title"
+                          v-if="item.customData.title"
                         >
-                          {{ item.course.title }}</span
+                          {{ item.customData.title }}</span
                         >
                       </div>
                     </div>
@@ -951,9 +951,9 @@
                       <span class="fs12"
                         ><b-icon icon="clock" class="mr-2"></b-icon>
                         <span
-                          >{{ item.start_time | moment("LT") }}
+                          >{{ item.dates.start | moment("LT") }}
                           -
-                          {{ item.end_time | moment("LT") }}</span
+                          {{ item.dates.end | moment("LT") }}</span
                         ></span
                       >
                     </div>

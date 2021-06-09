@@ -181,16 +181,18 @@
             <div class="d-flex justify-content-between my-4">
               <b-button
                 size="sm"
+                type="button"
                 variant="outline-secondary"
-                v-if="section > 0"
+                v-show="section > 0"
                 @click="section--"
                 >Previous Section</b-button
               >
               <b-button
                 size="sm"
+                type="button"
                 class="ml-auto"
                 variant="outline-dark-green"
-                v-if="section < questionnaire.sections.length - 1"
+                v-show="section < questionnaire.sections.length - 1"
                 @click="section++"
                 >Next Section</b-button
               >
@@ -198,7 +200,7 @@
                 size="sm"
                 class="ml-auto"
                 variant="outline-dark-green"
-                v-if="questionnaire.sections.length - 1 == section"
+                v-show="questionnaire.sections.length - 1 == section"
                 type="submit"
                 >Submit</b-button
               >

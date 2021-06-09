@@ -21,7 +21,7 @@
                       :class="{
                         'bg-success': item.status == 'ongoing',
                         'bg-danger': item.status == 'expired',
-                        'bg-primary': item.status == 'pending',
+                        'bg-primary': item.status == 'pending'
                       }"
                     >
                       {{ item.status }} event
@@ -57,7 +57,7 @@
                           <b-button
                             v-if="
                               $moment().isBefore(item.start) ||
-                              $moment().isAfter(item.end)
+                                $moment().isAfter(item.end)
                             "
                             pill
                             size="sm"
@@ -160,7 +160,7 @@
                               class="m_schedule p-2 rounded mr-3"
                               :style="{
                                 'background-color':
-                                  color[Math.floor(Math.random() * 5)],
+                                  color[Math.floor(Math.random() * 5)]
                               }"
                             >
                               <div
@@ -256,7 +256,7 @@
                               class="m_schedule p-2 rounded mr-3"
                               :style="{
                                 'background-color':
-                                  color[Math.floor(Math.random() * 5)],
+                                  color[Math.floor(Math.random() * 5)]
                               }"
                             >
                               <div
@@ -352,7 +352,7 @@
                               class="m_schedule p-2 rounded mr-3"
                               :style="{
                                 'background-color':
-                                  color[Math.floor(Math.random() * 5)],
+                                  color[Math.floor(Math.random() * 5)]
                               }"
                             >
                               <div
@@ -448,7 +448,7 @@
                               class="m_schedule p-2 rounded mr-3"
                               :style="{
                                 'background-color':
-                                  color[Math.floor(Math.random() * 5)],
+                                  color[Math.floor(Math.random() * 5)]
                               }"
                             >
                               <div
@@ -544,7 +544,7 @@
                               class="m_schedule p-2 rounded mr-3"
                               :style="{
                                 'background-color':
-                                  color[Math.floor(Math.random() * 5)],
+                                  color[Math.floor(Math.random() * 5)]
                               }"
                             >
                               <div
@@ -640,7 +640,7 @@
                               class="m_schedule p-2 rounded mr-3"
                               :style="{
                                 'background-color':
-                                  color[Math.floor(Math.random() * 5)],
+                                  color[Math.floor(Math.random() * 5)]
                               }"
                             >
                               <div
@@ -736,7 +736,7 @@
                               class="m_schedule p-2 rounded mr-3"
                               :style="{
                                 'background-color':
-                                  color[Math.floor(Math.random() * 5)],
+                                  color[Math.floor(Math.random() * 5)]
                               }"
                             >
                               <div
@@ -935,8 +935,11 @@
                         ></b-icon>
                       </b-iconstack>
                       <div>
-                        <span class="title font-weight-bold" v-if="item.course">
-                          {{ item.course.title }}</span
+                        <span
+                          class="title font-weight-bold"
+                          v-if="item.customData"
+                        >
+                          {{ item.customData.title }}</span
                         >
                       </div>
                     </div>
@@ -944,9 +947,9 @@
                       <span class="fs12"
                         ><b-icon icon="clock" class="mr-2"></b-icon>
                         <span
-                          >{{ item.start_time | moment("LT") }}
+                          >{{ item.date.start | moment("LT") }}
                           -
-                          {{ item.end_time | moment("LT") }}</span
+                          {{ item.date.end | moment("LT") }}</span
                         ></span
                       >
                     </div>
@@ -1133,20 +1136,20 @@ export default {
             day: "",
             start_time: "",
             end_time: "",
-            facilitator_id: null,
-          },
-        ],
+            facilitator_id: null
+          }
+        ]
       },
       masks: {
-        weekdays: "WWW",
+        weekdays: "WWW"
       },
       showTable: false,
       showEvent: false,
-      showschedule: false,
+      showschedule: false
     };
   },
   components: {
-    PopoverRow,
+    PopoverRow
   },
   watch: {},
   created() {
@@ -1171,7 +1174,7 @@ export default {
             fillMode: "light",
             start: { fillMode: "outline" },
             base: { fillMode: "light" },
-            end: { fillMode: "solid" },
+            end: { fillMode: "solid" }
           },
           dot: false,
           bar: false,
@@ -1185,12 +1188,12 @@ export default {
                 "weeks"
               ) + "weeks",
             type: "Course",
-            class: "bg-red-600 text-white",
+            class: "bg-red-600 text-white"
           },
           dates: {
             start: new Date(item.start_time),
-            end: new Date(item.end_time),
-          },
+            end: new Date(item.end_time)
+          }
         };
         return res;
       });
@@ -1206,7 +1209,7 @@ export default {
 
             start: { fillMode: "outline" },
             base: { fillMode: "light" },
-            end: { fillMode: "solid" },
+            end: { fillMode: "solid" }
           },
           dot: false,
           bar: false,
@@ -1216,9 +1219,9 @@ export default {
             title: item.title,
             duration: item.schedule,
             type: item.type,
-            class: "bg-red-600 text-white",
+            class: "bg-red-600 text-white"
           },
-          dates: { start: new Date(item.start), end: new Date(item.end) },
+          dates: { start: new Date(item.start), end: new Date(item.end) }
         };
         return res;
       });
@@ -1230,22 +1233,20 @@ export default {
           highlight: item.highlight,
           popover: true,
           customData: item.customData,
-          dates: item.dates,
+          dates: item.dates
         };
         return res;
       });
     },
     comingevents() {
-      return this.events
-        .filter((item) => item.status !== "expired")
-        .slice(0, 5);
-    },
+      return this.events.filter(item => item.status !== "expired").slice(0, 5);
+    }
   },
   methods: {
     daySchedule(day) {
       if (this.joinedSchedule.length) {
         return this.joinedSchedule.filter(
-          (item) =>
+          item =>
             (this.$moment(item.dates.start, "YYYY-MM-DD HH:mm:ss")
               .format("dddd")
               .toLowerCase() == day.toLowerCase() &&
@@ -1260,7 +1261,7 @@ export default {
         day: "",
         start_time: "",
         end_time: "",
-        facilitator_id: null,
+        facilitator_id: null
       });
     },
     duration(a, b, type) {
@@ -1270,13 +1271,13 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/courseschedules`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.schedules = res.data.filter(
-              (item) =>
+              item =>
                 this.$moment().isBefore(item.start_time) &&
                 this.$moment().isBefore(item.end_time)
             );
@@ -1285,7 +1286,7 @@ export default {
             this.showschedule = true;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1293,15 +1294,15 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/user-get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1310,15 +1311,15 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/courses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.courses = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1326,16 +1327,16 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/events`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.events = res.data;
             this.showEvent = true;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1344,10 +1345,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/courseschedules`, this.detail, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.$toast.success("Added successfully");
             this.$bvModal.hide("add");
@@ -1356,11 +1357,11 @@ export default {
               day: "",
               start_time: "",
               end_time: "",
-              facilitator_id: null,
+              facilitator_id: null
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err.response.data.errors.email[0]) {
             this.$toast.error(err.response.data.errors.email[0]);
           }
@@ -1386,48 +1387,48 @@ export default {
           this.detail,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Updated successfully");
             this.detail.schedule = {
               day: "",
               start_time: "",
               end_time: "",
-              facilitator_id: null,
+              facilitator_id: null
             };
             this.getschedules();
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     drop(id) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/courseschedules/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.getschedules();
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">
