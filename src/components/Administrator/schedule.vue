@@ -910,18 +910,10 @@
                 </b-form-select>
               </div>
               <div class="schedule" v-if="showschedule">
-                <div
-                  v-if="
-                    daySchedule(
-                      new Date().toLocaleString('en-us', { weekday: 'long' })
-                    ).length
-                  "
-                >
+                <div v-if="todaySchedule().length">
                   <div
                     class="p-3 border-bottom"
-                    v-for="(item, id) in daySchedule(
-                      new Date().toLocaleString('en-us', { weekday: 'long' })
-                    )"
+                    v-for="(item, id) in todaySchedule()"
                     :key="id"
                   >
                     <div class="course_title d-flex mb-3 fs13">
@@ -965,7 +957,7 @@
                     </div>
 
                     <div class="text-right">
-                      <a :href="item.url" target="_blank">
+                      <a :href="item.custoData.url" target="_blank">
                         <b-button
                           block
                           variant="lighter-green"
@@ -1537,6 +1529,7 @@ export default {
           popover: true,
           customData: {
             title: item.course.title,
+            url: item.url,
             duration:
               this.$moment(item.start_time).diff(
                 this.$moment(item.end_time),
@@ -1574,6 +1567,7 @@ export default {
             title: item.title,
             duration: item.schedule,
             type: item.type,
+            url: item.url,
             class: "bg-red-600 text-white",
           },
           dates: { start: new Date(item.start), end: new Date(item.end) },
@@ -1612,11 +1606,21 @@ export default {
       if (this.joinedSchedule.length) {
         return this.joinedSchedule.filter(
           (item) =>
-            (this.$moment(item.dates.start, "YYYY-MM-DD HH:mm:ss")
+            this.$moment(item.dates.start, "YYYY-MM-DD HH:mm:ss")
               .format("dddd")
               .toLowerCase() == day.toLowerCase() &&
-              this.$moment().isBefore(item.dates.start)) ||
-            this.$moment().isAfter(item.dates.end)
+            this.$moment().isBefore(item.dates.start) &&
+            this.$moment().isBefore(item.dates.end)
+        );
+      }
+      return [];
+    },
+    todaySchedule() {
+      if (this.joinedSchedule.length) {
+        return this.joinedSchedule.filter(
+          (item) =>
+            this.$moment().isAfter(item.dates.start) &&
+            this.$moment().isBefore(item.dates.end)
         );
       }
       return [];

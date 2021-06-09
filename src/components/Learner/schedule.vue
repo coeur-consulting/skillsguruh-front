@@ -900,24 +900,16 @@
             </div>
             <div class="tob_2">
               <div class="d-flex align-items-center p-3">
-                <h6 class="flex-1">Course schedule</h6>
+                <h6 class="flex-1">Today schedule</h6>
                 <b-form-select class="border-0" style="width: 100px" size="sm">
                   <b-form-select-option value="">Today</b-form-select-option>
                 </b-form-select>
               </div>
               <div class="schedule" v-if="showschedule">
-                <div
-                  v-if="
-                    daySchedule(
-                      new Date().toLocaleString('en-us', { weekday: 'long' })
-                    ).length
-                  "
-                >
+                <div v-if="todaySchedule().length">
                   <div
                     class="p-3 border-bottom"
-                    v-for="(item, id) in daySchedule(
-                      new Date().toLocaleString('en-us', { weekday: 'long' })
-                    )"
+                    v-for="(item, id) in todaySchedule()"
                     :key="id"
                   >
                     <div class="course_title d-flex mb-3 fs13">
@@ -961,7 +953,7 @@
                     </div>
 
                     <div class="text-right">
-                      <a :href="item.url" target="_blank">
+                      <a :href="item.customData.url" target="_blank">
                         <b-button
                           block
                           variant="lighter-green"
@@ -1251,11 +1243,21 @@ export default {
       if (this.joinedSchedule.length) {
         return this.joinedSchedule.filter(
           (item) =>
-            (this.$moment(item.dates.start, "YYYY-MM-DD HH:mm:ss")
+            this.$moment(item.dates.start, "YYYY-MM-DD HH:mm:ss")
               .format("dddd")
               .toLowerCase() == day.toLowerCase() &&
-              this.$moment().isBefore(item.dates.start)) ||
-            this.$moment().isAfter(item.dates.end)
+            this.$moment().isBefore(item.dates.start) &&
+            this.$moment().isBefore(item.dates.end)
+        );
+      }
+      return [];
+    },
+    todaySchedule() {
+      if (this.joinedSchedule.length) {
+        return this.joinedSchedule.filter(
+          (item) =>
+            this.$moment().isAfter(item.dates.start) &&
+            this.$moment().isBefore(item.dates.end)
         );
       }
       return [];
