@@ -10,9 +10,6 @@
             <h5 class="font-weight-bold mb-3">
               {{ questionnaire.sections[section].title }}
             </h5>
-            <div>
-              <em class="text-lighter-green fs12">{{ questionnaire.hint }}</em>
-            </div>
 
             <div
               v-for="(question, index) in questionnaire.sections[section]
@@ -20,6 +17,12 @@
               :key="question.title"
             >
               <b-form-group :label="question.question">
+                <div class="mb-3" v-if="question.hint">
+                  <em class="text-dark-green fs12"
+                    ><b-icon icon="info-circle-fill"></b-icon>
+                    {{ question.hint }}</em
+                  >
+                </div>
                 <div v-if="question.type == 'short'">
                   <b-form-input
                     @change="handleResponse(question, index)"

@@ -4,9 +4,6 @@
       <b-container class="py-3 px-0 text-left" v-if="questionnaire.sections">
         <div class="text-left">
           <h5 class="mb-4">{{ questionnaire.title }}</h5>
-          <div>
-            <em class="text-lighter-green fs12">{{ questionnaire.hint }}</em>
-          </div>
         </div>
         <div>
           <div class="mb-4 border-bottom">
@@ -20,6 +17,12 @@
               :key="question.title"
             >
               <b-form-group :label="question.question">
+                <div class="mb-3" v-if="question.hint">
+                  <em class="text-dark-green fs12"
+                    ><b-icon icon="info-circle-fill"></b-icon>
+                    {{ question.hint }}</em
+                  >
+                </div>
                 <div v-if="question.type == 'short'">
                   <b-form-input
                     @change="handleResponse(question, index)"
