@@ -432,6 +432,7 @@ export default {
       current_question: 0,
       answer: false,
       questionnaire: {
+        id: null,
         module_id: null,
         module_name: "",
         course_id: null,
