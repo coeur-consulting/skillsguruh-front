@@ -918,11 +918,6 @@
                     ).length
                   "
                 >
-                  {{
-                    daySchedule(
-                      new Date().toLocaleString("en-us", { weekday: "long" })
-                    )
-                  }}
                   <div
                     class="p-3 border-bottom"
                     v-for="(item, id) in daySchedule(

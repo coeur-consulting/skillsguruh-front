@@ -223,6 +223,10 @@
                       </div>
 
                       <div class="pt-3">
+                        <div class="mb-2 fs12 text-muted">
+                          {{ item.count }}
+                          {{ item.count > 1 ? "students" : "student" }}
+                        </div>
                         <div class="d-flex justify-content-between fs13">
                           <span>Resources upload</span
                           ><span
@@ -242,6 +246,152 @@
                               getProgress(
                                 item.course.courseoutline.modules,
                                 item.course.modules
+                              )
+                            )
+                          "
+                          :max="100"
+                          show-value
+                          height=".8rem"
+                          class="mb-3"
+                          variant="dark-green"
+                        ></b-progress>
+                      </div>
+                    </div>
+                  </b-col>
+                </b-row>
+
+                <div v-else class="w-100 p-5 text-center text-muted">
+                  <h5>No course available</h5>
+                </div>
+              </div>
+              <div v-if="courseShown == 'toprated'">
+                <b-row v-if="topratedcourse.length">
+                  <b-col
+                    sm="4"
+                    class="pr-3"
+                    v-for="(item, id) in topratedcourse.slice(0, 3)"
+                    :key="id"
+                  >
+                    <div
+                      class="
+                        w-100
+                        h-100
+                        bg-white
+                        shadow
+                        rounded
+                        p-4
+                        d-flex
+                        flex-column
+                        position-relative
+                      "
+                      @click="$router.push('/learner/courses')"
+                    >
+                      <div class="ribbon text-capitalize">
+                        <span>{{ item[1].course.type }}</span>
+                      </div>
+                      <div class="flex-1">
+                        <b-iconstack font-scale="2.5" class="mr-2 mb-2">
+                          <b-icon
+                            stacked
+                            icon="circle-fill"
+                            :style="`color:${
+                              JSON.parse(
+                                item[1].course.courseoutline.knowledge_areas
+                              ).color
+                            }`"
+                          ></b-icon>
+                          <b-icon
+                            stacked
+                            :icon="
+                              JSON.parse(
+                                item[1].course.courseoutline.knowledge_areas
+                              ).icon
+                            "
+                            scale="0.5"
+                            variant="light"
+                          ></b-icon>
+                        </b-iconstack>
+                        <div class="course_title mb-1">
+                          {{ item[1].course.title }}
+                        </div>
+                        <div class="mb-3">
+                          <span class="fs13 overview text-muted">
+                            {{ item[1].course.description }}</span
+                          >
+                        </div>
+
+                        <div
+                          class="
+                            course_fac
+                            d-flex
+                            text-capitalize
+                            align-items-center
+                            fs13
+                            mb-1
+                          "
+                        >
+                          <b-icon
+                            icon="calendar"
+                            variant="dark-green"
+                            class="text-muted mr-2"
+                          ></b-icon>
+                          <div class="">
+                            <div class="text-capitalize text-muted">
+                              {{ item[1].course.courseoutline.duration }}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div
+                          class="course_fac align-items-center fs13 text-muted"
+                        >
+                          <b-icon
+                            icon="layers"
+                            variant="dark-green"
+                            class="text-muted mr-1"
+                          ></b-icon>
+                          <span class="fs13">
+                            {{ sortmodules(item[1].course) }}</span
+                          >
+                          Modules
+                        </div>
+                      </div>
+
+                      <div class="pt-3">
+                        <star-rating
+                          class=""
+                          v-model="item[0].total_review"
+                          :star-size="15"
+                          :read-only="true"
+                          :show-rating="false"
+                        ></star-rating>
+
+                        <div class="mb-2 fs12 text-muted">
+                          {{
+                            item[1].course.review.length > 1
+                              ? item[1].course.review.length + " reviews"
+                              : item[1].course.review.length + " review"
+                          }}
+                        </div>
+                        <div class="d-flex justify-content-between fs13">
+                          <span>Resources upload</span
+                          ><span
+                            >{{
+                              Math.floor(
+                                getProgress(
+                                  item[1].course.courseoutline.modules,
+                                  item[1].course.modules
+                                )
+                              ) || 0
+                            }}%</span
+                          >
+                        </div>
+                        <b-progress
+                          :value="
+                            Math.floor(
+                              getProgress(
+                                item[1].course.courseoutline.modules,
+                                item[1].course.modules
                               )
                             )
                           "
@@ -358,6 +508,7 @@
 <script>
 import Todo from "../Todo";
 import Discussions from "./minidiscussions";
+import StarRating from "vue-star-rating";
 export default {
   data() {
     return {
@@ -369,8 +520,9 @@ export default {
       showEnrolled: false,
       showConnect: false,
       showDiscussion: false,
-      courseShown: "mostenrolled",
+      courseShown: "toprated",
       mostenrolledcourse: [],
+      topratedcourse: [],
       masks: {
         weekdays: "WWW",
       },
@@ -379,6 +531,7 @@ export default {
   components: {
     Discussions,
     Todo,
+    StarRating,
   },
   watch: {},
   created() {
@@ -494,6 +647,10 @@ export default {
     },
   },
   methods: {
+    getstar(val) {
+      console.log("🚀 ~ file: home.vue ~ line 639 ~ getstar ~ val", val);
+      return Number(val) / 5;
+    },
     mostenrolled() {
       this.$http
         .get(
@@ -524,7 +681,7 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.toprated = res.data;
+            this.topratedcourse = res.data;
           }
         });
     },
