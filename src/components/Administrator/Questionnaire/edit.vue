@@ -57,7 +57,12 @@
                     :key="index + 1"
                   >
                     <div
-                      class="d-flex justify-content-between align-items-center py-3"
+                      class="
+                        d-flex
+                        justify-content-between
+                        align-items-center
+                        py-3
+                      "
                     >
                       <span
                         ><b-icon
@@ -325,6 +330,7 @@
                           question.type == 'long' ||
                           question.type == 'paragraph' ||
                           question.type == 'email' ||
+                          question.type == 'multiple' ||
                           question.type == 'number'
                         "
                       >

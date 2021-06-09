@@ -2276,7 +2276,7 @@ export default {
           additional_info: val.courseoutline.additional_info,
         },
         schedule: val.courseschedule,
-        questionnaire: val.questionnaire,
+        questionnaires: val.questionnaire,
       };
 
       this.$bvModal.show("update");

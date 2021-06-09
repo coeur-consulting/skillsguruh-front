@@ -4,6 +4,9 @@
       <b-container class="py-3 px-0 text-left" v-if="questionnaire.sections">
         <div class="text-left">
           <h5 class="mb-4">{{ questionnaire.title }}</h5>
+          <div>
+            <em class="text-lighter-green fs12">{{ questionnaire.hint }}</em>
+          </div>
         </div>
         <div>
           <div class="mb-4 border-bottom">
@@ -42,15 +45,29 @@
                   ></b-form-radio-group>
                 </div>
                 <div v-if="question.type == 'multiple'">
-                  <b-form-checkbox-group
-                    @change="handleResponse(question, index)"
-                    v-model="question.responses"
-                    :options="question.options"
-                    value-field="title"
-                    text-field="title"
-                  ></b-form-checkbox-group>
+                  <div
+                    v-for="(item, id) in question.options"
+                    :key="id"
+                    class="d-flex align-items-center"
+                  >
+                    <b-form-input
+                      v-model="item.title"
+                      :placeholder="question.placeholder"
+                    ></b-form-input>
+                    <b-button
+                      @click="
+                        questionnaire.sections[section].questions[
+                          index
+                        ].options.splice(id, 1)
+                      "
+                    >
+                      <b-icon icon="x"></b-icon
+                    ></b-button>
+                    <b-button variant="lighter-green" @click="addoption(index)">
+                      <b-icon icon="plus"></b-icon
+                    ></b-button>
+                  </div>
                 </div>
-
                 <div v-if="question.type == 'checkbox'">
                   <b-form-checkbox-group
                     @change="handleResponse(question, index)"
@@ -226,6 +243,11 @@ export default {
         this.questionnaire.sections[this.section].questions[index].response =
           question.response;
       }
+    },
+    addoption(index) {
+      this.questionnaire.sections[this.section].questions[index].options.push({
+        title: "",
+      });
     },
     submit() {
       this.$bvModal.msgBoxConfirm("Are you sure?").then((response) => {

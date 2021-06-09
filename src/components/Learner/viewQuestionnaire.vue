@@ -10,6 +10,9 @@
             <h5 class="font-weight-bold mb-3">
               {{ questionnaire.sections[section].title }}
             </h5>
+            <div>
+              <em class="text-lighter-green fs12">{{ questionnaire.hint }}</em>
+            </div>
 
             <div
               v-for="(question, index) in questionnaire.sections[section]
@@ -49,6 +52,26 @@
                     value-field="title"
                     text-field="title"
                   ></b-form-checkbox-group>
+
+                  <div
+                    v-for="(item, id) in question.responses"
+                    :key="id"
+                    class="d-flex align-items-center"
+                  >
+                    <b-form-input
+                      v-model="item.title"
+                      :placeholder="placeholder"
+                    ></b-form-input>
+                    <b-button @click="question.responses.splice(id, 1)">
+                      <b-icon icon="x"></b-icon
+                    ></b-button>
+                    <b-button
+                      variant="lighter-green"
+                      @click="question.responses.push({ title: '' })"
+                    >
+                      <b-icon icon="plus"></b-icon
+                    ></b-button>
+                  </div>
                 </div>
 
                 <div v-if="question.type == 'checkbox'">
