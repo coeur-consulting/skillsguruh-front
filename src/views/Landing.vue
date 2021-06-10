@@ -17,7 +17,13 @@
               <p>Enjoy a more engaging and organized virtual learning</p>
             </div>
             <div class="banner-buttons d-none d-sm-flex">
-              <b-button block size="lg" variant="dark-green" class="m-0 mr-3">
+              <b-button
+                block
+                size="lg"
+                variant="dark-green"
+                @click="$router.push('/explore')"
+                class="m-0 mr-3"
+              >
                 Explore Interest</b-button
               >
               <b-button
@@ -32,7 +38,13 @@
             </div>
 
             <div class="banner-buttons d-flex d-sm-none">
-              <b-button block size="sm" variant="dark-green" class="m-0 mr-3">
+              <b-button
+                block
+                size="sm"
+                variant="dark-green"
+                @click="$router.push('/explore')"
+                class="m-0 mr-3"
+              >
                 Explore Interest</b-button
               >
               <b-button
@@ -72,6 +84,7 @@
                 size="lg"
                 variant="dark-green"
                 class="px-5 mb-5 mb-sm-0"
+                @click="$router.push('/register')"
               >
                 Invite Your Team
               </b-button>
@@ -106,7 +119,12 @@
                 learners and collaborate with other experts— the choice is
                 yours!
               </p>
-              <b-button size="lg" variant="dark-green" class="px-5">
+              <b-button
+                size="lg"
+                variant="dark-green"
+                class="px-5"
+                @click="$router.push('/login')"
+              >
                 Start Teaching
               </b-button>
             </div>
@@ -129,6 +147,7 @@
                 size="lg"
                 variant="dark-green"
                 class="px-5 mb-5 mb-sm-0"
+                @click="$router.push('/login')"
               >
                 Connect & Learn
               </b-button>
@@ -163,7 +182,8 @@
                 <div class="facilitator shadow">
                   <b-img
                     class="rounded mb-4"
-                    :src="require('../assets/images/test.png')"
+                    fluid-grow
+                    src="/img/fac1.jpg"
                   ></b-img>
                   <div>Ada Okafor</div>
                   <div class="text-muted"><small>Facilitator</small></div>
@@ -180,7 +200,8 @@
                 <div class="facilitator shadow">
                   <b-img
                     class="rounded mb-4"
-                    :src="require('../assets/images/test.png')"
+                    fluid-grow
+                    src="/img/fac2.jpg"
                   ></b-img>
                   <div>John Obi Uchendu</div>
                   <div class="text-muted"><small>Facilitator</small></div>
@@ -197,7 +218,8 @@
                 <div class="facilitator shadow">
                   <b-img
                     class="rounded mb-4"
-                    :src="require('../assets/images/test.png')"
+                    fluid-grow
+                    src="/img/fac3.jpg"
                   ></b-img>
                   <div>Nkechi Ezeukwu</div>
                   <div class="text-muted"><small>Facilitator</small></div>
@@ -255,15 +277,16 @@
                 :navigationEnabled="true"
                 navigationNextLabel=""
                 navigationPrevLabel=""
+                :autoplay="true"
+                :speed="1000"
+                :autoplayTimeout="5000"
+                :loop="true"
               >
                 <slide>
                   <b-row>
                     <b-col sm="4" class="d-flex align-items-center">
-                      <div class="p-4">
-                        <b-img
-                          class="learner-img"
-                          :src="require('../assets/images/test.png')"
-                        ></b-img>
+                      <div class="p-4 testimonial">
+                        <b-img class="learner-img" src="/img/fac5.jpg"></b-img>
                       </div>
                     </b-col>
                     <b-col sm="8" class="d-flex align-items-center">
@@ -287,11 +310,8 @@
                 <slide>
                   <b-row>
                     <b-col sm="4" class="d-flex align-items-center">
-                      <div class="p-4">
-                        <b-img
-                          class="learner-img"
-                          :src="require('../assets/images/test.png')"
-                        ></b-img>
+                      <div class="p-4 testimonial">
+                        <b-img class="learner-img" src="/img/fac4.jpg"></b-img>
                       </div>
                     </b-col>
                     <b-col sm="8" class="d-flex align-items-center">
@@ -315,7 +335,7 @@
                 <slide>
                   <b-row>
                     <b-col sm="4" class="d-flex align-items-center">
-                      <div class="p-4">
+                      <div class="p-4 testimonial">
                         <b-img
                           class="learner-img"
                           :src="require('../assets/images/test.png')"
@@ -548,6 +568,7 @@
 }
 .facilitator img {
   width: 100%;
+  height: 200px;
 }
 .facilitator > div {
 }
@@ -591,6 +612,8 @@
   border-radius: 10px;
   border-radius: 10px;
   width: 100%;
+  height: 250px;
+  object-fit: cover;
 }
 .text-1 {
   font-size: 17px;

@@ -41,6 +41,16 @@ const routes = [
     },
   },
   {
+    path: "/explore",
+    name: "Explore",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "about" */ "../views/Explore.vue"),
+      footer: Footer,
+    },
+  },
+  {
     path: "/about",
     name: "About",
     components: {

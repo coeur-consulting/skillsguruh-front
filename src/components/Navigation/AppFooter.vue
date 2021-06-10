@@ -2,8 +2,39 @@
   <footer>
     <b-container>
       <b-row>
-        <b-col md="3" class="text-center">
-          <b-img src="/img/logo.svg" width="150"></b-img> <br /><br />
+        <b-col md="3" class="text-left">
+          <b-img src="/img/logo.svg" class="mb-2" width="150"></b-img>
+          <p>A platform for business owners and entreprenuer to upskill</p>
+
+          <div class="mb-3">
+            <b-iconstack font-scale="2.2" class="mr-3">
+              <b-icon stacked icon="circle-fill" variant="dark-green"></b-icon>
+              <b-icon
+                stacked
+                icon="facebook"
+                variant="light"
+                scale="0.5"
+              ></b-icon>
+            </b-iconstack>
+            <b-iconstack font-scale="2.2" class="mr-3">
+              <b-icon stacked icon="circle-fill" variant="dark-green"></b-icon>
+              <b-icon
+                stacked
+                icon="twitter"
+                variant="light"
+                scale="0.5"
+              ></b-icon>
+            </b-iconstack>
+            <b-iconstack font-scale="2.2" class="">
+              <b-icon stacked icon="circle-fill" variant="dark-green"></b-icon>
+              <b-icon
+                stacked
+                icon="instagram"
+                variant="light"
+                scale="0.5"
+              ></b-icon>
+            </b-iconstack>
+          </div>
           <small class="text-muted"
             >&copy; {{ new Date().getFullYear() }} SkillsGuruh</small
           >
@@ -40,7 +71,7 @@
 <style scoped>
 footer {
   position: relative;
-  padding-top: 7rem;
+  padding-top: 6rem;
   padding-bottom: 4rem;
   background: rgba(194, 237, 206, 0.06);
 }
