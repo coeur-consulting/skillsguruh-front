@@ -13,6 +13,10 @@
             <h6 class="font-weight-bold mb-3">
               {{ questionnaire.sections[section].title }}
             </h6>
+            <div
+              v-if="questionnaire.sections[section].description"
+              v-html="questionnaire.sections[section].description"
+            ></div>
 
             <div
               v-for="(question, index) in questionnaire.sections[section]

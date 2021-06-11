@@ -415,18 +415,29 @@
           </div>
           <hr />
           <div class="p-3">
-            <div class="mb-3">
-              <b-button variant="dark-green" block size="lg" @click="preview"
+            <div class="mb-5">
+              <b-button
+                class="mb-2"
+                variant="dark-green"
+                block
+                size="lg"
+                @click="preview"
                 >Preview</b-button
               >
+              <div>
+                <b-button variant="outline-dark-green" block size="lg"
+                  >Save to draft</b-button
+                >
+              </div>
             </div>
+            <hr />
             <div>
               <b-button
                 variant="outline-dark-green"
                 @click="save"
                 block
                 size="lg"
-                >Save Questionnaire</b-button
+                >Save Template</b-button
               >
             </div>
           </div>

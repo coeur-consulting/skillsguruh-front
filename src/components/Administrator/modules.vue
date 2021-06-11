@@ -777,6 +777,7 @@ export default {
         questionnaires: [],
       },
       questionnaires: [],
+      allquestionnaires: [],
     };
   },
   components: {
@@ -806,11 +807,29 @@ export default {
     this.getcourses();
     this.allmodules();
     this.getfacilitators();
+    this.getQuestionnairs();
     if (this.$route.query.showing) {
       this.search = this.$route.query.showing;
     }
   },
   methods: {
+    async getQuestionnairs() {
+      return this.$http
+        .get(`${this.$store.getters.url}/question/templates`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.allquestionnaires = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+
     getQuestionnaire(val) {
       this.detail.questionnaires.push(val);
       this.$bvModal.hide("question");

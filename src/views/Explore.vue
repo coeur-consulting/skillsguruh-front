@@ -598,6 +598,7 @@ export default {
   overflow: hidden;
 }
 .event_img {
-  height: 350px;
+  height: 400px;
+  object-fit: cover;
 }
 </style>

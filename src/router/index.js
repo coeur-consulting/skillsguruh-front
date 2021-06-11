@@ -241,6 +241,45 @@ const routes = [
         },
       },
       {
+        path: "question/templates",
+        name: "Administrator questions",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratorquestions" */ "@/components/Administrator/templates.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+      {
+        path: "question/template/:id",
+        name: "Administrator template",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratorquestionnaireview" */ "@/components/Administrator/Templates/view.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+      {
+        path: "question/template/edit/:id",
+        name: "Administrator templateedit",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Administratoreditt" */ "@/components/Administrator/Templates/edit.vue"
+            ),
+        },
+        meta: {
+          typeAdmin: true,
+        },
+      },
+      {
         path: "questionnaire",
         name: "Administrator questionnaire",
         components: {

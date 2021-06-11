@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-container fluid class="p-5 text-left">
+    <b-container class="p-5 text-left">
       <div class="text-center">
         <h3 class="mb-4">{{ questionnaire.title }}</h3>
       </div>
@@ -98,6 +98,32 @@
 </template>
 <script>
 export default {
-  props: ["questionnaire"],
+  data() {
+    return {
+      questionnaire: [],
+    };
+  },
+  mounted() {
+    this.getQuestionnaire();
+  },
+  methods: {
+    getQuestionnaire() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/question/templates/${this.$route.params.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.questionnaire = res.data;
+            this.questionnaire.sections = JSON.parse(res.data.sections);
+          }
+        });
+    },
+  },
 };
 </script>

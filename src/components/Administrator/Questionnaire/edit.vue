@@ -41,6 +41,27 @@
                     ><b-icon icon="trash-fill"></b-icon
                   ></b-button>
                 </b-col>
+                <b-col cols="12">
+                  <b-form-group>
+                    <editor
+                      api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
+                      v-model="section.description"
+                      :init="{
+                        height: 300,
+                        menubar: false,
+                        plugins: [
+                          'advlist autolink lists link image charmap print preview anchor',
+                          'searchreplace visualblocks code fullscreen',
+                          'insertdatetime media table paste code help wordcount',
+                        ],
+                        toolbar:
+                          'undo redo | formatselect | bold italic backcolor | \
+           alignleft aligncenter alignright alignjustify | \
+           bullist numlist outdent indent | removeformat | help',
+                      }"
+                    />
+                  </b-form-group>
+                </b-col>
               </b-form-row>
               <draggable
                 v-model="section.questions"
@@ -421,10 +442,12 @@
 <script>
 import draggable from "vuedraggable";
 import Preview from "./preview";
+import Editor from "@tinymce/tinymce-vue";
 export default {
   components: {
     draggable,
     Preview,
+    editor: Editor,
   },
   data() {
     return {
@@ -442,6 +465,7 @@ export default {
         sections: [
           {
             title: "",
+            description: "",
             questions: [
               {
                 fixed: false,
@@ -512,6 +536,7 @@ export default {
     addsection() {
       this.questionnaire.sections.push({
         title: "",
+        description: "",
         questions: [
           {
             fixed: false,
@@ -550,6 +575,7 @@ export default {
         responses: [],
         result: "",
         type: "short",
+        limit: 1,
         options: [
           {
             title: "",

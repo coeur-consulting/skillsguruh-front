@@ -44,18 +44,6 @@
               ></b-icon
               >Course Schedule</span
             >
-            <span
-              class="d-flex align-items-center fs13 cursor-pointer"
-              :class="{ 'text-dark-green': type == 4 }"
-              @click="type = 4"
-            >
-              <b-icon
-                icon="circle-fill"
-                class="mr-1"
-                font-scale=".45rem"
-              ></b-icon
-              >Course Questionnaire</span
-            >
           </b-container>
         </div>
         <b-container v-show="type == 1">
@@ -495,45 +483,13 @@
           </div>
         </b-container>
 
-        <b-container v-show="type == 4" class="h-100 p-2">
-          <b-form-row>
-            <b-col>
-              <div class="px-2 mt-3">
-                <h6>Questionnaires</h6>
-
-                <div
-                  v-for="(item, id) in detail.questionnaires"
-                  :key="id"
-                  class="d-flex justify-content-between px-2 py-2 rounded"
-                >
-                  <div class="text-capitalize">
-                    <span class="mr-2">{{ id + 1 }}.</span> {{ item.title }}
-                  </div>
-                  <b-icon
-                    icon="x"
-                    @click="detail.questionnaires.splice(id, 1)"
-                    font-scale="1.5"
-                  ></b-icon>
-                </div>
-                <b-form-group class="">
-                  <b-button
-                    size="sm"
-                    variant="lighter-green"
-                    @click="$bvModal.show('question')"
-                    >Add Questionnaire (optional)</b-button
-                  >
-                </b-form-group>
-              </div>
-            </b-col>
-          </b-form-row>
-        </b-container>
         <div class="text-center py-3">
           <b-button
             size="lg"
             class="px-5"
             type="button"
             @click="type++"
-            v-show="type <= 3"
+            v-show="type <= 2"
             variant="secondary"
             >Next</b-button
           >
@@ -541,7 +497,7 @@
             size="lg"
             class="px-5"
             type="submit"
-            v-show="type === 4"
+            v-show="type === 3"
             variant="secondary"
             >Create course</b-button
           >
@@ -604,18 +560,6 @@
                 font-scale=".45rem"
               ></b-icon
               >Course Schedule</span
-            >
-            <span
-              class="d-flex align-items-center fs13 cursor-pointer"
-              :class="{ 'text-dark-green': type == 4 }"
-              @click="type = 4"
-            >
-              <b-icon
-                icon="circle-fill"
-                class="mr-1"
-                font-scale=".45rem"
-              ></b-icon
-              >Course Questionnaire</span
             >
           </b-container>
         </div>
@@ -1056,45 +1000,14 @@
             </div>
           </div>
         </b-container>
-        <b-container v-show="type == 4" class="h-100 p-2">
-          <b-form-row>
-            <b-col>
-              <div class="px-2 mt-3">
-                <h6>Questionnaires</h6>
 
-                <div
-                  v-for="(item, id) in detail.questionnaires"
-                  :key="id"
-                  class="d-flex justify-content-between px-2 py-2 rounded"
-                >
-                  <div class="text-capitalize">
-                    <span class="mr-2">{{ id + 1 }}.</span> {{ item.title }}
-                  </div>
-                  <b-icon
-                    icon="x"
-                    @click="detail.questionnaires.splice(id, 1)"
-                    font-scale="1.5"
-                  ></b-icon>
-                </div>
-                <b-form-group class="">
-                  <b-button
-                    size="sm"
-                    variant="lighter-green"
-                    @click="$bvModal.show('question')"
-                    >Add Questionnaire (optional)</b-button
-                  >
-                </b-form-group>
-              </div>
-            </b-col>
-          </b-form-row>
-        </b-container>
         <div class="text-center py-3">
           <b-button
             size="lg"
             class="px-5"
             type="button"
             @click="type++"
-            v-show="type <= 3"
+            v-show="type <= 2"
             variant="secondary"
             >Next</b-button
           >
@@ -1102,16 +1015,14 @@
             size="lg"
             class="px-5"
             type="submit"
-            v-show="type === 4"
+            v-show="type === 3"
             variant="secondary"
             >Update course</b-button
           >
         </div>
       </b-form>
     </b-modal>
-    <b-modal id="question" size="xl" hide-footer centered>
-      <questionnaire @getQuestionnaire="getQuestionnaire"></questionnaire>
-    </b-modal>
+
     <b-container fluid class="pr-sm-0">
       <div>
         <b-row v-if="courses.length">
@@ -1932,7 +1843,7 @@
 <script>
 import Upload from "@/components/fileupload.vue";
 import Insight from "../insight.js";
-import questionnaire from "./Questionnaire/resourceQuestionnaire";
+
 export default {
   data() {
     return {
@@ -1981,9 +1892,8 @@ export default {
             facilitator_id: null,
           },
         ],
-        questionnaires: [],
       },
-      questionnaires: [],
+
       course_type: "",
       recent: false,
       trending: false,
@@ -1992,7 +1902,6 @@ export default {
   },
   components: {
     Upload,
-    questionnaire,
   },
   mounted() {
     this.getcourses();
@@ -2031,10 +1940,6 @@ export default {
     },
   },
   methods: {
-    getQuestionnaire(val) {
-      this.detail.questionnaires.push(val);
-      this.$bvModal.hide("question");
-    },
     getProgress(a, b) {
       var count = 0;
 
@@ -2220,23 +2125,6 @@ export default {
                 },
               ],
             };
-            // this.$bvModal
-            //   .msgBoxConfirm(
-            //     "Do you wish to add a questionnaire to this course?",
-            //     {
-            //       size: "sm",
-            //       buttonSize: "sm",
-            //       okVariant: "success",
-            //       centered: true,
-            //     }
-            //   )
-            //   .then((val) => {
-            //     if (val) {
-            //       this.$router.push(
-            //         `/administrator/questionnaire?course_id=${res.data.id}&course_title=${res.data.title}`
-            //       );
-            //     }
-            //   });
           }
         })
         .catch((err) => {
@@ -2263,7 +2151,6 @@ export default {
           additional_info: val.courseoutline.additional_info,
         },
         schedule: val.courseschedule,
-        questionnaires: val.questionnaire,
       };
 
       this.$bvModal.show("update");

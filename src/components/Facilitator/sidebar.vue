@@ -142,7 +142,16 @@
 
       <div>
         <h6 class="mt-3 mb-1 text-dark-green side_header">OTHERS</h6>
-
+        <router-link to="/facilitator/question/templates">
+          <div class="side_item">
+            <b-icon
+              icon="signpost-split"
+              font-scale="1.1"
+              class="mr-3 text-dark-green"
+            ></b-icon>
+            <span class="side-link">Templates</span>
+          </div>
+        </router-link>
         <router-link to="/facilitator/insights">
           <div class="side_item">
             <b-icon

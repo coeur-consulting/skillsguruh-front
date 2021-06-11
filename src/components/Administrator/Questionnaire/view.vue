@@ -11,6 +11,7 @@
           class="mb-4 border-bottom"
         >
           <h5 class="font-weight-bold mb-3">{{ section.title }}</h5>
+          <div v-if="section.description" v-html="section.description"></div>
 
           <div v-for="question in section.questions" :key="question.title">
             <b-form-group :label="question.question">
