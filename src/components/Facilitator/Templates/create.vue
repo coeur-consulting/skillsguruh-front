@@ -415,11 +415,22 @@
           </div>
           <hr />
           <div class="p-3">
-            <div class="mb-3">
-              <b-button variant="dark-green" block size="lg" @click="preview"
+            <div class="mb-5">
+              <b-button
+                class="mb-2"
+                variant="dark-green"
+                block
+                size="lg"
+                @click="preview"
                 >Preview</b-button
               >
+              <div>
+                <b-button variant="outline-dark-green" block size="lg"
+                  >Save to draft</b-button
+                >
+              </div>
             </div>
+            <hr />
             <div>
               <b-button
                 variant="outline-dark-green"
@@ -537,9 +548,6 @@ export default {
     },
   },
   methods: {
-    sendQuestionnaire() {
-      this.$emit("getQuestionnaire", this.questionnaire);
-    },
     onMove({ relatedContext, draggedContext }) {
       const relatedElement = relatedContext.element;
       const draggedElement = draggedContext.element;
@@ -617,15 +625,19 @@ export default {
     },
     save() {
       this.$http
-        .post(`${this.$store.getters.url}/questionnaires`, this.questionnaire, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
-        })
+        .post(
+          `${this.$store.getters.url}/question/templates`,
+          this.questionnaire,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
+          }
+        )
         .then((res) => {
           if (res.status == 201) {
             this.$toast.success("Questionnaire added successfully");
-            this.$router.go(-1);
+            this.$emit("close", res.data);
           }
         })
         .catch((err) => {

@@ -634,6 +634,45 @@ const routes = [
         },
       },
       {
+        path: "question/templates",
+        name: "Facilitator questions",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatorquestions" */ "@/components/Facilitator/templates.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "question/template/:id",
+        name: "Facilitator template",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatorquestionnaireview" */ "@/components/Facilitator/Templates/view.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "question/template/edit/:id",
+        name: "Facilitator templateedit",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatoreditt" */ "@/components/Facilitator/Templates/edit.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
         path: "questionnaires",
         name: "Facilitator questionnaires",
         components: {

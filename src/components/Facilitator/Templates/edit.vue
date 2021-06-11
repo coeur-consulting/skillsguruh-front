@@ -415,18 +415,29 @@
           </div>
           <hr />
           <div class="p-3">
-            <div class="mb-3">
-              <b-button variant="dark-green" block size="lg" @click="preview"
+            <div class="mb-4">
+              <b-button
+                class="mb-2"
+                variant="dark-green"
+                block
+                size="lg"
+                @click="preview"
                 >Preview</b-button
               >
+              <div>
+                <b-button variant="outline-dark-green" block size="lg"
+                  >Save to draft</b-button
+                >
+              </div>
             </div>
+            <hr />
             <div>
               <b-button
                 variant="outline-dark-green"
-                @click="save"
+                @click="update"
                 block
                 size="lg"
-                >Save Template</b-button
+                >Update Template</b-button
               >
             </div>
           </div>
@@ -443,7 +454,6 @@
 import draggable from "vuedraggable";
 import Preview from "./preview";
 import Editor from "@tinymce/tinymce-vue";
-
 export default {
   components: {
     draggable,
@@ -462,9 +472,7 @@ export default {
         course_id: null,
         course_title: null,
         title: "",
-        showFeedback: false,
-        feedback: "",
-        showScores: false,
+
         sections: [
           {
             title: "",
@@ -505,15 +513,7 @@ export default {
     };
   },
   mounted() {
-    if (this.$route.query.module_id && this.$route.query.module_name) {
-      this.questionnaire.module_id = this.$route.query.module_id;
-      this.questionnaire.module_name = this.$route.query.module_name;
-    }
-
-    if (this.$route.query.course_id && this.$route.query.course_title) {
-      this.questionnaire.course_id = this.$route.query.course_id;
-      this.questionnaire.module_name = this.$route.query.course_title;
-    }
+    this.getQuestionnaire();
   },
   computed: {
     dragOptions() {
@@ -537,9 +537,6 @@ export default {
     },
   },
   methods: {
-    sendQuestionnaire() {
-      this.$emit("getQuestionnaire", this.questionnaire);
-    },
     onMove({ relatedContext, draggedContext }) {
       const relatedElement = relatedContext.element;
       const draggedElement = draggedContext.element;
@@ -615,16 +612,41 @@ export default {
         title: "",
       });
     },
-    save() {
+    getQuestionnaire() {
       this.$http
-        .post(`${this.$store.getters.url}/questionnaires`, this.questionnaire, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
-        })
+        .get(
+          `${this.$store.getters.url}/question/templates/${this.$route.params.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
+          }
+        )
         .then((res) => {
-          if (res.status == 201) {
-            this.$toast.success("Questionnaire added successfully");
+          if (res.status == 200) {
+            this.questionnaire.id = res.data.id;
+            this.questionnaire.title = res.data.title;
+            this.questionnaire.module_id = res.data.module_id;
+            this.questionnaire.course_id = res.data.course_id;
+            this.questionnaire.sections = JSON.parse(res.data.sections).slice();
+          }
+        });
+    },
+    update() {
+      this.$http
+        .put(
+          `${this.$store.getters.url}/question/templates/${this.questionnaire.id}`,
+          this.questionnaire,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.$toast.success("Questionnaire updated successfully");
+
             this.$router.go(-1);
           }
         })

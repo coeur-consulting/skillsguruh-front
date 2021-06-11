@@ -619,7 +619,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/questionnaires`, this.questionnaire, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
