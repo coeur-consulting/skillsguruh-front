@@ -4,7 +4,13 @@
       <b-row>
         <b-col class="mb-5 mb-sm-0">
           <div
-            class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-4"
+            class="
+              d-flex
+              flex-column flex-sm-row
+              justify-content-between
+              align-items-center
+              mb-4
+            "
           >
             <h6 class="mb-3 mb-sm-0">Course Outline</h6>
             <div>
@@ -128,7 +134,14 @@
       </b-row>
     </b-container>
 
-    <b-modal id="add" hide-footer centered size="lg" title="Add Course Outline">
+    <b-modal
+      no-close-on-backdrop
+      id="add"
+      hide-footer
+      centered
+      size="lg"
+      title="Add Course Outline"
+    >
       <b-form @submit.prevent="register" class="user">
         <div>
           <b-container>
@@ -196,7 +209,14 @@
                           sm="6"
                         >
                           <div
-                            class="border rounded bg-lighter-green px-5 py-2 mb-2"
+                            class="
+                              border
+                              rounded
+                              bg-lighter-green
+                              px-5
+                              py-2
+                              mb-2
+                            "
                           >
                             <span class="mr-4 text-capitalize">{{ item }}</span>
                             <b-icon
@@ -313,6 +333,7 @@
       </b-form>
     </b-modal>
     <b-modal
+      no-close-on-backdrop
       id="edit"
       hide-footer
       centered
@@ -386,7 +407,14 @@
                           sm="6"
                         >
                           <div
-                            class="border rounded bg-lighter-green px-5 py-2 mb-2"
+                            class="
+                              border
+                              rounded
+                              bg-lighter-green
+                              px-5
+                              py-2
+                              mb-2
+                            "
                           >
                             <span class="mr-4 text-capitalize">{{ item }}</span>
                             <b-icon

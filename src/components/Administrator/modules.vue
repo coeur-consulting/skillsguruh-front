@@ -147,7 +147,14 @@
       </b-row>
     </b-container>
 
-    <b-modal id="add" hide-footer centered size="lg" title="Add Resource">
+    <b-modal
+      no-close-on-backdrop
+      id="add"
+      hide-footer
+      centered
+      size="lg"
+      title="Add Resource"
+    >
       <b-form @submit.prevent="register" class="user">
         <div>
           <b-container>
@@ -366,8 +373,41 @@
             <b-form-row>
               <b-col>
                 <div class="px-2 mt-3">
-                  <h6>Questionnaires</h6>
+                  <h6>Template</h6>
+                  <b-row>
+                    <b-col sm="6">
+                      <b-form-group label="Choose template">
+                        <multi-list-select
+                          :list="allquestionnaires"
+                          option-value="id"
+                          option-text="title"
+                          :selected-items="detail.templates"
+                          placeholder="Search template"
+                          @select="onSelect"
+                        >
+                        </multi-list-select>
+                      </b-form-group>
+                    </b-col>
 
+                    <b-col sm="3">
+                      <b-form-group label="Choose template type">
+                        <b-form-select v-model="detail.type">
+                          <b-form-select-option disabled value="">
+                            Choose template type</b-form-select-option
+                          >
+                          <b-form-select-option value="questionnaire">
+                            Questionnaire</b-form-select-option
+                          >
+                          <b-form-select-option value="quiz">
+                            Quiz</b-form-select-option
+                          >
+                          <b-form-select-option value="assessment">
+                            Assessment</b-form-select-option
+                          >
+                        </b-form-select>
+                      </b-form-group>
+                    </b-col>
+                  </b-row>
                   <div
                     v-for="(item, id) in detail.questionnaires"
                     :key="id"
@@ -387,7 +427,7 @@
                       size="sm"
                       variant="lighter-green"
                       @click="$bvModal.show('question')"
-                      >Add Questionnaire (optional)</b-button
+                      >Create Template</b-button
                     >
                   </b-form-group>
                 </div>
@@ -441,6 +481,7 @@
     </b-modal>
 
     <b-modal
+      no-close-on-backdrop
       id="edit"
       hide-footer
       centered
@@ -740,7 +781,7 @@
       </b-form>
     </b-modal>
 
-    <b-modal id="question" size="xl" hide-footer centered>
+    <b-modal no-close-on-backdrop id="question" size="xl" hide-footer centered>
       <questionnaire @getQuestionnaire="getQuestionnaire"></questionnaire>
     </b-modal>
   </div>
@@ -748,6 +789,7 @@
 <script>
 import Upload from "../fileupload";
 import questionnaire from "./Questionnaire/resourceQuestionnaire";
+import { MultiListSelect } from "vue-search-select";
 export default {
   data() {
     return {
@@ -759,10 +801,15 @@ export default {
       perPage: 10,
       modules: [],
       courses: [],
+      items: [],
+      lastSelectItem: "",
       newmodule: "",
       title: "",
       facilitators: [],
       detail: {
+        template: {},
+        type: "",
+        templates: [],
         course_id: "",
         module: "",
         modules: [
@@ -783,6 +830,7 @@ export default {
   components: {
     Upload,
     questionnaire,
+    MultiListSelect,
   },
   computed: {
     filter() {
@@ -813,6 +861,10 @@ export default {
     }
   },
   methods: {
+    onSelect(items, lastSelectItem) {
+      this.detail.templates = items;
+      this.lastSelectItem = lastSelectItem;
+    },
     async getQuestionnairs() {
       return this.$http
         .get(`${this.$store.getters.url}/question/templates`, {
@@ -844,10 +896,20 @@ export default {
     },
     addmodule() {
       this.detail.modules.push({
-        title: "",
-        overview: "",
-        file_type: "video",
-        file: "",
+        template: {},
+        type: "",
+        course_id: "",
+        module: "",
+        modules: [
+          {
+            title: "",
+            overview: "",
+            file_type: "video",
+            file: "",
+          },
+        ],
+        cover_image: "",
+        questionnaires: [],
       });
       this.current_module = this.detail.modules.length - 1;
     },

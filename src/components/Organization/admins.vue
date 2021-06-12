@@ -169,7 +169,7 @@
       </b-row>
     </b-container>
 
-    <b-modal id="add" hide-footer centered size="lg" title="Add Administrator">
+     <b-modal  no-close-on-backdrop  id="add" hide-footer centered size="lg" title="Add Administrator">
       <b-form @submit.prevent="register" class="user">
         <div>
           <b-form-row class="mb-2">
@@ -242,7 +242,7 @@
         </div>
       </b-form>
     </b-modal>
-    <b-modal
+     <b-modal  no-close-on-backdrop
       id="edit"
       hide-footer
       centered

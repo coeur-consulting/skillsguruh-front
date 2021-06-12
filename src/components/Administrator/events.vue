@@ -188,7 +188,14 @@
           </div>
         </b-col>
       </b-row>
-      <b-modal id="add" hide-footer centered size="lg" title="Add Event">
+      <b-modal
+        no-close-on-backdrop
+        id="add"
+        hide-footer
+        centered
+        size="lg"
+        title="Add Event"
+      >
         <b-form @submit.prevent="register" class="event">
           <div>
             <b-form-row class="mb-2">
@@ -380,7 +387,14 @@
           </div>
         </b-form>
       </b-modal>
-      <b-modal id="edit" hide-footer centered size="lg" title="Update Event">
+      <b-modal
+        no-close-on-backdrop
+        id="edit"
+        hide-footer
+        centered
+        size="lg"
+        title="Update Event"
+      >
         <b-form @submit.prevent="update" class="event">
           <div>
             <b-form-row class="mb-2">
@@ -576,7 +590,14 @@
           </div>
         </b-form>
       </b-modal>
-      <b-modal id="addfac" size="lg" hide-footer hide-header centered>
+      <b-modal
+        no-close-on-backdrop
+        id="addfac"
+        size="lg"
+        hide-footer
+        hide-header
+        centered
+      >
         <div class="p-4">
           <h6 class="text-center mb-3">Select Facilitators</h6>
           <b-row>

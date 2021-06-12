@@ -38,7 +38,7 @@
                       api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
                       v-model="section.description"
                       :init="{
-                        height: 300,
+                        height: 200,
                         menubar: false,
                         plugins: [
                           'advlist autolink lists link image charmap print preview anchor',
@@ -433,7 +433,14 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-modal hide-footer hide-header id="preview" size="xl" centered>
+    <b-modal
+      no-close-on-backdrop
+      hide-footer
+      hide-header
+      id="preview"
+      size="xl"
+      centered
+    >
       <Preview :questionnaire="questionnaire"></Preview>
     </b-modal>
   </div>

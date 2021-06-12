@@ -4,7 +4,13 @@
       <b-row>
         <b-col class="mb-5 mb-sm-0">
           <div
-            class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-4"
+            class="
+              d-flex
+              flex-column flex-sm-row
+              justify-content-between
+              align-items-center
+              mb-4
+            "
           >
             <h6 class="mb-3 mb-sm-0 text-capitalize">
               {{ $route.query.showing }} Resources
@@ -90,7 +96,7 @@
                             class="px-0 text-left cursor-pointer"
                             @click="
                               $router.push(
-                                `/facilitator/outline/${item.courseoutline.id}`
+                                `/facilitatoristrator/outline/${item.courseoutline.id}`
                               )
                             "
                           >
@@ -141,7 +147,14 @@
       </b-row>
     </b-container>
 
-    <b-modal id="add" hide-footer centered size="lg" title="Add Resource">
+    <b-modal
+      no-close-on-backdrop
+      id="add"
+      hide-footer
+      centered
+      size="lg"
+      title="Add Resource"
+    >
       <b-form @submit.prevent="register" class="user">
         <div>
           <b-container>
@@ -360,8 +373,41 @@
             <b-form-row>
               <b-col>
                 <div class="px-2 mt-3">
-                  <h6>Questionnaires</h6>
+                  <h6>Template</h6>
+                  <b-row>
+                    <b-col sm="6">
+                      <b-form-group label="Choose template">
+                        <multi-list-select
+                          :list="allquestionnaires"
+                          option-value="id"
+                          option-text="title"
+                          :selected-items="detail.templates"
+                          placeholder="Search template"
+                          @select="onSelect"
+                        >
+                        </multi-list-select>
+                      </b-form-group>
+                    </b-col>
 
+                    <b-col sm="3">
+                      <b-form-group label="Choose template type">
+                        <b-form-select v-model="detail.type">
+                          <b-form-select-option disabled value="">
+                            Choose template type</b-form-select-option
+                          >
+                          <b-form-select-option value="questionnaire">
+                            Questionnaire</b-form-select-option
+                          >
+                          <b-form-select-option value="quiz">
+                            Quiz</b-form-select-option
+                          >
+                          <b-form-select-option value="assessment">
+                            Assessment</b-form-select-option
+                          >
+                        </b-form-select>
+                      </b-form-group>
+                    </b-col>
+                  </b-row>
                   <div
                     v-for="(item, id) in detail.questionnaires"
                     :key="id"
@@ -377,8 +423,11 @@
                     ></b-icon>
                   </div>
                   <b-form-group class="">
-                    <b-button size="sm" @click="$bvModal.show('question')"
-                      >Add Questionnaire (optional)</b-button
+                    <b-button
+                      size="sm"
+                      variant="lighter-green"
+                      @click="$bvModal.show('question')"
+                      >Create Template</b-button
                     >
                   </b-form-group>
                 </div>
@@ -432,6 +481,7 @@
     </b-modal>
 
     <b-modal
+      no-close-on-backdrop
       id="edit"
       hide-footer
       centered
@@ -649,6 +699,36 @@
               </b-col>
             </b-form-row>
             <b-form-row>
+              <b-col>
+                <div class="px-2 mt-3">
+                  <h6>Questionnaires</h6>
+
+                  <div
+                    v-for="(item, id) in detail.questionnaires"
+                    :key="id"
+                    class="d-flex justify-content-between px-2 py-2 rounded"
+                  >
+                    <div class="text-capitalize">
+                      <span class="mr-2">{{ id + 1 }}.</span> {{ item.title }}
+                    </div>
+                    <b-icon
+                      icon="x"
+                      @click="detail.questionnaires.splice(id, 1)"
+                      font-scale="1.5"
+                    ></b-icon>
+                  </div>
+                  <b-form-group class="">
+                    <b-button
+                      size="sm"
+                      variant="lighter-green"
+                      @click="$bvModal.show('question')"
+                      >Add Questionnaire (optional)</b-button
+                    >
+                  </b-form-group>
+                </div>
+              </b-col>
+            </b-form-row>
+            <b-form-row>
               <b-col sm="6" class="px-3">
                 <div class="p-3 rounded">
                   <b-form-group label=" Cover image">
@@ -701,7 +781,7 @@
       </b-form>
     </b-modal>
 
-    <b-modal id="question" size="xl" hide-footer centered>
+    <b-modal no-close-on-backdrop id="question" size="xl" hide-footer centered>
       <questionnaire @getQuestionnaire="getQuestionnaire"></questionnaire>
     </b-modal>
   </div>
@@ -709,6 +789,7 @@
 <script>
 import Upload from "../fileupload";
 import questionnaire from "./Questionnaire/resourceQuestionnaire";
+import { MultiListSelect } from "vue-search-select";
 export default {
   data() {
     return {
@@ -720,10 +801,15 @@ export default {
       perPage: 10,
       modules: [],
       courses: [],
+      items: [],
+      lastSelectItem: "",
       newmodule: "",
       title: "",
       facilitators: [],
       detail: {
+        template: {},
+        type: "",
+        templates: [],
         course_id: "",
         module: "",
         modules: [
@@ -738,11 +824,13 @@ export default {
         questionnaires: [],
       },
       questionnaires: [],
+      allquestionnaires: [],
     };
   },
   components: {
     Upload,
     questionnaire,
+    MultiListSelect,
   },
   computed: {
     filter() {
@@ -767,11 +855,33 @@ export default {
     this.getcourses();
     this.allmodules();
     this.getfacilitators();
+    this.getQuestionnairs();
     if (this.$route.query.showing) {
       this.search = this.$route.query.showing;
     }
   },
   methods: {
+    onSelect(items, lastSelectItem) {
+      this.detail.templates = items;
+      this.lastSelectItem = lastSelectItem;
+    },
+    async getQuestionnairs() {
+      return this.$http
+        .get(`${this.$store.getters.url}/question/templates`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.allquestionnaires = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+
     getQuestionnaire(val) {
       this.detail.questionnaires.push(val);
       this.$bvModal.hide("question");
@@ -786,10 +896,20 @@ export default {
     },
     addmodule() {
       this.detail.modules.push({
-        title: "",
-        overview: "",
-        file_type: "video",
-        file: "",
+        template: {},
+        type: "",
+        course_id: "",
+        module: "",
+        modules: [
+          {
+            title: "",
+            overview: "",
+            file_type: "video",
+            file: "",
+          },
+        ],
+        cover_image: "",
+        questionnaires: [],
       });
       this.current_module = this.detail.modules.length - 1;
     },
@@ -890,23 +1010,6 @@ export default {
               ],
               cover_image: "",
             };
-            // this.$bvModal
-            //   .msgBoxConfirm(
-            //     "Do you wish to add a questionnaire to this module?",
-            //     {
-            //       size: "sm",
-            //       buttonSize: "sm",
-            //       okVariant: "success",
-            //       centered: true,
-            //     }
-            //   )
-            //   .then((val) => {
-            //     if (val) {
-            //       this.$router.push(
-            //         `/administrator/questionnaire?module_id=${res.data.id}&module_name=${res.data.module}`
-            //       );
-            //     }
-            //   });
           }
         })
         .catch((err) => {

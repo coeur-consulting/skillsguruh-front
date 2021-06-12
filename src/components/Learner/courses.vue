@@ -844,7 +844,13 @@
       </b-row>
     </b-container>
 
-    <b-modal id="courselink" centered hide-footer hide-header>
+    <b-modal
+      no-close-on-backdrop
+      id="courselink"
+      centered
+      hide-footer
+      hide-header
+    >
       <div class="box p-3 text-center">
         <div class="mb-4 border px-4 py-2 rounded-pill d-flex text-muted">
           <b-icon icon="link45deg" font-scale="1.5rem"></b-icon>
@@ -885,7 +891,7 @@
       </div>
     </b-modal>
 
-    <b-modal id="filter" hide-footer hide-header centered>
+    <b-modal no-close-on-backdrop id="filter" hide-footer hide-header centered>
       <div>
         <div>
           <h6 class="">Sort by</h6>

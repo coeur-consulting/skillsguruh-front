@@ -13,7 +13,7 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-modal id="insight" size="xl" hide-footer hide-header>
+     <b-modal  no-close-on-backdrop  id="insight" size="xl" hide-footer hide-header>
       <Insight @skip="skip" :user="$store.getters.admin" />
     </b-modal>
   </div>

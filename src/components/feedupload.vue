@@ -23,7 +23,14 @@
                 label="Spinning"
               ></b-spinner>
             </div>
-            <b-modal size="sm" hide-footer hide-header centered :id="id">
+            <b-modal
+              no-close-on-backdrop
+              size="sm"
+              hide-footer
+              hide-header
+              centered
+              :id="id"
+            >
               <div class="p-4">
                 <div v-if="current === 'start'" class="text-center">
                   <b-spinner

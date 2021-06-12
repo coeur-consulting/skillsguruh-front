@@ -16,7 +16,6 @@
             <div>
               <b-form-input
                 placeholder="Search"
-                readonly
                 size="sm"
                 type="search"
                 class="search"
@@ -126,7 +125,7 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-modal size="xl" id="create" centered hide-footer>
+    <b-modal no-close-on-backdrop size="xl" id="create" centered hide-footer>
       <CreateQuestion @close="close" />
     </b-modal>
   </div>

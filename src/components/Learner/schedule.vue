@@ -989,6 +989,7 @@
       </b-row>
     </b-container>
     <b-modal
+      no-close-on-backdrop
       id="add"
       hide-footer
       centered

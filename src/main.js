@@ -19,6 +19,7 @@ import VueSocialSharing from "vue-social-sharing";
 import "vue-toast-notification/dist/theme-sugar.css";
 import "animate.css";
 import "vue-event-calendar/dist/style.css";
+import "vue-search-select/dist/VueSearchSelect.css";
 import "./assets/scss/style.scss";
 
 Vue.use(VueSocialSharing);

@@ -35,7 +35,15 @@
                 </div>
                 <div class="top_dis d-flex align-items-start">
                   <div
-                    class="side_dis d-flex flex-column align-items-center justify-content-center text-center vote"
+                    class="
+                      side_dis
+                      d-flex
+                      flex-column
+                      align-items-center
+                      justify-content-center
+                      text-center
+                      vote
+                    "
                   >
                     <b-icon
                       @click="addvote"
@@ -357,6 +365,7 @@
       </b-row>
     </b-container>
     <b-modal
+      no-close-on-backdrop
       id="access"
       title="Request Access"
       hide-header
@@ -429,10 +438,12 @@ export default {
       return this.myviews;
     },
     vote() {
-      var positive = this.discussion.discussionvote.filter((item) => item.vote)
-        .length;
-      var negative = this.discussion.discussionvote.filter((item) => !item.vote)
-        .length;
+      var positive = this.discussion.discussionvote.filter(
+        (item) => item.vote
+      ).length;
+      var negative = this.discussion.discussionvote.filter(
+        (item) => !item.vote
+      ).length;
       return Number(positive) - Number(negative);
     },
   },

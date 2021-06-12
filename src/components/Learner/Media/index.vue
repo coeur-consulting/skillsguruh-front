@@ -300,7 +300,13 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-modal id="questionnaire" hide-footer centered size="lg">
+    <b-modal
+      no-close-on-backdrop
+      id="questionnaire"
+      hide-footer
+      centered
+      size="lg"
+    >
       <Questionnaire
         @handleCheck="handleCheck"
         :id="questionnaire_id"

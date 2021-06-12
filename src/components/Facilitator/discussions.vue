@@ -291,7 +291,13 @@
       </b-row>
     </b-container>
 
-    <b-modal id="start" hide-footer centered title="Create a Discussion">
+    <b-modal
+      no-close-on-backdrop
+      id="start"
+      hide-footer
+      centered
+      title="Create a Discussion"
+    >
       <b-form @submit.prevent="creatediscussion">
         <b-form-group label="Title">
           <b-form-input
@@ -365,6 +371,7 @@
     </b-modal>
 
     <b-modal
+      no-close-on-backdrop
       id="access"
       title="Request Access"
       hide-header

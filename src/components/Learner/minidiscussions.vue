@@ -210,6 +210,7 @@
     </div>
 
     <b-modal
+      no-close-on-backdrop
       id="access"
       title="Request Access"
       hide-header

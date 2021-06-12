@@ -59,7 +59,12 @@
                     :key="index + 1"
                   >
                     <div
-                      class="d-flex justify-content-between align-items-center py-3"
+                      class="
+                        d-flex
+                        justify-content-between
+                        align-items-center
+                        py-3
+                      "
                     >
                       <span
                         ><b-icon
@@ -367,7 +372,7 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-modal hide-footer id="preview" size="xl" centered>
+    <b-modal no-close-on-backdrop hide-footer id="preview" size="xl" centered>
       <Preview></Preview>
     </b-modal>
   </div>

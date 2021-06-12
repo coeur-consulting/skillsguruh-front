@@ -187,7 +187,14 @@
       </b-row>
     </b-container>
 
-    <b-modal id="add" hide-footer centered size="lg" title="Add Facilitator">
+    <b-modal
+      no-close-on-backdrop
+      id="add"
+      hide-footer
+      centered
+      size="lg"
+      title="Add Facilitator"
+    >
       <b-form @submit.prevent="register" class="user">
         <div>
           <b-form-row class="mb-2">
@@ -260,7 +267,14 @@
         </div>
       </b-form>
     </b-modal>
-    <b-modal id="edit" hide-footer centered size="lg" title="Edit Facilitator">
+    <b-modal
+      no-close-on-backdrop
+      id="edit"
+      hide-footer
+      centered
+      size="lg"
+      title="Edit Facilitator"
+    >
       <b-form @submit.prevent="update" class="user">
         <div>
           <b-form-row class="mb-2">

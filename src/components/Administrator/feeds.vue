@@ -1,7 +1,14 @@
 /* eslint-disable no-unused-vars */
 <template>
   <div class="pb-5 pt-4">
-    <b-modal id="feed" hide-footer centered title="Create feed" size="md">
+    <b-modal
+      no-close-on-backdrop
+      id="feed"
+      hide-footer
+      centered
+      title="Create feed"
+      size="md"
+    >
       <div class="wrapper mb-2">
         <b-form-input
           class="rounded-pill stat border-0"
@@ -116,7 +123,14 @@
       <b-button @click="post" block variant="dark-green">Post</b-button>
     </b-modal>
 
-    <b-modal id="allcomments" hide-footer centered title="Comments" size="md">
+    <b-modal
+      no-close-on-backdrop
+      id="allcomments"
+      hide-footer
+      centered
+      title="Comments"
+      size="md"
+    >
       <div class="comments" v-if="allcomments">
         <div class="mb-4">
           <div class="d-flex mb-3 pt-3">
@@ -215,7 +229,7 @@
       </div>
     </b-modal>
 
-    <!-- <b-modal id="share" hide-footer centered hide-header>
+    <!--  <b-modal  no-close-on-backdrop  id="share" hide-footer centered hide-header>
       <div class="p-5">
         <ShareNetwork
           class="mr-3"

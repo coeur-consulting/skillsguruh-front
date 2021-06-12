@@ -1,6 +1,7 @@
 <template>
   <div>
     <b-modal
+      no-close-on-backdrop
       size="lg"
       id="addcourse"
       centered
@@ -504,7 +505,7 @@
         </div>
       </b-form>
     </b-modal>
-    <b-modal id="filter" hide-footer hide-header centered>
+    <b-modal no-close-on-backdrop id="filter" hide-footer hide-header centered>
       <div>
         <div>
           <h6 class="">Sort by</h6>
@@ -523,7 +524,14 @@
         </div>
       </div>
     </b-modal>
-    <b-modal size="lg" id="update" centered hide-footer title="Update  course">
+    <b-modal
+      no-close-on-backdrop
+      size="lg"
+      id="update"
+      centered
+      hide-footer
+      title="Update  course"
+    >
       <b-form @submit.prevent="updatecourse">
         <div class="mb-3 border-bottom">
           <b-container class="pb-2 d-flex align-items-center">

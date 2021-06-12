@@ -4,7 +4,13 @@
       <b-row>
         <b-col class="mb-5 mb-sm-0">
           <div
-            class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-4"
+            class="
+              d-flex
+              flex-column flex-sm-row
+              justify-content-between
+              align-items-center
+              mb-4
+            "
           >
             <h6 class="mb-3 mb-sm-0">Administrators</h6>
             <div>
@@ -138,11 +144,11 @@
               <div>
                 <b-img :src="require('@/assets/images/creator.svg')"></b-img>
                 <h6 class="text-muted mb-3">
-                  It appears you havent added any Administrator yet, <br />
+                  It appears you avent added any Administrator yet, <br />
                   Add your first Administrator now!
                 </h6>
                 <b-button
-                  @click="$bvModal.show('add')"
+                  @clik="$bvModal.show('add')"
                   variant="dark-green"
                   size="lg"
                   >Add Administrator</b-button
@@ -154,7 +160,14 @@
       </b-row>
     </b-container>
 
-    <b-modal id="add" hide-footer centered size="lg" title="Add Administrator">
+    <b-modal
+      no-close-on-backdrop
+      id="add"
+      hide-footer
+      centered
+      size="lg"
+      title="Add Administrator"
+    >
       <b-form @submit.prevent="register" class="user">
         <div>
           <b-form-row class="mb-2">
@@ -228,6 +241,7 @@
       </b-form>
     </b-modal>
     <b-modal
+      no-close-on-backdrop
       id="edit"
       hide-footer
       centered

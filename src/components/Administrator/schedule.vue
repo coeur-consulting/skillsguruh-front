@@ -1090,7 +1090,14 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-modal id="add" hide-footer centered size="lg" title="Add Schedule">
+    <b-modal
+      no-close-on-backdrop
+      id="add"
+      hide-footer
+      centered
+      size="lg"
+      title="Add Schedule"
+    >
       <b-container>
         <b-row v-if="schedule_num == 1">
           <b-col cols="6" class="" @click="schedule_num = 2">
@@ -1517,7 +1524,14 @@
         </b-row>
       </b-container>
     </b-modal>
-    <b-modal id="addfac" size="lg" hide-footer hide-header centered>
+    <b-modal
+      no-close-on-backdrop
+      id="addfac"
+      size="lg"
+      hide-footer
+      hide-header
+      centered
+    >
       <div class="p-4">
         <h6 class="text-center mb-3">Select Facilitators</h6>
         <b-row>
