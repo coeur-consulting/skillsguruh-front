@@ -351,7 +351,13 @@
                     </b-dropdown>
                   </div>
                   <div class="text-left feed_text px-4 pb-3">
-                    <span>{{ feed.message }}</span>
+                    <span>{{ feed.message }}</span
+                    ><br />
+                    <span v-if="feed.url" class="text-dark-green"
+                      ><a :href="feed.url" target="_blank"
+                        >Check it out !!</a
+                      ></span
+                    >
                   </div>
                   <div>
                     <div class="mb-4 position-relative">

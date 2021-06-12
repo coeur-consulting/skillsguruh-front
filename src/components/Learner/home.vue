@@ -95,7 +95,9 @@
                             variant="light"
                           ></b-icon>
                         </b-iconstack>
-                        <div class="course_title mb-1">{{ course.title }}</div>
+                        <div class="course_title mb-1 overview-title">
+                          {{ course.title }}
+                        </div>
                         <div class="mb-3">
                           <span class="fs13 overview text-muted">
                             {{ course.description }}</span
@@ -890,6 +892,16 @@ export default {
 .card-img-top {
   height: 8rem;
   object-fit: cover;
+}
+.card-title {
+  font-size: 13px;
+  display: -webkit-box;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
 }
 @media (max-width: 600px) {
   .box {

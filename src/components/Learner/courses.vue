@@ -543,12 +543,31 @@
                   </p>
                 </div>
                 <div class="text-right" v-if="checkCommunity(course.id)">
-                  <b-button
-                    class="ml-auto"
-                    @click="getcode(course.id)"
-                    size="sm"
-                    >Invite friends</b-button
-                  >
+                  <div class="d-flex align-items-center">
+                    <b-button
+                      class="ml-auto mr-2"
+                      @click="getcode(course.id)"
+                      size="sm"
+                      variant="lighter-green"
+                    >
+                      <b-icon icon="person-plus-fill"></b-icon
+                    ></b-button>
+
+                    <b-icon
+                      font-scale="1.15"
+                      @click="sharelink(course.id)"
+                      icon="share"
+                    ></b-icon>
+                  </div>
+                </div>
+                <div class="text-right" v-else>
+                  <div class="d-flex align-items-center">
+                    <b-icon
+                      font-scale="1.15"
+                      @click="sharelink(course.id)"
+                      icon="share"
+                    ></b-icon>
+                  </div>
                 </div>
               </div>
               <div class="mb-4 px-2">
@@ -844,13 +863,7 @@
       </b-row>
     </b-container>
 
-    <b-modal
-      no-close-on-backdrop
-      id="courselink"
-      centered
-      hide-footer
-      hide-header
-    >
+    <b-modal no-close-on-backdrop id="courselink" centered hide-footer>
       <div class="box p-3 text-center">
         <div class="mb-4 border px-4 py-2 rounded-pill d-flex text-muted">
           <b-icon icon="link45deg" font-scale="1.5rem"></b-icon>
@@ -883,7 +896,11 @@
             >
               <b-icon icon="plus" font-scale="1.4"></b-icon> Add email</b-button
             >
-            <b-button size="sm" variant="dark-green" @click="sendinvite">
+            <b-button
+              size="sm"
+              variant="dark-green"
+              @click="sendinvite(course.title)"
+            >
               Send Invite
             </b-button>
           </div>
@@ -891,7 +908,7 @@
       </div>
     </b-modal>
 
-    <b-modal no-close-on-backdrop id="filter" hide-footer hide-header centered>
+    <b-modal no-close-on-backdrop id="filter" hide-footer centered>
       <div>
         <div>
           <h6 class="">Sort by</h6>
@@ -910,14 +927,95 @@
         </div>
       </div>
     </b-modal>
+    <b-modal
+      no-close-on-backdrop
+      id="share"
+      hide-footer
+      centered
+      v-if="course"
+      size="lg"
+    >
+      <div class="p-2 text-center">
+        <h6 class="font-weight-bold mb-3">Share Invite</h6>
+        <ShareNetwork
+          class="mr-3"
+          network="facebook"
+          :url="link"
+          title="COURSE INVITATION"
+          :description="`I enrolled for ${course.title} on SkillsGuruh and I think you'd like it. Join me`"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning"
+        >
+          <b-button variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
+          >
+        </ShareNetwork>
+        <ShareNetwork
+          class="mr-3"
+          network="twitter"
+          :url="link"
+          title="COURSE INVITATION"
+          :description="`I enrolled for ${course.title} on SkillsGuruh and I think you'd like it. Join me`"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning"
+        >
+          <b-button variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
+          >
+        </ShareNetwork>
+        <ShareNetwork
+          class="mr-3"
+          network="whatsApp"
+          :url="link"
+          title="COURSE INVITATION"
+          :description="`I enrolled for ${course.title} on SkillsGuruh and I think you'd like it. Join me`"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning"
+        >
+          <b-button variant="outline-dark-green">
+            <b-iconstack>
+              <b-icon stacked icon="circle-fill" variant="dark-green"></b-icon>
+              <b-icon
+                stacked
+                icon="telephone-plus"
+                variant="light"
+                scale="0.5"
+              ></b-icon>
+            </b-iconstack>
+            Whatsapp</b-button
+          >
+        </ShareNetwork>
+        <ShareNetwork
+          class="mr-3"
+          network="Telegram"
+          :url="link"
+          title="COURSE INVITATION"
+          :description="`I enrolled for ${course.title} on SkillsGuruh and I think you'd like it. Join me`"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning"
+        >
+          <b-button variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
+            Telegram</b-button
+          >
+        </ShareNetwork>
+        <b-button variant="outline-dark-green" @click="addToFeed">
+          <b-icon icon="rss-fill" variant="dark-green"></b-icon>
+
+          Feeds</b-button
+        >
+      </div>
+    </b-modal>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
+      link: "",
       inviteUsers: {
         code: "",
+        title: "",
         users: [
           {
             email: "",
@@ -981,16 +1079,88 @@ export default {
     },
   },
   methods: {
-    sendinvite() {
-      this.$http.post(
-        `${this.$store.getters.url}/send/invite`,
-        this.inviteUsers,
-        {
+    addToFeed() {
+      this.feed = {
+        media: this.course.cover,
+        message:
+          "I enrolled for the " +
+          this.course.title +
+          " course and I think you’d like it. Join me!",
+        url:
+          "https://skillsguruh.herokuapp.com/learner/courses/?course_id=" +
+          this.course.id,
+      };
+      this.$http
+        .post(`${this.$store.getters.url}/feeds`, this.feed, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
-        }
+        })
+        .then((res) => {
+          if (res.status == 201 || res.status == 200) {
+            this.$toast.success("Added to feeds ");
+            this.$bvModal.hide("share");
+
+            this.feed = {
+              media: "",
+              message: "",
+            };
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    loadCourse() {
+      this.course = this.courses.find(
+        (item) => item.id == this.$route.query.course_id
       );
+    },
+    sharelink(id) {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/apply-community/${id}`,
+
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.link = `https://skillsguruh.herokuapp.com/register/?referral_type=group&referral_code=${res.data.code}`;
+
+            this.$bvModal.show("share");
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    sendinvite(title) {
+      this.inviteUsers.title = title;
+      this.$http
+        .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.$toast.success("Invite Sent");
+            this.$bvModal.hide("courselink");
+            this.inviteUsers = {
+              code: "",
+              title: "",
+              users: [
+                {
+                  email: "",
+                },
+              ],
+            };
+          }
+        });
     },
     addinvite() {
       this.inviteUsers.users.push({
@@ -1283,6 +1453,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.courses = res.data;
+            this.loadCourse();
             this.showCourse = true;
           }
         })

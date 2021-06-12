@@ -196,6 +196,35 @@
                             .value
                         }}
                       </div>
+                    </div>
+                  </b-col>
+
+                  <b-col
+                    :sm="list ? 6 : 12"
+                    class="d-flex justify-content-between"
+                    :class="list ? 'flex-row' : 'flex-column'"
+                  >
+                    <div class="">
+                      <div
+                        class="fs14 text-muted d-flex align-items-center"
+                        :class="!list ? 'mb-2' : ''"
+                        v-if="item.course.modules"
+                      >
+                        <b-iconstack font-scale="2rem" class="mr-2">
+                          <b-icon
+                            stacked
+                            icon="circle-fill"
+                            variant="lighter-green"
+                          ></b-icon>
+                          <b-icon
+                            stacked
+                            icon="book"
+                            scale="0.5"
+                            variant="dark-green"
+                          ></b-icon>
+                        </b-iconstack>
+                        <span> {{ item.course.modules.length }} modules</span>
+                      </div>
                       <div class="mt-3">
                         <div class="mb-2 fs12">Your progress</div>
                         <b-progress
@@ -210,33 +239,6 @@
                           ></b-progress-bar>
                         </b-progress>
                       </div>
-                    </div>
-                  </b-col>
-
-                  <b-col
-                    :sm="list ? 6 : 12"
-                    class="d-flex justify-content-between"
-                    :class="list ? 'flex-row' : 'flex-column'"
-                  >
-                    <div
-                      class="fs14 text-muted d-flex align-items-center"
-                      :class="!list ? 'mb-2' : ''"
-                      v-if="item.course.modules"
-                    >
-                      <b-iconstack font-scale="2rem" class="mr-2">
-                        <b-icon
-                          stacked
-                          icon="circle-fill"
-                          variant="lighter-green"
-                        ></b-icon>
-                        <b-icon
-                          stacked
-                          icon="book"
-                          scale="0.5"
-                          variant="dark-green"
-                        ></b-icon>
-                      </b-iconstack>
-                      <span> {{ item.course.modules.length }} modules</span>
                     </div>
 
                     <div :class="list ? 'pl-4' : ''">
@@ -478,7 +480,7 @@ img {
   line-height: 1.3;
 }
 .course_img {
-  min-width: 120px;
+  width: 1o0px;
   height: 80px;
 }
 .course_img2 {

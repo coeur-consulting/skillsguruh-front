@@ -229,53 +229,6 @@
       </div>
     </b-modal>
 
-    <!--  <b-modal  no-close-on-backdrop  id="share" hide-footer centered hide-header>
-      <div class="p-5">
-        <ShareNetwork
-          class="mr-3"
-          network="facebook"
-          url="https://news.vuejs.org/issues/180"
-          title="Say hi to Vite! A brand new, extremely fast development setup for Vue."
-          description="This week, I’d like to introduce you to 'Vite', which means 'Fast'. It’s a brand new development setup created by Evan You."
-          quote="The hot reload is so fast it\'s near instant. - Evan You"
-          hashtags="vuejs,vite"
-        >
-          Facebook
-        </ShareNetwork>
-        <ShareNetwork
-          class="mr-3"
-          network="twitter"
-          url="https://news.vuejs.org/issues/180"
-          title="Say hi to Vite! A brand new, extremely fast development setup for Vue."
-          description="This week, I’d like to introduce you to 'Vite', which means 'Fast'. It’s a brand new development setup created by Evan You."
-          quote="The hot reload is so fast it\'s near instant. - Evan You"
-          hashtags="vuejs,vite"
-        >
-          Twitter
-        </ShareNetwork>
-        <ShareNetwork
-          class="mr-3"
-          network="whatsApp"
-          url="https://news.vuejs.org/issues/180"
-          title="Say hi to Vite! A brand new, extremely fast development setup for Vue."
-          description="This week, I’d like to introduce you to 'Vite', which means 'Fast'. It’s a brand new development setup created by Evan You."
-          quote="The hot reload is so fast it\'s near instant. - Evan You"
-          hashtags="vuejs,vite"
-        >
-          WhatsApp
-        </ShareNetwork>
-        <ShareNetwork
-          network="Telegram"
-          url="https://news.vuejs.org/issues/180"
-          title="Say hi to Vite! A brand new, extremely fast development setup for Vue."
-          description="This week, I’d like to introduce you to 'Vite', which means 'Fast'. It’s a brand new development setup created by Evan You."
-          quote="The hot reload is so fast it\'s near instant. - Evan You"
-          hashtags="vuejs,vite"
-        >
-          Telegram
-        </ShareNetwork>
-      </div>
-    </b-modal> -->
     <b-container>
       <b-row>
         <b-col sm="8">

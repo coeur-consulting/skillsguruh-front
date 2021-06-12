@@ -83,7 +83,7 @@
                   <span class="text-capitalize">{{ item.course.type }}</span>
                 </div>
                 <div class="border-bottom pt-4">
-                  <h6 class="font-weight-bold text-capitalize">
+                  <h6 class="font-weight-bold text-capitalize overview-title">
                     {{ item.course.title }}
                   </h6>
                   <p class="overview">
@@ -570,7 +570,7 @@ export default {
   background: #f7f7f7;
 }
 .course {
-  height: 300px;
+  height: 350px;
   position: relative;
   background: white;
   border-radius: 8px;
