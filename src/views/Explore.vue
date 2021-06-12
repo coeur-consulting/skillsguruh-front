@@ -80,7 +80,9 @@
                         .value
                     }}</span></span
                   >
-                  <span class="text-capitalize">{{ item.course.type }}</span>
+                  <span class="text-capitalize fs13">{{
+                    item.course.type
+                  }}</span>
                 </div>
                 <div class="border-bottom pt-4">
                   <h6 class="font-weight-bold text-capitalize overview-title">

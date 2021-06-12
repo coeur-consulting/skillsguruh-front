@@ -55,158 +55,88 @@
                   <b-col
                     sm="4"
                     class="pr-3"
-                    v-for="course in courses.slice(0, 3)"
-                    :key="course.id"
+                    v-for="item in courses.slice(0, 3)"
+                    :key="item.id"
                   >
                     <div
-                      class="
-                        w-100
-                        h-100
-                        bg-white
-                        shadow
-                        rounded
-                        p-4
-                        d-flex
-                        flex-column
-                        position-relative
+                      class="course shadow"
+                      @click="
+                        $router.push(
+                          `/learner/courses?course_id=${this.course.id}`
+                        )
                       "
-                      @click="$router.push('/learner/courses')"
                     >
-                      <div class="ribbon text-capitalize">
-                        <span>{{ course.type }}</span>
-                      </div>
-                      <div class="flex-1">
-                        <b-iconstack font-scale="2.5" class="mr-2 mb-2">
-                          <b-icon
-                            stacked
-                            icon="circle-fill"
-                            :style="`color:${
-                              JSON.parse(course.courseoutline.knowledge_areas)
-                                .color
-                            }`"
-                          ></b-icon>
-                          <b-icon
-                            stacked
-                            :icon="
-                              JSON.parse(course.courseoutline.knowledge_areas)
-                                .icon
+                      <div
+                        class="course_img"
+                        :style="{
+                          backgroundImage: `url(${item.cover})`,
+                        }"
+                      ></div>
+                      <div class="course_text">
+                        <div class="d-flex justify-content-between">
+                          <span
+                            class="p-2 rounded-pill text-white fs11"
+                            :style="{
+                              backgroundColor: JSON.parse(
+                                item.courseoutline.knowledge_areas
+                              ).color,
+                            }"
+                          >
+                            <b-icon
+                              class="mr-2"
+                              :icon="
+                                JSON.parse(item.courseoutline.knowledge_areas)
+                                  .icon
+                              "
+                            ></b-icon>
+                            <span>{{
+                              JSON.parse(item.courseoutline.knowledge_areas)
+                                .value
+                            }}</span></span
+                          >
+                          <span class="text-capitalize">{{ item.type }}</span>
+                        </div>
+                        <div class="border-bottom pt-4">
+                          <h6
+                            class="
+                              font-weight-bold
+                              text-capitalize
+                              overview-title
                             "
-                            scale="0.5"
-                            variant="light"
-                          ></b-icon>
-                        </b-iconstack>
-                        <div class="course_title mb-1 overview-title">
-                          {{ course.title }}
-                        </div>
-                        <div class="mb-3">
-                          <span class="fs13 overview text-muted">
-                            {{ course.description }}</span
                           >
+                            {{ item.title }}
+                          </h6>
+                          <p class="overview">
+                            {{ item.courseoutline.overview }}
+                          </p>
                         </div>
-                        <div
-                          class="
-                            course_fac
-                            d-flex
-                            align-items-center
-                            mb-1
-                            text-capitalize
-                            fs13
-                          "
-                          v-if="sortfacilitators(course).length == 1"
-                        >
-                          <b-icon
-                            icon="display"
-                            variant="dark-green"
-                            class="text-muted mr-2"
-                          ></b-icon>
-                          <span class="fs13">
-                            {{ sortfacilitators(course).join(" ") }}</span
-                          >
-                        </div>
-                        <div
-                          class="
-                            course_fac
-                            d-flex
-                            align-items-center
-                            mb-1
-                            text-capitalize
-                            fs13
-                          "
-                          v-else
-                        >
-                          <b-icon
-                            icon="display"
-                            variant="dark-green"
-                            class="text-muted mr-2"
-                          ></b-icon>
-                          <span class="fs13"> Multiple Facilitators</span>
-                        </div>
-
-                        <div
-                          class="
-                            course_fac
-                            d-flex
-                            text-capitalize
-                            align-items-center
-                            fs13
-                            mb-1
-                          "
-                        >
-                          <b-icon
-                            icon="calendar"
-                            variant="dark-green"
-                            class="text-muted mr-2"
-                          ></b-icon>
-                          <div class="">
-                            <div class="text-capitalize text-muted">
-                              {{ course.courseoutline.duration }}
+                        <div class="info fs12">
+                          <div class="d-flex">
+                            <div class="mr-2">
+                              <b-icon icon="people" class="mr-1"></b-icon>
+                              <span
+                                >{{
+                                  item.enroll ? item.enroll.count : 0
+                                }}+</span
+                              >
+                            </div>
+                            <!-- <div class="mr-3">
+                              <b-icon icon="eye" class="mr-1"></b-icon>
+                              <span>250+</span>
+                            </div> -->
+                            <div>
+                              <b-icon
+                                icon="star-fill"
+                                style="color: gold"
+                                class="mr-1"
+                              ></b-icon>
+                              <span>{{ item.review.length }} reviews</span>
                             </div>
                           </div>
-                        </div>
 
-                        <div
-                          v-if="course"
-                          class="course_fac align-items-center fs13 text-muted"
-                        >
-                          <b-icon
-                            icon="layers"
-                            variant="dark-green"
-                            class="text-muted mr-1"
-                          ></b-icon>
-                          <span class="fs13"> {{ sortmodules(course) }}</span>
-                          Modules
+                          <b-avatar size="sm" variant="light" :src="item.cover">
+                          </b-avatar>
                         </div>
-                      </div>
-
-                      <div class="pt-3">
-                        <div class="d-flex justify-content-between fs13">
-                          <span>Resources upload</span
-                          ><span
-                            >{{
-                              Math.floor(
-                                getProgress(
-                                  course.courseoutline.modules,
-                                  course.modules
-                                )
-                              ) || 0
-                            }}%</span
-                          >
-                        </div>
-                        <b-progress
-                          :value="
-                            Math.floor(
-                              getProgress(
-                                course.courseoutline.modules,
-                                course.modules
-                              )
-                            )
-                          "
-                          :max="100"
-                          show-value
-                          height=".8rem"
-                          class="mb-3"
-                          variant="dark-green"
-                        ></b-progress>
                       </div>
                     </div>
                   </b-col>
@@ -236,7 +166,7 @@
                       <b-card-text class="overview">
                         {{ item.course.description }}
                       </b-card-text>
-                      <b-card-text
+                      <!-- <b-card-text
                         class="fs13 text-muted d-flex align-items-center mb-2"
                         v-if="item.course.modules"
                       >
@@ -254,7 +184,7 @@
                           ></b-icon>
                         </b-iconstack>
                         <span> {{ item.course.modules.length }} modules</span>
-                      </b-card-text>
+                      </b-card-text> -->
                       <div class="mt-3">
                         <div class="mb-2 fs12">Your progress</div>
                         <b-progress
@@ -902,6 +832,30 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.3;
+}
+.course {
+  height: 350px;
+  position: relative;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.course_img {
+  height: 45%;
+  width: 100%;
+
+  border-radius: 8px;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.course_text {
+  height: 55%;
+  padding: 10px;
+}
+.info {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
 }
 @media (max-width: 600px) {
   .box {

@@ -174,7 +174,7 @@
                               ).value
                             }}</span></span
                           >
-                          <span class="text-capitalize">{{
+                          <span class="text-capitalize fs13">{{
                             item.course.type
                           }}</span>
                         </div>
@@ -272,7 +272,7 @@
                               ).value
                             }}</span></span
                           >
-                          <span class="text-capitalize">{{
+                          <span class="text-capitalize fs13">{{
                             item[1].course.type
                           }}</span>
                         </div>
@@ -292,9 +292,15 @@
                         </div>
                         <div class="info fs12">
                           <div class="d-flex">
-                            <div class="mr-2" v-if="item[1].course.enroll">
+                            <div class="mr-2">
                               <b-icon icon="people" class="mr-1"></b-icon>
-                              <span>{{ item[1].course.enroll.count }}+</span>
+                              <span
+                                >{{
+                                  item[1].enroll
+                                    ? item[1].course.enroll.count
+                                    : 0
+                                }}+</span
+                              >
                             </div>
                             <!-- <div class="mr-3">
                               <b-icon icon="eye" class="mr-1"></b-icon>
