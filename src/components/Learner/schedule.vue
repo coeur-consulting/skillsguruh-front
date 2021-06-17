@@ -2,7 +2,7 @@
   <div>
     <b-container>
       <b-row>
-        <b-col sm="8">
+        <b-col sm="9">
           <b-row class="mb-4 mb-sm-5">
             <b-col class="position-relative" v-if="showEvent">
               <carousel
@@ -864,7 +864,7 @@
             ></b-skeleton-table>
           </div>
         </b-col>
-        <b-col sm="4" class="text-left">
+        <b-col sm="3" class="text-left">
           <div class="turn_over_box">
             <div class="tob_1 mb-4">
               <vc-calendar
@@ -890,8 +890,7 @@
                         {{ attr.customData.title }}
                       </p>
                       <p class="fs11 mb-0 text-capitalize">
-                        <span class="mr-2"> {{ attr.customData.type }} -</span
-                        ><span> {{ attr.customData.duration }}</span>
+                        <span class="mr-2"> {{ attr.customData.type }} </span>
                       </p>
                     </div>
                   </popover-row>
@@ -1163,11 +1162,9 @@ export default {
           key: index,
 
           highlight: {
-            color: "teal",
-            fillMode: "light",
-            start: { fillMode: "outline" },
-            base: { fillMode: "light" },
-            end: { fillMode: "solid" },
+            start: { color: "teal", fillMode: "outline" },
+            base: { color: "teal", fillMode: "light" },
+            end: { color: "teal", fillMode: "solid" },
           },
           dot: false,
           bar: false,
@@ -1198,12 +1195,9 @@ export default {
           key: index,
 
           highlight: {
-            color: "purple",
-            fillMode: "light",
-
-            start: { fillMode: "outline" },
-            base: { fillMode: "light" },
-            end: { fillMode: "solid" },
+            start: { color: "green", fillMode: "outline" },
+            base: { color: "green", fillMode: "light" },
+            end: { color: "green", fillMode: "solid" },
           },
           dot: false,
           bar: false,
@@ -1285,7 +1279,7 @@ export default {
           if (res.status == 200) {
             this.schedules = res.data.filter(
               (item) =>
-                this.$moment().isBefore(item.start_time) &&
+                this.$moment().isBefore(item.start_time) ||
                 this.$moment().isBefore(item.end_time)
             );
             this.rows = this.schedules.length;

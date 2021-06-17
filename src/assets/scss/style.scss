@@ -124,7 +124,7 @@ a:hover {
   font-size: 11px;
 }
 .vc-title {
-  font-size: 15px !important;
+  font-size: 14px !important;
 }
 .tags-input span {
   margin-right: 0.3em;
@@ -139,11 +139,11 @@ a:hover {
 .col-form-label {
   font-size: 0.9rem;
 }
-.vc-highlight {
-  border-radius: unset !important;
-}
+// .vc-highlight {
+//   border-radius: unset !important;
+// }
 .vc-container.vc-is-expanded {
-  border: none !important;
+  border: 1px solid rgba(0, 0, 0, 0.04) !important ;
 }
 .inbox {
   min-width: 300px;
@@ -307,6 +307,9 @@ a:hover {
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.3;
+}
+.rounded {
+  border-radius: 0.5rem !important;
 }
 @media (max-width: 600px) {
   ::placeholder {

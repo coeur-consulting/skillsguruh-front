@@ -1,8 +1,8 @@
 <template>
   <div>
-    <b-container>
-      <b-row>
-        <b-col sm="9">
+    <b-container class="position-relative">
+      <b-row class="position-relative">
+        <div class="main_box">
           <div
             class="
               top_banner
@@ -53,17 +53,15 @@
               <div v-if="courseShown == 'recommended'">
                 <b-row v-if="courses.length">
                   <b-col
-                    sm="4"
+                    sm="3"
                     class="pr-3"
                     v-for="item in courses.slice(0, 3)"
                     :key="item.id"
                   >
                     <div
-                      class="course shadow"
+                      class="course shadow cursor-pointer"
                       @click="
-                        $router.push(
-                          `/learner/courses?course_id=${this.course.id}`
-                        )
+                        $router.push(`/learner/courses?course_id=${item.id}`)
                       "
                     >
                       <div
@@ -94,7 +92,9 @@
                                 .value
                             }}</span></span
                           >
-                          <span class="text-capitalize">{{ item.type }}</span>
+                          <span class="text-capitalize fs11">{{
+                            item.type
+                          }}</span>
                         </div>
                         <div class="border-bottom pt-4">
                           <h6
@@ -149,7 +149,7 @@
               <div v-if="courseShown == 'enrolled'">
                 <b-row v-if="library.length">
                   <b-col
-                    sm="4"
+                    sm="3"
                     class="pr-3"
                     v-for="item in library.slice(0, 3)"
                     :key="item.id"
@@ -267,121 +267,159 @@
           <div class="discussions">
             <Discussions></Discussions>
           </div>
-        </b-col>
-        <b-col sm="3" class="text-left">
-          <div class="turn_over_box">
-            <div class="tob_1 mb-4">
-              <vc-calendar
-                class="custom-calendar max-w-full"
-                :masks="masks"
-                :attributes="attributes"
-                disable-page-swipe
-                is-expanded
-                title-position="left"
-              >
-                <template #day-popover="{ dayTitle, attributes }">
-                  <div class="text-xs text-gray-300 font-semibold text-center">
-                    {{ dayTitle }}
-                  </div>
-                  <popover-row
-                    v-for="attr in attributes"
-                    :key="attr.key"
-                    :attribute="attr"
-                    class="border-bottom pb-2"
-                  >
-                    <div>
-                      <p class="mb-1 text-capitalize">
-                        {{ attr.customData.title }}
-                      </p>
-                      <p class="fs11 mb-0 text-capitalize">
-                        <span class="mr-2"> {{ attr.customData.type }} -</span
-                        ><span> {{ attr.customData.duration }}</span>
-                      </p>
-                    </div>
-                  </popover-row>
-                </template>
-              </vc-calendar>
-            </div>
-            <div class="tob_2 mb-4">
-              <Todo user="learner" />
-            </div>
-
-            <div class="tob_2 mb-4 p-3">
-              <h6 class="mb-3 text-center">Connect with people</h6>
-
-              <div v-if="showConnect">
-                <div v-if="connections.length">
-                  <div
-                    class="d-flex mb-3"
-                    v-for="user in connections.slice(0, 5)"
-                    :key="user.id"
-                  >
-                    <div class="d-flex flex-1">
-                      <b-avatar
-                        size="sm"
-                        :src="user.profile"
-                        class="mr-2"
-                      ></b-avatar>
-                      <div>
-                        <div class="fs12 font-weight-bold text-capitalize">
-                          {{ user.name }}
-                        </div>
-                        <div style="line-height: 1">
-                          <span class="fs11">Lagos,Nigeria</span> <br /><span
-                            class="fs11"
-                            >{{ user.similar }} similar insights</span
-                          >
-                        </div>
-                      </div>
-                    </div>
-                    <b-dropdown
-                      size="sm"
-                      variant="transparent"
-                      no-caret
-                      class="no-focus drop"
+        </div>
+        <div class="shadow bg-white rounded p-3 py-5 side_box text-center">
+          <div class="sided">
+            <div class="turn_over_box tools">
+              <div class="mb-4">
+                <vc-calendar
+                  class="custom-calendar max-w-full"
+                  :masks="masks"
+                  :attributes="attributes"
+                  disable-page-swipe
+                  is-expanded
+                  title-position="left"
+                >
+                  <template #day-popover="{ dayTitle, attributes }">
+                    <div
+                      class="text-xs text-gray-300 font-semibold text-center"
                     >
-                      <template #button-content>
-                        <b-icon
-                          icon="three-dots-vertical"
-                          font-scale="1.4"
-                        ></b-icon>
-                      </template>
-                      <b-dropdown-item
-                        class="fs12"
-                        @click="addconnections(user.id, 'user')"
-                        >Connect</b-dropdown-item
-                      >
-                    </b-dropdown>
-                  </div>
-                </div>
-                <div v-else class="text-muted text-center p-3 fs13">
-                  Unavailable
-                </div>
+                      {{ dayTitle }}
+                    </div>
+                    <popover-row
+                      v-for="attr in attributes"
+                      :key="attr.key"
+                      :attribute="attr"
+                      class="border-bottom pb-2"
+                    >
+                      <div>
+                        <p class="fs11 mb-0 text-capitalize">
+                          <span class="mr-2"> {{ attr.customData.type }} </span>
+                        </p>
+                        <p class="mb-1 text-capitalize">
+                          {{ attr.customData.title }}
+                        </p>
+                      </div>
+                    </popover-row>
+                  </template>
+                </vc-calendar>
+              </div>
+              <div class="mb-4">
+                <Todo user="learner" />
               </div>
 
-              <div v-else>
-                <div class="d-flex w-100 mb-3">
-                  <div class="mr-2">
-                    <b-skeleton type="avatar"></b-skeleton>
+              <div class="bg-light rounded p-3">
+                <h6 class="mb-3 text-center">Connect with people</h6>
+
+                <div v-if="showConnect">
+                  <div v-if="connections.length">
+                    <div
+                      class="d-flex mb-3"
+                      v-for="user in connections.slice(0, 5)"
+                      :key="user.id"
+                    >
+                      <div class="d-flex flex-1">
+                        <b-avatar
+                          size="sm"
+                          :src="user.profile"
+                          class="mr-2"
+                        ></b-avatar>
+                        <div class="text-left">
+                          <div
+                            class="
+                              fs12
+                              font-weight-bold
+                              text-capitalize text-left
+                            "
+                          >
+                            {{ user.name }}
+                          </div>
+                          <div style="line-height: 1">
+                            <span class="fs11">Lagos,Nigeria</span> <br /><span
+                              class="fs11"
+                              >{{ user.similar }} similar insights</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <b-dropdown
+                        size="sm"
+                        variant="transparent"
+                        no-caret
+                        class="no-focus drop"
+                      >
+                        <template #button-content>
+                          <b-icon
+                            icon="three-dots-vertical"
+                            font-scale="1.4"
+                          ></b-icon>
+                        </template>
+                        <b-dropdown-item
+                          class="fs12"
+                          @click="addconnections(user.id, 'user')"
+                          >Connect</b-dropdown-item
+                        >
+                      </b-dropdown>
+                    </div>
                   </div>
-                  <div class="w-100">
-                    <b-skeleton animation="wave" width="85%"></b-skeleton>
-                    <b-skeleton animation="wave" width="35%"></b-skeleton>
+                  <div v-else class="text-muted text-center p-3 fs13">
+                    Unavailable
                   </div>
                 </div>
-                <div class="d-flex w-100">
-                  <div class="mr-2">
-                    <b-skeleton type="avatar"></b-skeleton>
+
+                <div v-else>
+                  <div class="d-flex w-100 mb-3">
+                    <div class="mr-2">
+                      <b-skeleton type="avatar"></b-skeleton>
+                    </div>
+                    <div class="w-100">
+                      <b-skeleton animation="wave" width="85%"></b-skeleton>
+                      <b-skeleton animation="wave" width="35%"></b-skeleton>
+                    </div>
                   </div>
-                  <div class="w-100">
-                    <b-skeleton animation="wave" width="85%"></b-skeleton>
-                    <b-skeleton animation="wave" width="35%"></b-skeleton>
+                  <div class="d-flex w-100">
+                    <div class="mr-2">
+                      <b-skeleton type="avatar"></b-skeleton>
+                    </div>
+                    <div class="w-100">
+                      <b-skeleton animation="wave" width="85%"></b-skeleton>
+                      <b-skeleton animation="wave" width="35%"></b-skeleton>
+                    </div>
                   </div>
                 </div>
+              </div>
+            </div>
+            <div class="tools_icons">
+              <div class="mb-5">
+                <img
+                  :src="require('@/assets/images/calendar.svg')"
+                  width="40"
+                  height="40"
+                  alt=""
+                  class="cursor-pointer"
+                />
+              </div>
+              <div class="mb-5">
+                <img
+                  :src="require('@/assets/images/to-do.svg')"
+                  width="40"
+                  height="40"
+                  alt=""
+                  class="cursor-pointer"
+                />
+              </div>
+              <div class="mb-4">
+                <img
+                  :src="require('@/assets/images/network.svg')"
+                  width="40"
+                  height="40"
+                  alt=""
+                  class="cursor-pointer"
+                />
               </div>
             </div>
           </div>
-        </b-col>
+        </div>
       </b-row>
     </b-container>
   </div>
@@ -390,9 +428,12 @@
 <script>
 import Todo from "../Todo";
 import Discussions from "./minidiscussions";
+import PopoverRow from "v-calendar/lib/components/popover-row.umd.min";
+
 export default {
   data() {
     return {
+      showSide: false,
       courseShown: "enrolled",
       facilitators: [],
       users: [],
@@ -413,6 +454,7 @@ export default {
   components: {
     Todo,
     Discussions,
+    PopoverRow,
   },
   watch: {},
   created() {
@@ -449,11 +491,9 @@ export default {
           key: index,
 
           highlight: {
-            color: "teal",
-            fillMode: "light",
-            start: { fillMode: "outline" },
-            base: { fillMode: "light" },
-            end: { fillMode: "solid" },
+            start: { color: "teal", fillMode: "outline" },
+            base: { color: "teal", fillMode: "light" },
+            end: { color: "teal", fillMode: "solid" },
           },
           dot: false,
           bar: false,
@@ -483,12 +523,9 @@ export default {
           key: index,
 
           highlight: {
-            color: "purple",
-            fillMode: "light",
-
-            start: { fillMode: "outline" },
-            base: { fillMode: "light" },
-            end: { fillMode: "solid" },
+            start: { color: "green", fillMode: "outline" },
+            base: { color: "green", fillMode: "light" },
+            end: { color: "green", fillMode: "solid" },
           },
           dot: false,
           bar: false,
@@ -510,7 +547,7 @@ export default {
         var res = {
           key: index,
           highlight: item.highlight,
-          popover: true,
+          popover: { visibility: "hover" },
           customData: item.customData,
           dates: item.dates,
         };
@@ -606,7 +643,7 @@ export default {
           if (res.status == 200) {
             this.schedules = res.data.filter(
               (item) =>
-                this.$moment().isBefore(item.start_time) &&
+                this.$moment().isBefore(item.start_time) ||
                 this.$moment().isBefore(item.end_time)
             );
             this.rows = this.schedules.length;
@@ -857,6 +894,41 @@ export default {
   justify-content: space-between;
   padding: 10px 0;
 }
+.main_box {
+  width: 92%;
+}
+.side_box {
+  position: fixed;
+  top: 14%;
+  right: 1%;
+  text-align: left;
+  transition: 0.5s;
+  width: 5%;
+  height: 80vh;
+}
+.side_box .sided .tools {
+  display: none;
+}
+.side_box:hover {
+  width: 20%;
+}
+
+.side_box:hover .sided .tools {
+  display: block;
+}
+.side_box:hover .sided .tools_icons {
+  display: none;
+}
+.sided {
+  height: 100%;
+  overflow: scroll;
+  // -ms-overflow-style: none; /* IE and Edge */
+  // scrollbar-width: none; /* Firefox */
+}
+// .sided::-webkit-scrollbar {
+//   display: none;
+// }
+
 @media (max-width: 600px) {
   .box {
     margin-bottom: 24px;

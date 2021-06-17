@@ -544,17 +544,15 @@
                 </div>
                 <div class="text-right" v-if="checkCommunity(course.id)">
                   <div class="d-flex align-items-center">
-                    <b-button
-                      class="ml-auto mr-2"
+                    <b-icon
+                      font-scale=".9"
+                      class="ml-auto mr-3"
                       @click="getcode(course.id)"
-                      size="sm"
-                      variant="lighter-green"
-                    >
-                      <b-icon icon="person-plus-fill"></b-icon
-                    ></b-button>
+                      icon="person-plus-fill"
+                    ></b-icon>
 
                     <b-icon
-                      font-scale="1.15"
+                      font-scale=".9"
                       @click="sharelink(course.id)"
                       icon="share"
                     ></b-icon>
@@ -865,16 +863,6 @@
 
     <b-modal no-close-on-backdrop id="courselink" centered hide-footer>
       <div class="box p-3 text-center">
-        <div class="mb-4 border px-4 py-2 rounded-pill d-flex text-muted">
-          <b-icon icon="link45deg" font-scale="1.5rem"></b-icon>
-
-          <span
-            v-clipboard:copy="message"
-            v-clipboard:success="onCopy"
-            v-clipboard:error="onError"
-            >{{ message }}</span
-          >
-        </div>
         <h6 class="text-center">Invite your friends</h6>
         <div>
           <div
@@ -904,6 +892,17 @@
               Send Invite
             </b-button>
           </div>
+        </div>
+        <div class="mt-3 border p-2 rounded-pill d-flex text-muted">
+          <b-icon icon="link45deg" font-scale="1.2rem"></b-icon>
+
+          <span
+            class="fs12"
+            v-clipboard:copy="message"
+            v-clipboard:success="onCopy"
+            v-clipboard:error="onError"
+            >{{ message }}</span
+          >
         </div>
       </div>
     </b-modal>
@@ -942,7 +941,7 @@
           network="facebook"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for ${course.title} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`I enrolled for the course, ${course.title} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -955,7 +954,7 @@
           network="twitter"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for ${course.title} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`I enrolled for the course, ${course.title} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -968,7 +967,7 @@
           network="whatsApp"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for ${course.title} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`I enrolled for the course, ${course.title} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -990,7 +989,7 @@
           network="Telegram"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for ${course.title} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`I enrolled for the course, ${course.title} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1083,7 +1082,7 @@ export default {
       this.feed = {
         media: this.course.cover,
         message:
-          "I enrolled for the " +
+          "I enrolled for the course, the " +
           this.course.title +
           " course and I think you’d like it. Join me!",
         url:
@@ -1129,7 +1128,9 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.link = `https://skillsguruh.herokuapp.com/register/?referral_type=group&referral_code=${res.data.code}`;
+            this.link = `https://skillsguruh.herokuapp.com/register/?course=${encodeURIComponent(
+              this.course.title.trim()
+            )}referral_type=group&referral_code=${res.data.code}`;
 
             this.$bvModal.show("share");
           }
@@ -1628,6 +1629,15 @@ export default {
   width: 25%;
   overflow-y: scroll;
 }
+.sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.sidebar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
 .course_title {
   font-weight: 500;
 }
@@ -1652,8 +1662,14 @@ p {
 }
 .my_courses {
   height: 85vh;
-  overflow: auto;
+  overflow-y: auto;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
+.my_courses::-webkit-scrollbar {
+  display: none;
+}
+
 .addmodule {
   width: 400px;
 }

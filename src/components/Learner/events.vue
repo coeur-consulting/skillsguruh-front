@@ -73,6 +73,7 @@
                     v-for="item in filter"
                     :key="item.id"
                   >
+                    <b-img fluid-grow :src="item.cover"></b-img>
                     <div class="px-3 py-2">
                       <h5 class="text-capitalize">{{ item.title }}</h5>
                       <p class="mb-1 text-muted fs15">
@@ -92,13 +93,15 @@
                         </p>
                       </div>
                     </div>
-                    <b-img fluid-grow :src="item.cover"></b-img>
                     <div
                       class="
                         bg-lighter-green
                         px-3
                         py-2
-                        text-left text-dark-green
+                        text-right
+                        font-weight-bold
+                        text-dark-green
+                        fs14
                       "
                     >
                       <span @click="view(item.id)">

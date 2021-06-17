@@ -88,7 +88,7 @@
           </div>
           <div></div>
         </b-col>
-        <b-col sm="8" class="p-3 bg-white shadow-sm rounded">
+        <b-col sm="8" class="p-3 bg-white border rounded">
           <div class="text-right mb-3">
             <b-icon
               class="mr-3"

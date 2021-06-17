@@ -1,6 +1,6 @@
 <template>
-  <div class="messages shadow-sm rounded-8 bg-white pb-3 pt-1">
-    <div class="d-flex p-3 py-2 align-items-center">
+  <div class="messages shadow-sm rounded-8 bg-white pb-3 overflow-hidden">
+    <div class="d-flex p-3 py-2 align-items-center bg-dark-green text-white">
       <h6 class="flex-1 text-left mb-0">Messages</h6>
       <b-icon
         icon="chevron-down"

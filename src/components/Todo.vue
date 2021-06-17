@@ -1,6 +1,6 @@
 <template>
-  <div id="chart1" style="overflow: hidden">
-    <b-row class="border-bottom p-3">
+  <div id="chart1" style="overflow: hidden" class="p-1 border rounded">
+    <b-row class="p-3">
       <b-col sm="12" class="mb-2 mb-sm-0 text-center">
         <h6>To do List</h6></b-col
       >
@@ -8,6 +8,8 @@
         <b-form @submit.prevent="register">
           <b-input-group size="sm">
             <b-form-input
+              autocomplete="off"
+              :autofocus="false"
               placeholder="Add a new todo"
               required
               v-model="todo"
@@ -25,26 +27,29 @@
       <div v-if="todos.length">
         <div class="todos d-flex flex-column">
           <div class="mb-2" v-for="(item, index) in todos" :key="index">
-            <div class="todo d-flex align-items-center w-100 p-2 rounded">
+            <div class="todo d-flex align-items-center w-100 py-2 px-1 rounded">
               <div class="flex-1">
                 <b-form-checkbox
                   class="w-100"
                   :checked="item.status ? true : false"
                   @change="update(index, item.id, item.todo, item.status)"
                   size="sm"
-                  ><span :class="{ strike: item.status }">{{ item.todo }} </span
-                  ><br />
-                  <span class="text-muted text-sm mr-5">{{
-                    item.created_at | moment("LL")
-                  }}</span>
-                  <span
-                    class="text-sm"
-                    :class="{
-                      'text-success': item.status,
-                      'text-danger': !item.status,
-                    }"
-                    >{{ item.status ? "Completed" : "Incomplete" }}</span
-                  >
+                  ><div class="text-left">
+                    <span :class="{ strike: item.status }"
+                      >{{ item.todo }} </span
+                    ><br />
+                    <span class="text-muted fs11 mr-5">{{
+                      item.created_at | moment("LL")
+                    }}</span>
+                    <span
+                      class="text-sm"
+                      :class="{
+                        'text-success': item.status,
+                        'text-danger': !item.status,
+                      }"
+                      >{{ item.status ? "Completed" : "Incomplete" }}</span
+                    >
+                  </div>
                 </b-form-checkbox>
               </div>
               <b-icon @click="drop(item.id, index)" icon="trash"></b-icon>
@@ -59,9 +64,10 @@
         </div>
       </div>
 
-      <div class="text-center p-5" v-else>
+      <div class="text-center p-3" v-else>
         <h6 class="text-muted fs12">
-          You have no active Todo, try adding one now !
+          You have no active To do, <br />
+          try adding one now !
         </h6>
       </div>
     </div>
@@ -247,11 +253,11 @@ export default {
   background: white;
 }
 .admin_tab {
-  min-height: 400px;
+  max-height: 400px;
 }
 .todos {
   padding: 10px;
-  height: 200px;
+  max-height: 400px;
   overflow: auto;
 }
 .todo {
