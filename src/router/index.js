@@ -51,6 +51,16 @@ const routes = [
     },
   },
   {
+    path: "/explore/courses",
+    name: "ExploreCourses",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "ExploreCourses" */ "../views/Courses.vue"),
+      footer: Footer,
+    },
+  },
+  {
     path: "/about",
     name: "About",
     components: {

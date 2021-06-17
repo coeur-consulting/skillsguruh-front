@@ -625,7 +625,7 @@ export default {
         })
         .then((res) => {
           if (res.status == 201) {
-            this.$toast.success("Questionnaire added successfully");
+            this.$toast.success("Created successfully");
             this.$router.go(-1);
           }
         })

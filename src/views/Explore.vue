@@ -117,7 +117,7 @@
         </b-row>
 
         <div class="text-center text-dark-green">
-          <span @click="$router.push('/learner/courses')" class="cursor-pointer"
+          <span @click="$router.push('/explore/courses')" class="cursor-pointer"
             >Load more...</span
           >
         </div>

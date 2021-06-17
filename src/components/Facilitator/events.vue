@@ -31,7 +31,7 @@
               >
                 <div class="d-flex">
                   <span
-                    class="mr-4 d-flex align-items-center"
+                    class="mr-4 d-flex align-items-center cursor-pointer"
                     @click="showing = 'ongoing'"
                     ><b-icon
                       :icon="showing == 'ongoing' ? 'circle-fill' : 'circle'"
@@ -42,7 +42,7 @@
                     Ongoing Events</span
                   >
                   <span
-                    class="mr-4 d-flex align-items-center"
+                    class="mr-4 d-flex align-items-center cursor-pointer"
                     @click="showing = 'upcoming'"
                     ><b-icon
                       :icon="showing == 'upcoming' ? 'circle-fill' : 'circle'"
@@ -54,7 +54,7 @@
                   >
                   <span
                     @click="showing = 'past'"
-                    class="d-flex align-items-center"
+                    class="d-flex align-items-center cursor-pointer"
                     ><b-icon
                       :icon="showing == 'past' ? 'circle-fill' : 'circle'"
                       class="mr-1"
