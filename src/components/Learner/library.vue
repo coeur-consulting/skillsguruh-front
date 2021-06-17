@@ -4,7 +4,7 @@
       <h5 class="text-left mb-4">Your Library</h5>
       <b-row>
         <b-col sm="4" class="text-left pr-4">
-          <div class="bg-white w-100 h-100 p-3 shadow-sm rounded">
+          <div class="bg-white w-100 h-100 p-3 border rounded">
             <h6 class="px-2 mb-4 text-muted">Recently Added</h6>
             <div v-if="showRecent">
               <div

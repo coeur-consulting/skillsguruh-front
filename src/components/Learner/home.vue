@@ -59,7 +59,7 @@
                     :key="item.id"
                   >
                     <div
-                      class="course shadow cursor-pointer"
+                      class="course border cursor-pointer"
                       @click="
                         $router.push(`/learner/courses?course_id=${item.id}`)
                       "
@@ -161,7 +161,7 @@
                       img-top
                       tag="article"
                       style="max-width: 20rem"
-                      class="mb-2 shadow border-0"
+                      class="mb-2 border"
                     >
                       <b-card-text class="overview">
                         {{ item.course.description }}
@@ -268,7 +268,7 @@
             <Discussions></Discussions>
           </div>
         </div>
-        <div class="shadow bg-white rounded p-3 py-5 side_box text-center">
+        <div class="border bg-white rounded p-3 py-5 side_box text-center">
           <div class="sided">
             <div class="turn_over_box tools">
               <div class="mb-4">

@@ -1457,7 +1457,7 @@ td {
   justify-content: center;
   text-align: left;
 
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35);
+  // box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35);
   border-radius: 8px;
   background: white;
 }
@@ -1484,7 +1484,7 @@ td {
 //   color: white !important;
 // }
 .shadow {
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
+  // box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;
 }
 .search.form-control {
@@ -1499,14 +1499,14 @@ td {
 }
 .tob_1 {
   min-height: 200px;
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
+  // box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;
   text-align: center;
   background: white;
 }
 .tob_2 {
   min-height: 200px;
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
+  // box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;
   padding: 0;
   background: white;
