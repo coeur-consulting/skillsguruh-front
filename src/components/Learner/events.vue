@@ -2,14 +2,13 @@
   <div>
     <b-container>
       <b-row>
-        <b-col class="mb-5 mb-sm-0">
-          <div class="rounded bg-white">
+        <b-col class="mb-3 mb-sm-0">
+          <div class="rounded">
             <div
               class="
                 top_heading
                 p-4
                 border-bottom
-                mb-4
                 d-flex
                 justify-content-between
               "
@@ -17,10 +16,10 @@
               <h4>Events</h4>
               <div>
                 <b-form-input
-                  placeholder="Search"
+                  placeholder="Search event"
                   size="sm"
                   type="search"
-                  class="search"
+                  class="search bg-white"
                   v-model="search"
                 ></b-form-input>
               </div>
@@ -69,13 +68,40 @@
               <div v-if="showEvents">
                 <div class="events" v-if="filter.length">
                   <div
-                    class="border rounded text-left mb-5 position-relative"
+                    class="
+                      border
+                      rounded
+                      overflow-hidden
+                      text-left
+                      mb-5
+                      position-relative
+                    "
                     v-for="item in filter"
                     :key="item.id"
                   >
-                    <b-img fluid-grow :src="item.cover"></b-img>
-                    <div class="px-3 py-2">
-                      <h5 class="text-capitalize">{{ item.title }}</h5>
+                    <div
+                      class="
+                        bg-lighter-green
+                        px-3
+                        py-3
+                        text-right text-dark-green
+                        d-flex
+                        justify-content-between
+                        align-items-center
+                      "
+                    >
+                      <h4 class="text-capitalize mb-0">{{ item.title }}</h4>
+                      <span @click="view(item.id)">
+                        <span class="fs15 cursor-pointer"> View Event </span>
+                        <b-icon icon="chevron-double-right"></b-icon>
+                      </span>
+                    </div>
+                    <b-img
+                      class="event_image"
+                      fluid-grow
+                      :src="item.cover"
+                    ></b-img>
+                    <div class="px-3 py-2 bg-white">
                       <p class="mb-1 text-muted fs15">
                         <b-icon
                           icon="calendar2-check"
@@ -92,22 +118,6 @@
                           {{ item.description }}
                         </p>
                       </div>
-                    </div>
-                    <div
-                      class="
-                        bg-lighter-green
-                        px-3
-                        py-2
-                        text-right
-                        font-weight-bold
-                        text-dark-green
-                        fs14
-                      "
-                    >
-                      <span @click="view(item.id)">
-                        <span class=""> View Event </span>
-                        <b-icon icon="chevron-double-right"></b-icon>
-                      </span>
                     </div>
                   </div>
                   <div class="py-3 d-flex justify-content-between">
@@ -369,14 +379,14 @@ export default {
   padding-top: 30px;
 }
 .event-container {
-  width: 65%;
+  width: 85%;
   margin: 0 auto;
 }
 .events {
-  max-height: 70vh;
-  overflow-y: auto;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  // max-height: 70vh;
+  // overflow-y: auto;
+  // -ms-overflow-style: none; /* IE and Edge */
+  // scrollbar-width: none; /* Firefox */
 }
 
 .events::-webkit-scrollbar {

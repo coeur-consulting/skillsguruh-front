@@ -206,7 +206,7 @@
                 <b-row v-if="courses.length">
                   <b-col
                     sm="3"
-                    class="px-1 pr-2"
+                    class="pr-2"
                     v-for="item in courses.slice(0, 3)"
                     :key="item.id"
                   >
@@ -302,7 +302,7 @@
                 <b-row v-if="library.length">
                   <b-col
                     sm="3"
-                    class="px-1 pr-2"
+                    class="pr-2"
                     v-for="item in library.slice(0, 3)"
                     :key="item.id"
                   >

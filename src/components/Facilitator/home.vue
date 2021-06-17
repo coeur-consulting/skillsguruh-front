@@ -205,7 +205,7 @@
                 <b-row v-if="mostenrolledcourse.length">
                   <b-col
                     sm="3"
-                    class="px-1 pr-2"
+                    class="pr-2"
                     v-for="item in mostenrolledcourse.slice(0, 3)"
                     :key="item.id"
                   >
@@ -307,7 +307,7 @@
                 <b-row v-if="topratedcourse.length">
                   <b-col
                     sm="3"
-                    class="px-1 pr-2"
+                    class="pr-2"
                     v-for="(item, id) in topratedcourse.slice(0, 3)"
                     :key="id"
                   >

@@ -3,13 +3,12 @@
     <b-container>
       <b-row>
         <b-col class="mb-5 mb-sm-0">
-          <div class="rounded bg-white">
+          <div class="rounded">
             <div
               class="
                 top_heading
                 p-4
                 border-bottom
-                mb-4
                 d-flex
                 justify-content-between
               "
@@ -73,12 +72,34 @@
                 <div class="events" v-if="filter.length">
                   <div
                     class="border rounded text-left mb-5 position-relative"
-                    v-for="item in filter"
+                    v-for="(item, index) in filter"
                     :key="item.id"
                   >
-                    <div class="px-3 py-2 d-flex">
+                    <div
+                      class="
+                        bg-lighter-green
+                        px-3
+                        py-3
+                        text-right text-dark-green
+                        d-flex
+                        justify-content-between
+                        align-items-center
+                      "
+                    >
+                      <h4 class="text-capitalize mb-0">{{ item.title }}</h4>
+                      <span @click="view(item.id)">
+                        <span class="fs15 cursor-pointer"> View Event </span>
+                        <b-icon icon="chevron-double-right"></b-icon>
+                      </span>
+                    </div>
+                    <b-img
+                      class="event_image"
+                      fluid-grow
+                      :src="item.cover"
+                    ></b-img>
+
+                    <div class="px-3 py-2 d-flex bg-white">
                       <div class="flex-1">
-                        <h5 class="text-capitalize">{{ item.title }}</h5>
                         <p class="mb-1 text-muted fs15">
                           <b-icon
                             icon="calendar2-check"
@@ -97,6 +118,10 @@
                         </div>
                       </div>
                       <b-dropdown
+                        v-if="
+                          item.admin_id &&
+                          item.admin_id == $store.getters.admin.id
+                        "
                         size="sm"
                         variant="transparent"
                         no-caret
@@ -117,20 +142,6 @@
                           >Delete</b-dropdown-item
                         >
                       </b-dropdown>
-                    </div>
-                    <b-img fluid-grow :src="item.cover"></b-img>
-                    <div
-                      class="
-                        bg-lighter-green
-                        px-3
-                        py-2
-                        text-left text-dark-green
-                      "
-                    >
-                      <span @click="view(item.id)">
-                        <span class=""> View Event </span>
-                        <b-icon icon="chevron-double-right"></b-icon>
-                      </span>
                     </div>
                   </div>
                   <div class="py-3 d-flex justify-content-between">
@@ -199,7 +210,7 @@
         <b-form @submit.prevent="register" class="event">
           <div>
             <b-form-row class="mb-2">
-              <b-col sm="6" class="pr-sm-3">
+              <b-col sm="12" class="pr-sm-3">
                 <b-form-group label="Event name">
                   <b-form-input
                     size="lg"
@@ -209,6 +220,8 @@
                   ></b-form-input>
                 </b-form-group>
               </b-col>
+            </b-form-row>
+            <b-form-row class="mb-2">
               <b-col sm="6" class="pr-sm-3">
                 <b-form-group label="Event Duration">
                   <b-form-input
@@ -219,8 +232,6 @@
                   ></b-form-input>
                 </b-form-group>
               </b-col>
-            </b-form-row>
-            <b-form-row class="mb-2">
               <b-col sm="6" class="pr-sm-3">
                 <b-form-group label="Event venue">
                   <b-form-input
@@ -408,6 +419,9 @@
                   ></b-form-input>
                 </b-form-group>
               </b-col>
+            </b-form-row>
+
+            <b-form-row class="mb-2">
               <b-col sm="6" class="pr-sm-3">
                 <b-form-group label="Event Duration">
                   <b-form-input
@@ -418,9 +432,6 @@
                   ></b-form-input>
                 </b-form-group>
               </b-col>
-            </b-form-row>
-
-            <b-form-row class="mb-2">
               <b-col sm="6" class="pr-sm-3">
                 <b-form-group label="Event venue">
                   <b-form-input
@@ -827,15 +838,15 @@ export default {
   padding-top: 30px;
 }
 .event-container {
-  width: 65%;
+  width: 85%;
   margin: 0 auto;
 }
-.events {
-  max-height: 70vh;
-  overflow-y: auto;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
+// .events {
+//   max-height: 70vh;
+//   overflow-y: auto;
+//   -ms-overflow-style: none; /* IE and Edge */
+//   scrollbar-width: none; /* Firefox */
+// }
 
 .events::-webkit-scrollbar {
   display: none;

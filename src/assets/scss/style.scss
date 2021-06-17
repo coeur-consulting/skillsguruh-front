@@ -314,6 +314,10 @@ a:hover {
 .rounded {
   border-radius: 0.4rem !important;
 }
+.event_image {
+  height: 350px;
+  object-fit: cover;
+}
 @media (max-width: 600px) {
   ::placeholder {
     font-size: 14px;
