@@ -1100,12 +1100,12 @@
       <b-container>
         <b-row v-if="schedule_num == 1">
           <b-col cols="6" class="" @click="schedule_num = 2">
-            <div class="p-5 text-center shadow-sm bg-lighter-green rounded">
+            <div class="p-5 text-center border bg-lighter-green rounded">
               <h4>Course</h4>
             </div></b-col
           >
           <b-col cols="6" class="" @click="schedule_num = 3">
-            <div class="p-5 text-center shadow-sm bg-lighter-green rounded">
+            <div class="p-5 text-center border bg-lighter-green rounded">
               <h4>Event</h4>
             </div></b-col
           >
@@ -1331,7 +1331,7 @@
                 :key="id"
               >
                 <div
-                  class="p-2 rounded d-flex justify-content-between shadow"
+                  class="p-2 rounded d-flex justify-content-between border"
                   v-if="id != current_schedule"
                 >
                   <div>
@@ -2002,7 +2002,7 @@ td {
   justify-content: center;
   text-align: left;
 
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35);
+  // box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35);
   border-radius: 8px;
   background: white;
 }
@@ -2029,7 +2029,7 @@ td {
 //   color: white !important;
 // }
 .shadow {
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
+  // box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;
 }
 .search.form-control {
@@ -2044,14 +2044,14 @@ td {
 }
 .tob_1 {
   min-height: 200px;
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
+  // box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;
   text-align: center;
   background: white;
 }
 .tob_2 {
   min-height: 200px;
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
+  // box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;
   padding: 0;
   background: white;

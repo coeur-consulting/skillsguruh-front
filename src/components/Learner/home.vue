@@ -2,272 +2,6 @@
   <div>
     <b-container class="position-relative">
       <b-row class="position-relative">
-        <div class="main_box">
-          <div
-            class="
-              top_banner
-              text-left
-              p-3 p-sm-5
-              rounded
-              position-relative
-              mb-5
-            "
-          >
-            <h4 class="text-dark-green">
-              Hello {{ $store.getters.learner.name }}
-            </h4>
-            <p class="w-50">
-              Remember to meet at least one person, learn at least one new thing
-              and teach at least one new person.
-            </p>
-
-            <b-img
-              class="learner_img"
-              :src="require('@/assets/images/learner.png')"
-            ></b-img>
-          </div>
-
-          <div class="recommended text-left mb-5">
-            <div class="d-flex align-items-center mb-3 w-100">
-              <div class="d-flex flex-1">
-                <h6
-                  class="pr-3 border-right cursor-pointer"
-                  :class="courseShown == 'enrolled' ? '' : 'text-muted'"
-                  @click="courseShown = 'enrolled'"
-                >
-                  Enrolled Courses
-                </h6>
-                <h6
-                  class="pl-3 cursor-pointer"
-                  :class="courseShown == 'recommended' ? '' : 'text-muted'"
-                  @click="courseShown = 'recommended'"
-                >
-                  Recommended Courses
-                </h6>
-              </div>
-              <span class="fs14" @click="$router.push('/learner/courses')"
-                >More <b-icon icon="arrow-right"></b-icon
-              ></span>
-            </div>
-            <div v-if="showEnrolled">
-              <div v-if="courseShown == 'recommended'">
-                <b-row v-if="courses.length">
-                  <b-col
-                    sm="3"
-                    class="pr-3"
-                    v-for="item in courses.slice(0, 3)"
-                    :key="item.id"
-                  >
-                    <div
-                      class="course border cursor-pointer"
-                      @click="
-                        $router.push(`/learner/courses?course_id=${item.id}`)
-                      "
-                    >
-                      <div
-                        class="course_img"
-                        :style="{
-                          backgroundImage: `url(${item.cover})`,
-                        }"
-                      ></div>
-                      <div class="course_text">
-                        <div class="d-flex justify-content-between">
-                          <span
-                            class="p-2 rounded-pill text-white fs11"
-                            :style="{
-                              backgroundColor: JSON.parse(
-                                item.courseoutline.knowledge_areas
-                              ).color,
-                            }"
-                          >
-                            <b-icon
-                              class="mr-2"
-                              :icon="
-                                JSON.parse(item.courseoutline.knowledge_areas)
-                                  .icon
-                              "
-                            ></b-icon>
-                            <span>{{
-                              JSON.parse(item.courseoutline.knowledge_areas)
-                                .value
-                            }}</span></span
-                          >
-                          <span class="text-capitalize fs11">{{
-                            item.type
-                          }}</span>
-                        </div>
-                        <div class="border-bottom pt-4">
-                          <h6
-                            class="
-                              font-weight-bold
-                              text-capitalize
-                              overview-title
-                            "
-                          >
-                            {{ item.title }}
-                          </h6>
-                          <p class="overview">
-                            {{ item.courseoutline.overview }}
-                          </p>
-                        </div>
-                        <div class="info fs12">
-                          <div class="d-flex">
-                            <div class="mr-2">
-                              <b-icon icon="people" class="mr-1"></b-icon>
-                              <span
-                                >{{
-                                  item.enroll ? item.enroll.count : 0
-                                }}+</span
-                              >
-                            </div>
-                            <!-- <div class="mr-3">
-                              <b-icon icon="eye" class="mr-1"></b-icon>
-                              <span>250+</span>
-                            </div> -->
-                            <div>
-                              <b-icon
-                                icon="star-fill"
-                                style="color: gold"
-                                class="mr-1"
-                              ></b-icon>
-                              <span>{{ item.review.length }} reviews</span>
-                            </div>
-                          </div>
-
-                          <b-avatar size="sm" variant="light" :src="item.cover">
-                          </b-avatar>
-                        </div>
-                      </div>
-                    </div>
-                  </b-col>
-                </b-row>
-
-                <div v-else class="w-100 p-5 text-center text-muted">
-                  <h5>No course available</h5>
-                </div>
-              </div>
-              <div v-if="courseShown == 'enrolled'">
-                <b-row v-if="library.length">
-                  <b-col
-                    sm="3"
-                    class="pr-3"
-                    v-for="item in library.slice(0, 3)"
-                    :key="item.id"
-                  >
-                    <b-card
-                      :title="item.course.title"
-                      :img-src="item.course.cover"
-                      img-alt="Image"
-                      img-top
-                      tag="article"
-                      style="max-width: 20rem"
-                      class="mb-2 border"
-                    >
-                      <b-card-text class="overview">
-                        {{ item.course.description }}
-                      </b-card-text>
-                      <!-- <b-card-text
-                        class="fs13 text-muted d-flex align-items-center mb-2"
-                        v-if="item.course.modules"
-                      >
-                        <b-iconstack font-scale="1.5rem" class="mr-2">
-                          <b-icon
-                            stacked
-                            icon="circle-fill"
-                            variant="lighter-green"
-                          ></b-icon>
-                          <b-icon
-                            stacked
-                            icon="book"
-                            scale="0.5"
-                            variant="dark-green"
-                          ></b-icon>
-                        </b-iconstack>
-                        <span> {{ item.course.modules.length }} modules</span>
-                      </b-card-text> -->
-                      <div class="mt-3">
-                        <div class="mb-2 fs12">Your progress</div>
-                        <b-progress
-                          :max="100"
-                          height=".8rem"
-                          class="mb-3"
-                          variant="dark-green"
-                        >
-                          <b-progress-bar
-                            :value="item.progress"
-                            :label="`${Math.round(item.progress)}%`"
-                          ></b-progress-bar>
-                        </b-progress>
-                      </div>
-
-                      <div class="">
-                        <b-button
-                          @click="
-                            $router.push(`/learner/media/${item.course.id}`)
-                          "
-                          size="sm"
-                          variant="lighter-green"
-                          >Continue course</b-button
-                        >
-                      </div>
-                    </b-card>
-                  </b-col>
-                </b-row>
-                <div v-else class="w-100 p-5 text-center text-muted">
-                  <h5>No course available</h5>
-                </div>
-              </div>
-            </div>
-            <b-row v-else>
-              <b-col>
-                <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
-                <b-skeleton
-                  animation="fade"
-                  class="mb-2"
-                  width="65%"
-                ></b-skeleton>
-                <b-skeleton
-                  animation="fade"
-                  class="mb-2"
-                  width="55%"
-                ></b-skeleton>
-                <b-skeleton animation="fade" width="59%"></b-skeleton>
-              </b-col>
-              <b-col>
-                <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
-                <b-skeleton
-                  animation="fade"
-                  class="mb-2"
-                  width="65%"
-                ></b-skeleton>
-                <b-skeleton
-                  animation="fade"
-                  class="mb-2"
-                  width="55%"
-                ></b-skeleton>
-                <b-skeleton animation="fade" width="59%"></b-skeleton>
-              </b-col>
-              <b-col>
-                <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
-                <b-skeleton
-                  animation="fade"
-                  class="mb-2"
-                  width="65%"
-                ></b-skeleton>
-                <b-skeleton
-                  animation="fade"
-                  class="mb-2"
-                  width="55%"
-                ></b-skeleton>
-                <b-skeleton animation="fade" width="59%"></b-skeleton>
-              </b-col>
-            </b-row>
-          </div>
-
-          <div class="discussions">
-            <Discussions></Discussions>
-          </div>
-        </div>
         <div class="border bg-white rounded p-3 py-5 side_box text-center">
           <div class="sided">
             <div class="turn_over_box tools">
@@ -418,6 +152,272 @@
                 />
               </div>
             </div>
+          </div>
+        </div>
+        <div class="main_box">
+          <div
+            class="
+              top_banner
+              text-left
+              p-3 p-sm-5
+              rounded
+              position-relative
+              mb-5
+            "
+          >
+            <h4 class="text-dark-green">
+              Hello {{ $store.getters.learner.name }}
+            </h4>
+            <p class="w-50">
+              Remember to meet at least one person, learn at least one new thing
+              and teach at least one new person.
+            </p>
+
+            <b-img
+              class="learner_img"
+              :src="require('@/assets/images/learner.png')"
+            ></b-img>
+          </div>
+
+          <div class="recommended text-left mb-5">
+            <div class="d-flex align-items-center mb-3 w-100">
+              <div class="d-flex flex-1">
+                <h6
+                  class="pr-3 border-right cursor-pointer"
+                  :class="courseShown == 'enrolled' ? '' : 'text-muted'"
+                  @click="courseShown = 'enrolled'"
+                >
+                  Enrolled Courses
+                </h6>
+                <h6
+                  class="pl-3 cursor-pointer"
+                  :class="courseShown == 'recommended' ? '' : 'text-muted'"
+                  @click="courseShown = 'recommended'"
+                >
+                  Recommended Courses
+                </h6>
+              </div>
+              <span class="fs14" @click="$router.push('/learner/courses')"
+                >More <b-icon icon="arrow-right"></b-icon
+              ></span>
+            </div>
+            <div v-if="showEnrolled">
+              <div v-if="courseShown == 'recommended'">
+                <b-row v-if="courses.length">
+                  <b-col
+                    sm="3"
+                    class="px-1 pr-2"
+                    v-for="item in courses.slice(0, 3)"
+                    :key="item.id"
+                  >
+                    <div
+                      class="course border cursor-pointer"
+                      @click="
+                        $router.push(`/learner/courses?course_id=${item.id}`)
+                      "
+                    >
+                      <div
+                        class="course_img"
+                        :style="{
+                          backgroundImage: `url(${item.cover})`,
+                        }"
+                      ></div>
+                      <div class="course_text">
+                        <div class="d-flex justify-content-between">
+                          <span
+                            class="p-2 rounded-pill text-white fs11"
+                            :style="{
+                              backgroundColor: JSON.parse(
+                                item.courseoutline.knowledge_areas
+                              ).color,
+                            }"
+                          >
+                            <b-icon
+                              class="mr-2"
+                              :icon="
+                                JSON.parse(item.courseoutline.knowledge_areas)
+                                  .icon
+                              "
+                            ></b-icon>
+                            <span>{{
+                              JSON.parse(item.courseoutline.knowledge_areas)
+                                .value
+                            }}</span></span
+                          >
+                          <span class="text-capitalize fs11">{{
+                            item.type
+                          }}</span>
+                        </div>
+                        <div class="border-bottom pt-4">
+                          <h6
+                            class="
+                              font-weight-bold
+                              text-capitalize
+                              overview-title
+                            "
+                          >
+                            {{ item.title }}
+                          </h6>
+                          <p class="overview">
+                            {{ item.courseoutline.overview }}
+                          </p>
+                        </div>
+                        <div class="info fs12">
+                          <div class="d-flex">
+                            <div class="mr-2">
+                              <b-icon icon="people" class="mr-1"></b-icon>
+                              <span
+                                >{{
+                                  item.enroll ? item.enroll.count : 0
+                                }}+</span
+                              >
+                            </div>
+                            <!-- <div class="mr-3">
+                              <b-icon icon="eye" class="mr-1"></b-icon>
+                              <span>250+</span>
+                            </div> -->
+                            <div>
+                              <b-icon
+                                icon="star-fill"
+                                style="color: gold"
+                                class="mr-1"
+                              ></b-icon>
+                              <span>{{ item.review.length }} reviews</span>
+                            </div>
+                          </div>
+
+                          <b-avatar size="sm" variant="light" :src="item.cover">
+                          </b-avatar>
+                        </div>
+                      </div>
+                    </div>
+                  </b-col>
+                </b-row>
+
+                <div v-else class="w-100 p-5 text-center text-muted">
+                  <h5>No course available</h5>
+                </div>
+              </div>
+              <div v-if="courseShown == 'enrolled'">
+                <b-row v-if="library.length">
+                  <b-col
+                    sm="3"
+                    class="px-1 pr-2"
+                    v-for="item in library.slice(0, 3)"
+                    :key="item.id"
+                  >
+                    <b-card
+                      :title="item.course.title"
+                      :img-src="item.course.cover"
+                      img-alt="Image"
+                      img-top
+                      tag="article"
+                      style="max-width: 20rem"
+                      class="mb-2 border"
+                    >
+                      <b-card-text class="overview">
+                        {{ item.course.description }}
+                      </b-card-text>
+                      <!-- <b-card-text
+                        class="fs13 text-muted d-flex align-items-center mb-2"
+                        v-if="item.course.modules"
+                      >
+                        <b-iconstack font-scale="1.5rem" class="mr-2">
+                          <b-icon
+                            stacked
+                            icon="circle-fill"
+                            variant="lighter-green"
+                          ></b-icon>
+                          <b-icon
+                            stacked
+                            icon="book"
+                            scale="0.5"
+                            variant="dark-green"
+                          ></b-icon>
+                        </b-iconstack>
+                        <span> {{ item.course.modules.length }} modules</span>
+                      </b-card-text> -->
+                      <div class="mt-3">
+                        <div class="mb-2 fs12">Your progress</div>
+                        <b-progress
+                          :max="100"
+                          height=".8rem"
+                          class="mb-3"
+                          variant="dark-green"
+                        >
+                          <b-progress-bar
+                            :value="item.progress"
+                            :label="`${Math.round(item.progress)}%`"
+                          ></b-progress-bar>
+                        </b-progress>
+                      </div>
+
+                      <div class="">
+                        <b-button
+                          @click="
+                            $router.push(`/learner/media/${item.course.id}`)
+                          "
+                          size="sm"
+                          variant="lighter-green"
+                          >Continue course</b-button
+                        >
+                      </div>
+                    </b-card>
+                  </b-col>
+                </b-row>
+                <div v-else class="w-100 p-5 text-center text-muted">
+                  <h5>No course available</h5>
+                </div>
+              </div>
+            </div>
+            <b-row v-else>
+              <b-col>
+                <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="65%"
+                ></b-skeleton>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="55%"
+                ></b-skeleton>
+                <b-skeleton animation="fade" width="59%"></b-skeleton>
+              </b-col>
+              <b-col>
+                <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="65%"
+                ></b-skeleton>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="55%"
+                ></b-skeleton>
+                <b-skeleton animation="fade" width="59%"></b-skeleton>
+              </b-col>
+              <b-col>
+                <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="65%"
+                ></b-skeleton>
+                <b-skeleton
+                  animation="fade"
+                  class="mb-2"
+                  width="55%"
+                ></b-skeleton>
+                <b-skeleton animation="fade" width="59%"></b-skeleton>
+              </b-col>
+            </b-row>
+          </div>
+
+          <div class="discussions">
+            <Discussions></Discussions>
           </div>
         </div>
       </b-row>
@@ -894,8 +894,10 @@ export default {
   justify-content: space-between;
   padding: 10px 0;
 }
+
 .main_box {
   width: 92%;
+  transition: 0.5s;
 }
 .side_box {
   position: fixed;
@@ -905,12 +907,16 @@ export default {
   transition: 0.5s;
   width: 5%;
   height: 80vh;
+  z-index: 88;
 }
 .side_box .sided .tools {
   display: none;
 }
 .side_box:hover {
   width: 20%;
+}
+.side_box:hover ~ .main_box {
+  width: 73%;
 }
 
 .side_box:hover .sided .tools {
@@ -922,12 +928,7 @@ export default {
 .sided {
   height: 100%;
   overflow: scroll;
-  // -ms-overflow-style: none; /* IE and Edge */
-  // scrollbar-width: none; /* Firefox */
 }
-// .sided::-webkit-scrollbar {
-//   display: none;
-// }
 
 @media (max-width: 600px) {
   .box {

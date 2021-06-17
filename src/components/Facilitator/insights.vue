@@ -29,7 +29,7 @@
       </div>
     </div>
     <b-row class="mb-4">
-      <b-col class="bg-white shadow rounded p-4">
+      <b-col class="bg-white border rounded p-4">
         <div>
           <div class="mb-4 d-flex justify-content-between align-items-center">
             <h6 class="font-weight-bold">Demographic Audience</h6>
@@ -77,7 +77,7 @@
     </b-row>
 
     <b-row>
-      <b-col sm="4" class="p-4 bg-white shadow rounded">
+      <b-col sm="4" class="p-4 bg-white border rounded">
         <div>
           <div class="mb-3">
             <h5 class="font-weight-bold">Statistics by Gender</h5>
@@ -93,7 +93,7 @@
         </div>
       </b-col>
       <b-col sm="1"></b-col>
-      <b-col sm="7" class="p-4 bg-white shadow rounded">
+      <b-col sm="7" class="p-4 bg-white border rounded">
         <div>
           <div class="mb-3">
             <h5 class="font-weight-bold">Audience Online Activities</h5>

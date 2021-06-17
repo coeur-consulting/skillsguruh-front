@@ -2,7 +2,81 @@
   <div>
     <b-container>
       <b-row>
-        <b-col sm="8">
+        <div class="border bg-white rounded p-3 py-5 side_box text-center">
+          <div class="sided">
+            <div class="turn_over_box tools">
+              <div class="mb-4">
+                <vc-calendar
+                  class="custom-calendar max-w-full"
+                  :masks="masks"
+                  :attributes="attributes"
+                  disable-page-swipe
+                  is-expanded
+                  title-position="left"
+                >
+                  <template #day-popover="{ dayTitle, attributes }">
+                    <div
+                      class="text-xs text-gray-300 font-semibold text-center"
+                    >
+                      {{ dayTitle }}
+                    </div>
+                    <popover-row
+                      v-for="attr in attributes"
+                      :key="attr.key"
+                      :attribute="attr"
+                      class="border-bottom pb-2"
+                    >
+                      <div>
+                        <p class="fs11 mb-0 text-capitalize">
+                          <span class="mr-2">
+                            {{ attr.customData.type }}
+                          </span>
+                        </p>
+                        <p class="mb-1 text-capitalize">
+                          {{ attr.customData.title }}
+                        </p>
+                      </div>
+                    </popover-row>
+                  </template>
+                </vc-calendar>
+              </div>
+              <div class="mb-4">
+                <Todo user="admin" />
+              </div>
+            </div>
+            <div class="tools_icons">
+              <div class="mb-5">
+                <img
+                  :src="require('@/assets/images/calendar.svg')"
+                  width="40"
+                  height="40"
+                  alt=""
+                  class="cursor-pointer"
+                />
+              </div>
+              <div class="mb-5">
+                <img
+                  :src="require('@/assets/images/to-do.svg')"
+                  width="40"
+                  height="40"
+                  alt=""
+                  class="cursor-pointer"
+                />
+              </div>
+              <div class="mb-4">
+                <img
+                  :src="require('@/assets/images/network.svg')"
+                  width="40"
+                  height="40"
+                  alt=""
+                  class="cursor-pointer"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rside">
           <b-row class="mb-4 mb-sm-4">
             <b-col sm="6">
               <div class="box p-3" v-if="showFacilitator">
@@ -138,46 +212,7 @@
             </b-col>
           </b-row>
           <FacilitatorTab />
-        </b-col>
-        <b-col sm="4" class="text-left">
-          <div class="turn_over_box">
-            <div class="tob_1 mb-4">
-              <vc-calendar
-                class="custom-calendar max-w-full"
-                :masks="masks"
-                :attributes="attributes"
-                disable-page-swipe
-                is-expanded
-                title-position="left"
-              >
-                <template #day-popover="{ dayTitle, attributes }">
-                  <div class="text-xs text-gray-300 font-semibold text-center">
-                    {{ dayTitle }}
-                  </div>
-                  <popover-row
-                    v-for="attr in attributes"
-                    :key="attr.key"
-                    :attribute="attr"
-                    class="border-bottom pb-2"
-                  >
-                    <div>
-                      <p class="mb-1 text-capitalize">
-                        {{ attr.customData.title }}
-                      </p>
-                      <p class="fs11 mb-0 text-capitalize">
-                        <span class="mr-2"> {{ attr.customData.type }} -</span
-                        ><span> {{ attr.customData.duration }}</span>
-                      </p>
-                    </div>
-                  </popover-row>
-                </template>
-              </vc-calendar>
-            </div>
-            <div class="tob_2">
-              <Todo user="admin" />
-            </div>
-          </div>
-        </b-col>
+        </div>
       </b-row>
     </b-container>
   </div>
@@ -236,11 +271,9 @@ export default {
           key: index,
 
           highlight: {
-            color: "teal",
-            fillMode: "light",
-            start: { fillMode: "outline" },
-            base: { fillMode: "light" },
-            end: { fillMode: "solid" },
+            start: { color: "teal", fillMode: "outline" },
+            base: { color: "teal", fillMode: "light" },
+            end: { color: "teal", fillMode: "solid" },
           },
           dot: false,
           bar: false,
@@ -270,12 +303,9 @@ export default {
           key: index,
 
           highlight: {
-            color: "purple",
-            fillMode: "light",
-
-            start: { fillMode: "outline" },
-            base: { fillMode: "light" },
-            end: { fillMode: "solid" },
+            start: { color: "green", fillMode: "outline" },
+            base: { color: "green", fillMode: "light" },
+            end: { color: "green", fillMode: "solid" },
           },
           dot: false,
           bar: false,
@@ -404,7 +434,7 @@ export default {
   justify-content: center;
   text-align: left;
 
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35);
+  // box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35);
   border-radius: 8px;
   background: white;
 }
@@ -428,7 +458,7 @@ export default {
 //   color: white !important;
 // }
 .shadow {
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
+  // box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;
 }
 .search.form-control {
@@ -443,14 +473,14 @@ export default {
 }
 .tob_1 {
   min-height: 200px;
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
+  // box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;
   text-align: center;
   background: white;
 }
 .tob_2 {
   min-height: 200px;
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
+  // box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;
   padding: 0;
   background: white;
@@ -470,6 +500,44 @@ export default {
 .text-sm {
   font-size: 0.7rem;
 }
+.main_box {
+  width: 92%;
+}
+.rside {
+  width: 92%;
+  transition: 0.5s;
+}
+.side_box {
+  position: fixed;
+  top: 14%;
+  right: 1%;
+  text-align: left;
+  transition: 0.5s;
+  width: 5%;
+  height: 80vh;
+  z-index: 88;
+}
+.side_box .sided .tools {
+  display: none;
+}
+.side_box:hover {
+  width: 20%;
+}
+.side_box:hover ~ .rside {
+  width: 73%;
+}
+
+.side_box:hover .sided .tools {
+  display: block;
+}
+.side_box:hover .sided .tools_icons {
+  display: none;
+}
+.sided {
+  height: 100%;
+  overflow: scroll;
+}
+
 @media (max-width: 600px) {
   .box {
     margin-bottom: 24px;

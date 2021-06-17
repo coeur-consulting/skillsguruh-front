@@ -3,7 +3,7 @@
     <b-container>
       <b-row>
         <b-col sm="8">
-          <div class="shadow-sm bg-white py-4 rounded">
+          <div class="sborder bg-white py-4 rounded">
             <div
               class="
                 top_header
@@ -220,7 +220,7 @@
           </div>
         </b-col>
         <b-col sm="4" class="d-none d-md-block">
-          <div class="shadow-sm bg-white p-4 rounded">
+          <div class="border bg-white p-4 rounded">
             <div class="text-center mb-4">
               <b-button
                 variant="dark-green"

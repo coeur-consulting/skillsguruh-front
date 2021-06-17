@@ -3,7 +3,7 @@
     <b-container>
       <b-row>
         <b-col class="mb-5 mb-sm-0">
-          <div class="shadow rounded bg-white">
+          <div class="rounded bg-white">
             <div
               class="
                 top_heading

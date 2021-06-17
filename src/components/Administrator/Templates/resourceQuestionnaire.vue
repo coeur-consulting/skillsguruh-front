@@ -1,11 +1,11 @@
 <template>
   <div>
     <b-container fluid class="p-5">
-      <div class="text-left">
+      <!-- <div class="text-left">
         <span class="mb-3" @click="$router.go(-1)"
           ><b-icon icon="arrow-left"></b-icon> Go back</span
         >
-      </div>
+      </div> -->
       <b-row>
         <b-col md="9" class="left_box text-left">
           <b-form>

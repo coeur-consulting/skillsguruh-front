@@ -24,7 +24,7 @@
             </div>
           </div>
 
-          <div class="shadow bg-white">
+          <div class="border rounded bg-white">
             <div
               class="d-flex justify-content-between align-items-center p-3 e"
             >

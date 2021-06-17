@@ -4,14 +4,14 @@
       <h6 class="flex-1 font-weight-bold">Discussions</h6>
       <span class="fs14 search">
         <b-form-input
-          class="rounded"
+          class="rounded border"
           placeholder="Search discussion"
           type="search"
           v-model="search"
         ></b-form-input
       ></span>
     </div>
-    <div class="shadow-sm bg-white py-4 rounded">
+    <div class="border bg-white py-4 rounded">
       <div
         class="
           top_header
