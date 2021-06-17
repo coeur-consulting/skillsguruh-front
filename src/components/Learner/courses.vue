@@ -403,7 +403,11 @@
                 </div>
               </div>
 
-              <b-img style="width: 80px" fluid :src="course.cover"></b-img>
+              <b-img
+                style="width: 80px; object-fit: cover"
+                fluid
+                :src="course.cover"
+              ></b-img>
             </div>
             <span class="mr-2" v-if="course.type == 'free'">
               <b-button

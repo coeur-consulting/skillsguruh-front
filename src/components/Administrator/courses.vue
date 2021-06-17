@@ -1550,7 +1550,11 @@
                   </div>
                 </div>
 
-                <b-img style="width: 80px" fluid :src="course.cover"></b-img>
+                <b-img
+                  style="width: 80px; object-fit: cover"
+                  fluid
+                  :src="course.cover"
+                ></b-img>
               </div>
               <div
                 class="

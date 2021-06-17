@@ -225,7 +225,7 @@
                       <div class="course_text">
                         <div class="d-flex justify-content-between">
                           <span
-                            class="p-2 rounded-pill text-white fs11"
+                            class="px-2 py-1 rounded-pill text-white fs11"
                             :style="{
                               backgroundColor: JSON.parse(
                                 item.courseoutline.knowledge_areas
@@ -248,7 +248,7 @@
                             item.type
                           }}</span>
                         </div>
-                        <div class="border-bottom pt-4">
+                        <div class="border-bottom pt-3">
                           <h6
                             class="
                               font-weight-bold
@@ -262,7 +262,7 @@
                             {{ item.courseoutline.overview }}
                           </p>
                         </div>
-                        <div class="info fs12">
+                        <div class="info fs11">
                           <div class="d-flex">
                             <div class="mr-2">
                               <b-icon icon="people" class="mr-1"></b-icon>
