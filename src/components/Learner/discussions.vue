@@ -500,8 +500,26 @@ export default {
       if (item.user && item.user.id == this.$store.getters.learner.id) {
         this.$router.push(`/learner/discussion/${item.id}`);
       } else {
-        this.discussion_id = item.id;
-        this.$bvModal.show("access");
+        this.$http
+          .get(`${this.$store.getters.url}/discussion/private/${item.id}`, {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          })
+          .then((res) => {
+            if (res.status == 200) {
+              var result = res.data
+                .map((item) => item.user_id)
+                .includes(this.$store.getters.learner.id);
+
+              if (result) {
+                this.$router.push(`/learner/discussion/${item.id}`);
+              } else {
+                this.discussion_id = item.id;
+                this.$bvModal.show("access");
+              }
+            }
+          });
       }
     },
     getcourses() {

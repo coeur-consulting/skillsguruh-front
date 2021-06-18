@@ -491,7 +491,7 @@
             class="px-5"
             type="button"
             @click="type++"
-            v-show="type <= 3"
+            v-show="type <= 2"
             variant="secondary"
             >Next</b-button
           >
@@ -499,7 +499,7 @@
             size="lg"
             class="px-5"
             type="submit"
-            v-show="type === 4"
+            v-show="type === 3"
             variant="secondary"
             >Create course</b-button
           >
