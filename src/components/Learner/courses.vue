@@ -874,10 +874,17 @@
             :key="id"
             class="mb-1 text-center"
           >
-            <b-form-input
-              v-model="item.email"
-              placeholder="Enter email address"
-            ></b-form-input>
+            <b-input-group size="sm" class="">
+              <template #append>
+                <b-button @click="inviteUsers.users.splice(id, 1)"
+                  ><strong>x</strong></b-button
+                >
+              </template>
+              <b-form-input
+                v-model="item.email"
+                placeholder="Enter email address"
+              ></b-form-input>
+            </b-input-group>
           </div>
           <div class="text-center mt-3">
             <b-button

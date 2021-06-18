@@ -101,6 +101,10 @@
               <a :href="event.url" target="_blank">{{ event.url }}</a>
             </div>
           </div>
+          <div class="share px-3 text-right">
+            <span class="mr-3 fs12" @click="$bvModal.show('share')">Share</span>
+            <span class="fs12" @click="$bvModal.show('invite')">Invite</span>
+          </div>
         </div>
       </b-col>
 
@@ -175,6 +179,171 @@
         <b-skeleton-img></b-skeleton-img>
       </b-col>
     </b-row>
+    <b-modal no-close-on-backdrop id="share" hide-footer centered size="lg">
+      <div class="p-2 text-center">
+        <h6 class="font-weight-bold mb-3">Share Invite</h6>
+        <ShareNetwork
+          v-if="event.title"
+          class="mr-3"
+          network="facebook"
+          :url="link"
+          title="EVENT INVITATION"
+          :description="`I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning"
+        >
+          <b-button variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
+          >
+        </ShareNetwork>
+        <ShareNetwork
+          v-if="event.title"
+          class="mr-3"
+          network="twitter"
+          :url="link"
+          title="EVENT INVITATION"
+          :description="`I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning"
+        >
+          <b-button variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
+          >
+        </ShareNetwork>
+        <ShareNetwork
+          v-if="event.title"
+          class="mr-3"
+          network="whatsApp"
+          :url="link"
+          title="EVENT INVITATION"
+          :description="`I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning"
+        >
+          <b-button variant="outline-dark-green">
+            <b-iconstack>
+              <b-icon stacked icon="circle-fill" variant="dark-green"></b-icon>
+              <b-icon
+                stacked
+                icon="telephone-plus"
+                variant="light"
+                scale="0.5"
+              ></b-icon>
+            </b-iconstack>
+            Whatsapp</b-button
+          >
+        </ShareNetwork>
+        <ShareNetwork
+          v-if="event.title"
+          class="mr-3"
+          network="Telegram"
+          :url="link"
+          title="EVENT INVITATION"
+          :description="`I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning"
+        >
+          <b-button variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
+            Telegram</b-button
+          >
+        </ShareNetwork>
+        <b-button variant="outline-dark-green" @click="addToFeed">
+          <b-icon icon="rss-fill" variant="dark-green"></b-icon>
+
+          Feeds</b-button
+        >
+      </div>
+    </b-modal>
+
+    <b-modal no-close-on-backdrop id="invite" size="sm" centered hide-footer>
+      <div class="box text-center">
+        <h6 class="text-center">Invite your friends</h6>
+        <div class="mb-4">
+          <div
+            v-for="(item, id) in inviteUsers.users"
+            :key="id"
+            class="mb-1 text-center"
+          >
+            <b-input-group size="sm" class="">
+              <template #append>
+                <b-button @click="inviteUsers.users.splice(id, 1)"
+                  ><strong>x</strong></b-button
+                >
+              </template>
+              <b-form-input
+                v-model="item.email"
+                placeholder="Enter email address"
+              ></b-form-input>
+            </b-input-group>
+          </div>
+          <div class="text-center mt-3">
+            <b-button
+              size="sm"
+              class="mr-3 py-1 px-2 fs12"
+              variant="lighter-green"
+              @click="addinvite"
+            >
+              <b-icon icon="plus" font-scale="1.4"></b-icon> Add email</b-button
+            >
+            <b-button
+              size="sm"
+              variant="dark-green"
+              class="fs12 py-1 px-2"
+              @click="sendinvite(event.title)"
+            >
+              Send Invite
+            </b-button>
+          </div>
+        </div>
+
+        <div class="connections p-3 border rounded">
+          <h6 class="mb-3 fs13 text-left">Connections</h6>
+          <div class="px-2 py-1 d-flex align-items-center search bg-light mb-3">
+            <b-icon icon="search"></b-icon>
+            <b-form-input
+              autocomplete="off"
+              autocorrect="off"
+              size="sm"
+              v-model="search"
+              class="flex-1 border-0 no-focus search-bg"
+              type="search"
+              placeholder="Search name"
+            ></b-form-input>
+          </div>
+          <div v-for="(item, id) in filteredConnections" :key="id">
+            <div v-if="item.user_follower" class="d-flex align-items-end mb-4">
+              <b-form-checkbox
+                size="sm"
+                v-model="emails"
+                :value="item.user_follower.email"
+              >
+                <div class="d-flex align-items-center flex-1">
+                  <b-avatar class="mr-2" size="1.3rem"></b-avatar>
+                  <div class="text-left" style="line-height: 1.1">
+                    <span class="fs12">{{ item.user_follower.name }}</span>
+                  </div>
+                </div>
+              </b-form-checkbox>
+            </div>
+            <div v-else class="d-flex align-items-end mb-4">
+              <b-form-checkbox
+                size="sm"
+                :value="item.facilitator_follower.email"
+                v-model="emails"
+              >
+                <div class="d-flex align-items-center flex-1">
+                  <b-avatar class="mr-2" size="1.3rem"></b-avatar>
+                  <div>
+                    <span>{{ item.facilitator_follower.name }}</span>
+                  </div>
+                </div>
+              </b-form-checkbox>
+            </div>
+          </div>
+        </div>
+      </div>
+    </b-modal>
   </b-container>
 </template>
 <script>
@@ -185,14 +354,40 @@ export default {
       facilitators: [],
       vid_ext: ["mp4", "3gp", "mov", "flv"],
       showEvent: false,
+      search: "",
+      feed: {},
+      inviteUsers: {
+        title: "",
+        users: [],
+      },
+      connections: [],
+      emails: [],
+      link: "",
     };
   },
   mounted() {
     this.getfacilitators().then(() => {
       this.getevent();
     });
+    this.getconnections();
+    this.link =
+      "https://skillsguruh.herokuapp.com/learner/event/" + this.event.id;
   },
   computed: {
+    filteredConnections() {
+      return this.connections.filter((item) => {
+        if (item.user_follower) {
+          return item.user_follower.name
+            .toLowerCase()
+            .includes(this.search.toLowerCase());
+        }
+        if (item.facilitator_follower) {
+          return item.facilitator_follower.name
+            .toLowerCase()
+            .includes(this.search.toLowerCase());
+        }
+      });
+    },
     sortfacilitators() {
       if (!this.event.facilitators) {
         return [];
@@ -203,6 +398,91 @@ export default {
     },
   },
   methods: {
+    async getconnections() {
+      return this.$http
+        .get(`${this.$store.getters.url}/connections`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.connections = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    addToFeed() {
+      this.feed = {
+        media: this.event.cover,
+        message:
+          "Let’s attend the event, " +
+          this.event.title.toUpperCase() +
+          " together",
+        url: "https://skillsguruh.herokuapp.com/learner/event/" + this.event.id,
+      };
+      this.$http
+        .post(`${this.$store.getters.url}/feeds`, this.feed, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 201 || res.status == 200) {
+            this.$toast.success("Added to feeds ");
+            this.$bvModal.hide("share");
+
+            this.feed = {
+              media: "",
+              message: "",
+            };
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    sendinvite() {
+      var emails = this.emails.map((item) => {
+        return {
+          email: item,
+        };
+      });
+      this.inviteUsers.title = this.event.title;
+      this.inviteUsers.id = this.event.id;
+      this.inviteUsers.users = this.inviteUsers.users.concat(emails);
+      this.$http
+        .post(
+          `${this.$store.getters.url}/send/event/invite`,
+          this.inviteUsers,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.$toast.success("Invite Sent");
+            this.$bvModal.hide("invite");
+            this.inviteUsers = {
+              title: "",
+              users: [
+                {
+                  email: "",
+                },
+              ],
+            };
+          }
+        });
+    },
+    addinvite() {
+      this.inviteUsers.users.push({
+        email: "",
+      });
+    },
     getextension(fileName) {
       if (fileName) {
         var regex = new RegExp("[^.]+$");
