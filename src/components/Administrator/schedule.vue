@@ -189,48 +189,9 @@
                                     fs11
                                   "
                                 >
-                                  <span
-                                    v-if="
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        'weeks'
-                                      ) > 0
-                                    "
-                                  >
+                                  <span>
                                     {{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "weeks"
-                                      )
-                                    }}
-                                    week{{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "weeks"
-                                      ) > 1
-                                        ? "s"
-                                        : ""
-                                    }}
-                                  </span>
-                                  <span v-else>
-                                    {{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "days"
-                                      )
-                                    }}
-                                    day{{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "days"
-                                      ) > 1
-                                        ? "s"
-                                        : ""
+                                      duration(item.dates.start, item.dates.end)
                                     }}
                                   </span>
                                 </span>
@@ -299,48 +260,9 @@
                                     fs11
                                   "
                                 >
-                                  <span
-                                    v-if="
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        'weeks'
-                                      ) > 0
-                                    "
-                                  >
+                                  <span>
                                     {{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "weeks"
-                                      )
-                                    }}
-                                    week{{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "weeks"
-                                      ) > 1
-                                        ? "s"
-                                        : ""
-                                    }}
-                                  </span>
-                                  <span v-else>
-                                    {{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "days"
-                                      )
-                                    }}
-                                    day{{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "days"
-                                      ) > 1
-                                        ? "s"
-                                        : ""
+                                      duration(item.dates.start, item.dates.end)
                                     }}
                                   </span>
                                 </span>
@@ -409,48 +331,9 @@
                                     fs11
                                   "
                                 >
-                                  <span
-                                    v-if="
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        'weeks'
-                                      ) > 0
-                                    "
-                                  >
+                                  <span>
                                     {{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "weeks"
-                                      )
-                                    }}
-                                    week{{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "weeks"
-                                      ) > 1
-                                        ? "s"
-                                        : ""
-                                    }}
-                                  </span>
-                                  <span v-else>
-                                    {{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "days"
-                                      )
-                                    }}
-                                    day{{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "days"
-                                      ) > 1
-                                        ? "s"
-                                        : ""
+                                      duration(item.dates.start, item.dates.end)
                                     }}
                                   </span>
                                 </span>
@@ -519,48 +402,9 @@
                                     fs11
                                   "
                                 >
-                                  <span
-                                    v-if="
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        'weeks'
-                                      ) > 0
-                                    "
-                                  >
+                                  <span>
                                     {{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "weeks"
-                                      )
-                                    }}
-                                    week{{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "weeks"
-                                      ) > 1
-                                        ? "s"
-                                        : ""
-                                    }}
-                                  </span>
-                                  <span v-else>
-                                    {{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "days"
-                                      )
-                                    }}
-                                    day{{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "days"
-                                      ) > 1
-                                        ? "s"
-                                        : ""
+                                      duration(item.dates.start, item.dates.end)
                                     }}
                                   </span>
                                 </span>
@@ -629,48 +473,9 @@
                                     fs11
                                   "
                                 >
-                                  <span
-                                    v-if="
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        'weeks'
-                                      ) > 0
-                                    "
-                                  >
+                                  <span>
                                     {{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "weeks"
-                                      )
-                                    }}
-                                    week{{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "weeks"
-                                      ) > 1
-                                        ? "s"
-                                        : ""
-                                    }}
-                                  </span>
-                                  <span v-else>
-                                    {{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "days"
-                                      )
-                                    }}
-                                    day{{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "days"
-                                      ) > 1
-                                        ? "s"
-                                        : ""
+                                      duration(item.dates.start, item.dates.end)
                                     }}
                                   </span>
                                 </span>
@@ -739,48 +544,9 @@
                                     fs11
                                   "
                                 >
-                                  <span
-                                    v-if="
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        'weeks'
-                                      ) > 0
-                                    "
-                                  >
+                                  <span>
                                     {{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "weeks"
-                                      )
-                                    }}
-                                    week{{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "weeks"
-                                      ) > 1
-                                        ? "s"
-                                        : ""
-                                    }}
-                                  </span>
-                                  <span v-else>
-                                    {{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "days"
-                                      )
-                                    }}
-                                    day{{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "days"
-                                      ) > 1
-                                        ? "s"
-                                        : ""
+                                      duration(item.dates.start, item.dates.end)
                                     }}
                                   </span>
                                 </span>
@@ -849,48 +615,9 @@
                                     fs11
                                   "
                                 >
-                                  <span
-                                    v-if="
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        'weeks'
-                                      ) > 0
-                                    "
-                                  >
+                                  <span>
                                     {{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "weeks"
-                                      )
-                                    }}
-                                    week{{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "weeks"
-                                      ) > 1
-                                        ? "s"
-                                        : ""
-                                    }}
-                                  </span>
-                                  <span v-else>
-                                    {{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "days"
-                                      )
-                                    }}
-                                    day{{
-                                      duration(
-                                        item.dates.start,
-                                        item.dates.end,
-                                        "days"
-                                      ) > 1
-                                        ? "s"
-                                        : ""
+                                      duration(item.dates.start, item.dates.end)
                                     }}
                                   </span>
                                 </span>
@@ -1235,6 +962,7 @@
                       <b-form-input
                         size="lg"
                         v-model="event.url"
+                        type="url"
                         placeholder="Enter event link"
                       ></b-form-input>
                     </b-form-group>
@@ -1312,7 +1040,7 @@
                 <b-col sm="5" class="px-3">
                   <b-form-group label="Course">
                     <b-form-select v-model="detail.course_id">
-                      <b-form-select-option value=""
+                      <b-form-select-option disabled value=""
                         >Choose Course</b-form-select-option
                       >
                       <b-form-select-option
@@ -1436,6 +1164,7 @@
                         ></b-form-input>
                         <b-form-input
                           v-model="item.url"
+                          type="url"
                           placeholder="Enter url link (optional)"
                         ></b-form-input>
                       </b-form-group>
@@ -1745,7 +1474,14 @@ export default {
       this.current_schedule = this.detail.schedule.length - 1;
     },
     duration(a, b) {
-      return this.$moment(b).diff(this.$moment(a), "weeks");
+      if (this.$moment(b).diff(this.$moment(a), "weeks") > 0) {
+        return `${this.$moment(b).diff(this.$moment(a), "weeks")}
+         ${
+           this.$moment(b).diff(this.$moment(a), "weeks") > 1 ? "weeks" : "week"
+         }`;
+      }
+      return `${this.$moment(b).diff(this.$moment(a), "days")}
+       ${this.$moment(b).diff(this.$moment(a), "days") > 1 ? "days" : "day"};`;
     },
     async getschedules() {
       return this.$http

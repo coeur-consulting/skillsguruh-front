@@ -18,7 +18,17 @@
           class="mb-4"
         >
           <div
-            class="px-4 py-3 bg-light rounded-pill text-center fs12 font-weight-bold cursor-pointer position-relative"
+            class="
+              px-4
+              py-3
+              bg-light
+              rounded-pill
+              text-center
+              fs12
+              font-weight-bold
+              cursor-pointer
+              position-relative
+            "
             @click="addInterest(interest.value)"
             :class="
               selected_interests.includes(interest.value)
@@ -69,15 +79,14 @@ export default {
   },
   mounted() {
     this.interests = Interest;
-    if (this.$props.type == "learner") {
-      this.selected_interests = JSON.parse(
-        this.$store.getters.learner.interests
-      );
+
+    if (this.$props.type == "user") {
+      this.selected_interests =
+        JSON.parse(this.$store.getters.learner.interests) || [];
     }
     if (this.$props.type == "facilitator") {
-      this.selected_interests = JSON.parse(
-        this.$store.getters.facilitator.interests
-      );
+      this.selected_interests =
+        JSON.parse(this.$store.getters.facilitator.interests) || [];
     }
   },
   computed: {
@@ -116,7 +125,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             var user;
-            if (this.$props.type == "learner") {
+            if (this.$props.type == "user") {
               user = JSON.parse(localStorage.getItem("authLearner"));
               user.interests = res.data.interests;
               localStorage.setItem("authLearner", JSON.stringify(user));
@@ -128,6 +137,7 @@ export default {
             }
 
             this.$toast.success("Interest Updated!");
+            window.location.reload();
             this.skip();
           }
         })

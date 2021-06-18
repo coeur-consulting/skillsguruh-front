@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     getnotification() {
-      this.$store.dispatch("getNotifications", "learner");
+      this.$store.dispatch("getNotifications", "organization");
     },
   },
 };

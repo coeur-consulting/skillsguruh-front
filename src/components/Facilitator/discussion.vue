@@ -13,8 +13,8 @@
                 <div class="top_dis d-flex align-items-center mb-2">
                   <div class="side_dis">
                     <b-avatar
-                      :src="discussion.facilitator.profile"
-                      v-if="discussion.facilitator"
+                      :src="discussion.admin.profile"
+                      v-if="discussion.admin"
                     ></b-avatar>
                     <b-avatar
                       :src="discussion.user.profile"
@@ -85,7 +85,7 @@
                     <span
                       v-if="discussion.admin"
                       class="fs12 font-weight-bold text-dark-green"
-                      >{{ discussion.facilitator.name }}</span
+                      >{{ discussion.admin.name }}</span
                     >
                     <span
                       v-if="discussion.user"
@@ -317,13 +317,14 @@
                     </div>
                   </div>
                 </b-form>
-                <div class="share py-2 text-left mt-2">
+                <div class="share px-3 text-right">
                   <span class="mr-3 fs12" @click="$bvModal.show('share')"
-                    >Share</span
-                  >
+                    >Share <b-icon icon="share-fill" font-scale=".9"></b-icon
+                  ></span>
                   <span class="fs12" @click="$bvModal.show('invite')"
-                    >Invite</span
-                  >
+                    >Invite
+                    <b-icon icon="person-plus-fill" font-scale=".9"></b-icon
+                  ></span>
                 </div>
               </div>
             </div>
@@ -605,7 +606,7 @@ export default {
     this.getconnections();
     this.link =
       "https://skillsguruh.herokuapp.com/learner/discussion/" +
-      this.discussion.id;
+      this.$route.params.id;
   },
   computed: {
     related() {

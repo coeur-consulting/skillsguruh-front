@@ -315,13 +315,14 @@
                     </div>
                   </div>
                 </b-form>
-                <div class="share py-2 text-left mt-2">
+                <div class="share px-3 text-right">
                   <span class="mr-3 fs12" @click="$bvModal.show('share')"
-                    >Share</span
-                  >
+                    >Share <b-icon icon="share-fill" font-scale=".9"></b-icon
+                  ></span>
                   <span class="fs12" @click="$bvModal.show('invite')"
-                    >Invite</span
-                  >
+                    >Invite
+                    <b-icon icon="person-plus-fill" font-scale=".9"></b-icon
+                  ></span>
                 </div>
               </div>
             </div>
@@ -601,7 +602,7 @@ export default {
     this.getconnections();
     this.link =
       "https://skillsguruh.herokuapp.com/learner/discussion/" +
-      this.discussion.id;
+      this.$route.params.id;
   },
   computed: {
     related() {

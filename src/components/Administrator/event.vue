@@ -102,8 +102,12 @@
             </div>
           </div>
           <div class="share px-3 text-right">
-            <span class="mr-3 fs12" @click="$bvModal.show('share')">Share</span>
-            <span class="fs12" @click="$bvModal.show('invite')">Invite</span>
+            <span class="mr-3 fs12" @click="$bvModal.show('share')"
+              >Share <b-icon icon="share-fill" font-scale=".9"></b-icon
+            ></span>
+            <span class="fs12" @click="$bvModal.show('invite')"
+              >Invite <b-icon icon="person-plus-fill" font-scale=".9"></b-icon
+            ></span>
           </div>
         </div>
       </b-col>
@@ -271,7 +275,7 @@
               class="fs12 py-1 px-2"
               @click="sendinvite(event.title)"
             >
-              Drop Email
+              Send Email
             </b-button>
           </div>
         </div>
@@ -348,7 +352,8 @@ export default {
       this.getevent();
       this.getconnections();
       this.link =
-        "https://skillsguruh.herokuapp.com/learner/event/" + this.event.id;
+        "https://skillsguruh.herokuapp.com/learner/event/" +
+        this.$route.params.id;
     });
   },
   computed: {

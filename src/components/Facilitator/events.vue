@@ -326,6 +326,7 @@
                   <b-form-input
                     size="lg"
                     v-model="event.url"
+                    type="url"
                     placeholder="Enter event link"
                   ></b-form-input>
                 </b-form-group>
@@ -528,6 +529,7 @@
                   <b-form-input
                     size="lg"
                     v-model="event.url"
+                    type="url"
                     placeholder="Enter event link"
                   ></b-form-input>
                 </b-form-group>

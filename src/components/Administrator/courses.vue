@@ -405,6 +405,7 @@
                     ></b-form-input>
                     <b-form-input
                       v-model="item.url"
+                      type="url"
                       placeholder="Enter url link (optional)"
                     ></b-form-input>
                   </b-form-group>
@@ -930,6 +931,7 @@
                     ></b-form-input>
                     <b-form-input
                       v-model="item.url"
+                      type="url"
                       placeholder="Enter url link (optional)"
                     ></b-form-input>
                   </b-form-group>
@@ -2060,7 +2062,7 @@ export default {
         message:
           "Check out my course, " +
           this.course.title.toUpperCase() +
-          "on SkillsGuruh and I think you’d like it. Join me!",
+          " on SkillsGuruh and I think you’d like it. Join me!",
         url:
           "https://skillsguruh.herokuapp.com/learner/courses/?course_id=" +
           this.course.id,

@@ -251,7 +251,7 @@
                             item.course.type
                           }}</span>
                         </div>
-                        <div class="border-bottom pt-4">
+                        <div class="border-bottom pt-3">
                           <h6
                             class="
                               font-weight-bold
@@ -349,7 +349,7 @@
                             item[1].course.type
                           }}</span>
                         </div>
-                        <div class="border-bottom pt-4">
+                        <div class="border-bottom pt-3">
                           <h6
                             class="
                               font-weight-bold
@@ -472,6 +472,8 @@
 <script>
 import Todo from "../Todo";
 import Discussions from "./minidiscussions";
+import PopoverRow from "v-calendar/lib/components/popover-row.umd.min";
+
 //import StarRating from "vue-star-rating";
 export default {
   data() {
@@ -495,6 +497,7 @@ export default {
   components: {
     Discussions,
     Todo,
+    PopoverRow,
     // StarRating,
   },
   watch: {},

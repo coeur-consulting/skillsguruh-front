@@ -66,7 +66,9 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             if (res.data.length == 1) {
-              this.$bvModal.show("insight");
+              if (!JSON.parse(this.$store.getters.facilitator.interests)) {
+                this.$bvModal.show("insight");
+              }
             }
           }
         })
