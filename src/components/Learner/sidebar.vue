@@ -4,8 +4,9 @@
       <b-img
         class="mr-2"
         width="30"
-        height="auto"
+        height="30"
         :src="$store.getters.learner.org_profile"
+        style="object-fit: contain"
       ></b-img>
       <h5 class="mb-0">{{ $store.getters.learner.org_name }}</h5>
     </div>

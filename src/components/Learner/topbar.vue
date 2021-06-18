@@ -29,10 +29,10 @@
           <div class="logo">
             <b-img
               class="mr-2"
-              width="30px"
-              style="width: 30px"
-              height="auto"
+              width="30"
+              height="30"
               :src="$store.getters.admin.org_profile"
+              style="object-fit: contain"
             ></b-img>
             <h5 class="mb-0">{{ $store.getters.admin.org_name }}</h5>
           </div>

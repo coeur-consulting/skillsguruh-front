@@ -4,7 +4,7 @@
       <b-img
         class="mr-2"
         width="30"
-        height="auto"
+        height="30"
         :src="$store.getters.organization.profile"
       ></b-img>
       <h5 class="mb-0">{{ $store.getters.organization.name }}</h5>
