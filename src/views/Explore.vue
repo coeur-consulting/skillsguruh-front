@@ -84,7 +84,7 @@
                     item.course.type
                   }}</span>
                 </div>
-                <div class="border-bottom pt-4">
+                <div class="border-bottom pt-3">
                   <h6 class="font-weight-bold text-capitalize overview-title">
                     {{ item.course.title }}
                   </h6>

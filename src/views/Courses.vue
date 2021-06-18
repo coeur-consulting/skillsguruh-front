@@ -317,6 +317,14 @@
                     ><b-icon icon="clock" class="mr-1"></b-icon>
                     {{ course.courseoutline.duration }}</span
                   >
+                  <br />
+                  <b-button
+                    size="sm"
+                    class="mt-2"
+                    variant="lighter-green"
+                    @click="addcourse"
+                    >Add course</b-button
+                  >
                 </div>
               </div>
 
@@ -842,6 +850,10 @@ export default {
     },
   },
   methods: {
+    addcourse() {
+      this.$toast.info("Login to add course");
+      this.$router.push("/login");
+    },
     sharelink(id) {
       this.link = `https://skillsguruh.herokuapp.com/explore/?course=${encodeURIComponent(
         this.course.title.trim()
