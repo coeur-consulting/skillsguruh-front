@@ -71,6 +71,38 @@ const routes = [
     },
   },
   {
+    path: "/feeds",
+    name: "Feeds",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "feeds" */ "../views/Feeds.vue"),
+      footer: Footer,
+    },
+  },
+  {
+    path: "/events",
+    name: "Events",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "events" */ "../views/Events.vue"),
+      footer: Footer,
+    },
+  },
+  {
+    path: "/discussions",
+    name: "Discussions",
+    components: {
+      header: Header,
+      default: () =>
+        import(
+          /* webpackChunkName: "discussions" */ "../views/Discussions.vue"
+        ),
+      footer: Footer,
+    },
+  },
+  {
     path: "/contact",
     name: "Contact",
     components: {

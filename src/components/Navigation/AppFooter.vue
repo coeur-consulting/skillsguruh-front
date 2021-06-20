@@ -3,7 +3,7 @@
     <b-container>
       <b-row>
         <b-col md="3" class="text-left">
-          <b-img src="/img/logo.svg" class="mb-2" width="150"></b-img>
+          <b-img src="/img/logo.svg" class="mb-2" width="120"></b-img>
           <p>A platform for business owners and entreprenuer to upskill</p>
 
           <div class="mb-3">
@@ -41,27 +41,27 @@
         </b-col>
         <b-col class="link" md="3">
           <h5>About</h5>
-          <router-link to="">Mission</router-link> <br />
-          <router-link to="">Vision</router-link><br />
-          <router-link to="">About Us</router-link><br />
-          <router-link to="">FAQS</router-link><br />
-          <router-link to="">Help Center</router-link>
+          <router-link to=""><div>Mission</div></router-link>
+          <router-link to=""><div>Vision</div></router-link>
+          <router-link to="/about"><div>About Us</div></router-link>
+          <router-link to="/contact"><div>FAQS</div></router-link>
+          <router-link to="/contact"><div>Help Center</div></router-link>
         </b-col>
         <b-col class="link" md="3">
           <h5>Company</h5>
-          <router-link to="">Mission</router-link> <br />
-          <router-link to="">Vision</router-link><br />
-          <router-link to="">About Us</router-link><br />
-          <router-link to="">FAQS</router-link><br />
-          <router-link to="">Help Center</router-link>
+          <router-link to=""><div>Mission</div></router-link>
+          <router-link to=""><div>Vision</div></router-link>
+          <router-link to="/about"><div>About Us</div></router-link>
+          <router-link to="/contact"><div>FAQS</div></router-link>
+          <router-link to="/contact"><div>Help Center</div></router-link>
         </b-col>
         <b-col class="link" md="3">
           <h5>Quick Links</h5>
-          <router-link to="">Mission</router-link> <br />
-          <router-link to="">Vision</router-link><br />
-          <router-link to="">About Us</router-link><br />
-          <router-link to="">FAQS</router-link><br />
-          <router-link to="">Help Center</router-link>
+          <router-link to=""><div>Mission</div></router-link>
+          <router-link to=""><div>Vision</div></router-link>
+          <router-link to="/about"><div>About Us</div></router-link>
+          <router-link to="/contact"><div>FAQS</div></router-link>
+          <router-link to="/contact"><div>Help Center</div></router-link>
         </b-col>
       </b-row>
     </b-container>
@@ -80,8 +80,9 @@ footer {
   font-weight: 500;
   margin-bottom: 10px;
 }
-.link a {
+.link a div {
   color: rgba(0, 0, 0, 0.5);
   font-size: 14px;
+  margin-bottom: 10px;
 }
 </style>
