@@ -1481,7 +1481,7 @@ export default {
          }`;
       }
       return `${this.$moment(b).diff(this.$moment(a), "days")}
-       ${this.$moment(b).diff(this.$moment(a), "days") > 1 ? "days" : "day"};`;
+       ${this.$moment(b).diff(this.$moment(a), "days") > 1 ? "days" : "day"}`;
     },
     async getschedules() {
       return this.$http
