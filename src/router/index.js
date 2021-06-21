@@ -121,6 +121,16 @@ const routes = [
       footer: Footer,
     },
   },
+  {
+    path: "/assessment",
+    name: "Assessment",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "Assessment" */ "../views/Assessment.vue"),
+      footer: Footer,
+    },
+  },
 
   {
     path: "/organization",

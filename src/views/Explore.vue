@@ -189,7 +189,7 @@
               <div>
                 <h5 class="font-weight-bold">Trending Discussions</h5>
                 <span
-                  @click="$router.push('/learner/discussions')"
+                  @click="$router.push('/discussions')"
                   class="cursor-pointer"
                   >View all {{ discussions.length }} discussions</span
                 >
@@ -197,9 +197,9 @@
               <div>
                 <b-button
                   size="sm"
-                  @click="$router.push('/learner/discussions')"
+                  @click="$router.push('/discussions')"
                   variant="dark-green"
-                  >Create a discussion</b-button
+                  >View discussions</b-button
                 >
               </div>
             </div>
@@ -355,7 +355,12 @@
         </b-row>
       </section>
       <section class="py-5">
-        <h4 class="mb-5">Upcoming Events</h4>
+        <div class="d-flex justify-content-between">
+          <h4 class="mb-5">Upcoming Events</h4>
+          <router-link to="/events" class="text-dark-green"
+            >View all events</router-link
+          >
+        </div>
 
         <div v-if="showEvents">
           <div class="events" v-if="events.length">

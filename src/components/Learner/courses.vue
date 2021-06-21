@@ -414,7 +414,7 @@
               </div>
 
               <b-img
-                style="width: 80px; object-fit: cover"
+                style="width: 80px; height: 90px; object-fit: cover"
                 fluid
                 :src="course.cover"
               ></b-img>
@@ -968,7 +968,7 @@
           network="facebook"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, ${course.title} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`I enrolled for the course, ${course.title.bold()} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -981,7 +981,7 @@
           network="twitter"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, ${course.title} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`I enrolled for the course, ${course.title.bold()} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -994,7 +994,7 @@
           network="whatsApp"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, ${course.title} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`I enrolled for the course, ${course.title.bold()} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1016,7 +1016,7 @@
           network="Telegram"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, ${course.title} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`I enrolled for the course, ${course.title.bold()} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1157,7 +1157,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             if (res.data) {
-              this.link = `https://skillsguruh.herokuapp.com/register/?course=${encodeURIComponent(
+              this.link = `https://skillsguruh.herokuapp.com/explore/courses/?course=${encodeURIComponent(
                 this.course.title.trim()
               )}referral_type=group&referral_code=${res.data.code}`;
             } else {

@@ -1099,7 +1099,7 @@
           network="facebook"
           :url="link"
           title="COURSE INVITATION"
-          :description="`Check out my course  ${course.title} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`Check out my course  ${course.title.bold()} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1112,7 +1112,7 @@
           network="twitter"
           :url="link"
           title="COURSE INVITATION"
-          :description="`Check out my course  ${course.title} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`Check out my course  ${course.title.bold()} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1125,7 +1125,7 @@
           network="whatsApp"
           :url="link"
           title="COURSE INVITATION"
-          :description="`Check out my course  ${course.title} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`Check out my course  ${course.title.bold()} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1615,7 +1615,7 @@
                 </div>
 
                 <b-img
-                  style="width: 80px; object-fit: cover"
+                  style="width: 80px; height: 90px; object-fit: cover"
                   fluid
                   :src="course.cover"
                 ></b-img>

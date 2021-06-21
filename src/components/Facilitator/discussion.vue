@@ -407,7 +407,7 @@
           network="facebook"
           :url="link"
           title="DISCUSSION INVITATION"
-          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `"
+          :description="`I just joined a discussion, ${discussion.name.bold()}  on SkillsGuruh and I’d like to hear your thoughts. `"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -421,7 +421,7 @@
           network="twitter"
           :url="link"
           title="DISCUSSION INVITATION"
-          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `"
+          :description="`I just joined a discussion, ${discussion.name.bold()}  on SkillsGuruh and I’d like to hear your thoughts. `"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -435,7 +435,7 @@
           network="whatsApp"
           :url="link"
           title="DISCUSSION INVITATION"
-          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `"
+          :description="`I just joined a discussion, ${discussion.name.bold()}  on SkillsGuruh and I’d like to hear your thoughts. `"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -458,7 +458,7 @@
           network="Telegram"
           :url="link"
           title="DISCUSSION INVITATION"
-          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `"
+          :description="`I just joined a discussion, ${discussion.name.bold()}  on SkillsGuruh and I’d like to hear your thoughts. `"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -669,7 +669,7 @@ export default {
       this.feed = {
         message:
           "I just started a discussion, " +
-          this.discussion.name.toUpperCase() +
+          this.discussion.name.bold() +
           " and I’d like to hear your thoughts",
         url:
           "https://skillsguruh.herokuapp.com/learner/discussion/" +

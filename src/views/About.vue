@@ -63,8 +63,8 @@
             Want to be part of the change we work for everyday?
           </h4>
           <p>
-            Do you want to join our amazing team of facilitators or do you want
-            to connect and become part of this amazing community?
+            We’ve created a home for you to share your experience or expertise.
+            The world needs a hero, just like you!
           </p>
           <div class="banner-buttons d-none d-sm-flex">
             <b-button

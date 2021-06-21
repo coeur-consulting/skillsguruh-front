@@ -355,11 +355,11 @@ export default {
             }
             return 0;
           }
-          if (
-            (item.response != "" && item.type !== "multiple") ||
-            item.type !== "checkbox"
-          ) {
-          }
+          // if (
+          //   (item.response != "" && item.type !== "multiple") ||
+          //   item.type !== "checkbox"
+          // ) {
+          // }
           return 0;
         }
       });
