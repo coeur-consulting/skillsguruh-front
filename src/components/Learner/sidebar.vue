@@ -146,31 +146,36 @@
           </div>
         </router-link>
       </div>
-
-      <div class="side_item mt-4">
-        <b-icon
-          icon="box-arrow-left"
-          font-scale="1.1"
-          class="mr-3 text-dark-green"
-        ></b-icon>
-        <span class="side-link">Back to Home</span>
-      </div>
-      <div class="side_item mt-4">
-        <b-icon
-          icon="box-arrow-left"
-          font-scale="1.1"
-          class="mr-3 text-dark-green"
-        ></b-icon>
-        <span class="side-link">Explore</span>
-      </div>
-
-      <div class="side_item mt-4" @click="logout">
-        <b-icon
-          icon="box-arrow-left"
-          font-scale="1.1"
-          class="mr-3 text-dark-green"
-        ></b-icon>
-        <span class="side-link">Log out</span>
+      <hr />
+      <div class="mt-4">
+        <router-link to="/explore">
+          <div class="side_item mt-1">
+            <b-icon
+              icon="app-indicator"
+              font-scale="1.1"
+              class="mr-3 text-dark-green"
+            ></b-icon>
+            <span class="side-link">Explore</span>
+          </div></router-link
+        >
+        <router-link to="/">
+          <div class="side_item mt-1">
+            <b-icon
+              icon="arrow-left"
+              font-scale="1.1"
+              class="mr-3 text-dark-green"
+            ></b-icon>
+            <span class="side-link">Back to Home</span>
+          </div>
+        </router-link>
+        <div class="side_item mt-1" @click="logout">
+          <b-icon
+            icon="box-arrow-left"
+            font-scale="1.1"
+            class="mr-3 text-dark-green"
+          ></b-icon>
+          <span class="side-link">Log out</span>
+        </div>
       </div>
     </div>
   </div>

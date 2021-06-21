@@ -1309,7 +1309,9 @@
                       ></b-icon>
                     </b-iconstack>
 
-                    <div class="course_title mb-1">{{ course.title }}</div>
+                    <div class="course_title cours_tit mb-1">
+                      {{ course.title }}
+                    </div>
                     <div class="mb-3">
                       <span class="fs13 overview text-muted">
                         {{ course.description }}</span
@@ -1686,7 +1688,7 @@
                     <div class="d-flex justify-content-between">
                       <div>
                         <p class="fs13 text-capitalize mb-1">
-                          Type: {{ course.type }}
+                          {{ course.type }}
                         </p>
                         <p class="fs13" v-if="course.type !== 'free'">
                           {{ course.amount }}

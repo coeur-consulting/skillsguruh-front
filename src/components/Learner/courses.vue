@@ -113,7 +113,9 @@
                       variant="light"
                     ></b-icon>
                   </b-iconstack>
-                  <div class="course_title mb-1">{{ course.title }}</div>
+                  <div class="course_title mb-1 cours_tit">
+                    {{ course.title }}
+                  </div>
                   <div class="mb-3">
                     <span class="fs13 overview text-muted">
                       {{ course.description }}</span
@@ -549,7 +551,7 @@
                 <div>
                   <h6 class="fs14">Course Access</h6>
                   <p class="fs13 text-capitalize mb-1">
-                    Type: {{ course.type }}
+                    {{ course.type }}
                   </p>
                   <p class="fs13" v-if="course.type !== 'free'">
                     {{ course.amount }}
@@ -1159,7 +1161,7 @@ export default {
             if (res.data) {
               this.link = `https://skillsguruh.herokuapp.com/explore/courses/?course=${encodeURIComponent(
                 this.course.title.trim()
-              )}referral_type=group&referral_code=${res.data.code}`;
+              )}&referral_code=${res.data.code}`;
             } else {
               this.link = `https://skillsguruh.herokuapp.com/explore/?course=${encodeURIComponent(
                 this.course.title.trim()
@@ -1679,6 +1681,7 @@ export default {
 .course_title {
   font-weight: 500;
 }
+
 .course_fac {
   font-size: 13px;
   color: rgba($color: #000000, $alpha: 0.4);
