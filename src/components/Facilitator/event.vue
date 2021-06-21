@@ -173,7 +173,7 @@
           network="facebook"
           :url="link"
           title="EVENT INVITATION"
-          :description="`I will be attending the event, ${event.title.bold()}  and I think you’d like it. Join me!`"
+          :description="`I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -187,7 +187,7 @@
           network="twitter"
           :url="link"
           title="EVENT INVITATION"
-          :description="`I will be attending the event, ${event.title.bold()}  and I think you’d like it. Join me!`"
+          :description="`I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -201,7 +201,7 @@
           network="whatsApp"
           :url="link"
           title="EVENT INVITATION"
-          :description="`I will be attending the event, ${event.title.bold()}  and I think you’d like it. Join me!`"
+          :description="`I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -224,7 +224,7 @@
           network="Telegram"
           :url="link"
           title="EVENT INVITATION"
-          :description="`I will be attending the event, ${event.title.bold()}  and I think you’d like it. Join me!`"
+          :description="`I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -403,7 +403,9 @@ export default {
       this.feed = {
         media: this.event.cover,
         message:
-          "Let’s attend the event, " + this.event.title.bold() + " together",
+          "Let’s attend the event, " +
+          this.event.title.toUpperCase() +
+          " together",
         url: "https://skillsguruh.herokuapp.com/learner/event/" + this.event.id,
       };
       this.$http

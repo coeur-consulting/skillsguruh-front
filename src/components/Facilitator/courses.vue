@@ -1099,7 +1099,7 @@
           network="facebook"
           :url="link"
           title="COURSE INVITATION"
-          :description="`Check out my course  ${course.title.bold()} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`Check out my course  ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1112,7 +1112,7 @@
           network="twitter"
           :url="link"
           title="COURSE INVITATION"
-          :description="`Check out my course  ${course.title.bold()} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`Check out my course  ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1125,7 +1125,7 @@
           network="whatsApp"
           :url="link"
           title="COURSE INVITATION"
-          :description="`Check out my course  ${course.title.bold()} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`Check out my course  ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1147,7 +1147,7 @@
           network="Telegram"
           :url="link"
           title="COURSE INVITATION"
-          :description="`Check out my course ${course.title.bold()} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`Check out my course ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -2135,6 +2135,11 @@ export default {
     },
   },
   methods: {
+    addinvite() {
+      this.inviteUsers.users.push({
+        email: "",
+      });
+    },
     onCopy: function (e) {
       alert("You just copied the following text to the clipboard: " + e.text);
     },

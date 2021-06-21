@@ -725,7 +725,7 @@
           network="facebook"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, ${course.title.bold()} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`I enrolled for the course, ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -738,7 +738,7 @@
           network="twitter"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, ${course.title.bold()} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`I enrolled for the course, ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -751,7 +751,7 @@
           network="whatsApp"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, ${course.title.bold()} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`I enrolled for the course, ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -773,7 +773,7 @@
           network="Telegram"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, ${course.title.bold()} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`I enrolled for the course, ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
