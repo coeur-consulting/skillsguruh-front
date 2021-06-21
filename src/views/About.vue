@@ -11,20 +11,31 @@
       <b-row class="mb-4 py-5 align-items-center">
         <b-col sm="6" class="d-flex flex-column align-items-center">
           <div>
-            <h5>What do I value?</h5>
+            <h2>What do I value?</h2>
 
-            <h6 class="mb-4">How will I leave an eternal legacy?</h6>
+            <h5 class="mb-4 text-dark-green font-weight-bold">
+              How will I leave an eternal legacy?
+            </h5>
+            <p class="">These are questions that keep us awake at night.</p>
 
             <p>
-              These are questions that keep us awake at night. At SkillsGuruh,
+              At
+              <span class="text-dark-green font-weight-bold">SkillsGuruh</span>,
               our mission is to help people build their capacity to be more, so
-              we connect them with knowledge, people and opportunities everyday.
+              we connect them with
+              <span class="font-weight-bold">Knowledge</span>,
+              <span class="font-weight-bold">People</span> and
+              <span class="font-weight-bold">Opportunities</span> everyday.
+            </p>
+            <p>
               Our desire is that as our users experience the growth, it
               transforms what they value, and inspires them to pay it forward so
-              that others can live a full life as well. When you teach at
-              SkillGuruh, you get to take part in something that has lasting
-              value: helping people around the world experience growth and
-              fulfillment.
+              that others can live a full life as well.
+            </p>
+            <p>
+              When you teach at SkillGuruh, you get to take part in something
+              that has lasting value: helping people around the world experience
+              growth and fulfillment.
             </p>
           </div>
         </b-col>
@@ -48,22 +59,22 @@
           ></b-img>
         </b-col>
         <b-col sm="6" class="">
-          <h6 class="mb-4">
+          <h4 class="mb-4">
             Want to be part of the change we work for everyday?
-          </h6>
+          </h4>
           <p>
             Do you want to join our amazing team of facilitators or do you want
-            to connect abd becme part of yhrs amazing community?
+            to connect and become part of this amazing community?
           </p>
           <div class="banner-buttons d-none d-sm-flex">
             <b-button
               block
               size="lg"
               variant="dark-green"
-              @click="$router.push('/explore')"
+              @click="$router.push('/register')"
               class="m-0 mr-3"
             >
-              Explore Interest</b-button
+              Become a Facilitator</b-button
             >
             <b-button
               block
@@ -129,5 +140,8 @@
 p {
   color: rgba(0, 0, 0, 0.54);
   line-height: 28px;
+}
+p {
+  text-align: justify;
 }
 </style>

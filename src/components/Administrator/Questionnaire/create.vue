@@ -645,6 +645,31 @@ export default {
             : "";
         });
     },
+    savedraft() {
+      this.$http
+        .post(
+          `${this.$store.getters.url}/question/drafts`,
+          this.questionnaire,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 201) {
+            this.$toast.success("Saved to drafts");
+          }
+        })
+        .catch((err) => {
+          err.response.data.errors.title[0]
+            ? this.$toast.error(err.response.data.errors.title[0])
+            : "";
+          err.response.data.errors.content[0]
+            ? this.$toast.error(err.response.data.errors.content[0])
+            : "";
+        });
+    },
     preview() {
       this.$bvModal.show("preview");
     },

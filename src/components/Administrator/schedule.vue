@@ -1,8 +1,8 @@
 <template>
   <div>
-    <b-container>
+    <b-container class="px-0">
       <b-row>
-        <b-col sm="8">
+        <b-col sm="9">
           <b-row class="mb-4 mb-sm-5">
             <b-col class="position-relative" v-if="showEvent">
               <carousel
@@ -693,7 +693,7 @@
             ></b-skeleton-table>
           </div>
         </b-col>
-        <b-col sm="4" class="text-left">
+        <b-col sm="3" class="text-left">
           <div class="turn_over_box">
             <div class="tob_1 mb-4">
               <vc-calendar

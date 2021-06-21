@@ -147,6 +147,23 @@
         </router-link>
       </div>
 
+      <div class="side_item mt-4">
+        <b-icon
+          icon="box-arrow-left"
+          font-scale="1.1"
+          class="mr-3 text-dark-green"
+        ></b-icon>
+        <span class="side-link">Back to Home</span>
+      </div>
+      <div class="side_item mt-4">
+        <b-icon
+          icon="box-arrow-left"
+          font-scale="1.1"
+          class="mr-3 text-dark-green"
+        ></b-icon>
+        <span class="side-link">Explore</span>
+      </div>
+
       <div class="side_item mt-4" @click="logout">
         <b-icon
           icon="box-arrow-left"

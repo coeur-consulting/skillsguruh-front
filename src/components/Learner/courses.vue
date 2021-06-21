@@ -68,9 +68,6 @@
                 "
                 @click="showcourse(course)"
               >
-                <div class="ribbon text-capitalize">
-                  <span>{{ course.type }}</span>
-                </div>
                 <div class="flex-1">
                   <!-- <b-dropdown
                     size="sm"
@@ -191,6 +188,19 @@
                     ></b-icon>
                     <span class="fs13"> {{ sortmodules(course) }}</span>
                     Modules
+                  </div>
+                  <div>
+                    <span class="fs13 text-muted"
+                      ><b-icon
+                        class="mr-2"
+                        :icon="
+                          course.type == 'free' ? 'unlock-fill' : 'lock-fill'
+                        "
+                      ></b-icon>
+                      <span class="text-capitalize">{{
+                        course.type
+                      }}</span></span
+                    >
                   </div>
                 </div>
 
@@ -566,6 +576,12 @@
                   <div class="d-flex align-items-center">
                     <b-icon
                       font-scale="1.15"
+                      class="ml-auto mr-3"
+                      @click="sharecourse(course.id)"
+                      icon="person-plus-fill"
+                    ></b-icon>
+                    <b-icon
+                      font-scale="1.15"
                       @click="sharelink(course.id)"
                       icon="share"
                     ></b-icon>
@@ -865,7 +881,7 @@
       </b-row>
     </b-container>
 
-    <b-modal no-close-on-backdrop id="courselink" centered hide-footer>
+    <b-modal no-close-on-backdrop id="sharecourse" centered hide-footer>
       <div class="box p-3 text-center">
         <h6 class="text-center">Invite your friends</h6>
         <div>
@@ -1026,6 +1042,7 @@ export default {
       inviteUsers: {
         code: "",
         title: "",
+        url: "",
         users: [
           {
             email: "",
@@ -1157,6 +1174,7 @@ export default {
     },
     sendinvite(title) {
       this.inviteUsers.title = title;
+      this.inviteUsers.url = this.message;
       this.$http
         .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
           headers: {
@@ -1265,6 +1283,10 @@ export default {
         .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
+    },
+    sharecourse(id) {
+      this.message = `https://skillsguruh.herokuapp.com/learner/courses?course_id=${id}`;
+      this.$bvModal.show("sharecourse");
     },
     getCommunity() {
       this.$http

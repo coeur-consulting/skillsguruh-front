@@ -1032,6 +1032,58 @@
         </div>
       </b-form>
     </b-modal>
+    <b-modal no-close-on-backdrop id="sharecourse" centered hide-footer>
+      <div class="box p-3 text-center">
+        <h6 class="text-center">Invite your friends</h6>
+        <div>
+          <div
+            v-for="(item, id) in inviteUsers.users"
+            :key="id"
+            class="mb-1 text-center"
+          >
+            <b-input-group size="sm" class="">
+              <template #append>
+                <b-button @click="inviteUsers.users.splice(id, 1)"
+                  ><strong>x</strong></b-button
+                >
+              </template>
+              <b-form-input
+                v-model="item.email"
+                placeholder="Enter email address"
+              ></b-form-input>
+            </b-input-group>
+          </div>
+          <div class="text-center mt-3">
+            <b-button
+              size="sm"
+              class="mr-3"
+              variant="lighter-green"
+              @click="addinvite"
+            >
+              <b-icon icon="plus" font-scale="1.4"></b-icon> Add email</b-button
+            >
+            <b-button
+              size="sm"
+              variant="dark-green"
+              @click="sendinvite(course.title)"
+            >
+              Send Invite
+            </b-button>
+          </div>
+        </div>
+        <div class="mt-3 border p-2 rounded-pill d-flex text-muted">
+          <b-icon icon="link45deg" font-scale="1.2rem"></b-icon>
+
+          <span
+            class="fs12"
+            v-clipboard:copy="message"
+            v-clipboard:success="onCopy"
+            v-clipboard:error="onError"
+            >{{ message }}</span
+          >
+        </div>
+      </div>
+    </b-modal>
     <b-modal
       no-close-on-backdrop
       id="share"
@@ -1188,9 +1240,6 @@
                   "
                   @click="showcourse(course)"
                 >
-                  <div class="ribbon text-capitalize">
-                    <span>{{ course.type }}</span>
-                  </div>
                   <div class="flex-1">
                     <b-dropdown
                       size="sm"
@@ -1338,6 +1387,19 @@
                       ></b-icon>
                       <span class="fs13"> {{ sortmodules(course) }}</span>
                       Modules
+                    </div>
+                    <div>
+                      <span class="fs13 text-muted"
+                        ><b-icon
+                          class="mr-2"
+                          :icon="
+                            course.type == 'free' ? 'unlock-fill' : 'lock-fill'
+                          "
+                        ></b-icon>
+                        <span class="text-capitalize">{{
+                          course.type
+                        }}</span></span
+                      >
                     </div>
                   </div>
 
@@ -1635,6 +1697,12 @@
                       </div>
                       <div class="text-right">
                         <div class="d-flex align-items-center">
+                          <b-icon
+                            font-scale="1.15"
+                            class="ml-auto mr-3"
+                            @click="sharecourse(course.id)"
+                            icon="person-plus-fill"
+                          ></b-icon>
                           <b-icon
                             class="cursor-pointer"
                             font-scale="1.15"
@@ -1962,6 +2030,17 @@ export default {
       course: null,
       type: 1,
       link: "",
+      inviteUsers: {
+        code: "",
+        title: "",
+        url: "",
+        users: [
+          {
+            email: "",
+          },
+        ],
+      },
+      message: "",
       newmodule: "",
       facilitators: [],
       toggleCourse: 1,
@@ -2054,6 +2133,42 @@ export default {
     },
   },
   methods: {
+    onCopy: function (e) {
+      alert("You just copied the following text to the clipboard: " + e.text);
+    },
+    onError: function (e) {
+      alert("Failed to copy the text to the clipboard");
+      console.log(e);
+    },
+    sendinvite(title) {
+      this.inviteUsers.title = title;
+      this.inviteUsers.url = this.message;
+      this.$http
+        .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.$toast.success("Invite Sent");
+            this.$bvModal.hide("courselink");
+            this.inviteUsers = {
+              code: "",
+              title: "",
+              users: [
+                {
+                  email: "",
+                },
+              ],
+            };
+          }
+        });
+    },
+    sharecourse(id) {
+      this.message = `https://skillsguruh.herokuapp.com/learner/courses?course_id=${id}`;
+      this.$bvModal.show("sharecourse");
+    },
     addToFeed() {
       this.feed = {
         media: this.course.cover,

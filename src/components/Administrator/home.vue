@@ -79,7 +79,7 @@
         <div class="rside">
           <b-row class="mb-4 mb-sm-4">
             <b-col sm="6">
-              <div class="box p-3" v-if="showFacilitator">
+              <div class="box p-3 shadow" v-if="showFacilitator">
                 <div
                   class="
                     d-flex
@@ -146,7 +146,7 @@
               </div>
             </b-col>
             <b-col sm="6">
-              <div class="box p-3" v-if="showLearner">
+              <div class="box p-3 shadow" v-if="showLearner">
                 <div
                   class="
                     d-flex

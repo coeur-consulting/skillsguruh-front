@@ -78,7 +78,7 @@
         <div class="rside">
           <b-row class="mb-5 mb-sm-5">
             <b-col sm="6">
-              <div class="box p-3 shadow-sm">
+              <div class="box p-3 shadow">
                 <div
                   class="
                     w-100
@@ -128,7 +128,7 @@
               </div>
             </b-col>
             <b-col sm="6">
-              <div class="box p-3 shadow-sm">
+              <div class="box p-3 shadow">
                 <div
                   class="
                     d-flex

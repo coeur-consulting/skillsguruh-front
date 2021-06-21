@@ -29,9 +29,25 @@
               class="d-flex justify-content-between align-items-center p-3 e"
             >
               <b-icon icon="funnel"></b-icon>
-              <div>
-                <b-button variant="dark-green" @click="$bvModal.show('create')"
-                  >Add</b-button
+              <div class="d-flex align-items-center">
+                <div class="mr-4">
+                  <b-form-checkbox
+                    v-model="team"
+                    size="sm"
+                    name="check-button"
+                    switch
+                  >
+                    View Drafts
+                  </b-form-checkbox>
+                </div>
+                <b-button
+                  size="sm"
+                  variant="lighter-green"
+                  class="fs12"
+                  @click="$bvModal.show('create')"
+                >
+                  <b-icon icon="plus" font-scale=""></b-icon>
+                  Add</b-button
                 >
               </div>
             </div>
@@ -41,7 +57,7 @@
                 <b-thead>
                   <b-tr class="text-left">
                     <b-th class="text-muted">Title</b-th>
-
+                    <b-th class="text-muted">Status</b-th>
                     <b-th class="text-muted">Created</b-th>
                     <b-th class="text-muted"> Updated</b-th>
                     <b-th></b-th> </b-tr
@@ -57,18 +73,38 @@
                         </div>
                       </div>
                     </b-td>
+                    <b-td>
+                      <div class="d-flex">
+                        <div class="text-left">
+                          <span class="text-capitalize text-dark-green">
+                            {{ item.status }}
+                          </span>
+                        </div>
+                      </div>
+                    </b-td>
 
                     <b-td class="text-left">
                       {{ item.created_at | moment("ll") }}</b-td
                     >
 
                     <b-td>{{ item.updated_at | moment("ll") }}</b-td>
-                    <b-td
-                      ><b-icon
-                        icon="chevron-down"
-                        class="cursor-pointer"
-                        :id="item.id.toString() + item.title"
-                      ></b-icon>
+                    <b-td class="text-right">
+                      <b-button-group size="sm">
+                        <b-button
+                          variant="light"
+                          @click="view(item.id)"
+                          class="fs12 px-2 text-muted"
+                          >View</b-button
+                        >
+                        <b-button variant="lighter-green">
+                          <b-icon
+                            icon="three-dots"
+                            class="cursor-pointer"
+                            :id="item.id.toString() + item.title"
+                          ></b-icon>
+                        </b-button>
+                      </b-button-group>
+
                       <b-popover
                         :target="item.id.toString() + item.title"
                         triggers="hover"
@@ -76,22 +112,14 @@
                       >
                         <div class="">
                           <small
-                            @click="view(item.id)"
+                            @click="edit(item.id)"
                             class="px-0 text-left cursor-pointer"
                           >
                             <b-icon class="mr-2" icon="eye"></b-icon
-                            ><span>View</span>
-                          </small>
-                          <br />
-                          <hr class="my-1" />
-                          <small
-                            class="px-0 text-left cursor-pointer"
-                            @click="edit(item.id)"
-                          >
-                            <b-icon class="mr-2" icon="pencil"></b-icon
                             ><span>Edit</span>
                           </small>
                           <br />
+
                           <hr class="my-1" />
                           <small
                             class="px-0 cursor-pointer"
@@ -141,9 +169,9 @@ export default {
       rows: null,
       perPage: 10,
       questionnaires: [],
-
       title: "",
       template: {},
+      team: false,
     };
   },
   components: {
@@ -151,7 +179,7 @@ export default {
   },
   computed: {
     filter() {
-      return this.questionnaires
+      var questions = this.questionnaires
         .filter((item) =>
           item.title.toLowerCase().includes(this.search.toLowerCase())
         )
@@ -159,6 +187,9 @@ export default {
           this.perPage * this.currentPage - this.perPage,
           this.perPage * this.currentPage
         );
+      return this.team
+        ? questions.filter((item) => item.status == "draft")
+        : questions.filter((item) => item.status == "active");
     },
   },
   mounted() {
@@ -182,6 +213,23 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.questionnaires = res.data;
+            this.rows = res.data.length;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    async getquestions() {
+      return this.$http
+        .get(`${this.$store.getters.url}/question/drafts`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.drafts = res.data;
             this.rows = res.data.length;
           }
         })

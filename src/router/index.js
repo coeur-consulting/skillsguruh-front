@@ -112,6 +112,15 @@ const routes = [
       footer: Footer,
     },
   },
+  {
+    path: "/quiz",
+    name: "Quiz",
+    components: {
+      header: Header,
+      default: () => import(/* webpackChunkName: "quiz" */ "../views/Quiz.vue"),
+      footer: Footer,
+    },
+  },
 
   {
     path: "/organization",

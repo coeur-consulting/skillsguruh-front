@@ -96,12 +96,27 @@
                       }"
                       >{{ item.verification ? "Active" : "Inactive" }}</b-td
                     >
-                    <b-td
-                      ><b-icon
-                        icon="chevron-down"
-                        class="cursor-pointer"
-                        :id="item.id.toString() + item.name"
-                      ></b-icon>
+                    <b-td class="text-right">
+                      <b-button-group size="sm">
+                        <b-button
+                          variant="light"
+                          @click="
+                            $router.push(
+                              `/administrator/view/learner/${item.id}`
+                            )
+                          "
+                          class="fs12 text-muted px-2"
+                          >View</b-button
+                        >
+                        <b-button variant="lighter-green">
+                          <b-icon
+                            icon="three-dots"
+                            class="cursor-pointer"
+                            :id="item.id.toString() + item.name"
+                          ></b-icon>
+                        </b-button>
+                      </b-button-group>
+
                       <b-popover
                         :target="item.id.toString() + item.name"
                         triggers="hover"

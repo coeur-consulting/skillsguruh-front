@@ -13,7 +13,13 @@
         </b-col>
       </b-row>
     </b-container>
-     <b-modal  no-close-on-backdrop  id="insight" size="xl" hide-footer hide-header>
+    <b-modal
+      no-close-on-backdrop
+      id="insight"
+      size="xl"
+      hide-footer
+      hide-header
+    >
       <Insight @skip="skip" :user="$store.getters.admin" />
     </b-modal>
   </div>
@@ -33,7 +39,7 @@ export default {
   },
   mounted() {
     this.getnotification();
-    // this.getloginhistory();
+    this.getloginhistory();
   },
   methods: {
     getnotification() {
@@ -41,6 +47,21 @@ export default {
     },
     skip() {
       this.$bvModal.hide("insight");
+    },
+    getloginhistory() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/login-history`,
+
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            },
+          }
+        )
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
     },
   },
 };
