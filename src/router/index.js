@@ -131,6 +131,16 @@ const routes = [
       footer: Footer,
     },
   },
+  {
+    path: "/auth/:provider/callback",
+    name: "callback",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "callback" */ "../views/Auth.vue"),
+      footer: Footer,
+    },
+  },
 
   {
     path: "/organization",

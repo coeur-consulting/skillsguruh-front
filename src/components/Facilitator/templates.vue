@@ -47,8 +47,7 @@
                   @click="$bvModal.show('create')"
                 >
                   <b-icon icon="plus" font-scale=""></b-icon>
-                  Add</b-button
-                >
+                </b-button>
               </div>
             </div>
 
@@ -57,6 +56,7 @@
                 <b-thead>
                   <b-tr class="text-left">
                     <b-th class="text-muted">Title</b-th>
+                    <b-th class="text-muted">Type</b-th>
                     <b-th class="text-muted">Status</b-th>
                     <b-th class="text-muted">Created</b-th>
                     <b-th class="text-muted"> Updated</b-th>
@@ -69,6 +69,15 @@
                         <div class="text-left">
                           <span class="text-capitalize">
                             {{ item.title }}
+                          </span>
+                        </div>
+                      </div>
+                    </b-td>
+                    <b-td>
+                      <div class="d-flex">
+                        <div class="text-left">
+                          <span class="text-capitalize">
+                            {{ item.type }}
                           </span>
                         </div>
                       </div>

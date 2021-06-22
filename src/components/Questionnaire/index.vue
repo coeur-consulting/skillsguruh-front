@@ -6,11 +6,29 @@
           <b-form>
             <b-form-row class="mb-2 py-3 justify-content-end">
               <b-col sm="8">
-                <b-form-group label="Questionnaire title">
+                <b-form-group label="Template title">
                   <b-form-input
                     placeholder="Give a title"
                     v-model="questionnaire.title"
                   ></b-form-input>
+                </b-form-group>
+              </b-col>
+              <b-col sm="4">
+                <b-form-group label="Template type">
+                  <b-form-select v-model="questionnaire.type">
+                    <b-form-select-option disabled value=""
+                      >Choose type</b-form-select-option
+                    >
+                    <b-form-select-option value="quiz"
+                      >Quiz</b-form-select-option
+                    >
+                    <b-form-select-option value="questionnaire"
+                      >Questionnaire</b-form-select-option
+                    >
+                    <b-form-select-option value="assessment"
+                      >Assessment</b-form-select-option
+                    >
+                  </b-form-select>
                 </b-form-group>
               </b-col>
             </b-form-row>
@@ -412,7 +430,7 @@ export default {
       answer: false,
       questionnaire: {
         title: "",
-
+        type: "",
         sections: [
           {
             title: "",

@@ -8,6 +8,13 @@
               <AudioMedia v-if="type == 'audio'" :media="media" />
               <VideoMedia v-if="type == 'video'" :media="media" />
               <PdfMedia v-if="type == 'document'" :media="media" />
+              <div v-if="type == 'template'" class="pr-3">
+                <Questionnaire
+                  @handleCheck="handleCheck"
+                  :id="media.template.id"
+                  :course_id="$route.params.id"
+                />
+              </div>
             </div>
             <div class="text-left py-3 pr-3">
               <div class="d-flex align-items-center mb-3">
@@ -40,52 +47,7 @@
                         <b-card-text>{{ course.description }}</b-card-text>
                       </div>
                     </b-tab>
-                    <b-tab title="Questionnaire">
-                      <div v-if="course.questionnaire">
-                        <div
-                          v-for="(item, id) in course.questionnaire"
-                          class="
-                            p-2
-                            bg-white
-                            mb-2
-                            d-flex
-                            fs14
-                            justify-content-between
-                            align-items-center
-                            rounded
-                          "
-                          :key="id"
-                          @click="viewquestion(item.id)"
-                        >
-                          <span> {{ item.title }}</span>
 
-                          <b-iconstack font-scale="1.5">
-                            <b-icon
-                              stacked
-                              icon="circle-fill"
-                              variant="light"
-                            ></b-icon>
-                            <b-icon
-                              stacked
-                              icon="chevron-right"
-                              scale="0.5"
-                            ></b-icon>
-                          </b-iconstack>
-                        </div>
-                      </div>
-
-                      <!-- <div class="text-center py-3" v-if="checked">
-                        <p class="text-muted mb-3 fs16">Already Submitted</p>
-                        <b-icon
-                          icon="check2-circle"
-                          font-scale="5rem"
-                          variant="dark-green"
-                        ></b-icon>
-                      </div>
-
-                        -->
-                      <b-card-text v-else>None Available</b-card-text>
-                    </b-tab>
                     <b-tab title="Faqs">
                       <div
                         class="mb-4 bg-light rounded border"
@@ -208,26 +170,37 @@
                 >
                   <b-card-text
                     class="d-flex text-capitalize align-items-center mb-2"
-                    ><span class="flex-1">{{ mod.title }}</span>
-                    <span>
-                      <span class="fs11 mr-3">{{ mod.file_type }}</span>
-                      <b-button
-                        class="my-2 ml-auto"
-                        @click="
-                          play(
-                            mod,
-                            item.questionnaire ? item.questionnaire.id : null,
-                            item.id
-                          )
-                        "
-                        size="sm"
-                        variant="dark-green"
-                        ><b-icon icon="play-fill"></b-icon>
+                  >
+                    <div>
+                      <div class="flex-1 fs14">{{ mod.title }}</div>
+
+                      <div class="fs10 text-dark-green mr-3">
                         {{
-                          mod.file_type == "document" ? "View" : "Play"
-                        }}</b-button
-                      >
-                    </span>
+                          mod.file_type == "template"
+                            ? mod.template.type
+                            : mod.file_type
+                        }}
+                      </div>
+                    </div>
+                    <b-button
+                      class="my-2 ml-auto fs12"
+                      @click="
+                        play(
+                          mod,
+
+                          item.id
+                        )
+                      "
+                      size="sm"
+                      variant="dark-green"
+                      ><b-icon icon="play-fill"></b-icon>
+                      {{
+                        mod.file_type == "document" ||
+                        mod.file_type == "template"
+                          ? "View"
+                          : "Play"
+                      }}</b-button
+                    >
                   </b-card-text>
                   <div v-if="item.questionnaire.length">
                     <h6 class="fs12 font-weight-bold mb-2">Questionnaire</h6>
@@ -300,19 +273,6 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-modal
-      no-close-on-backdrop
-      id="questionnaire"
-      hide-footer
-      centered
-      size="lg"
-    >
-      <Questionnaire
-        @handleCheck="handleCheck"
-        :id="questionnaire_id"
-        :course_id="$route.params.id"
-      />
-    </b-modal>
   </div>
 </template>
 
@@ -434,15 +394,10 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
-    play(mod, id, module_id) {
+    play(mod, module_id) {
       this.media = mod;
       this.type = mod.file_type.toLowerCase();
       this.module_id = module_id;
-      if (id) {
-        this.questionnaire_id = id;
-      } else {
-        this.questionnaire_id = null;
-      }
     },
 
     viewquestion(id) {

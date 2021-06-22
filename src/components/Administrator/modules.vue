@@ -161,7 +161,7 @@
             <b-form-row class="mb-4">
               <b-col sm="6" class="px-3">
                 <b-form-group label="Course">
-                  <b-form-select v-model="detail.course_id" readonly>
+                  <b-form-select v-model="detail.course_id" disabled>
                     <b-form-select-option value="" disabled
                       >Choose Course</b-form-select-option
                     >
@@ -330,7 +330,7 @@
                       ></b-form-textarea>
                     </b-form-group>
                     <b-form-row>
-                      <b-col sm="4">
+                      <b-col>
                         <b-form-group label="File type">
                           <b-form-select size="sm" v-model="item.file_type">
                             <b-form-select disabled value=""
@@ -345,11 +345,66 @@
                             <b-form-select-option value="document"
                               >Document</b-form-select-option
                             >
+                            <b-form-select-option value="template"
+                              >Template</b-form-select-option
+                            >
                           </b-form-select>
                         </b-form-group>
                       </b-col>
                     </b-form-row>
+
+                    <div class="" v-if="item.file_type == 'template'">
+                      <b-form-group label=" Template type">
+                        <b-form-select size="sm" v-model="item.type">
+                          <b-form-select-option disabled value="">
+                            Choose template type</b-form-select-option
+                          >
+                          <b-form-select-option value="questionnaire">
+                            Questionnaire</b-form-select-option
+                          >
+                          <b-form-select-option value="quiz">
+                            Quiz</b-form-select-option
+                          >
+                          <b-form-select-option value="assessment">
+                            Assessment</b-form-select-option
+                          >
+                        </b-form-select>
+                      </b-form-group>
+
+                      <b-form-group label="Choose template">
+                        <model-list-select
+                          :list="
+                            allquestionnaires.filter((val) =>
+                              val.type.toLowerCase().includes(item.type)
+                            )
+                          "
+                          v-model="item.template"
+                          option-value="id"
+                          option-text="title"
+                          placeholder="select item"
+                        >
+                        </model-list-select>
+                      </b-form-group>
+
+                      <div
+                        v-for="(item, id) in detail.questionnaires"
+                        :key="id"
+                        class="d-flex justify-content-between px-2 py-2 rounded"
+                      >
+                        <div class="text-capitalize">
+                          <span class="mr-2">{{ id + 1 }}.</span>
+                          {{ item.title }}
+                        </div>
+                        <b-icon
+                          icon="x"
+                          @click="detail.questionnaires.splice(id, 1)"
+                          font-scale="1.5"
+                        ></b-icon>
+                      </div>
+                    </div>
+
                     <b-form-group
+                      v-else
                       label="Upload Resource File"
                       class="text-center"
                     >
@@ -370,69 +425,6 @@
                 </b-col>
               </b-form-row>
             </div>
-            <b-form-row>
-              <b-col>
-                <div class="px-2 mt-3">
-                  <h6>Template</h6>
-                  <b-row>
-                    <b-col sm="6">
-                      <b-form-group label="Choose template">
-                        <multi-list-select
-                          :list="allquestionnaires"
-                          option-value="id"
-                          option-text="title"
-                          :selected-items="detail.templates"
-                          placeholder="Search template"
-                          @select="onSelect"
-                        >
-                        </multi-list-select>
-                      </b-form-group>
-                    </b-col>
-
-                    <b-col sm="3">
-                      <b-form-group label="Choose template type">
-                        <b-form-select v-model="detail.type">
-                          <b-form-select-option disabled value="">
-                            Choose template type</b-form-select-option
-                          >
-                          <b-form-select-option value="questionnaire">
-                            Questionnaire</b-form-select-option
-                          >
-                          <b-form-select-option value="quiz">
-                            Quiz</b-form-select-option
-                          >
-                          <b-form-select-option value="assessment">
-                            Assessment</b-form-select-option
-                          >
-                        </b-form-select>
-                      </b-form-group>
-                    </b-col>
-                  </b-row>
-                  <div
-                    v-for="(item, id) in detail.questionnaires"
-                    :key="id"
-                    class="d-flex justify-content-between px-2 py-2 rounded"
-                  >
-                    <div class="text-capitalize">
-                      <span class="mr-2">{{ id + 1 }}.</span> {{ item.title }}
-                    </div>
-                    <b-icon
-                      icon="x"
-                      @click="detail.questionnaires.splice(id, 1)"
-                      font-scale="1.5"
-                    ></b-icon>
-                  </div>
-                  <b-form-group class="">
-                    <b-button
-                      size="sm"
-                      variant="lighter-green"
-                      @click="$bvModal.show('question')"
-                      >Create Template</b-button
-                    >
-                  </b-form-group>
-                </div>
-              </b-col>
-            </b-form-row>
 
             <b-form-row>
               <b-col sm="6" class="px-3">
@@ -659,7 +651,7 @@
                     ></b-form-textarea>
                   </b-form-group>
                   <b-form-row>
-                    <b-col sm="4">
+                    <b-col>
                       <b-form-group label="File type">
                         <b-form-select size="sm" v-model="item.file_type">
                           <b-form-select disabled value=""
@@ -674,11 +666,66 @@
                           <b-form-select-option value="document"
                             >Document</b-form-select-option
                           >
+                          <b-form-select-option value="template"
+                            >Template</b-form-select-option
+                          >
                         </b-form-select>
                       </b-form-group>
                     </b-col>
                   </b-form-row>
+
+                  <div class="" v-if="item.file_type == 'template'">
+                    <b-form-group label=" Template type">
+                      <b-form-select size="sm" v-model="item.type">
+                        <b-form-select-option disabled value="">
+                          Choose template type</b-form-select-option
+                        >
+                        <b-form-select-option value="questionnaire">
+                          Questionnaire</b-form-select-option
+                        >
+                        <b-form-select-option value="quiz">
+                          Quiz</b-form-select-option
+                        >
+                        <b-form-select-option value="assessment">
+                          Assessment</b-form-select-option
+                        >
+                      </b-form-select>
+                    </b-form-group>
+
+                    <b-form-group label="Choose template">
+                      <model-list-select
+                        :list="
+                          allquestionnaires.filter((val) =>
+                            val.type.toLowerCase().includes(item.type)
+                          )
+                        "
+                        v-model="item.template"
+                        option-value="id"
+                        option-text="title"
+                        placeholder="select item"
+                      >
+                      </model-list-select>
+                    </b-form-group>
+
+                    <div
+                      v-for="(item, id) in detail.questionnaires"
+                      :key="id"
+                      class="d-flex justify-content-between px-2 py-2 rounded"
+                    >
+                      <div class="text-capitalize">
+                        <span class="mr-2">{{ id + 1 }}.</span>
+                        {{ item.title }}
+                      </div>
+                      <b-icon
+                        icon="x"
+                        @click="detail.questionnaires.splice(id, 1)"
+                        font-scale="1.5"
+                      ></b-icon>
+                    </div>
+                  </div>
+
                   <b-form-group
+                    v-else
                     label="Upload Resource File"
                     class="text-center"
                   >
@@ -698,36 +745,7 @@
                 </div>
               </b-col>
             </b-form-row>
-            <b-form-row>
-              <b-col>
-                <div class="px-2 mt-3">
-                  <h6>Questionnaires</h6>
 
-                  <div
-                    v-for="(item, id) in detail.questionnaires"
-                    :key="id"
-                    class="d-flex justify-content-between px-2 py-2 rounded"
-                  >
-                    <div class="text-capitalize">
-                      <span class="mr-2">{{ id + 1 }}.</span> {{ item.title }}
-                    </div>
-                    <b-icon
-                      icon="x"
-                      @click="detail.questionnaires.splice(id, 1)"
-                      font-scale="1.5"
-                    ></b-icon>
-                  </div>
-                  <b-form-group class="">
-                    <b-button
-                      size="sm"
-                      variant="lighter-green"
-                      @click="$bvModal.show('question')"
-                      >Add Questionnaire (optional)</b-button
-                    >
-                  </b-form-group>
-                </div>
-              </b-col>
-            </b-form-row>
             <b-form-row>
               <b-col sm="6" class="px-3">
                 <div class="p-3 rounded">
@@ -789,7 +807,7 @@
 <script>
 import Upload from "../fileupload";
 import questionnaire from "./Questionnaire/resourceQuestionnaire";
-import { MultiListSelect } from "vue-search-select";
+import { ModelListSelect } from "vue-search-select";
 export default {
   data() {
     return {
@@ -818,6 +836,9 @@ export default {
             overview: "",
             file_type: "video",
             file: "",
+            template: {},
+            templates: [],
+            type: "",
           },
         ],
         cover_image: "",
@@ -830,7 +851,7 @@ export default {
   components: {
     Upload,
     questionnaire,
-    MultiListSelect,
+    ModelListSelect,
   },
   computed: {
     filter() {
@@ -874,7 +895,9 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
-            this.allquestionnaires = res.data;
+            this.allquestionnaires = res.data.filter(
+              (item) => item.status == "active"
+            );
           }
         })
         .catch((err) => {
@@ -906,6 +929,9 @@ export default {
             overview: "",
             file_type: "video",
             file: "",
+            template: {},
+            templates: [],
+            type: "",
           },
         ],
         cover_image: "",
@@ -1006,6 +1032,9 @@ export default {
                   overview: "",
                   file_type: "video",
                   file: "",
+                  template: {},
+                  templates: [],
+                  type: "",
                 },
               ],
               cover_image: "",
@@ -1057,6 +1086,9 @@ export default {
                   overview: "",
                   file_type: "video",
                   file: "",
+                  template: {},
+                  templates: [],
+                  type: "",
                 },
               ],
               cover_image: "",

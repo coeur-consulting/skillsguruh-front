@@ -23,163 +23,166 @@
                 .questions"
               :key="question.title"
             >
-              <b-form-group :label="question.question">
-                <div class="mb-3" v-if="question.hint">
-                  <em class="text-dark-green fs12"
-                    ><b-icon icon="info-circle-fill"></b-icon>
-                    {{ question.hint }}</em
-                  >
-                </div>
-                <div v-if="question.type == 'short'">
-                  <b-form-input
-                    @change="handleResponse(question, index)"
-                    v-model="question.response"
-                    :placeholder="question.placeholder"
-                  ></b-form-input>
-                </div>
-                <div v-if="question.type == 'long'">
-                  <b-form-textarea
-                    @change="handleResponse(question, index)"
-                    v-model="question.response"
-                    :placeholder="question.placeholder"
-                  ></b-form-textarea>
-                </div>
-
-                <div v-if="question.type == 'single'">
-                  <b-form-radio-group
-                    @change="handleResponse(question, index)"
-                    v-model="question.response"
-                    :options="question.options"
-                    value-field="title"
-                    text-field="title"
-                  ></b-form-radio-group>
-                </div>
-                <div v-if="question.type == 'multiple'">
-                  <div
-                    v-for="(item, id) in question.options"
-                    :key="id"
-                    class="d-flex align-items-center mb-1"
-                  >
+              <div class="d-flex">
+                <span class="mr-3">{{ index + 1 }}</span>
+                <b-form-group :label="question.question">
+                  <div class="mb-3" v-if="question.hint">
+                    <em class="text-dark-green fs12"
+                      ><b-icon icon="info-circle-fill"></b-icon>
+                      {{ question.hint }}</em
+                    >
+                  </div>
+                  <div v-if="question.type == 'short'">
                     <b-form-input
-                      v-model="item.title"
+                      @change="handleResponse(question, index)"
+                      v-model="question.response"
                       :placeholder="question.placeholder"
                     ></b-form-input>
-                    <b-button-group>
-                      <b-button
-                        v-if="
-                          questionnaire.sections[section].questions[index]
-                            .options.length > 1
-                        "
-                        @click="
-                          questionnaire.sections[section].questions[
-                            index
-                          ].options.splice(id, 1)
-                        "
-                      >
-                        <b-icon icon="x"></b-icon
-                      ></b-button>
-                      <b-button
-                        variant="lighter-green"
-                        @click="addoption(index)"
-                      >
-                        <b-icon icon="plus"></b-icon
-                      ></b-button>
-                    </b-button-group>
                   </div>
-                </div>
-                <div v-if="question.type == 'checkbox'">
-                  {{ question.limit }}
-                  <div>
-                    <b-form-checkbox
-                      v-for="(item, index) in question.options"
-                      :key="index"
-                      :value="index"
-                      v-model="question.responses"
-                      :disabled="
-                        question.responses.length > 1 &&
-                        question.responses.indexOf(index) === -1
-                      "
-                      inline
-                    >
-                      {{ item.title }}
-                    </b-form-checkbox>
+                  <div v-if="question.type == 'long'">
+                    <b-form-textarea
+                      @change="handleResponse(question, index)"
+                      v-model="question.response"
+                      :placeholder="question.placeholder"
+                    ></b-form-textarea>
                   </div>
-                </div>
 
-                <div v-if="question.type == 'boolean'">
-                  <b-form-radio
-                    @change="handleResponse(question, index)"
-                    v-model="question.response"
-                    value="true"
-                    >True</b-form-radio
-                  >
-                  <b-form-radio
-                    @change="handleResponse(question, index)"
-                    v-model="question.response"
-                    value="false"
-                    >False</b-form-radio
-                  >
-                </div>
-
-                <div v-if="question.type == 'dropdown'">
-                  <b-form-select
-                    @change="handleResponse(question, index)"
-                    v-model="question.response"
-                  >
-                    <b-form-select-option
-                      v-for="option in question.options"
-                      :key="option.title"
-                      :value="option.title"
-                      >{{ option.title }}</b-form-select-option
+                  <div v-if="question.type == 'single'">
+                    <b-form-radio-group
+                      @change="handleResponse(question, index)"
+                      v-model="question.response"
+                      :options="question.options"
+                      value-field="title"
+                      text-field="title"
+                    ></b-form-radio-group>
+                  </div>
+                  <div v-if="question.type == 'multiple'">
+                    <div
+                      v-for="(item, id) in question.options"
+                      :key="id"
+                      class="d-flex align-items-center mb-1"
                     >
-                  </b-form-select>
-                </div>
+                      <b-form-input
+                        v-model="item.title"
+                        :placeholder="question.placeholder"
+                      ></b-form-input>
+                      <b-button-group>
+                        <b-button
+                          v-if="
+                            questionnaire.sections[section].questions[index]
+                              .options.length > 1
+                          "
+                          @click="
+                            questionnaire.sections[section].questions[
+                              index
+                            ].options.splice(id, 1)
+                          "
+                        >
+                          <b-icon icon="x"></b-icon
+                        ></b-button>
+                        <b-button
+                          variant="lighter-green"
+                          @click="addoption(index)"
+                        >
+                          <b-icon icon="plus"></b-icon
+                        ></b-button>
+                      </b-button-group>
+                    </div>
+                  </div>
+                  <div v-if="question.type == 'checkbox'">
+                    {{ question.limit }}
+                    <div>
+                      <b-form-checkbox
+                        v-for="(item, index) in question.options"
+                        :key="index"
+                        :value="index"
+                        v-model="question.responses"
+                        :disabled="
+                          question.responses.length > 1 &&
+                          question.responses.indexOf(index) === -1
+                        "
+                        inline
+                      >
+                        {{ item.title }}
+                      </b-form-checkbox>
+                    </div>
+                  </div>
 
-                <div v-if="question.type == 'range'">
-                  <b-form-input
-                    @change="handleResponse(question, index)"
-                    type="range"
-                    v-model="question.response"
-                    min="0"
-                    max="10"
-                  ></b-form-input>
-                </div>
-                <div v-if="question.type == 'email'">
-                  <b-form-input
-                    @change="handleResponse(question, index)"
-                    v-model="question.response"
-                    type="email"
-                  ></b-form-input>
-                </div>
-                <div v-if="question.type == 'number'">
-                  <b-form-input
-                    @change="handleResponse(question, index)"
-                    v-model="question.response"
-                    type="number"
-                  ></b-form-input>
-                </div>
-                <div v-if="question.type == 'time'">
-                  <b-form-input
-                    @change="handleResponse(question, index)"
-                    v-model="question.response"
-                    type="time"
-                  ></b-form-input>
-                </div>
-                <div v-if="question.type == 'date'">
-                  <b-form-input
-                    @change="handleResponse(question, index)"
-                    v-model="question.response"
-                    type="date"
-                  ></b-form-input>
-                </div>
-                <div v-if="question.type == 'color'">
-                  <b-form-input
-                    @change="handleResponse(question, index)"
-                    v-model="question.response"
-                    type="color"
-                  ></b-form-input>
-                </div>
-              </b-form-group>
+                  <div v-if="question.type == 'boolean'">
+                    <b-form-radio
+                      @change="handleResponse(question, index)"
+                      v-model="question.response"
+                      value="true"
+                      >True</b-form-radio
+                    >
+                    <b-form-radio
+                      @change="handleResponse(question, index)"
+                      v-model="question.response"
+                      value="false"
+                      >False</b-form-radio
+                    >
+                  </div>
+
+                  <div v-if="question.type == 'dropdown'">
+                    <b-form-select
+                      @change="handleResponse(question, index)"
+                      v-model="question.response"
+                    >
+                      <b-form-select-option
+                        v-for="option in question.options"
+                        :key="option.title"
+                        :value="option.title"
+                        >{{ option.title }}</b-form-select-option
+                      >
+                    </b-form-select>
+                  </div>
+
+                  <div v-if="question.type == 'range'">
+                    <b-form-input
+                      @change="handleResponse(question, index)"
+                      type="range"
+                      v-model="question.response"
+                      min="0"
+                      max="10"
+                    ></b-form-input>
+                  </div>
+                  <div v-if="question.type == 'email'">
+                    <b-form-input
+                      @change="handleResponse(question, index)"
+                      v-model="question.response"
+                      type="email"
+                    ></b-form-input>
+                  </div>
+                  <div v-if="question.type == 'number'">
+                    <b-form-input
+                      @change="handleResponse(question, index)"
+                      v-model="question.response"
+                      type="number"
+                    ></b-form-input>
+                  </div>
+                  <div v-if="question.type == 'time'">
+                    <b-form-input
+                      @change="handleResponse(question, index)"
+                      v-model="question.response"
+                      type="time"
+                    ></b-form-input>
+                  </div>
+                  <div v-if="question.type == 'date'">
+                    <b-form-input
+                      @change="handleResponse(question, index)"
+                      v-model="question.response"
+                      type="date"
+                    ></b-form-input>
+                  </div>
+                  <div v-if="question.type == 'color'">
+                    <b-form-input
+                      @change="handleResponse(question, index)"
+                      v-model="question.response"
+                      type="color"
+                    ></b-form-input>
+                  </div>
+                </b-form-group>
+              </div>
             </div>
 
             <div class="d-flex justify-content-between my-4">

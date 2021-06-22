@@ -16,6 +16,7 @@ import VCalendar from "v-calendar";
 import VueClipboard from "vue-clipboard2";
 import VueSocialSharing from "vue-social-sharing";
 import VueCountdownTimer from "vuejs-countdown-timer";
+import VueSocialauth from "vue-social-auth";
 
 import "vue-toast-notification/dist/theme-sugar.css";
 import "animate.css";
@@ -42,6 +43,15 @@ Vue.use(VCalendar, {
 });
 Vue.use(VueClipboard);
 Vue.component("apexchart", VueApexCharts);
+Vue.use(VueSocialauth, {
+  providers: {
+    google: {
+      clientId:
+        "738236291995-2nqjms56jvo6pc8it4p9c9cd4kmv8btn.apps.googleusercontent.com",
+      redirectUri: "http://localhost:8080/auth/google/callback", // Your client app URL
+    },
+  },
+});
 
 Vue.config.productionTip = false;
 
