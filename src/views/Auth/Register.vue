@@ -27,7 +27,11 @@
             </div>
           </div>
         </b-col>
-        <b-col cols="12" sm="9" class="main p-3 p-sm-4 text-sm-left">
+        <b-col
+          cols="12"
+          sm="9"
+          class="main p-3 p-sm-4 text-sm-left overflow-y-auto h-100"
+        >
           <div class="d-sm-none position-relative">
             <b-img
               class="img-l cursor-pointer"
