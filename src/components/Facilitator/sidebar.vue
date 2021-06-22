@@ -14,22 +14,14 @@
         <h6 class="mt-3 mb-1 text-dark-green side_header">PERSONAL</h6>
         <router-link to="/facilitator">
           <div class="side_item">
-            <b-icon
-              icon="grid1x2"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">Dashboard</span>
+            <home-icon size="1x" class="custom-class"></home-icon>
+            <span class="side-link p-2">Dashboard</span>
           </div>
         </router-link>
         <router-link to="/facilitator/team">
           <div class="side_item">
-            <b-icon
-              icon="person-badge"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">Team</span>
+             <users-icon size="1x" class="custom-class"></users-icon>
+            <span class="side-link p-2">Team</span>
           </div>
         </router-link>
         <!-- <router-link to="/facilitator/learners">
@@ -44,12 +36,8 @@
         </router-link> -->
         <router-link to="/facilitator/schedule">
           <div class="side_item">
-            <b-icon
-              icon="calendar-event"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">Schedule</span>
+             <calendar-icon size="1x" class="custom-class"></calendar-icon>
+            <span class="side-link p-2">Schedule</span>
           </div>
         </router-link>
       </div>
@@ -59,12 +47,14 @@
 
         <router-link to="/facilitator/courses">
           <div class="side_item">
-            <b-icon
-              icon="book"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">Courses</span>
+            <trello-icon size="1x" class="custom-class"></trello-icon>
+            <span class="side-link p-2">Courses</span>
+          </div>
+        </router-link>
+               <router-link to="/facilitator/assessment">
+          <div class="side_item">
+           <database-icon size="1x" class="custom-class"></database-icon>
+            <span class="side-link p-2">Assessment</span>
           </div>
         </router-link>
         <!-- <router-link to="/facilitator/outlines">
@@ -93,33 +83,21 @@
 
         <router-link to="/facilitator/connections">
           <div class="side_item">
-            <b-icon
-              icon="link45deg"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">Connections</span>
+         <link-icon size="1x" class="custom-class"></link-icon>
+            <span class="side-link p-2">Connections</span>
           </div>
         </router-link>
         <router-link to="/facilitator/feeds">
           <div class="side_item">
-            <b-icon
-              icon="rss"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link"><span class="mr-5">Feeds</span> </span>
+             <rss-icon size="1x" class="custom-class"></rss-icon>
+            <span class="side-link p-2">Feeds </span>
           </div>
         </router-link>
         <router-link to="/facilitator/events">
           <div class="side_item">
-            <b-icon
-              icon="bookmark"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
+            <bookmark-icon size="1x" class="custom-class"></bookmark-icon>
             <span class="side-link">
-              <span class="mr-5">Events</span>
+              <span class="p-2">Events</span>
               <span v-if="activeaccount"
                 ><b-badge variant="danger" size="sm">{{
                   activeaccount
@@ -130,12 +108,8 @@
         </router-link>
         <router-link to="/facilitator/discussions">
           <div class="side_item">
-            <b-icon
-              icon="chat-left-quote"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">Discussions</span>
+            <twitch-icon size="1x" class="custom-class"></twitch-icon>
+            <span class="side-link p-2">Discussions</span>
           </div>
         </router-link>
       </div>
@@ -144,49 +118,53 @@
         <h6 class="mt-3 mb-1 text-dark-green side_header">OTHERS</h6>
         <router-link to="/facilitator/question/templates">
           <div class="side_item">
-            <b-icon
-              icon="signpost-split"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">Templates</span>
+             <layout-icon size="1x" class="custom-class"></layout-icon>
+            <span class="side-link p-2">Templates</span>
           </div>
         </router-link>
         <router-link to="/facilitator/insights">
           <div class="side_item">
-            <b-icon
-              icon="receipt"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">Insights</span>
+           <arrow-up-right-icon size="1x" class="custom-class"></arrow-up-right-icon>
+            <span class="side-link p-2">Insights</span>
           </div>
         </router-link>
         <router-link to="/facilitator/referrals">
           <div class="side_item">
-            <b-icon
-              icon="signpost-split"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">Bonuses</span>
+            <credit-card-icon size="1x" class="custom-class"></credit-card-icon>
+            <span class="side-link p-2">Bonuses</span>
           </div>
         </router-link>
       </div>
 
       <div class="side_item mt-4" @click="logout">
-        <b-icon
-          icon="box-arrow-left"
-          font-scale="1.1"
-          class="mr-3 text-dark-green"
-        ></b-icon>
-        <span class="side-link">Log out</span>
+      <log-out-icon size="1x" class="custom-class"></log-out-icon>
+        <span class="side-link p-2">Log out</span>
       </div>
     </div>
   </div>
 </template>
 <script>
+import
+ {HomeIcon, UsersIcon, TrelloIcon, CalendarIcon, LinkIcon, RssIcon, TwitchIcon,
+  BookmarkIcon, DatabaseIcon, LayoutIcon, CreditCardIcon, ArrowUpRightIcon, LogOutIcon}
+  from "vue-feather-icons";
 export default {
+    components: {
+    HomeIcon,
+    UsersIcon,
+    TrelloIcon,
+    CalendarIcon,
+    LinkIcon,
+    RssIcon,
+    TwitchIcon,
+    BookmarkIcon,
+    DatabaseIcon,
+    LayoutIcon,
+    ArrowUpRightIcon,
+    CreditCardIcon,
+    LogOutIcon
+  
+  },
   data() {
     return {
       events: [],
@@ -259,8 +237,9 @@ export default {
   cursor: pointer;
 }
 .router-link-exact-active.router-link-active .side_item {
-  background: var(--dark-green);
-  color: white;
+ background: rgba(56, 128, 135, 0.17);
+ border-left: 2px solid #388087;
+  /* color: white; */
 }
 
 .router-link-exact-active.router-link-active .side_item .b-icon.bi {
@@ -269,8 +248,8 @@ export default {
 .side_item:hover .b-icon.bi {
   color: white !important;
 }
-.side_item:hover {
+/* .side_item:hover {
   background: var(--light-green);
   color: white;
-}
+} */
 </style>

@@ -39,12 +39,13 @@
                 </div>
                 <div class="w-100 px-2">
                   <div class="new_add d-flex align-items-center">
-                    <b-img
+                    <!-- <b-img
                       class="mr-2"
                       :src="require('@/assets/images/profit.svg')"
                       width="24"
-                    ></b-img>
-                    <span class="mr-2 mt-1 text-dark-green">
+                    ></b-img> -->
+                     <activity-icon size="1x" class="custom-class growth"></activity-icon>
+                    <span class="mr-2 mt-1 growth">
                       {{
                         Math.round((newlyusers / users.length) * 100) || 0
                       }}%</span
@@ -89,12 +90,8 @@
 
                 <div class="w-100 px-2">
                   <div class="new_add d-flex align-items-center">
-                    <b-img
-                      class="mr-2"
-                      :src="require('@/assets/images/profit.svg')"
-                      width="24"
-                    ></b-img>
-                    <span class="mr-2 mt-1 text-dark-green">
+                   <activity-icon size="1x" class="custom-class growth"></activity-icon>
+                    <span class="mr-2 mt-1 growth">
                       {{
                         Math.round((newlyCourses / courses.length) * 100) || 0
                       }}%</span
@@ -436,6 +433,7 @@
 </template>
 
 <script>
+import { ActivityIcon } from 'vue-feather-icons'
 import Todo from "../Todo";
 import Discussions from "./minidiscussions";
 //import StarRating from "vue-star-rating";
@@ -461,6 +459,7 @@ export default {
   components: {
     Discussions,
     Todo,
+    ActivityIcon,
     // StarRating,
   },
   watch: {},
@@ -786,6 +785,9 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.growth{
+  color: #3CC13B;
+}
 .container {
   padding-top: 30px;
 }
