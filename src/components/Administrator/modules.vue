@@ -270,7 +270,10 @@
                       </b-iconstack>
                     </div>
                   </div>
-                  <div class="bg-light p-3 rounded" v-if="id == current_module">
+                  <div
+                    class="bg-light p-3 rounded"
+                    v-show="id == current_module"
+                  >
                     <div class="d-flex justify-content-between">
                       <div class="py-3 text-right">
                         <b-iconstack
@@ -591,7 +594,7 @@
                     </b-iconstack>
                   </div>
                 </div>
-                <div class="bg-light p-3 rounded" v-if="id == current_module">
+                <div class="bg-light p-3 rounded" v-show="id == current_module">
                   <div class="d-flex justify-content-between">
                     <div class="py-3 text-right">
                       <b-iconstack

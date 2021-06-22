@@ -1271,24 +1271,16 @@
                             `/administrator/modules?showing=${course.title}`
                           )
                         "
-                        >View resources</b-dropdown-item
+                        >Add resources</b-dropdown-item
                       >
-                      <b-dropdown-item
-                        class="fs12"
-                        @click="
-                          $router.push(
-                            `/administrator/questionnaires?showing=${course.title}`
-                          )
-                        "
-                        >View questionnaires</b-dropdown-item
-                      >
+
                       <b-dropdown-item class="fs12" @click="edit(course)"
-                        >Edit course</b-dropdown-item
+                        >Edit course info</b-dropdown-item
                       >
                       <b-dropdown-item
                         class="fs12"
                         @click="drop(course.id, index)"
-                        >Delete course</b-dropdown-item
+                        >Drop course</b-dropdown-item
                       >
                     </b-dropdown>
 
@@ -2012,7 +2004,7 @@
               please create a new course by clicking the button below
             </p>
             <b-button @click="$bvModal.show('addcourse')" variant="dark-green"
-              >Create new course</b-button
+              >Add course</b-button
             >
           </b-col>
         </b-row>

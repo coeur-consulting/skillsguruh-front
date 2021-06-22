@@ -705,7 +705,7 @@
             please create a new course by clicking the button below
           </p>
           <b-button @click="$bvModal.show('addcourse')" variant="dark-green"
-            >Create new course</b-button
+            >Add course</b-button
           >
         </b-col>
       </b-row>
