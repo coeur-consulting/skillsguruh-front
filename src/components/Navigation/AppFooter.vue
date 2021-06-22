@@ -2,9 +2,11 @@
   <footer>
     <b-container>
       <b-row>
-        <b-col md="3" class="text-left">
-          <b-img src="/img/logo.svg" class="mb-2" width="120"></b-img>
-          <p>A platform for business owners and entreprenuer to upskill</p>
+        <b-col md="3" class="text-sm-left">
+          <b-img src="/img/logo.svg" class="mb-2 logo"></b-img>
+          <p class="fs15 text-muted">
+            A platform for business owners and entreprenuer to upskill
+          </p>
 
           <div class="mb-3">
             <b-iconstack font-scale="2.2" class="mr-3">
@@ -69,6 +71,9 @@
 </template>
 
 <style scoped>
+.logo {
+  width: 120px;
+}
 footer {
   position: relative;
   padding-top: 6rem;
@@ -84,5 +89,16 @@ footer {
   color: rgba(0, 0, 0, 0.5);
   font-size: 14px;
   margin-bottom: 10px;
+}
+@media (max-width: 600px) {
+  .container {
+    height: 100%;
+  }
+  .row {
+    flex-direction: column-reverse;
+  }
+  .logo {
+    width: 100px;
+  }
 }
 </style>

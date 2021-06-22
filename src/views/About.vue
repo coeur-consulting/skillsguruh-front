@@ -13,7 +13,7 @@
           <div>
             <h2>What do I value?</h2>
 
-            <h5 class="mb-4 text-dark-green font-weight-bold">
+            <h5 class="mb-4 text-dark-green">
               How will I leave an eternal legacy?
             </h5>
             <p class="">These are questions that keep us awake at night.</p>
@@ -49,7 +49,13 @@
         </b-col>
       </b-row>
 
-      <b-row class="align-items-center">
+      <b-row
+        class="
+          align-items-center
+          flex-column-reverse flex-md-row
+          text-center text-sm-left
+        "
+      >
         <b-col sm="6" class="">
           <b-img
             v-animate-onscroll="
@@ -58,11 +64,11 @@
             :src="require('../assets/images/about.png')"
           ></b-img>
         </b-col>
-        <b-col sm="6" class="">
+        <b-col sm="6" class="mb-4 mb-sm-0">
           <h4 class="mb-4">
             Want to be part of the change we work for everyday?
           </h4>
-          <p>
+          <p class="text-center text-sm-left">
             We’ve created a home for you to share your experience or expertise.
             The world needs a hero, just like you!
           </p>
@@ -91,10 +97,10 @@
               block
               size="sm"
               variant="dark-green"
-              @click="$router.push('/explore')"
+              @click="$router.push('/register')"
               class="m-0 mr-3"
             >
-              Explore Interest</b-button
+              Become a Facilitator</b-button
             >
             <b-button
               block
@@ -139,9 +145,15 @@
 }
 p {
   color: rgba(0, 0, 0, 0.54);
-  line-height: 28px;
+  line-height: 1.6;
 }
 p {
   text-align: justify;
+}
+@media (max-width: 600px) {
+  p {
+    text-align: left;
+    font-size: 15px;
+  }
 }
 </style>

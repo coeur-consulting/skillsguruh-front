@@ -8,7 +8,7 @@
       </div>
     </div>
     <b-container class="">
-      <b-row>
+      <b-row class="flex-column-reverse flex-md-row">
         <b-col sm="6" class="p-5">
           <div class="d-flex align-items-center mb-3">
             <b-iconstack font-scale="2.5" class="mr-2">
@@ -181,5 +181,22 @@ export default {
   background: none !important;
   height: 400px;
   width: 400px;
+}
+@media (max-width: 600px) {
+  .container {
+    height: 100%;
+  }
+  .mapouter {
+    position: relative;
+    text-align: right;
+    height: 300px;
+    width: 300px;
+  }
+  .gmap_canvas {
+    overflow: hidden;
+    background: none !important;
+    height: 300px;
+    width: 300px;
+  }
 }
 </style>

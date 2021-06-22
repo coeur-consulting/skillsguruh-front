@@ -10,11 +10,13 @@
           <template #default="{ expanded }">
             <b-icon
               v-if="expanded"
+              font-scale="1.3"
               icon="chevron-bar-up"
               class="text-dark-green"
             ></b-icon>
             <b-icon
               v-else
+              font-scale="1.3"
               icon="chevron-bar-down"
               class="text-dark-green"
             ></b-icon>

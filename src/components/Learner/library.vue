@@ -187,7 +187,10 @@
                     >
                       <b-img :src="item.course.cover"></b-img>
                     </div>
-                    <div class="text-left" :class="!list ? 'mb-2' : ''">
+                    <div
+                      class="text-left course_desc"
+                      :class="!list ? 'mb-2' : ''"
+                    >
                       <div class="fs14 font-weight-bold mb-1">
                         {{ item.course.title }}
                       </div>
@@ -487,8 +490,20 @@ img {
   line-height: 1.3;
 }
 .course_img {
-  width: 150px;
+  width: 35%;
   height: 80px;
+  border-radius: 5px;
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+.course_desc {
+  width: 75%;
+}
+.course_desc.mb-2 {
+  width: 100%;
 }
 .course_img2 {
   width: 100%;
