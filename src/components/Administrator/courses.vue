@@ -1694,7 +1694,7 @@
                         <div class="d-flex align-items-center">
                           <b-icon
                             font-scale="1.15"
-                            class="ml-auto mr-3"
+                            class="ml-auto mr-3 cursor-pointer"
                             @click="sharecourse(course.id)"
                             icon="person-plus-fill"
                           ></b-icon>

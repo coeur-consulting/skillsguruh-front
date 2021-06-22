@@ -562,12 +562,13 @@
                   <div class="d-flex align-items-center">
                     <b-icon
                       font-scale=".9"
-                      class="ml-auto mr-3"
+                      class="ml-auto mr-3 cursor-pointer"
                       @click="getcode(course.id)"
                       icon="person-plus-fill"
                     ></b-icon>
 
                     <b-icon
+                      class="cursor-pointer"
                       font-scale=".9"
                       @click="sharelink(course.id)"
                       icon="share"
@@ -1279,7 +1280,7 @@ export default {
           if (res.status == 200) {
             this.message = `https://skillsguruh.com/register/?referral_type=group&referral_code=${res.data.code}`;
             this.inviteUsers.code = res.data.code;
-            this.$bvModal.show("courselink");
+            this.$bvModal.show("sharecourse");
           }
         })
         .catch((err) => {
