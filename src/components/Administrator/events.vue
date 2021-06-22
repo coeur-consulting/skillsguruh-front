@@ -7,7 +7,7 @@
             <div
               class="
                 top_heading
-                p-4
+                p-2 p-sm-4
                 border-bottom
                 d-flex
                 justify-content-between
@@ -39,8 +39,8 @@
                       variant="dark-green"
                       class="mr-1"
                     ></b-icon>
-                    Ongoing Events</span
-                  >
+                    Ongoing
+                  </span>
                   <span
                     class="mr-4 d-flex align-items-center cursor-pointer"
                     @click="showing = 'upcoming'"
@@ -50,8 +50,8 @@
                       variant="dark-green"
                       class="mr-1"
                     ></b-icon>
-                    Upcoming Events</span
-                  >
+                    Upcoming
+                  </span>
                   <span
                     @click="showing = 'past'"
                     class="d-flex align-items-center cursor-pointer"
@@ -61,8 +61,8 @@
                       font-scale=".7rem"
                       variant="dark-green"
                     ></b-icon>
-                    Past Events</span
-                  >
+                    Past
+                  </span>
                 </div>
                 <b-button @click="$bvModal.show('add')" variant="lighter-green">
                   <b-icon icon="plus" font-scale="1.5"></b-icon
@@ -120,7 +120,7 @@
                       <b-dropdown
                         v-if="
                           item.admin_id &&
-                            item.admin_id == $store.getters.admin.id
+                          item.admin_id == $store.getters.admin.id
                         "
                         size="sm"
                         variant="transparent"
@@ -533,7 +533,7 @@
                   <b-form-input
                     size="lg"
                     v-model="event.url"
-                      type="url"
+                    type="url"
                     placeholder="Enter event link"
                   ></b-form-input>
                 </b-form-group>
@@ -656,18 +656,18 @@ export default {
         start: "",
         end: "",
         resource: "",
-        facilitators: []
+        facilitators: [],
       },
-      showEvents: false
+      showEvents: false,
     };
   },
   components: {
-    Upload
+    Upload,
   },
   computed: {
     filter() {
       var event = this.events
-        .filter(item =>
+        .filter((item) =>
           item.title.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
@@ -676,13 +676,13 @@ export default {
         );
 
       if (this.showing == "upcoming") {
-        return event.filter(item => item.status == "pending");
+        return event.filter((item) => item.status == "pending");
       }
       if (this.showing == "ongoing") {
-        return event.filter(item => item.status == "ongoing");
+        return event.filter((item) => item.status == "ongoing");
       }
-      return event.filter(item => item.status == "expired");
-    }
+      return event.filter((item) => item.status == "expired");
+    },
   },
   mounted() {
     this.getevents();
@@ -701,15 +701,15 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/admin-get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -718,17 +718,17 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/events`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.events = res.data;
             this.rows = res.data.length;
             this.showEvents = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -737,10 +737,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/events`, this.event, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.$toast.success("Added successfully");
             this.$bvModal.hide("add");
@@ -755,11 +755,11 @@ export default {
               start: "",
               end: "",
               resource: "",
-              facilitators: []
+              facilitators: [],
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           if (err.response.data.errors.email[0]) {
             this.$toast.error(err.response.data.errors.email[0]);
           }
@@ -783,10 +783,10 @@ export default {
       this.$http
         .put(`${this.$store.getters.url}/events/${this.event.id}`, this.event, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Update successful");
             this.$bvModal.hide("edit");
@@ -800,11 +800,11 @@ export default {
               start: "",
               end: "",
               resource: "",
-              facilitators: []
+              facilitators: [],
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -812,27 +812,27 @@ export default {
       this.$router.push(`/administrator/event/${id}`);
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/events/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-              }
+                Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+              },
             })
-            .then(res => {
+            .then((res) => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.events.splice(index, 1);
               }
             })
-            .catch(err => {
+            .catch((err) => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped lang="scss">

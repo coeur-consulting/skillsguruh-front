@@ -74,7 +74,7 @@ html::-webkit-scrollbar {
   cursor: pointer;
 }
 .org_home_table {
-  font-size: 12px;
+  font-size: 13.5px;
 }
 .text-muted {
   color: rgba($color: #000000, $alpha: 0.34) !important;
@@ -396,5 +396,36 @@ a:hover {
   }
   img {
     width: 100%;
+  }
+
+  .event {
+    width: 100% !important;
+    & div {
+      & img {
+        width: 20px;
+      }
+    }
+  }
+  .events {
+    & div {
+      & div {
+        & h4 {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+  .event-container {
+    width: 100% !important;
+    & div {
+      & div {
+        & span {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+  .bottom_bar {
+    width: 100% !important;
   }
 }

@@ -2,7 +2,7 @@
   <div>
     <b-container class="py-5">
       <h5 class="text-left mb-4">Your Library</h5>
-      <b-row>
+      <b-row class="flex-column-reverse flex-sm-row">
         <b-col sm="4" class="text-left pr-4">
           <div class="bg-white w-100 h-100 p-3 border rounded">
             <h6 class="px-2 mb-4 text-muted">Recently Added</h6>
@@ -88,47 +88,51 @@
           </div>
           <div></div>
         </b-col>
-        <b-col sm="8" class="p-3 bg-white border rounded">
-          <div class="text-right mb-3">
-            <b-icon
-              class="mr-3"
-              :icon="alpha ? 'sort-alpha-up' : 'sort-alpha-down'"
-              @click="alpha = !alpha"
-            ></b-icon>
+        <b-col sm="8" class="p-3 bg-white border rounded mb-5 mb-sm-0">
+          <div class="text-sm-right mb-3">
+            <div class="d-flex align-items-center">
+              <div class="search align-items-center mb-sm-4 mr-3">
+                <b-input-group class="topbar_search rounded-pill">
+                  <b-form-input
+                    placeholder="Search by title, interest"
+                    class="no-focus bg-light border-0"
+                    type="search"
+                    size="lg"
+                    aria-label="Text input "
+                    v-model="search"
+                  ></b-form-input>
+                  <b-input-group-append is-text>
+                    <b-iconstack font-scale="1.5">
+                      <b-icon
+                        stacked
+                        icon="circle-fill"
+                        variant="lighter-green"
+                      ></b-icon>
+                      <b-icon
+                        stacked
+                        icon="search"
+                        scale="0.5"
+                        variant="dark-green"
+                      ></b-icon>
+                    </b-iconstack>
+                  </b-input-group-append>
+                </b-input-group>
+              </div>
+              <div>
+                <b-icon
+                  class="mr-3"
+                  :icon="alpha ? 'sort-alpha-up' : 'sort-alpha-down'"
+                  @click="alpha = !alpha"
+                ></b-icon>
 
-            <b-icon
-              class="mr-3"
-              icon="funnel"
-              @click="$bvModal.show('filter')"
-            ></b-icon>
-            <div class="search align-items-center mb-4">
-              <b-input-group class="topbar_search rounded-pill">
-                <b-form-input
-                  placeholder="Search by title, interest"
-                  class="no-focus bg-light border-0"
-                  type="search"
-                  size="lg"
-                  aria-label="Text input "
-                  v-model="search"
-                ></b-form-input>
-                <b-input-group-append is-text>
-                  <b-iconstack font-scale="1.5">
-                    <b-icon
-                      stacked
-                      icon="circle-fill"
-                      variant="lighter-green"
-                    ></b-icon>
-                    <b-icon
-                      stacked
-                      icon="search"
-                      scale="0.5"
-                      variant="dark-green"
-                    ></b-icon>
-                  </b-iconstack>
-                </b-input-group-append>
-              </b-input-group>
+                <b-icon
+                  class=""
+                  icon="funnel"
+                  @click="$bvModal.show('filter')"
+                ></b-icon>
+              </div>
             </div>
-            <div>
+            <div class="d-none d-sm-block">
               <b-iconstack
                 class="mr-2 cursor-pointer"
                 font-scale="1"
@@ -399,6 +403,9 @@ export default {
   },
   mounted() {
     this.getLibrary();
+    if (window.innerWidth < 600) {
+      this.list = false;
+    }
   },
   computed: {
     filteredLibrary() {

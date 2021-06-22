@@ -16,83 +16,111 @@
     <div class="d-flex align-items-center d-sm-none">
       <div class="mr-3">
         <PushRotate :closeOnNavigation="true" width="250">
-          <div class="logo">
-            <b-img
-              class="mr-2"
-              width="30"
-              height="30"
-              style="object-fit: contain"
-              :src="$store.getters.facilitator.org_profile"
-            ></b-img>
+          <div class="logo d-flex align-items-center">
+            <div style="width: 40px; height: 40px" class="mr-2">
+              <b-img
+                fluid
+                :src="$store.getters.facilitator.org_profile"
+              ></b-img>
+            </div>
             <h5 class="mb-0">{{ $store.getters.facilitator.org_name }}</h5>
           </div>
 
+          <h6 class="mt-3 mb-1 text-lighter-green side_header">PERSONAL</h6>
           <router-link to="/facilitator">
             <div class="side_item">
               <b-icon
                 icon="grid1x2"
                 font-scale="1.1"
-                class="mr-3 text-white"
+                class="mr-3 text-lighter-green"
               ></b-icon>
               <span class="side-link">Dashboard</span>
             </div>
           </router-link>
-
-          <h6 class="mt-2 mb-0 text-white side_header">TEAM</h6>
-          <router-link to="/facilitator/facilitators">
+          <router-link to="/facilitator/team">
             <div class="side_item">
               <b-icon
                 icon="person-badge"
                 font-scale="1.1"
-                class="mr-3 text-white"
+                class="mr-3 text-lighter-green"
               ></b-icon>
-              <span class="side-link">Facilitators</span>
+              <span class="side-link">Team</span>
             </div>
           </router-link>
-          <router-link to="/facilitator/learners">
+          <!-- <router-link to="/facilitator/learners">
+          <div class="side_item">
+            <b-icon
+              icon="people"
+              font-scale="1.1"
+              class="mr-3 text-lighter-green"
+            ></b-icon>
+            <span class="side-link">Learners</span>
+          </div>
+        </router-link> -->
+          <router-link to="/facilitator/schedule">
             <div class="side_item">
               <b-icon
-                icon="people"
+                icon="calendar-event"
                 font-scale="1.1"
-                class="mr-3 text-white"
+                class="mr-3 text-lighter-green"
               ></b-icon>
-              <span class="side-link">Learners</span>
+              <span class="side-link">Schedule</span>
             </div>
           </router-link>
 
-          <h6 class="mt-2 mb-0 text-white side_header">COMMUNITY</h6>
-
-          <router-link to="/facilitator/connection">
-            <div class="side_item">
-              <b-icon
-                icon="link45deg"
-                font-scale="1.1"
-                class="mr-3 text-white"
-              ></b-icon>
-              <span class="side-link">Connection</span>
-            </div>
-          </router-link>
-
-          <h6 class="mt-2 mb-0 text-white side_header">PROGRAMS</h6>
+          <h6 class="mt-3 mb-1 text-lighter-green side_header">PROGRAMS</h6>
 
           <router-link to="/facilitator/courses">
             <div class="side_item">
               <b-icon
                 icon="book"
                 font-scale="1.1"
-                class="mr-3 text-white"
+                class="mr-3 text-lighter-green"
               ></b-icon>
               <span class="side-link">Courses</span>
             </div>
           </router-link>
-          <router-link to="/facilitator/outlines">
+          <!-- <router-link to="/facilitator/outlines">
+          <div class="side_item">
+            <b-icon
+              icon="card-list"
+              font-scale="1.1"
+              class="mr-3 text-lighter-green"
+            ></b-icon>
+            <span class="side-link">Course outline</span>
+          </div>
+        </router-link>
+        <router-link to="/facilitator/modules">
+          <div class="side_item">
+            <b-icon
+              icon="card-list"
+              font-scale="1.1"
+              class="mr-3 text-lighter-green"
+            ></b-icon>
+            <span class="side-link">Course modules</span>
+          </div>
+        </router-link> -->
+
+          <h6 class="mt-3 mb-1 text-lighter-green side_header">COMMUNITY</h6>
+
+          <router-link to="/facilitator/connections">
             <div class="side_item">
               <b-icon
-                icon="card-list"
+                icon="link45deg"
                 font-scale="1.1"
-                class="mr-3 text-dark-green"
+                class="mr-3 text-lighter-green"
               ></b-icon>
-              <span class="side-link">Course outline</span>
+              <span class="side-link">Connections</span>
+            </div>
+          </router-link>
+          <router-link to="/facilitator/feeds">
+            <div class="side_item">
+              <b-icon
+                icon="rss"
+                font-scale="1.1"
+                class="mr-3 text-lighter-green"
+              ></b-icon>
+              <span class="side-link"><span class="mr-5">Feeds</span> </span>
             </div>
           </router-link>
           <router-link to="/facilitator/events">
@@ -100,22 +128,11 @@
               <b-icon
                 icon="bookmark"
                 font-scale="1.1"
-                class="mr-3 text-white"
+                class="mr-3 text-lighter-green"
               ></b-icon>
-              <span class="side-link">Events</span>
-            </div>
-          </router-link>
-
-          <h6 class="mt-2 mb-0 text-white side_header">ACTIVITIES</h6>
-
-          <router-link to="/facilitator/feeds">
-            <div class="side_item">
-              <b-icon
-                icon="rss"
-                font-scale="1.1"
-                class="mr-3 text-white"
-              ></b-icon>
-              <span class="side-link">Feeds</span>
+              <span class="side-link">
+                <span class="mr-5">Events</span>
+              </span>
             </div>
           </router-link>
           <router-link to="/facilitator/discussions">
@@ -123,22 +140,21 @@
               <b-icon
                 icon="chat-left-quote"
                 font-scale="1.1"
-                class="mr-3 text-white"
+                class="mr-3 text-lighter-green"
               ></b-icon>
-              <span class="side-link">Discussion</span>
+              <span class="side-link">Discussions</span>
             </div>
           </router-link>
 
-          <h6 class="mt-2 mb-0 text-white side_header">OTHERS</h6>
-
-          <router-link to="/facilitator/schedule">
+          <h6 class="mt-3 mb-1 text-lighter-green side_header">OTHERS</h6>
+          <router-link to="/facilitator/question/templates">
             <div class="side_item">
               <b-icon
-                icon="calendar-event"
+                icon="signpost-split"
                 font-scale="1.1"
-                class="mr-3 text-white"
+                class="mr-3 text-lighter-green"
               ></b-icon>
-              <span class="side-link">Schedule</span>
+              <span class="side-link">Templates</span>
             </div>
           </router-link>
           <router-link to="/facilitator/insights">
@@ -146,7 +162,7 @@
               <b-icon
                 icon="receipt"
                 font-scale="1.1"
-                class="mr-3 text-white"
+                class="mr-3 text-lighter-green"
               ></b-icon>
               <span class="side-link">Insights</span>
             </div>
@@ -156,34 +172,46 @@
               <b-icon
                 icon="signpost-split"
                 font-scale="1.1"
-                class="mr-3 text-white"
-              ></b-icon>
-              <span class="side-link">Referrals</span>
-            </div>
-          </router-link>
-          <router-link to="/facilitator/bonuses">
-            <div class="side_item">
-              <b-icon
-                icon="credit-card"
-                font-scale="1.1"
-                class="mr-3 text-white"
+                class="mr-3 text-lighter-green"
               ></b-icon>
               <span class="side-link">Bonuses</span>
             </div>
           </router-link>
 
-          <div class="side_item mt-2 mb-4">
+          <hr />
+
+          <router-link to="/explore">
+            <div class="side_item mt-1">
+              <b-icon
+                icon="app-indicator"
+                font-scale="1.1"
+                class="mr-3 text-lighter-green"
+              ></b-icon>
+              <span class="side-link">Explore</span>
+            </div></router-link
+          >
+          <router-link to="/">
+            <div class="side_item mt-1">
+              <b-icon
+                icon="arrow-left"
+                font-scale="1.1"
+                class="mr-3 text-lighter-green"
+              ></b-icon>
+              <span class="side-link">Back to Home</span>
+            </div>
+          </router-link>
+          <div class="side_item mt-1" @click="logout">
             <b-icon
               icon="box-arrow-left"
               font-scale="1.1"
-              class="mr-3 text-white"
+              class="mr-3 text-lighter-green"
             ></b-icon>
             <span class="side-link">Log out</span>
           </div>
         </PushRotate>
       </div>
-      <div class="org_name" @click="$router.push('/organization')">
-        {{ this.$store.getters.organization.name }}
+      <div class="org_name fs13" @click="$router.push('/facilitator/profile')">
+        {{ this.$store.getters.facilitator.org_name }}
       </div>
     </div>
 
@@ -246,7 +274,7 @@
               </div>
             </div>
           </div>
-          <div class="text-center py-2 border-top text-dark-green fs11">
+          <div class="text-center py-2 border-top text-lighter-green fs11">
             <span
               class="cursor-pointer"
               @click="
@@ -534,5 +562,8 @@ export default {
 .org_name {
   font-size: 17px;
   font-weight: 500;
+}
+.logo {
+  background: white;
 }
 </style>

@@ -289,20 +289,26 @@
                 >
                   <div class="d-flex mb-3 px-3 pt-3">
                     <div class="d-flex flex-1 text-left">
-                      <div class="font-weight-bold mr-2 mb-1" v-if="feed.admin">
+                      <div
+                        class="font-weight-bold mr-2 mb-1 fs14"
+                        v-if="feed.admin"
+                      >
                         <b-avatar
                           class="mr-2"
                           :src="feed.admin.profile"
                         ></b-avatar>
                       </div>
-                      <div class="font-weight-bold mr-2 mb-1" v-if="feed.user">
+                      <div
+                        class="font-weight-bold mr-2 mb-1 fs14"
+                        v-if="feed.user"
+                      >
                         <b-avatar
                           class="mr-2"
                           :src="feed.user.profile"
                         ></b-avatar>
                       </div>
                       <div
-                        class="font-weight-bold mr-2 mb-1"
+                        class="font-weight-bold mr-2 mb-1 fs14"
                         v-if="feed.facilitator"
                       >
                         <b-avatar

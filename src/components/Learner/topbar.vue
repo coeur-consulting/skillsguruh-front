@@ -21,172 +21,172 @@
         </b-input-group-append> </b-input-group
     ></span>
 
-    <span class="mr-4 fs14">{{ new Date() | moment("ll") }}</span>
+    <span class="mr-4 fs14 d-none d-md-block">{{
+      new Date() | moment("ll")
+    }}</span>
 
     <div class="d-flex align-items-center d-sm-none">
       <div class="mr-3">
         <PushRotate :closeOnNavigation="true" width="250">
-          <div class="logo">
-            <b-img
-              class="mr-2"
-              width="30"
-              height="30"
-              :src="$store.getters.admin.org_profile"
-              style="object-fit: contain"
-            ></b-img>
-            <h5 class="mb-0">{{ $store.getters.admin.org_name }}</h5>
+          <div class="logo d-flex align-items-center">
+            <div style="width: 40px; height: 40px" class="mr-2">
+              <b-img fluid :src="$store.getters.learner.org_profile"></b-img>
+            </div>
+            <h5 class="mb-0">{{ $store.getters.learner.org_name }}</h5>
           </div>
 
-          <router-link to="/administrator">
+          <h6 class="mt-3 mb-1 text-lighter-green side_header">PERSONAL</h6>
+          <router-link to="/learner">
             <div class="side_item">
               <b-icon
                 icon="grid1x2"
                 font-scale="1.1"
-                class="mr-3 text-white"
+                class="mr-3 text-lighter-green"
               ></b-icon>
               <span class="side-link">Dashboard</span>
             </div>
           </router-link>
 
-          <h6 class="mt-2 mb-0 text-white side_header">TEAM</h6>
-          <router-link to="/administrator/facilitators">
-            <div class="side_item">
-              <b-icon
-                icon="person-badge"
-                font-scale="1.1"
-                class="mr-3 text-white"
-              ></b-icon>
-              <span class="side-link">Facilitators</span>
-            </div>
-          </router-link>
-          <router-link to="/administrator/learners">
-            <div class="side_item">
-              <b-icon
-                icon="people"
-                font-scale="1.1"
-                class="mr-3 text-white"
-              ></b-icon>
-              <span class="side-link">Learners</span>
-            </div>
-          </router-link>
-
-          <h6 class="mt-2 mb-0 text-white side_header">COMMUNITY</h6>
-
-          <router-link to="/administrator/connection">
-            <div class="side_item">
-              <b-icon
-                icon="link45deg"
-                font-scale="1.1"
-                class="mr-3 text-white"
-              ></b-icon>
-              <span class="side-link">Connection</span>
-            </div>
-          </router-link>
-
-          <h6 class="mt-2 mb-0 text-white side_header">PROGRAMS</h6>
-
-          <router-link to="/administrator/courses">
-            <div class="side_item">
-              <b-icon
-                icon="book"
-                font-scale="1.1"
-                class="mr-3 text-white"
-              ></b-icon>
-              <span class="side-link">Courses</span>
-            </div>
-          </router-link>
-          <router-link to="/administrator/outlines">
-            <div class="side_item">
-              <b-icon
-                icon="card-list"
-                font-scale="1.1"
-                class="mr-3 text-dark-green"
-              ></b-icon>
-              <span class="side-link">Course outline</span>
-            </div>
-          </router-link>
-          <router-link to="/administrator/events">
-            <div class="side_item">
-              <b-icon
-                icon="bookmark"
-                font-scale="1.1"
-                class="mr-3 text-white"
-              ></b-icon>
-              <span class="side-link">Events</span>
-            </div>
-          </router-link>
-
-          <h6 class="mt-2 mb-0 text-white side_header">ACTIVITIES</h6>
-
-          <router-link to="/administrator/feeds">
-            <div class="side_item">
-              <b-icon
-                icon="rss"
-                font-scale="1.1"
-                class="mr-3 text-white"
-              ></b-icon>
-              <span class="side-link">Feeds</span>
-            </div>
-          </router-link>
-          <router-link to="/administrator/discussions">
-            <div class="side_item">
-              <b-icon
-                icon="chat-left-quote"
-                font-scale="1.1"
-                class="mr-3 text-white"
-              ></b-icon>
-              <span class="side-link">Discussion</span>
-            </div>
-          </router-link>
-
-          <h6 class="mt-2 mb-0 text-white side_header">OTHERS</h6>
-
-          <router-link to="/administrator/schedule">
+          <router-link to="/learner/schedule">
             <div class="side_item">
               <b-icon
                 icon="calendar-event"
                 font-scale="1.1"
-                class="mr-3 text-white"
+                class="mr-3 text-lighter-green"
               ></b-icon>
               <span class="side-link">Schedule</span>
             </div>
           </router-link>
-          <router-link to="/administrator/insights">
+
+          <h6 class="mt-3 mb-1 text-lighter-green side_header">NETWORK</h6>
+
+          <router-link to="/learner/connections">
             <div class="side_item">
               <b-icon
-                icon="receipt"
+                icon="link45deg"
                 font-scale="1.1"
-                class="mr-3 text-white"
+                class="mr-3 text-lighter-green"
               ></b-icon>
-              <span class="side-link">Insights</span>
+              <span class="side-link">Connections</span>
             </div>
           </router-link>
-          <router-link to="/administrator/referrals">
+          <router-link to="/learner/feeds">
+            <div class="side_item">
+              <b-icon
+                icon="rss"
+                font-scale="1.1"
+                class="mr-3 text-lighter-green"
+              ></b-icon>
+              <span class="side-link"><span class="mr-5">Feeds</span> </span>
+            </div>
+          </router-link>
+          <router-link to="/learner/events">
+            <div class="side_item">
+              <b-icon
+                icon="bookmark"
+                font-scale="1.1"
+                class="mr-3 text-lighter-green"
+              ></b-icon>
+              <span class="side-link">
+                <span class="mr-5">Events</span>
+              </span>
+            </div>
+          </router-link>
+          <router-link to="/learner/discussions">
+            <div class="side_item">
+              <b-icon
+                icon="chat-left-quote"
+                font-scale="1.1"
+                class="mr-3 text-lighter-green"
+              ></b-icon>
+              <span class="side-link">Discussions</span>
+            </div>
+          </router-link>
+
+          <h6 class="mt-3 mb-1 text-lighter-green side_header">LEARN</h6>
+
+          <router-link to="/learner/courses">
+            <div class="side_item">
+              <b-icon
+                icon="book"
+                font-scale="1.1"
+                class="mr-3 text-lighter-green"
+              ></b-icon>
+              <span class="side-link">Courses</span>
+            </div>
+          </router-link>
+
+          <router-link to="/learner/library">
+            <div class="side_item">
+              <b-icon
+                icon="card-list"
+                font-scale="1.1"
+                class="mr-3 text-lighter-green"
+              ></b-icon>
+              <span class="side-link">Library</span>
+            </div>
+          </router-link>
+          <!-- <router-link to="/learner/assessments">
+          <div class="side_item">
+            <b-icon
+              icon="card-list"
+              font-scale="1.1"
+              class="mr-3 text-lighter-green"
+            ></b-icon>
+            <span class="side-link">Assessments</span>
+          </div>
+        </router-link>
+        <router-link to="/learner/grades">
+          <div class="side_item">
+            <b-icon
+              icon="card-list"
+              font-scale="1.1"
+              class="mr-3 text-lighter-green"
+            ></b-icon>
+            <span class="side-link">Grades</span>
+          </div>
+        </router-link> -->
+
+          <h6 class="mt-3 mb-1 text-lighter-green side_header">EARN</h6>
+
+          <router-link to="/learner/referrals">
             <div class="side_item">
               <b-icon
                 icon="signpost-split"
                 font-scale="1.1"
-                class="mr-3 text-white"
-              ></b-icon>
-              <span class="side-link">Referrals</span>
-            </div>
-          </router-link>
-          <router-link to="/administrator/bonuses">
-            <div class="side_item">
-              <b-icon
-                icon="credit-card"
-                font-scale="1.1"
-                class="mr-3 text-white"
+                class="mr-3 text-lighter-green"
               ></b-icon>
               <span class="side-link">Bonuses</span>
             </div>
           </router-link>
 
-          <div class="side_item mt-2 mb-4">
+          <hr />
+
+          <router-link to="/explore">
+            <div class="side_item mt-1">
+              <b-icon
+                icon="app-indicator"
+                font-scale="1.1"
+                class="mr-3 text-lighter-green"
+              ></b-icon>
+              <span class="side-link">Explore</span>
+            </div></router-link
+          >
+          <router-link to="/">
+            <div class="side_item mt-1">
+              <b-icon
+                icon="arrow-left"
+                font-scale="1.1"
+                class="mr-3 text-lighter-green"
+              ></b-icon>
+              <span class="side-link">Back to Home</span>
+            </div>
+          </router-link>
+          <div class="side_item mt-1" @click="logout">
             <b-icon
               icon="box-arrow-left"
               font-scale="1.1"
-              class="mr-3 text-white"
+              class="mr-3 text-lighter-green"
             ></b-icon>
             <span class="side-link">Log out</span>
           </div>
@@ -256,7 +256,7 @@
               </div>
             </div>
           </div>
-          <div class="text-center py-2 border-top text-dark-green fs11">
+          <div class="text-center py-2 border-top text-lighter-green fs11">
             <span
               class="cursor-pointer"
               @click="
@@ -331,7 +331,9 @@
           class="cursor-pointer mr-2"
           size="30px"
         ></b-avatar>
-        <span class="fs12">{{ $store.getters.learner.name }}</span></span
+        <span class="fs12 d-none d-sm-inline">{{
+          $store.getters.learner.name
+        }}</span></span
       >
     </div>
 
@@ -551,5 +553,8 @@ export default {
 }
 ::placeholder {
   text-align: right;
+}
+.logo {
+  background: white;
 }
 </style>

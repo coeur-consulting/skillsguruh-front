@@ -586,7 +586,6 @@ export default {
 .course_img {
   height: 45%;
   width: 100%;
-
   border-radius: 8px;
   background-repeat: no-repeat;
   background-size: cover;

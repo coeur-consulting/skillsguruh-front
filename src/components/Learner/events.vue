@@ -7,7 +7,7 @@
             <div
               class="
                 top_heading
-                p-4
+                p-2 p-sm-4
                 border-bottom
                 d-flex
                 justify-content-between
@@ -44,7 +44,7 @@
                       variant="dark-green"
                       class="mr-1"
                     ></b-icon>
-                    Ongoing Events</span
+                    Ongoing</span
                   >
                   <span
                     class="
@@ -60,7 +60,7 @@
                       variant="dark-green"
                       class="mr-1"
                     ></b-icon>
-                    Upcoming Events</span
+                    Upcoming</span
                   >
                   <span
                     @click="showing = 'past'"
@@ -75,7 +75,7 @@
                       font-scale=".7rem"
                       variant="dark-green"
                     ></b-icon>
-                    Past Events</span
+                    Past</span
                   >
                 </div>
               </div>

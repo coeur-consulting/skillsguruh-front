@@ -2,7 +2,18 @@
   <div>
     <b-container class="position-relative">
       <b-row class="position-relative">
-        <div class="border bg-white rounded p-3 py-5 side_box text-center">
+        <div
+          class="
+            border
+            bg-white
+            rounded
+            p-3
+            py-5
+            side_box
+            text-center
+            d-none d-sm-inline
+          "
+        >
           <div class="sided">
             <div class="turn_over_box tools">
               <div class="mb-4">
@@ -936,6 +947,20 @@ export default {
   }
   .learner_tab {
     min-height: 200px;
+  }
+  .learner_img {
+    position: absolute;
+    top: unset;
+    right: 7%;
+    width: 100px;
+    bottom: 0;
+  }
+  .w-50 {
+    width: 70% !important;
+  }
+  .main_box {
+    width: 100%;
+    padding: 15px;
   }
 }
 </style>

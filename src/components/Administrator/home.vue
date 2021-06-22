@@ -2,7 +2,18 @@
   <div>
     <b-container>
       <b-row>
-        <div class="border bg-white rounded p-3 py-5 side_box text-center">
+        <div
+          class="
+            border
+            bg-white
+            rounded
+            p-3
+            py-5
+            side_box
+            text-center
+            d-none d-sm-inline
+          "
+        >
           <div class="sided">
             <div class="turn_over_box tools">
               <div class="mb-4">
@@ -544,6 +555,16 @@ export default {
   }
   .admin_tab {
     min-height: 200px;
+  }
+  .new_add img {
+    width: 30px;
+  }
+  .w-50 {
+    width: 70% !important;
+  }
+  .rside {
+    width: 100%;
+    padding: 15px;
   }
 }
 </style>
