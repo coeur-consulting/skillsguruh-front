@@ -1,9 +1,9 @@
 <template>
-  <div class="pt-4">
+  <div class="py-4 bg-light">
     <b-container>
-      <b-row>
-        <b-col sm="8">
-          <div class="sborder bg-white py-4 rounded">
+      <b-row class="justify-content-center">
+        <b-col sm="9">
+          <div class="border bg-white py-4 rounded">
             <div
               class="
                 top_header
@@ -31,18 +31,15 @@
               >
                 Trending
               </div>
-              <div
-                :class="{ active: show == 'private' }"
-                @click="show = 'private'"
-              >
-                Private
-              </div>
             </div>
-            <div v-if="showDiscussions">
-              <div class="main_content" v-if="discussions.length">
+            <div v-if="showDiscussion">
+              <div
+                class="main_content d-flex flex-column justify-content-between"
+                v-if="filteredData.length"
+              >
                 <div
                   class="content border-bottom p-3 pt-4 pb-5 cursor-pointer"
-                  v-for="(item, index) in filteredDiscussions"
+                  v-for="(item, index) in filteredData"
                   :key="index"
                 >
                   <div
@@ -55,6 +52,9 @@
                     "
                   >
                     <b-dropdown
+                      v-if="
+                        item.user && item.user.id == $store.getters.learner.id
+                      "
                       size="sm"
                       variant="transparent"
                       no-caret
@@ -74,6 +74,7 @@
                         v-if="item.creator == 'admin'"
                         :src="item.admin.profile"
                       ></b-avatar>
+
                       <b-avatar
                         v-if="item.creator == 'user'"
                         :src="item.user.profile"
@@ -115,7 +116,7 @@
                     >
                       <b-icon
                         icon="caret-up-fill"
-                        font-scale="1.2"
+                        ont-scale="1.2"
                         class="cursor-pointer"
                       ></b-icon>
                       <span v-if="item.discussionvote">
@@ -128,7 +129,7 @@
                       <b-icon
                         icon="caret-down-fill"
                         font-scale="1.2"
-                        class="cursor-pointer"
+                        class="cursor-ponte"
                       ></b-icon>
                     </div>
                     <div class="text-left next_dis">
@@ -156,9 +157,7 @@
                     <div>
                       <span
                         v-if="item.type == 'public'"
-                        @click="
-                          $router.push(`/administrator/discussion/${item.id}`)
-                        "
+                        @click="$router.push(`/learner/discussion/${item.id}`)"
                         class="text-dark-green font-weight-bold cursor-pointer"
                         >Join Discussion</span
                       >
@@ -170,6 +169,20 @@
                       >
                     </div>
                   </div>
+                </div>
+                <div class="p-3 d-flex justify-content-between">
+                  <div class="fs12 text-muted">
+                    Showing 1-10 of {{ filteredData.length }} items
+                  </div>
+                  <b-pagination
+                    pills
+                    size="sm"
+                    variant="dark-green"
+                    align="right"
+                    v-model="currentPage"
+                    :total-rows="rows"
+                    :per-page="perPage"
+                  ></b-pagination>
                 </div>
               </div>
 
@@ -190,6 +203,7 @@
                 </div>
               </div>
             </div>
+
             <div v-else class="p-5">
               <div class="d-flex w-100 mb-3">
                 <div class="mr-2">
@@ -219,196 +233,21 @@
             </div>
           </div>
         </b-col>
-        <b-col sm="4" class="d-none d-md-block">
-          <div class="border bg-white p-4 rounded">
-            <div class="text-center mb-4">
-              <b-button
-                variant="dark-green"
-                size="lg"
-                class="px-3"
-                @click="$bvModal.show('start')"
-                >Start a discussion</b-button
-              >
-            </div>
-            <div class="py-3 text-left related_quest border">
-              <h6 class="mb-3 px-3">Other Discussions</h6>
-              <div v-if="showOther">
-                <div v-if="otherdiscussion.length">
-                  <div
-                    class="d-flex p-2 px-3"
-                    v-for="(dis, id) in otherdiscussion.slice(0, 6)"
-                    :key="id"
-                  >
-                    <div>
-                      <span class="mr-3 related_count">{{
-                        dis.discussionmessage.length
-                      }}</span>
-                    </div>
-                    <span
-                      class="related text-left text-capitalize font-weight-bold"
-                      >{{ dis.name }}</span
-                    >
-                  </div>
-                </div>
-              </div>
-              <div v-else class="p-3 w-100">
-                <div class="d-flex w-100 mb-3">
-                  <div class="mr-2 w-25">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                  <div class="w-75">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                </div>
-                <div class="d-flex w-100 mb-3">
-                  <div class="mr-2 w-25">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                  <div class="w-75">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                </div>
-                <div class="d-flex w-100 mb-3">
-                  <div class="mr-2 w-25">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                  <div class="w-75">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                </div>
-                <div class="d-flex w-100 mb-3">
-                  <div class="mr-2 w-25">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                  <div class="w-75">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </b-col>
       </b-row>
     </b-container>
-
-    <b-modal
-      no-close-on-backdrop
-      id="start"
-      hide-footer
-      centered
-      title="Create a Discussion"
-    >
-      <b-form @submit.prevent="creatediscussion">
-        <b-form-group label="Title">
-          <b-form-input
-            placeholder="Give a title"
-            v-model="discussion.name"
-            required
-          ></b-form-input>
-        </b-form-group>
-
-        <b-form-group label="Description">
-          <b-form-textarea
-            required
-            v-model="discussion.description"
-            placeholder="Write a brief Description"
-          ></b-form-textarea
-        ></b-form-group>
-
-        <b-form-row>
-          <b-col sm="6">
-            <b-form-group label="Type">
-              <b-form-select v-model="discussion.type">
-                <b-form-select-option value="private"
-                  >Private</b-form-select-option
-                >
-                <b-form-select-option value="public"
-                  >Public</b-form-select-option
-                >
-              </b-form-select>
-            </b-form-group>
-          </b-col>
-          <b-col sm="6" v-if="discussion.type == 'private'">
-            <b-form-group label="Select course">
-              <b-form-select v-model="discussion.course_id">
-                <b-form-select-option
-                  :value="item.id"
-                  v-for="item in courses"
-                  :key="item.id"
-                  >{{ item.title }}</b-form-select-option
-                >
-              </b-form-select>
-            </b-form-group>
-          </b-col>
-        </b-form-row>
-
-        <b-form-group label="Tags">
-          <tags-input
-            discard-search-text="Select"
-            element-id="tags"
-            v-model="discussion.tags"
-            :existing-tags="mytags"
-            :typeahead="true"
-          ></tags-input>
-        </b-form-group>
-
-        <b-button
-          size="lg"
-          variant="dark-green"
-          type="submit"
-          class="d-none d-sm-block px-3"
-          >Create</b-button
-        >
-        <b-button
-          size="lg"
-          variant="dark-green"
-          type="submit"
-          class="d-sm-none"
-          block
-          >Create</b-button
-        >
-      </b-form>
-    </b-modal>
-
-    <b-modal
-      no-close-on-backdrop
-      id="access"
-      title="Request Access"
-      hide-header
-      hide-footer
-      centered
-    >
-      <div class="text-center">
-        <p class="mb-4 fs16">Do you wish to join this discussion?</p>
-        <b-button
-          variant="outline-secondary"
-          class="mr-3"
-          size="sm"
-          @click="$bvModal.hide('access')"
-          >Cancel</b-button
-        >
-        <b-button
-          variant="secondary"
-          size="sm"
-          @click="$toast.success('Request sent succesfully')"
-          >Send a request</b-button
-        >
-      </div>
-    </b-modal>
   </div>
 </template>
 
 <script>
-import VoerroTagsInput from "@voerro/vue-tagsinput";
-import Insight from "../insight.js";
 export default {
   data() {
     return {
       show: "recent",
       discussions: [],
+      search: "",
+      showDiscussion: false,
+      showOther: false,
       recentdiscussions: [],
-      courses: [],
-      otherdiscussion: [],
       discussion: {
         name: "",
         description: "",
@@ -416,190 +255,133 @@ export default {
         course: null,
         tags: [],
       },
+      courses: [],
       tag: "",
       tags: [],
       mytags: [],
-      showDiscussions: false,
-      showOther: false,
+      otherdiscussion: [],
+      discussion_id: null,
+      currentPage: 1,
+      rows: null,
+      perPage: 10,
     };
-  },
-  components: {
-    "tags-input": VoerroTagsInput,
   },
 
   mounted() {
     this.getdiscussions();
-    this.mytags = Insight;
-    this.getcourses();
-    this.getothers();
   },
   computed: {
-    filteredDiscussions() {
+    filtered() {
+      return this.discussions.slice(
+        this.perPage * this.currentPage - this.perPage,
+        this.perPage * this.currentPage
+      );
+    },
+    filteredData() {
       if (this.show == "recent") {
-        return this.discussions.filter((item) => item.type == "public");
+        return this.filtered
+          .filter((item) => item.type == "public")
+          .filter((item) =>
+            item.name.toLowerCase().includes(this.search.toLowerCase())
+          );
       }
       if (this.show == "mostanswers") {
-        return this.discussions
+        return this.filtered
           .filter((item) => item.type == "public")
           .sort((a, b) => {
             return b.discussionmessage.length - a.discussionmessage.length;
           });
       }
       if (this.show == "trending") {
-        return this.discussions
+        return this.filtered
           .filter((item) => item.type == "public")
           .sort((a, b) => {
             return (
               (b.discussionview ? b.discussionview.view : 0) -
               (a.discussionview ? a.discussionview.view : 0)
             );
-          });
+          })
+          .filter((item) =>
+            item.name.toLowerCase().includes(this.search.toLowerCase())
+          );
       }
       if (this.show == "private") {
-        return this.discussions.filter((item) => item.type == "private");
+        return this.filtered
+          .filter((item) => item.type == "private")
+          .filter((item) =>
+            item.name.toLowerCase().includes(this.search.toLowerCase())
+          );
       }
       return [];
     },
   },
   methods: {
-    joindiscussion(item) {
-      if (item.admin && item.admin.id == this.$store.getters.admin.id) {
-        this.$router.push(`/administrator/discussion/${item.id}`);
-      } else {
-        this.$bvModal.show("access");
-      }
-    },
-    getothers() {
-      this.$http
-        .get(`${this.$store.getters.url}/other-discussions`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 200) {
-            this.otherdiscussion = res.data;
-            this.showOther = true;
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
-    },
-    getcourses() {
-      this.$http
-        .get(`${this.$store.getters.url}/courses`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 200) {
-            this.courses = res.data;
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
-    },
-
     vote(val) {
       var positive = val.filter((item) => item.vote).length;
       var negative = val.filter((item) => !item.vote).length;
       return Number(positive) - Number(negative);
     },
-    gettags() {
+    requestAccess() {
+      var data = {
+        discussion_id: this.discussion_id,
+      };
+
       this.$http
-        .get(`${this.$store.getters.url}/tags`, {
+        .post(`${this.$store.getters.url}/join-discussion`, data, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
         .then((res) => {
           if (res.status == 200) {
-            this.mytags = res.data.map((item) => {
-              var dat = {
-                value: item.tag,
-              };
-              return dat;
-            });
+            this.$toast.info("Your request has been sent");
+            this.$bvModal.hide("access");
           }
         })
         .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
+    joindiscussion(item) {
+      if (item.user && item.user.id == this.$store.getters.learner.id) {
+        this.$router.push(`/learner/discussion/${item.id}`);
+      } else {
+        this.$http
+          .get(`${this.$store.getters.url}/discussion/private/${item.id}`, {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          })
+          .then((res) => {
+            if (res.status == 200) {
+              var result = res.data
+                .map((item) => item.user_id)
+                .includes(this.$store.getters.learner.id);
+
+              if (result) {
+                this.$router.push(`/learner/discussion/${item.id}`);
+              } else {
+                this.discussion_id = item.id;
+                this.$bvModal.show("access");
+              }
+            }
+          });
+      }
+    },
+
     getdiscussions() {
       this.$http
-        .get(`${this.$store.getters.url}/discussions`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
-        })
+        .get(`${this.$store.getters.url}/guest/discussions`)
         .then((res) => {
           if (res.status == 200) {
             this.discussions = res.data;
-            this.showDiscussions = true;
+            this.showDiscussion = true;
+            this.rows = res.data.length;
           }
         })
         .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
-    },
-    creatediscussion() {
-      this.$http
-        .post(`${this.$store.getters.url}/discussions`, this.discussion, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 201 || res.status == 200) {
-            this.$toast.success("Discussion created");
-            this.discussions.unshift(res.data);
-            this.discussion = {
-              title: "",
-              description: "",
-              type: "public",
-              course: null,
-              tags: [],
-            };
-            this.$bvModal.hide("start");
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
-    },
-    addtag() {
-      if (this.tag) {
-        this.discussion.tags.push(this.tag);
-        this.tag = "";
-      }
-    },
-    droptag(index) {
-      this.discussion.tags.splice(index, 1);
-    },
-    drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
-        if (val) {
-          this.$http
-            .delete(`${this.$store.getters.url}/discussions/${id}`, {
-              headers: {
-                Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-              },
-            })
-            .then((res) => {
-              if (res.status == 200) {
-                this.$toast.success("Discussion deleted");
-                this.discussions.splice(index, 1);
-              }
-            })
-            .catch((err) => {
-              this.$toast.error(err.response.data.message);
-            });
-        }
-      });
     },
   },
 };
@@ -632,9 +414,18 @@ export default {
   color: var(--dark-green);
 }
 .main_content {
-  min-height: 70vh;
+  min-height: 50vh;
   max-height: 70vh;
   overflow-y: auto;
+}
+.main_content::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.main_content {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 .content {
 }

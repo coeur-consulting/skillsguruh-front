@@ -232,7 +232,7 @@
     <b-container>
       <b-row>
         <b-col sm="8">
-          <div class="shadow-sm bg-white p-4 rounded-8 mb-4">
+          <div class="border bg-white p-4 rounded-8 mb-4">
             <div class="d-flex align-items-center mb-3">
               <b-avatar size="2.5rem" class="mr-3"></b-avatar>
 
@@ -280,7 +280,7 @@
                 <div
                   v-for="(feed, index) in feeds"
                   :key="index"
-                  class="shadow-sm bg-white rounded-8 mb-4"
+                  class="border bg-white rounded-8 mb-4"
                 >
                   <div class="d-flex mb-3 px-3 pt-3">
                     <div class="d-flex flex-1 text-left">
@@ -363,7 +363,12 @@
                     </b-dropdown>
                   </div>
                   <div class="text-left feed_text px-4 pb-3">
-                    <span>{{ feed.message }}</span>
+                    <span v-html="feed.message"></span><br />
+                    <span v-if="feed.url" class="text-dark-green"
+                      ><a :href="feed.url" target="_blank"
+                        >Check it out !!</a
+                      ></span
+                    >
                   </div>
                   <div>
                     <div class="mb-4 position-relative">

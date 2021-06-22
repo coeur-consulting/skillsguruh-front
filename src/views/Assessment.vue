@@ -266,16 +266,55 @@ export default {
       section: 0,
       responses: [],
       score: 0,
-      totalscore: 0,
+      question_num: 0,
+      current_score: 0,
     };
   },
+  components: {},
   mounted() {
     this.getQuestionnaire();
+    // window.addEventListener("beforeunload", this.warning);
+  },
+  computed: {
+    totalscore() {
+      var arr = [];
+      this.questionnaire.sections.forEach((item) => {
+        arr.push(item.questions);
+      });
+
+      var newarr = arr.reduce((a, b) => {
+        return a.concat(b);
+      });
+
+      var score = newarr.map((item) => {
+        if (item.asAnswer) {
+          return item.score;
+        }
+      });
+
+      return score.reduce((a, b) => {
+        return a + b;
+      }, 0);
+    },
   },
   methods: {
+    startCallBack: function (x) {
+      console.log(x);
+    },
+    endCallBack: function (x) {
+      console.log(x);
+    },
+    warning() {
+      this.$toast.error("Do not reload");
+      return "";
+    },
+    changeSection() {
+      this.question_num = 0;
+      this.section++;
+    },
     getQuestionnaire() {
       this.$http
-        .get(`${this.$store.getters.url}/questionnaires/${this.$props.id}`, {
+        .get(`${this.$store.getters.url}/question/templates/${4}`, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
@@ -295,35 +334,41 @@ export default {
           }
         });
     },
-    handleResponse(question, index) {
-      var correct = 0;
+    handleResponse() {
+      var arr = [];
+      this.questionnaire.sections.forEach((item) => {
+        arr.push(item.questions);
+      });
 
-      if (question.asAnswer) {
-        if (question.type !== "multiple" && question.type !== "checkbox") {
-          question.response.toLowerCase() == question.answer.toLowerCase()
-            ? (question.result = true)
-            : (question.result = false);
-        } else {
-          var answers = question.answers.map((item) => item.title).sort();
-          var response = question.responses.sort();
-          for (let i = 0; i < answers.length; i++) {
-            if (answers[i] == response[i]) {
-              correct++;
+      var newarr = arr.reduce((a, b) => {
+        return a.concat(b);
+      });
+
+      var score = newarr.map((item) => {
+        if (item.asAnswer) {
+          if (
+            (item.response != "" && item.type !== "multiple") ||
+            item.type !== "checkbox"
+          ) {
+            if (item.response == item.answer) {
+              return item.score;
             }
+            return 0;
           }
-          if (correct == answers.length) {
-            question.result = true;
-          } else {
-            question.result = false;
-          }
+          // if (
+          //   (item.response != "" && item.type !== "multiple") ||
+          //   item.type !== "checkbox"
+          // ) {
+          // }
+          return 0;
         }
-
-        this.questionnaire.sections[this.section].questions[index].responses =
-          question.responses;
-        this.questionnaire.sections[this.section].questions[index].response =
-          question.response;
-      }
+      });
+      console.log("🚀 ~ file: Quiz.vue ~ line 389 ~ score ~ score", score);
+      this.current_score = score.reduce((a, b) => {
+        return a + b;
+      }, 0);
     },
+
     addoption(index) {
       this.questionnaire.sections[this.section].questions[index].options.push({
         title: null,
@@ -388,3 +433,14 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.arrow_directions {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+}
+.score {
+  font-size: 20px;
+}
+</style>

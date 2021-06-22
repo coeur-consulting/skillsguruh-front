@@ -184,7 +184,7 @@ export default {
 </script>
 <style scoped>
 .box {
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
+  /* box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important; */
   border-radius: 8px;
   background: white;
 }

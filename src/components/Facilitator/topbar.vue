@@ -19,9 +19,9 @@
           <div class="logo">
             <b-img
               class="mr-2"
-              width="30px"
-              style="width: 30px"
-              height="auto"
+              width="30"
+              height="30"
+              style="object-fit: contain"
               :src="$store.getters.facilitator.org_profile"
             ></b-img>
             <h5 class="mb-0">{{ $store.getters.facilitator.org_name }}</h5>

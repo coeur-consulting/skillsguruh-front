@@ -18,13 +18,13 @@
                 placeholder="Search"
                 size="sm"
                 type="search"
-                class="search"
+                class="search bg-light"
                 v-model="search"
               ></b-form-input>
             </div>
           </div>
 
-          <div class="shadow bg-white" v-if="showTable">
+          <div class="border rounded bg-white" v-if="showTable">
             <div
               v-if="users.length"
               class="d-flex justify-content-between align-items-center p-3 e"
@@ -96,12 +96,27 @@
                       }"
                       >{{ item.verification ? "Active" : "Inactive" }}</b-td
                     >
-                    <b-td
-                      ><b-icon
-                        icon="chevron-down"
-                        class="cursor-pointer"
-                        :id="item.id.toString() + item.name"
-                      ></b-icon>
+                    <b-td class="text-right">
+                      <b-button-group size="sm">
+                        <b-button
+                          variant="light"
+                          @click="
+                            $router.push(
+                              `/administrator/view/learner/${item.id}`
+                            )
+                          "
+                          class="fs12 text-muted px-2"
+                          >View</b-button
+                        >
+                        <b-button variant="lighter-green">
+                          <b-icon
+                            icon="three-dots"
+                            class="cursor-pointer"
+                            :id="item.id.toString() + item.name"
+                          ></b-icon>
+                        </b-button>
+                      </b-button-group>
+
                       <b-popover
                         :target="item.id.toString() + item.name"
                         triggers="hover"
@@ -178,7 +193,7 @@
               </div>
             </div>
           </div>
-          <div class="shadow bg-white p-5" v-else>
+          <div class="border rounded bg-white p-5" v-else>
             <b-skeleton-table
               :rows="8"
               :columns="4"

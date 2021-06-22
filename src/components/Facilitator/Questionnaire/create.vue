@@ -1,11 +1,11 @@
 <template>
   <div>
     <b-container fluid class="p-5">
-      <div class="text-left">
+      <!-- <div class="text-left">
         <span class="mb-3" @click="$router.go(-1)"
           ><b-icon icon="arrow-left"></b-icon> Go back</span
         >
-      </div>
+      </div> -->
       <b-row>
         <b-col md="9" class="left_box text-left">
           <b-form>
@@ -625,8 +625,33 @@ export default {
         })
         .then((res) => {
           if (res.status == 201) {
-            this.$toast.success("Questionnaire added successfully");
+            this.$toast.success("Created successfully");
             this.$router.go(-1);
+          }
+        })
+        .catch((err) => {
+          err.response.data.errors.title[0]
+            ? this.$toast.error(err.response.data.errors.title[0])
+            : "";
+          err.response.data.errors.content[0]
+            ? this.$toast.error(err.response.data.errors.content[0])
+            : "";
+        });
+    },
+    savedraft() {
+      this.$http
+        .post(
+          `${this.$store.getters.url}/question/drafts`,
+          this.questionnaire,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 201) {
+            this.$toast.success("Saved to drafts");
           }
         })
         .catch((err) => {

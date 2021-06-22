@@ -51,6 +51,16 @@ const routes = [
     },
   },
   {
+    path: "/explore/courses",
+    name: "ExploreCourses",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "ExploreCourses" */ "../views/Courses.vue"),
+      footer: Footer,
+    },
+  },
+  {
     path: "/about",
     name: "About",
     components: {
@@ -61,12 +71,63 @@ const routes = [
     },
   },
   {
+    path: "/feeds",
+    name: "Feeds",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "feeds" */ "../views/Feeds.vue"),
+      footer: Footer,
+    },
+  },
+  {
+    path: "/events",
+    name: "Events",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "events" */ "../views/Events.vue"),
+      footer: Footer,
+    },
+  },
+  {
+    path: "/discussions",
+    name: "Discussions",
+    components: {
+      header: Header,
+      default: () =>
+        import(
+          /* webpackChunkName: "discussions" */ "../views/Discussions.vue"
+        ),
+      footer: Footer,
+    },
+  },
+  {
     path: "/contact",
     name: "Contact",
     components: {
       header: Header,
       default: () =>
         import(/* webpackChunkName: "contact" */ "../views/Contact.vue"),
+      footer: Footer,
+    },
+  },
+  {
+    path: "/quiz",
+    name: "Quiz",
+    components: {
+      header: Header,
+      default: () => import(/* webpackChunkName: "quiz" */ "../views/Quiz.vue"),
+      footer: Footer,
+    },
+  },
+  {
+    path: "/assessment",
+    name: "Assessment",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "Assessment" */ "../views/Assessment.vue"),
       footer: Footer,
     },
   },

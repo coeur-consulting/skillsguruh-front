@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 <template>
-  <div class="pb-5 pt-4">
+  <div class="pb-5 pt-4 bg-light">
     <b-modal
       no-close-on-backdrop
       id="feed"
@@ -14,9 +14,7 @@
           class="rounded-pill stat border-0"
           size="lg"
           v-model="feed.message"
-          :placeholder="
-            'Whats on your mind ' + $store.getters.learner.name + '?'
-          "
+          :placeholder="'Whats on your mind ?'"
         ></b-form-input>
         <emoji-picker @emoji="insertfeed" :search="search">
           <div
@@ -230,8 +228,8 @@
       </div>
     </b-modal>
     <b-container>
-      <b-row>
-        <b-col sm="8">
+      <b-row class="justify-content-center">
+        <b-col sm="9">
           <div class="border bg-white p-4 rounded-8 mb-4">
             <div class="d-flex align-items-center mb-3">
               <b-avatar
@@ -283,7 +281,7 @@
             <div v-if="feeds.length">
               <div class="feed-content">
                 <div
-                  v-for="(feed, index) in feeds"
+                  v-for="(feed, index) in filterFeeds"
                   :key="index"
                   class="border bg-white rounded-8 mb-5"
                 >
@@ -561,6 +559,20 @@
                   </div>
                 </div>
               </div>
+              <div class="p-3 d-flex justify-content-between">
+                <div class="fs12 text-muted">
+                  Showing 1-10 of {{ filterFeeds.length }} items
+                </div>
+                <b-pagination
+                  pills
+                  size="sm"
+                  variant="dark-green"
+                  align="right"
+                  v-model="currentPage"
+                  :total-rows="rows"
+                  :per-page="perPage"
+                ></b-pagination>
+              </div>
             </div>
             <div v-else class="text-center p-4">No feed Available</div>
           </div>
@@ -603,15 +615,14 @@
             </div>
           </div>
         </b-col>
-        <Message class="d-none d-md-block" :user="'learner'" />
       </b-row>
     </b-container>
   </div>
 </template>
 <script>
 import EmojiPicker from "vue-emoji-picker";
-import FeedUpload from "../feedupload";
-import Message from "../messagecomponent";
+import FeedUpload from "@/components/feedupload";
+
 export default {
   data() {
     return {
@@ -638,15 +649,30 @@ export default {
         profile: "",
       },
       showFeeds: false,
+
+      currentPage: 1,
+      rows: null,
+      perPage: 10,
     };
   },
   components: {
-    Message,
     EmojiPicker,
     FeedUpload,
   },
   mounted() {
     this.getfeeds();
+  },
+  computed: {
+    filterFeeds() {
+      return this.feeds
+        .filter((item) =>
+          item.message.toLowerCase().includes(this.search.toLowerCase())
+        )
+        .slice(
+          this.perPage * this.currentPage - this.perPage,
+          this.perPage * this.currentPage
+        );
+    },
   },
   methods: {
     showcomments(feed) {
@@ -683,7 +709,7 @@ export default {
 
     getfeeds() {
       this.$http
-        .get(`${this.$store.getters.url}/feeds`, {
+        .get(`${this.$store.getters.url}/guest/feeds`, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
@@ -692,6 +718,7 @@ export default {
           if (res.status == 201 || res.status == 200) {
             this.feeds = res.data;
             this.showFeeds = true;
+            this.rows = res.data.length;
           }
         })
         .catch((err) => {
@@ -699,136 +726,22 @@ export default {
         });
     },
     post() {
-      if (!this.feed.message) {
-        return;
-      }
-      this.$http
-        .post(`${this.$store.getters.url}/feeds`, this.feed, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 201 || res.status == 200) {
-            this.$toast.success("Feed Updated ");
-            this.$bvModal.hide("feed");
-            this.feeds.unshift(res.data);
-
-            this.feed = {
-              media: "",
-              message: "",
-            };
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
+      this.$router.push("/login");
+      this.$toast.info("Login to continue");
     },
-    addcomment(id, index) {
-      if (!this.comment.comment) {
-        this.$toast.info("Type a comment ");
-        return;
-      }
-      this.comment.id = id;
-
-      this.$http
-        .post(`${this.$store.getters.url}/feed-comments`, this.comment, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 201) {
-            this.$toast.success("Comment updated ");
-            // this.$bvModal.hide("feed");
-
-            this.feeds[index].comments.unshift(res.data);
-
-            this.comment = {
-              comment: "",
-              id: "",
-            };
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
+    addcomment() {
+      this.$router.push("/login");
+      this.$toast.info("Login to continue");
     },
-    toggleLike(id, index) {
-      this.$http
-        .post(
-          `${this.$store.getters.url}/feed-likes`,
-          { id },
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
-          }
-        )
-        .then((res) => {
-          if (res.status == 201) {
-            this.feeds[index].likes.push(res.data);
-          }
-          if (res.status == 200) {
-            this.feeds[index].likes.map((item) => {
-              if (item.user_id == this.$store.getters.learner.id) {
-                return (item.like = res.data.like);
-              }
-            });
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
+    toggleLike() {
+      this.$router.push("/login");
+      this.$toast.info("Login to continue");
     },
-    toggleStar(id, index) {
-      this.$http
-        .post(
-          `${this.$store.getters.url}/feed-stars`,
-          { id },
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
-          }
-        )
-        .then((res) => {
-          if (res.status == 201) {
-            this.feeds[index].stars.push(res.data);
-          }
-          if (res.status == 200) {
-            this.feeds[index].stars.map((item) => {
-              if (item.user_id == this.$store.getters.learner.id) {
-                return (item.star = res.data.star);
-              }
-            });
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
+    toggleStar() {
+      this.$router.push("/login");
+      this.$toast.info("Login to continue");
     },
-    drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
-        if (val) {
-          this.$http
-            .delete(`${this.$store.getters.url}/feeds/${id}`, {
-              headers: {
-                Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-              },
-            })
-            .then((res) => {
-              if (res.status == 200) {
-                this.$toast.success("Feed deleted");
-                this.feeds.splice(index, 1);
-              }
-            })
-            .catch((err) => {
-              this.$toast.error(err.response.data.message);
-            });
-        }
-      });
-    },
+    drop() {},
   },
 };
 </script>

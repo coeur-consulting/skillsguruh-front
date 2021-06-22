@@ -26,6 +26,17 @@
         </div>
         <div
           class="mb-3 px-2 cursor-pointer d-flex fs14"
+          @click="type = 'request'"
+          :class="{ 'font-weight-bold': type == 'request' }"
+        >
+          <span class="flex-1">
+            <b-icon class="mr-2" icon="info-circle"></b-icon>
+            <span class="">Requests</span>
+          </span>
+          <b-icon v-if="type == 'request'" icon="chevron-right"></b-icon>
+        </div>
+        <div
+          class="mb-3 px-2 cursor-pointer d-flex fs14"
           @click="type = 'preference'"
           :class="{ 'font-weight-bold': type == 'preference' }"
         >
@@ -146,7 +157,9 @@
                 icon="bell-fill"
                 class="mr-2 mt-1"
               ></b-icon>
-              <span> {{ item.data.notification }}</span>
+              <div>
+                <div>{{ item.data.notification }}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -187,6 +200,37 @@
             />
           </div>
         </div>
+        <div v-if="type == 'request'" class="p-4">
+          <div class="notif text-left pt-4">
+            <h5 class="font-weight-bold mb-4">Requests</h5>
+
+            <div class="d-flex mb-3" v-for="item in requests" :key="item.id">
+              <b-icon
+                variant="dark-green"
+                icon="bell-fill"
+                class="mr-2 mt-1"
+              ></b-icon>
+              <div class="d-flex justify-content-between">
+                <div>{{ item.body }} -</div>
+                <div class="text-right" v-if="!item.response">
+                  <b-button
+                    class="mr-3 fs11"
+                    variant="lighter-green"
+                    size="sm"
+                    @click="accept(item)"
+                    >Accept</b-button
+                  >
+                  <b-button class="fs11" size="sm" @click="reject(item)"
+                    >Reject</b-button
+                  >
+                </div>
+                <div v-else class="text-capitalize text-muted">
+                  {{ item.response }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </b-col>
     </b-row>
   </b-container>
@@ -200,6 +244,7 @@ export default {
     return {
       type: "edit",
       user: {},
+      requests: [],
       detail: {
         old_password: "",
         new_password: "",
@@ -212,6 +257,8 @@ export default {
   },
   mounted() {
     this.getuser();
+
+    this.getrequests();
   },
   computed: {
     notifications() {
@@ -219,6 +266,39 @@ export default {
     },
   },
   methods: {
+    getrequests() {
+      this.$http
+        .get(`${this.$store.getters.url}/discussion/requests`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          this.requests = res.data;
+        });
+    },
+    accept(item) {
+      this.$http
+        .post(`${this.$store.getters.url}/discussion/private`, item, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then(() => {
+          this.getrequests();
+        });
+    },
+    reject(item) {
+      this.$http
+        .post(`${this.$store.getters.url}/discussion/reject`, item, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then(() => {
+          this.getrequests();
+        });
+    },
     getUpload(val) {
       this.user.profile = val;
       this.updateuser();
@@ -301,7 +381,7 @@ export default {
 }
 
 .notif {
-  width: 80%;
+  width: 85%;
   margin: 0 auto;
 }
 .preference {

@@ -1,5 +1,57 @@
 <template>
   <div>
+    <b-modal no-close-on-backdrop id="sharecourse" centered hide-footer>
+      <div class="box p-3 text-center">
+        <h6 class="text-center">Invite your friends</h6>
+        <div>
+          <div
+            v-for="(item, id) in inviteUsers.users"
+            :key="id"
+            class="mb-1 text-center"
+          >
+            <b-input-group size="sm" class="">
+              <template #append>
+                <b-button @click="inviteUsers.users.splice(id, 1)"
+                  ><strong>x</strong></b-button
+                >
+              </template>
+              <b-form-input
+                v-model="item.email"
+                placeholder="Enter email address"
+              ></b-form-input>
+            </b-input-group>
+          </div>
+          <div class="text-center mt-3">
+            <b-button
+              size="sm"
+              class="mr-3"
+              variant="lighter-green"
+              @click="addinvite"
+            >
+              <b-icon icon="plus" font-scale="1.4"></b-icon> Add email</b-button
+            >
+            <b-button
+              size="sm"
+              variant="dark-green"
+              @click="sendinvite(course.title)"
+            >
+              Send Invite
+            </b-button>
+          </div>
+        </div>
+        <div class="mt-3 border p-2 rounded-pill d-flex text-muted">
+          <b-icon icon="link45deg" font-scale="1.2rem"></b-icon>
+
+          <span
+            class="fs12"
+            v-clipboard:copy="message"
+            v-clipboard:success="onCopy"
+            v-clipboard:error="onError"
+            >{{ message }}</span
+          >
+        </div>
+      </div>
+    </b-modal>
     <b-modal
       no-close-on-backdrop
       size="lg"
@@ -405,6 +457,7 @@
                     ></b-form-input>
                     <b-form-input
                       v-model="item.url"
+                      type="url"
                       placeholder="Enter url link (optional)"
                     ></b-form-input>
                   </b-form-group>
@@ -930,6 +983,7 @@
                     ></b-form-input>
                     <b-form-input
                       v-model="item.url"
+                      type="url"
                       placeholder="Enter url link (optional)"
                     ></b-form-input>
                   </b-form-group>
@@ -1045,7 +1099,7 @@
           network="facebook"
           :url="link"
           title="COURSE INVITATION"
-          :description="`Check out my course  ${course.title} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`Check out my course  ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1058,7 +1112,7 @@
           network="twitter"
           :url="link"
           title="COURSE INVITATION"
-          :description="`Check out my course  ${course.title} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`Check out my course  ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1071,7 +1125,7 @@
           network="whatsApp"
           :url="link"
           title="COURSE INVITATION"
-          :description="`Check out my course  ${course.title} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`Check out my course  ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1187,9 +1241,6 @@
                   "
                   @click="showcourse(course)"
                 >
-                  <div class="ribbon text-capitalize">
-                    <span>{{ course.type }}</span>
-                  </div>
                   <div class="flex-1">
                     <b-dropdown
                       size="sm"
@@ -1259,7 +1310,9 @@
                       ></b-icon>
                     </b-iconstack>
 
-                    <div class="course_title mb-1">{{ course.title }}</div>
+                    <div class="course_title cours_tit mb-1">
+                      {{ course.title }}
+                    </div>
                     <div class="mb-3">
                       <span class="fs13 overview text-muted">
                         {{ course.description }}</span
@@ -1337,6 +1390,19 @@
                       ></b-icon>
                       <span class="fs13"> {{ sortmodules(course) }}</span>
                       Modules
+                    </div>
+                    <div>
+                      <span class="fs13 text-muted"
+                        ><b-icon
+                          class="mr-2"
+                          :icon="
+                            course.type == 'free' ? 'unlock-fill' : 'lock-fill'
+                          "
+                        ></b-icon>
+                        <span class="text-capitalize">{{
+                          course.type
+                        }}</span></span
+                      >
                     </div>
                   </div>
 
@@ -1550,7 +1616,11 @@
                   </div>
                 </div>
 
-                <b-img style="width: 80px" fluid :src="course.cover"></b-img>
+                <b-img
+                  style="width: 80px; height: 90px; object-fit: cover"
+                  fluid
+                  :src="course.cover"
+                ></b-img>
               </div>
               <div
                 class="
@@ -1619,7 +1689,7 @@
                     <div class="d-flex justify-content-between">
                       <div>
                         <p class="fs13 text-capitalize mb-1">
-                          Type: {{ course.type }}
+                          {{ course.type }}
                         </p>
                         <p class="fs13" v-if="course.type !== 'free'">
                           {{ course.amount }}
@@ -1630,6 +1700,12 @@
                       </div>
                       <div class="text-right">
                         <div class="d-flex align-items-center">
+                          <b-icon
+                            font-scale="1.15"
+                            class="ml-auto mr-3"
+                            @click="sharecourse(course.id)"
+                            icon="person-plus-fill"
+                          ></b-icon>
                           <b-icon
                             class="cursor-pointer"
                             font-scale="1.15"
@@ -1954,6 +2030,17 @@ export default {
       current_schedule: 0,
       search: "",
       link: "",
+      inviteUsers: {
+        code: "",
+        title: "",
+        url: "",
+        users: [
+          {
+            email: "",
+          },
+        ],
+      },
+      message: "",
       insight: [],
       courses: [],
       course: null,
@@ -2045,8 +2132,49 @@ export default {
     },
   },
   methods: {
+    addinvite() {
+      this.inviteUsers.users.push({
+        email: "",
+      });
+    },
+    onCopy: function (e) {
+      alert("You just copied the following text to the clipboard: " + e.text);
+    },
+    onError: function (e) {
+      alert("Failed to copy the text to the clipboard");
+      console.log(e);
+    },
+    sendinvite(title) {
+      this.inviteUsers.title = title;
+      this.inviteUsers.url = this.message;
+      this.$http
+        .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.$toast.success("Invite Sent");
+            this.$bvModal.hide("courselink");
+            this.inviteUsers = {
+              code: "",
+              title: "",
+              users: [
+                {
+                  email: "",
+                },
+              ],
+            };
+          }
+        });
+    },
+    sharecourse(id) {
+      this.message = `https://skillsguruh.com/learner/courses?course_id=${id}`;
+      this.$bvModal.show("sharecourse");
+    },
     sharelink(id) {
-      this.link = `https://skillsguruh.herokuapp.com/learner/courses/?course_id=${id}`;
+      this.link = `https://skillsguruh.com/explore/courses/?course_id=${id}`;
 
       this.$bvModal.show("share");
     },
@@ -2055,10 +2183,10 @@ export default {
         media: this.course.cover,
         message:
           "Check out my course, " +
-          this.course.title +
-          "on SkillsGuruh and I think you’d like it. Join me!",
+          this.course.title.toUpperCase() +
+          " on SkillsGuruh and I think you’d like it. Join me!",
         url:
-          "https://skillsguruh.herokuapp.com/learner/courses/?course_id=" +
+          "https://skillsguruh.com/learner/courses/?course_id=" +
           this.course.id,
       };
       this.$http

@@ -4,8 +4,9 @@
       <b-img
         class="mr-2"
         width="30"
-        height="auto"
+        height="30"
         :src="$store.getters.learner.org_profile"
+        style="object-fit: contain"
       ></b-img>
       <h5 class="mb-0">{{ $store.getters.learner.org_name }}</h5>
     </div>
@@ -145,14 +146,36 @@
           </div>
         </router-link>
       </div>
-
-      <div class="side_item mt-4" @click="logout">
-        <b-icon
-          icon="box-arrow-left"
-          font-scale="1.1"
-          class="mr-3 text-dark-green"
-        ></b-icon>
-        <span class="side-link">Log out</span>
+      <hr />
+      <div class="mt-4">
+        <router-link to="/explore">
+          <div class="side_item mt-1">
+            <b-icon
+              icon="app-indicator"
+              font-scale="1.1"
+              class="mr-3 text-dark-green"
+            ></b-icon>
+            <span class="side-link">Explore</span>
+          </div></router-link
+        >
+        <router-link to="/">
+          <div class="side_item mt-1">
+            <b-icon
+              icon="arrow-left"
+              font-scale="1.1"
+              class="mr-3 text-dark-green"
+            ></b-icon>
+            <span class="side-link">Back to Home</span>
+          </div>
+        </router-link>
+        <div class="side_item mt-1" @click="logout">
+          <b-icon
+            icon="box-arrow-left"
+            font-scale="1.1"
+            class="mr-3 text-dark-green"
+          ></b-icon>
+          <span class="side-link">Log out</span>
+        </div>
       </div>
     </div>
   </div>

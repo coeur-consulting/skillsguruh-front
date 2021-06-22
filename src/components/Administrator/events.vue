@@ -3,13 +3,12 @@
     <b-container>
       <b-row>
         <b-col class="mb-5 mb-sm-0">
-          <div class="shadow rounded bg-white">
+          <div class="rounded">
             <div
               class="
                 top_heading
                 p-4
                 border-bottom
-                mb-4
                 d-flex
                 justify-content-between
               "
@@ -32,7 +31,7 @@
               >
                 <div class="d-flex">
                   <span
-                    class="mr-4 d-flex align-items-center"
+                    class="mr-4 d-flex align-items-center cursor-pointer"
                     @click="showing = 'ongoing'"
                     ><b-icon
                       :icon="showing == 'ongoing' ? 'circle-fill' : 'circle'"
@@ -43,7 +42,7 @@
                     Ongoing Events</span
                   >
                   <span
-                    class="mr-4 d-flex align-items-center"
+                    class="mr-4 d-flex align-items-center cursor-pointer"
                     @click="showing = 'upcoming'"
                     ><b-icon
                       :icon="showing == 'upcoming' ? 'circle-fill' : 'circle'"
@@ -55,7 +54,7 @@
                   >
                   <span
                     @click="showing = 'past'"
-                    class="d-flex align-items-center"
+                    class="d-flex align-items-center cursor-pointer"
                     ><b-icon
                       :icon="showing == 'past' ? 'circle-fill' : 'circle'"
                       class="mr-1"
@@ -73,12 +72,34 @@
                 <div class="events" v-if="filter.length">
                   <div
                     class="border rounded text-left mb-5 position-relative"
-                    v-for="item in filter"
+                    v-for="(item, index) in filter"
                     :key="item.id"
                   >
-                    <div class="px-3 py-2 d-flex">
+                    <div
+                      class="
+                        bg-lighter-green
+                        px-3
+                        py-3
+                        text-right text-dark-green
+                        d-flex
+                        justify-content-between
+                        align-items-center
+                      "
+                    >
+                      <h4 class="text-capitalize mb-0">{{ item.title }}</h4>
+                      <span @click="view(item.id)">
+                        <span class="fs15 cursor-pointer"> View Event </span>
+                        <b-icon icon="chevron-double-right"></b-icon>
+                      </span>
+                    </div>
+                    <b-img
+                      class="event_image"
+                      fluid-grow
+                      :src="item.cover"
+                    ></b-img>
+
+                    <div class="px-3 py-2 d-flex bg-white">
                       <div class="flex-1">
-                        <h5 class="text-capitalize">{{ item.title }}</h5>
                         <p class="mb-1 text-muted fs15">
                           <b-icon
                             icon="calendar2-check"
@@ -97,6 +118,10 @@
                         </div>
                       </div>
                       <b-dropdown
+                        v-if="
+                          item.admin_id &&
+                            item.admin_id == $store.getters.admin.id
+                        "
                         size="sm"
                         variant="transparent"
                         no-caret
@@ -117,20 +142,6 @@
                           >Delete</b-dropdown-item
                         >
                       </b-dropdown>
-                    </div>
-                    <b-img fluid-grow :src="item.cover"></b-img>
-                    <div
-                      class="
-                        bg-lighter-green
-                        px-3
-                        py-2
-                        text-left text-dark-green
-                      "
-                    >
-                      <span @click="view(item.id)">
-                        <span class=""> View Event </span>
-                        <b-icon icon="chevron-double-right"></b-icon>
-                      </span>
                     </div>
                   </div>
                   <div class="py-3 d-flex justify-content-between">
@@ -199,7 +210,7 @@
         <b-form @submit.prevent="register" class="event">
           <div>
             <b-form-row class="mb-2">
-              <b-col sm="6" class="pr-sm-3">
+              <b-col sm="12" class="pr-sm-3">
                 <b-form-group label="Event name">
                   <b-form-input
                     size="lg"
@@ -209,6 +220,8 @@
                   ></b-form-input>
                 </b-form-group>
               </b-col>
+            </b-form-row>
+            <b-form-row class="mb-2">
               <b-col sm="6" class="pr-sm-3">
                 <b-form-group label="Event Duration">
                   <b-form-input
@@ -219,8 +232,6 @@
                   ></b-form-input>
                 </b-form-group>
               </b-col>
-            </b-form-row>
-            <b-form-row class="mb-2">
               <b-col sm="6" class="pr-sm-3">
                 <b-form-group label="Event venue">
                   <b-form-input
@@ -318,6 +329,7 @@
                   <b-form-input
                     size="lg"
                     v-model="event.url"
+                    type="url"
                     placeholder="Enter event link"
                   ></b-form-input>
                 </b-form-group>
@@ -408,6 +420,9 @@
                   ></b-form-input>
                 </b-form-group>
               </b-col>
+            </b-form-row>
+
+            <b-form-row class="mb-2">
               <b-col sm="6" class="pr-sm-3">
                 <b-form-group label="Event Duration">
                   <b-form-input
@@ -418,9 +433,6 @@
                   ></b-form-input>
                 </b-form-group>
               </b-col>
-            </b-form-row>
-
-            <b-form-row class="mb-2">
               <b-col sm="6" class="pr-sm-3">
                 <b-form-group label="Event venue">
                   <b-form-input
@@ -521,6 +533,7 @@
                   <b-form-input
                     size="lg"
                     v-model="event.url"
+                      type="url"
                     placeholder="Enter event link"
                   ></b-form-input>
                 </b-form-group>
@@ -643,18 +656,18 @@ export default {
         start: "",
         end: "",
         resource: "",
-        facilitators: [],
+        facilitators: []
       },
-      showEvents: false,
+      showEvents: false
     };
   },
   components: {
-    Upload,
+    Upload
   },
   computed: {
     filter() {
       var event = this.events
-        .filter((item) =>
+        .filter(item =>
           item.title.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
@@ -663,13 +676,13 @@ export default {
         );
 
       if (this.showing == "upcoming") {
-        return event.filter((item) => item.status == "pending");
+        return event.filter(item => item.status == "pending");
       }
       if (this.showing == "ongoing") {
-        return event.filter((item) => item.status == "ongoing");
+        return event.filter(item => item.status == "ongoing");
       }
-      return event.filter((item) => item.status == "expired");
-    },
+      return event.filter(item => item.status == "expired");
+    }
   },
   mounted() {
     this.getevents();
@@ -688,15 +701,15 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/admin-get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -705,17 +718,17 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/events`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.events = res.data;
             this.rows = res.data.length;
             this.showEvents = true;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -724,10 +737,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/events`, this.event, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.$toast.success("Added successfully");
             this.$bvModal.hide("add");
@@ -742,11 +755,11 @@ export default {
               start: "",
               end: "",
               resource: "",
-              facilitators: [],
+              facilitators: []
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err.response.data.errors.email[0]) {
             this.$toast.error(err.response.data.errors.email[0]);
           }
@@ -770,10 +783,10 @@ export default {
       this.$http
         .put(`${this.$store.getters.url}/events/${this.event.id}`, this.event, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Update successful");
             this.$bvModal.hide("edit");
@@ -787,11 +800,11 @@ export default {
               start: "",
               end: "",
               resource: "",
-              facilitators: [],
+              facilitators: []
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -799,27 +812,27 @@ export default {
       this.$router.push(`/administrator/event/${id}`);
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/events/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.events.splice(index, 1);
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">
@@ -827,15 +840,15 @@ export default {
   padding-top: 30px;
 }
 .event-container {
-  width: 65%;
+  width: 85%;
   margin: 0 auto;
 }
-.events {
-  max-height: 70vh;
-  overflow-y: auto;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
+// .events {
+//   max-height: 70vh;
+//   overflow-y: auto;
+//   -ms-overflow-style: none; /* IE and Edge */
+//   scrollbar-width: none; /* Firefox */
+// }
 
 .events::-webkit-scrollbar {
   display: none;

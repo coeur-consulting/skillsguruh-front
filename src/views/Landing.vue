@@ -73,7 +73,7 @@
           <b-col sm="6" class="d-flex align-items-center">
             <div class="onboard">
               <h2 class="mb-4">
-                Join has an Organization and onboard your employees
+                Join as an Organization and onboard your employees
               </h2>
               <p class="mb-4 pr-3">
                 No longer do your employees have to struggle to get on the same

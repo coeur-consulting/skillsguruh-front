@@ -11,7 +11,7 @@
         ></b-form-input
       ></span>
     </div>
-    <div class="shadow-sm bg-white py-4 rounded">
+    <div class="border bg-white py-4 rounded">
       <div
         class="
           top_header

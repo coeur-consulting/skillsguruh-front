@@ -24,7 +24,7 @@
             </div>
           </div>
 
-          <div class="shadow bg-white">
+          <div class="border rounded bg-white">
             <div
               v-if="users.length"
               class="d-flex justify-content-between align-items-center p-3 e"
@@ -97,29 +97,30 @@
                       >{{ item.verification ? "Active" : "Inactive" }}</b-td
                     >
                     <b-td
-                      ><b-icon
-                        icon="chevron-down"
-                        class="cursor-pointer"
-                        :id="item.id.toString() + item.name"
-                      ></b-icon>
+                      ><b-button-group size="sm">
+                        <b-button
+                          variant="light"
+                          @click="
+                            $router.push(`/facilitator/view/learner/${item.id}`)
+                          "
+                          class="fs12 text-muted px-2"
+                          >View</b-button
+                        >
+                        <b-button variant="lighter-green">
+                          <b-icon
+                            icon="three-dots"
+                            class="cursor-pointer"
+                            :id="item.id.toString() + item.name"
+                          ></b-icon>
+                        </b-button>
+                      </b-button-group>
+
                       <b-popover
                         :target="item.id.toString() + item.name"
                         triggers="hover"
                         placement="bottom"
                       >
-                        <div class="">
-                          <small
-                            class="px-0 text-left cursor-pointer"
-                            @click="
-                              $router.push(
-                                `/facilitator/view/learner/${item.id}`
-                              )
-                            "
-                          >
-                            <b-icon class="mr-2" icon="eye"></b-icon
-                            ><span>View</span>
-                          </small>
-                        </div>
+                        <div class=""></div>
                       </b-popover>
                     </b-td>
                   </b-tr>

@@ -1,13 +1,13 @@
 <template>
   <div>
     <b-container fluid class="p-5">
-      <div class="text-left">
+      <!-- <div class="text-left">
         <span class="mb-3" @click="$router.go(-1)"
           ><b-icon icon="arrow-left"></b-icon> Go back</span
         >
-      </div>
+      </div> -->
       <b-row>
-        <b-col md="9" class="left_box text-left">
+        <b-col md="9" class="left_box text-left bg-light p-3 rounded">
           <b-form>
             <b-form-row class="mb-2 py-3 justify-content-end">
               <b-col sm="8">
@@ -33,13 +33,14 @@
                   </b-form-group>
                 </b-col>
                 <b-col cols="4" class="text-right">
-                  <b-button
-                    size="sm"
-                    class="mr-2"
+                  <b-icon
+                    class="mr-2 cursor-pointer"
                     @click="questionnaire.sections.splice(idx, 1)"
                     v-if="questionnaire.sections.length > idx"
-                    ><b-icon icon="trash-fill"></b-icon
-                  ></b-button>
+                    icon="trash-fill"
+                    variant="danger"
+                    font-scale=".8"
+                  ></b-icon>
                 </b-col>
                 <b-col cols="12">
                   <b-form-group>
@@ -98,8 +99,22 @@
                       >
                       <span>
                         <b-button
-                          class="mr-3"
                           size="sm"
+                          class="mr-2 py-1 fs12"
+                          variant="lighter-green"
+                          @click="addquestion(idx)"
+                          v-if="
+                            questionnaire.sections[idx].questions.length ==
+                            index + 1
+                          "
+                          ><b-icon icon="plus"></b-icon> New question</b-button
+                        >
+
+                        <b-icon
+                          icon="trash-fill"
+                          class="mr-3 cursor-pointer"
+                          variant="danger"
+                          font-scale=".8"
                           @click="
                             questionnaire.sections[idx].questions.splice(
                               index,
@@ -109,19 +124,8 @@
                           v-if="
                             questionnaire.sections[idx].questions.length > index
                           "
-                          ><b-icon icon="trash-fill"></b-icon
-                        ></b-button>
-                        <b-button
-                          size="sm"
-                          class="mr-2"
-                          variant="lighter-green"
-                          @click="addquestion(idx)"
-                          v-if="
-                            questionnaire.sections[idx].questions.length ==
-                            index + 1
-                          "
-                          ><b-icon icon="plus"></b-icon> Add question</b-button
-                        >
+                        ></b-icon>
+
                         <b-icon
                           v-if="current_question == index + 'id' + idx"
                           @click="current_question = null"
@@ -418,25 +422,21 @@
             <div class="mb-5">
               <b-button
                 class="mb-2"
-                variant="dark-green"
+                variant="lighter-green"
                 block
                 size="lg"
                 @click="preview"
                 >Preview</b-button
               >
               <div>
-                <b-button variant="outline-dark-green" block size="lg"
+                <b-button variant="secondary" block size="lg" @click="savedraft"
                   >Save to draft</b-button
                 >
               </div>
             </div>
             <hr />
             <div>
-              <b-button
-                variant="outline-dark-green"
-                @click="save"
-                block
-                size="lg"
+              <b-button variant="dark-green" @click="save" block size="lg"
                 >Save Template</b-button
               >
             </div>
@@ -643,8 +643,33 @@ export default {
         )
         .then((res) => {
           if (res.status == 201) {
-            this.$toast.success("Questionnaire added successfully");
+            this.$toast.success("Created successfully");
             this.$emit("close", res.data);
+          }
+        })
+        .catch((err) => {
+          err.response.data.errors.title[0]
+            ? this.$toast.error(err.response.data.errors.title[0])
+            : "";
+          err.response.data.errors.content[0]
+            ? this.$toast.error(err.response.data.errors.content[0])
+            : "";
+        });
+    },
+    savedraft() {
+      this.$http
+        .post(
+          `${this.$store.getters.url}/question/drafts`,
+          this.questionnaire,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 201) {
+            this.$toast.success("Saved to draft");
           }
         })
         .catch((err) => {

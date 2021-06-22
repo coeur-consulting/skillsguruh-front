@@ -2,7 +2,7 @@
   <b-container class="py-5 px-3 text-left">
     <b-row>
       <b-col sm="7" v-if="showRef">
-        <div class="box p-4 mb-4">
+        <div class="box border p-4 mb-4">
           <h6 class="font-weight-bold mb-4">Invite Friends and Earn Points</h6>
 
           <div class="mb-3">
@@ -128,7 +128,7 @@
           </div>
         </div>
 
-        <div class="box text-left" v-if="communities_link">
+        <div class="box border text-left" v-if="communities_link">
           <h6 class="mb-4 py-2 px-3">Course Referral Links</h6>
           <b-table-simple class="border-top-0" v-if="showCommunity">
             <b-thead class="border-0">
@@ -143,11 +143,11 @@
                 <b-td
                   class="fs13 cursor-copy"
                   v-clipboard:copy="
-                    `https://skillsguruh.herokuapp.com/register/?referral_type=group&referral_code=${item.code}`
+                    `https://skillsguruh.com/register/?referral_type=group&referral_code=${item.code}`
                   "
                   v-clipboard:success="onCopy"
                   >{{
-                    `https://skillsguruh.herokuapp.com/register/?referral_type=group&referral_code=${item.code}`
+                    `https://skillsguruh.com/register/?referral_type=group&referral_code=${item.code}`
                   }}</b-td
                 >
               </b-tr>
@@ -164,7 +164,7 @@
         </div>
       </b-col>
       <b-col sm="7" v-else class="p-5">
-        <div class="d-flex w-100 mb-3 box">
+        <div class="d-flex w-100 mb-3 border box">
           <div class="mr-2">
             <b-skeleton type="avatar"></b-skeleton>
           </div>
@@ -250,14 +250,14 @@ export default {
       },
       referrals: [],
       email: "",
-      message: `https://skillsguruh.herokuapp.com/register/?referral_type=normal&referral_code=${this.$store.getters.learner.referral}`,
+      message: `https://skillsguruh.com/register/?referral_type=normal&referral_code=${this.$store.getters.learner.referral}`,
       communities_link: [],
     };
   },
   mounted() {
     this.getreferrals();
     this.getcommunity();
-    this.message = `https://skillsguruh.herokuapp.com/register/?referral_type=normal&referral_code=${this.$store.getters.learner.referral}`;
+    this.message = `https://skillsguruh.com/register/?referral_type=normal&referral_code=${this.$store.getters.learner.referral}`;
   },
   methods: {
     addinvite() {
@@ -333,7 +333,6 @@ export default {
 </script>
 <style scoped>
 .box {
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;
   background: white;
 }

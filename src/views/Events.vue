@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg-light">
     <b-container>
       <b-row>
         <b-col class="mb-3 mb-sm-0">
@@ -89,6 +89,7 @@
                       text-left
                       mb-5
                       position-relative
+                      shadow-sm
                     "
                     v-for="item in filter"
                     :key="item.id"
@@ -239,41 +240,11 @@ export default {
   },
   mounted() {
     this.getevents();
-    this.getfacilitators();
   },
   methods: {
-    getUpload(val, id) {
-      if (id == "cover") {
-        this.event.cover = val;
-      }
-      if (id == "resource") {
-        this.event.resource = val;
-      }
-    },
-    async getfacilitators() {
-      return this.$http
-        .get(`${this.$store.getters.url}/user-get-facilitators`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 200) {
-            this.facilitators = res.data;
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
-    },
-
     getevents() {
       this.$http
-        .get(`${this.$store.getters.url}/events`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
-        })
+        .get(`${this.$store.getters.url}/guest/events`)
         .then((res) => {
           if (res.status == 200) {
             this.events = res.data;
@@ -286,104 +257,8 @@ export default {
         });
     },
 
-    register() {
-      this.$http
-        .post(`${this.$store.getters.url}/events`, this.event, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 201) {
-            this.$toast.success("Added successfully");
-            this.$bvModal.hide("add");
-            this.events.unshift(res.data);
-            this.event = {
-              title: "",
-              duration: "",
-              description: "",
-              type: "",
-              url: "",
-              cover: "",
-              start: "",
-              end: "",
-              resource: "",
-              facilitators: [],
-            };
-          }
-        })
-        .catch((err) => {
-          if (err.response.data.errors.email[0]) {
-            this.$toast.error(err.response.data.errors.email[0]);
-          }
-          if (err.response.data.errors.phone[0]) {
-            this.$toast.error(err.response.data.errors.phone[0]);
-          }
-          if (err.response.data.errors.name[0]) {
-            this.$toast.error(err.response.data.errors.name[0]);
-          }
-          if (err.response.data.errors.password[0]) {
-            this.$toast.error(err.response.data.errors.password[0]);
-          }
-        });
-    },
-    edit(data) {
-      this.$bvModal.show("edit");
-      this.event = data;
-      this.event.duration = data.schedule;
-    },
-    update() {
-      this.$http
-        .put(`${this.$store.getters.url}/events/${this.event.id}`, this.event, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 200) {
-            this.$toast.success("Update successful");
-            this.$bvModal.hide("edit");
-            this.event = {
-              title: "",
-              duration: "",
-              description: "",
-              type: "",
-              url: "",
-              cover: "",
-              start: "",
-              end: "",
-              resource: "",
-              facilitators: [],
-            };
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
-    },
     view(id) {
       this.$router.push(`/learner/event/${id}`);
-    },
-    drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
-        if (val) {
-          this.$http
-            .delete(`${this.$store.getters.url}/events/${id}`, {
-              headers: {
-                Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-              },
-            })
-            .then((res) => {
-              if (res.status == 200) {
-                this.$toast.success("Removed successfully");
-                this.events.splice(index, 1);
-              }
-            })
-            .catch((err) => {
-              this.$toast.error(err.response.data.message);
-            });
-        }
-      });
     },
   },
 };
@@ -395,12 +270,6 @@ export default {
 .event-container {
   width: 85%;
   margin: 0 auto;
-}
-.events {
-  // max-height: 70vh;
-  // overflow-y: auto;
-  // -ms-overflow-style: none; /* IE and Edge */
-  // scrollbar-width: none; /* Firefox */
 }
 
 .events::-webkit-scrollbar {

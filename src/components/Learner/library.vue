@@ -4,7 +4,7 @@
       <h5 class="text-left mb-4">Your Library</h5>
       <b-row>
         <b-col sm="4" class="text-left pr-4">
-          <div class="bg-white w-100 h-100 p-3 shadow-sm rounded">
+          <div class="bg-white w-100 h-100 p-3 border rounded">
             <h6 class="px-2 mb-4 text-muted">Recently Added</h6>
             <div v-if="showRecent">
               <div
@@ -88,7 +88,7 @@
           </div>
           <div></div>
         </b-col>
-        <b-col sm="8" class="p-3 bg-white shadow-sm rounded">
+        <b-col sm="8" class="p-3 bg-white border rounded">
           <div class="text-right mb-3">
             <b-icon
               class="mr-3"
@@ -480,7 +480,7 @@ img {
   line-height: 1.3;
 }
 .course_img {
-  width: 1o0px;
+  width: 150px;
   height: 80px;
 }
 .course_img2 {
