@@ -2170,11 +2170,11 @@ export default {
         });
     },
     sharecourse(id) {
-      this.message = `https://skillsguruh.herokuapp.com/learner/courses?course_id=${id}`;
+      this.message = `https://skillsguruh.com/learner/courses?course_id=${id}`;
       this.$bvModal.show("sharecourse");
     },
     sharelink(id) {
-      this.link = `https://skillsguruh.herokuapp.com/explore/courses/?course_id=${id}`;
+      this.link = `https://skillsguruh.com/explore/courses/?course_id=${id}`;
 
       this.$bvModal.show("share");
     },
@@ -2186,7 +2186,7 @@ export default {
           this.course.title.toUpperCase() +
           " on SkillsGuruh and I think you’d like it. Join me!",
         url:
-          "https://skillsguruh.herokuapp.com/learner/courses/?course_id=" +
+          "https://skillsguruh.com/learner/courses/?course_id=" +
           this.course.id,
       };
       this.$http

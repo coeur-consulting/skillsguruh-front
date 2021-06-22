@@ -354,8 +354,7 @@ export default {
       this.getevent();
       this.getconnections();
       this.link =
-        "https://skillsguruh.herokuapp.com/learner/event/" +
-        this.$route.params.id;
+        "https://skillsguruh.com/learner/event/" + this.$route.params.id;
     });
   },
   computed: {
@@ -406,7 +405,7 @@ export default {
           "Let’s attend the event, " +
           this.event.title.toUpperCase() +
           " together",
-        url: "https://skillsguruh.herokuapp.com/learner/event/" + this.event.id,
+        url: "https://skillsguruh.com/learner/event/" + this.event.id,
       };
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {

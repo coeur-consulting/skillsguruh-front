@@ -220,14 +220,14 @@ export default {
       },
       referrals: [],
       email: "",
-      message: `https://skillsguruh.herokuapp.com/register/?referral_type=normal&referral_code=${this.$store.getters.facilitator.referral}`,
+      message: `https://skillsguruh.com/register/?referral_type=normal&referral_code=${this.$store.getters.facilitator.referral}`,
       communities_link: [],
     };
   },
   mounted() {
     this.getreferrals();
     this.getcommunity();
-    this.message = `https://skillsguruh.herokuapp.com/register/?referral_type=normal&referral_code=${this.$store.getters.facilitator.referral}`;
+    this.message = `https://skillsguruh.com/register/?referral_type=normal&referral_code=${this.$store.getters.facilitator.referral}`;
   },
   methods: {
     addinvite() {

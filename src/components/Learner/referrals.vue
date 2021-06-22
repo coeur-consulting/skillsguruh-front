@@ -143,11 +143,11 @@
                 <b-td
                   class="fs13 cursor-copy"
                   v-clipboard:copy="
-                    `https://skillsguruh.herokuapp.com/register/?referral_type=group&referral_code=${item.code}`
+                    `https://skillsguruh.com/register/?referral_type=group&referral_code=${item.code}`
                   "
                   v-clipboard:success="onCopy"
                   >{{
-                    `https://skillsguruh.herokuapp.com/register/?referral_type=group&referral_code=${item.code}`
+                    `https://skillsguruh.com/register/?referral_type=group&referral_code=${item.code}`
                   }}</b-td
                 >
               </b-tr>
@@ -250,14 +250,14 @@ export default {
       },
       referrals: [],
       email: "",
-      message: `https://skillsguruh.herokuapp.com/register/?referral_type=normal&referral_code=${this.$store.getters.learner.referral}`,
+      message: `https://skillsguruh.com/register/?referral_type=normal&referral_code=${this.$store.getters.learner.referral}`,
       communities_link: [],
     };
   },
   mounted() {
     this.getreferrals();
     this.getcommunity();
-    this.message = `https://skillsguruh.herokuapp.com/register/?referral_type=normal&referral_code=${this.$store.getters.learner.referral}`;
+    this.message = `https://skillsguruh.com/register/?referral_type=normal&referral_code=${this.$store.getters.learner.referral}`;
   },
   methods: {
     addinvite() {

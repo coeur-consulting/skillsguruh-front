@@ -400,7 +400,7 @@
                 <div>
                   <h6 class="fs14">Course Access</h6>
                   <p class="fs13 text-capitalize mb-1">
-                    Type: {{ course.type }}
+                    {{ course.type }}
                   </p>
                   <p class="fs13" v-if="course.type !== 'free'">
                     {{ course.amount }}
@@ -855,7 +855,7 @@ export default {
       this.$router.push("/login");
     },
     sharelink(id) {
-      this.link = `https://skillsguruh.herokuapp.com/explore/courses/?course=${encodeURIComponent(
+      this.link = `https://skillsguruh.com/explore/courses/?course=${encodeURIComponent(
         this.course.title.trim()
       )}&course_id=${id}`;
       this.$bvModal.show("share");

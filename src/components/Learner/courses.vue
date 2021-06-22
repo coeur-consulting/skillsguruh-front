@@ -1116,7 +1116,7 @@ export default {
           this.course.title +
           " course and I think you’d like it. Join me!",
         url:
-          "https://skillsguruh.herokuapp.com/learner/courses/?course_id=" +
+          "https://skillsguruh.com/learner/courses/?course_id=" +
           this.course.id,
       };
       this.$http
@@ -1159,11 +1159,11 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             if (res.data) {
-              this.link = `https://skillsguruh.herokuapp.com/explore/courses/?course=${encodeURIComponent(
+              this.link = `https://skillsguruh.com/explore/courses/?course=${encodeURIComponent(
                 this.course.title.trim()
               )}&referral_code=${res.data.code}`;
             } else {
-              this.link = `https://skillsguruh.herokuapp.com/explore/?course=${encodeURIComponent(
+              this.link = `https://skillsguruh.com/explore/?course=${encodeURIComponent(
                 this.course.title.trim()
               )}&course_id=${id}`;
             }
@@ -1250,7 +1250,7 @@ export default {
         .then((res) => {
           if (res.status == 201) {
             this.communitylink.push(res.data);
-            this.message = `https://skillsguruh.herokuapp.com/register/?referral_type=group&referral_code=${res.data.code}`;
+            this.message = `https://skillsguruh.com/register/?referral_type=group&referral_code=${res.data.code}`;
             this.$toast.info("Course link created");
             this.inviteUsers.code = res.data.code;
             this.$bvModal.show("courselink");
@@ -1277,7 +1277,7 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.message = `https://skillsguruh.herokuapp.com/register/?referral_type=group&referral_code=${res.data.code}`;
+            this.message = `https://skillsguruh.com/register/?referral_type=group&referral_code=${res.data.code}`;
             this.inviteUsers.code = res.data.code;
             this.$bvModal.show("courselink");
           }
@@ -1287,7 +1287,7 @@ export default {
         });
     },
     sharecourse(id) {
-      this.message = `https://skillsguruh.herokuapp.com/learner/courses?course_id=${id}`;
+      this.message = `https://skillsguruh.com/learner/courses?course_id=${id}`;
       this.$bvModal.show("sharecourse");
     },
     getCommunity() {

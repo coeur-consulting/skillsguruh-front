@@ -604,8 +604,7 @@ export default {
     this.getvote();
     this.getconnections();
     this.link =
-      "https://skillsguruh.herokuapp.com/learner/discussion/" +
-      this.$route.params.id;
+      "https://skillsguruh.com/learner/discussion/" + this.$route.params.id;
   },
   computed: {
     related() {
@@ -670,9 +669,7 @@ export default {
           "I just started a discussion, " +
           this.discussion.name.toUpperCase() +
           " and I’d like to hear your thoughts",
-        url:
-          "https://skillsguruh.herokuapp.com/learner/discussion/" +
-          this.discussion.id,
+        url: "https://skillsguruh.com/learner/discussion/" + this.discussion.id,
       };
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
