@@ -206,7 +206,7 @@
                 >
                   <div
                     class="p-2 rounded d-flex justify-content-between shadow"
-                    v-if="id != current_module"
+                    v-show="id != current_module"
                   >
                     <div>
                       <b-icon icon="grid" class="mr-2"></b-icon>
@@ -270,7 +270,10 @@
                       </b-iconstack>
                     </div>
                   </div>
-                  <div class="bg-light p-3 rounded" v-if="id == current_module">
+                  <div
+                    class="bg-light p-3 rounded"
+                    v-show="id == current_module"
+                  >
                     <div class="d-flex justify-content-between">
                       <div class="py-3 text-right">
                         <b-iconstack
