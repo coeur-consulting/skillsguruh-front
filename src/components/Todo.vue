@@ -1,9 +1,7 @@
 <template>
-  <div id="chart1" style="overflow: hidden" class="p-1 border rounded">
+  <div id="chart1" style="overflow: hidden" class="p-1 rounded">
+        <h6>To do List</h6>
     <b-row class="p-3">
-      <b-col sm="12" class="mb-2 mb-sm-0 text-center">
-        <h6>To do List</h6></b-col
-      >
       <b-col sm="12">
         <b-form @submit.prevent="register">
           <b-input-group size="sm">
@@ -15,7 +13,7 @@
               v-model="todo"
             ></b-form-input>
             <b-input-group-append>
-              <b-button size="sm" type="submit" variant="lighter-green"
+              <b-button size="sm" type="submit" class="" variant="dark-green"
                 ><b-icon icon="plus" font-scale="1.5"></b-icon
               ></b-button>
             </b-input-group-append>
