@@ -1,6 +1,6 @@
 <template>
   <div id="chart1" style="overflow: hidden" class="p-1 rounded">
-        <h6>To do List</h6>
+    <h6>To do List</h6>
     <b-row class="p-3">
       <b-col sm="12">
         <b-form @submit.prevent="register">
@@ -26,9 +26,9 @@
         <div class="todos d-flex flex-column">
           <div class="mb-2" v-for="(item, index) in todos" :key="index">
             <div class="todo d-flex align-items-center w-100 py-2 px-1 rounded">
-              <div class="flex-1">
+              <div class="flex-1 px-2">
                 <b-form-checkbox
-                  class="w-100"
+                  class="w-100 text-left"
                   :checked="item.status ? true : false"
                   @change="update(index, item.id, item.todo, item.status)"
                   size="sm"

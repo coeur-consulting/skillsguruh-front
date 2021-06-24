@@ -21,23 +21,14 @@
         </router-link>
         <router-link to="/facilitator/team">
           <div class="side_item">
-             <users-icon size="1x" class="custom-class"></users-icon>
+            <users-icon size="1x" class="custom-class"></users-icon>
             <span class="side-link p-2">Team</span>
           </div>
         </router-link>
-        <!-- <router-link to="/facilitator/learners">
-          <div class="side_item">
-            <b-icon
-              icon="people"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">Learners</span>
-          </div>
-        </router-link> -->
+
         <router-link to="/facilitator/schedule">
           <div class="side_item">
-             <calendar-icon size="1x" class="custom-class"></calendar-icon>
+            <calendar-icon size="1x" class="custom-class"></calendar-icon>
             <span class="side-link p-2">Schedule</span>
           </div>
         </router-link>
@@ -52,9 +43,9 @@
             <span class="side-link p-2">Courses</span>
           </div>
         </router-link>
-               <router-link to="/facilitator/assessment">
+        <router-link to="/facilitator/assessments">
           <div class="side_item">
-           <database-icon size="1x" class="custom-class"></database-icon>
+            <database-icon size="1x" class="custom-class"></database-icon>
             <span class="side-link p-2">Assessment</span>
           </div>
         </router-link>
@@ -84,13 +75,13 @@
 
         <router-link to="/facilitator/connections">
           <div class="side_item">
-         <link-icon size="1x" class="custom-class"></link-icon>
+            <link-icon size="1x" class="custom-class"></link-icon>
             <span class="side-link p-2">Connections</span>
           </div>
         </router-link>
         <router-link to="/facilitator/feeds">
           <div class="side_item">
-             <rss-icon size="1x" class="custom-class"></rss-icon>
+            <rss-icon size="1x" class="custom-class"></rss-icon>
             <span class="side-link p-2">Feeds </span>
           </div>
         </router-link>
@@ -119,23 +110,17 @@
         <h6 class="mt-3 mb-1 text-dark-green side_header">OTHERS</h6>
         <router-link to="/facilitator/question/templates">
           <div class="side_item">
-             <layout-icon size="1x" class="custom-class"></layout-icon>
+            <layout-icon size="1x" class="custom-class"></layout-icon>
             <span class="side-link p-2">Templates</span>
           </div>
         </router-link>
-        <router-link to="/facilitator/assessments">
-          <div class="side_item">
-            <b-icon
-              icon="card-list"
-              font-scale="1.1"
-              class="mr-3 text-dark-green"
-            ></b-icon>
-            <span class="side-link">Assessments</span>
-          </div>
-        </router-link>
+
         <router-link to="/facilitator/insights">
           <div class="side_item">
-           <arrow-up-right-icon size="1x" class="custom-class"></arrow-up-right-icon>
+            <arrow-up-right-icon
+              size="1x"
+              class="custom-class"
+            ></arrow-up-right-icon>
             <span class="side-link p-2">Insights</span>
           </div>
         </router-link>
@@ -147,21 +132,54 @@
         </router-link>
       </div>
 
-      <div class="side_item mt-4" @click="logout">
-      <log-out-icon size="1x" class="custom-class"></log-out-icon>
-        <span class="side-link p-2">Log out</span>
+      <hr />
+      <div class="mt-4">
+        <router-link to="/explore">
+          <div class="side_item mt-1">
+            <b-icon
+              icon="app-indicator"
+              font-scale="1.1"
+              class="mr-3 text-dark-green"
+            ></b-icon>
+            <span class="side-link">Explore</span>
+          </div></router-link
+        >
+        <router-link to="/">
+          <div class="side_item mt-1">
+            <b-icon
+              icon="arrow-left"
+              font-scale="1.1"
+              class="mr-3 text-dark-green"
+            ></b-icon>
+            <span class="side-link">Back to Home</span>
+          </div>
+        </router-link>
+        <div class="side_item mt-1" @click="logout">
+          <log-out-icon size="1x" class="custom-class"></log-out-icon>
+          <span class="side-link p-2">Log out</span>
+        </div>
       </div>
-
     </div>
   </div>
 </template>
 <script>
-import
- {HomeIcon, UsersIcon, TrelloIcon, CalendarIcon, LinkIcon, RssIcon, TwitchIcon,
-  BookmarkIcon, DatabaseIcon, LayoutIcon, CreditCardIcon, ArrowUpRightIcon, LogOutIcon}
-  from "vue-feather-icons";
+import {
+  HomeIcon,
+  UsersIcon,
+  TrelloIcon,
+  CalendarIcon,
+  LinkIcon,
+  RssIcon,
+  TwitchIcon,
+  BookmarkIcon,
+  DatabaseIcon,
+  LayoutIcon,
+  CreditCardIcon,
+  ArrowUpRightIcon,
+  LogOutIcon,
+} from "vue-feather-icons";
 export default {
-    components: {
+  components: {
     HomeIcon,
     UsersIcon,
     TrelloIcon,
@@ -174,8 +192,7 @@ export default {
     LayoutIcon,
     ArrowUpRightIcon,
     CreditCardIcon,
-    LogOutIcon
-  
+    LogOutIcon,
   },
   data() {
     return {
@@ -249,8 +266,8 @@ export default {
   cursor: pointer;
 }
 .router-link-exact-active.router-link-active .side_item {
- background: rgba(56, 128, 135, 0.17);
- border-left: 2px solid #388087;
+  background: rgba(56, 128, 135, 0.17);
+  border-left: 2px solid #388087;
   /* color: white; */
 }
 
