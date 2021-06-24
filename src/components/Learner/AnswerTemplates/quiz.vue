@@ -16,7 +16,16 @@
                 ></div>
               </div>
 
-              <div class="bg-white shadow rounded p-4 position-relative">
+              <div
+                class="
+                  bg-white
+                  shadow
+                  rounded
+                  p-4
+                  position-relative
+                  border-left-green
+                "
+              >
                 <b-form-group
                   :label="
                     questionnaire.sections[section].questions[question_num]
@@ -320,7 +329,6 @@
 </template>
 <script>
 export default {
-  props: ["id", "course_id"],
   data() {
     return {
       questionnaire: {
@@ -417,11 +425,14 @@ export default {
     },
     getQuestionnaire() {
       this.$http
-        .get(`${this.$store.getters.url}/question/templates/${4}`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
-        })
+        .get(
+          `${this.$store.getters.url}/question/templates/${this.$route.params.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          }
+        )
         .then((res) => {
           if (res.status == 200) {
             this.questionnaire.id = res.data.id;
@@ -458,7 +469,7 @@ export default {
           return 0;
         }
       });
-      console.log("🚀 ~ file: Quiz.vue ~ line 389 ~ score ~ score", score);
+
       this.current_score = score.reduce((a, b) => {
         return a + b;
       }, 0);
@@ -474,7 +485,7 @@ export default {
         if (response) {
           var data = {
             response: this.questionnaire,
-            template_id: this.$props.id,
+            template_id: this.$route.params.id,
             your_score: this.current_score,
             total_score: this.totalscore,
           };

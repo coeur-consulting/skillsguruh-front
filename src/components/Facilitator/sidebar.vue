@@ -153,6 +153,16 @@
             <span class="side-link">Templates</span>
           </div>
         </router-link>
+        <router-link to="/facilitator/assessments">
+          <div class="side_item">
+            <b-icon
+              icon="card-list"
+              font-scale="1.1"
+              class="mr-3 text-dark-green"
+            ></b-icon>
+            <span class="side-link">Assessments</span>
+          </div>
+        </router-link>
         <router-link to="/facilitator/insights">
           <div class="side_item">
             <b-icon

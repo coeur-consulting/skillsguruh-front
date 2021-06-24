@@ -744,6 +744,45 @@ const routes = [
         },
       },
       {
+        path: "assessments",
+        name: "Facilitator assessments",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatorassessments" */ "@/components/Facilitator/assessments.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "assessment/:type",
+        name: "Facilitator assessment",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatorassessment" */ "@/components/Facilitator/assessment.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
+        path: "assessment/list/:id",
+        name: "Facilitator assessment list",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Facilitatorassessmentlist" */ "@/components/Facilitator/assessmentList.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
         path: "questionnaires",
         name: "Facilitator questionnaires",
         components: {
@@ -1089,6 +1128,58 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerfacilitators" */ "@/components/Learner/facilitators.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "assessments",
+        name: "Learner assessments",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnerassessments" */ "@/components/Learner/assessments.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "assessment/:type",
+        name: "Learner assessment",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnerassessment" */ "@/components/Learner/assessment.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "solve/assessment/quiz/:id",
+        name: "Learner solve quiz",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnersolvequiz" */ "@/components/Learner/AnswerTemplates/quiz.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "solve/assessment/:id",
+        name: "Learner solve assessment",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnersolveassessment " */ "@/components/Learner/AnswerTemplates/others.vue"
             ),
         },
         meta: {

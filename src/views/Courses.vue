@@ -323,7 +323,7 @@
                     class="mt-2"
                     variant="lighter-green"
                     @click="addcourse"
-                    >Add course</b-button
+                    >Enroll</b-button
                   >
                 </div>
               </div>
@@ -851,8 +851,10 @@ export default {
   },
   methods: {
     addcourse() {
-      this.$toast.info("Login to add course");
-      this.$router.push("/login");
+      this.$toast.info("Register to enroll");
+      this.$router.push(
+        `/register/?referral_code=${this.$route.query.referral_code}&course_id=${this.$route.query.course_id}`
+      );
     },
     sharelink(id) {
       this.link = `https://skillsguruh.com/explore/courses/?course=${encodeURIComponent(

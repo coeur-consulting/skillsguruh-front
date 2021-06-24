@@ -3,9 +3,9 @@
     <b-form @submit.prevent="submit">
       <b-container class="py-3 px-0 text-left" v-if="questionnaire.sections">
         <b-row>
-          <b-col sm="10">
+          <b-col sm="10" class="ber">
             <div class="text-left">
-              <h5 class="mb-2">{{ questionnaire.title }}</h5>
+              <h5 class="mb-4">{{ questionnaire.title }}</h5>
               <div>
                 <em class="text-lighter-green fs11">{{
                   questionnaire.hint
@@ -309,7 +309,6 @@
 <script>
 import Calculator from "@/components/Calculator/calculator";
 export default {
-  props: ["id", "course_id"],
   data() {
     return {
       showcalc: false,
@@ -409,11 +408,14 @@ export default {
     },
     getQuestionnaire() {
       this.$http
-        .get(`${this.$store.getters.url}/question/templates/${4}`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
-        })
+        .get(
+          `${this.$store.getters.url}/question/templates/${this.$route.params.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          }
+        )
         .then((res) => {
           if (res.status == 200) {
             this.questionnaire.id = res.data.id;
@@ -480,7 +482,7 @@ export default {
         if (response) {
           var data = {
             response: this.questionnaire,
-            template_id: this.$props.id,
+            template_id: this.$route.params.id,
             your_score: this.current_score,
             total_score: this.totalscore,
           };
@@ -539,5 +541,9 @@ export default {
 .section-box {
   border-left: 4px solid var(--dark-green);
   overflow: hidden;
+}
+.ber {
+  overflow-y: auto;
+  max-height: 90vh;
 }
 </style>

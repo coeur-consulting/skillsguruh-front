@@ -586,11 +586,12 @@
                   <div class="d-flex align-items-center">
                     <b-icon
                       font-scale="1.15"
-                      class="ml-auto mr-3"
+                      class="ml-auto mr-3 cursor-pointer"
                       @click="sharecourse(course.id)"
                       icon="person-plus-fill"
                     ></b-icon>
                     <b-icon
+                      class="cursor-pointer"
                       font-scale="1.15"
                       @click="sharelink(course.id)"
                       icon="share"
@@ -1684,7 +1685,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Invite Sent");
-            this.$bvModal.hide("courselink");
+            this.$bvModal.hide("sharecourse");
             this.inviteUsers = {
               code: "",
               title: "",
@@ -1748,7 +1749,7 @@ export default {
         .then((res) => {
           if (res.status == 201) {
             this.communitylink.push(res.data);
-            this.message = `https://skillsguruh.com/register/?referral_type=group&referral_code=${res.data.code}`;
+            this.message = `https://skillsguruh.com/explore/courses/?course_id=${this.course.id}&referral_code=${res.data.code}`;
             this.$toast.info("Course link created");
             this.inviteUsers.code = res.data.code;
             this.$bvModal.show("courselink");
@@ -1775,7 +1776,7 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.message = `https://skillsguruh.com/register/?referral_type=group&referral_code=${res.data.code}`;
+            this.message = `https://skillsguruh.com/explore/courses/?course_id=${this.course.id}&referral_code=${res.data.code}`;
             this.inviteUsers.code = res.data.code;
             this.$bvModal.show("sharecourse");
           }

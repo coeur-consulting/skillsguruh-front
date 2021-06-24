@@ -261,15 +261,8 @@ export default {
     };
   },
   mounted() {
-    if (this.$route.query.referral_type == "normal") {
-      this.user.referral = this.$route.query.referral_code;
-      this.user.referral_type = "normal";
-    }
-
-    if (this.$route.query.referral_type == "group") {
-      this.user.referral = this.$route.query.community_referral;
-      this.user.referral_type = "group_course";
-    }
+    this.user.referral = this.$route.query.referral_code;
+    this.user.referral_type = "normal";
   },
   components: {
     Upload,
@@ -351,7 +344,14 @@ export default {
             .then((res) => {
               if (res.status == 201) {
                 this.$toast.success("Registration successful");
-                this.$router.push("/login");
+                if (this.$route.query.course_id) {
+                  this.$router.push(
+                    `/login/?course_id=${this.$route.query.course_id}`
+                  );
+                } else {
+                  this.$router.push("/login");
+                }
+
                 this.user = {
                   name: "",
                   email: "",

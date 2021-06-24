@@ -9,16 +9,50 @@
           </div>
         </div>
         <div>
-          <div class="mb-4 border-bottom content">
-            <h6 class="font-weight-bold mb-3">
-              {{ questionnaire.sections[section].title }}
-            </h6>
+          <div class="mb-4 border-bottom">
             <div
-              v-if="questionnaire.sections[section].description"
-              v-html="questionnaire.sections[section].description"
-            ></div>
+              class="
+                bg-white
+                shadow
+                rounded
+                mb-5
+                section-box
+                position-relative
+                p-4
+              "
+            >
+              <h5
+                class="
+                  section-anchor
+                  px-3
+                  py-1
+                  bg-dark-green
+                  text-lighter-green
+                  fs12
+                "
+              >
+                Section {{ section + 1 }} of {{ questionnaire.sections.length }}
+              </h5>
+
+              <div class="font-weight-bold my-2">
+                {{ questionnaire.sections[section].title }}
+              </div>
+              <div
+                v-if="questionnaire.sections[section].description"
+                v-html="questionnaire.sections[section].description"
+              ></div>
+            </div>
 
             <div
+              class="
+                bg-white
+                shadow
+                rounded
+                mb-4
+                section-box
+                position-relative
+                p-4
+              "
               v-for="(question, index) in questionnaire.sections[section]
                 .questions"
               :key="question.title"
@@ -34,14 +68,14 @@
                   </div>
                   <div v-if="question.type == 'short'">
                     <b-form-input
-                      @change="handleResponse(question, index)"
+                      @change="handleResponse"
                       v-model="question.response"
                       :placeholder="question.placeholder"
                     ></b-form-input>
                   </div>
                   <div v-if="question.type == 'long'">
                     <b-form-textarea
-                      @change="handleResponse(question, index)"
+                      @change="handleResponse"
                       v-model="question.response"
                       :placeholder="question.placeholder"
                     ></b-form-textarea>
@@ -50,8 +84,7 @@
                   <div v-if="question.type == 'single'">
                     <b-form-radio-group
                       size="sm"
-                      class="text-capitalize"
-                      @change="handleResponse(question, index)"
+                      @change="handleResponse"
                       v-model="question.response"
                       :options="question.options"
                       value-field="title"
@@ -92,17 +125,16 @@
                     </div>
                   </div>
                   <div v-if="question.type == 'checkbox'">
-                    {{ question.limit }}
                     <div>
                       <b-form-checkbox
                         size="sm"
-                        class="text-capitalize"
+                        @change="handleResponse"
                         v-for="(item, index) in question.options"
                         :key="index"
                         :value="index"
                         v-model="question.responses"
                         :disabled="
-                          question.responses.length > 1 &&
+                          question.responses.length > question.limit &&
                           question.responses.indexOf(index) === -1
                         "
                         inline
@@ -115,14 +147,14 @@
                   <div v-if="question.type == 'boolean'">
                     <b-form-radio
                       size="sm"
-                      @change="handleResponse(question, index)"
+                      @change="handleResponse"
                       v-model="question.response"
                       value="true"
                       >True</b-form-radio
                     >
                     <b-form-radio
                       size="sm"
-                      @change="handleResponse(question, index)"
+                      @change="handleResponse"
                       v-model="question.response"
                       value="false"
                       >False</b-form-radio
@@ -131,7 +163,7 @@
 
                   <div v-if="question.type == 'dropdown'">
                     <b-form-select
-                      @change="handleResponse(question, index)"
+                      @change="handleResponse"
                       v-model="question.response"
                     >
                       <b-form-select-option
@@ -145,7 +177,7 @@
 
                   <div v-if="question.type == 'range'">
                     <b-form-input
-                      @change="handleResponse(question, index)"
+                      @change="handleResponse"
                       type="range"
                       v-model="question.response"
                       min="0"
@@ -154,35 +186,35 @@
                   </div>
                   <div v-if="question.type == 'email'">
                     <b-form-input
-                      @change="handleResponse(question, index)"
+                      @change="handleResponse"
                       v-model="question.response"
                       type="email"
                     ></b-form-input>
                   </div>
                   <div v-if="question.type == 'number'">
                     <b-form-input
-                      @change="handleResponse(question, index)"
+                      @change="handleResponse"
                       v-model="question.response"
                       type="number"
                     ></b-form-input>
                   </div>
                   <div v-if="question.type == 'time'">
                     <b-form-input
-                      @change="handleResponse(question, index)"
+                      @change="handleResponse"
                       v-model="question.response"
                       type="time"
                     ></b-form-input>
                   </div>
                   <div v-if="question.type == 'date'">
                     <b-form-input
-                      @change="handleResponse(question, index)"
+                      @change="handleResponse"
                       v-model="question.response"
                       type="date"
                     ></b-form-input>
                   </div>
                   <div v-if="question.type == 'color'">
                     <b-form-input
-                      @change="handleResponse(question, index)"
+                      @change="handleResponse"
                       v-model="question.response"
                       type="color"
                     ></b-form-input>
@@ -190,33 +222,34 @@
                 </b-form-group>
               </div>
             </div>
-          </div>
-          <div class="d-flex justify-content-between mt-4">
-            <b-button
-              size="sm"
-              type="button"
-              variant="outline-secondary"
-              v-show="section > 0"
-              @click="section--"
-              >Previous Section</b-button
-            >
-            <b-button
-              size="sm"
-              type="button"
-              class="ml-auto"
-              variant="outline-dark-green"
-              v-show="section < questionnaire.sections.length - 1"
-              @click="section++"
-              >Next Section</b-button
-            >
-            <b-button
-              size="sm"
-              class="ml-auto"
-              variant="outline-dark-green"
-              v-show="questionnaire.sections.length - 1 == section"
-              type="submit"
-              >Submit</b-button
-            >
+
+            <div class="d-flex justify-content-between my-4">
+              <b-button
+                size="sm"
+                type="button"
+                variant="outline-secondary"
+                v-show="section > 0"
+                @click="section--"
+                >Previous Section</b-button
+              >
+              <b-button
+                size="sm"
+                type="button"
+                class="ml-auto"
+                variant="outline-dark-green"
+                v-show="section < questionnaire.sections.length - 1"
+                @click="section++"
+                >Next Section</b-button
+              >
+              <b-button
+                size="sm"
+                class="ml-auto"
+                variant="outline-dark-green"
+                v-show="questionnaire.sections.length - 1 == section"
+                type="submit"
+                >Submit</b-button
+              >
+            </div>
           </div>
         </div>
       </b-container>
@@ -274,11 +307,32 @@ export default {
       section: 0,
       responses: [],
       score: 0,
-      totalscore: 0,
     };
   },
   mounted() {
     this.getQuestionnaire();
+  },
+  computed: {
+    totalscore() {
+      var arr = [];
+      this.questionnaire.sections.forEach((item) => {
+        arr.push(item.questions);
+      });
+
+      var newarr = arr.reduce((a, b) => {
+        return a.concat(b);
+      });
+
+      var score = newarr.map((item) => {
+        if (item.asAnswer) {
+          return item.score;
+        }
+      });
+
+      return score.reduce((a, b) => {
+        return a + b;
+      }, 0);
+    },
   },
   methods: {
     getQuestionnaire() {
@@ -306,35 +360,47 @@ export default {
           }
         });
     },
-    handleResponse(question, index) {
+    handleResponse() {
+      var arr = [];
+      var answers = [];
+      var responses = [];
       var correct = 0;
+      this.questionnaire.sections.forEach((item) => {
+        arr.push(item.questions);
+      });
 
-      if (question.asAnswer) {
-        if (question.type !== "multiple" && question.type !== "checkbox") {
-          question.response.toLowerCase() == question.answer.toLowerCase()
-            ? (question.result = true)
-            : (question.result = false);
-        } else {
-          var answers = question.answers.map((item) => item.title).sort();
-          var response = question.responses.sort();
-          for (let i = 0; i < answers.length; i++) {
-            if (answers[i] == response[i]) {
-              correct++;
+      var newarr = arr.reduce((a, b) => {
+        return a.concat(b);
+      });
+
+      var score = newarr.map((item) => {
+        if (item.asAnswer) {
+          if (item.type !== "checkbox" && item.type !== "multiple") {
+            if (item.response == item.answer) {
+              return item.score;
             }
+            return 0;
           }
-          if (correct == answers.length) {
-            question.result = true;
-          } else {
-            question.result = false;
-          }
-        }
+          if (item.type == "checkbox" || item.type == "multiple") {
+            answers = item.answers.map((item) => item.title).sort();
+            responses = item.responses
+              .map((val) => item.options[val])
+              .map((item) => item.title)
+              .sort();
 
-        this.questionnaire.sections[this.section].questions[index].responses =
-          question.responses;
-        this.questionnaire.sections[this.section].questions[index].response =
-          question.response;
-      }
+            correct = answers.filter((x) => responses.indexOf(x) !== -1).length;
+            let score = (correct / answers.length) * item.score;
+            return Math.round(score);
+          }
+          return 0;
+        }
+      });
+
+      this.current_score = score.reduce((a, b) => {
+        return a + b;
+      }, 0);
     },
+
     addoption(index) {
       this.questionnaire.sections[this.section].questions[index].options.push({
         title: null,
@@ -343,30 +409,15 @@ export default {
     submit() {
       this.$bvModal.msgBoxConfirm("Are you sure?").then((response) => {
         if (response) {
-          this.score = 0;
-
-          var score = 0;
-          var totalscore = 0;
-
-          this.questionnaire.sections.forEach((item) => {
-            item.questions.forEach((val) => {
-              if (val.asScore) {
-                totalscore = totalscore + val.score;
-              }
-              if (val.result) {
-                score = score + val.score;
-              }
-            });
-          });
-          this.totalscore = totalscore;
-
-          this.score = score;
-
           var data = {
             module_id: this.questionnaire.module_id,
             course_id: this.$props.course_id,
             content: this.questionnaire,
             questionnaire_id: this.$props.id,
+            response: this.questionnaire,
+            template_id: this.$props.id,
+            your_score: this.current_score,
+            total_score: this.totalscore,
           };
           this.$http
             .post(`${this.$store.getters.url}/answer-questionnaires`, data, {
@@ -403,5 +454,18 @@ export default {
 .content {
   min-height: 400px;
   overflow-y: auto;
+}
+.section-anchor {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.section-box {
+  border-left: 4px solid var(--dark-green);
+  overflow: hidden;
+}
+.ber {
+  overflow-y: auto;
+  max-height: 90vh;
 }
 </style>

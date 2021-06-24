@@ -235,7 +235,7 @@ export default {
           password: this.user.password,
         };
         this.$http
-          .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
+          .post("http://localhost:8000/oauth/token", data)
           .then((res) => {
             authOrg.access_token = res.data.access_token;
             authOrg.refresh_token = res.data.refresh_token;
@@ -275,7 +275,7 @@ export default {
           password: this.user.password,
         };
         this.$http
-          .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
+          .post("http://localhost:8000/oauth/token", data)
           .then((res) => {
             authAdmin.access_token = res.data.access_token;
             authAdmin.refresh_token = res.data.refresh_token;
@@ -318,7 +318,7 @@ export default {
           password: this.user.password,
         };
         this.$http
-          .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
+          .post("http://localhost:8000/oauth/token", data)
           .then((res) => {
             authFacilitator.access_token = res.data.access_token;
             authFacilitator.refresh_token = res.data.refresh_token;
@@ -364,7 +364,7 @@ export default {
           password: this.user.password,
         };
         this.$http
-          .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
+          .post("http://localhost:8000/oauth/token", data)
           .then((res) => {
             authLearner.access_token = res.data.access_token;
             authLearner.refresh_token = res.data.refresh_token;
@@ -391,7 +391,11 @@ export default {
                   );
                   this.$toast.success("Login successful");
 
-                  window.location.href = "/learner";
+                  if (this.$route.query.course_id) {
+                    window.location.href = `/learner/courses/?course_id=${this.$route.query.course_id}`;
+                  } else {
+                    window.location.href = "/learner";
+                  }
                 }
               })
               .catch(() => {
@@ -409,6 +413,28 @@ export default {
         `${this.$store.getters.url}/auth/${provider}/redirect`,
         "_blank"
       );
+    },
+    Sociallogin(provider, response) {
+      this.$http
+        .post(`${this.$store.getters.url}/auth/${provider}/callback`, response)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((err) => {
+          console.log({ err: err });
+        });
+    },
+    AuthProvider(provider) {
+      var self = this;
+
+      this.$auth
+        .authenticate(provider)
+        .then((response) => {
+          self.Sociallogin(provider, response);
+        })
+        .catch((err) => {
+          console.log({ err: err });
+        });
     },
   },
 };
