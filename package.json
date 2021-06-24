@@ -29,6 +29,7 @@
     "vue-clipboard2": "^0.3.1",
     "vue-emoji-picker": "^1.0.1",
     "vue-event-calendar": "^1.5.2",
+    "vue-feather-icons": "^5.1.0",
     "vue-moment": "^4.1.0",
     "vue-pdf": "^4.2.0",
     "vue-router": "^3.2.0",
