@@ -33,41 +33,61 @@
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">
-            <b-nav-item href="#" v-if="$store.getters.learners">
-              <b-button
-                class="px-4"
-                @click="$router.push('/learner')"
-                variant="lighter-green"
-              >
-                Dashboard</b-button
-              >
+            <b-nav-item href="#" v-if="authLearner">
+              <b-button-group>
+                <b-button
+                  class="px-4"
+                  @click="$router.push('/learner')"
+                  variant="dark-green"
+                >
+                  Dashboard</b-button
+                >
+                <b-button class="px-4" @click="logout" variant="lighter-green">
+                  Logout</b-button
+                >
+              </b-button-group>
             </b-nav-item>
-            <b-nav-item href="#" v-else-if="$store.getters.facilitators">
-              <b-button
-                class="px-4"
-                @click="$router.push('/facilitator')"
-                variant="lighter-green"
-              >
-                Dashboard</b-button
-              >
+            <b-nav-item href="#" v-else-if="authFacilitator">
+              <b-button-group>
+                <b-button
+                  class="px-4"
+                  @click="$router.push('/facilitator')"
+                  variant="dark-green"
+                >
+                  Dashboard</b-button
+                >
+                <b-button class="px-4" @click="logout" variant="lighter-green">
+                  Logout</b-button
+                >
+              </b-button-group>
             </b-nav-item>
-            <b-nav-item href="#" v-else-if="$store.getters.admin">
-              <b-button
-                class="px-4"
-                @click="$router.push('/administrator')"
-                variant="lighter-green"
-              >
-                Dashboard</b-button
-              >
+            <b-nav-item href="#" v-else-if="authAdmin">
+              <b-button-group>
+                <b-button
+                  class="px-4"
+                  @click="$router.push('/administrator')"
+                  variant="dark-green"
+                >
+                  Dashboard</b-button
+                >
+                <b-button class="px-4" @click="logout" variant="lighter-green">
+                  Logout</b-button
+                >
+              </b-button-group>
             </b-nav-item>
-            <b-nav-item href="#" v-else-if="$store.getters.organization">
-              <b-button
-                class="px-4"
-                @click="$router.push('/organization')"
-                variant="lighter-green"
-              >
-                Dashboard</b-button
-              >
+            <b-nav-item href="#" v-else-if="authOrg">
+              <b-button-group>
+                <b-button
+                  class="px-4"
+                  @click="$router.push('/organization')"
+                  variant="dark-green"
+                >
+                  Dashboard</b-button
+                >
+                <b-button class="px-4" @click="logout" variant="lighter-green">
+                  Logout</b-button
+                >
+              </b-button-group>
             </b-nav-item>
             <b-nav-item href="#" v-else>
               <b-button
@@ -84,7 +104,37 @@
     </b-container>
   </div>
 </template>
-
+<script>
+export default {
+  data() {
+    return {
+      authLearner: false,
+      authAdmin: false,
+      authOrg: false,
+      authFacilitator: false,
+    };
+  },
+  mounted() {
+    if (localStorage.getItem("authLearner")) {
+      this.authLearner = true;
+    } else if (localStorage.getItem("authFacilitator")) {
+      this.authFacilitator = true;
+    } else if (localStorage.getItem("authAdmin")) {
+      this.authAdmin = true;
+    } else if (localStorage.getItem("authOrg")) {
+      this.authOrg = true;
+    } else {
+      return;
+    }
+  },
+  methods: {
+    logout() {
+      localStorage.clear();
+      window.location.reload();
+    },
+  },
+};
+</script>
 <style scoped lang="scss">
 .navbar-light .navbar-nav .nav-link {
   color: rgb(0, 0, 0);

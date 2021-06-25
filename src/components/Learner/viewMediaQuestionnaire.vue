@@ -305,6 +305,9 @@ export default {
   mounted() {
     this.getQuestionnaire();
   },
+  watch: {
+    id: "getQuestionnaire",
+  },
   computed: {
     totalscore() {
       var arr = [];

@@ -1027,7 +1027,6 @@ export default {
             this.allmodules();
             this.$bvModal.hide("add");
             this.detail = {
-              course_id: "",
               module: "",
               modules: [
                 {
