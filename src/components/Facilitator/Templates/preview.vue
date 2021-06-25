@@ -221,14 +221,6 @@
                   @click="section++"
                   >Next Section</b-button
                 >
-                <b-button
-                  size="sm"
-                  class="ml-auto"
-                  variant="outline-dark-green"
-                  v-show="questionnaire.sections.length - 1 == section"
-                  type="submit"
-                  >Submit</b-button
-                >
               </div>
             </div>
           </div>

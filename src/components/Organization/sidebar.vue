@@ -92,7 +92,7 @@ export default {
     markread() {
       this.$http.get(`${this.$store.getters.url}/mark-notifications`, {
         headers: {
-          Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
         },
       });
     },

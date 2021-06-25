@@ -32,11 +32,36 @@ const routes = [
         import(/* webpackChunkName: "Login" */ "../views/Auth/Login.vue"),
     },
     beforeEnter: (to, from, next) => {
-      let user = localStorage.getItem("typeOrg");
-      if (!user) {
-        next();
+      if (localStorage.getItem("authLearner")) {
+        let user = localStorage.getItem("authLearner");
+        if (!user) {
+          next();
+        } else {
+          next("/learner");
+        }
+      } else if (localStorage.getItem("authFacilitator")) {
+        let user = localStorage.getItem("authFacilitator");
+        if (!user) {
+          next();
+        } else {
+          next("/facilitator");
+        }
+      } else if (localStorage.getItem("authAdmin")) {
+        let user = localStorage.getItem("authAdmin");
+        if (!user) {
+          next();
+        } else {
+          next("/administrator");
+        }
+      } else if (localStorage.getItem("authOrg")) {
+        let user = localStorage.getItem("authOrg");
+        if (!user) {
+          next();
+        } else {
+          next("/organization");
+        }
       } else {
-        next("/organization");
+        next();
       }
     },
   },
