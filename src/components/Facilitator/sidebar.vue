@@ -46,7 +46,7 @@
         <router-link to="/facilitator/assessments">
           <div class="side_item">
             <database-icon size="1x" class="custom-class"></database-icon>
-            <span class="side-link p-2">Assessment</span>
+            <span class="side-link p-2">Assessments</span>
           </div>
         </router-link>
         <!-- <router-link to="/facilitator/outlines">

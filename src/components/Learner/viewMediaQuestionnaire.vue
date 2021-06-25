@@ -22,14 +22,7 @@
               "
             >
               <h5
-                class="
-                  section-anchor
-                  px-3
-                  py-1
-                  bg-dark-green
-                  text-lighter-green
-                  fs12
-                "
+                class="section-anchor px-3 py-1 bg-dark-green text-white fs12"
               >
                 Section {{ section + 1 }} of {{ questionnaire.sections.length }}
               </h5>
@@ -59,7 +52,7 @@
             >
               <div class="d-flex">
                 <span class="mr-2">{{ index + 1 }}.</span>
-                <b-form-group :label="question.question">
+                <b-form-group :label="question.question" class="flex-1">
                   <div class="mb-3" v-if="question.hint">
                     <em class="text-dark-green fs12"
                       ><b-icon icon="info-circle-fill"></b-icon>

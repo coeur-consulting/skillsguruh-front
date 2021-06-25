@@ -1252,14 +1252,7 @@
         </b-row>
       </b-container>
     </b-modal>
-    <b-modal
-      no-close-on-backdrop
-      id="addfac"
-      size="lg"
-      hide-footer
-      hide-header
-      centered
-    >
+    <b-modal id="addfac" size="lg" hide-footer centered>
       <div class="p-4">
         <h6 class="text-center mb-3">Select Facilitators</h6>
         <b-row>

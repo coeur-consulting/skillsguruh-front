@@ -387,6 +387,20 @@
                           </b-form-group>
                         </b-col>
                       </b-form-row>
+                      <b-form-row
+                        class="mb-3"
+                        v-if="question.type == 'checkbox'"
+                      >
+                        <b-col sm="12">
+                          <b-form-group label="Answer Limit (optional)">
+                            <b-form-input
+                              v-model="question.limit"
+                              placeholder="Check limit"
+                            >
+                            </b-form-input>
+                          </b-form-group>
+                        </b-col>
+                      </b-form-row>
                       <b-form-row class="mb-3">
                         <b-col sm="12">
                           <b-form-group label="Hint (optional)">
@@ -462,14 +476,7 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-modal
-      no-close-on-backdrop
-      hide-footer
-      hide-header
-      id="preview"
-      size="xl"
-      centered
-    >
+    <b-modal hide-footer id="preview" size="xl" centered>
       <Preview :questionnaire="questionnaire"></Preview>
     </b-modal>
   </div>
@@ -494,6 +501,7 @@ export default {
         id: null,
         module_id: null,
         module_name: "",
+        totalscore: 0,
         course_id: null,
         course_title: null,
         title: "",
@@ -548,6 +556,26 @@ export default {
         disabled: !this.editable,
         ghostClass: "ghost",
       };
+    },
+    totalscore() {
+      var arr = [];
+      this.questionnaire.sections.forEach((item) => {
+        arr.push(item.questions);
+      });
+
+      var newarr = arr.reduce((a, b) => {
+        return a.concat(b);
+      });
+
+      var score = newarr.map((item) => {
+        if (item.asAnswer) {
+          return item.score;
+        }
+      });
+
+      return score.reduce((a, b) => {
+        return a + b;
+      }, 0);
     },
   },
   watch: {
@@ -658,6 +686,7 @@ export default {
         });
     },
     update() {
+      this.questionnaire.totalscore = this.totalscore;
       this.$http
         .put(
           `${this.$store.getters.url}/question/templates/${this.questionnaire.id}`,

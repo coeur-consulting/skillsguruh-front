@@ -77,7 +77,6 @@
                   v-model="detail.general.type"
                   name="radio-sub-component"
                 >
-                  <b-form-radio value="free">Free</b-form-radio>
                   <b-form-radio value="paid">Paid</b-form-radio>
                   <b-form-radio value="group">Group</b-form-radio>
                 </b-form-radio-group>
@@ -182,6 +181,7 @@
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Duration">
                 <b-form-input
+                  required
                   v-model="detail.outline.duration"
                   placeholder="Enter course duration"
                 ></b-form-input>
@@ -506,14 +506,14 @@
         </div>
       </b-form>
     </b-modal>
-    <b-modal no-close-on-backdrop id="filter" hide-footer hide-header centered>
+    <b-modal no-close-on-backdrop id="filter" hide-footer centered>
       <div>
         <div>
           <h6 class="">Sort by</h6>
           <b-form-group label="Category">
             <b-form-radio-group v-model="course_type">
               <b-form-radio value="">General</b-form-radio>
-              <b-form-radio value="free">Free</b-form-radio>
+
               <b-form-radio value="paid">Paid</b-form-radio>
               <b-form-radio value="group">Group</b-form-radio>
             </b-form-radio-group>
@@ -601,7 +601,6 @@
                   v-model="detail.general.type"
                   name="radio-sub-component"
                 >
-                  <b-form-radio value="free">Free</b-form-radio>
                   <b-form-radio value="paid">Paid</b-form-radio>
                   <b-form-radio value="group">Group</b-form-radio>
                 </b-form-radio-group>
@@ -1410,17 +1409,25 @@
                       Modules
                     </div>
                     <div>
-                      <span class="fs13 text-muted"
-                        ><b-icon
-                          class="mr-2"
-                          :icon="
-                            course.type == 'free' ? 'unlock-fill' : 'lock-fill'
-                          "
-                        ></b-icon>
-                        <span class="text-capitalize">{{
-                          course.type
-                        }}</span></span
-                      >
+                      <span
+                        class="fs13 text-muted d-flex justify-content-between"
+                        ><span
+                          ><b-icon
+                            class="mr-2"
+                            :icon="
+                              course.type == 'free'
+                                ? 'unlock-fill'
+                                : 'lock-fill'
+                            "
+                          ></b-icon>
+                          <span class="text-capitalize">{{
+                            course.type
+                          }}</span></span
+                        >
+                        <span v-if="course.type == 'paid'">
+                          {{ course.amount | currencyFormat }}</span
+                        >
+                      </span>
                     </div>
                   </div>
 
@@ -1712,10 +1719,13 @@
                           {{ course.type }}
                         </p>
                         <p class="fs13" v-if="course.type !== 'free'">
-                          {{ course.amount }}
-                          {{
-                            course.type == "group" ? "Participants" : "Naira"
-                          }}
+                          <span v-if="course.type == 'paid'">
+                            {{ course.amount | currencyFormat }}</span
+                          >
+                          <span v-if="course.type == 'group'">
+                            {{ course.amount }}</span
+                          >
+                          {{ course.type == "group" ? "Participants" : "" }}
                         </p>
                       </div>
                       <div class="text-right">
@@ -2162,8 +2172,13 @@
                       {{ course.type }}
                     </p>
                     <p class="fs13" v-if="course.type !== 'free'">
-                      {{ course.amount }}
-                      {{ course.type == "group" ? "Participants" : "Naira" }}
+                      <span v-if="course.type == 'paid'">
+                        {{ course.amount | currencyFormat }}</span
+                      >
+                      <span v-if="course.type == 'group'">
+                        {{ course.amount }}</span
+                      >
+                      {{ course.type == "group" ? "Participants" : "" }}
                     </p>
                   </div>
                   <div class="text-right">
@@ -2487,7 +2502,7 @@ export default {
           code: "",
           description: "",
           cover: "",
-          type: "free",
+          type: "group",
           amount: null
         },
         outline: {
@@ -2607,7 +2622,7 @@ export default {
         });
     },
     sharecourse(id) {
-      this.message = `https://skillsguruh.com/learner/courses?course_id=${id}`;
+      this.message = `https://skillsguruh.com/explore/courses?course_id=${id}`;
       this.$bvModal.show("sharecourse");
     },
     addToFeed() {
@@ -2804,7 +2819,7 @@ export default {
                 code: "",
                 description: "",
                 cover: "",
-                type: "free",
+                type: "group",
                 amount: null
               },
               outline: {
@@ -2887,7 +2902,7 @@ export default {
                 code: "",
                 description: "",
                 cover: "",
-                type: "free",
+                type: "group",
                 cost: ""
               },
               outline: {

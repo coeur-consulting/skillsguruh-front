@@ -143,11 +143,11 @@
                 <b-td
                   class="fs13 cursor-copy"
                   v-clipboard:copy="
-                    `https://skillsguruh.com/register/?referral_type=group&referral_code=${item.code}`
+                    `https://skillsguruh.com/register/?referral=${item.code}`
                   "
                   v-clipboard:success="onCopy"
                   >{{
-                    `https://skillsguruh.com/register/?referral_type=group&referral_code=${item.code}`
+                    `https://skillsguruh.com/register/?referral=${item.code}`
                   }}</b-td
                 >
               </b-tr>
@@ -207,12 +207,12 @@
                   <b-td class="text-capitalize">{{
                     item.learner_detail.name
                   }}</b-td>
-                  <b-td class="fs14">NGN 10.00</b-td>
+                  <b-td class="fs14">200 points</b-td>
                 </b-tr>
                 <b-tr>
                   <b-td>Total earnings</b-td>
                   <b-td class="text-dark-green font-weight-bold fs14">
-                    NGN {{ referrals.length * 10 }}.00</b-td
+                    {{ referrals.length * 200 }} points</b-td
                   >
                 </b-tr>
               </b-tbody>
@@ -250,14 +250,14 @@ export default {
       },
       referrals: [],
       email: "",
-      message: `https://skillsguruh.com/register/?referral_type=normal&referral_code=${this.$store.getters.learner.referral}`,
+      message: `https://skillsguruh.com/register/?referral=${this.$store.getters.learner.referral}`,
       communities_link: [],
     };
   },
   mounted() {
     this.getreferrals();
     this.getcommunity();
-    this.message = `https://skillsguruh.com/register/?referral_type=normal&referral_code=${this.$store.getters.learner.referral}`;
+    this.message = `https://skillsguruh.com/register/?referral=${this.$store.getters.learner.referral}`;
   },
   methods: {
     addinvite() {

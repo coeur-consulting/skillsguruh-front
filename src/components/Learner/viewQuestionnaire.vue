@@ -25,7 +25,7 @@
             >
               <div class="d-flex">
                 <span class="mr-3">{{ index + 1 }}</span>
-                <b-form-group :label="question.question">
+                <b-form-group :label="question.question" class="flex-1">
                   <div class="mb-3" v-if="question.hint">
                     <em class="text-dark-green fs12"
                       ><b-icon icon="info-circle-fill"></b-icon>

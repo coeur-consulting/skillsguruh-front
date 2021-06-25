@@ -20,7 +20,7 @@
             "
             @click="$router.push('/learner/assessment/assignment')"
           >
-            <b-badge class="badge" variant="danger">4</b-badge>
+            <b-badge class="badge" variant="danger">{{ assignment }}</b-badge>
             <b-img
               :src="require('@/assets/images/ass3.png')"
               fluid-grow
@@ -44,7 +44,7 @@
             "
             @click="$router.push('/learner/assessment/quiz')"
           >
-            <b-badge class="badge" variant="danger">4</b-badge>
+            <b-badge class="badge" variant="danger">{{ quiz }}</b-badge>
             <b-img
               :src="require('@/assets/images/ass2.png')"
               alt="quiz"
@@ -68,7 +68,7 @@
             "
             @click="$router.push('/learner/assessment/test')"
           >
-            <b-badge class="badge" variant="danger">4</b-badge>
+            <b-badge class="badge" variant="danger">{{ test }}</b-badge>
             <b-img
               :src="require('@/assets/images/ass1.png')"
               alt="test"
@@ -84,7 +84,74 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      assessments: [],
+    };
+  },
+  mounted() {
+    this.getLibrary();
+  },
+  computed: {
+    quiz() {
+      return this.assessments.filter((item) => item.type == "quiz").length;
+    },
+    questionnaire() {
+      return this.assessments.filter((item) => item.type == "questionnaire")
+        .length;
+    },
+    assignment() {
+      return this.assessments.filter((item) => item.type == "assignment")
+        .length;
+    },
+    test() {
+      return this.assessments.filter((item) => item.type == "test").length;
+    },
+  },
+  methods: {
+    getLibrary() {
+      this.$http
+        .get(`${this.$store.getters.url}/libraries`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.library = res.data;
+            this.assessments = res.data
+              .map((item) => {
+                if (item.assessment) {
+                  return item.assessment;
+                }
+              })
+              .filter((item) => item);
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    getAssessments() {
+      this.$http
+        .get(`${this.$store.getters.url}/learner/assessments`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.assessments = res.data;
+            this.rows = res.data.length;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+  },
+};
 </script>
 <style scoped>
 .badge {

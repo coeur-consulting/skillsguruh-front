@@ -370,14 +370,7 @@
       </b-form>
     </b-modal>
 
-    <b-modal
-      no-close-on-backdrop
-      id="access"
-      title="Request Access"
-      hide-header
-      hide-footer
-      centered
-    >
+    <b-modal id="access" title="Request Access" hide-footer centered>
       <div class="text-center">
         <p class="mb-4 fs16">Do you wish to join this discussion?</p>
         <b-button

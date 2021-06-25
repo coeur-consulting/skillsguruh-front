@@ -187,7 +187,6 @@
                         .type == 'checkbox'
                     "
                   >
-                    {{ question.limit }}
                     <div>
                       <b-form-row>
                         <b-col
@@ -490,7 +489,7 @@ export default {
             total_score: this.totalscore,
           };
           this.$http
-            .post(`${this.$store.getters.url}/question/responses`, data, {
+            .post(`${this.$store.getters.url}/assessment/responses`, data, {
               headers: {
                 Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
               },
@@ -500,7 +499,7 @@ export default {
                 this.$emit("handleCheck");
                 this.$bvModal
                   .msgBoxOk(
-                    "Questionnaire was submitted successfully, Thank you for your feedback",
+                    "Assessment was submitted successfully, Thank you for your feedback",
                     {
                       noCloseOnBackdrop: true,
                       size: "sm",

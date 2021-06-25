@@ -41,6 +41,18 @@ const routes = [
     },
   },
   {
+    path: "/transaction",
+    name: " transaction",
+    components: {
+      header: Header,
+      default: () =>
+        import(
+          /* webpackChunkName: "transaction" */ "@/components/transaction.vue"
+        ),
+      footer: Footer,
+    },
+  },
+  {
     path: "/explore",
     name: "Explore",
     components: {
@@ -67,6 +79,16 @@ const routes = [
       header: Header,
       default: () =>
         import(/* webpackChunkName: "about" */ "../views/About.vue"),
+      footer: Footer,
+    },
+  },
+  {
+    path: "/order",
+    name: "Order",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "about" */ "@/components/order"),
       footer: Footer,
     },
   },
@@ -1193,6 +1215,32 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerfacilitator" */ "@/components/Learner/facilitator.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "order",
+        name: "Learner order",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnerfacilitator" */ "@/components/Learner/order.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "transaction",
+        name: "Learner transaction",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnertransaction" */ "@/components/Learner/transaction.vue"
             ),
         },
         meta: {

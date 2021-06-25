@@ -9,7 +9,32 @@
               <VideoMedia v-if="type == 'video'" :media="media" />
               <PdfMedia v-if="type == 'document'" :media="media" />
               <div v-if="type == 'template'" class="pr-3">
+                <div
+                  v-if="
+                    myquestionnaire.find(
+                      (item) => item.question_template_id == media.template.id
+                    )
+                  "
+                  style="height: 500px"
+                  class="
+                    d-flex
+                    align-items-center
+                    justify-content-center
+                    bg-white
+                  "
+                >
+                  <div>
+                    <h3 class="mb-4">Alreaded Submitted</h3>
+
+                    <b-icon
+                      icon="check2-circle"
+                      variant="dark-green"
+                      font-scale="5"
+                    ></b-icon>
+                  </div>
+                </div>
                 <Questionnaire
+                  v-else
                   @handleCheck="handleCheck"
                   :id="media.template.id"
                   :course_id="$route.params.id"
@@ -128,6 +153,7 @@
         </b-col>
         <b-col sm="4" class="bg-white text-left p-3" v-if="course.modules">
           <h6>Modules</h6>
+
           <div class="accordion" role="tablist" v-if="course.modules.length">
             <b-card
               no-body

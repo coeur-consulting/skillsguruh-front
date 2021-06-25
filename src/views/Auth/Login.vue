@@ -248,7 +248,7 @@ export default {
               .then((res) => {
                 authOrg.id = res.data.id;
                 authOrg.name = res.data.name;
-                authOrg.email = res.data.name;
+                authOrg.email = res.data.email;
                 authOrg.profile = res.data.logo;
                 authOrg.referral = res.data.referral_code;
 
@@ -288,7 +288,7 @@ export default {
               .then((res) => {
                 authAdmin.id = res.data.id;
                 authAdmin.name = res.data.name;
-                authAdmin.email = res.data.name;
+                authAdmin.email = res.data.email;
                 authAdmin.profile = res.data.profile;
                 authAdmin.org_profile = res.data.organization.logo;
                 authAdmin.org_name = res.data.organization.name;
@@ -331,7 +331,7 @@ export default {
               .then((res) => {
                 authFacilitator.id = res.data.id;
                 authFacilitator.name = res.data.name;
-                authFacilitator.email = res.data.name;
+                authFacilitator.email = res.data.email;
                 authFacilitator.profile = res.data.profile;
                 authFacilitator.interests = res.data.interests;
                 authFacilitator.org_profile = res.data.organization.logo;
@@ -378,7 +378,7 @@ export default {
                 if (res.status == 200) {
                   authLearner.id = res.data.id;
                   authLearner.name = res.data.name;
-                  authLearner.email = res.data.name;
+                  authLearner.email = res.data.email;
                   authLearner.profile = res.data.profile;
                   authLearner.interests = res.data.interests;
                   authLearner.org_profile = res.data.organization.logo;
@@ -391,11 +391,7 @@ export default {
                   );
                   this.$toast.success("Login successful");
 
-                  if (this.$route.query.course_id) {
-                    window.location.href = `/learner/courses/?course_id=${this.$route.query.course_id}`;
-                  } else {
-                    window.location.href = "/learner";
-                  }
+                  window.location.href = "/learner";
                 }
               })
               .catch(() => {
@@ -413,28 +409,6 @@ export default {
         `${this.$store.getters.url}/auth/${provider}/redirect`,
         "_blank"
       );
-    },
-    Sociallogin(provider, response) {
-      this.$http
-        .post(`${this.$store.getters.url}/auth/${provider}/callback`, response)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((err) => {
-          console.log({ err: err });
-        });
-    },
-    AuthProvider(provider) {
-      var self = this;
-
-      this.$auth
-        .authenticate(provider)
-        .then((response) => {
-          self.Sociallogin(provider, response);
-        })
-        .catch((err) => {
-          console.log({ err: err });
-        });
     },
   },
 };

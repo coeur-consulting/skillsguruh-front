@@ -9,144 +9,114 @@
           >
         </b-col>
       </b-row>
-      <b-row>
-        <b-col sm="4">
-          <div
-            class="
-              shadow
-              bg-white
-              rounded
-              p-3
-              position-relative
-              text-left
-              border-left-green
-            "
-          >
-            <b-icon
-              icon="stop-circle-fill"
-              scale="5rem"
-              class="badge"
-              variant="danger"
-            ></b-icon>
-
-            <div class="font-weight-bold fs15 mb-2">Test</div>
-            <div class="fs14 text-muted mb-1">
-              <span>Your score:</span> <span>20</span>
-            </div>
-            <div class="fs14 text-muted mb-2">
-              <span>Total score:</span> <span>20</span>
-            </div>
-            <div class="fs14 text-muted mb-3">
-              <span>Expiry date:</span> <span>12/3/2021</span>
-            </div>
+      <div v-if="assessments.length">
+        <b-row>
+          <b-col sm="4" v-for="(item, index) in filter" :key="index">
             <div
-              class="fs14 text-muted d-flex justify-content-between text-right"
+              class="
+                shadow
+                bg-white
+                rounded
+                p-3
+                position-relative
+                text-left
+                border-left-green
+              "
             >
-              <span class="fs12">
-                <span>Status:</span> <span>Pending</span></span
-              >
-              <span class="text-dark-green cursor-pointer" @click="solve()"
-                >Solve</span
-              >
-            </div>
-          </div>
-        </b-col>
-        <b-col sm="4">
-          <div
-            class="
-              shadow
-              bg-white
-              rounded
-              p-3
-              position-relative
-              text-left
-              border-left-green
-            "
-          >
-            <b-icon
-              icon="stop-circle-fill"
-              scale="5rem"
-              class="badge"
-              variant="danger"
-            ></b-icon>
+              <div class="badge">
+                <b-icon
+                  icon="stop-circle-fill"
+                  scale="1rem"
+                  class="mr-1"
+                  :class="{
+                    'text-danger': item.status == 'pending',
+                    'text-dark-green': item.status == 'active',
+                    'text-warning': item.status == 'expired',
+                  }"
+                ></b-icon>
+                <span class="text-muted fs12 text-capitalize">{{
+                  item.status
+                }}</span>
+              </div>
 
-            <div class="font-weight-bold fs15 mb-2">Test</div>
-            <div class="fs14 text-muted mb-1">
-              <span>Your score:</span> <span>20</span>
-            </div>
-            <div class="fs14 text-muted mb-2">
-              <span>Total score:</span> <span>20</span>
-            </div>
-            <div class="fs14 text-muted mb-3">
-              <span>Expiry date:</span> <span>12/3/2021</span>
-            </div>
-            <div
-              class="fs14 text-muted d-flex justify-content-between text-right"
-            >
-              <span class="fs12">
-                <span>Status:</span> <span>Pending</span></span
+              <div class="font-weight-bold fs15 mb-2 text-capitalize">
+                {{ item.questiontemplate.title }}
+              </div>
+              <div class="fs14 text-muted mb-1">
+                <span>Duration:</span> <span>{{ item.duration }} minutes</span>
+              </div>
+              <div class="fs14 text-muted mb-2">
+                <span>Total score:</span>
+                <span>{{
+                  item.questiontemplate.totalscore
+                    ? item.questiontemplate.totalscore
+                    : "N/A"
+                }}</span>
+              </div>
+              <div class="fs14 text-muted mb-1">
+                <span>Start date:</span>
+                <span>{{ item.start | moment("ll") }}</span>
+              </div>
+              <div class="fs14 text-muted mb-3">
+                <span>Expiry date:</span>
+                <span>{{ item.end | moment("ll") }}</span>
+              </div>
+              <div
+                class="
+                  fs14
+                  text-muted
+                  d-flex
+                  justify-content-between
+                  text-right
+                "
               >
-              <span class="text-dark-green cursor-pointer">Solve</span>
+                <span></span>
+                <span
+                  class="text-dark-green cursor-pointer"
+                  @click="
+                    solve(
+                      item.questiontemplate.id,
+                      $route.params.type.toLowerCase()
+                    )
+                  "
+                  >Solve</span
+                >
+              </div>
             </div>
+          </b-col>
+        </b-row>
+        <div class="p-3 d-flex justify-content-between">
+          <div class="fs12 text-muted">
+            Showing {{ perPage * currentPage - perPage + 1 }}-{{
+              perPage * currentPage
+            }}
+            of {{ assessments.length }} items
           </div>
-        </b-col>
-        <b-col sm="4">
-          <div
-            class="
-              shadow
-              bg-white
-              rounded
-              p-3
-              position-relative
-              text-left
-              border-left-green
-            "
-          >
-            <b-icon
-              icon="stop-circle-fill"
-              scale="5rem"
-              class="badge"
-              variant="danger"
-            ></b-icon>
-
-            <div class="font-weight-bold fs15 mb-2">Test</div>
-            <div class="fs14 text-muted mb-1">
-              <span>Your score:</span> <span>20</span>
-            </div>
-            <div class="fs14 text-muted mb-2">
-              <span>Total score:</span> <span>20</span>
-            </div>
-            <div class="fs14 text-muted mb-3">
-              <span>Expiry date:</span> <span>12/3/2021</span>
-            </div>
-            <div
-              class="fs14 text-muted d-flex justify-content-between text-right"
-            >
-              <span class="fs12">
-                <span>Status:</span> <span>Pending</span></span
-              >
-              <span class="text-dark-green cursor-pointer">Solve</span>
-            </div>
-          </div>
+          <b-pagination
+            pills
+            size="sm"
+            variant="dark-green"
+            align="right"
+            v-model="currentPage"
+            :total-rows="rows"
+            :per-page="perPage"
+          ></b-pagination>
+        </div>
+      </div>
+      <b-row v-else>
+        <b-col class="empty rounded p-5 text-center">
+          <h2 class="mb-3 px-2 text-muted">
+            No {{ $route.params.type }} Available
+          </h2>
+          <b-img
+            class="mb-3 px-2"
+            :src="require('@/assets/images/creator.svg')"
+          ></b-img>
+          <p class="mb-3 text-muted">
+            There appears to be no {{ $route.params.type }} available
+          </p>
         </b-col>
       </b-row>
-      <div class="p-3 d-flex justify-content-between">
-        <div class="fs12 text-muted">
-          Showing {{ perPage * currentPage - perPage + 1 }}-{{
-            perPage * currentPage
-          }}
-          of {{ users.length }} items
-        </div>
-        <b-pagination
-          pills
-          size="sm"
-          variant="dark-green"
-          align="right"
-          v-model="currentPage"
-          :total-rows="rows"
-          :per-page="perPage"
-        ></b-pagination>
-      </div>
     </b-container>
   </div>
 </template>
@@ -160,13 +130,19 @@ export default {
       perPage: 10,
       assessments: [],
       solvedAssessments: [],
+      library: [],
     };
+  },
+  mounted() {
+    this.getLibrary();
   },
   computed: {
     filter() {
       return this.assessments
         .filter((item) =>
-          item.name.toLowerCase().includes(this.search.toLowerCase())
+          item.questiontemplate.title
+            .toLowerCase()
+            .includes(this.search.toLowerCase())
         )
         .slice(
           this.perPage * this.currentPage - this.perPage,
@@ -175,6 +151,51 @@ export default {
     },
   },
   methods: {
+    getLibrary() {
+      this.$http
+        .get(`${this.$store.getters.url}/libraries`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.library = res.data;
+            this.assessments = res.data
+              .map((item) => {
+                if (item.assessment) {
+                  return item.assessment;
+                }
+              })
+              .filter(
+                (item) =>
+                  item &&
+                  item.type.toLowerCase() ==
+                    this.$route.params.type.toLowerCase()
+              );
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    getAssessments() {
+      this.$http
+        .get(`${this.$store.getters.url}/learner/assessments`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.assessments = res.data;
+            this.rows = res.data.length;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     solve(id, type) {
       if (type == "quiz") {
         this.$router.push(`/learner/solve/assessment/quiz/${id}`);
@@ -182,7 +203,6 @@ export default {
         this.$router.push(`/learner/solve/assessment/${id}`);
       }
     },
-    getAssessments() {},
     getSolvedAssessments() {},
   },
 };

@@ -367,7 +367,7 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-modal no-close-on-backdrop id="filter" hide-footer hide-header centered>
+    <b-modal id="filter" hide-footer centered>
       <div>
         <div>
           <h6 class="">Sort by</h6>

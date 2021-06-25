@@ -169,20 +169,15 @@
               </b-thead>
               <b-tbody>
                 <b-tr v-for="item in referrals" :key="item.id">
-                  <b-td
-                    v-if="item.facilitator_detail"
-                    class="text-capitalize"
-                    >{{ item.facilitator_detail.name }}</b-td
-                  >
-                  <b-td v-if="item.learner_detail" class="text-capitalize">{{
+                  <b-td class="text-capitalize">{{
                     item.learner_detail.name
                   }}</b-td>
-                  <b-td class="fs14">NGN 10.00</b-td>
+                  <b-td class="fs14">200 points</b-td>
                 </b-tr>
                 <b-tr>
                   <b-td>Total earnings</b-td>
                   <b-td class="text-dark-green font-weight-bold fs14">
-                    NGN {{ referrals.length * 10 }}.00</b-td
+                    {{ referrals.length * 200 }} points</b-td
                   >
                 </b-tr>
               </b-tbody>
@@ -220,14 +215,14 @@ export default {
       },
       referrals: [],
       email: "",
-      message: `https://skillsguruh.com/register/?referral_type=normal&referral_code=${this.$store.getters.facilitator.referral}`,
+      message: `https://skillsguruh.com/register/?referral=${this.$store.getters.facilitator.referral}`,
       communities_link: [],
     };
   },
   mounted() {
     this.getreferrals();
     this.getcommunity();
-    this.message = `https://skillsguruh.com/register/?referral_type=normal&referral_code=${this.$store.getters.facilitator.referral}`;
+    this.message = `https://skillsguruh.com/register/?referral=${this.$store.getters.facilitator.referral}`;
   },
   methods: {
     addinvite() {

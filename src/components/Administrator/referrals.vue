@@ -158,7 +158,6 @@
       <b-col sm="5">
         <div class="box">
           <h6 class="mb-4 py-2 px-3">Referral List</h6>
-
           <div class="" v-if="showReferral">
             <b-table-simple v-if="referrals.length">
               <b-thead>
@@ -170,30 +169,20 @@
               <b-tbody>
                 <b-tr v-for="item in referrals" :key="item.id">
                   <b-td class="text-capitalize">{{
-                    item.administrator_detail.name
-                  }}</b-td>
-                  <b-td
-                    v-if="item.facilitator_detail"
-                    class="text-capitalize"
-                    >{{ item.facilitator_detail.name }}</b-td
-                  >
-                  <b-td v-if="item.learner_detail" class="text-capitalize">{{
                     item.learner_detail.name
                   }}</b-td>
-                  <b-td class="fs14">NGN 10.00</b-td>
+                  <b-td class="fs14">200 points</b-td>
                 </b-tr>
                 <b-tr>
                   <b-td>Total earnings</b-td>
                   <b-td class="text-dark-green font-weight-bold fs14">
-                    NGN {{ referrals.length * 10 }}.00</b-td
+                    {{ referrals.length * 200 }} points</b-td
                   >
                 </b-tr>
               </b-tbody>
             </b-table-simple>
 
-            <h6 v-else class="text-center text-muted pb-4">
-              No Data Available
-            </h6>
+            <h6 v-else class="text-center text-muted">No Data Available</h6>
           </div>
 
           <div v-else>
@@ -225,14 +214,14 @@ export default {
       },
       referrals: [],
       email: "",
-      message: `https://skillsguruh.com/register/?referral_type=normal&referral_code=${this.$store.getters.admin.referral}`,
+      message: `https://skillsguruh.com/register/?referral=${this.$store.getters.admin.referral}`,
       communities_link: [],
     };
   },
   mounted() {
     this.getreferrals();
     this.getcommunity();
-    this.message = `https://skillsguruh.com/register/?referral_type=normal&referral_code=${this.$store.getters.admin.referral}`;
+    this.message = `https://skillsguruh.com/register/?referral=${this.$store.getters.admin.referral}`;
   },
   methods: {
     addinvite() {

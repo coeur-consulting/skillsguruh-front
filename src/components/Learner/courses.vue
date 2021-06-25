@@ -199,17 +199,22 @@
                     Modules
                   </div>
                   <div>
-                    <span class="fs13 text-muted"
-                      ><b-icon
-                        class="mr-2"
-                        :icon="
-                          course.type == 'free' ? 'unlock-fill' : 'lock-fill'
-                        "
-                      ></b-icon>
-                      <span class="text-capitalize">{{
-                        course.type
-                      }}</span></span
-                    >
+                    <span class="fs13 text-muted d-flex justify-content-between"
+                      ><span
+                        ><b-icon
+                          class="mr-2"
+                          :icon="
+                            course.type == 'free' ? 'unlock-fill' : 'lock-fill'
+                          "
+                        ></b-icon>
+                        <span class="text-capitalize">{{
+                          course.type
+                        }}</span></span
+                      >
+                      <span v-if="course.type == 'paid'">
+                        {{ course.amount | currencyFormat }}</span
+                      >
+                    </span>
                   </div>
                 </div>
 
@@ -451,7 +456,7 @@
                 v-if="!checkLibrary()"
                 class="mx-auto"
                 size="sm"
-                @click="addtolibrary(course.id)"
+                @click="purchase(course)"
                 variant="dark-green"
                 >Purchase Course</b-button
               >
@@ -561,8 +566,13 @@
                     {{ course.type }}
                   </p>
                   <p class="fs13" v-if="course.type !== 'free'">
-                    {{ course.amount }}
-                    {{ course.type == "group" ? "Participants" : "Naira" }}
+                    <span v-if="course.type == 'paid'">
+                      {{ course.amount | currencyFormat }}</span
+                    >
+                    <span v-if="course.type == 'group'">
+                      {{ course.amount }}</span
+                    >
+                    {{ course.type == "group" ? "Participants" : "" }}
                   </p>
                 </div>
                 <div class="text-right" v-if="checkCommunity(course.id)">
@@ -1077,8 +1087,13 @@
                   {{ course.type }}
                 </p>
                 <p class="fs13" v-if="course.type !== 'free'">
-                  {{ course.amount }}
-                  {{ course.type == "group" ? "Participants" : "Naira" }}
+                  <span v-if="course.type == 'paid'">
+                    {{ course.amount | currencyFormat }}</span
+                  >
+                  <span v-if="course.type == 'group'">
+                    {{ course.amount }}</span
+                  >
+                  {{ course.type == "group" ? "Participants" : "" }}
                 </p>
               </div>
               <div class="text-right" v-if="checkCommunity(course.id)">
@@ -1607,6 +1622,13 @@ export default {
     },
   },
   methods: {
+    purchase(course) {
+      // var data = {
+      //   name:course.title,
+      //   amount:course.amount
+      // }
+      this.$router.push(`/learner/order?id=${course.id}`);
+    },
     addToFeed() {
       this.feed = {
         media: this.course.cover,
@@ -1660,7 +1682,7 @@ export default {
             if (res.data) {
               this.link = `https://skillsguruh.com/explore/courses/?course=${encodeURIComponent(
                 this.course.title.trim()
-              )}&referral_code=${res.data.code}`;
+              )}&referral=${res.data.code}`;
             } else {
               this.link = `https://skillsguruh.com/explore/?course=${encodeURIComponent(
                 this.course.title.trim()
@@ -1749,7 +1771,7 @@ export default {
         .then((res) => {
           if (res.status == 201) {
             this.communitylink.push(res.data);
-            this.message = `https://skillsguruh.com/explore/courses/?course_id=${this.course.id}&referral_code=${res.data.code}`;
+            this.message = `https://skillsguruh.com/explore/courses/?course_id=${this.course.id}&referral=${res.data.code}`;
             this.$toast.info("Course link created");
             this.inviteUsers.code = res.data.code;
             this.$bvModal.show("courselink");
@@ -1776,7 +1798,7 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.message = `https://skillsguruh.com/explore/courses/?course_id=${this.course.id}&referral_code=${res.data.code}`;
+            this.message = `https://skillsguruh.com/explore/courses/?course_id=${this.course.id}&referral=${res.data.code}`;
             this.inviteUsers.code = res.data.code;
             this.$bvModal.show("sharecourse");
           }
@@ -1786,7 +1808,7 @@ export default {
         });
     },
     sharecourse(id) {
-      this.message = `https://skillsguruh.com/learner/courses?course_id=${id}`;
+      this.message = `https://skillsguruh.com/explore/courses?course_id=${id}`;
       this.$bvModal.show("sharecourse");
     },
     getCommunity() {

@@ -451,14 +451,7 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-modal
-      no-close-on-backdrop
-      hide-footer
-      hide-header
-      id="preview"
-      size="xl"
-      centered
-    >
+    <b-modal hide-footer id="preview" size="xl" centered>
       <Preview :questionnaire="questionnaire"></Preview>
     </b-modal>
   </div>

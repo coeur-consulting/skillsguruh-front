@@ -2,11 +2,32 @@
   <div>
     <b-container fluid>
       <b-row class="mb-3">
-        <b-col class="bg-white p-3 text-left d-flex justify-content-between">
-          <h5 class="text-capitalize">{{ $route.params.type }}</h5>
-          <span class="text-muted fs13 cursor-pointer" @click="$router.go(-1)"
-            ><b-icon icon="arrow-left"></b-icon> Back</span
-          >
+        <b-col
+          class="
+            bg-white
+            p-3
+            text-left
+            d-flex
+            justify-content-between
+            align-items-center
+          "
+        >
+          <div>
+            <div
+              class="text-muted fs13 cursor-pointer mb-2"
+              @click="$router.go(-1)"
+            >
+              <b-icon icon="arrow-left"></b-icon> Back
+            </div>
+            <h5 class="text-capitalize">{{ $route.params.type }}</h5>
+          </div>
+          <div>
+            <b-button
+              @click="$bvModal.show('addassessment')"
+              variant="lighter-green"
+              ><b-icon icon="plus"></b-icon> New</b-button
+            >
+          </div>
         </b-col>
       </b-row>
       <div v-if="assessments.length">
@@ -41,6 +62,14 @@
 
               <div class="font-weight-bold fs15 mb-2 text-capitalize">
                 {{ item.questiontemplate.title }}
+              </div>
+              <div class="fs14 text-muted mb-2">
+                <span>Total score:</span>
+                <span>{{
+                  item.questiontemplate.totalscore
+                    ? item.questiontemplate.totalscore
+                    : "N/A"
+                }}</span>
               </div>
 
               <div class="fs14 text-muted mb-2">
@@ -106,7 +135,9 @@
             There appears to be no {{ $route.params.type }} available <br />
             create a new one by clicking the button below
           </p>
-          <b-button @click="$bvModal.show('addassessment')" variant="dark-green"
+          <b-button
+            @click="$bvModal.show('addassessment')"
+            variant="lighter-green"
             >Add {{ $route.params.type }}</b-button
           >
         </b-col>
@@ -122,6 +153,16 @@
               )
             "
             v-model="assessment.template"
+            option-value="id"
+            option-text="title"
+            placeholder="select item"
+          >
+          </model-list-select>
+        </b-form-group>
+        <b-form-group label="Choose course">
+          <model-list-select
+            :list="courses"
+            v-model="assessment.course"
             option-value="id"
             option-text="title"
             placeholder="select item"
@@ -233,7 +274,9 @@ export default {
       solvedAssessments: [],
       template: {},
       templates: [],
+      courses: [],
       assessment: {
+        course: {},
         template: {},
         duration: "",
         start: new Date(),
@@ -247,6 +290,7 @@ export default {
   mounted() {
     this.getTemplates();
     this.getAssessments();
+    this.getcourses();
   },
   computed: {
     filter() {
@@ -263,6 +307,22 @@ export default {
     },
   },
   methods: {
+    getcourses() {
+      this.$http
+        .get(`${this.$store.getters.url}/courses`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.courses = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     create() {
       this.$http
         .post(`${this.$store.getters.url}/assessments`, this.assessment, {
@@ -271,8 +331,9 @@ export default {
           },
         })
         .then((res) => {
-          if (res.status == 200) {
+          if (res.status == 201) {
             this.assessments.unshift(res.data);
+            this.$bvModal.hide("addassessment");
           }
         })
         .catch((err) => {

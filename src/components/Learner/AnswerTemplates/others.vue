@@ -31,7 +31,7 @@
                       px-3
                       py-1
                       bg-dark-green
-                      text-lighter-green
+                      text-white
                       fs12
                     "
                   >
@@ -64,7 +64,7 @@
                 >
                   <div class="d-flex">
                     <span class="mr-2">{{ index + 1 }}.</span>
-                    <b-form-group :label="question.question">
+                    <b-form-group :label="question.question" class="flex-1">
                       <div class="mb-3" v-if="question.hint">
                         <em class="text-dark-green fs12"
                           ><b-icon icon="info-circle-fill"></b-icon>
@@ -409,7 +409,7 @@ export default {
     getQuestionnaire() {
       this.$http
         .get(
-          `${this.$store.getters.url}/question/templates/${this.$route.params.id}`,
+          `${this.$store.getters.url}/assessment/responses/${this.$route.params.id}`,
           {
             headers: {
               Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
