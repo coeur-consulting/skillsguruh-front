@@ -1026,36 +1026,23 @@ export default {
             this.$toast.success("Added successfully");
             this.allmodules();
             this.$bvModal.hide("add");
-            this.detail = {
-              module: "",
-              modules: [
-                {
-                  title: "",
-                  overview: "",
-                  file_type: "video",
-                  file: "",
-                  template: {},
-                  templates: [],
-                  type: "",
-                },
-              ],
-              cover_image: "",
-            };
+            this.detail.modules = "";
+            this.detail.modules = [
+              {
+                title: "",
+                overview: "",
+                file_type: "video",
+                file: "",
+                template: {},
+                templates: [],
+                type: "",
+              },
+            ];
+            this.details.cover_image = "";
           }
         })
-        .catch((err) => {
-          if (err.response.data.errors.email[0]) {
-            this.$toast.error(err.response.data.errors.email[0]);
-          }
-          if (err.response.data.errors.phone[0]) {
-            this.$toast.error(err.response.data.errors.phone[0]);
-          }
-          if (err.response.data.errors.name[0]) {
-            this.$toast.error(err.response.data.errors.name[0]);
-          }
-          if (err.response.data.errors.password[0]) {
-            this.$toast.error(err.response.data.errors.password[0]);
-          }
+        .catch(() => {
+          this.$toast.error("All fields required");
         });
     },
     edit(data) {
@@ -1079,26 +1066,25 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Updated successfully");
-            this.detail = {
-              module: "",
-              modules: [
-                {
-                  title: "",
-                  overview: "",
-                  file_type: "video",
-                  file: "",
-                  template: {},
-                  templates: [],
-                  type: "",
-                },
-              ],
-              cover_image: "",
-            };
+            this.detail.modules = "";
+            this.detail.modules = [
+              {
+                title: "",
+                overview: "",
+                file_type: "video",
+                file: "",
+                template: {},
+                templates: [],
+                type: "",
+              },
+            ];
+            this.details.cover_image = "";
+
             this.getmodules();
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("All fields required");
         });
     },
     drop(id) {

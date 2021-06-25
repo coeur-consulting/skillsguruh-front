@@ -1043,19 +1043,8 @@ export default {
             };
           }
         })
-        .catch((err) => {
-          if (err.response.data.errors.email[0]) {
-            this.$toast.error(err.response.data.errors.email[0]);
-          }
-          if (err.response.data.errors.phone[0]) {
-            this.$toast.error(err.response.data.errors.phone[0]);
-          }
-          if (err.response.data.errors.name[0]) {
-            this.$toast.error(err.response.data.errors.name[0]);
-          }
-          if (err.response.data.errors.password[0]) {
-            this.$toast.error(err.response.data.errors.password[0]);
-          }
+        .catch(() => {
+          this.$toast.error("All fields required");
         });
     },
     edit(data) {
@@ -1097,8 +1086,8 @@ export default {
             this.getmodules();
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("All fields required");
         });
     },
     drop(id) {
