@@ -1080,7 +1080,6 @@ export default {
           if (res.status == 200) {
             this.$toast.success("Updated successfully");
             this.detail = {
-              course_id: "",
               module: "",
               modules: [
                 {
