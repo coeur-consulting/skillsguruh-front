@@ -193,7 +193,6 @@
       <b-col sm="5">
         <div class="box">
           <h6 class="mb-4 py-2 px-3">Referral List</h6>
-
           <div class="" v-if="showReferral">
             <b-table-simple v-if="referrals.length">
               <b-thead>
