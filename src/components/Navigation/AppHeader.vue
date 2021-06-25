@@ -33,7 +33,43 @@
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">
-            <b-nav-item href="#">
+            <b-nav-item href="#" v-if="$store.getters.learners">
+              <b-button
+                class="px-4"
+                @click="$router.push('/learner')"
+                variant="lighter-green"
+              >
+                Dashboard</b-button
+              >
+            </b-nav-item>
+            <b-nav-item href="#" v-else-if="$store.getters.facilitators">
+              <b-button
+                class="px-4"
+                @click="$router.push('/facilitator')"
+                variant="lighter-green"
+              >
+                Dashboard</b-button
+              >
+            </b-nav-item>
+            <b-nav-item href="#" v-else-if="$store.getters.admin">
+              <b-button
+                class="px-4"
+                @click="$router.push('/administrator')"
+                variant="lighter-green"
+              >
+                Dashboard</b-button
+              >
+            </b-nav-item>
+            <b-nav-item href="#" v-else-if="$store.getters.organization">
+              <b-button
+                class="px-4"
+                @click="$router.push('/organization')"
+                variant="lighter-green"
+              >
+                Dashboard</b-button
+              >
+            </b-nav-item>
+            <b-nav-item href="#" v-else>
               <b-button
                 class="px-5"
                 @click="$router.push('/login')"
