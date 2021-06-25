@@ -8,28 +8,28 @@
       </div>
     </div>
     <b-container class="pb-5">
-      <b-row class="justify-content-around p-5 my-5">
-        <b-col>
-          <span class="d-flex align-items-center">
-            <b-img class="mr-2" size="2.5rem" src="/img/learner.png"></b-img>
+      <b-row class="justify-content-around p-2 p-sm-5 my-5">
+        <b-col cols="4">
+          <span class="d-flex align-items-center tpp">
+            <b-img class="mr-2 tp" size="2.5rem" src="/img/learner.png"></b-img>
             <span>
               <span class="font-weight-bold">{{ users.length }}+</span> <br />
               <span class="font-weight-bold">Happy Learner</span>
             </span>
           </span>
         </b-col>
-        <b-col>
-          <span class="d-flex align-items-center">
-            <b-img class="mr-2" size="2.5rem" src="/img/program.png"></b-img>
+        <b-col cols="4">
+          <span class="d-flex align-items-center tpp">
+            <b-img class="mr-2 tp" size="2.5rem" src="/img/program.png"></b-img>
             <span>
               <span class="font-weight-bold">{{ courses.length }}+</span> <br />
               <span class="font-weight-bold">Online Programs</span>
             </span>
           </span>
         </b-col>
-        <b-col>
-          <span class="d-flex align-items-center">
-            <b-img class="mr-2" size="2.5rem" src="/img/grp.png"></b-img>
+        <b-col cols="4">
+          <span class="d-flex align-items-center tpp">
+            <b-img class="mr-2 tp" size="2.5rem" src="/img/grp.png"></b-img>
             <span>
               <span class="font-weight-bold">{{ facilitators.length }}+</span>
               <br />
@@ -125,64 +125,64 @@
       <section class="text-center mb-5 py-5">
         <h4 class="mb-4">Explore Interest</h4>
 
-        <p class="px-5">
+        <p class="px-2 px-sm--5">
           There are several interest to be explored from health,
           entreprenuership, lifestyle , connection explore different areas of
           interest that can help improve your business skills
         </p>
 
         <b-row class="py-4">
-          <b-col class="mb-5" sm="2"
-            ><b-img src="/img/one.png" class="mb-2"></b-img>
+          <b-col class="mb-5" cols="4" sm="2"
+            ><b-img src="/img/one.png" class="mb-2 interest"></b-img>
             <h6 class="font-weight-bold">Literature</h6></b-col
           >
-          <b-col class="mb-5" sm="2"
-            ><b-img src="/img/two.png" class="mb-2"></b-img>
+          <b-col class="mb-5" cols="4" sm="2"
+            ><b-img src="/img/two.png" class="mb-2 interest"></b-img>
             <h6 class="font-weight-bold">Politics</h6>
           </b-col>
-          <b-col class="mb-5" sm="2"
-            ><b-img src="/img/three.png" class="mb-2"></b-img>
+          <b-col class="mb-5" cols="4" sm="2"
+            ><b-img src="/img/three.png" class="mb-2 interest"></b-img>
             <h6 class="font-weight-bold">Sports</h6></b-col
           >
-          <b-col class="mb-5" sm="2"
-            ><b-img src="/img/four.png" class="mb-2"></b-img>
+          <b-col class="mb-5" cols="4" sm="2"
+            ><b-img src="/img/four.png" class="mb-2 interest"></b-img>
             <h6 class="font-weight-bold">Marketing</h6></b-col
           >
-          <b-col class="mb-5" sm="2"
-            ><b-img src="/img/five.png" class="mb-2"></b-img>
+          <b-col class="mb-5" cols="4" sm="2"
+            ><b-img src="/img/five.png" class="mb-2 interest"></b-img>
             <h6 class="font-weight-bold">Health</h6></b-col
           >
-          <b-col class="mb-5" sm="2"
-            ><b-img src="/img/six.png" class="mb-2"></b-img>
+          <b-col class="mb-5" cols="4" sm="2"
+            ><b-img src="/img/six.png" class="mb-2 interest"></b-img>
             <h6 class="font-weight-bold">Tech</h6></b-col
           >
-          <b-col class="mb-5" sm="2"
-            ><b-img src="/img/seven.png" class="mb-2"></b-img>
+          <b-col class="mb-5" cols="4" sm="2"
+            ><b-img src="/img/seven.png" class="mb-2 interest"></b-img>
             <h6 class="font-weight-bold">Gaming</h6></b-col
           >
-          <b-col class="mb-5" sm="2"
-            ><b-img src="/img/eight.png" class="mb-2"></b-img>
+          <b-col class="mb-5" cols="4" sm="2"
+            ><b-img src="/img/eight.png" class="mb-2 interest"></b-img>
             <h6 class="font-weight-bold">Entrepreneurship</h6></b-col
           >
-          <b-col class="mb-5" sm="2"
-            ><b-img src="/img/nine.png" class="mb-2"></b-img>
+          <b-col class="mb-5" cols="4" sm="2"
+            ><b-img src="/img/nine.png" class="mb-2 interest"></b-img>
             <h6 class="font-weight-bold">News</h6></b-col
           >
-          <b-col class="mb-5" sm="2"
-            ><b-img src="/img/ten.png" class="mb-2"></b-img>
+          <b-col class="mb-5" cols="4" sm="2"
+            ><b-img src="/img/ten.png" class="mb-2 interest"></b-img>
             <h6 class="font-weight-bold">Community</h6></b-col
           >
-          <b-col class="mb-5" sm="2"
-            ><b-img src="/img/eleven.png" class="mb-2"></b-img>
+          <b-col class="mb-5" cols="4" sm="2"
+            ><b-img src="/img/eleven.png" class="mb-2 interest"></b-img>
             <h6 class="font-weight-bold">Art</h6>
           </b-col>
-          <b-col class="mb-5" sm="2"
-            ><b-img src="/img/twelve.png" class="mb-2"></b-img>
+          <b-col class="mb-5" cols="4" sm="2"
+            ><b-img src="/img/twelve.png" class="mb-2 interest"></b-img>
             <h6 class="font-weight-bold">Law</h6></b-col
           >
         </b-row>
       </section>
-      <section class="py-5 mb-5">
+      <section class="py-3 py-sm-5 mb-2 mb-sm-5">
         <b-row>
           <b-col sm="7">
             <div class="d-flex justify-content-between">
@@ -354,7 +354,7 @@
           </b-col>
         </b-row>
       </section>
-      <section class="py-5">
+      <section class="py-3 py-sm-5">
         <div class="d-flex justify-content-between">
           <h4 class="mb-5">Upcoming Events</h4>
           <router-link to="/events" class="text-dark-green"
@@ -606,5 +606,27 @@ export default {
 .event_img {
   height: 400px;
   object-fit: cover;
+}
+@media (max-width: 600px) {
+  .interest {
+    width: 40px;
+  }
+  h6 {
+    font-size: 14px;
+  }
+  .tpp span span {
+    font-size: 12px;
+    line-height: 1.3;
+  }
+  .tpp span {
+    line-height: 1;
+  }
+  .tp {
+    width: 30px;
+  }
+  h4,
+  h5 {
+    font-size: 1.15rem;
+  }
 }
 </style>

@@ -1623,10 +1623,6 @@ export default {
   },
   methods: {
     purchase(course) {
-      // var data = {
-      //   name:course.title,
-      //   amount:course.amount
-      // }
       this.$router.push(`/learner/order?id=${course.id}`);
     },
     addToFeed() {
