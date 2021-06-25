@@ -56,7 +56,14 @@
                       >Edit response</b-button
                     >
                   </div>
-                  <div class="text-center" v-else>
+                  <div
+                    class="text-center"
+                    v-if="
+                      myquestionnaire.find(
+                        (item) => item.question_template_id == media.template.id
+                      ).status == 'submitted'
+                    "
+                  >
                     <h3 class="mb-4">Submitted</h3>
 
                     <div>
