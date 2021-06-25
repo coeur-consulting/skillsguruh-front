@@ -22,7 +22,7 @@ export default {
   },
   data() {
     return {
-      paystackkey: "pk_live_a7a9159c8237f2a1faabbcd5058e7b5feb64c6c2", //paystack public key
+      paystackkey: "pk_test_8047f2961e0e83a7b455b8c6644b21cccb01d900", //paystack public key
       email: "foobar@example.com", // Customer email
       amount: 1000000, // in kobo
     };
@@ -41,6 +41,8 @@ export default {
   },
 
   methods: {
+    // pk_test_8047f2961e0e83a7b455b8c6644b21cccb01d900
+    // pk_live_a7a9159c8237f2a1faabbcd5058e7b5feb64c6c2
     callback: function (response) {
       response.course_id = this.$props.course_id;
       this.$http

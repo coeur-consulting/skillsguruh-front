@@ -216,7 +216,7 @@
               </div>
             </div>
 
-            <div class="d-flex justify-content-between my-4">
+            <div class="d-flex justify-content-between mt-5 my-4">
               <b-button
                 size="sm"
                 type="button"
@@ -234,14 +234,25 @@
                 @click="section++"
                 >Next Section</b-button
               >
-              <b-button
-                size="sm"
-                class="ml-auto"
-                variant="outline-dark-green"
-                v-show="questionnaire.sections.length - 1 == section"
-                type="submit"
-                >Submit</b-button
-              >
+              <span class="ml-auto">
+                <b-button
+                  size="sm"
+                  class="mr-3"
+                  variant="lighter-green"
+                  v-show="questionnaire.sections.length - 1 == section"
+                  @click="saveforlater"
+                  >Save for later</b-button
+                >
+
+                <b-button
+                  size="sm"
+                  class=""
+                  variant="dark-green"
+                  v-show="questionnaire.sections.length - 1 == section"
+                  type="submit"
+                  >Submit</b-button
+                >
+              </span>
             </div>
           </div>
         </div>
@@ -251,7 +262,7 @@
 </template>
 <script>
 export default {
-  props: ["id", "course_id"],
+  props: ["id", "course_id", "module_id", "myquestionnaire"],
   data() {
     return {
       questionnaire: {
@@ -309,6 +320,9 @@ export default {
     id: "getQuestionnaire",
   },
   computed: {
+    myquest() {
+      return this.$props.myquestionnaire;
+    },
     totalscore() {
       var arr = [];
       this.questionnaire.sections.forEach((item) => {
@@ -332,29 +346,44 @@ export default {
   },
   methods: {
     getQuestionnaire() {
-      this.$http
-        .get(
-          `${this.$store.getters.url}/question/templates/${this.$props.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
-          }
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.questionnaire.id = res.data.id;
-            this.questionnaire.module_id = res.data.module_id;
-            this.questionnaire.module_name = res.data.module_name;
-            this.questionnaire.course_id = res.data.course_id;
-            this.questionnaire.course_title = res.data.course_title;
-            this.questionnaire.title = res.data.title;
-            this.questionnaire.showFeedback = res.data.showFeedback;
-            this.questionnaire.feedback = res.data.feedback;
-            this.questionnaire.showScores = res.data.showScores;
-            this.questionnaire.sections = JSON.parse(res.data.sections);
-          }
-        });
+      if (this.myquest) {
+        var myquest = JSON.parse(this.$props.myquestionnaire.content);
+
+        this.questionnaire.id = myquest.id;
+        this.questionnaire.module_id = this.$props.myquestionnaire.module_id;
+        // this.questionnaire.module_name = myquest.module_name;
+        this.questionnaire.course_id = this.$props.myquestionnaire.course_id;
+        this.questionnaire.course_title = myquest.course_title;
+        this.questionnaire.title = myquest.title;
+        this.questionnaire.showFeedback = myquest.showFeedback;
+        this.questionnaire.feedback = myquest.feedback;
+        this.questionnaire.showScores = myquest.showScores;
+        this.questionnaire.sections = myquest.sections;
+      } else {
+        this.$http
+          .get(
+            `${this.$store.getters.url}/question/templates/${this.$props.id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+              },
+            }
+          )
+          .then((res) => {
+            if (res.status == 200) {
+              this.questionnaire.id = res.data.id;
+              this.questionnaire.module_id = res.data.module_id;
+              this.questionnaire.module_name = res.data.module_name;
+              this.questionnaire.course_id = res.data.course_id;
+              this.questionnaire.course_title = res.data.course_title;
+              this.questionnaire.title = res.data.title;
+              this.questionnaire.showFeedback = res.data.showFeedback;
+              this.questionnaire.feedback = res.data.feedback;
+              this.questionnaire.showScores = res.data.showScores;
+              this.questionnaire.sections = JSON.parse(res.data.sections);
+            }
+          });
+      }
     },
     handleResponse() {
       var arr = [];
@@ -406,7 +435,7 @@ export default {
       this.$bvModal.msgBoxConfirm("Are you sure?").then((response) => {
         if (response) {
           var data = {
-            module_id: this.questionnaire.module_id,
+            module_id: this.$props.module_id,
             course_id: this.$props.course_id,
             content: this.questionnaire,
             questionnaire_id: this.$props.id,
@@ -414,6 +443,7 @@ export default {
             template_id: this.$props.id,
             your_score: this.current_score,
             total_score: this.totalscore,
+            status: "submitted",
           };
           this.$http
             .post(`${this.$store.getters.url}/answer-questionnaires`, data, {
@@ -426,7 +456,49 @@ export default {
                 this.$emit("handleCheck");
                 this.$bvModal
                   .msgBoxOk(
-                    "Questionnaire was submitted successfully, Thank you for your feedback",
+                    "Submitted successfully, Thank you for your feedback",
+                    {
+                      noCloseOnBackdrop: true,
+                      size: "sm",
+                      buttonSize: "sm",
+                      okVariant: "dark-green",
+                      headerClass: "p-2 border-bottom-0",
+                      footerClass: "p-2 border-top-0",
+                      centered: true,
+                    }
+                  )
+                  .then(() => {});
+              }
+            });
+        }
+      });
+    },
+    saveforlater() {
+      this.$bvModal.msgBoxConfirm("Are you sure?").then((response) => {
+        if (response) {
+          var data = {
+            module_id: this.$props.module_id,
+            course_id: this.$props.course_id,
+            content: this.questionnaire,
+            questionnaire_id: this.$props.id,
+            response: this.questionnaire,
+            template_id: this.$props.id,
+            your_score: this.current_score,
+            total_score: this.totalscore,
+            status: "draft",
+          };
+          this.$http
+            .post(`${this.$store.getters.url}/answer-questionnaires`, data, {
+              headers: {
+                Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+              },
+            })
+            .then((res) => {
+              if (res.status == 201) {
+                this.$emit("handleCheck");
+                this.$bvModal
+                  .msgBoxOk(
+                    "Submitted successfully, Thank you for your feedback",
                     {
                       noCloseOnBackdrop: true,
                       size: "sm",

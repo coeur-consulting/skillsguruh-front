@@ -1200,7 +1200,7 @@ const routes = [
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerassessment" */ "@/components/Learner/assessment.vue"
+              /* webpackChunkName: "Learnerassessment" */ "@/components/Learner/learnerassessment.vue"
             ),
         },
         meta: {

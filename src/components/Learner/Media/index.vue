@@ -13,7 +13,10 @@
                   v-if="
                     myquestionnaire.find(
                       (item) => item.question_template_id == media.template.id
-                    )
+                    ) &&
+                    myquestionnaire.find(
+                      (item) => item.question_template_id == media.template.id
+                    ).status !== 'edit'
                   "
                   style="height: 500px"
                   class="
@@ -23,19 +26,63 @@
                     bg-white
                   "
                 >
-                  <div>
-                    <h3 class="mb-4">Alreaded Submitted</h3>
+                  <div
+                    v-if="
+                      myquestionnaire.find(
+                        (item) => item.question_template_id == media.template.id
+                      ).status == 'draft'
+                    "
+                  >
+                    <h3 class="mb-4">Saved for later</h3>
 
-                    <b-icon
-                      icon="check2-circle"
-                      variant="dark-green"
-                      font-scale="5"
-                    ></b-icon>
+                    <div>
+                      <b-icon
+                        icon="check2-circle"
+                        variant="dark-green"
+                        font-scale="5"
+                        class="mb-4"
+                      ></b-icon>
+                    </div>
+                    <b-button
+                      variant="lighter-green"
+                      @click="
+                        editresponse(
+                          myquestionnaire.find(
+                            (item) =>
+                              item.question_template_id == media.template.id
+                          ).id
+                        )
+                      "
+                      >Edit response</b-button
+                    >
+                  </div>
+                  <div class="text-center" v-else>
+                    <h3 class="mb-4">Submitted</h3>
+
+                    <div>
+                      <b-icon
+                        icon="check2-circle"
+                        variant="dark-green"
+                        font-scale="5"
+                        class="mb-4"
+                      ></b-icon>
+                    </div>
+                    <b-button
+                      variant="lighter-green"
+                      @click="$router.push('/learner/assessments')"
+                      >View response</b-button
+                    >
                   </div>
                 </div>
                 <Questionnaire
                   v-else
+                  :myquestionnaire="
+                    myquestionnaire.find(
+                      (item) => item.question_template_id == media.template.id
+                    )
+                  "
                   @handleCheck="handleCheck"
+                  :module_id="module_id"
                   :id="media.template.id"
                   :course_id="$route.params.id"
                 />
@@ -333,12 +380,25 @@ export default {
     Questionnaire,
     StarRating,
   },
-  created() {
-    this.getLibrary();
+  mounted() {
+    this.getQuestionnaire();
   },
   methods: {
+    editresponse(id) {
+      this.$http
+        .get(`${this.$store.getters.url}/edit/response/${id}`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.getQuestionnaire();
+          }
+        });
+    },
     handleCheck() {
-      this.$bvModal.hide("questionnaire");
+      this.getQuestionnaire();
     },
     postReview() {
       var data = {
@@ -385,6 +445,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.myquestionnaire = res.data;
+            this.getLibrary();
           }
         });
     },

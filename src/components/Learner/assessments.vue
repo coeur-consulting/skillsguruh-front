@@ -7,7 +7,7 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-col sm="4">
+        <b-col sm="4" class="mb-4">
           <div
             class="
               shadow
@@ -31,7 +31,7 @@
             <p class="fs15 text-muted">View all assignments here</p>
           </div>
         </b-col>
-        <b-col sm="4">
+        <b-col sm="4" class="mb-4">
           <div
             class="
               shadow
@@ -55,7 +55,7 @@
             <p class="fs15 text-muted">View all quizzes here</p>
           </div>
         </b-col>
-        <b-col sm="4">
+        <b-col sm="4" class="mb-4">
           <div
             class="
               shadow
@@ -77,6 +77,30 @@
             ></b-img>
             <div class="font-weight-bold fs15">Test</div>
             <p class="fs15 text-muted">View all tests here</p>
+          </div>
+        </b-col>
+        <b-col sm="4" class="mb-4">
+          <div
+            class="
+              shadow
+              bg-white
+              rounded
+              p-3
+              position-relative
+              text-left
+              cursor-pointer
+            "
+            @click="$router.push('/learner/assessment/template')"
+          >
+            <b-badge class="badge" variant="danger">{{ template }}</b-badge>
+            <b-img
+              :src="require('@/assets/images/ass1.png')"
+              alt="templates"
+              fluid-grow
+              class="mb-3"
+            ></b-img>
+            <div class="font-weight-bold fs15">Templates</div>
+            <p class="fs15 text-muted">View all templates here</p>
           </div>
         </b-col>
       </b-row>
@@ -107,6 +131,9 @@ export default {
     },
     test() {
       return this.assessments.filter((item) => item.type == "test").length;
+    },
+    template() {
+      return this.assessments.filter((item) => item.type == "template").length;
     },
   },
   methods: {

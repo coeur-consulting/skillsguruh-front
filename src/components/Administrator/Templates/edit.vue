@@ -24,6 +24,9 @@
                     <b-form-select-option disabled value=""
                       >Choose type</b-form-select-option
                     >
+                    <b-form-select-option value="template"
+                      >Template</b-form-select-option
+                    >
                     <b-form-select-option value="quiz"
                       >Quiz</b-form-select-option
                     >
