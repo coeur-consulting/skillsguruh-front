@@ -199,12 +199,7 @@
 
     <div class="d-flex align-items-center">
       <div class="position-relative mr-4">
-        <b-icon
-          id="bell"
-          icon="bell"
-          font-scale="1.5rem"
-          class="text-dark-green"
-        ></b-icon>
+         <bell-icon size="1.5x" class="custom-class text-dark-green" id="bell"></bell-icon>
         <small class="notify_badge">
           <b-badge variant="danger" v-if="unreadnotifications.length">{{
             unreadnotifications.length
@@ -271,13 +266,7 @@
           No new notification !
         </div>
       </b-popover>
-
-      <b-icon
-        icon="envelope"
-        id="inbox"
-        font-scale="1.5rem"
-        class="mr-4 text-muted cursor-pointer"
-      ></b-icon>
+        <mail-icon size="1.5x" class="custom-class mr-4 text-muted" id="inbox"></mail-icon>
 
       <b-popover id="inbox1" target="inbox" triggers="hover" placement="bottom">
         <template #title>Inbox</template>
@@ -347,11 +336,14 @@
 </template>
 <script>
 import { PushRotate } from "vue-burger-menu";
+import {MailIcon, BellIcon} from "vue-feather-icons"
 import Minichat from "../minichat";
 export default {
   components: {
     PushRotate,
     Minichat,
+    MailIcon,
+    BellIcon
   },
   data() {
     return {

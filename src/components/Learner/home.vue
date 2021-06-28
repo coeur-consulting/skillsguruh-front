@@ -1,160 +1,10 @@
 <template>
   <div>
-    <b-container class="position-relative">
-      <b-row class="position-relative">
-        <div class="border bg-white rounded p-3 py-5 side_box text-center">
-          <div class="sided">
-            <div class="turn_over_box tools">
-              <div class="mb-4">
-                <vc-calendar
-                  class="custom-calendar max-w-full"
-                  :masks="masks"
-                  :attributes="attributes"
-                  disable-page-swipe
-                  is-expanded
-                  title-position="left"
-                >
-                  <template #day-popover="{ dayTitle, attributes }">
-                    <div
-                      class="text-xs text-gray-300 font-semibold text-center"
-                    >
-                      {{ dayTitle }}
-                    </div>
-                    <popover-row
-                      v-for="attr in attributes"
-                      :key="attr.key"
-                      :attribute="attr"
-                      class="border-bottom pb-2"
-                    >
-                      <div>
-                        <p class="fs11 mb-0 text-capitalize">
-                          <span class="mr-2"> {{ attr.customData.type }} </span>
-                        </p>
-                        <p class="mb-1 text-capitalize">
-                          {{ attr.customData.title }}
-                        </p>
-                      </div>
-                    </popover-row>
-                  </template>
-                </vc-calendar>
-              </div>
-              <div class="mb-4">
-                <Todo user="learner" />
-              </div>
+    <b-container fluid>
 
-              <div class="bg-light rounded p-3">
-                <h6 class="mb-3 text-center">Connect with people</h6>
-
-                <div v-if="showConnect">
-                  <div v-if="connections.length">
-                    <div
-                      class="d-flex mb-3"
-                      v-for="user in connections.slice(0, 5)"
-                      :key="user.id"
-                    >
-                      <div class="d-flex flex-1">
-                        <b-avatar
-                          size="sm"
-                          :src="user.profile"
-                          class="mr-2"
-                        ></b-avatar>
-                        <div class="text-left">
-                          <div
-                            class="
-                              fs12
-                              font-weight-bold
-                              text-capitalize text-left
-                            "
-                          >
-                            {{ user.name }}
-                          </div>
-                          <div style="line-height: 1">
-                            <span class="fs11">Lagos,Nigeria</span> <br /><span
-                              class="fs11"
-                              >{{ user.similar }} similar insights</span
-                            >
-                          </div>
-                        </div>
-                      </div>
-                      <b-dropdown
-                        size="sm"
-                        variant="transparent"
-                        no-caret
-                        class="no-focus drop"
-                      >
-                        <template #button-content>
-                          <b-icon
-                            icon="three-dots-vertical"
-                            font-scale="1.4"
-                          ></b-icon>
-                        </template>
-                        <b-dropdown-item
-                          class="fs12"
-                          @click="addconnections(user.id, 'user')"
-                          >Connect</b-dropdown-item
-                        >
-                      </b-dropdown>
-                    </div>
-                  </div>
-                  <div v-else class="text-muted text-center p-3 fs13">
-                    Unavailable
-                  </div>
-                </div>
-
-                <div v-else>
-                  <div class="d-flex w-100 mb-3">
-                    <div class="mr-2">
-                      <b-skeleton type="avatar"></b-skeleton>
-                    </div>
-                    <div class="w-100">
-                      <b-skeleton animation="wave" width="85%"></b-skeleton>
-                      <b-skeleton animation="wave" width="35%"></b-skeleton>
-                    </div>
-                  </div>
-                  <div class="d-flex w-100">
-                    <div class="mr-2">
-                      <b-skeleton type="avatar"></b-skeleton>
-                    </div>
-                    <div class="w-100">
-                      <b-skeleton animation="wave" width="85%"></b-skeleton>
-                      <b-skeleton animation="wave" width="35%"></b-skeleton>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="tools_icons">
-              <div class="mb-5">
-                <img
-                  :src="require('@/assets/images/calendar.svg')"
-                  width="40"
-                  height="40"
-                  alt=""
-                  class="cursor-pointer"
-                />
-              </div>
-              <div class="mb-5">
-                <img
-                  :src="require('@/assets/images/to-do.svg')"
-                  width="40"
-                  height="40"
-                  alt=""
-                  class="cursor-pointer"
-                />
-              </div>
-              <div class="mb-4">
-                <img
-                  :src="require('@/assets/images/network.svg')"
-                  width="40"
-                  height="40"
-                  alt=""
-                  class="cursor-pointer"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="main_box">
+      <b-row class="">
+         <b-col md="8">
+           <div class="main_box pt-3">
           <div
             class="
               top_banner
@@ -205,7 +55,7 @@
               <div v-if="courseShown == 'recommended'">
                 <b-row v-if="courses.length">
                   <b-col
-                    sm="3"
+                    md="4"
                     class="pr-2"
                     v-for="item in courses.slice(0, 3)"
                     :key="item.id"
@@ -301,7 +151,7 @@
               <div v-if="courseShown == 'enrolled'">
                 <b-row v-if="library.length">
                   <b-col
-                    sm="3"
+                    md="4"
                     class="pr-2"
                     v-for="item in library.slice(0, 3)"
                     :key="item.id"
@@ -420,6 +270,130 @@
             <Discussions></Discussions>
           </div>
         </div>
+        </b-col>
+        <b-col md="4">
+          <div class="border bg-white rounded p-3 py-5  text-center">
+              <div class="mb-4">
+                <vc-calendar
+                  class="custom-calendar max-w-full"
+                  :masks="masks"
+                  :attributes="attributes"
+                  disable-page-swipe
+                  is-expanded
+                  title-position="left"
+                >
+                  <template #day-popover="{ dayTitle, attributes }">
+                    <div
+                      class="text-xs text-gray-300 font-semibold text-center"
+                    >
+                      {{ dayTitle }}
+                    </div>
+                    <popover-row
+                      v-for="attr in attributes"
+                      :key="attr.key"
+                      :attribute="attr"
+                      class="border-bottom pb-2"
+                    >
+                      <div>
+                        <p class="fs11 mb-0 text-capitalize">
+                          <span class="mr-2"> {{ attr.customData.type }} </span>
+                        </p>
+                        <p class="mb-1 text-capitalize">
+                          {{ attr.customData.title }}
+                        </p>
+                      </div>
+                    </popover-row>
+                  </template>
+                </vc-calendar>
+              </div>
+               <div class="mb-4">
+                <Todo user="learner" />
+              </div>
+
+              <div class="bg-light rounded p-3">
+                <h6 class="mb-3 text-center">Connect with people</h6>
+
+                <div v-if="showConnect">
+                  <div v-if="connections.length">
+                    <div
+                      class="d-flex mb-3"
+                      v-for="user in connections.slice(0, 5)"
+                      :key="user.id"
+                    >
+                      <div class="d-flex flex-1">
+                        <b-avatar
+                          size="sm"
+                          :src="user.profile"
+                          class="mr-2"
+                        ></b-avatar>
+                        <div class="text-left">
+                          <div
+                            class="
+                              fs12
+                              font-weight-bold
+                              text-capitalize text-left
+                            "
+                          >
+                            {{ user.name }}
+                          </div>
+                          <div style="line-height: 1">
+                            <span class="fs11">Lagos,Nigeria</span> <br /><span
+                              class="fs11"
+                              >{{ user.similar }} similar insights</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <b-dropdown
+                        size="sm"
+                        variant="transparent"
+                        no-caret
+                        class="no-focus drop"
+                      >
+                        <template #button-content>
+                          <b-icon
+                            icon="three-dots-vertical"
+                            font-scale="1.4"
+                          ></b-icon>
+                        </template>
+                        <b-dropdown-item
+                          class="fs12"
+                          @click="addconnections(user.id, 'user')"
+                          >Connect</b-dropdown-item
+                        >
+                      </b-dropdown>
+                    </div>
+                  </div>
+                  <div v-else class="text-muted text-center p-3 fs13">
+                    Unavailable
+                  </div>
+                </div>
+
+                <div v-else>
+                  <div class="d-flex w-100 mb-3">
+                    <div class="mr-2">
+                      <b-skeleton type="avatar"></b-skeleton>
+                    </div>
+                    <div class="w-100">
+                      <b-skeleton animation="wave" width="85%"></b-skeleton>
+                      <b-skeleton animation="wave" width="35%"></b-skeleton>
+                    </div>
+                  </div>
+                  <div class="d-flex w-100">
+                    <div class="mr-2">
+                      <b-skeleton type="avatar"></b-skeleton>
+                    </div>
+                    <div class="w-100">
+                      <b-skeleton animation="wave" width="85%"></b-skeleton>
+                      <b-skeleton animation="wave" width="35%"></b-skeleton>
+                    </div>
+                  </div>
+                </div>
+              </div>
+         
+        </div>
+        </b-col>
+       
       </b-row>
     </b-container>
   </div>
