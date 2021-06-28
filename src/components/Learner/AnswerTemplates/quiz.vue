@@ -2,7 +2,7 @@
   <div>
     <b-form @submit.prevent="submit" id="form">
       <b-container class="py-3 px-0 text-left" v-if="questionnaire.sections">
-        <h5 class="mb-4">{{ questionnaire.title }}</h5>
+        <h5 class="mb-4 text-capitalize">{{ questionnaire.title }}</h5>
         <b-row>
           <b-col sm="10">
             <div class="mb-4 border-bottom">

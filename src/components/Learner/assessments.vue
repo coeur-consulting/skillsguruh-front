@@ -2,7 +2,7 @@
   <div>
     <b-container fluid>
       <b-row class="mb-3">
-        <b-col class="bg-white p-3 text-left">
+        <b-col class="mybg-white p-3 text-left">
           <h5>Assessments</h5>
         </b-col>
       </b-row>
@@ -20,7 +20,7 @@
             "
             @click="$router.push('/learner/assessment/assignment')"
           >
-            <b-badge class="badge" variant="danger">{{ assignment }}</b-badge>
+            <b-badge class="mybadge" variant="danger">{{ assignment }}</b-badge>
             <b-img
               :src="require('@/assets/images/ass3.png')"
               fluid-grow
@@ -44,7 +44,7 @@
             "
             @click="$router.push('/learner/assessment/quiz')"
           >
-            <b-badge class="badge" variant="danger">{{ quiz }}</b-badge>
+            <b-badge class="mybadge" variant="danger">{{ quiz }}</b-badge>
             <b-img
               :src="require('@/assets/images/ass2.png')"
               alt="quiz"
@@ -68,7 +68,7 @@
             "
             @click="$router.push('/learner/assessment/test')"
           >
-            <b-badge class="badge" variant="danger">{{ test }}</b-badge>
+            <b-badge class="mybadge" variant="danger">{{ test }}</b-badge>
             <b-img
               :src="require('@/assets/images/ass1.png')"
               alt="test"
@@ -92,7 +92,18 @@
             "
             @click="$router.push('/learner/assessment/template')"
           >
-            <b-badge class="badge" variant="danger">{{ template }}</b-badge>
+            <div class="mybadge">
+              <div>
+                <b-badge variant="dark-green"
+                  >Submitted {{ submittedtemplate }}
+                </b-badge>
+              </div>
+
+              <div>
+                <b-badge variant="warning">Draft {{ drafttemplate }} </b-badge>
+              </div>
+            </div>
+
             <b-img
               :src="require('@/assets/images/ass1.png')"
               alt="templates"
@@ -112,10 +123,13 @@ export default {
   data() {
     return {
       assessments: [],
+      myquestionnaire: [],
     };
   },
   mounted() {
     this.getLibrary();
+    this.addAssessments();
+    this.getQuestionnaire();
   },
   computed: {
     quiz() {
@@ -132,11 +146,29 @@ export default {
     test() {
       return this.assessments.filter((item) => item.type == "test").length;
     },
-    template() {
-      return this.assessments.filter((item) => item.type == "template").length;
+    submittedtemplate() {
+      return this.myquestionnaire.filter((item) => item.status == "submitted")
+        .length;
+    },
+    drafttemplate() {
+      return this.myquestionnaire.filter((item) => item.status == "draft")
+        .length;
     },
   },
   methods: {
+    getQuestionnaire() {
+      this.$http
+        .get(`${this.$store.getters.url}/answer-questionnaires`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.myquestionnaire = res.data;
+          }
+        });
+    },
     getLibrary() {
       this.$http
         .get(`${this.$store.getters.url}/libraries`, {
@@ -160,9 +192,9 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
-    getAssessments() {
+    addAssessments() {
       this.$http
-        .get(`${this.$store.getters.url}/learner/assessments`, {
+        .get(`${this.$store.getters.url}/add/assessment`, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
@@ -170,9 +202,9 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.assessments = res.data;
-            this.rows = res.data.length;
           }
         })
+
         .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
@@ -181,7 +213,7 @@ export default {
 };
 </script>
 <style scoped>
-.badge {
+.mybadge {
   position: absolute;
   top: 13px;
   right: 13px;

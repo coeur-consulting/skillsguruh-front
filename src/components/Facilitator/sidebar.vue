@@ -139,7 +139,7 @@
             <b-icon
               icon="app-indicator"
               font-scale="1.1"
-              class="mr-3 text-dark-green"
+              class="mr-2 text-dark-green"
             ></b-icon>
             <span class="side-link">Explore</span>
           </div></router-link
@@ -149,7 +149,7 @@
             <b-icon
               icon="arrow-left"
               font-scale="1.1"
-              class="mr-3 text-dark-green"
+              class="mr-2 text-dark-green"
             ></b-icon>
             <span class="side-link">Back to Home</span>
           </div>

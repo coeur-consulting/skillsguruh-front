@@ -12,7 +12,7 @@
               mb-4
             "
           >
-            <h6 class="mb-3 mb-sm-0">List</h6>
+            <h6 class="mb-3 mb-sm-0 text-capitalize">{{ title }}</h6>
             <div>
               <b-form-input
                 placeholder="Search"
@@ -26,31 +26,24 @@
 
           <div class="border rounded bg-white">
             <div
-              v-if="users.length"
+              v-if="assessments.length"
               class="d-flex justify-content-between align-items-center p-3 e"
             >
               <b-icon icon="funnel"></b-icon>
-              <div>
-                <b-button variant="dark-green" size="sm">
-                  <b-icon
-                    icon="plus"
-                    @click="$bvModal.show('add')"
-                    font-scale="1.5"
-                  ></b-icon
-                ></b-button>
-              </div>
+              <div></div>
             </div>
 
-            <div class="" v-if="users.length">
+            <div class="" v-if="assessments.length">
               <b-table-simple class="org_home_table text-left" responsive="sm">
                 <b-thead>
                   <b-tr class="text-left">
                     <b-th class="text-muted">Name</b-th>
-                    <b-th class="text-muted">Submitted</b-th>
-                    <b-th class="text-muted">Score</b-th>
-                    <b-th class="text-muted">Status</b-th>
-                    <b-th></b-th> </b-tr
-                ></b-thead>
+                    <b-th class="text-muted">Student score</b-th>
+                    <b-th class="text-muted">Total score</b-th>
+
+                    <b-th class="text-muted">Action</b-th>
+                  </b-tr></b-thead
+                >
                 <b-tbody>
                   <b-tr v-for="item in filter" :key="item.id">
                     <b-td>
@@ -61,48 +54,25 @@
                           class="mr-2"
                         ></b-avatar>
                         <div class="text-left">
-                          <span class="text-capitalize">{{ item.name }}</span>
-                          <br />
-                          <span class="text-muted">{{ item.email }}</span>
+                          <span class="text-capitalize">{{
+                            item.user.name
+                          }}</span>
                         </div>
                       </div>
                     </b-td>
-                    <b-td>
-                      <div class="text-left" v-if="item.loginhistory.length">
-                        <span v-if="item.loginhistory.length">{{
-                          item.loginhistory[item.loginhistory.length - 1].record
-                            | moment("ll")
-                        }}</span>
-                        <br />
-                        <span
-                          class="text-muted"
-                          v-if="item.loginhistory.length"
-                          >{{
-                            $moment(
-                              item.loginhistory[item.loginhistory.length - 1]
-                                .record
-                            ).fromNow()
-                          }}</span
-                        >
-                      </div>
-                      <div class="text-left" v-else>Not available</div>
+
+                    <b-td class="text-capitalize">
+                      {{ item.your_score }}
                     </b-td>
-                    <b-td class="text-capitalize"> {{ item.phone }} </b-td>
-                    <b-td
-                      class="text-left"
-                      :class="{
-                        'text-success': item.verification,
-                        'text-danger': !item.verification,
-                      }"
-                      >{{ item.verification ? "Active" : "Inactive" }}</b-td
-                    >
+                    <b-td class="text-left">{{ item.total_score }}</b-td>
+
                     <b-td
                       ><b-button-group size="sm">
                         <b-button
                           variant="light"
-                          @click="viewsheet(item)"
+                          @click="$bvModal.show('viewsheet')"
                           class="fs12 text-muted px-2"
-                          >View</b-button
+                          >View response</b-button
                         >
                         <b-button variant="lighter-green">
                           <b-icon
@@ -129,7 +99,7 @@
                   Showing {{ perPage * currentPage - perPage + 1 }}-{{
                     perPage * currentPage
                   }}
-                  of {{ users.length }} items
+                  of {{ assessments.length }} items
                 </div>
                 <b-pagination
                   pills
@@ -164,11 +134,12 @@
     </b-container>
 
     <b-modal no-close-on-backdrop id="viewsheet" hide-footer centered size="lg">
-      <b-form @submit.prevent="updatesheet"> </b-form>
+      <Approved :myquestionnaire="assessments.response" />
     </b-modal>
   </div>
 </template>
 <script>
+import Approved from "./approveAssessment.vue";
 export default {
   data() {
     return {
@@ -177,21 +148,17 @@ export default {
       currentPage: 1,
       rows: null,
       perPage: 10,
-      users: [],
-      user: {
-        name: "",
-        email: "",
-        phone: "",
-        password: "",
-      },
+      assessments: [],
+      title: "",
       result: [],
+      myquestionnaire: null,
     };
   },
   computed: {
     filter() {
-      return this.users
+      return this.assessments
         .filter((item) =>
-          item.name.toLowerCase().includes(this.search.toLowerCase())
+          item.user.name.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
           this.perPage * this.currentPage - this.perPage,
@@ -199,21 +166,28 @@ export default {
         );
     },
   },
+  components: {
+    Approved,
+  },
   mounted() {
-    this.getusers();
+    this.getassessments();
   },
   methods: {
-    getusers() {
+    getassessments() {
       this.$http
-        .get(`${this.$store.getters.url}/facilitator-get-users`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
-        })
+        .get(
+          `${this.$store.getters.url}/assessments/${this.$route.params.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
+          }
+        )
         .then((res) => {
           if (res.status == 200) {
-            this.users = res.data;
-            this.rows = res.data.length;
+            this.title = res.data.questiontemplate.title;
+            this.assessments = res.data.assessmentresponse;
+            this.rows = res.data.assessmentresponse.length;
           }
         })
         .catch((err) => {

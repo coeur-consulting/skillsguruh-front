@@ -114,10 +114,15 @@
                             >{{ item.enroll ? item.enroll.count : 0 }}+</span
                           >
                         </div>
-                        <!-- <div class="mr-3">
-                              <b-icon icon="eye" class="mr-1"></b-icon>
-                              <span>250+</span>
-                            </div> -->
+                        <div class="mr-3">
+                          <b-icon icon="eye" class="mr-1"></b-icon>
+                          <span
+                            >{{
+                              item.viewcount ? item.viewcount.count : 0
+                            }}
+                            +</span
+                          >
+                        </div>
                         <div>
                           <b-icon
                             icon="star-fill"
@@ -709,13 +714,7 @@
             class="mb-4 px-3"
             :src="require('@/assets/images/creator.svg')"
           ></b-img>
-          <p class="mb-3">
-            There appears to be no course available <br />
-            please create a new course by clicking the button below
-          </p>
-          <b-button @click="$bvModal.show('addcourse')" variant="dark-green"
-            >Add course</b-button
-          >
+          <p class="mb-3">There appears to be no course available</p>
         </b-col>
       </b-row>
     </b-container>
@@ -1241,6 +1240,9 @@ export default {
     },
   },
   methods: {
+    addcount(id) {
+      this.$http.get(`${this.$store.getters.url}/course/view/${id}`);
+    },
     addcourse() {
       this.$toast.info("Register to enroll");
       this.$router.push(
@@ -1275,6 +1277,7 @@ export default {
     },
     showcourse(val) {
       this.course = val;
+      this.addcount(val.id);
       if (window.innerWidth < 600) {
         this.$bvModal.show("mobile-course");
       }

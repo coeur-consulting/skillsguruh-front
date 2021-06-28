@@ -3,7 +3,7 @@
     <b-form @submit.prevent="submit">
       <b-container class="py-3 px-0 text-left" v-if="questionnaire.sections">
         <div class="text-left">
-          <h5 class="mb-4 text-capitalize">{{ questionnaire.title }}</h5>
+          <h5 class="mb-4">{{ questionnaire.title }}</h5>
           <div>
             <em class="text-lighter-green fs12">{{ questionnaire.hint }}</em>
           </div>
@@ -359,30 +359,6 @@ export default {
         this.questionnaire.feedback = myquest.feedback;
         this.questionnaire.showScores = myquest.showScores;
         this.questionnaire.sections = myquest.sections;
-      } else {
-        this.$http
-          .get(
-            `${this.$store.getters.url}/question/templates/${this.$props.id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-              },
-            }
-          )
-          .then((res) => {
-            if (res.status == 200) {
-              this.questionnaire.id = res.data.id;
-              this.questionnaire.module_id = res.data.module_id;
-              this.questionnaire.module_name = res.data.module_name;
-              this.questionnaire.course_id = res.data.course_id;
-              this.questionnaire.course_title = res.data.course_title;
-              this.questionnaire.title = res.data.title;
-              this.questionnaire.showFeedback = res.data.showFeedback;
-              this.questionnaire.feedback = res.data.feedback;
-              this.questionnaire.showScores = res.data.showScores;
-              this.questionnaire.sections = JSON.parse(res.data.sections);
-            }
-          });
       }
     },
     handleResponse() {

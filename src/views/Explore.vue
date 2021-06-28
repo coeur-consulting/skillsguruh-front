@@ -65,7 +65,7 @@
                     :style="{
                       backgroundColor: JSON.parse(
                         item.course.courseoutline.knowledge_areas
-                      ).color,
+                      ).color
                     }"
                   >
                     <b-icon
@@ -100,7 +100,14 @@
                     </div>
                     <div class="mr-3">
                       <b-icon icon="eye" class="mr-1"></b-icon>
-                      <span>250+</span>
+                      <span
+                        >{{
+                          item.course.viewcount
+                            ? item.course.viewcount.count
+                            : 0
+                        }}
+                        +</span
+                      >
                     </div>
                     <div>
                       <b-icon icon="star-fill" class="mr-1"></b-icon>
@@ -375,7 +382,7 @@
             >
               <slide
                 v-for="item in events
-                  .filter((item) => item.status == 'pending')
+                  .filter(item => item.status == 'pending')
                   .slice(0, 5)"
                 :key="item.id"
               >
@@ -459,7 +466,7 @@ export default {
       discussions: [],
       showEvents: false,
       interest: [],
-      contributors: [],
+      contributors: []
     };
   },
   mounted() {
@@ -475,7 +482,7 @@ export default {
   computed: {
     trending() {
       return this.discussions
-        .filter((item) => item.type == "public")
+        .filter(item => item.type == "public")
         .sort((a, b) => {
           return (
             (b.discussionview ? b.discussionview.view : 0) -
@@ -490,52 +497,50 @@ export default {
           return b.count - a.count;
         })
         .slice(0, 5);
-    },
+    }
   },
   methods: {
     mostenrolled() {
       this.$http
         .get(`${this.$store.getters.url}/guest/mostenrolled`)
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.mostenrolledcourse = res.data;
           }
         });
     },
     getcontributors() {
-      this.$http.get(`${this.$store.getters.url}/contributors`).then((res) => {
+      this.$http.get(`${this.$store.getters.url}/contributors`).then(res => {
         if (res.status == 200) {
           this.contributors = res.data;
         }
       });
     },
     getprograms() {
-      this.$http.get(`${this.$store.getters.url}/guest/courses`).then((res) => {
+      this.$http.get(`${this.$store.getters.url}/guest/courses`).then(res => {
         if (res.status == 200) {
           this.courses = res.data;
         }
       });
     },
     getlearners() {
-      this.$http
-        .get(`${this.$store.getters.url}/guest/learners`)
-        .then((res) => {
-          if (res.status == 200) {
-            this.users = res.data;
-          }
-        });
+      this.$http.get(`${this.$store.getters.url}/guest/learners`).then(res => {
+        if (res.status == 200) {
+          this.users = res.data;
+        }
+      });
     },
     getfacilitators() {
       this.$http
         .get(`${this.$store.getters.url}/guest/facilitators`)
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         });
     },
     getevents() {
-      this.$http.get(`${this.$store.getters.url}/guest/events`).then((res) => {
+      this.$http.get(`${this.$store.getters.url}/guest/events`).then(res => {
         if (res.status == 200) {
           this.events = res.data;
           this.showEvents = true;
@@ -545,13 +550,13 @@ export default {
     getdiscussions() {
       this.$http
         .get(`${this.$store.getters.url}/guest/discussions`)
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.discussions = res.data;
           }
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

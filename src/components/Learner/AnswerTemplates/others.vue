@@ -5,7 +5,7 @@
         <b-row>
           <b-col sm="10" class="ber">
             <div class="text-left">
-              <h5 class="mb-4">{{ questionnaire.title }}</h5>
+              <h5 class="mb-4 text-capitalize">{{ questionnaire.title }}</h5>
               <div>
                 <em class="text-lighter-green fs11">{{
                   questionnaire.hint
