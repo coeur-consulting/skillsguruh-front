@@ -1,335 +1,177 @@
 <template>
   <div>
-    <b-container class="position-relative">
-      <b-row class="position-relative">
-        <div
-          class="
-            border
-            bg-white
-            rounded
-            p-3
-            py-5
-            side_box
-            text-center
-            d-none d-sm-inline
-          "
-        >
-          <div class="sided">
-            <div class="turn_over_box tools">
-              <div class="mb-4">
-                <vc-calendar
-                  class="custom-calendar max-w-full"
-                  :masks="masks"
-                  :attributes="attributes"
-                  disable-page-swipe
-                  is-expanded
-                  title-position="left"
-                >
-                  <template #day-popover="{ dayTitle, attributes }">
-                    <div
-                      class="text-xs text-gray-300 font-semibold text-center"
-                    >
-                      {{ dayTitle }}
-                    </div>
-                    <popover-row
-                      v-for="attr in attributes"
-                      :key="attr.key"
-                      :attribute="attr"
-                      class="border-bottom pb-2"
-                    >
-                      <div>
-                        <p class="fs11 mb-0 text-capitalize">
-                          <span class="mr-2"> {{ attr.customData.type }} </span>
-                        </p>
-                        <p class="mb-1 text-capitalize">
-                          {{ attr.customData.title }}
-                        </p>
-                      </div>
-                    </popover-row>
-                  </template>
-                </vc-calendar>
-              </div>
-              <div class="mb-4">
-                <Todo user="learner" />
-              </div>
+    <b-container fluid>
+      <b-row class="">
+        <b-col md="8">
+          <div class="main_box pt-3">
+            <div
+              class="
+                top_banner
+                text-left
+                p-3 p-sm-5
+                rounded
+                position-relative
+                mb-5
+              "
+            >
+              <h4 class="text-dark-green">
+                Hello {{ $store.getters.learner.name }}
+              </h4>
+              <p class="w-50">
+                Remember to meet at least one person, learn at least one new
+                thing and teach at least one new person.
+              </p>
 
-              <div class="bg-light rounded p-3">
-                <h6 class="mb-3 text-center">Connect with people</h6>
-
-                <div v-if="showConnect">
-                  <div v-if="connections.length">
-                    <div
-                      class="d-flex mb-3"
-                      v-for="user in connections.slice(0, 5)"
-                      :key="user.id"
-                    >
-                      <div class="d-flex flex-1">
-                        <b-avatar
-                          size="sm"
-                          :src="user.profile"
-                          class="mr-2"
-                        ></b-avatar>
-                        <div class="text-left">
-                          <div
-                            class="
-                              fs12
-                              font-weight-bold
-                              text-capitalize text-left
-                            "
-                          >
-                            {{ user.name }}
-                          </div>
-                          <div style="line-height: 1">
-                            <span class="fs11">Lagos,Nigeria</span> <br /><span
-                              class="fs11"
-                              >{{ user.similar }} similar insights</span
-                            >
-                          </div>
-                        </div>
-                      </div>
-                      <b-dropdown
-                        size="sm"
-                        variant="transparent"
-                        no-caret
-                        class="no-focus drop"
-                      >
-                        <template #button-content>
-                          <b-icon
-                            icon="three-dots-vertical"
-                            font-scale="1.4"
-                          ></b-icon>
-                        </template>
-                        <b-dropdown-item
-                          class="fs12"
-                          @click="addconnections(user.id, 'user')"
-                          >Connect</b-dropdown-item
-                        >
-                      </b-dropdown>
-                    </div>
-                  </div>
-                  <div v-else class="text-muted text-center p-3 fs13">
-                    Unavailable
-                  </div>
-                </div>
-
-                <div v-else>
-                  <div class="d-flex w-100 mb-3">
-                    <div class="mr-2">
-                      <b-skeleton type="avatar"></b-skeleton>
-                    </div>
-                    <div class="w-100">
-                      <b-skeleton animation="wave" width="85%"></b-skeleton>
-                      <b-skeleton animation="wave" width="35%"></b-skeleton>
-                    </div>
-                  </div>
-                  <div class="d-flex w-100">
-                    <div class="mr-2">
-                      <b-skeleton type="avatar"></b-skeleton>
-                    </div>
-                    <div class="w-100">
-                      <b-skeleton animation="wave" width="85%"></b-skeleton>
-                      <b-skeleton animation="wave" width="35%"></b-skeleton>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <b-img
+                class="learner_img"
+                :src="require('@/assets/images/learner.png')"
+              ></b-img>
             </div>
-            <div class="tools_icons">
-              <div class="mb-5">
-                <img
-                  :src="require('@/assets/images/calendar.svg')"
-                  width="40"
-                  height="40"
-                  alt=""
-                  class="cursor-pointer"
-                />
-              </div>
-              <div class="mb-5">
-                <img
-                  :src="require('@/assets/images/to-do.svg')"
-                  width="40"
-                  height="40"
-                  alt=""
-                  class="cursor-pointer"
-                />
-              </div>
-              <div class="mb-4">
-                <img
-                  :src="require('@/assets/images/network.svg')"
-                  width="40"
-                  height="40"
-                  alt=""
-                  class="cursor-pointer"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="main_box">
-          <div
-            class="
-              top_banner
-              text-left
-              p-3 p-sm-5
-              rounded
-              position-relative
-              mb-5
-            "
-          >
-            <h4 class="text-dark-green">
-              Hello {{ $store.getters.learner.name }}
-            </h4>
-            <p class="w-50">
-              Remember to meet at least one person, learn at least one new thing
-              and teach at least one new person.
-            </p>
 
-            <b-img
-              class="learner_img"
-              :src="require('@/assets/images/learner.png')"
-            ></b-img>
-          </div>
-
-          <div class="recommended text-left mb-5">
-            <div class="d-flex align-items-center mb-3 w-100">
-              <div class="d-flex flex-1">
-                <h6
-                  class="pr-3 border-right cursor-pointer"
-                  :class="courseShown == 'enrolled' ? '' : 'text-muted'"
-                  @click="courseShown = 'enrolled'"
-                >
-                  Enrolled Courses
-                </h6>
-                <h6
-                  class="pl-3 cursor-pointer"
-                  :class="courseShown == 'recommended' ? '' : 'text-muted'"
-                  @click="courseShown = 'recommended'"
-                >
-                  Recommended Courses
-                </h6>
-              </div>
-              <span class="fs14" @click="$router.push('/learner/courses')"
-                >More <b-icon icon="arrow-right"></b-icon
-              ></span>
-            </div>
-            <div v-if="showEnrolled">
-              <div v-if="courseShown == 'recommended'">
-                <b-row v-if="courses.length">
-                  <b-col
-                    sm="3"
-                    class="pr-2"
-                    v-for="item in courses.slice(0, 3)"
-                    :key="item.id"
+            <div class="recommended text-left mb-5">
+              <div class="d-flex align-items-center mb-3 w-100">
+                <div class="d-flex flex-1">
+                  <h6
+                    class="pr-3 border-right cursor-pointer"
+                    :class="courseShown == 'enrolled' ? '' : 'text-muted'"
+                    @click="courseShown = 'enrolled'"
                   >
-                    <div
-                      class="course border cursor-pointer"
-                      @click="
-                        $router.push(`/learner/courses?course_id=${item.id}`)
-                      "
+                    Enrolled Courses
+                  </h6>
+                  <h6
+                    class="pl-3 cursor-pointer"
+                    :class="courseShown == 'recommended' ? '' : 'text-muted'"
+                    @click="courseShown = 'recommended'"
+                  >
+                    Recommended Courses
+                  </h6>
+                </div>
+                <span class="fs14" @click="$router.push('/learner/courses')"
+                  >More <b-icon icon="arrow-right"></b-icon
+                ></span>
+              </div>
+              <div v-if="showEnrolled">
+                <div v-if="courseShown == 'recommended'">
+                  <b-row v-if="courses.length">
+                    <b-col
+                      md="4"
+                      class="pr-2"
+                      v-for="item in courses.slice(0, 3)"
+                      :key="item.id"
                     >
                       <div
-                        class="course_img"
-                        :style="{
-                          backgroundImage: `url(${item.cover})`,
-                        }"
-                      ></div>
-                      <div class="course_text">
-                        <div class="d-flex justify-content-between">
-                          <span
-                            class="px-2 py-1 rounded-pill text-white fs11"
-                            :style="{
-                              backgroundColor: JSON.parse(
-                                item.courseoutline.knowledge_areas
-                              ).color,
-                            }"
-                          >
-                            <b-icon
-                              class="mr-2"
-                              :icon="
+                        class="course border cursor-pointer"
+                        @click="
+                          $router.push(`/learner/courses?course_id=${item.id}`)
+                        "
+                      >
+                        <div
+                          class="course_img"
+                          :style="{
+                            backgroundImage: `url(${item.cover})`,
+                          }"
+                        ></div>
+                        <div class="course_text">
+                          <div class="d-flex justify-content-between">
+                            <span
+                              class="px-2 py-1 rounded-pill text-white fs11"
+                              :style="{
+                                backgroundColor: JSON.parse(
+                                  item.courseoutline.knowledge_areas
+                                ).color,
+                              }"
+                            >
+                              <b-icon
+                                class="mr-2"
+                                :icon="
+                                  JSON.parse(item.courseoutline.knowledge_areas)
+                                    .icon
+                                "
+                              ></b-icon>
+                              <span>{{
                                 JSON.parse(item.courseoutline.knowledge_areas)
-                                  .icon
+                                  .value
+                              }}</span></span
+                            >
+                            <span class="text-capitalize fs11">{{
+                              item.type
+                            }}</span>
+                          </div>
+                          <div class="border-bottom pt-3">
+                            <h6
+                              class="
+                                font-weight-bold
+                                text-capitalize
+                                overview-title
                               "
-                            ></b-icon>
-                            <span>{{
-                              JSON.parse(item.courseoutline.knowledge_areas)
-                                .value
-                            }}</span></span
-                          >
-                          <span class="text-capitalize fs11">{{
-                            item.type
-                          }}</span>
-                        </div>
-                        <div class="border-bottom pt-3">
-                          <h6
-                            class="
-                              font-weight-bold
-                              text-capitalize
-                              overview-title
-                            "
-                          >
-                            {{ item.title }}
-                          </h6>
-                          <p class="overview">
-                            {{ item.courseoutline.overview }}
-                          </p>
-                        </div>
-                        <div class="info fs11">
-                          <div class="d-flex">
-                            <div class="mr-2">
-                              <b-icon icon="people" class="mr-1"></b-icon>
-                              <span
-                                >{{
-                                  item.enroll ? item.enroll.count : 0
-                                }}+</span
-                              >
-                            </div>
-                            <!-- <div class="mr-3">
+                            >
+                              {{ item.title }}
+                            </h6>
+                            <p class="overview">
+                              {{ item.courseoutline.overview }}
+                            </p>
+                          </div>
+                          <div class="info fs11">
+                            <div class="d-flex">
+                              <div class="mr-2">
+                                <b-icon icon="people" class="mr-1"></b-icon>
+                                <span
+                                  >{{
+                                    item.enroll ? item.enroll.count : 0
+                                  }}+</span
+                                >
+                              </div>
+                              <!-- <div class="mr-3">
                               <b-icon icon="eye" class="mr-1"></b-icon>
                               <span>250+</span>
                             </div> -->
-                            <div>
-                              <b-icon
-                                icon="star-fill"
-                                style="color: gold"
-                                class="mr-1"
-                              ></b-icon>
-                              <span>{{ item.review.length }} reviews</span>
+                              <div>
+                                <b-icon
+                                  icon="star-fill"
+                                  style="color: gold"
+                                  class="mr-1"
+                                ></b-icon>
+                                <span>{{ item.review.length }} reviews</span>
+                              </div>
                             </div>
-                          </div>
 
-                          <b-avatar size="sm" variant="light" :src="item.cover">
-                          </b-avatar>
+                            <b-avatar
+                              size="sm"
+                              variant="light"
+                              :src="item.cover"
+                            >
+                            </b-avatar>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </b-col>
-                </b-row>
+                    </b-col>
+                  </b-row>
 
-                <div v-else class="w-100 p-5 text-center text-muted">
-                  <h5>No course available</h5>
+                  <div v-else class="w-100 p-5 text-center text-muted">
+                    <h5>No course available</h5>
+                  </div>
                 </div>
-              </div>
-              <div v-if="courseShown == 'enrolled'">
-                <b-row v-if="library.length">
-                  <b-col
-                    sm="3"
-                    class="pr-2"
-                    v-for="item in library.slice(0, 3)"
-                    :key="item.id"
-                  >
-                    <b-card
-                      :title="item.course.title"
-                      :img-src="item.course.cover"
-                      img-alt="Image"
-                      img-top
-                      tag="article"
-                      style="max-width: 20rem"
-                      class="mb-2 border"
+                <div v-if="courseShown == 'enrolled'">
+                  <b-row v-if="library.length">
+                    <b-col
+                      md="4"
+                      class="pr-2"
+                      v-for="item in library.slice(0, 3)"
+                      :key="item.id"
                     >
-                      <b-card-text class="overview">
-                        {{ item.course.description }}
-                      </b-card-text>
-                      <!-- <b-card-text
+                      <b-card
+                        :title="item.course.title"
+                        :img-src="item.course.cover"
+                        img-alt="Image"
+                        img-top
+                        tag="article"
+                        style="max-width: 20rem"
+                        class="mb-2 border"
+                      >
+                        <b-card-text class="overview">
+                          {{ item.course.description }}
+                        </b-card-text>
+                        <!-- <b-card-text
                         class="fs13 text-muted d-flex align-items-center mb-2"
                         v-if="item.course.modules"
                       >
@@ -348,89 +190,209 @@
                         </b-iconstack>
                         <span> {{ item.course.modules.length }} modules</span>
                       </b-card-text> -->
-                      <div class="mt-3">
-                        <div class="mb-2 fs12">Your progress</div>
-                        <b-progress
-                          :max="100"
-                          height=".8rem"
-                          class="mb-3"
-                          variant="dark-green"
-                        >
-                          <b-progress-bar
-                            :value="item.progress"
-                            :label="`${Math.round(item.progress)}%`"
-                          ></b-progress-bar>
-                        </b-progress>
-                      </div>
+                        <div class="mt-3">
+                          <div class="mb-2 fs12">Your progress</div>
+                          <b-progress
+                            :max="100"
+                            height=".8rem"
+                            class="mb-3"
+                            variant="dark-green"
+                          >
+                            <b-progress-bar
+                              :value="item.progress"
+                              :label="`${Math.round(item.progress)}%`"
+                            ></b-progress-bar>
+                          </b-progress>
+                        </div>
 
-                      <div class="">
-                        <b-button
-                          @click="
-                            $router.push(`/learner/media/${item.course.id}`)
+                        <div class="">
+                          <b-button
+                            @click="
+                              $router.push(`/learner/media/${item.course.id}`)
+                            "
+                            size="sm"
+                            variant="lighter-green"
+                            >Continue course</b-button
+                          >
+                        </div>
+                      </b-card>
+                    </b-col>
+                  </b-row>
+                  <div v-else class="w-100 p-5 text-center text-muted">
+                    <h5>No course available</h5>
+                  </div>
+                </div>
+              </div>
+              <b-row v-else>
+                <b-col>
+                  <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+                  <b-skeleton
+                    animation="fade"
+                    class="mb-2"
+                    width="65%"
+                  ></b-skeleton>
+                  <b-skeleton
+                    animation="fade"
+                    class="mb-2"
+                    width="55%"
+                  ></b-skeleton>
+                  <b-skeleton animation="fade" width="59%"></b-skeleton>
+                </b-col>
+                <b-col>
+                  <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+                  <b-skeleton
+                    animation="fade"
+                    class="mb-2"
+                    width="65%"
+                  ></b-skeleton>
+                  <b-skeleton
+                    animation="fade"
+                    class="mb-2"
+                    width="55%"
+                  ></b-skeleton>
+                  <b-skeleton animation="fade" width="59%"></b-skeleton>
+                </b-col>
+                <b-col>
+                  <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
+                  <b-skeleton
+                    animation="fade"
+                    class="mb-2"
+                    width="65%"
+                  ></b-skeleton>
+                  <b-skeleton
+                    animation="fade"
+                    class="mb-2"
+                    width="55%"
+                  ></b-skeleton>
+                  <b-skeleton animation="fade" width="59%"></b-skeleton>
+                </b-col>
+              </b-row>
+            </div>
+
+            <div class="discussions">
+              <Discussions></Discussions>
+            </div>
+          </div>
+        </b-col>
+        <b-col md="4">
+          <div class="border bg-white rounded p-3 py-5 text-center">
+            <div class="mb-4">
+              <vc-calendar
+                class="custom-calendar max-w-full"
+                :masks="masks"
+                :attributes="attributes"
+                disable-page-swipe
+                is-expanded
+                title-position="left"
+              >
+                <template #day-popover="{ dayTitle, attributes }">
+                  <div class="text-xs text-gray-300 font-semibold text-center">
+                    {{ dayTitle }}
+                  </div>
+                  <popover-row
+                    v-for="attr in attributes"
+                    :key="attr.key"
+                    :attribute="attr"
+                    class="border-bottom pb-2"
+                  >
+                    <div>
+                      <p class="fs11 mb-0 text-capitalize">
+                        <span class="mr-2"> {{ attr.customData.type }} </span>
+                      </p>
+                      <p class="mb-1 text-capitalize">
+                        {{ attr.customData.title }}
+                      </p>
+                    </div>
+                  </popover-row>
+                </template>
+              </vc-calendar>
+            </div>
+            <div class="mb-4">
+              <Todo user="learner" />
+            </div>
+
+            <div class="bg-light rounded p-3">
+              <h6 class="mb-3 text-center">Connect with people</h6>
+
+              <div v-if="showConnect">
+                <div v-if="connections.length">
+                  <div
+                    class="d-flex mb-3"
+                    v-for="user in connections.slice(0, 5)"
+                    :key="user.id"
+                  >
+                    <div class="d-flex flex-1">
+                      <b-avatar
+                        size="sm"
+                        :src="user.profile"
+                        class="mr-2"
+                      ></b-avatar>
+                      <div class="text-left">
+                        <div
+                          class="
+                            fs12
+                            font-weight-bold
+                            text-capitalize text-left
                           "
-                          size="sm"
-                          variant="lighter-green"
-                          >Continue course</b-button
                         >
+                          {{ user.name }}
+                        </div>
+                        <div style="line-height: 1">
+                          <span class="fs11">Lagos,Nigeria</span> <br /><span
+                            class="fs11"
+                            >{{ user.similar }} similar insights</span
+                          >
+                        </div>
                       </div>
-                    </b-card>
-                  </b-col>
-                </b-row>
-                <div v-else class="w-100 p-5 text-center text-muted">
-                  <h5>No course available</h5>
+                    </div>
+                    <b-dropdown
+                      size="sm"
+                      variant="transparent"
+                      no-caret
+                      class="no-focus drop"
+                    >
+                      <template #button-content>
+                        <b-icon
+                          icon="three-dots-vertical"
+                          font-scale="1.4"
+                        ></b-icon>
+                      </template>
+                      <b-dropdown-item
+                        class="fs12"
+                        @click="addconnections(user.id, 'user')"
+                        >Connect</b-dropdown-item
+                      >
+                    </b-dropdown>
+                  </div>
+                </div>
+                <div v-else class="text-muted text-center p-3 fs13">
+                  Unavailable
+                </div>
+              </div>
+
+              <div v-else>
+                <div class="d-flex w-100 mb-3">
+                  <div class="mr-2">
+                    <b-skeleton type="avatar"></b-skeleton>
+                  </div>
+                  <div class="w-100">
+                    <b-skeleton animation="wave" width="85%"></b-skeleton>
+                    <b-skeleton animation="wave" width="35%"></b-skeleton>
+                  </div>
+                </div>
+                <div class="d-flex w-100">
+                  <div class="mr-2">
+                    <b-skeleton type="avatar"></b-skeleton>
+                  </div>
+                  <div class="w-100">
+                    <b-skeleton animation="wave" width="85%"></b-skeleton>
+                    <b-skeleton animation="wave" width="35%"></b-skeleton>
+                  </div>
                 </div>
               </div>
             </div>
-            <b-row v-else>
-              <b-col>
-                <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
-                <b-skeleton
-                  animation="fade"
-                  class="mb-2"
-                  width="65%"
-                ></b-skeleton>
-                <b-skeleton
-                  animation="fade"
-                  class="mb-2"
-                  width="55%"
-                ></b-skeleton>
-                <b-skeleton animation="fade" width="59%"></b-skeleton>
-              </b-col>
-              <b-col>
-                <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
-                <b-skeleton
-                  animation="fade"
-                  class="mb-2"
-                  width="65%"
-                ></b-skeleton>
-                <b-skeleton
-                  animation="fade"
-                  class="mb-2"
-                  width="55%"
-                ></b-skeleton>
-                <b-skeleton animation="fade" width="59%"></b-skeleton>
-              </b-col>
-              <b-col>
-                <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
-                <b-skeleton
-                  animation="fade"
-                  class="mb-2"
-                  width="65%"
-                ></b-skeleton>
-                <b-skeleton
-                  animation="fade"
-                  class="mb-2"
-                  width="55%"
-                ></b-skeleton>
-                <b-skeleton animation="fade" width="59%"></b-skeleton>
-              </b-col>
-            </b-row>
           </div>
-
-          <div class="discussions">
-            <Discussions></Discussions>
-          </div>
-        </div>
+        </b-col>
       </b-row>
     </b-container>
   </div>
