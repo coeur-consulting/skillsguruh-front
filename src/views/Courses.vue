@@ -1246,7 +1246,7 @@ export default {
     addcourse() {
       this.$toast.info("Register to enroll");
       this.$router.push(
-        `/register/?referral=${this.$route.query.referral}&course_id=${this.$route.query.course_id}`
+        `/register/?invite=${this.$route.query.referral}&course_id=${this.$route.query.course_id}`
       );
     },
     sharelink(id) {

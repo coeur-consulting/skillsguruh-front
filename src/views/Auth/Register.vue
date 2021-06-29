@@ -261,7 +261,7 @@ export default {
     };
   },
   mounted() {
-    this.user.referral = this.$route.query.referral;
+    this.user.referral = this.$route.query.invite;
     this.user.referral_type = "normal";
   },
   components: {

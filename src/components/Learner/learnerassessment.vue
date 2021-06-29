@@ -202,8 +202,8 @@
                   <span>{{ item.total_score ? item.total_score : "N/A" }}</span>
                 </div>
                 <div class="fs14 text-muted mb-1">
-                  <span>Date: </span>
-                  <span>{{ item.updated_at | moment("ll") }}</span>
+                  <span>Last Edited: </span>
+                  <span>{{ item.updated_at | moment("ll hh:mm A") }}</span>
                 </div>
 
                 <div

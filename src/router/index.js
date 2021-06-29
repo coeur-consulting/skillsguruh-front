@@ -16,6 +16,12 @@ const routes = [
       footer: Footer,
     },
   },
+  // {
+  //   path: "/invite/:code",
+  //   name: "Referral",
+  //   redirect: "/register?invite=1224",
+  // },
+
   {
     path: "/register",
     name: "Register",
@@ -1566,6 +1572,7 @@ const routes = [
         ),
     },
   },
+
   {
     path: "*",
     name: "Not Found",

@@ -233,7 +233,7 @@
                       ></b-form-input>
                     </div>
                   </b-form-group>
-                  <div class="p-2 px-3">
+                  <div class="p-2 px-3" v-if="type !== 'template'">
                     <span>Correct answer</span> <br />
                     <span class="text-capitalize" v-if="question.answer">{{
                       question.answer
