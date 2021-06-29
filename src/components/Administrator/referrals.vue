@@ -7,10 +7,13 @@
 
           <div class="mb-3">
             <b-row class="mb-3">
-              <b-col cols="4">
-                <b-img :src="require('@/assets/images/bonus.png')"></b-img
+              <b-col sm="4" class="text-center">
+                <b-img
+                  class="img-s"
+                  :src="require('@/assets/images/bonus.png')"
+                ></b-img
               ></b-col>
-              <b-col cols="8">
+              <b-col sm="8">
                 <p>
                   Refer your friends to skillsguruh and earn bonus point we also
                   give your friends bonus because we value your friendship
@@ -73,7 +76,7 @@
                   </div>
                 </b-form>
 
-                <div>
+                <div class="d-none d-md-block">
                   <b-row class="justify-content-center">
                     <div class="mr-4">
                       <b-img

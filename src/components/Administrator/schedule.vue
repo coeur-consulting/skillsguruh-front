@@ -9,13 +9,21 @@
                 :perPage="1"
                 :paginationEnabled="false"
                 :autoplay="true"
-                :autoplayTimeout="5000"
                 :speed="1000"
+                :autoplayTimeout="5000"
                 :loop="true"
                 v-if="comingevents.length"
               >
                 <slide v-for="item in comingevents" :key="item.id">
-                  <div class="box top_box flex-row p-0 position-relative">
+                  <div
+                    class="
+                      box
+                      top_box
+                      flex-sm-row flex-column-reverse
+                      p-0
+                      position-relative
+                    "
+                  >
                     <div
                       class="upcoming text-capitalize"
                       :class="{
@@ -26,7 +34,7 @@
                     >
                       {{ item.status }} event
                     </div>
-                    <b-col cols="5" class="h-100">
+                    <b-col sm="5" class="h-100">
                       <div
                         class="
                           p-3
@@ -78,7 +86,7 @@
                               "
                               >View Event</b-button
                             >
-                            <a v-if="item.url" :href="item.url" target="_blank">
+                            <a :href="item.url" target="_blank">
                               <b-button
                                 pill
                                 size="sm"
@@ -91,7 +99,7 @@
                         </div>
                       </div>
                     </b-col>
-                    <b-col cols="7" class="text-right p-0 brad">
+                    <b-col sm="7" class="text-right p-0 brad">
                       <b-img :src="item.cover" fluid-grow></b-img>
                     </b-col>
                   </div>
@@ -1824,6 +1832,7 @@ td {
   background: var(--dark-green);
   color: white;
   font-size: 12px;
+  z-index: 2;
 }
 @media (max-width: 600px) {
   .box {
@@ -1831,6 +1840,9 @@ td {
   }
   .admin_tab {
     min-height: 200px;
+  }
+  .top_box {
+    height: 400px;
   }
 }
 </style>

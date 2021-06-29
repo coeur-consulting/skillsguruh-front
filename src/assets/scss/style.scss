@@ -388,12 +388,7 @@ a:hover {
     z-index: 1000; /* Stay on top */
     top: 0;
     left: 0;
-    background: linear-gradient(
-      173.56deg,
-      #388087 5.07%,
-      #18696d 62.76%,
-      rgba(56, 128, 135, 0.79) 90.63%
-    );
+    background-color: white !important;
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 40px !important; /* Place content 60px from the top */
     transition: 0.5s; /*0.5 second transition effect to slide in the sidenav*/
@@ -436,5 +431,111 @@ a:hover {
   }
   .bottom_bar {
     width: 100% !important;
+  }
+  h4 {
+    font-size: 1rem !important;
+  }
+  h5 {
+    font-size: 0.9rem !important;
+  }
+  h6 {
+    font-size: 0.75rem !important;
+  }
+  p {
+    font-size: 14px;
+  }
+  span.cursor-pointer {
+    font-size: 12px;
+  }
+  span {
+    line-height: 1.4;
+  }
+
+  .line-1 {
+    line-height: 1;
+  }
+  .fs14 {
+    font-size: 12px !important;
+  }
+  .fs12 {
+    font-size: 10.5px !important;
+  }
+  .main_box {
+    padding: 15px 0 !important;
+  }
+  .title {
+    font-size: 14px !important;
+  }
+  .asked {
+    font-size: 11px;
+  }
+  .top_header div {
+    font-size: 12px !important;
+  }
+  .brad {
+    border-radius: 0;
+    overflow: hidden;
+    height: 300px;
+  }
+  .stat {
+    height: 44px !important;
+  }
+  .bottom_bar {
+    width: 95%;
+    font-size: 10px !important;
+  }
+  .description {
+    font-size: 14px !important;
+    line-height: 1.4;
+  }
+  .event_box {
+    width: 100% !important;
+    top: unset !important;
+    right: unset !important;
+    position: relative !important;
+    transform: unset !important;
+    box-shadow: unset !important;
+  }
+  .display-4 {
+    font-size: 18px !important;
+    font-weight: 500;
+  }
+  .main {
+    height: auto !important;
+  }
+  .container {
+    height: auto !important;
+  }
+  .main-bg {
+    height: 30vh !important;
+  }
+  .viewevent {
+    font-size: 12px !important;
+  }
+  .img-s {
+    width: 120px;
+    margin: 0 auto;
+    height: auto;
+  }
+  .feedname,
+  .name {
+    font-size: 14px;
+  }
+  td {
+    min-width: 160px;
+  }
+  .password {
+    width: 100% !important;
+  }
+
+  .notif {
+    width: 100% !important;
+  }
+  .preference {
+    max-height: 100% !important;
+  }
+  .container-fluid {
+    height: 100% !important;
+    overflow: auto;
   }
 }

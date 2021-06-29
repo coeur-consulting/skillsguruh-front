@@ -127,11 +127,18 @@
             </div>
             <div v-if="showEnrolled">
               <div v-if="courseShown == 'mostenrolled'">
-                <b-row v-if="mostenrolledcourse.length">
-                  <b-col
-                    md="4"
+                <carousel
+                  :scrollPerPage="true"
+                  :paginationEnabled="false"
+                  :perPageCustom="[
+                    [600, 1],
+                    [768, 3],
+                  ]"
+                  v-if="mostenrolledcourse.length"
+                >
+                  <slide
                     class="pr-2"
-                    v-for="item in mostenrolledcourse.slice(0, 3)"
+                    v-for="item in mostenrolledcourse.slice(0, 6)"
                     :key="item.id"
                   >
                     <div
@@ -217,19 +224,26 @@
                         </div>
                       </div>
                     </div>
-                  </b-col>
-                </b-row>
+                  </slide>
+                </carousel>
 
                 <div v-else class="w-100 p-5 text-center text-muted">
                   <h5>No course available</h5>
                 </div>
               </div>
               <div v-if="courseShown == 'toprated'">
-                <b-row v-if="topratedcourse.length">
-                  <b-col
-                    md="4"
+                <carousel
+                  :scrollPerPage="true"
+                  :paginationEnabled="false"
+                  :perPageCustom="[
+                    [600, 1],
+                    [768, 3],
+                  ]"
+                  v-if="topratedcourse.length"
+                >
+                  <slide
                     class="pr-2"
-                    v-for="(item, id) in topratedcourse.slice(0, 3)"
+                    v-for="(item, id) in topratedcourse.slice(0, 6)"
                     :key="id"
                   >
                     <div
@@ -323,8 +337,8 @@
                         </div>
                       </div>
                     </div>
-                  </b-col>
-                </b-row>
+                  </slide>
+                </carousel>
 
                 <div v-else class="w-100 p-5 text-center text-muted">
                   <h5>No course available</h5>
@@ -413,7 +427,7 @@
               </vc-calendar>
             </div>
           </div>
-          <div class="bg-white rounded p-3 mt-3 todo-card">
+          <div class="bg-white rounded p-3 mt-3 todo-card mb-5 mb-sm-2">
             <div class="mb-4">
               <Todo user="facilitator" />
             </div>

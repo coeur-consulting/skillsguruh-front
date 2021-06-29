@@ -1,101 +1,65 @@
 <template>
   <div>
-    <!-- <b-container>
-      <b-row>
-        <div
-          class="
-            border
-            bg-white
-            rounded
-            p-3
-            py-5
-            side_box
-            text-center
-            d-none d-sm-inline
-          "
-        >
-          <div class="sided">
-            <div class="turn_over_box tools">
-              <div class="mb-4">
-                <vc-calendar
-                  class="custom-calendar max-w-full"
-                  :masks="masks"
-                  :attributes="attributes"
-                  disable-page-swipe
-                  is-expanded
-                  title-position="left"
-                >
-                  <template #day-popover="{ dayTitle, attributes }">
-                    <div
-                      class="text-xs text-gray-300 font-semibold text-center"
-                    >
-                      {{ dayTitle }}
-                    </div>
-                    <popover-row
-                      v-for="attr in attributes"
-                      :key="attr.key"
-                      :attribute="attr"
-                      class="border-bottom pb-2"
-                    >
-                      <div>
-                        <p class="fs11 mb-0 text-capitalize">
-                          <span class="mr-2">
-                            {{ attr.customData.type }}
-                          </span>
-                        </p>
-                        <p class="mb-1 text-capitalize">
-                          {{ attr.customData.title }}
-                        </p>
-                      </div>
-                    </popover-row>
-                  </template>
-                </vc-calendar>
-              </div>
-              <div class="mb-4">
-                <Todo user="admin" />
-              </div>
-            </div>
-            <div class="tools_icons">
-              <div class="mb-5">
-                <img
-                  :src="require('@/assets/images/calendar.svg')"
-                  width="40"
-                  height="40"
-                  alt=""
-                  class="cursor-pointer"
-                />
-              </div>
-              <div class="mb-5">
-                <img
-                  :src="require('@/assets/images/to-do.svg')"
-                  width="40"
-                  height="40"
-                  alt=""
-                  class="cursor-pointer"
-                />
-              </div>
-              <div class="mb-4">
-                <img
-                  :src="require('@/assets/images/network.svg')"
-                  width="40"
-                  height="40"
-                  alt=""
-                  class="cursor-pointer"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="rside">
-          <b-row class="mb-4 mb-sm-4">
+    <b-container fluid>
+      <b-row class="pt-5">
+        <b-col md="8">
+          <b-row class="mb-5 mb-sm-5">
             <b-col sm="6">
-              <div class="box p-3 shadow" v-if="showFacilitator">
+              <div class="box p-3 shadow">
+                <div
+                  class="
+                    w-100
+                    px-2
+                    d-flex
+                    justify-content-between
+                    align-items-center
+                    mb-4
+                  "
+                >
+                  <div class="d-flex align-items-center mb-1">
+                    <b-iconstack font-scale="2.5" class="mr-3">
+                      <b-icon
+                        stacked
+                        icon="circle-fill"
+                        variant="lighter-green"
+                      ></b-icon>
+                      <b-icon
+                        stacked
+                        icon="people-fill"
+                        scale="0.5"
+                        variant="dark-green"
+                      ></b-icon>
+                    </b-iconstack>
+                    <div class="h6 mb-0 text-dark-green">
+                      Total <br />
+                      Learners
+                    </div>
+                  </div>
+                  <div class="h2">{{ users.length }}</div>
+                </div>
+                <div class="w-100 px-2">
+                  <div class="new_add d-flex align-items-center">
+                    <activity-icon
+                      size="1x"
+                      class="custom-class growth"
+                    ></activity-icon>
+                    <span class="mr-2 mt-1 growth">
+                      {{
+                        Math.round((newlyusers / users.length) * 100) || 0
+                      }}%</span
+                    >
+                    <span class="mt-1">New Learners this month</span>
+                  </div>
+                </div>
+              </div>
+            </b-col>
+            <b-col sm="6">
+              <div class="box p-3 shadow">
                 <div
                   class="
                     d-flex
-                    justify-content-between
                     w-100
+                    justify-content-between
                     align-items-center
                     mb-4
                   "
@@ -116,7 +80,7 @@
                     </b-iconstack>
                     <div class="h6 mb-0 text-dark-green">
                       Total <br />
-                      Facilitators
+                      Facilitator
                     </div>
                   </div>
                   <div class="h2">{{ facilitators.length }}</div>
@@ -124,250 +88,66 @@
 
                 <div class="w-100 px-2">
                   <div class="new_add d-flex align-items-center">
-                    <b-img
-                      class="mr-2"
-                      :src="require('@/assets/images/profit.svg')"
-                      width="24"
-                    ></b-img>
-                    <span class="mr-2 mt-1 text-dark-green">
+                    <activity-icon
+                      size="1x"
+                      class="custom-class growth"
+                    ></activity-icon>
+                    <span class="mr-2 mt-1 growth">
                       {{
                         Math.round(
                           (newlyfacilitators / facilitators.length) * 100
                         ) || 0
                       }}%</span
                     >
-                    <span class="mt-1">New Facilitators this month</span>
+                    <span class="mt-1">New facilitator this month</span>
                   </div>
-                </div>
-              </div>
-
-              <div class="box p-3" v-else>
-                <div class="d-flex w-100 mb-3">
-                  <div class="mr-2">
-                    <b-skeleton type="avatar"></b-skeleton>
-                  </div>
-                  <div class="w-100">
-                    <b-skeleton animation="wave" width="85%"></b-skeleton>
-                    <b-skeleton animation="wave" width="35%"></b-skeleton>
-                  </div>
-                </div>
-                <div class="w-100">
-                  <b-skeleton animation="wave" width="100%"></b-skeleton>
-                </div>
-              </div>
-            </b-col>
-            <b-col sm="6">
-              <div class="box p-3 shadow" v-if="showLearner">
-                <div
-                  class="
-                    d-flex
-                    justify-content-between
-                    align-items-center
-                    w-100
-                    mb-4
-                  "
-                >
-                  <div class="d-flex align-items-center mb-1">
-                    <b-iconstack font-scale="2.5" class="mr-3">
-                      <b-icon
-                        stacked
-                        icon="circle-fill"
-                        variant="lighter-green"
-                      ></b-icon>
-
-                      <b-icon
-                        stacked
-                        icon="people-fill"
-                        scale="0.5"
-                        variant="dark-green"
-                      ></b-icon>
-                    </b-iconstack>
-                    <div class="h6 mb-0 text-dark-green">
-                      Total <br />
-                      Learners
-                    </div>
-                  </div>
-                  <div class="h2">{{ users.length }}</div>
-                </div>
-
-                <div class="w-100 px-2">
-                  <div class="new_add d-flex align-items-center">
-                    <b-img
-                      class="mr-2"
-                      :src="require('@/assets/images/profit.svg')"
-                      width="24"
-                    ></b-img>
-                    <span class="mr-2 mt-1 text-dark-green">
-                      {{
-                        Math.round((newlyusers / users.length) * 100) || 0
-                      }}%</span
-                    >
-                    <span class="mt-1">New Learners this month</span>
-                  </div>
-                </div>
-              </div>
-              <div class="box p-3" v-else>
-                <div class="d-flex w-100 mb-3">
-                  <div class="mr-2">
-                    <b-skeleton type="avatar"></b-skeleton>
-                  </div>
-                  <div class="w-100">
-                    <b-skeleton animation="wave" width="85%"></b-skeleton>
-                    <b-skeleton animation="wave" width="35%"></b-skeleton>
-                  </div>
-                </div>
-                <div class="w-100">
-                  <b-skeleton animation="wave" width="100%"></b-skeleton>
                 </div>
               </div>
             </b-col>
           </b-row>
           <FacilitatorTab />
-        </div>
-      </b-row>
-    </b-container> -->
-     <b-container fluid>
-      <b-row class="pt-5">
-        <b-col md="8">
-          <b-row class="mb-5 mb-sm-5">
-              <b-col sm="6">
-                <div class="box p-3 shadow">
-                  <div
-                    class="
-                      w-100
-                      px-2
-                      d-flex
-                      justify-content-between
-                      align-items-center
-                      mb-4
-                    "
-                  >
-                    <div class="d-flex align-items-center mb-1">
-                      <b-iconstack font-scale="2.5" class="mr-3">
-                        <b-icon
-                          stacked
-                          icon="circle-fill"
-                          variant="lighter-green"
-                        ></b-icon>
-                        <b-icon
-                          stacked
-                          icon="people-fill"
-                          scale="0.5"
-                          variant="dark-green"
-                        ></b-icon>
-                      </b-iconstack>
-                      <div class="h6 mb-0 text-dark-green">
-                        Total <br />
-                        Learners
-                      </div>
-                    </div>
-                    <div class="h2">{{ users.length }}</div>
-                  </div>
-                  <div class="w-100 px-2">
-                    <div class="new_add d-flex align-items-center">
-                      <activity-icon size="1x" class="custom-class growth"></activity-icon>
-                      <span class="mr-2 mt-1 growth">
-                        {{
-                          Math.round((newlyusers / users.length) * 100) || 0
-                        }}%</span
-                      >
-                      <span class="mt-1">New Learners this month</span>
-                    </div>
-                  </div>
-                </div>
-              </b-col>
-              <b-col sm="6">
-                <div class="box p-3 shadow">
-                  <div
-                    class="
-                      d-flex
-                      w-100
-                      justify-content-between
-                      align-items-center
-                      mb-4
-                    "
-                  >
-                    <div class="d-flex align-items-center mb-1">
-                      <b-iconstack font-scale="2.5" class="mr-3">
-                        <b-icon
-                          stacked
-                          icon="circle-fill"
-                          variant="lighter-green"
-                        ></b-icon>
-                        <b-icon
-                          stacked
-                          icon="person-badge-fill"
-                          scale="0.5"
-                          variant="dark-green"
-                        ></b-icon>
-                      </b-iconstack>
-                      <div class="h6 mb-0 text-dark-green">
-                        Total <br />
-                        Facilitator
-                      </div>
-                    </div>
-                    <div class="h2">{{ facilitators.length }}</div>
-                  </div>
-
-                  <div class="w-100 px-2">
-                    <div class="new_add d-flex align-items-center">
-                    <activity-icon size="1x" class="custom-class growth"></activity-icon>
-                      <span class="mr-2 mt-1 growth">
-                        {{
-                          Math.round((newlyFacilitators / facilitators.length) * 100) || 0
-                        }}%</span
-                      >
-                      <span class="mt-1">New facilitator this month</span>
-                    </div>
-                  </div>
-                </div>
-              </b-col>
-            </b-row>
-            <FacilitatorTab />
         </b-col>
         <b-col md="4">
-          <div class=" bg-white rounded text-center">
-             <div class="mb-4">
-                <vc-calendar
-                  class="custom-calendar max-w-full"
-                  :masks="masks"
-                  :attributes="attributes"
-                  disable-page-swipe
-                  is-expanded
-                  title-position="left"
-                >
-                  <template #day-popover="{ dayTitle, attributes }">
-                    <div
-                      class="text-xs text-gray-300 font-semibold text-center"
-                    >
-                      {{ dayTitle }}
+          <div class="bg-white rounded text-center">
+            <div class="mb-4">
+              <vc-calendar
+                class="custom-calendar max-w-full"
+                :masks="masks"
+                :attributes="attributes"
+                disable-page-swipe
+                is-expanded
+                title-position="left"
+              >
+                <template #day-popover="{ dayTitle, attributes }">
+                  <div class="text-xs text-gray-300 font-semibold text-center">
+                    {{ dayTitle }}
+                  </div>
+                  <popover-row
+                    v-for="attr in attributes"
+                    :key="attr.key"
+                    :attribute="attr"
+                    class="border-bottom pb-2"
+                  >
+                    <div>
+                      <p class="fs11 mb-0 text-capitalize">
+                        <span class="mr-2">
+                          {{ attr.customData.type }}
+                        </span>
+                      </p>
+                      <p class="mb-1 text-capitalize">
+                        {{ attr.customData.title }}
+                      </p>
                     </div>
-                    <popover-row
-                      v-for="attr in attributes"
-                      :key="attr.key"
-                      :attribute="attr"
-                      class="border-bottom pb-2"
-                    >
-                      <div>
-                        <p class="fs11 mb-0 text-capitalize">
-                          <span class="mr-2">
-                            {{ attr.customData.type }}
-                          </span>
-                        </p>
-                        <p class="mb-1 text-capitalize">
-                          {{ attr.customData.title }}
-                        </p>
-                      </div>
-                    </popover-row>
-                  </template>
-                </vc-calendar>
-              </div>
-        </div>
-        <div class="bg-white rounded p-3 mt-3 todo-card">
-          <div class="mb-4 ">
-                <Todo user="admin" />
-              </div>
-        </div>
+                  </popover-row>
+                </template>
+              </vc-calendar>
+            </div>
+          </div>
+          <div class="bg-white rounded p-3 mt-3 todo-card">
+            <div class="mb-4">
+              <Todo user="admin" />
+            </div>
+          </div>
         </b-col>
       </b-row>
     </b-container>
@@ -375,7 +155,7 @@
 </template>
 
 <script>
-import { ActivityIcon } from 'vue-feather-icons'
+import { ActivityIcon } from "vue-feather-icons";
 import FacilitatorTab from "./facilitators";
 import Todo from "../Todo";
 export default {
@@ -596,8 +376,8 @@ export default {
   border-radius: 8px;
   background: white;
 }
-.growth{
-  color: #3CC13B;
+.growth {
+  color: #3cc13b;
 }
 .new_add {
   color: rgba(0, 0, 0, 0.44);

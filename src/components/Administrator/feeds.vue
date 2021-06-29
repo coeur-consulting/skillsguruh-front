@@ -83,7 +83,7 @@
         ></video>
         <div
           v-if="feed.media && doc_ext.includes(getextension(feed.media))"
-          class="text-center p-4 bg-skills-grey"
+          class="text-center p-3 bg-skills-grey"
         >
           <b-icon icon="image" font-scale="3rem"></b-icon>
         </div>
@@ -179,7 +179,7 @@
               </div>
             </div>
           </div>
-          <div class="text-left feed_text px-4 pb-3">
+          <div class="text-left feed_text px-3 pb-3">
             <span>{{ allcomments.message }}</span>
           </div>
         </div>
@@ -232,7 +232,7 @@
     <b-container>
       <b-row>
         <b-col sm="8">
-          <div class="border bg-white p-4 rounded-8 mb-4">
+          <div class="border bg-white p-3 rounded-8 mb-4">
             <div class="d-flex align-items-center mb-3">
               <b-avatar size="2.5rem" class="mr-3"></b-avatar>
 
@@ -285,7 +285,7 @@
                   <div class="d-flex mb-3 px-3 pt-3">
                     <div class="d-flex flex-1 text-left">
                       <div
-                        class="font-weight-bold mr-2 mb-1 fs14"
+                        class="font-weight-bold mr-2 mb-1 fs14 feedname"
                         v-if="feed.admin"
                       >
                         <b-avatar
@@ -295,7 +295,7 @@
                         {{ feed.admin.name }}
                       </div>
                       <div
-                        class="font-weight-bold mr-2 mb-1 fs14"
+                        class="font-weight-bold mr-2 mb-1 fs14 feedname"
                         v-if="feed.user"
                       >
                         <b-avatar
@@ -305,7 +305,7 @@
                         {{ feed.user.name }}
                       </div>
                       <div
-                        class="font-weight-bold mr-2 mb-1 fs14"
+                        class="font-weight-bold mr-2 mb-1 fs14 feedname"
                         v-if="feed.facilitator"
                       >
                         <b-avatar
@@ -368,7 +368,7 @@
                       >
                     </b-dropdown>
                   </div>
-                  <div class="text-left feed_text px-4 pb-3">
+                  <div class="text-left feed_text px-3 pb-3">
                     <span v-html="feed.message"></span><br />
                     <span v-if="feed.url" class="text-dark-green"
                       ><a :href="feed.url" target="_blank"
@@ -401,7 +401,7 @@
                           feed.media &&
                           doc_ext.includes(getextension(feed.media))
                         "
-                        class="text-center p-4 bg-skills-grey"
+                        class="text-center p-3 bg-skills-grey"
                       >
                         <b-icon icon="image" font-scale="3rem"></b-icon>
                       </div>
@@ -579,9 +579,9 @@
               </div>
             </div>
 
-            <div v-else class="text-center p-4">No feed Available</div>
+            <div v-else class="text-center p-3">No feed Available</div>
           </div>
-          <div v-else class="p-4">
+          <div v-else class="p-3">
             <div class="d-flex w-100 mb-3 box">
               <div class="mr-2">
                 <b-skeleton type="avatar"></b-skeleton>

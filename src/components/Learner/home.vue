@@ -52,11 +52,18 @@
               </div>
               <div v-if="showEnrolled">
                 <div v-if="courseShown == 'recommended'">
-                  <b-row v-if="courses.length">
-                    <b-col
-                      md="4"
+                  <carousel
+                    :scrollPerPage="true"
+                    :paginationEnabled="false"
+                    :perPageCustom="[
+                      [600, 1],
+                      [768, 3],
+                    ]"
+                    v-if="courses.length"
+                  >
+                    <slide
                       class="pr-2"
-                      v-for="item in courses.slice(0, 3)"
+                      v-for="item in courses.slice(0, 6)"
                       :key="item.id"
                     >
                       <div
@@ -144,19 +151,26 @@
                           </div>
                         </div>
                       </div>
-                    </b-col>
-                  </b-row>
+                    </slide>
+                  </carousel>
 
                   <div v-else class="w-100 p-5 text-center text-muted">
                     <h5>No course available</h5>
                   </div>
                 </div>
                 <div v-if="courseShown == 'enrolled'">
-                  <b-row v-if="library.length">
-                    <b-col
-                      md="4"
+                  <carousel
+                    :scrollPerPage="true"
+                    :paginationEnabled="false"
+                    :perPageCustom="[
+                      [600, 1],
+                      [768, 3],
+                    ]"
+                    v-if="library.length"
+                  >
+                    <slide
                       class="pr-2"
-                      v-for="item in library.slice(0, 3)"
+                      v-for="item in library.slice(0, 6)"
                       :key="item.id"
                     >
                       <b-card
@@ -216,8 +230,8 @@
                           >
                         </div>
                       </b-card>
-                    </b-col>
-                  </b-row>
+                    </slide>
+                  </carousel>
                   <div v-else class="w-100 p-5 text-center text-muted">
                     <h5>No course available</h5>
                   </div>
@@ -913,7 +927,7 @@ export default {
   .learner_img {
     position: absolute;
     top: unset;
-    right: 7%;
+    right: 4%;
     width: 100px;
     bottom: 0;
   }

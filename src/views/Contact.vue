@@ -9,7 +9,7 @@
     </div>
     <b-container class="">
       <b-row class="flex-column-reverse flex-md-row">
-        <b-col sm="6" class="p-5">
+        <b-col sm="6" class="p-4 p-sm-5">
           <div class="d-flex align-items-center mb-3">
             <b-iconstack font-scale="2.5" class="mr-2">
               <b-icon stacked icon="circle-fill" variant="dark-green"></b-icon>
@@ -54,7 +54,7 @@
             </div>
           </div>
         </b-col>
-        <b-col sm="6" class="p-5">
+        <b-col sm="6" class="p-4 p-sm-5">
           <div class="shadow bg-white px-4 py-5 rounded text-left">
             <b-form @submit.prevent="sendmessage">
               <b-form-row>

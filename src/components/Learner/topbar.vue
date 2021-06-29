@@ -35,141 +35,84 @@
             <h5 class="mb-0">{{ $store.getters.learner.org_name }}</h5>
           </div>
 
-          <h6 class="mt-3 mb-1 text-lighter-green side_header">PERSONAL</h6>
           <router-link to="/learner">
             <div class="side_item">
-              <b-icon
-                icon="grid1x2"
-                font-scale="1.1"
-                class="mr-3 text-lighter-green"
-              ></b-icon>
-              <span class="side-link">Dashboard</span>
+              <home-icon size="1.2x" class="custom-class"></home-icon>
+              <span class="side-link px-2">Dashboard</span>
             </div>
           </router-link>
-
+          <router-link to="/learner/courses">
+            <div class="side_item">
+              <folder-icon size="1.2x" class="custom-class"></folder-icon>
+              <span class="side-link px-2">Courses</span>
+            </div>
+          </router-link>
+          <router-link to="/learner/assessments">
+            <div class="side_item">
+              <database-icon size="1x" class="custom-class"></database-icon>
+              <span class="side-link px-2">Assessments</span>
+            </div>
+          </router-link>
+          <router-link to="/learner/library">
+            <div class="side_item">
+              <book-icon size="1.2x" class="custom-class"></book-icon>
+              <span class="side-link px-2">Library</span>
+            </div>
+          </router-link>
           <router-link to="/learner/schedule">
             <div class="side_item">
-              <b-icon
-                icon="calendar-event"
-                font-scale="1.1"
-                class="mr-3 text-lighter-green"
-              ></b-icon>
-              <span class="side-link">Schedule</span>
-            </div>
-          </router-link>
-
-          <h6 class="mt-3 mb-1 text-lighter-green side_header">NETWORK</h6>
-
-          <router-link to="/learner/connections">
-            <div class="side_item">
-              <b-icon
-                icon="link45deg"
-                font-scale="1.1"
-                class="mr-3 text-lighter-green"
-              ></b-icon>
-              <span class="side-link">Connections</span>
+              <calendar-icon size="1.2x" class="custom-class"></calendar-icon>
+              <span class="side-link px-2">Schedule</span>
             </div>
           </router-link>
           <router-link to="/learner/feeds">
             <div class="side_item">
-              <b-icon
-                icon="rss"
-                font-scale="1.1"
-                class="mr-3 text-lighter-green"
-              ></b-icon>
-              <span class="side-link"><span class="mr-5">Feeds</span> </span>
-            </div>
-          </router-link>
-          <router-link to="/learner/events">
-            <div class="side_item">
-              <b-icon
-                icon="bookmark"
-                font-scale="1.1"
-                class="mr-3 text-lighter-green"
-              ></b-icon>
-              <span class="side-link">
-                <span class="mr-5">Events</span>
+              <rss-icon size="1.2x" class="custom-class"></rss-icon>
+              <span class="side-link px-2"
+                ><span class="mr-5">Feeds</span>
               </span>
             </div>
           </router-link>
           <router-link to="/learner/discussions">
             <div class="side_item">
-              <b-icon
-                icon="chat-left-quote"
-                font-scale="1.1"
-                class="mr-3 text-lighter-green"
-              ></b-icon>
-              <span class="side-link">Discussions</span>
+              <twitch-icon size="1.2x" class="custom-class"></twitch-icon>
+              <span class="side-link px-2">Discussions</span>
             </div>
           </router-link>
-
-          <h6 class="mt-3 mb-1 text-lighter-green side_header">LEARN</h6>
-
-          <router-link to="/learner/courses">
+          <router-link to="/learner/connections">
             <div class="side_item">
-              <b-icon
-                icon="book"
-                font-scale="1.1"
-                class="mr-3 text-lighter-green"
-              ></b-icon>
-              <span class="side-link">Courses</span>
+              <link-icon size="1.2x" class="custom-class"></link-icon>
+              <span class="side-link px-2">Connections</span>
             </div>
           </router-link>
-
-          <router-link to="/learner/library">
+          <router-link to="/learner/events">
             <div class="side_item">
-              <b-icon
-                icon="card-list"
-                font-scale="1.1"
-                class="mr-3 text-lighter-green"
-              ></b-icon>
-              <span class="side-link">Library</span>
+              <bookmark-icon size="1.2x" class="custom-class"></bookmark-icon>
+              <span class="side-link px-2">
+                <span class="mr-5">Events</span>
+              </span>
             </div>
           </router-link>
-          <!-- <router-link to="/learner/assessments">
-          <div class="side_item">
-            <b-icon
-              icon="card-list"
-              font-scale="1.1"
-              class="mr-3 text-lighter-green"
-            ></b-icon>
-            <span class="side-link">Assessments</span>
-          </div>
-        </router-link>
-        <router-link to="/learner/grades">
-          <div class="side_item">
-            <b-icon
-              icon="card-list"
-              font-scale="1.1"
-              class="mr-3 text-lighter-green"
-            ></b-icon>
-            <span class="side-link">Grades</span>
-          </div>
-        </router-link> -->
-
-          <h6 class="mt-3 mb-1 text-lighter-green side_header">EARN</h6>
-
           <router-link to="/learner/referrals">
             <div class="side_item">
-              <b-icon
-                icon="signpost-split"
-                font-scale="1.1"
-                class="mr-3 text-lighter-green"
-              ></b-icon>
-              <span class="side-link">Bonuses</span>
+              <credit-card-icon
+                size="1.2x"
+                class="custom-class"
+              ></credit-card-icon>
+              <span class="side-link px-2">Bonuses</span>
             </div>
           </router-link>
 
           <hr />
 
           <router-link to="/explore">
-            <div class="side_item mt-1">
+            <div class="side_item">
               <b-icon
                 icon="app-indicator"
                 font-scale="1.1"
-                class="mr-3 text-lighter-green"
+                class="custom-class"
               ></b-icon>
-              <span class="side-link">Explore</span>
+              <span class="side-link px-2">Explore</span>
             </div></router-link
           >
           <router-link to="/">
@@ -177,18 +120,18 @@
               <b-icon
                 icon="arrow-left"
                 font-scale="1.1"
-                class="mr-3 text-lighter-green"
+                class="custom-class"
               ></b-icon>
-              <span class="side-link">Back to Home</span>
+              <span class="side-link px-2">Back to Home</span>
             </div>
           </router-link>
           <div class="side_item mt-1" @click="logout">
-            <b-icon
-              icon="box-arrow-left"
-              font-scale="1.1"
-              class="mr-3 text-lighter-green"
-            ></b-icon>
-            <span class="side-link">Log out</span>
+            <log-out-icon size="1x" class="custom-class"></log-out-icon>
+            <span
+              class="side-link px-2 font-weight-normal ml-0"
+              style="color: #a2a2c2"
+              >Log out</span
+            >
           </div>
         </PushRotate>
       </div>
@@ -199,7 +142,11 @@
 
     <div class="d-flex align-items-center">
       <div class="position-relative mr-4">
-         <bell-icon size="1.5x" class="custom-class text-dark-green" id="bell"></bell-icon>
+        <bell-icon
+          size="1.5x"
+          class="custom-class text-dark-green"
+          id="bell"
+        ></bell-icon>
         <small class="notify_badge">
           <b-badge variant="danger" v-if="unreadnotifications.length">{{
             unreadnotifications.length
@@ -262,21 +209,25 @@
             >
           </div>
         </div>
-        <div v-else class="text-center text-muted notify p-2">
+        <div v-else class="text-center text-muted notify px-2">
           No new notification !
         </div>
       </b-popover>
-        <mail-icon size="1.5x" class="custom-class mr-4 text-muted" id="inbox"></mail-icon>
+      <mail-icon
+        size="1.5x"
+        class="custom-class mr-4 text-muted"
+        id="inbox"
+      ></mail-icon>
 
       <b-popover id="inbox1" target="inbox" triggers="hover" placement="bottom">
         <template #title>Inbox</template>
-        <div class="inbox py-3" v-if="chatters.length">
+        <div class="inbox py-2" v-if="chatters.length">
           <div
             class="inbox_message"
             v-for="(message, index) in chatters"
             :key="index"
           >
-            <div class="px-3 py-3 d-flex border-bottom">
+            <div class="px-3 py-2 d-flex border-bottom">
               <b-avatar size="1.8rem" :src="message.profile"></b-avatar>
 
               <div
@@ -338,14 +289,38 @@
 </template>
 <script>
 import { PushRotate } from "vue-burger-menu";
-import {MailIcon, BellIcon} from "vue-feather-icons"
+import { MailIcon, BellIcon } from "vue-feather-icons";
 import Minichat from "../minichat";
+import {
+  HomeIcon,
+  CalendarIcon,
+  FolderIcon,
+  BookIcon,
+  RssIcon,
+  TwitchIcon,
+  LinkIcon,
+  BookmarkIcon,
+  DatabaseIcon,
+  CreditCardIcon,
+  LogOutIcon,
+} from "vue-feather-icons";
 export default {
   components: {
     PushRotate,
     Minichat,
     MailIcon,
-    BellIcon
+    BellIcon,
+    HomeIcon,
+    CalendarIcon,
+    FolderIcon,
+    BookIcon,
+    RssIcon,
+    TwitchIcon,
+    DatabaseIcon,
+    LinkIcon,
+    BookmarkIcon,
+    CreditCardIcon,
+    LogOutIcon,
   },
   data() {
     return {
@@ -381,7 +356,7 @@ export default {
       this.showAll = false;
     },
     logout() {
-      localStorage.removeItem("authOrg");
+      localStorage.removeItem("authLearner");
       this.$router.push("/login");
     },
     markread() {
@@ -516,8 +491,7 @@ export default {
 
 .side_header {
   font-size: 12px;
-  padding: 1px 0 1px 0px;
-  color: white;
+  padding: 1px 0 1px 30px;
 }
 .side_item {
   font-size: 14px;
@@ -526,14 +500,27 @@ export default {
   line-height: 1.4;
   letter-spacing: 0em;
   text-align: left;
-  color: white;
-  padding: 0px;
-  margin-bottom: 0;
+  color: #a2a2c2 !important;
+  width: 100%;
+  /* padding: 4px 0 4px 30px; */
+  /* margin-bottom: 4px; */
   cursor: pointer;
+}
+.router-link-exact-active.router-link-active .side_item {
+  color: var(--dark-green);
+  border-right: 2px solid #388087;
+}
+
+.router-link-exact-active.router-link-active .side_item .b-icon.bi {
+  color: white !important;
+}
+
+.side_item:hover .b-icon.bi {
+  color: white !important;
 }
 
 .logo {
-  padding: 0px 0 30px;
+  padding: 0px 0 40px;
 }
 .org_name {
   font-size: 17px;
@@ -545,8 +532,5 @@ export default {
 }
 ::placeholder {
   text-align: right;
-}
-.logo {
-  background: white;
 }
 </style>

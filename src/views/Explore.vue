@@ -221,21 +221,21 @@
                     v-if="item.admin"
                     :src="item.admin.profile"
                     class="mr-3"
-                    size="4rem"
+                    size="3rem"
                   ></b-avatar>
                   <b-avatar
                     v-if="item.user"
                     :src="item.user.profile"
                     class="mr-3"
-                    size="4rem"
+                    size="3rem"
                   ></b-avatar>
                   <b-avatar
                     v-if="item.facilitator"
                     :src="item.facilitator.profile"
                     class="mr-3"
-                    size="4rem"
+                    size="3rem"
                   ></b-avatar>
-                  <div>
+                  <div class="line-1">
                     <span
                       class="fs15 font-weight-bold cursor-pointer"
                       @click="$router.push(`/learner/discussion/${item.id}`)"
@@ -247,6 +247,7 @@
                       <span class="mr-2">{{
                         $moment(item.created_at).fromNow()
                       }}</span>
+                      <br />
                       <span
                         >{{ item.discussionmessage.length }} replies</span
                       ></span
@@ -397,14 +398,14 @@
                       justify-content-between
                     "
                   >
-                    <h4 class="text-capitalize text-dark-green mb-0">
+                    <h4 class="text-capitalize text-dark-green mb-0 text-left">
                       {{ item.title }}
                     </h4>
                     <span
                       class="cursor-pointer"
                       @click="$router.push(`/learner/event/${item.id}`)"
                     >
-                      <span class=""> View Event </span>
+                      <span class="viewevent"> View Event </span>
                       <b-icon icon="chevron-double-right"></b-icon>
                     </span>
                   </div>
@@ -630,10 +631,6 @@ export default {
   }
   .tp {
     width: 30px;
-  }
-  h4,
-  h5 {
-    font-size: 1.15rem;
   }
 }
 </style>

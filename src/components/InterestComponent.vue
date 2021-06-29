@@ -12,6 +12,7 @@
       </div>
       <b-row>
         <b-col
+          cols="6"
           sm="3"
           v-for="interest in filteredInterest"
           :key="interest.value"
@@ -19,7 +20,7 @@
         >
           <div
             class="
-              px-4
+              px-2
               py-3
               bg-light
               rounded-pill

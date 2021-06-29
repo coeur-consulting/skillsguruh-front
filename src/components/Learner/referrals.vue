@@ -2,15 +2,18 @@
   <b-container class="py-5 px-3 text-left">
     <b-row>
       <b-col sm="7" v-if="showRef">
-        <div class="box border p-4 mb-4">
+        <div class="box border p-3 p-sm-4 mb-4">
           <h6 class="font-weight-bold mb-4">Invite Friends and Earn Points</h6>
 
           <div class="mb-3">
-            <b-row class="mb-3">
-              <b-col cols="4">
-                <b-img :src="require('@/assets/images/bonus.png')"></b-img
+            <b-row class="mb-3 flex-column flex-sm-row">
+              <b-col sm="4" class="text-center">
+                <b-img
+                  class="img-s"
+                  :src="require('@/assets/images/bonus.png')"
+                ></b-img
               ></b-col>
-              <b-col cols="8">
+              <b-col sm="8">
                 <p>
                   Refer your friends to skillsguruh and earn bonus point we also
                   give your friends bonus because we value your friendship
@@ -73,7 +76,7 @@
                   </div>
                 </b-form>
 
-                <div>
+                <div class="d-none d-md-block">
                   <b-row class="justify-content-center">
                     <div class="mr-4">
                       <b-img

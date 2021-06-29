@@ -211,7 +211,7 @@
                 class="mr-2 mt-1"
               ></b-icon>
               <div class="d-flex justify-content-between">
-                <div>{{ item.body }} -</div>
+                <p class="mb-0">{{ item.body }} -</p>
                 <div class="text-right" v-if="!item.response">
                   <b-button
                     class="mr-3 fs11"

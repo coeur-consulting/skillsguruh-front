@@ -40,7 +40,7 @@
       <div v-if="showDiscussion">
         <div class="main_content" v-if="filteredData.length">
           <div
-            class="content border-bottom p-3 pt-4 pb-5 cursor-pointer"
+            class="content border-bottom p-2 p-sm-3 pt-4 pb-5 cursor-pointer"
             v-for="(item, index) in filteredData"
             :key="index"
           >

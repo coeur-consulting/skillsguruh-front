@@ -107,7 +107,9 @@
                     >
                       <h4 class="text-capitalize mb-0">{{ item.title }}</h4>
                       <span @click="view(item.id)">
-                        <span class="fs15 cursor-pointer"> View Event </span>
+                        <span class="fs15 cursor-pointer viewevent">
+                          View Event
+                        </span>
                         <b-icon icon="chevron-double-right"></b-icon>
                       </span>
                     </div>

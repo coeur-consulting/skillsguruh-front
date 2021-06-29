@@ -71,12 +71,12 @@
 
                 <div class="bottom_bar d-flex justify-content-between mb-4">
                   <div>
-                    <span class="mr-4"
+                    <span class="mr-3"
                       ><b-icon icon="chat" class="mr-1"></b-icon>
                       <span v-if="posts"> {{ posts.length }}</span>
                       <span v-else>0</span> answers</span
                     >
-                    <span class="mr-4"
+                    <span class="mr-3"
                       ><b-icon icon="eye-fill" class="mr-1"></b-icon>
                       <span v-if="views"> {{ views }}</span>
                       <span v-else>0</span> views</span

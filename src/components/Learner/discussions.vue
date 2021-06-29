@@ -41,7 +41,14 @@
             <div v-if="showDiscussion">
               <div class="main_content" v-if="filteredData.length">
                 <div
-                  class="content border-bottom p-3 pt-4 pb-5 cursor-pointer"
+                  class="
+                    content
+                    border-bottom
+                    p-2 p-sm-3
+                    pt-4
+                    pb-5
+                    cursor-pointer
+                  "
                   v-for="(item, index) in filteredData"
                   :key="index"
                 >
@@ -175,7 +182,7 @@
                 </div>
               </div>
 
-              <div v-else class="text-center admin_tab p-3 p-sm-5">
+              <div v-else class="text-center admin_tab p-2 p-sm-5">
                 <div>
                   <b-img :src="require('@/assets/images/creator.svg')"></b-img>
                   <h6 class="text-muted my-3 fs14">
@@ -254,7 +261,7 @@
                   </div>
                 </div>
               </div>
-              <div v-else class="p-3 w-100">
+              <div v-else class="p-2 p-sm-3 w-100">
                 <div class="d-flex w-100 mb-3">
                   <div class="mr-2 w-25">
                     <b-skeleton animation="wave" width="100%"></b-skeleton>
