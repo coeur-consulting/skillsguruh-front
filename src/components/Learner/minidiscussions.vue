@@ -1,13 +1,23 @@
 <template>
   <div>
-    <div class="d-flex align-items-center mb-3 w-100 text-left">
-      <h6 class="flex-1 font-weight-bold">Discussions</h6>
+    <div
+      class="
+        d-flex
+        flex-column flex-sm-row
+        align-items-center
+        mb-3
+        w-100
+        text-left
+      "
+    >
+      <h6 class="flex-1 font-weight-bold mb-3 mb-sm-0">Discussions</h6>
       <span class="fs14 search">
         <b-form-input
           class="rounded"
-          placeholder="Search discussion"
+          placeholder="Find a discussion"
           type="search"
           v-model="search"
+          size="sm"
         ></b-form-input
       ></span>
     </div>
@@ -541,5 +551,11 @@ export default {
   position: absolute;
   top: 0;
   right: 15px;
+}
+@media (max-width: 600px) {
+  .search {
+    width: 90%;
+    margin: 0 auto;
+  }
 }
 </style>

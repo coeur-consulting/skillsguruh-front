@@ -8,7 +8,7 @@
               <AudioMedia v-if="type == 'audio'" :media="media" />
               <VideoMedia v-if="type == 'video'" :media="media" />
               <PdfMedia v-if="type == 'document'" :media="media" />
-              <div v-if="type == 'template'" class="pr-3">
+              <div v-if="type == 'template'" class="pr-sm-3">
                 <div
                   v-if="
                     myquestionnaire.find(
@@ -101,14 +101,14 @@
                 />
               </div>
             </div>
-            <div class="text-left py-3 pr-3">
-              <div class="d-flex align-items-center mb-3">
+            <div class="text-left py-3 pr-sm-3">
+              <div class="d-flex align-items-center mb-1 px-3">
                 <h6
                   class="
                     text-capitalize
                     font-weight-bold
                     text-left
-                    pr-3
+                    pr-sm-3
                     border-right
                   "
                 >
@@ -120,9 +120,9 @@
                 </h6>
               </div>
 
-              <p>{{ media.overview }}</p>
+              <p class="px-3">{{ media.overview }}</p>
 
-              <div>
+              <div class="">
                 <div no-body class="library-card">
                   <b-tabs card class="library">
                     <b-tab title="Overview" active>
@@ -130,6 +130,248 @@
                         <h6 class="font-weight-bold">About this course</h6>
 
                         <b-card-text>{{ course.description }}</b-card-text>
+                      </div>
+                    </b-tab>
+                    <b-tab class="d-block d-sm-none" title="Modules">
+                      <div>
+                        <h6>Modules</h6>
+
+                        <div
+                          class="accordion"
+                          role="tablist"
+                          v-if="course.modules && course.modules.length"
+                        >
+                          <b-card
+                            no-body
+                            class="mb-1"
+                            v-for="(item, id) in course.modules"
+                            :key="id"
+                          >
+                            <b-card-header
+                              header-tag="header"
+                              class="p-1 bg-light rounded"
+                              role="tab"
+                              v-b-toggle="'module' + id"
+                              @click="
+                                updateProgress(id + 1, course.modules.length)
+                              "
+                            >
+                              <b-form-checkbox
+                                :disabled="id + 1 <= Number(current)"
+                                :checked="id + 1 <= Number(current)"
+                              >
+                                <div variant="info">
+                                  <b-icon
+                                    icon="check2-circle"
+                                    class="mr-2"
+                                    variant="light-green"
+                                  ></b-icon>
+                                  {{ item.module }}
+                                </div>
+                              </b-form-checkbox>
+                            </b-card-header>
+                            <b-collapse
+                              :id="'module' + id"
+                              accordion="my-accordion"
+                              role="tabpanel"
+                            >
+                              <b-card-body
+                                class="py-1 mb-4"
+                                :class="{
+                                  'border-bottom':
+                                    JSON.parse(item.modules).length > 1,
+                                }"
+                                v-for="(mod, index) in JSON.parse(
+                                  item.modules
+                                ).filter(
+                                  (item) => item.file_type !== 'template'
+                                )"
+                                :key="index"
+                              >
+                                <b-card-text
+                                  class="
+                                    d-flex
+                                    text-capitalize
+                                    align-items-center
+                                    mb-2
+                                  "
+                                >
+                                  <div>
+                                    <div class="flex-1 fs14">
+                                      {{ mod.title }}
+                                    </div>
+
+                                    <div class="fs10 text-dark-green mr-3">
+                                      {{ mod.file_type }}
+                                    </div>
+                                  </div>
+                                  <b-button
+                                    class="my-2 ml-auto fs12"
+                                    @click="
+                                      play(
+                                        mod,
+
+                                        item.id
+                                      )
+                                    "
+                                    size="sm"
+                                    variant="dark-green"
+                                    ><b-icon icon="play-fill"></b-icon>
+                                    {{
+                                      mod.file_type == "document" ||
+                                      mod.file_type == "template"
+                                        ? "View"
+                                        : "Play"
+                                    }}</b-button
+                                  >
+                                </b-card-text>
+                              </b-card-body>
+
+                              <b-card-body
+                                v-if="
+                                  JSON.parse(item.modules).filter(
+                                    (item) => item.file_type == 'template'
+                                  ) &&
+                                  JSON.parse(item.modules).filter(
+                                    (item) => item.file_type == 'template'
+                                  ).length
+                                "
+                              >
+                                <h6>Worksheet</h6>
+                                <b-card-body
+                                  class="py-1 px-0"
+                                  v-for="(mod, index) in JSON.parse(
+                                    item.modules
+                                  ).filter(
+                                    (item) => item.file_type == 'template'
+                                  )"
+                                  :key="index"
+                                >
+                                  <b-card-text
+                                    class="
+                                      d-flex
+                                      text-capitalize
+                                      align-items-center
+                                      mb-2
+                                    "
+                                  >
+                                    <div
+                                      class="flex-1 fs14"
+                                      @click="
+                                        play(
+                                          mod,
+
+                                          item.id
+                                        )
+                                      "
+                                    >
+                                      {{ mod.title }}
+                                    </div>
+
+                                    <!-- <div class="fs10 text-dark-green mr-3">
+                          {{ mod.template.type }}
+                        </div> -->
+
+                                    <b-icon
+                                      v-b-popover.hover.top="'Submitted'"
+                                      v-if="
+                                        myquestionnaire.find(
+                                          (item) =>
+                                            item.question_template_id ==
+                                            mod.template.id
+                                        ) &&
+                                        myquestionnaire.find(
+                                          (item) =>
+                                            item.question_template_id ==
+                                            mod.template.id
+                                        ).status == 'submitted'
+                                      "
+                                      variant="dark-green"
+                                      icon="check-circle-fill"
+                                    ></b-icon>
+                                    <b-icon
+                                      v-b-popover.hover.top="'Draft'"
+                                      v-if="
+                                        myquestionnaire.find(
+                                          (item) =>
+                                            item.question_template_id ==
+                                            mod.template.id
+                                        ) &&
+                                        myquestionnaire.find(
+                                          (item) =>
+                                            item.question_template_id ==
+                                            mod.template.id
+                                        ).status == 'draft'
+                                      "
+                                      variant="warning"
+                                      icon="stop-circle-fill"
+                                    ></b-icon>
+                                    <b-icon
+                                      v-b-popover.hover.top="'Begin'"
+                                      v-if="
+                                        !myquestionnaire.find(
+                                          (item) =>
+                                            item.question_template_id ==
+                                            mod.template.id
+                                        )
+                                      "
+                                      icon="play-circle-fill"
+                                    ></b-icon>
+
+                                    <!-- <b-button
+                        class="my-2 ml-auto fs12"
+
+                        size="sm"
+                        variant="dark-green"
+                        ><b-icon icon="play-fill"></b-icon>
+                        {{ "View" }}</b-button
+                      > -->
+                                  </b-card-text>
+                                </b-card-body>
+                              </b-card-body>
+                            </b-collapse>
+                          </b-card>
+                        </div>
+
+                        <div v-else>
+                          <div
+                            class="accordion"
+                            role="tablist"
+                            v-if="course.courseoutline"
+                          >
+                            <b-card
+                              no-body
+                              class="mb-1"
+                              v-for="(item, id) in JSON.parse(
+                                course.courseoutline.modules
+                              )"
+                              :key="id"
+                            >
+                              <b-card-header
+                                header-tag="header"
+                                class="p-1 bg-light rounded"
+                                role="tab"
+                              >
+                                <div v-b-toggle="'module' + id" variant="info">
+                                  <b-icon
+                                    icon="check2-circle"
+                                    variant="light-green"
+                                  ></b-icon>
+                                  {{ item }}
+                                </div>
+                              </b-card-header>
+                              <b-collapse
+                                :id="'module' + id"
+                                accordion="my-accordion"
+                                role="tabpanel"
+                              >
+                                <b-card-body>
+                                  <b-card-text>Unavailable</b-card-text>
+                                </b-card-body>
+                              </b-collapse>
+                            </b-card>
+                          </div>
+                        </div>
                       </div>
                     </b-tab>
 
@@ -211,10 +453,18 @@
             </div>
           </div>
         </b-col>
-        <b-col sm="4" class="bg-white text-left p-3" v-if="course.modules">
+        <b-col
+          sm="4"
+          class="bg-white text-left p-3 d-none d-sm-block"
+          v-if="course.modules"
+        >
           <h6>Modules</h6>
 
-          <div class="accordion" role="tablist" v-if="course.modules.length">
+          <div
+            class="accordion"
+            role="tablist"
+            v-if="course.modules && course.modules.length"
+          >
             <b-card
               no-body
               class="mb-1"
@@ -289,7 +539,16 @@
                   </b-card-text>
                 </b-card-body>
 
-                <b-card-body>
+                <b-card-body
+                  v-if="
+                    JSON.parse(item.modules).filter(
+                      (item) => item.file_type == 'template'
+                    ) &&
+                    JSON.parse(item.modules).filter(
+                      (item) => item.file_type == 'template'
+                    ).length
+                  "
+                >
                   <h6>Worksheet</h6>
                   <b-card-body
                     class="py-1 px-0"
@@ -319,6 +578,7 @@
                         </div> -->
 
                       <b-icon
+                        v-b-popover.hover.top="'Submitted'"
                         v-if="
                           myquestionnaire.find(
                             (item) =>
@@ -333,6 +593,7 @@
                         icon="check-circle-fill"
                       ></b-icon>
                       <b-icon
+                        v-b-popover.hover.top="'Draft'"
                         v-if="
                           myquestionnaire.find(
                             (item) =>
@@ -347,6 +608,7 @@
                         icon="stop-circle-fill"
                       ></b-icon>
                       <b-icon
+                        v-b-popover.hover.top="'Begin'"
                         v-if="
                           !myquestionnaire.find(
                             (item) =>

@@ -55,6 +55,7 @@
                   <carousel
                     :scrollPerPage="true"
                     :paginationEnabled="false"
+                    :perPage="1"
                     :perPageCustom="[
                       [600, 1],
                       [768, 3],
@@ -162,6 +163,7 @@
                   <carousel
                     :scrollPerPage="true"
                     :paginationEnabled="false"
+                    :perPage="1"
                     :perPageCustom="[
                       [600, 1],
                       [768, 3],
@@ -179,7 +181,6 @@
                         img-alt="Image"
                         img-top
                         tag="article"
-                        style="max-width: 20rem"
                         class="mb-2 border"
                       >
                         <b-card-text class="overview">

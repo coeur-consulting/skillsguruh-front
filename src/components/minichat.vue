@@ -385,10 +385,11 @@ export default {
   position: fixed;
   bottom: 0;
   width: 330px;
-  left: 30%;
+  left: 50%;
   border-radius: 10px 10px 0 0;
   z-index: 999;
   overflow: hidden;
+  margin-left: -165px;
 }
 .reply {
   height: 360px;

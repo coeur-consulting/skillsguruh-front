@@ -287,6 +287,9 @@ a:hover {
   font-size: 14px;
   font-weight: bold;
 }
+.library .card-header ul li:nth-child(2).nav-item {
+  display: none;
+}
 .overflow-y-auto {
   overflow-y: auto;
 }
@@ -345,7 +348,7 @@ a:hover {
 }
 @media (max-width: 600px) {
   ::placeholder {
-    font-size: 14px;
+    font-size: 13px;
   }
   .reg .custom-control-label {
     font-size: 11px;
@@ -414,7 +417,7 @@ a:hover {
     & div {
       & div {
         & h4 {
-          font-size: 16px;
+          font-size: 15px;
         }
       }
     }
@@ -424,7 +427,7 @@ a:hover {
     & div {
       & div {
         & span {
-          font-size: 12px;
+          font-size: 11px;
         }
       }
     }
@@ -442,10 +445,10 @@ a:hover {
     font-size: 0.75rem !important;
   }
   p {
-    font-size: 14px;
+    font-size: x-small;
   }
   span.cursor-pointer {
-    font-size: 12px;
+    font-size: 11px;
   }
   span {
     line-height: 1.4;
@@ -464,7 +467,7 @@ a:hover {
     padding: 15px 0 !important;
   }
   .title {
-    font-size: 14px !important;
+    font-size: 13.5px !important;
   }
   .asked {
     font-size: 11px;
@@ -519,7 +522,7 @@ a:hover {
   }
   .feedname,
   .name {
-    font-size: 14px;
+    font-size: 13px;
   }
   td {
     min-width: 160px;
@@ -537,5 +540,14 @@ a:hover {
   .container-fluid {
     height: 100% !important;
     overflow: auto;
+  }
+  .library .card-header ul li a {
+    color: #18696d;
+    font-size: xx-small;
+    font-weight: bold;
+    padding: 0.5rem 0.7rem;
+  }
+  .library .card-header ul li:nth-child(2).nav-item {
+    display: block;
   }
 }

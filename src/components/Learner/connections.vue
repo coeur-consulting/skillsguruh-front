@@ -166,7 +166,7 @@
       </b-col>
     </b-row>
     <Minichat
-      class="minichats d-none d-md-block"
+      class="minichats"
       :user="'learner'"
       :mini_info="mini_info"
       :open="open"
