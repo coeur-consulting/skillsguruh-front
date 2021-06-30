@@ -16,11 +16,6 @@ const routes = [
       footer: Footer,
     },
   },
-  // {
-  //   path: "/invite/:code",
-  //   name: "Referral",
-  //   redirect: "/register?invite=1224",
-  // },
 
   {
     path: "/register",
@@ -1279,8 +1274,21 @@ const routes = [
         },
       },
       {
-        path: "questionnaire/:id",
+        path: "questionnaire/:id/:module_id/:course_id",
         name: "Learner questionnaire",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnerfacilitator" */ "@/components/Learner/viewQuestionnaire.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "solve/template/:id/:module_id/:course_id",
+        name: "Learner template",
         components: {
           default: () =>
             import(

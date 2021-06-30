@@ -2,15 +2,16 @@
   <div class="p-3 bg-white">
     <b-form @submit.prevent="submit">
       <b-container class="py-3 px-0 text-left" v-if="questionnaire.sections">
-        <div class="text-left d-flex justify-content-between mb-4">
+        <div class="mb-3">
+          <span @click="$router.go(-1)"
+            ><b-icon icon="arrow-left"></b-icon> Back</span
+          >
+        </div>
+        <div class="text-left d-flex justify-content-between">
           <h5 class="mb-4 text-capitalize">{{ questionnaire.title }}</h5>
-
-          <div v-if="your_score" class="p-3 text-center">
-            Your score <br />
-            <span class="fs16 text-dark-green font-weight-bold"
-              >{{ your_score }} / {{ total_score }}</span
-            >
-          </div>
+          <span @click="$bvModal.show('preview')"
+            >Preview <b-icon icon="eye"></b-icon
+          ></span>
         </div>
         <div>
           <div class="mb-4 border-bottom">
@@ -32,7 +33,7 @@
               </h5>
 
               <div class="font-weight-bold my-2">
-                <span>{{ questionnaire.sections[section].title }}</span>
+                {{ questionnaire.sections[section].title }}
               </div>
               <div
                 v-if="questionnaire.sections[section].description"
@@ -56,201 +57,172 @@
             >
               <div class="d-flex">
                 <span class="mr-2">{{ index + 1 }}.</span>
-                <div class="d-flex justify-content-between flex-1">
-                  <b-form-group :label="question.question" class="flex-1">
-                    <div class="mb-3" v-if="question.hint">
-                      <em class="text-dark-green fs12"
-                        ><b-icon icon="info-circle-fill"></b-icon>
-                        {{ question.hint }}</em
-                      >
-                    </div>
-                    <div v-if="question.type == 'short'">
-                      <b-form-input
-                        :disabled="type != 'template'"
-                        @change="handleResponse"
-                        v-model="question.response"
-                        :placeholder="question.placeholder"
-                      ></b-form-input>
-                    </div>
-                    <div v-if="question.type == 'long'">
-                      <b-form-textarea
-                        :disabled="type != 'template'"
-                        @change="handleResponse"
-                        v-model="question.response"
-                        :placeholder="question.placeholder"
-                      ></b-form-textarea>
-                    </div>
-
-                    <div v-if="question.type == 'single'">
-                      <b-form-radio-group
-                        size="sm"
-                        :disabled="type != 'template'"
-                        @change="handleResponse"
-                        v-model="question.response"
-                        :options="question.options"
-                        value-field="title"
-                        text-field="title"
-                      ></b-form-radio-group>
-                    </div>
-                    <div v-if="question.type == 'multiple'">
-                      <div
-                        v-for="(item, id) in question.options"
-                        :key="id"
-                        class="d-flex align-items-center mb-1"
-                      >
-                        <b-form-input
-                          :disabled="type != 'template'"
-                          v-model="item.title"
-                          :placeholder="question.placeholder"
-                        ></b-form-input>
-                        <b-button-group>
-                          <b-button
-                            :disabled="type != 'template'"
-                            v-if="
-                              questionnaire.sections[section].questions[index]
-                                .options.length > 1
-                            "
-                            @click="
-                              questionnaire.sections[section].questions[
-                                index
-                              ].options.splice(id, 1)
-                            "
-                          >
-                            <b-icon icon="x"></b-icon
-                          ></b-button>
-                          <b-button
-                            :disabled="type != 'template'"
-                            variant="lighter-green"
-                            @click="addoption(index)"
-                          >
-                            <b-icon icon="plus"></b-icon
-                          ></b-button>
-                        </b-button-group>
-                      </div>
-                    </div>
-                    <div v-if="question.type == 'checkbox'">
-                      <div>
-                        <b-form-checkbox
-                          size="sm"
-                          @change="handleResponse"
-                          v-for="(item, index) in question.options"
-                          :key="index"
-                          :value="index"
-                          v-model="question.responses"
-                          :disabled="
-                            question.responses.length > question.limit &&
-                            question.responses.indexOf(index) === -1
-                          "
-                          inline
-                        >
-                          {{ item.title }}
-                        </b-form-checkbox>
-                      </div>
-                    </div>
-
-                    <div v-if="question.type == 'boolean'">
-                      <b-form-radio
-                        size="sm"
-                        :disabled="type != 'template'"
-                        @change="handleResponse"
-                        v-model="question.response"
-                        value="true"
-                        >True</b-form-radio
-                      >
-                      <b-form-radio
-                        size="sm"
-                        :disabled="type != 'template'"
-                        @change="handleResponse"
-                        v-model="question.response"
-                        value="false"
-                        >False</b-form-radio
-                      >
-                    </div>
-
-                    <div v-if="question.type == 'dropdown'">
-                      <b-form-select
-                        @change="handleResponse"
-                        v-model="question.response"
-                        :disabled="type != 'template'"
-                      >
-                        <b-form-select-option
-                          v-for="option in question.options"
-                          :key="option.title"
-                          :value="option.title"
-                          >{{ option.title }}</b-form-select-option
-                        >
-                      </b-form-select>
-                    </div>
-
-                    <div v-if="question.type == 'range'">
-                      <b-form-input
-                        :disabled="type != 'template'"
-                        @change="handleResponse"
-                        type="range"
-                        v-model="question.response"
-                        min="0"
-                        max="10"
-                      ></b-form-input>
-                    </div>
-                    <div v-if="question.type == 'email'">
-                      <b-form-input
-                        :disabled="type != 'template'"
-                        @change="handleResponse"
-                        v-model="question.response"
-                        type="email"
-                      ></b-form-input>
-                    </div>
-                    <div v-if="question.type == 'number'">
-                      <b-form-input
-                        :disabled="type != 'template'"
-                        @change="handleResponse"
-                        v-model="question.response"
-                        type="number"
-                      ></b-form-input>
-                    </div>
-                    <div v-if="question.type == 'time'">
-                      <b-form-input
-                        :disabled="type != 'template'"
-                        @change="handleResponse"
-                        v-model="question.response"
-                        type="time"
-                      ></b-form-input>
-                    </div>
-                    <div v-if="question.type == 'date'">
-                      <b-form-input
-                        :disabled="type != 'template'"
-                        @change="handleResponse"
-                        v-model="question.response"
-                        type="date"
-                      ></b-form-input>
-                    </div>
-                    <div v-if="question.type == 'color'">
-                      <b-form-input
-                        :disabled="type != 'template'"
-                        @change="handleResponse"
-                        v-model="question.response"
-                        type="color"
-                      ></b-form-input>
-                    </div>
-                  </b-form-group>
-                  <div class="p-2 px-3" v-if="type !== 'template'">
-                    <span>Correct answer</span> <br />
-                    <span class="text-capitalize" v-if="question.answer">{{
-                      question.answer
-                    }}</span>
-                    <span v-if="question.answers.length > 1">
-                      <ul>
-                        <li
-                          class="text-capitalize"
-                          v-for="(v, i) in question.answers"
-                          :key="i"
-                        >
-                          {{ v.title }}
-                        </li>
-                      </ul>
-                    </span>
+                <b-form-group :label="question.question" class="flex-1">
+                  <div class="mb-3" v-if="question.hint">
+                    <em class="text-dark-green fs12"
+                      ><b-icon icon="info-circle-fill"></b-icon>
+                      {{ question.hint }}</em
+                    >
                   </div>
-                </div>
+                  <div v-if="question.type == 'short'">
+                    <b-form-input
+                      @change="handleResponse"
+                      v-model="question.response"
+                      :placeholder="question.placeholder"
+                    ></b-form-input>
+                  </div>
+                  <div v-if="question.type == 'long'">
+                    <b-form-textarea
+                      @change="handleResponse"
+                      v-model="question.response"
+                      :placeholder="question.placeholder"
+                    ></b-form-textarea>
+                  </div>
+
+                  <div v-if="question.type == 'single'">
+                    <b-form-radio-group
+                      class="text-capitalize"
+                      size="sm"
+                      @change="handleResponse"
+                      v-model="question.response"
+                      :options="question.options"
+                      value-field="title"
+                      text-field="title"
+                    ></b-form-radio-group>
+                  </div>
+                  <div v-if="question.type == 'multiple'">
+                    <div
+                      v-for="(item, id) in question.options"
+                      :key="id"
+                      class="d-flex align-items-center mb-1"
+                    >
+                      <b-form-input
+                        v-model="item.title"
+                        :placeholder="question.placeholder"
+                      ></b-form-input>
+                      <b-button-group>
+                        <b-button
+                          v-if="
+                            questionnaire.sections[section].questions[index]
+                              .options.length > 1
+                          "
+                          @click="
+                            questionnaire.sections[section].questions[
+                              index
+                            ].options.splice(id, 1)
+                          "
+                        >
+                          <b-icon icon="x"></b-icon
+                        ></b-button>
+                        <b-button
+                          variant="lighter-green"
+                          @click="addoption(index)"
+                        >
+                          <b-icon icon="plus"></b-icon
+                        ></b-button>
+                      </b-button-group>
+                    </div>
+                  </div>
+                  <div v-if="question.type == 'checkbox'">
+                    <div>
+                      <b-form-checkbox
+                        size="sm"
+                        class="text-capitalize"
+                        @change="handleResponse"
+                        v-for="(item, index) in question.options"
+                        :key="index"
+                        :value="index"
+                        v-model="question.responses"
+                        :disabled="
+                          question.responses.length > question.limit &&
+                          question.responses.indexOf(index) === -1
+                        "
+                        inline
+                      >
+                        {{ item.title }}
+                      </b-form-checkbox>
+                    </div>
+                  </div>
+
+                  <div v-if="question.type == 'boolean'">
+                    <b-form-radio
+                      class="text-capitalize"
+                      size="sm"
+                      @change="handleResponse"
+                      v-model="question.response"
+                      value="true"
+                      >True</b-form-radio
+                    >
+                    <b-form-radio
+                      size="sm"
+                      class="text-capitalize"
+                      @change="handleResponse"
+                      v-model="question.response"
+                      value="false"
+                      >False</b-form-radio
+                    >
+                  </div>
+
+                  <div v-if="question.type == 'dropdown'">
+                    <b-form-select
+                      class="text-capitalize"
+                      @change="handleResponse"
+                      v-model="question.response"
+                    >
+                      <b-form-select-option
+                        v-for="option in question.options"
+                        :key="option.title"
+                        :value="option.title"
+                        >{{ option.title }}</b-form-select-option
+                      >
+                    </b-form-select>
+                  </div>
+
+                  <div v-if="question.type == 'range'">
+                    <b-form-input
+                      @change="handleResponse"
+                      type="range"
+                      v-model="question.response"
+                      min="0"
+                      max="10"
+                    ></b-form-input>
+                  </div>
+                  <div v-if="question.type == 'email'">
+                    <b-form-input
+                      @change="handleResponse"
+                      v-model="question.response"
+                      type="email"
+                    ></b-form-input>
+                  </div>
+                  <div v-if="question.type == 'number'">
+                    <b-form-input
+                      @change="handleResponse"
+                      v-model="question.response"
+                      type="number"
+                    ></b-form-input>
+                  </div>
+                  <div v-if="question.type == 'time'">
+                    <b-form-input
+                      @change="handleResponse"
+                      v-model="question.response"
+                      type="time"
+                    ></b-form-input>
+                  </div>
+                  <div v-if="question.type == 'date'">
+                    <b-form-input
+                      @change="handleResponse"
+                      v-model="question.response"
+                      type="date"
+                    ></b-form-input>
+                  </div>
+                  <div v-if="question.type == 'color'">
+                    <b-form-input
+                      @change="handleResponse"
+                      v-model="question.response"
+                      type="color"
+                    ></b-form-input>
+                  </div>
+                </b-form-group>
               </div>
             </div>
 
@@ -272,7 +244,7 @@
                 @click="section++"
                 >Next Section</b-button
               >
-              <span class="ml-auto" v-if="type == 'template'">
+              <span class="ml-auto">
                 <b-button
                   size="sm"
                   class="mr-3"
@@ -296,22 +268,17 @@
         </div>
       </b-container>
     </b-form>
+
+    <b-modal id="preview" size="xl" centered hide-footer>
+      <Preview :questionnaire="questionnaire" />
+    </b-modal>
   </div>
 </template>
 <script>
+import Preview from "./AnswerTemplates/preview.vue";
 export default {
-  props: [
-    "id",
-    "course_id",
-    "module_id",
-    "myquestionnaire",
-    "type",
-    "total_score",
-    "your_score",
-  ],
   data() {
     return {
-      disable: false,
       questionnaire: {
         id: null,
         module_id: null,
@@ -355,18 +322,19 @@ export default {
           },
         ],
       },
+      getLibrary: [],
       section: 0,
       responses: [],
       score: 0,
     };
   },
+  components: {
+    Preview,
+  },
   mounted() {
-    this.getQuestionnaire();
+    this.getAnswers();
   },
-  watch: {
-    id: "getQuestionnaire",
-    type: "toggleDisable",
-  },
+
   computed: {
     myquest() {
       return this.$props.myquestionnaire;
@@ -393,26 +361,65 @@ export default {
     },
   },
   methods: {
-    toggleDisable() {
-      if (this.$props.type == "template") {
-        this.disable == false;
-      } else {
-        this.disable == true;
-      }
+    getAnswers() {
+      this.$http
+        .get(`${this.$store.getters.url}/answer-questionnaires`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.myquestionnaire = res.data;
+            var check = res.data.find(
+              (item) =>
+                item.question_template_id == this.$route.params.id &&
+                item.course_id == this.$route.params.course_id &&
+                item.module_id == this.$route.params.module_id
+            );
+          }
+          var sections = JSON.parse(check.content);
+
+          if (check) {
+            this.questionnaire.id = check.question_template_id;
+            this.questionnaire.module_id = check.module_id;
+            this.questionnaire.module_name = check.module_name;
+            this.questionnaire.course_id = check.course_id;
+            this.questionnaire.course_title = check.course.title;
+            this.questionnaire.title = sections.title;
+            this.questionnaire.showFeedback = sections.showFeedback;
+            this.questionnaire.feedback = sections.feedback;
+            this.questionnaire.showScores = sections.showScores;
+            this.questionnaire.sections = sections.sections;
+          } else {
+            this.getQuestionnaire();
+          }
+        });
     },
     getQuestionnaire() {
-      this.questionnaire.id = this.$props.myquestionnaire.id;
-      this.questionnaire.module_id = this.$props.myquestionnaire.module_id;
-      // this.questionnaire.module_name = myquest.module_name;
-      this.questionnaire.course_id = this.$props.myquestionnaire.course_id;
-      this.questionnaire.course_title =
-        this.$props.myquestionnaire.course_title;
-      this.questionnaire.title = this.$props.myquestionnaire.title;
-      this.questionnaire.showFeedback =
-        this.$props.myquestionnaire.showFeedback;
-      this.questionnaire.feedback = this.$props.myquestionnaire.feedback;
-      this.questionnaire.showScores = this.$props.myquestionnaire.showScores;
-      this.questionnaire.sections = this.$props.myquestionnaire.sections;
+      this.$http
+        .get(
+          `${this.$store.getters.url}/question/templates/${this.$route.params.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.questionnaire.id = res.data.id;
+            this.questionnaire.module_id = res.data.module_id;
+            this.questionnaire.module_name = res.data.module_name;
+            this.questionnaire.course_id = res.data.course_id;
+            this.questionnaire.course_title = res.data.course_title;
+            this.questionnaire.title = res.data.title;
+            this.questionnaire.showFeedback = res.data.showFeedback;
+            this.questionnaire.feedback = res.data.feedback;
+            this.questionnaire.showScores = res.data.showScores;
+            this.questionnaire.sections = JSON.parse(res.data.sections);
+          }
+        });
     },
     handleResponse() {
       var arr = [];
@@ -464,12 +471,12 @@ export default {
       this.$bvModal.msgBoxConfirm("Are you sure?").then((response) => {
         if (response) {
           var data = {
-            module_id: this.$props.module_id,
-            course_id: this.$props.course_id,
+            module_id: this.$route.params.module_id,
+            course_id: this.$route.params.course_id,
             content: this.questionnaire,
-            questionnaire_id: this.$props.id,
+            questionnaire_id: this.$route.params.id,
             response: this.questionnaire,
-            template_id: this.$props.id,
+            template_id: this.$route.params.id,
             your_score: this.current_score,
             total_score: this.totalscore,
             status: "submitted",
@@ -480,8 +487,10 @@ export default {
                 Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
               },
             })
-            .then(() => {
-              this.$emit("handleCheck");
+            .then((res) => {
+              if (res.status == 201) {
+                this.$router.go(-1);
+              }
             });
         }
       });
@@ -490,12 +499,12 @@ export default {
       this.$bvModal.msgBoxConfirm("Are you sure?").then((response) => {
         if (response) {
           var data = {
-            module_id: this.$props.module_id,
-            course_id: this.$props.course_id,
+            module_id: this.$route.params.module_id,
+            course_id: this.$route.params.course_id,
             content: this.questionnaire,
-            questionnaire_id: this.$props.id,
+            questionnaire_id: this.$route.params.id,
             response: this.questionnaire,
-            template_id: this.$props.id,
+            template_id: this.$route.params.id,
             your_score: this.current_score,
             total_score: this.totalscore,
             status: "draft",
@@ -507,19 +516,8 @@ export default {
               },
             })
             .then((res) => {
-              if (res.status == 201) {
-                this.$emit("handleCheck");
-                // this.$bvModal
-                //   .msgBoxOk("Saved successfully", {
-                //     noCloseOnBackdrop: true,
-                //     size: "sm",
-                //     buttonSize: "sm",
-                //     okVariant: "dark-green",
-                //     headerClass: "p-2 border-bottom-0",
-                //     footerClass: "p-2 border-top-0",
-                //     centered: true,
-                //   })
-                //   .then(() => {});
+              if (res.status == 201 || res.status == 200) {
+                this.$router.go(-1);
               }
             });
         }

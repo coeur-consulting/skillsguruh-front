@@ -2,11 +2,11 @@
   <div class="p-3 bg-white">
     <b-form @submit.prevent="submit">
       <b-container class="py-3 px-0 text-left" v-if="questionnaire.sections">
-        <div class="text-left">
+        <div class="text-left d-flex justify-content-between">
           <h5 class="mb-4 text-capitalize">{{ questionnaire.title }}</h5>
-          <div>
-            <em class="text-lighter-green fs12">{{ questionnaire.hint }}</em>
-          </div>
+          <span @click="$bvModal.show('preview')"
+            >Preview <b-icon icon="eye"></b-icon
+          ></span>
         </div>
         <div>
           <div class="mb-4 border-bottom">
@@ -258,9 +258,14 @@
         </div>
       </b-container>
     </b-form>
+
+    <b-modal id="preview" size="xl" centered hide-footer>
+      <Preview :questionnaire="questionnaire" />
+    </b-modal>
   </div>
 </template>
 <script>
+import Preview from "./AnswerTemplates/preview.vue";
 export default {
   props: ["id", "course_id", "module_id", "myquestionnaire"],
   data() {
@@ -312,6 +317,9 @@ export default {
       responses: [],
       score: 0,
     };
+  },
+  components: {
+    Preview,
   },
   mounted() {
     this.getQuestionnaire();
@@ -452,22 +460,8 @@ export default {
               },
             })
             .then((res) => {
-              if (res.status == 201) {
+              if (res.status == 201 || res.status == 200) {
                 this.$emit("handleCheck");
-                // this.$bvModal
-                //   .msgBoxOk(
-                //     "Submitted successfully, Thank you for your feedback",
-                //     {
-                //       noCloseOnBackdrop: true,
-                //       size: "sm",
-                //       buttonSize: "sm",
-                //       okVariant: "dark-green",
-                //       headerClass: "p-2 border-bottom-0",
-                //       footerClass: "p-2 border-top-0",
-                //       centered: true
-                //     }
-                //   )
-                //   .then(() => {});
               }
             });
         }

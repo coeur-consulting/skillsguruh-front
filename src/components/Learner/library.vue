@@ -5,45 +5,124 @@
       <b-row class="flex-column-reverse flex-sm-row">
         <b-col sm="4" class="text-left pr-4">
           <div class="bg-white w-100 h-100 p-3 border rounded">
-            <h6 class="px-2 mb-4 text-muted">Recently Added</h6>
+            <h6 class="px-0 mb-3 text-muted">Course Worksheets</h6>
             <div v-if="showRecent">
-              <div
-                class="d-flex mb-5"
-                v-for="(item, id) in recentlyAdded"
-                :key="id"
-              >
-                <div style="width:80px; height100px" class="mr-3">
-                  <b-img :src="item.course.cover" fluid-grow></b-img>
-                </div>
-
-                <div>
-                  <div class="fs14 font-weight-bold mb-2 text-capitalize">
-                    {{ item.course.title }}
-                  </div>
-                  <div class="fs14 text-muted">
-                    <b-icon icon="book" class="mr-2"></b-icon>
-                    {{ item.course.modules.length }} modules
-                  </div>
-                  <div>
-                    <b-button-group size="sm">
-                      <!-- <b-button variant="danger" disabled>
-                      <b-icon
-                        icon="download"
-                        font-scale=".9rem"
-                        variant="white"
-                      ></b-icon
-                    ></b-button> -->
-                      <b-button
-                        variant="dark-green"
-                        size="sm"
-                        @click="
-                          $router.push(`/learner/media/${item.course.id}`)
-                        "
+              <div>
+                <div class="accordion" role="tablist" v-if="library.length">
+                  <b-card
+                    no-body
+                    class="mb-1"
+                    v-for="(item, id) in library"
+                    :key="id"
+                  >
+                    <b-card-header
+                      header-tag="header"
+                      class="p-1 bg-light rounded"
+                      role="tab"
+                    >
+                      <div v-b-toggle="'module' + id" variant="info">
+                        {{ item.course.title }}
+                      </div>
+                    </b-card-header>
+                    <b-collapse
+                      :id="'module' + id"
+                      accordion="my-accordion"
+                      role="tabpanel"
+                    >
+                      <div
+                        v-for="(mods, idx) in item.course.modules"
+                        :key="idx"
                       >
-                        <span class="fs13"> View course</span>
-                      </b-button>
-                    </b-button-group>
-                  </div>
+                        <b-card-body
+                          v-if="
+                            JSON.parse(mods.modules).filter(
+                              (ite) => ite.file_type == 'template'
+                            ) &&
+                            JSON.parse(mods.modules).filter(
+                              (ite) => ite.file_type == 'template'
+                            ).length
+                          "
+                          class="px-2"
+                        >
+                          <h6 class="text-capitalize">{{ mods.module }}</h6>
+                          <b-card-body
+                            class="py-1 worksheet"
+                            v-for="(mod, index) in JSON.parse(
+                              mods.modules
+                            ).filter((item) => item.file_type == 'template')"
+                            :key="index"
+                          >
+                            <b-card-text
+                              class="
+                                d-flex
+                                text-capitalize
+                                align-items-center
+                                mb-2
+                              "
+                            >
+                              <div
+                                class="flex-1 fs14"
+                                @click="play(item.course.id, mod, mods.id)"
+                              >
+                                {{ mod.title }}
+                              </div>
+
+                              <b-icon
+                                v-b-popover.hover.top="'Submitted'"
+                                v-if="
+                                  myquestionnaire.find(
+                                    (it) =>
+                                      it.question_template_id ==
+                                        mod.template.id &&
+                                      it.course_id == item.course.id
+                                  ) &&
+                                  myquestionnaire.find(
+                                    (it) =>
+                                      it.question_template_id ==
+                                        mod.template.id &&
+                                      it.course_id == item.course.id
+                                  ).status == 'submitted'
+                                "
+                                variant="dark-green"
+                                icon="check-circle-fill"
+                              ></b-icon>
+                              <b-icon
+                                v-b-popover.hover.top="'Draft'"
+                                v-if="
+                                  myquestionnaire.find(
+                                    (it) =>
+                                      it.question_template_id ==
+                                        mod.template.id &&
+                                      it.course_id == item.course.id
+                                  ) &&
+                                  myquestionnaire.find(
+                                    (it) =>
+                                      it.question_template_id ==
+                                        mod.template.id &&
+                                      it.course_id == item.course.id
+                                  ).status == 'draft'
+                                "
+                                variant="warning"
+                                icon="stop-circle-fill"
+                              ></b-icon>
+                              <b-icon
+                                v-b-popover.hover.top="'Begin'"
+                                v-if="
+                                  !myquestionnaire.find(
+                                    (it) =>
+                                      it.question_template_id ==
+                                        mod.template.id &&
+                                      it.course_id == item.course.id
+                                  )
+                                "
+                                icon="play-circle-fill"
+                              ></b-icon>
+                            </b-card-text>
+                          </b-card-body>
+                        </b-card-body>
+                      </div>
+                    </b-collapse>
+                  </b-card>
                 </div>
               </div>
             </div>
@@ -402,10 +481,13 @@ export default {
       alpha: false,
       showLibrary: false,
       showRecent: false,
+      myquestionnaire: [],
+      media: {},
     };
   },
   mounted() {
-    this.getLibrary();
+    // this.getLibrary();
+    this.getQuestionnaire();
     if (window.innerWidth < 600) {
       this.list = false;
     }
@@ -445,6 +527,31 @@ export default {
     },
   },
   methods: {
+    getQuestionnaire() {
+      this.$http
+        .get(`${this.$store.getters.url}/answer-questionnaires`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.myquestionnaire = res.data;
+            this.getLibrary();
+          }
+        });
+    },
+    play(id, mod, module_id) {
+      this.media = mod;
+      this.type = mod.file_type.toLowerCase();
+      this.module_id = module_id;
+      this.$router.push(
+        `/learner/solve/template/${mod.template.id}/${module_id}/${id}`
+      );
+    },
+    getTemplates(val) {
+      return val.modules;
+    },
     getLibrary() {
       this.$http
         .get(`${this.$store.getters.url}/libraries`, {
@@ -509,5 +616,13 @@ img {
   width: 100%;
   height: 120px;
   object-fit: cover;
+}
+.worksheet {
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+}
+.worksheet:hover {
+  background: #f7f8fa;
 }
 </style>

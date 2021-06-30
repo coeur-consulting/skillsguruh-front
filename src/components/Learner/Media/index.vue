@@ -47,6 +47,7 @@
                       ></b-icon>
                     </div>
                     <b-button
+                      size="sm"
                       variant="lighter-green"
                       @click="
                         editresponse(
@@ -81,8 +82,13 @@
                       ></b-icon>
                     </div>
                     <b-button
+                      size="s,"
                       variant="lighter-green"
-                      @click="$router.push('/learner/assessments')"
+                      @click="
+                        $router.push(
+                          `/learner/solve/template/${media.template.id}/${module_id}/${$route.params.id}`
+                        )
+                      "
                       >View response</b-button
                     >
                   </div>
