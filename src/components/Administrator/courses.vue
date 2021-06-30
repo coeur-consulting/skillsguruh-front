@@ -2626,6 +2626,7 @@ export default {
     },
   },
   methods: {
+
     selectall(id, val, arr) {
       if (val) {
         this.detail.schedule[id].modules = arr;
@@ -2909,6 +2910,7 @@ export default {
           }
         })
         .catch((err) => {
+          this.disable = false;
           this.$toast.error(err.response.data.message);
         });
     },
@@ -2931,7 +2933,21 @@ export default {
           certification: val.courseoutline.certification,
           additional_info: val.courseoutline.additional_info,
         },
-        schedule: val.courseschedule,
+        schedule: val.courseschedule.map((item) => {
+          return {
+            id:item.id,
+            all: item.all,
+            type: item.type,
+            event_type: item.event_type,
+            url: item.url,
+            venue: item.venue,
+            day: item.day,
+            modules: JSON.parse(item.modules),
+            start_time: item.start_time,
+            end_time: item.end_time,
+            facilitator_id: item.facilitator_id,
+          };
+        }),
       };
 
       this.$bvModal.show("update");
@@ -2996,6 +3012,7 @@ export default {
           }
         })
         .catch((err) => {
+          this.disable = false;
           this.$toast.error(err.response.data.message);
         });
     },

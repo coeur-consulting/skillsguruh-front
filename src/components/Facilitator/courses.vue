@@ -312,7 +312,7 @@
             :key="id"
           >
             <div
-              class="p-2 rounded d-flex justify-content-between shadow"
+              class="p-2 rounded d-flex justify-content-between shadow-sm"
               v-if="id != current_schedule"
             >
               <div>
@@ -865,7 +865,7 @@
             :key="id"
           >
             <div
-              class="p-2 rounded d-flex justify-content-between shadow"
+              class="p-2 rounded d-flex justify-content-between shadow-sm"
               v-if="id != current_schedule"
             >
               <div>
@@ -1071,7 +1071,7 @@
             class="px-5"
             type="button"
             @click="type++"
-            v-show="type <= 3"
+            v-show="type <= 2"
             variant="secondary"
             >Next</b-button
           >
@@ -1079,7 +1079,7 @@
             size="lg"
             class="px-5"
             type="submit"
-            v-show="type === 4"
+            v-show="type === 3"
             variant="secondary"
             :disabled="disable"
             >Update course</b-button
@@ -2630,6 +2630,13 @@ export default {
     },
   },
   methods: {
+    selectall(id, val, arr) {
+      if (val) {
+        this.detail.schedule[id].modules = arr;
+      } else {
+        this.detail.schedule[id].modules = [];
+      }
+    },
     addinvite() {
       this.inviteUsers.users.push({
         email: "",
@@ -2906,6 +2913,7 @@ export default {
           }
         })
         .catch((err) => {
+          this.disable = false;
           this.$toast.error(err.response.data.message);
         });
     },
@@ -2928,7 +2936,21 @@ export default {
           certification: val.courseoutline.certification,
           additional_info: val.courseoutline.additional_info,
         },
-        schedule: val.courseschedule,
+        schedule: val.courseschedule.map((item) => {
+          return {
+            id: item.id,
+            all: item.all,
+            type: item.type,
+            event_type: item.event_type,
+            url: item.url,
+            venue: item.venue,
+            day: item.day,
+            modules: JSON.parse(item.modules),
+            start_time: item.start_time,
+            end_time: item.end_time,
+            facilitator_id: item.facilitator_id,
+          };
+        }),
       };
 
       this.$bvModal.show("update");
@@ -2993,6 +3015,7 @@ export default {
           }
         })
         .catch((err) => {
+          this.disable = false;
           this.$toast.error(err.response.data.message);
         });
     },
@@ -3012,6 +3035,7 @@ export default {
               }
             })
             .catch((err) => {
+              this.disable = false;
               this.$toast.error(err.response.data.message);
             });
         }
