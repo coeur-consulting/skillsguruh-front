@@ -35,6 +35,13 @@ export default {
   watch: {
     $route: "getnotification",
   },
+  created() {
+    var channel = this.$pusher.subscribe("inbox");
+
+    channel.bind("inboxSent", (data) => {
+      console.log(data);
+    });
+  },
   mounted() {
     this.getnotification();
     this.getloginhistory();

@@ -871,13 +871,18 @@ export default {
       if (!this.detail.course_id) {
         return [];
       }
-      var first = this.courses.find((item) => item.id == this.detail.course_id);
-      return JSON.parse(first.courseoutline.modules);
+      if (!this.modules.length) {
+        return [];
+      }
+      var first = this.modules.find(
+        (item) => item.course_id == this.detail.course_id
+      );
+      return JSON.parse(first.modules);
     },
   },
-  mounted() {
+  created() {
     this.getcourses();
-    this.allmodules();
+    this.mymodules();
     this.getfacilitators();
     this.getQuestionnairs();
     if (this.$route.query.showing) {
@@ -990,6 +995,22 @@ export default {
                 .toLowerCase()
                 .includes(this.$route.query.showing.toLowerCase())
             ).id;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    mymodules() {
+      this.$http
+        .get(`${this.$store.getters.url}/facilitator/modules`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.modules = res.data;
           }
         })
         .catch((err) => {

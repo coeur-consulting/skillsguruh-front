@@ -31,13 +31,25 @@ export default {
   watch: {
     $route: "getnotification",
   },
+
+  created() {
+    var channel = this.$pusher.subscribe("inbox");
+
+    channel.bind("inboxSent", (data) => {
+      this.$store.commit("ADD_MESSAGE", data);
+    });
+  },
   mounted() {
     this.getnotification();
     this.getloginhistory();
+    this.getinbox();
   },
   methods: {
     getnotification() {
       this.$store.dispatch("getNotifications", "learner");
+    },
+    getinbox() {
+      this.$store.dispatch("getInbox", "learner");
     },
     skip() {
       this.$bvModal.hide("insight");

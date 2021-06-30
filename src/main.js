@@ -60,6 +60,13 @@ Vue.filter("currencyFormat", function(numb) {
     return "₦ 0.00";
   }
 });
+Vue.use(require("vue-pusher"), {
+  api_key: "e1c39173a3f0a174688d",
+  options: {
+    cluster: "eu",
+    encrypted: true,
+  },
+});
 
 Vue.config.productionTip = false;
 

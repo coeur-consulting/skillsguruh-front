@@ -25,11 +25,94 @@
       <div class="reply py-3 text-left" v-chat-scroll>
         <div v-for="(item, index) in messages" :key="index">
           <div
+            v-if="item.admin_id"
             class="mb-1"
             :class="
               item.admin_id == $store.getters.admin.id
-                ? 'left_text'
-                : 'right_text'
+                ? 'right_text'
+                : 'left_text'
+            "
+          >
+            <div
+              class="
+                d-flex
+                flex-1
+                align-items-center
+                justify-content-between
+                mb-1
+              "
+            >
+              <span
+                class="chatting_name font-weight-bold mr-3"
+                v-if="item.admin"
+                >{{ item.admin.name }}</span
+              >
+
+              <span
+                class="chatting_name font-weight-bold mr-3"
+                v-if="item.user"
+                >{{ item.user.name }}</span
+              >
+
+              <span
+                class="chatting_name font-weight-bold mr-3"
+                v-if="item.facilitator"
+                >{{ item.facilitator.name }}</span
+              >
+              <span class="text-muted fs11">
+                {{ item.created_at | moment("LT") }}</span
+              >
+            </div>
+            <span>{{ item.message }}</span>
+          </div>
+          <div
+            v-if="item.user_id"
+            class="mb-1"
+            :class="
+              item.user_id == $store.getters.learner.id
+                ? 'right_text'
+                : 'left_text'
+            "
+          >
+            <div
+              class="
+                d-flex
+                flex-1
+                align-items-center
+                justify-content-between
+                mb-1
+              "
+            >
+              <span
+                class="chatting_name font-weight-bold mr-3"
+                v-if="item.admin"
+                >{{ item.admin.name }}</span
+              >
+
+              <span
+                class="chatting_name font-weight-bold mr-3"
+                v-if="item.user"
+                >{{ item.user.name }}</span
+              >
+
+              <span
+                class="chatting_name font-weight-bold mr-3"
+                v-if="item.facilitator"
+                >{{ item.facilitator.name }}</span
+              >
+              <span class="text-muted fs11">
+                {{ item.created_at | moment("LT") }}</span
+              >
+            </div>
+            <span>{{ item.message }}</span>
+          </div>
+          <div
+            v-if="item.facilitator_id"
+            class="mb-1"
+            :class="
+              item.facilitator_id == $store.getters.facilitator.id
+                ? 'right_text'
+                : 'left_text'
             "
           >
             <div
@@ -89,6 +172,7 @@
             ></b-input-group-text>
           </template>
           <b-form-input
+            @keyup.enter="addinbox"
             v-model="inbox.message"
             size="sm"
             autocomplete="off"
@@ -106,7 +190,6 @@ export default {
   props: ["mini_info", "user", "open", "showAll"],
   data() {
     return {
-      inboxes: [],
       inbox: {
         mesage: "",
         attachment: "",
@@ -115,11 +198,15 @@ export default {
       },
     };
   },
+
   mounted() {
-    this.getinbox();
+    // this.getinbox();
   },
 
   computed: {
+    inboxes() {
+      return this.$store.getters.inboxes;
+    },
     useraccess() {
       var token = null;
       if (this.$props.user == "admin") {
@@ -171,7 +258,7 @@ export default {
         });
     },
     async sortmessages(arr) {
-      this.inboxes = await arr.map((item) => {
+      var inboxes = await arr.map((item) => {
         var info = {};
         if (this.$props.user == "admin") {
           if (item.admin_id && item.admin_id == this.useraccess.id) {
@@ -236,7 +323,7 @@ export default {
 
         return info;
       });
-      this.getChatters(this.inboxes);
+      this.getChatters(inboxes);
     },
     addinbox() {
       this.inbox.receiver_id = this.$props.mini_info.id;
@@ -251,7 +338,7 @@ export default {
           if (res.status == 201) {
             this.$toast.success("Message sent ");
 
-            this.inboxes.push(res.data);
+            // this.inboxes.push(res.data);
 
             this.inbox = {
               attachment: "",

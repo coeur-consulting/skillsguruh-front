@@ -250,6 +250,7 @@
               <div class="py-4 px-3 text-post">
                 <b-form @submit.prevent="post" class="wrapper">
                   <b-textarea
+                    @keyup.enter="post"
                     class="regular-input mb-2"
                     v-model="info.message"
                     rows="3"
@@ -597,6 +598,11 @@ export default {
     Attachment,
   },
   created() {
+    var channel = this.$pusher.subscribe("adddiscussion");
+
+    channel.bind("adddiscussion", (data) => {
+      this.posts.push(data.message);
+    });
     this.getdiscussion();
     this.addview();
     this.getvote();
@@ -783,7 +789,7 @@ export default {
         .then((res) => {
           if (res.status == 201 || res.status == 200) {
             // this.$toast.success("Discussion created");
-            this.posts.push(res.data);
+            //   this.posts.push(res.data);
 
             this.info = {
               attachment: "",

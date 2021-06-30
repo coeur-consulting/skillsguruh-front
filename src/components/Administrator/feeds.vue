@@ -672,6 +672,13 @@ export default {
     EmojiPicker,
     FeedUpload,
   },
+  created() {
+    var channel = this.$pusher.subscribe("addfeed");
+
+    channel.bind("addfeed", (data) => {
+      this.feeds.unshift(data.message);
+    });
+  },
   mounted() {
     this.getfeeds();
   },
@@ -742,7 +749,7 @@ export default {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Feed Updated ");
             this.$bvModal.hide("feed");
-            this.feeds.unshift(res.data);
+            // this.feeds.unshift(res.data);
 
             this.feed = {
               media: "",

@@ -501,6 +501,11 @@ export default {
     },
   },
   methods: {
+    loadCourse() {
+      this.course = this.courses.find(
+        (item) => item.id == this.$route.query.course_id
+      );
+    },
     mostenrolled() {
       this.$http
         .get(`${this.$store.getters.url}/guest/mostenrolled`)

@@ -30,6 +30,9 @@
                     v-if="
                       myquestionnaire.find(
                         (item) => item.question_template_id == media.template.id
+                      ) &&
+                      myquestionnaire.find(
+                        (item) => item.question_template_id == media.template.id
                       ).status == 'draft'
                     "
                   >
@@ -59,6 +62,9 @@
                   <div
                     class="text-center"
                     v-if="
+                      myquestionnaire.find(
+                        (item) => item.question_template_id == media.template.id
+                      ) &&
                       myquestionnaire.find(
                         (item) => item.question_template_id == media.template.id
                       ).status == 'submitted'
@@ -219,16 +225,14 @@
                 header-tag="header"
                 class="p-1 bg-light rounded"
                 role="tab"
+                v-b-toggle="'module' + id"
+                @click="updateProgress(id + 1, course.modules.length)"
               >
                 <b-form-checkbox
                   :disabled="id + 1 <= Number(current)"
                   :checked="id + 1 <= Number(current)"
                 >
-                  <div
-                    v-b-toggle="'module' + id"
-                    variant="info"
-                    @click="updateProgress(id + 1, course.modules.length)"
-                  >
+                  <div variant="info">
                     <b-icon
                       icon="check2-circle"
                       class="mr-2"
@@ -244,8 +248,13 @@
                 role="tabpanel"
               >
                 <b-card-body
-                  class="py-1 border-bottom"
-                  v-for="(mod, index) in JSON.parse(item.modules)"
+                  class="py-1 mb-4"
+                  :class="{
+                    'border-bottom': JSON.parse(item.modules).length > 1,
+                  }"
+                  v-for="(mod, index) in JSON.parse(item.modules).filter(
+                    (item) => item.file_type !== 'template'
+                  )"
                   :key="index"
                 >
                   <b-card-text
@@ -255,11 +264,7 @@
                       <div class="flex-1 fs14">{{ mod.title }}</div>
 
                       <div class="fs10 text-dark-green mr-3">
-                        {{
-                          mod.file_type == "template"
-                            ? mod.template.type
-                            : mod.file_type
-                        }}
+                        {{ mod.file_type }}
                       </div>
                     </div>
                     <b-button
@@ -282,39 +287,84 @@
                       }}</b-button
                     >
                   </b-card-text>
-                  <div v-if="item.questionnaire.length">
-                    <h6 class="fs12 font-weight-bold mb-2">Questionnaire</h6>
-                    <div
-                      v-for="(item, id) in item.questionnaire"
-                      class="
-                        p-2
-                        bg-light
-                        rounded
-                        mb-2
-                        fs14
-                        d-flex
-                        justify-content-between
-                        align-items-center
-                      "
-                      :key="id"
-                      @click="viewquestion(item.id)"
-                    >
-                      <span> {{ item.title }}</span>
+                </b-card-body>
 
-                      <b-iconstack font-scale="1.5">
-                        <b-icon
-                          stacked
-                          icon="circle-fill"
-                          variant="white"
-                        ></b-icon>
-                        <b-icon
-                          stacked
-                          icon="chevron-right"
-                          scale="0.5"
-                        ></b-icon>
-                      </b-iconstack>
-                    </div>
-                  </div>
+                <b-card-body>
+                  <h6>Worksheet</h6>
+                  <b-card-body
+                    class="py-1 px-0"
+                    v-for="(mod, index) in JSON.parse(item.modules).filter(
+                      (item) => item.file_type == 'template'
+                    )"
+                    :key="index"
+                  >
+                    <b-card-text
+                      class="d-flex text-capitalize align-items-center mb-2"
+                    >
+                      <div
+                        class="flex-1 fs14"
+                        @click="
+                          play(
+                            mod,
+
+                            item.id
+                          )
+                        "
+                      >
+                        {{ mod.title }}
+                      </div>
+
+                      <!-- <div class="fs10 text-dark-green mr-3">
+                          {{ mod.template.type }}
+                        </div> -->
+
+                      <b-icon
+                        v-if="
+                          myquestionnaire.find(
+                            (item) =>
+                              item.question_template_id == mod.template.id
+                          ) &&
+                          myquestionnaire.find(
+                            (item) =>
+                              item.question_template_id == mod.template.id
+                          ).status == 'submitted'
+                        "
+                        variant="dark-green"
+                        icon="check-circle-fill"
+                      ></b-icon>
+                      <b-icon
+                        v-if="
+                          myquestionnaire.find(
+                            (item) =>
+                              item.question_template_id == mod.template.id
+                          ) &&
+                          myquestionnaire.find(
+                            (item) =>
+                              item.question_template_id == mod.template.id
+                          ).status == 'draft'
+                        "
+                        variant="warning"
+                        icon="stop-circle-fill"
+                      ></b-icon>
+                      <b-icon
+                        v-if="
+                          !myquestionnaire.find(
+                            (item) =>
+                              item.question_template_id == mod.template.id
+                          )
+                        "
+                        icon="play-circle-fill"
+                      ></b-icon>
+                      <!-- <b-button
+                        class="my-2 ml-auto fs12"
+
+                        size="sm"
+                        variant="dark-green"
+                        ><b-icon icon="play-fill"></b-icon>
+                        {{ "View" }}</b-button
+                      > -->
+                    </b-card-text>
+                  </b-card-body>
                 </b-card-body>
               </b-collapse>
             </b-card>
@@ -481,7 +531,6 @@ export default {
                 this.course.modules[0].modules
               )[0].file_type;
             }
-            this.getQuestionnaire();
           }
         })
         .catch((err) => {

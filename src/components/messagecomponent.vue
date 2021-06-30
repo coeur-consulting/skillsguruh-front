@@ -144,9 +144,9 @@ export default {
   props: ["user"],
   data() {
     return {
-      showMessage: false,
+      showMessage: true,
       toggleMessage: true,
-      inboxes: [],
+
       chatters: [],
       open: false,
       showAll: false,
@@ -165,9 +165,10 @@ export default {
   components: {
     MiniBox,
   },
-  mounted() {
-    this.getinbox();
+  watch: {
+    sortmessages: "getChatters",
   },
+
   computed: {
     useraccess() {
       var token = null;
@@ -181,6 +182,34 @@ export default {
         return this.$store.getters.learner;
       }
       return token;
+    },
+    inboxes() {
+      return this.$store.getters.inboxes;
+    },
+    sortmessages() {
+      return this.inboxes.map((item) => {
+        var info = {};
+
+        if (item.user_id && item.user_id == this.$store.getters.learner.id) {
+          info.admin = item.admin_info || null;
+          info.user = item.learner_info || null;
+          info.facilitator = item.facilitator_info || null;
+          info.message = item.message || null;
+          info.time = item.created_at || null;
+        }
+        if (
+          item.receiver == "user" &&
+          item.receiver_id == this.$store.getters.learner.id
+        ) {
+          info.admin = item.admin || null;
+          info.user = item.user || null;
+          info.facilitator = item.facilitator || null;
+          info.message = item.message || null;
+          info.time = item.created_at || null;
+        }
+
+        return info;
+      });
     },
   },
 
@@ -220,78 +249,11 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
-    async sortmessages(arr) {
-      this.inboxes = await arr.map((item) => {
-        var info = {};
-        if (this.$props.user == "admin") {
-          if (item.admin_id && item.admin_id == this.useraccess.id) {
-            info.admin = item.admin_info || null;
-            info.user = item.learner_info || null;
-            info.facilitator = item.facilitator_info || null;
-            info.message = item.message || null;
-            info.time = item.created_at || null;
-          }
-          if (
-            item.receiver == "admin" &&
-            item.receiver_id == this.useraccess.id
-          ) {
-            info.admin = item.admin || null;
-            info.user = item.user || null;
-            info.facilitator = item.facilitator || null;
-            info.message = item.message || null;
-            info.time = item.created_at || null;
-          }
-        }
-        if (this.$props.user == "facilitator") {
-          if (
-            item.facilitator_id &&
-            item.facilitator_id == this.useraccess.id
-          ) {
-            info.admin = item.admin_info || null;
-            info.user = item.learner_info || null;
-            info.facilitator = item.facilitator_info || null;
-            info.message = item.message || null;
-            info.time = item.created_at || null;
-          }
-          if (
-            item.receiver == "facilitator" &&
-            item.receiver_id == this.useraccess.id
-          ) {
-            info.admin = item.admin || null;
-            info.user = item.user || null;
-            info.facilitator = item.facilitator || null;
-            info.message = item.message || null;
-            info.time = item.created_at || null;
-          }
-        }
-        if (this.$props.user == "learner") {
-          if (item.user_id && item.user_id == this.useraccess.id) {
-            info.admin = item.admin_info || null;
-            info.user = item.learner_info || null;
-            info.facilitator = item.facilitator_info || null;
-            info.message = item.message || null;
-            info.time = item.created_at || null;
-          }
-          if (
-            item.receiver == "user" &&
-            item.receiver_id == this.useraccess.id
-          ) {
-            info.admin = item.admin || null;
-            info.user = item.user || null;
-            info.facilitator = item.facilitator || null;
-            info.message = item.message || null;
-            info.time = item.created_at || null;
-          }
-        }
 
-        return info;
-      });
-      this.getChatters(this.inboxes);
-    },
-    getChatters(arr) {
+    getChatters() {
       var check = {};
 
-      arr.reverse().forEach((item) => {
+      this.sortmessages.reverse().forEach((item) => {
         var checkers = {};
         if (item.admin) {
           checkers.id = item.admin.id;
@@ -335,6 +297,10 @@ export default {
 
         if (!check) {
           this.chatters.push(checkers);
+          console.log(
+            "🚀 ~ file: topbar.vue ~ line 471 ~ this.sortmessages.reverse ~ checkers",
+            checkers
+          );
         }
       });
     },

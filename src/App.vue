@@ -10,6 +10,7 @@
 
 <script>
 export default {
+  created() {},
   mounted() {
     // this.$store.dispatch("postNotifications", { name: "hello" });
   },

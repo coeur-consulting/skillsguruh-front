@@ -494,19 +494,8 @@ export default {
               },
             })
             .then((res) => {
-              if (res.status == 201) {
+              if (res.status == 201 || res.status == 200) {
                 this.$emit("handleCheck");
-                // this.$bvModal
-                //   .msgBoxOk("Saved successfully", {
-                //     noCloseOnBackdrop: true,
-                //     size: "sm",
-                //     buttonSize: "sm",
-                //     okVariant: "dark-green",
-                //     headerClass: "p-2 border-bottom-0",
-                //     footerClass: "p-2 border-top-0",
-                //     centered: true,
-                //   })
-                //   .then(() => {});
               }
             });
         }

@@ -135,8 +135,8 @@
           </div>
         </PushRotate>
       </div>
-      <div class="org_name" @click="$router.push('/organization')">
-        {{ this.$store.getters.organization.name }}
+      <div class="org_name" @click="$router.push('/learner')">
+        {{ this.$store.getters.learner.org_name }}
       </div>
     </div>
 
@@ -327,7 +327,7 @@ export default {
       toggleMessage: true,
       open: false,
       showAll: false,
-      inboxes: [],
+      // inboxes: [],
       chatters: [],
       current: {
         id: "",
@@ -341,8 +341,11 @@ export default {
       },
     };
   },
+  watch: {
+    sortmessages: "getChatters",
+  },
   mounted() {
-    this.getinbox();
+    //this.getinbox();
   },
   methods: {
     togglechat() {
@@ -392,36 +395,36 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
-    async sortmessages(arr) {
-      this.inboxes = await arr.map((item) => {
-        var info = {};
+    // async sortmessages(arr) {
+    //   this.inboxes = await arr.map((item) => {
+    //     var info = {};
 
-        if (item.user_id && item.user_id == this.$store.getters.learner.id) {
-          info.admin = item.admin_info || null;
-          info.user = item.learner_info || null;
-          info.facilitator = item.facilitator_info || null;
-          info.message = item.message || null;
-          info.time = item.created_at || null;
-        }
-        if (
-          item.receiver == "user" &&
-          item.receiver_id == this.$store.getters.learner.id
-        ) {
-          info.admin = item.admin || null;
-          info.user = item.user || null;
-          info.facilitator = item.facilitator || null;
-          info.message = item.message || null;
-          info.time = item.created_at || null;
-        }
+    //     if (item.user_id && item.user_id == this.$store.getters.learner.id) {
+    //       info.admin = item.admin_info || null;
+    //       info.user = item.learner_info || null;
+    //       info.facilitator = item.facilitator_info || null;
+    //       info.message = item.message || null;
+    //       info.time = item.created_at || null;
+    //     }
+    //     if (
+    //       item.receiver == "user" &&
+    //       item.receiver_id == this.$store.getters.learner.id
+    //     ) {
+    //       info.admin = item.admin || null;
+    //       info.user = item.user || null;
+    //       info.facilitator = item.facilitator || null;
+    //       info.message = item.message || null;
+    //       info.time = item.created_at || null;
+    //     }
 
-        return info;
-      });
-      this.getChatters(this.inboxes);
-    },
-    getChatters(arr) {
+    //     return info;
+    //   });
+    //   this.getChatters(this.inboxes);
+    // },
+    getChatters() {
       var check = {};
 
-      arr.reverse().forEach((item) => {
+      this.sortmessages.reverse().forEach((item) => {
         var checkers = {};
         if (item.admin) {
           checkers.id = item.admin.id;
@@ -465,16 +468,48 @@ export default {
 
         if (!check) {
           this.chatters.push(checkers);
+          console.log(
+            "🚀 ~ file: topbar.vue ~ line 471 ~ this.sortmessages.reverse ~ checkers",
+            checkers
+          );
         }
       });
     },
   },
   computed: {
+    inboxes() {
+      return this.$store.getters.inboxes;
+    },
     notifications() {
       return this.$store.getters.notifications;
     },
     unreadnotifications() {
       return this.$store.getters.notifications.filter((item) => !item.read_at);
+    },
+    sortmessages() {
+      return this.inboxes.map((item) => {
+        var info = {};
+
+        if (item.user_id && item.user_id == this.$store.getters.learner.id) {
+          info.admin = item.admin_info || null;
+          info.user = item.learner_info || null;
+          info.facilitator = item.facilitator_info || null;
+          info.message = item.message || null;
+          info.time = item.created_at || null;
+        }
+        if (
+          item.receiver == "user" &&
+          item.receiver_id == this.$store.getters.learner.id
+        ) {
+          info.admin = item.admin || null;
+          info.user = item.user || null;
+          info.facilitator = item.facilitator || null;
+          info.message = item.message || null;
+          info.time = item.created_at || null;
+        }
+
+        return info;
+      });
     },
   },
 };

@@ -253,6 +253,7 @@
               <div class="py-4 px-3 text-post">
                 <b-form @submit.prevent="post" class="wrapper">
                   <b-textarea
+                    @keyup.enter="post"
                     class="regular-input mb-2"
                     v-model="info.message"
                     rows="3"
@@ -602,6 +603,12 @@ export default {
     this.getconnections();
     this.link =
       "https://skillsguruh.com/learner/discussion/" + this.$route.params.id;
+
+    var channel = this.$pusher.subscribe("adddiscussion");
+
+    channel.bind("adddiscussion", (data) => {
+      this.posts.push(data.message);
+    });
   },
   computed: {
     related() {
@@ -782,7 +789,7 @@ export default {
         .then((res) => {
           if (res.status == 201 || res.status == 200) {
             // this.$toast.success("Discussion created");
-            this.posts.push(res.data);
+            // this.discussion.push(res.data);
 
             this.info = {
               attachment: "",
