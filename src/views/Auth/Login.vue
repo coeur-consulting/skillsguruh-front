@@ -143,7 +143,7 @@
                     size="lg"
                     block
                     :disabled="loading"
-                    class="px-5 d-flex d-sm-none"
+                    class="px-5 d-flex d-sm-none justify-content-center"
                   >
                     <span>Login</span>
                     <b-icon
@@ -290,6 +290,7 @@ export default {
                 authAdmin.name = res.data.name;
                 authAdmin.email = res.data.email;
                 authAdmin.profile = res.data.profile;
+
                 authAdmin.org_profile = res.data.organization.logo;
                 authAdmin.org_name = res.data.organization.name;
                 authAdmin.referral = res.data.referral_code;
@@ -333,6 +334,7 @@ export default {
                 authFacilitator.name = res.data.name;
                 authFacilitator.email = res.data.email;
                 authFacilitator.profile = res.data.profile;
+                authFacilitator.facilitator_role = res.data.facilitator_role;
                 authFacilitator.interests = res.data.interests;
                 authFacilitator.org_profile = res.data.organization.logo;
                 authFacilitator.org_name = res.data.organization.name;

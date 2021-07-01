@@ -218,14 +218,14 @@ export default {
       },
       referrals: [],
       email: "",
-      message: `https://skillsguruh.com/register/?invite=${this.$store.getters.facilitator.referral}`,
+      message: `https://skillsguruh.com/register/invite/${this.$store.getters.facilitator.referral}`,
       communities_link: [],
     };
   },
   mounted() {
     this.getreferrals();
     this.getcommunity();
-    this.message = `https://skillsguruh.com/register/?invite=${this.$store.getters.facilitator.referral}`;
+    this.message = `https://skillsguruh.com/register/invite/${this.$store.getters.facilitator.referral}`;
   },
   methods: {
     addinvite() {

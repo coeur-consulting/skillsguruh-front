@@ -1,13 +1,15 @@
 <template>
   <div>
     <b-container class="py-3 px-0 text-left" v-if="questionnaire.sections">
+      <div class="mb-4">
+        <span @click="$router.go(-1)"
+          ><b-icon icon="arrow-left"></b-icon> Back</span
+        >
+      </div>
       <b-row>
         <b-col class="ber">
-          <div class="text-left">
-            <h5 class="mb-4">{{ questionnaire.title }}</h5>
-            <div>
-              <em class="text-lighter-green fs11">{{ questionnaire.hint }}</em>
-            </div>
+          <div class="text-center">
+            <h4 class="mb-4">{{ questionnaire.title }}</h4>
           </div>
           <div>
             <div class="mb-4 border-bottom">

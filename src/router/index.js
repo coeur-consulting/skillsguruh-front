@@ -1580,6 +1580,16 @@ const routes = [
         ),
     },
   },
+  {
+    path: "/invite/:code",
+    name: "Invite",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "Invite" */ "../views/Invite.vue"),
+      footer: Footer,
+    },
+  },
 
   {
     path: "*",

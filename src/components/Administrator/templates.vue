@@ -163,7 +163,7 @@
       </b-row>
     </b-container>
     <b-modal no-close-on-backdrop size="xl" id="create" centered hide-footer>
-      <CreateQuestion @close="close" />
+      <CreateQuestion @addtemplate="addtemplate" @close="close" />
     </b-modal>
   </div>
 </template>
@@ -208,6 +208,9 @@ export default {
     }
   },
   methods: {
+    addtemplate(val) {
+      this.questionnaires.unshift(val);
+    },
     close(val) {
       this.$bvModal.hide("create");
       this.questionnaires.unshift(val);

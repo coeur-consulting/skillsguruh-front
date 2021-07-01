@@ -146,11 +146,11 @@
                 <b-td
                   class="fs13 cursor-copy"
                   v-clipboard:copy="
-                    `https://skillsguruh.com/register/?invite=${item.code}`
+                    `https://skillsguruh.com/register/invite/${item.code}`
                   "
                   v-clipboard:success="onCopy"
                   >{{
-                    `https://skillsguruh.com/register/?invite=${item.code}`
+                    `https://skillsguruh.com/register/invite/${item.code}`
                   }}</b-td
                 >
               </b-tr>
@@ -252,14 +252,14 @@ export default {
       },
       referrals: [],
       email: "",
-      message: `https://skillsguruh.com/register/?invite=${this.$store.getters.learner.referral}`,
+      message: `https://skillsguruh.com/register/invite/${this.$store.getters.learner.referral}`,
       communities_link: [],
     };
   },
   mounted() {
     this.getreferrals();
     this.getcommunity();
-    this.message = `https://skillsguruh.com/register/?invite=${this.$store.getters.learner.referral}`;
+    this.message = `https://skillsguruh.com/register/invite/${this.$store.getters.learner.referral}`;
   },
   methods: {
     addinvite() {

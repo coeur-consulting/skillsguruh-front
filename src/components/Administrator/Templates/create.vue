@@ -719,8 +719,12 @@ export default {
           }
         )
         .then((res) => {
-          if (res.status == 201) {
-            this.$toast.success("Saved to draft");
+          if (res.status == 201 || res.status == 200) {
+            this.$toast.success("Saved to drafts");
+            this.questionnaire.id = res.data.id;
+            this.questionnaire.sections = JSON.parse(res.data.sections);
+
+            res.status == 201 ? this.$emit("addtemplate", res.data) : "";
           }
         })
         .catch((err) => {

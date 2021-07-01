@@ -135,6 +135,25 @@
                   ></b-form-input></b-form-group
               ></b-col>
             </b-form-row>
+            <hr />
+            <b-form-row>
+              <b-col sm="6">
+                <b-form-group label="Bank Name">
+                  <b-form-input
+                    v-model="user.bank_name"
+                    placeholder="Provide your bank name"
+                  ></b-form-input
+                ></b-form-group>
+              </b-col>
+              <b-col sm="6">
+                <b-form-group label="Account number">
+                  <b-form-input
+                    type="number"
+                    placeholder="Provide your account number"
+                    v-model="user.account_number"
+                  ></b-form-input></b-form-group
+              ></b-col>
+            </b-form-row>
             <div>
               <b-button variant="dark-green" type="submit" class="px-5 mt-4"
                 >Save</b-button

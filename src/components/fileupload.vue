@@ -35,8 +35,8 @@
             v-if="uploadedFileUrl && type !== 'document'"
             :src="uploadedFileUrl"
             blank-color="transparent"
-            width="100%"
-            height="100%"
+            style="width: 7rem; height: 7rem"
+            class="rounded-circle"
           ></b-img>
           <b-progress
             v-if="start"
