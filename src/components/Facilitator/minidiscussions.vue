@@ -3,7 +3,7 @@
     <div
       class="
         d-flex
-        flex-column flex-sm-column
+        flex-column flex-sm-row
         align-items-center
         mb-3
         w-100

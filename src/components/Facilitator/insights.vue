@@ -195,7 +195,7 @@
             </div>
 
             <div class="h2 text-center text-dark-green">
-              {{ courseviews }}
+              {{ courseviews || 0 }}
             </div>
             <br />
             <div class="text-muted text-center fs13">
@@ -1489,14 +1489,17 @@ export default {
       return count;
     },
     countryData() {
-      var arr = this.uniqueCountries.map((element) => {
-        var data = {};
-        data[element] = this.countries.filter((item) =>
-          item.includes(element)
-        ).length;
-        return data;
-      });
-      return Object.assign({}, ...arr);
+      if (this.uniqueCountrie.length) {
+        var arr = this.uniqueCountries.map((element) => {
+          var data = {};
+          data[element] = this.countries.filter((item) =>
+            item.includes(element)
+          ).length;
+          return data;
+        });
+        return Object.assign({}, ...arr);
+      }
+      return {};
     },
     states() {
       var state = this.learners.map(
@@ -1526,7 +1529,7 @@ export default {
       });
       return count.reduce((a, b) => {
         return a + b;
-      });
+      }, 0);
     },
     courseviewsthisweek() {
       var count = this.sortCourse
@@ -1542,7 +1545,7 @@ export default {
         });
       return count.reduce((a, b) => {
         return a + b;
-      });
+      }, 0);
     },
     totalpaid() {
       return this.sortCourse.filter((item) => item.type == "paid").length;
@@ -1559,7 +1562,7 @@ export default {
       });
       return count.reduce((a, b) => {
         return a + b;
-      });
+      }, 0);
     },
     totalenrollmentthisweek() {
       var count = this.sortCourse
@@ -1575,7 +1578,7 @@ export default {
         });
       return count.reduce((a, b) => {
         return a + b;
-      });
+      }, 0);
     },
     totalgroupthisweek() {
       return this.sortCourse
@@ -1772,7 +1775,7 @@ export default {
 
       var result = second.reduce((a, b) => {
         return Number(a) + Number(b);
-      });
+      }, 0);
       return result;
     },
 
