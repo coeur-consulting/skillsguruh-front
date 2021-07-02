@@ -1,7 +1,7 @@
 /* eslint-disable vue/no-unused-vars */
 <template>
   <div class="pt-4">
-    <b-container>
+    <b-container fluid>
       <b-row>
         <b-col sm="8" v-if="discussion">
           <div class="shadow-sm bg-white py-4 rounded">

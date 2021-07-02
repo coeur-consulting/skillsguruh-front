@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-container class="py-5">
+    <b-container fluid class="py-5">
       <h5 class="text-left mb-4">Your Library</h5>
       <b-row class="flex-column-reverse flex-sm-row">
         <b-col sm="4" class="text-left pr-4">

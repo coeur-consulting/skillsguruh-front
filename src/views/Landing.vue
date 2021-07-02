@@ -1,22 +1,22 @@
 <template>
   <div id="main">
-    <section id="banner">
+    <section class="banner">
       <span class="vector1"></span>
       <span class="vector2"></span>
       <span class="vector3"></span>
       <span class="vector4"></span>
       <span class="vector5"></span>
       <span class="vector6"></span>
-      <b-container class="h-100">
-        <b-row class="align-items-center h-100 banner-vectors">
-          <b-col sm="6">
-            <div class="banner-text mb-5">
-              <h1 class="mb-4 mt-4 mt-sm-0">
+      <b-container>
+        <b-row class="justify-content-center align-items-center">
+          <b-col md="6" sm="12">
+            <div class="banner-text">
+                <h1 class="mb-4 mt-4 mt-sm-0">
                 Here you can truly have it all. A Social Learning Place!
               </h1>
               <p>Enjoy a more engaging and organized virtual learning</p>
             </div>
-            <div class="banner-buttons d-none d-sm-flex">
+              <div class="banner-buttons  d-sm-flex">
               <b-button
                 block
                 size="lg"
@@ -31,50 +31,29 @@
                 size="lg"
                 class="m-0"
                 variant="outline-dark-green"
-                @click="$router.push('/register')"
-              >
-                Connect & Learn</b-button
-              >
-            </div>
-
-            <div class="banner-buttons d-flex d-sm-none">
-              <b-button
-                block
-                size="sm"
-                variant="dark-green"
-                @click="$router.push('/explore')"
-                class="m-0 mr-3"
-              >
-                Explore Interest</b-button
-              >
-              <b-button
-                block
-                size="sm"
-                class="m-0"
-                variant="outline-dark-green"
-                @click="$router.push('/register')"
-              >
-                Connect & Learn</b-button
-              >
+                @click="$router.push('/register')">
+                Connect & Learn</b-button>
             </div>
           </b-col>
-          <b-col sm="6" class="banner-image">
-            <b-img
-              class="animate__animated animate__slideInUp animate__slow"
-              :src="require('../assets/images/side-image.png')"
+          <b-col md="6" class="">
+               <b-img
+              class="animate__animated animate__slideInUp animate__slow img-fluid"
+              :src="require('../assets/images/banner-img.png')"
             ></b-img>
           </b-col>
         </b-row>
       </b-container>
     </section>
+   
     <section id="how-it-works">
-      <b-container>
+      <b-container class="">
+        <h2 class="text-center">How it works</h2>
         <b-row class="mb-6">
           <b-col sm="6" class="d-flex align-items-center">
             <div class="onboard">
-              <h2 class="mb-4">
+              <h3 class="mb-4">
                 Join as an Organization and onboard your employees
-              </h2>
+              </h3>
               <p class="mb-4 pr-3">
                 No longer do your employees have to struggle to get on the same
                 page. Keep teams aligned and productive by signing them up to
@@ -111,7 +90,7 @@
           </b-col>
           <b-col sm="6" class="d-flex align-items-center">
             <div class="onboard">
-              <h2 class="mb-4">Share your skills and expertise</h2>
+              <h3 class="mb-4">Share your skills and expertise</h3>
               <p class="mb-4 pr-3">
                 Now you can put your knowledge to work. Convert what you know to
                 a course in minutes and enjoy teaching a more engaged group of
@@ -134,7 +113,7 @@
         <b-row class="">
           <b-col sm="6" class="d-flex align-items-center">
             <div class="onboard">
-              <h2 class="mb-4">Shared interest is all you need</h2>
+              <h3 class="mb-4">Shared interest is all you need</h3>
               <p class="mb-4 pr-3">
                 Connect with experts and learners with similar interests to gain
                 rich insight to your most pressing questions, then pay it
@@ -417,8 +396,11 @@
 }
 #banner {
   position: relative;
-  background-color: var(--skills-grey);
+ 
   height: calc(100vh - 70px);
+}
+.banner{
+ background-color: var(--skills-grey);
 }
 .banner-text {
   text-align: left;
@@ -518,6 +500,13 @@
   font-weight: 700;
   line-height: 29px;
   letter-spacing: 0.06em;
+  text-align: left;
+  padding-bottom: 1.5rem;
+}
+.onboard h3{
+  font-style: normal;
+  font-weight: 500;
+  line-height: 29px;
   text-align: left;
 }
 .onboard p {

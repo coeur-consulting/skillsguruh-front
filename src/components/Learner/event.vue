@@ -1,5 +1,5 @@
 <template>
-  <b-container class="p-0 pb-5">
+  <b-container  class="p-0 pb-5">
     <b-row class="main bg-white" v-if="showEvent">
       <b-col
         sm="12"
