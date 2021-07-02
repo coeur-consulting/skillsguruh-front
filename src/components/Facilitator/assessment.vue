@@ -30,7 +30,7 @@
           </div>
         </b-col>
       </b-row>
-      <div v-if="assessments.length">
+      <div v-if="filter.length">
         <b-row>
           <b-col sm="4" v-for="(item, index) in filter" :key="index">
             <div
@@ -50,14 +50,31 @@
                   scale="1rem"
                   class="mr-1"
                   :class="{
-                    'text-danger': item.status == 'pending',
-                    'text-dark-green': item.status == 'active',
-                    'text-warning': item.status == 'expired',
+                    'text-danger': $moment().isBefore($moment(item.start)),
+                    'text-dark-green': $moment().isBetween(
+                      $moment(item.start),
+                      $moment(item.end)
+                    ),
+                    'text-warning': $moment().isAfter($moment(item.end)),
                   }"
                 ></b-icon>
-                <span class="text-muted fs12 text-capitalize">{{
-                  item.status
-                }}</span>
+                <span
+                  class="text-muted fs12 text-capitalize"
+                  v-if="
+                    $moment().isBetween($moment(item.start), $moment(item.end))
+                  "
+                  >Active</span
+                >
+                <span
+                  class="text-muted fs12 text-capitalize"
+                  v-if="$moment().isBefore($moment(item.start))"
+                  >Pending</span
+                >
+                <span
+                  class="text-muted fs12 text-capitalize"
+                  v-if="$moment().isAfter($moment(item.end))"
+                  >Expired</span
+                >
               </div>
 
               <div class="font-weight-bold fs15 mb-2 text-capitalize">
@@ -73,14 +90,14 @@
               </div>
 
               <div class="fs14 text-muted mb-2">
-                <span>Duration:</span> <span>{{ item.duration }} minutes</span>
+                <span>Duration: </span> <span>{{ item.duration }} minutes</span>
               </div>
               <div class="fs14 text-muted mb-2">
-                <span>Start date:</span>
+                <span>Start date: </span>
                 <span>{{ item.start | moment("ll") }}</span>
               </div>
               <div class="fs14 text-muted mb-3">
-                <span>Expiry date:</span>
+                <span>Expiry date: </span>
                 <span>{{ item.end | moment("ll") }}</span>
               </div>
               <div
@@ -93,7 +110,8 @@
                 "
               >
                 <span class="fs12">
-                  <span>Submitted:</span> <span>10</span></span
+                  <span>Submitted: </span>
+                  <span>{{ item.assessmentresponse.length }}</span></span
                 >
                 <span
                   class="text-dark-green cursor-pointer"
@@ -299,6 +317,10 @@ export default {
           item.questiontemplate.title
             .toLowerCase()
             .includes(this.search.toLowerCase())
+        )
+        .filter(
+          (item) =>
+            item.type.toLowerCase() == this.$route.params.type.toLowerCase()
         )
         .slice(
           this.perPage * this.currentPage - this.perPage,

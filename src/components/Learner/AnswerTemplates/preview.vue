@@ -7,9 +7,6 @@
             <h5 class="mb-4 text-capitalize text-center">
               {{ questionnaire.title }}
             </h5>
-            <div>
-              <em class="text-lighter-green fs11">{{ questionnaire.hint }}</em>
-            </div>
           </div>
           <div>
             <div class="mb-4 border-bottom">

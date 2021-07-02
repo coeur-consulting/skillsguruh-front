@@ -30,14 +30,34 @@
                     scale="1rem"
                     class="mr-1"
                     :class="{
-                      'text-danger': item.status == 'pending',
-                      'text-dark-green': item.status == 'active',
-                      'text-warning': item.status == 'expired',
+                      'text-danger': $moment().isBefore($moment(item.start)),
+                      'text-dark-green': $moment().isBetween(
+                        $moment(item.start),
+                        $moment(item.end)
+                      ),
+                      'text-warning': $moment().isAfter($moment(item.end)),
                     }"
                   ></b-icon>
-                  <span class="text-muted fs12 text-capitalize">{{
-                    item.status
-                  }}</span>
+                  <span
+                    class="text-muted fs12 text-capitalize"
+                    v-if="
+                      $moment().isBetween(
+                        $moment(item.start),
+                        $moment(item.end)
+                      )
+                    "
+                    >Active</span
+                  >
+                  <span
+                    class="text-muted fs12 text-capitalize"
+                    v-if="$moment().isBefore($moment(item.start))"
+                    >Pending</span
+                  >
+                  <span
+                    class="text-muted fs12 text-capitalize"
+                    v-if="$moment().isAfter($moment(item.end))"
+                    >Expired</span
+                  >
                 </div>
 
                 <div class="font-weight-bold fs15 mb-2 text-capitalize">
@@ -69,8 +89,14 @@
                 <div
                   class="fs14 text-muted d-flex justify-content-end text-right"
                 >
-                  <span v-if="item.status == 'pending'"> Unavailable</span>
-                  <span v-else>
+                  <span
+                    v-if="
+                      $moment().isBetween(
+                        $moment(item.start),
+                        $moment(item.end)
+                      )
+                    "
+                  >
                     <span
                       v-if="
                         !responses.find(
@@ -103,6 +129,7 @@
                       >View result</span
                     >
                   </span>
+                  <span v-else> Unavailable</span>
                 </div>
               </div>
             </b-col>
@@ -141,7 +168,7 @@
           </b-col>
         </b-row>
       </div>
-      <div v-else>
+      <!-- <div v-else>
         <div v-if="templates.length">
           <b-row>
             <b-col sm="4" v-for="(item, index) in templatefilter" :key="index">
@@ -258,7 +285,7 @@
             </p>
           </b-col>
         </b-row>
-      </div>
+      </div> -->
     </b-container>
     <b-modal size="lg" hide-footer id="showquest">
       <Questionnaire
