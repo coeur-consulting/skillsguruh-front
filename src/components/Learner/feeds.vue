@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 <template>
-  <div class="pb-5 pt-4">
+ <b-container fluid>
+    <div class="pb-5 pt-4">
     <b-modal
       no-close-on-backdrop
       id="feed"
@@ -607,6 +608,7 @@
       </b-row>
     </b-container>
   </div>
+ </b-container>
 </template>
 <script>
 import EmojiPicker from "vue-emoji-picker";

@@ -1,9 +1,9 @@
 <template>
   <div>
-    <b-container class="py-5">
+    <b-container fluid class="py-5">
       <h5 class="text-left mb-4">Your Library</h5>
       <b-row>
-        <b-col sm="4" class="text-left pr-4">
+        <b-col md="4" class="text-left pr-4">
           <div class="bg-white w-100 h-100 p-3 border rounded">
             <h6 class="px-2 mb-4 text-muted">Recently Added</h6>
             <div v-if="showRecent">
@@ -88,7 +88,7 @@
           </div>
           <div></div>
         </b-col>
-        <b-col sm="8" class="p-3 bg-white border rounded">
+        <b-col md="8" class="bg-white border rounded">
           <div class="text-right mb-3">
             <b-icon
               class="mr-3"
