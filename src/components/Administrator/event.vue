@@ -1,6 +1,6 @@
 <template>
   <b-container class="p-0 pb-5">
-    <b-row class="main bg-white">
+    <b-row class="main bg-white" v-if="showEvent">
       <b-col
         sm="12"
         class="text-left p-4 main-bg h-100 mb-4 position-relative"
@@ -26,7 +26,7 @@
           </div>
         </div>
 
-        <div class="event_box shadow-lg">
+        <div class="event_box shadow-lg d-none d-sm-block">
           <div class="d-flex justify-content-between">
             <h6 class="font-weight-bolder px-3 py-2 text-dark-green">
               When & Where
@@ -59,14 +59,7 @@
           </div>
 
           <div
-            class="
-              px-3
-              py-2
-              bg-dark-green
-              text-white
-              d-flex
-              justify-content-between
-            "
+            class="px-3 py-2 bg-lighter-green d-flex justify-content-between"
           >
             <span
               ><span class="font-weight-bold fs13">Start</span>
@@ -97,36 +90,45 @@
               >Event Link</span
             >
             <br />
+
             <div class="fs12">
               <a :href="event.url" target="_blank">{{ event.url }}</a>
             </div>
           </div>
-          <div class="share px-3 text-right">
-            <span
-              class="mr-3 fs12 cursor-pointer"
-              @click="$bvModal.show('share')"
-              >Share <b-icon icon="share-fill" font-scale=".9"></b-icon
-            ></span>
-            <span class="fs12 cursor-pointer" @click="$bvModal.show('invite')"
-              >Invite <b-icon icon="person-plus-fill" font-scale=".9"></b-icon
-            ></span>
+
+          <div class="share p-3 d-flex justify-content-between">
+            <span class="text-muted fs14">
+              <b-icon icon="people" class="mr-2 text-muted"></b-icon>
+              {{ event.eventattendance.length }} Attending
+            </span>
+            <span>
+              <span
+                class="mr-3 fs12 cursor-pointer"
+                @click="$bvModal.show('share')"
+                >Share <b-icon icon="share-fill" font-scale=".9"></b-icon
+              ></span>
+              <span class="fs12 cursor-pointer" @click="$bvModal.show('invite')"
+                >Invite <b-icon icon="person-plus-fill" font-scale=".9"></b-icon
+              ></span>
+            </span>
           </div>
         </div>
       </b-col>
-      <b-col class="h-100">
+
+      <b-col cols="12" class="h-100 mb-5">
         <b-row>
           <b-col sm="7">
             <div class="bg-white shadow rounded text-left p-4">
               <h5 class="font-weight-bold">ABOUT THIS EVENT</h5>
               <p>{{ event.description }}</p>
 
-              <div v-if="sortfacilitators.length">
+              <div v-if="sortfacilitators" class="mb-2">
                 <h6>Facilitators</h6>
                 <ul>
                   <li
                     v-for="item in sortfacilitators"
                     :key="item.id"
-                    class="text-capitalize"
+                    class="text-capitalize fs14"
                   >
                     {{ item.name }}
                   </li>
@@ -150,7 +152,16 @@
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <div class="rounded shadow p-4 bg-lighter-green d_file">
+                  <div
+                    class="
+                      rounded
+                      shadow
+                      p-4
+                      bg-lighter-green
+                      d_file
+                      cursor-pointer
+                    "
+                  >
                     <h5 class="mb-2">Download event resource</h5>
                     <b-icon
                       icon="cloud-download"
@@ -162,6 +173,106 @@
             </div>
           </b-col>
         </b-row>
+      </b-col>
+      <b-col cols="12">
+        <div
+          class="event_box shadow-lg p-3 d-block d-sm-none bg-white text-left"
+        >
+          <div class="d-flex justify-content-between bg-white">
+            <h4 class="font-weight-bolder px-3 py-2 text-dark-green">
+              When & Where
+            </h4>
+            <div class="mb-1 px-3 py-2">
+              <b-badge
+                class="text-capitalize"
+                :class="{
+                  'bg-success': event.status == 'ongoing',
+                  'bg-danger': event.status == 'expired',
+                  'bg-primary': event.status == 'pending',
+                }"
+                >{{ event.status }}</b-badge
+              >
+            </div>
+          </div>
+          <div class="mb-1 px-3 py-1 border-bottom">
+            <span class="font-weight-bold fs14 text-dark-green"
+              >Event Type :
+            </span>
+
+            <span class="fs14 text-capitalize"> {{ event.type }}</span>
+          </div>
+          <div class="mb-1 px-3 py-1">
+            <span class="font-weight-bold fs14 text-dark-green"
+              >Event Duration :
+            </span>
+
+            <span class="fs14"> {{ event.schedule }}</span>
+          </div>
+
+          <div class="px-3 py-2 bg-lighter-green">
+            <span
+              ><span class="font-weight-bold fs14">Start : </span>
+
+              <span class="fs14">
+                {{ event.start | moment(" MMMM Do YYYY, h:mm:ss a") }}</span
+              >
+            </span>
+            <br />
+
+            <span>
+              <span class="font-weight-bold fs14"> End :</span>
+
+              <span class="fs14">
+                {{ event.end | moment(" MMMM Do YYYY, h:mm:ss a") }}</span
+              ></span
+            >
+          </div>
+          <div class="px-3 py-2 fs14">
+            <span class="font-weight-bold fs14 text-dark-green"
+              >Event Venue :
+            </span>
+
+            <span class="fs14">{{ event.venue }}</span>
+          </div>
+
+          <div class="mb-1 px-3 py-2 fs14" v-if="event.url">
+            <span class="font-weight-bold fs14 text-dark-green"
+              >Event Link :
+            </span>
+
+            <div class="fs12">
+              <a :href="event.url" target="_blank">{{ event.url }}</a>
+            </div>
+          </div>
+
+          <div class="share p-3 d-flex justify-content-between">
+            <span class="text-muted fs14">
+              <b-icon icon="people" class="mr-2 text-muted"></b-icon>
+              {{ event.eventattendance.length }} Attending
+            </span>
+            <span>
+              <span
+                class="mr-3 fs12 cursor-pointer"
+                @click="$bvModal.show('share')"
+                >Share <b-icon icon="share-fill" font-scale=".9"></b-icon
+              ></span>
+              <span class="fs12 cursor-pointer" @click="$bvModal.show('invite')"
+                >Invite <b-icon icon="person-plus-fill" font-scale=".9"></b-icon
+              ></span>
+            </span>
+          </div>
+        </div>
+      </b-col>
+    </b-row>
+    <b-row v-else>
+      <b-col cols="12" class="mb-4">
+        <b-skeleton-img no-aspect height="350px"></b-skeleton-img>
+      </b-col>
+      <b-col cols="7">
+        <b-skeleton-img></b-skeleton-img>
+      </b-col>
+      <b-col>
+        <b-skeleton-img></b-skeleton-img>
       </b-col>
     </b-row>
     <b-modal no-close-on-backdrop id="share" hide-footer centered size="lg">
@@ -277,7 +388,7 @@
               class="fs12 py-1 px-2"
               @click="sendinvite(event.title)"
             >
-              Send Email
+              Send Invite
             </b-button>
           </div>
         </div>
@@ -525,7 +636,7 @@ export default {
 }
 .event_box {
   position: absolute;
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
+  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35);
   border-radius: 1px;
   background: white;
   top: 50%;
@@ -558,5 +669,10 @@ span {
   top: 15px;
   left: 15px;
   z-index: 999;
+}
+@media (max-width: 600px) {
+  .shadow {
+    box-shadow: unset !important;
+  }
 }
 </style>

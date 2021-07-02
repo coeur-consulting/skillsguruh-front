@@ -127,6 +127,10 @@
                         ></b-icon>
                         {{ item.schedule }}
                       </p>
+                      <p class="mb-1 text-muted fs15">
+                        <b-icon icon="people" class="mr-2 text-muted"></b-icon>
+                        {{ item.eventattendance.length }} Attending
+                      </p>
                       <div class="d-flex">
                         <b-icon
                           class="mr-2 text-muted"

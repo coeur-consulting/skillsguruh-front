@@ -124,7 +124,7 @@
             <h5 class="font-weight-bold mb-4">Notifications</h5>
 
             <div
-              class="d-flex mb-3 align-items-center"
+              class="d-flex mb-3 align-items-center border bg-light p-3 rounded"
               v-for="item in notifications"
               :key="item.id"
             >

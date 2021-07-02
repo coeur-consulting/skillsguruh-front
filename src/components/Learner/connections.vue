@@ -325,7 +325,7 @@ export default {
           }
         )
         .then((res) => {
-          if (res.status == 200) {
+          if (res.status == 200 || res.status == 201) {
             this.$toast.success("Successful");
             this.getconnections();
           }

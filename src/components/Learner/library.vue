@@ -167,14 +167,14 @@
           </div>
           <div></div>
         </b-col>
-        <b-col sm="8" class="p-3 bg-white border rounded mb-5 mb-sm-0">
+        <b-col sm="8" class="p-3 bg-light border rounded mb-5 mb-sm-0">
           <div class="text-sm-right mb-3">
             <div class="d-flex align-items-center">
-              <div class="search align-items-center mb-sm-4 mr-3">
+              <div class="search align-items-center mr-3">
                 <b-input-group class="topbar_search rounded-pill">
                   <b-form-input
                     placeholder="Search by title, interest"
-                    class="no-focus bg-light border-0"
+                    class="no-focus border-0"
                     type="search"
                     size="lg"
                     aria-label="Text input "
@@ -245,6 +245,7 @@
               >
                 <div
                   class="
+                    bg-white
                     d-flex
                     justify-content-between
                     p-2
@@ -258,7 +259,7 @@
                   <b-col
                     :sm="list ? 6 : 12"
                     class="d-flex"
-                    :class="list ? 'flex-row' : 'flex-column'"
+                    :class="list ? 'flex-row' : 'flex-column  px-0'"
                   >
                     <div
                       class="mr-2"
@@ -276,7 +277,7 @@
                       <div class="fs14 overview mb-2">
                         {{ item.course.description }}
                       </div>
-                      <div class="fs14 overview text-capitalize">
+                      <div class="fs14 text-muted text-capitalize">
                         {{
                           JSON.parse(item.course.courseoutline.knowledge_areas)
                             .value
@@ -317,7 +318,7 @@
                           :max="100"
                           height=".8rem"
                           class="mb-3"
-                          variant="dark-green"
+                          variant="light-green"
                         >
                           <b-progress-bar
                             :value="item.progress"
@@ -598,7 +599,7 @@ img {
 }
 .course_img {
   width: 35%;
-  height: 80px;
+  height: 101px;
   border-radius: 5px;
   & img {
     width: 100%;

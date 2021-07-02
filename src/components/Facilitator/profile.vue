@@ -167,7 +167,7 @@
             <h5 class="font-weight-bold mb-4">Notifications</h5>
 
             <div
-              class="d-flex mb-3"
+              class="d-flex mb-3 border bg-light p-3 rounded"
               v-for="item in notifications"
               :key="item.id"
             >
@@ -223,7 +223,11 @@
           <div class="notif text-left pt-4">
             <h5 class="font-weight-bold mb-4">Requests</h5>
 
-            <div class="d-flex mb-3" v-for="item in requests" :key="item.id">
+            <div
+              class="d-flex mb-3 border bg-light p-3 rounded"
+              v-for="item in requests"
+              :key="item.id"
+            >
               <b-icon
                 variant="dark-green"
                 icon="bell-fill"

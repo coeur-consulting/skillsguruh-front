@@ -90,19 +90,42 @@
               >Event Link</span
             >
             <br />
+
             <div class="fs12">
               <a :href="event.url" target="_blank">{{ event.url }}</a>
             </div>
           </div>
-          <div class="share px-3 text-right">
-            <span
-              class="mr-3 fs12 cursor-pointer"
-              @click="$bvModal.show('share')"
-              >Share <b-icon icon="share-fill" font-scale=".9"></b-icon
-            ></span>
-            <span class="fs12 cursor-pointer" @click="$bvModal.show('invite')"
-              >Invite <b-icon icon="person-plus-fill" font-scale=".9"></b-icon
-            ></span>
+          <div class="my-3 px-3">
+            <b-button
+              block
+              variant="dark-green"
+              @click="attendEvent"
+              v-if="!checkEvent && event.status == 'pending'"
+              >I'll Be Attending</b-button
+            >
+            <b-button
+              disabled
+              block
+              variant="dark-green"
+              v-if="checkEvent && event.status == 'pending'"
+              >You are Attending</b-button
+            >
+          </div>
+          <div class="share p-3 d-flex justify-content-between">
+            <span class="text-muted fs14">
+              <b-icon icon="people" class="mr-2 text-muted"></b-icon>
+              {{ event.eventattendance.length }} Attending
+            </span>
+            <span>
+              <span
+                class="mr-3 fs12 cursor-pointer"
+                @click="$bvModal.show('share')"
+                >Share <b-icon icon="share-fill" font-scale=".9"></b-icon
+              ></span>
+              <span class="fs12 cursor-pointer" @click="$bvModal.show('invite')"
+                >Invite <b-icon icon="person-plus-fill" font-scale=".9"></b-icon
+              ></span>
+            </span>
           </div>
         </div>
       </b-col>
@@ -114,7 +137,7 @@
               <h5 class="font-weight-bold">ABOUT THIS EVENT</h5>
               <p>{{ event.description }}</p>
 
-              <div v-if="sortfacilitators">
+              <div v-if="sortfacilitators" class="mb-2">
                 <h6>Facilitators</h6>
                 <ul>
                   <li
@@ -236,15 +259,37 @@
               <a :href="event.url" target="_blank">{{ event.url }}</a>
             </div>
           </div>
-          <div class="share px-3 text-right">
-            <span
-              class="mr-3 fs12 cursor-pointer"
-              @click="$bvModal.show('share')"
-              >Share <b-icon icon="share-fill" font-scale=".9"></b-icon
-            ></span>
-            <span class="fs12 cursor-pointer" @click="$bvModal.show('invite')"
-              >Invite <b-icon icon="person-plus-fill" font-scale=".9"></b-icon
-            ></span>
+          <div class="my-3">
+            <b-button
+              block
+              variant="dark-green"
+              @click="attendEvent"
+              v-if="!checkEvent && event.status == 'pending'"
+              >I'll Be Attending</b-button
+            >
+            <b-button
+              disabled
+              block
+              variant="dark-green"
+              v-if="checkEvent && event.status == 'pending'"
+              >You are Attending</b-button
+            >
+          </div>
+          <div class="share p-3 d-flex justify-content-between">
+            <span class="text-muted fs14">
+              <b-icon icon="people" class="mr-2 text-muted"></b-icon>
+              {{ event.eventattendance.length }} Attending
+            </span>
+            <span>
+              <span
+                class="mr-3 fs12 cursor-pointer"
+                @click="$bvModal.show('share')"
+                >Share <b-icon icon="share-fill" font-scale=".9"></b-icon
+              ></span>
+              <span class="fs12 cursor-pointer" @click="$bvModal.show('invite')"
+                >Invite <b-icon icon="person-plus-fill" font-scale=".9"></b-icon
+              ></span>
+            </span>
           </div>
         </div>
       </b-col>
@@ -444,9 +489,11 @@ export default {
       connections: [],
       emails: [],
       link: "",
+      checkEvent: null,
     };
   },
   mounted() {
+    this.myEvent();
     this.getfacilitators().then(() => {
       this.getevent();
     });
@@ -479,6 +526,45 @@ export default {
     },
   },
   methods: {
+    myEvent() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/event/attendance/${this.$route.params.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.checkEvent = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    attendEvent() {
+      var data = {
+        event_id: this.$route.params.id,
+      };
+      this.$http
+        .post(`${this.$store.getters.url}/event/attendance`, data, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 201) {
+            this.checkEvent = res.data;
+            this.$toast.success("Event scheduled");
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     async getconnections() {
       return this.$http
         .get(`${this.$store.getters.url}/connections`, {
