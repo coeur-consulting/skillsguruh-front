@@ -1489,7 +1489,7 @@ export default {
       return count;
     },
     countryData() {
-      if (this.uniqueCountrie.length) {
+      if (this.uniqueCountries.length) {
         var arr = this.uniqueCountries.map((element) => {
           var data = {};
           data[element] = this.countries.filter((item) =>
