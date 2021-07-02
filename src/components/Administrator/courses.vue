@@ -17,6 +17,7 @@
               </template>
               <b-form-input
                 v-model="item.email"
+                type="email"
                 placeholder="Enter email address"
               ></b-form-input>
             </b-input-group>
@@ -2626,7 +2627,6 @@ export default {
     },
   },
   methods: {
-
     selectall(id, val, arr) {
       if (val) {
         this.detail.schedule[id].modules = arr;
@@ -2669,6 +2669,9 @@ export default {
               ],
             };
           }
+        })
+        .catch(() => {
+          this.$toasted.error("Sending failed!");
         });
     },
     sharecourse(id) {
@@ -2935,7 +2938,7 @@ export default {
         },
         schedule: val.courseschedule.map((item) => {
           return {
-            id:item.id,
+            id: item.id,
             all: item.all,
             type: item.type,
             event_type: item.event_type,

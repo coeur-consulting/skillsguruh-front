@@ -415,6 +415,10 @@
                       <b-icon icon="calendar2-check" class="mr-2"></b-icon>
                       {{ item.schedule }}
                     </p>
+                    <p class="mb-1 fs15">
+                      <b-icon icon="people" class="mr-2 text-muted"></b-icon>
+                      {{ item.eventattendance.length }} Attending
+                    </p>
                     <div class="d-flex">
                       <p class="description">
                         {{ item.description }}

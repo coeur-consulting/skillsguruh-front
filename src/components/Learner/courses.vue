@@ -1413,6 +1413,7 @@
                 >
               </template>
               <b-form-input
+                type="email"
                 v-model="item.email"
                 placeholder="Enter email address"
               ></b-form-input>
@@ -1721,6 +1722,9 @@ export default {
               ],
             };
           }
+        })
+        .catch(() => {
+          this.$toasted.error("Sending failed!");
         });
     },
     addinvite() {

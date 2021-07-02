@@ -424,8 +424,14 @@
                 <div class="text-right">
                   <div class="d-flex align-items-center">
                     <b-icon
+                      font-scale="1.15"
+                      class="ml-auto mr-3 cursor-pointer"
+                      @click="sharecourse(course.id)"
+                      icon="person-plus-fill"
+                    ></b-icon>
+                    <b-icon
                       class="cursor-pointer"
-                      font-scale=".9"
+                      font-scale="1.15"
                       @click="sharelink(course.id)"
                       icon="share"
                     ></b-icon>
@@ -1174,6 +1180,59 @@
         </div>
       </div>
     </b-modal>
+    <b-modal no-close-on-backdrop id="sharecourse" centered hide-footer>
+      <div class="box p-3 text-center">
+        <h6 class="text-center">Invite your friends</h6>
+        <div>
+          <div
+            v-for="(item, id) in inviteUsers.users"
+            :key="id"
+            class="mb-1 text-center"
+          >
+            <b-input-group size="sm" class="">
+              <template #append>
+                <b-button @click="inviteUsers.users.splice(id, 1)"
+                  ><strong>x</strong></b-button
+                >
+              </template>
+              <b-form-input
+                type="email"
+                v-model="item.email"
+                placeholder="Enter email address"
+              ></b-form-input>
+            </b-input-group>
+          </div>
+          <div class="text-center mt-3">
+            <b-button
+              size="sm"
+              class="mr-3"
+              variant="lighter-green"
+              @click="addinvite"
+            >
+              <b-icon icon="plus" font-scale="1.4"></b-icon> Add email</b-button
+            >
+            <b-button
+              size="sm"
+              variant="dark-green"
+              @click="sendinvite(course.title)"
+            >
+              Send Invite
+            </b-button>
+          </div>
+        </div>
+        <div class="mt-3 border p-2 rounded-pill d-flex text-muted">
+          <b-icon icon="link45deg" font-scale="1.2rem"></b-icon>
+
+          <span
+            class="fs12"
+            v-clipboard:copy="message"
+            v-clipboard:success="onCopy"
+            v-clipboard:error="onError"
+            >{{ message }}</span
+          >
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
 <script>
@@ -1184,6 +1243,17 @@ export default {
       courses: [],
       search: "",
       link: "",
+      message: "",
+      inviteUsers: {
+        code: "",
+        title: "",
+        url: "",
+        users: [
+          {
+            email: "",
+          },
+        ],
+      },
       course: null,
       type: 1,
       newmodule: "",
@@ -1314,6 +1384,102 @@ export default {
         .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
+    },
+    sharecourse(id) {
+      this.message = `https://skillsguruh.com/explore/courses?course_id=${id}`;
+      this.$bvModal.show("sharecourse");
+    },
+    sendinvite(title) {
+      this.inviteUsers.title = title;
+      this.inviteUsers.url = this.message;
+
+      if (this.$store.getters.learner.access_token) {
+        this.$http
+          .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          })
+          .then((res) => {
+            if (res.status == 200) {
+              this.$toast.success("Invite Sent");
+              this.$bvModal.hide("sharecourse");
+              this.inviteUsers = {
+                code: "",
+                title: "",
+                users: [
+                  {
+                    email: "",
+                  },
+                ],
+              };
+            }
+          })
+          .catch(() => {
+            this.$toasted.error("Sending failed!");
+          });
+      } else if (this.$store.getters.facilitator.access_token) {
+        this.$http
+          .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
+          })
+          .then((res) => {
+            if (res.status == 200) {
+              this.$toast.success("Invite Sent");
+              this.$bvModal.hide("sharecourse");
+              this.inviteUsers = {
+                code: "",
+                title: "",
+                users: [
+                  {
+                    email: "",
+                  },
+                ],
+              };
+            }
+          })
+          .catch(() => {
+            this.$toasted.error("Sending failed!");
+          });
+      } else {
+        this.$http
+          .post(
+            `${this.$store.getters.url}/guest/send/invite`,
+            this.inviteUsers
+          )
+          .then((res) => {
+            if (res.status == 200) {
+              this.$toast.success("Invite Sent");
+              this.$bvModal.hide("sharecourse");
+              this.inviteUsers = {
+                code: "",
+                title: "",
+                users: [
+                  {
+                    email: "",
+                  },
+                ],
+              };
+            }
+          })
+          .catch(() => {
+            this.$toasted.error("Sending failed!");
+          });
+      }
+    },
+    addinvite() {
+      this.inviteUsers.users.push({
+        email: "",
+      });
+    },
+    onCopy: function (e) {
+      alert("You just copied the following text to the clipboard: " + e.text);
+    },
+    onError: function (e) {
+      alert("Failed to copy the text to the clipboard");
+      console.log(e);
     },
   },
 };
