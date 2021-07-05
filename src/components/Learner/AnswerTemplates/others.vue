@@ -71,30 +71,31 @@
                           {{ question.hint }}</em
                         >
                       </div>
-                      <div v-if="question.type == 'short'">
+                      <div
+                        v-if="
+                          question.type == 'short' &&
+                          !question.asPlaceholders &&
+                          !question.addSubQuestion
+                        "
+                      >
                         <b-form-input
                           @change="handleResponse"
                           v-model="question.response"
                           :placeholder="question.placeholder"
                         ></b-form-input>
                       </div>
-                      <div v-if="question.type == 'long'">
+                      <div
+                        v-if="
+                          question.type == 'long' &&
+                          !question.asPlaceholders &&
+                          !question.addSubQuestion
+                        "
+                      >
                         <b-form-textarea
                           @change="handleResponse"
                           v-model="question.response"
                           :placeholder="question.placeholder"
                         ></b-form-textarea>
-                      </div>
-
-                      <div v-if="question.type == 'single'">
-                        <b-form-radio-group
-                          size="sm"
-                          @change="handleResponse"
-                          v-model="question.response"
-                          :options="question.options"
-                          value-field="title"
-                          text-field="title"
-                        ></b-form-radio-group>
                       </div>
                       <div v-if="question.type == 'multiple'">
                         <div
@@ -129,6 +130,66 @@
                           </b-button-group>
                         </div>
                       </div>
+
+                      <div v-if="question.asPlaceholders">
+                        <div
+                          v-for="(place, idp) in question.placeholders"
+                          :key="idp"
+                        >
+                          <b-form-input
+                            class="mb-1"
+                            v-if="question.type == 'short'"
+                            @change="handleResponse"
+                            size="sm"
+                            v-model="place.response"
+                            :placeholder="place.placeholder"
+                          ></b-form-input>
+                          <b-form-textarea
+                            v-if="question.type == 'long'"
+                            class="mb-1"
+                            @change="handleResponse"
+                            v-model="place.response"
+                            :placeholder="place.placeholder"
+                          ></b-form-textarea>
+                        </div>
+                      </div>
+
+                      <div v-if="question.addSubQuestion">
+                        <div
+                          v-for="(subquest, subId) in question.subQuestion"
+                          :key="subId"
+                        >
+                          <b-form-group :label="subquest.question">
+                            <b-form-input
+                              class="mb-1"
+                              v-if="question.type == 'short'"
+                              @change="handleResponse"
+                              size="sm"
+                              v-model="subquest.response"
+                              :placeholder="subquest.placeholder"
+                            ></b-form-input>
+                            <b-form-textarea
+                              v-if="question.type == 'long'"
+                              class="mb-1"
+                              @change="handleResponse"
+                              v-model="subquest.response"
+                              :placeholder="subquest.placeholder"
+                            ></b-form-textarea>
+                          </b-form-group>
+                        </div>
+                      </div>
+
+                      <div v-if="question.type == 'single'">
+                        <b-form-radio-group
+                          size="sm"
+                          @change="handleResponse"
+                          v-model="question.response"
+                          :options="question.options"
+                          value-field="title"
+                          text-field="title"
+                        ></b-form-radio-group>
+                      </div>
+
                       <div v-if="question.type == 'checkbox'">
                         <div>
                           <b-form-checkbox

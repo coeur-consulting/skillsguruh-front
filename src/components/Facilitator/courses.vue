@@ -1649,7 +1649,10 @@
                   </b-iconstack>
                   <div>
                     <span class="title text-capitalize" v-if="course.title">
-                      {{ course.title }}</span
+                      {{ course.title }}
+                      <span class="text-muted" v-if="course.course_code">
+                        ({{ course.course_code }})</span
+                      ></span
                     >
                     <br />
                     <span class="course_time text-capitalize"
@@ -2100,7 +2103,10 @@
               </b-iconstack>
               <div>
                 <span class="title text-capitalize" v-if="course.title">
-                  {{ course.title }}</span
+                  {{ course.title }}
+                  <span class="text-muted" v-if="course.course_code">
+                    ({{ course.course_code }})</span
+                  ></span
                 >
                 <br />
                 <span class="course_time text-capitalize"
