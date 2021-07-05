@@ -7,7 +7,7 @@
         >
       </div> -->
       <b-row>
-       <b-col md="9">
+        <b-col md="9">
           <div id="form_box" class="left_box text-left p-3 rounded">
             <b-form>
               <b-form-row class="mb-2 py-3 justify-content-end">
@@ -562,7 +562,7 @@
                             "
                           >
                             <b-col sm="12" v-if="!question.addSubQuestion">
-                              <b-form-group label="Placeholder (optional)">
+                              <b-form-group label="Placeholder ">
                                 <b-form-input
                                   size="sm"
                                   v-model="question.placeholder"
@@ -577,7 +577,7 @@
                             v-if="question.type == 'multiple'"
                           >
                             <b-col sm="12">
-                              <b-form-group label="Placeholder (optional)">
+                              <b-form-group label="Placeholder ">
                                 <b-input-group
                                   size="sm"
                                   v-for="(val, idp) in question.placeholders"
@@ -755,7 +755,7 @@ export default {
   components: {
     draggable,
     Preview,
-    editor: Editor
+    editor: Editor,
   },
   data() {
     return {
@@ -791,11 +791,11 @@ export default {
                     placeholder: "",
                     responses: [
                       {
-                        response: ""
-                      }
+                        response: "",
+                      },
                     ],
-                    response_count: ""
-                  }
+                    response_count: "",
+                  },
                 ],
                 response: "",
                 responses: [],
@@ -804,35 +804,35 @@ export default {
                 limit: 1,
                 options: [
                   {
-                    title: ""
-                  }
+                    title: "",
+                  },
                 ],
                 showAnswer: false,
                 answer: "",
                 answers: [
                   {
-                    title: ""
-                  }
+                    title: "",
+                  },
                 ],
                 asPlaceholders: false,
                 placeholders: [
                   {
                     placeholder: "",
-                    response: ""
-                  }
+                    response: "",
+                  },
                 ],
                 placeholder: "",
                 hint: "",
                 asScore: false,
-                score: 0
-              }
-            ]
-          }
-        ]
+                score: 0,
+              },
+            ],
+          },
+        ],
       },
       editable: true,
       isDragging: false,
-      delayedDragging: false
+      delayedDragging: false,
     };
   },
   mounted() {
@@ -844,12 +844,12 @@ export default {
         animation: 0,
         group: "description",
         disabled: !this.editable,
-        ghostClass: "ghost"
+        ghostClass: "ghost",
       };
     },
     totalscore() {
       var arr = [];
-      this.questionnaire.sections.forEach(item => {
+      this.questionnaire.sections.forEach((item) => {
         arr.push(item.questions);
       });
 
@@ -857,7 +857,7 @@ export default {
         return a.concat(b);
       });
 
-      var score = newarr.map(item => {
+      var score = newarr.map((item) => {
         if (item.asAnswer) {
           return item.score;
         }
@@ -866,7 +866,7 @@ export default {
       return score.reduce((a, b) => {
         return a + b;
       }, 0);
-    }
+    },
   },
   watch: {
     isDragging(newValue) {
@@ -877,7 +877,7 @@ export default {
       this.$nextTick(() => {
         this.delayedDragging = false;
       });
-    }
+    },
   },
   methods: {
     onMove({ relatedContext, draggedContext }) {
@@ -917,11 +917,11 @@ export default {
                 placeholder: "",
                 responses: [
                   {
-                    response: ""
-                  }
+                    response: "",
+                  },
                 ],
-                response_count: ""
-              }
+                response_count: "",
+              },
             ],
             response: "",
             responses: [],
@@ -930,29 +930,29 @@ export default {
             limit: 1,
             options: [
               {
-                title: ""
-              }
+                title: "",
+              },
             ],
             showAnswer: false,
             answer: "",
             answers: [
               {
-                title: ""
-              }
+                title: "",
+              },
             ],
             asPlaceholders: false,
             placeholders: [
               {
                 placeholder: "",
-                response: ""
-              }
+                response: "",
+              },
             ],
             placeholder: "",
             hint: "",
             asScore: false,
-            score: 0
-          }
-        ]
+            score: 0,
+          },
+        ],
       });
     },
     addquestion(idx) {
@@ -970,11 +970,11 @@ export default {
             placeholder: "",
             responses: [
               {
-                response: ""
-              }
+                response: "",
+              },
             ],
-            response_count: ""
-          }
+            response_count: "",
+          },
         ],
         response: "",
         responses: [],
@@ -983,50 +983,50 @@ export default {
         limit: 1,
         options: [
           {
-            title: ""
-          }
+            title: "",
+          },
         ],
         showAnswer: false,
         answer: "",
         answers: [
           {
-            title: ""
-          }
+            title: "",
+          },
         ],
         asPlaceholders: false,
         placeholders: [
           {
             placeholder: "",
-            response: ""
-          }
+            response: "",
+          },
         ],
         placeholder: "",
         hint: "",
         asScore: false,
-        score: 0
+        score: 0,
       });
     },
     addoption(idx, index) {
       this.questionnaire.sections[idx].questions[index].options.push({
-        title: ""
+        title: "",
       });
     },
     addplaceholder(idx, index) {
       this.questionnaire.sections[idx].questions[index].placeholders.push({
         placeholder: "",
-        response: ""
+        response: "",
       });
     },
     addSubQuest(idx, index) {
       this.questionnaire.sections[idx].questions[index].subQuestion.push({
         question: "",
         placeholder: "",
-        response: ""
+        response: "",
       });
     },
     addanswer(idx, index) {
       this.questionnaire.sections[idx].questions[index].answers.push({
-        title: ""
+        title: "",
       });
     },
     getQuestionnaire() {
@@ -1035,11 +1035,11 @@ export default {
           `${this.$store.getters.url}/question/templates/${this.$route.params.id}`,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.questionnaire.id = res.data.id;
             this.questionnaire.title = res.data.title;
@@ -1058,11 +1058,11 @@ export default {
           this.questionnaire,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Questionnaire updated successfully");
 
@@ -1081,11 +1081,11 @@ export default {
           this.questionnaire,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Draft updated successfully");
 
@@ -1098,8 +1098,8 @@ export default {
     },
     preview() {
       this.$bvModal.show("preview");
-    }
-  }
+    },
+  },
 };
 </script>
 

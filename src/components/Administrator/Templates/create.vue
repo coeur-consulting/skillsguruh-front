@@ -562,7 +562,7 @@
                             "
                           >
                             <b-col sm="12" v-if="!question.addSubQuestion">
-                              <b-form-group label="Placeholder (optional)">
+                              <b-form-group label="Placeholder ">
                                 <b-form-input
                                   size="sm"
                                   v-model="question.placeholder"
@@ -577,7 +577,7 @@
                             v-if="question.type == 'multiple'"
                           >
                             <b-col sm="12">
-                              <b-form-group label="Placeholder (optional)">
+                              <b-form-group label="Placeholder ">
                                 <b-input-group
                                   size="sm"
                                   v-for="(val, idp) in question.placeholders"

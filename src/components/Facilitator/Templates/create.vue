@@ -562,7 +562,7 @@
                             "
                           >
                             <b-col sm="12" v-if="!question.addSubQuestion">
-                              <b-form-group label="Placeholder (optional)">
+                              <b-form-group label="Placeholder ">
                                 <b-form-input
                                   size="sm"
                                   v-model="question.placeholder"
@@ -577,7 +577,7 @@
                             v-if="question.type == 'multiple'"
                           >
                             <b-col sm="12">
-                              <b-form-group label="Placeholder (optional)">
+                              <b-form-group label="Placeholder ">
                                 <b-input-group
                                   size="sm"
                                   v-for="(val, idp) in question.placeholders"
@@ -1049,7 +1049,7 @@ export default {
           }
         )
         .then((res) => {
-          if (res.status == 201) {
+          if (res.status == 201 || res.status == 200) {
             this.$toast.success("Created successfully");
             this.$emit("close", res.data);
           }
@@ -1077,6 +1077,7 @@ export default {
         .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Saved to drafts");
+
             this.questionnaire.id = res.data.id;
             this.questionnaire.sections = JSON.parse(res.data.sections);
 

@@ -208,12 +208,12 @@ export default {
     }
   },
   methods: {
-    addtemplate(val) {
-      this.questionnaires.unshift(val);
+    addtemplate() {
+      this.getquestionnaires();
     },
-    close(val) {
+    close() {
       this.$bvModal.hide("create");
-      this.questionnaires.unshift(val);
+      this.getquestionnaires();
     },
     async getquestionnaires() {
       return this.$http
