@@ -1024,7 +1024,7 @@ export default {
           `${this.$store.getters.url}/question/templates/${this.$route.params.id}`,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
             },
           }
         )
