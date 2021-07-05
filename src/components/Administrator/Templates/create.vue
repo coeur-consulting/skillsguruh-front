@@ -283,6 +283,10 @@
                               <b-form-checkbox
                                 v-if="
                                   question.type == 'short' ||
+                                  question.type == 'email' ||
+                                  question.type == 'number' ||
+                                  question.type == 'date' ||
+                                  question.type == 'time' ||
                                   question.type == 'long'
                                 "
                                 class="mr-2"
@@ -308,7 +312,15 @@
 
                           <b-form-row
                             class="p-2"
-                            v-if="question.addSubQuestion"
+                            v-if="
+                              question.addSubQuestion &&
+                              (question.type == 'long' ||
+                                question.type == 'email' ||
+                                question.type == 'number' ||
+                                question.type == 'time' ||
+                                question.type == 'date' ||
+                                question.type == 'short')
+                            "
                           >
                             <b-col
                               class="border-left bg-light rounded p-2"
@@ -545,7 +557,6 @@
                             v-if="
                               question.type == 'short' ||
                               question.type == 'long' ||
-                              question.type == 'paragraph' ||
                               question.type == 'email' ||
                               question.type == 'number'
                             "
@@ -565,7 +576,7 @@
                             class=""
                             v-if="question.type == 'multiple'"
                           >
-                            <b-col sm="12" v-if="!question.addSubQuestion">
+                            <b-col sm="12">
                               <b-form-group label="Placeholder (optional)">
                                 <b-input-group
                                   size="sm"
