@@ -139,7 +139,7 @@
                             :value="index"
                             v-model="question.responses"
                             :disabled="
-                              question.responses.length > question.limit &&
+                              question.responses.length > question.limit - 1 &&
                               question.responses.indexOf(index) === -1
                             "
                             inline
@@ -409,7 +409,7 @@ export default {
     getQuestionnaire() {
       this.$http
         .get(
-          `${this.$store.getters.url}/assessment/responses/${this.$route.params.id}`,
+          `${this.$store.getters.url}/question/templates/${this.$route.params.id}`,
           {
             headers: {
               Authorization: `Bearer ${this.$store.getters.learner.access_token}`,

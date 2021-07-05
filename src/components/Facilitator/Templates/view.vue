@@ -2,7 +2,7 @@
   <div>
     <b-container class="py-3 px-0 text-left" v-if="questionnaire.sections">
       <div class="mb-4">
-        <span @click="$router.go(-1)"
+        <span class="cursor-pointer" @click="$router.go(-1)"
           ><b-icon icon="arrow-left"></b-icon> Back</span
         >
       </div>
@@ -16,7 +16,7 @@
               <div
                 class="
                   bg-white
-                  shadow
+                  shadow-sm
                   rounded
                   mb-5
                   section-box
@@ -43,7 +43,7 @@
               <div
                 class="
                   bg-white
-                  shadow
+                  shadow-sm
                   rounded
                   mb-4
                   section-box

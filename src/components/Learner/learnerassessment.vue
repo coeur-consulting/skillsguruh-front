@@ -9,7 +9,7 @@
           >
         </b-col>
       </b-row>
-      <div v-if="$route.params.type !== 'template'">
+      <div>
         <div v-if="assessments.length">
           <b-row>
             <b-col sm="4" v-for="(item, index) in filter" :key="index">
@@ -103,7 +103,7 @@
                           (val) =>
                             val.question_template_id ==
                             item.question_template_id
-                        ) && item.status == 'active'
+                        )
                       "
                       class="text-dark-green cursor-pointer"
                       @click="
@@ -328,14 +328,13 @@ export default {
     Questionnaire,
   },
   mounted() {
-    if (this.$route.params.type == "template") {
-      this.getQuestionnaire();
-    } else {
-      this.getLibrary();
-      this.getAssessments();
-      this.addAssessments();
-      this.getResponses();
-    }
+    // if (this.$route.params.type == "template") {
+    //   this.getQuestionnaire();
+    // }
+    this.getLibrary();
+    this.getAssessments();
+    this.addAssessments();
+    this.getResponses();
   },
   computed: {
     filter() {

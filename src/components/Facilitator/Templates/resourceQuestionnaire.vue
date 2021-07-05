@@ -91,7 +91,7 @@
               >
                 <transition-group type="transition" :name="'flip-list'">
                   <div
-                    class="shadow rounded p-3 mb-3"
+                    class="shadow-sm rounded p-3 mb-3"
                     v-for="(question, index) in section.questions"
                     :key="index + 1"
                   >

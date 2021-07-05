@@ -107,6 +107,30 @@
             </p>
           </div>
         </b-col>
+        <b-col sm="4" class="mb-5">
+          <div
+            class="
+              shadow
+              bg-white
+              rounded
+              p-3
+              position-relative
+              text-left
+              cursor-pointer
+            "
+            @click="$router.push('/facilitator/assessment/template')"
+          >
+            <b-badge class="badge" variant="danger">{{ template }}</b-badge>
+            <b-img
+              :src="require('@/assets/images/ass3.png')"
+              fluid-grow
+              alt="assignments"
+              class="mb-3"
+            ></b-img>
+            <div class="font-weight-bold fs15">Templates</div>
+            <p class="fs15 text-muted">Create,view and mark templates here</p>
+          </div>
+        </b-col>
       </b-row>
     </b-container>
   </div>
@@ -135,6 +159,9 @@ export default {
     },
     test() {
       return this.assessments.filter((item) => item.type == "test").length;
+    },
+    template() {
+      return this.assessments.filter((item) => item.type == "template").length;
     },
   },
   methods: {
