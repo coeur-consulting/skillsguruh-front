@@ -306,61 +306,46 @@
           </b-form-row>
         </b-container>
         <b-container v-show="type == 3">
-          <div
-            class="border p-3 rounded mb-3"
-            v-for="(item, id) in detail.schedule"
-            :key="id"
-          >
+          <div class="mb-3" v-for="(item, id) in detail.schedule" :key="id">
             <div
-              class="p-2 rounded d-flex justify-content-between shadow-sm"
+              class="
+                border
+                p-3
+                rounded
+                d-flex
+                justify-content-between
+                shadow-sm
+                bg-light
+              "
               v-if="id != current_schedule"
             >
               <div>
                 <span class="mr-3"
-                  >Start Date :
+                  >Start :
                   {{
                     item.start_time | moment("dddd, MMMM D YYYY, h:mm a")
                   }}</span
                 >
                 <br />
                 <span class="mr-3"
-                  >End Date :
+                  >End :
                   {{
                     item.end_time | moment("dddd, MMMM D YYYY, h:mm a")
                   }}</span
                 >
               </div>
               <div>
-                <b-iconstack font-scale="1.1" class="mr-2" @click="addschedule">
-                  <b-icon
-                    stacked
-                    icon="circle-fill"
-                    variant="dark-green"
-                  ></b-icon>
-                  <b-icon
-                    stacked
-                    icon="plus-circle-fill"
-                    scale="0.5"
-                    variant="white"
-                  ></b-icon>
-                </b-iconstack>
-
                 <b-iconstack
-                  font-scale="1.1"
+                  font-scale="1.3"
                   class="mr-2"
                   @click="current_schedule = id"
                 >
                   <b-icon stacked icon="circle-fill" variant="warning"></b-icon>
-                  <b-icon
-                    icon="pencil-fill"
-                    stacked
-                    scale="0.5"
-                    variant="white"
-                  ></b-icon>
+                  <b-icon icon="pencil" stacked scale="0.5"></b-icon>
                 </b-iconstack>
 
                 <b-iconstack
-                  font-scale="1.1"
+                  font-scale="1.3"
                   v-if="detail.schedule.length > 1"
                   @click="detail.schedule.splice(id, 1)"
                 >
@@ -374,8 +359,8 @@
                 </b-iconstack>
               </div>
             </div>
-            <div v-if="id == current_schedule">
-              <div class="text-right">
+            <div v-if="id == current_schedule" class="bg-light">
+              <div class="text-right px-3">
                 <b-icon
                   icon="chevron-up"
                   @click="current_schedule = null"
@@ -499,16 +484,17 @@
                   v-if="detail.schedule.length > 1"
                   >Delete schedule</b-button
                 >
-                <b-button
-                  variant="dark-green"
-                  class="my-2"
-                  size="sm"
-                  @click="addschedule"
-                  v-if="detail.schedule.length == id + 1"
-                  >Add new schedule</b-button
-                >
               </div>
             </div>
+          </div>
+          <div class="text-center">
+            <b-icon
+              icon="plus-circle-fill"
+              variant="dark-green"
+              class="my-2"
+              font-scale="1.4"
+              @click="addschedule"
+            ></b-icon>
           </div>
         </b-container>
 
@@ -859,61 +845,46 @@
           </b-form-row>
         </b-container>
         <b-container v-show="type == 3">
-          <div
-            class="border p-3 rounded mb-3"
-            v-for="(item, id) in detail.schedule"
-            :key="id"
-          >
+          <div class="mb-3" v-for="(item, id) in detail.schedule" :key="id">
             <div
-              class="p-2 rounded d-flex justify-content-between shadow-sm"
+              class="
+                border
+                p-3
+                rounded
+                d-flex
+                justify-content-between
+                shadow-sm
+                bg-light
+              "
               v-if="id != current_schedule"
             >
               <div>
                 <span class="mr-3"
-                  >Start Date :
+                  >Start :
                   {{
                     item.start_time | moment("dddd, MMMM D YYYY, h:mm a")
                   }}</span
                 >
                 <br />
                 <span class="mr-3"
-                  >End Date :
+                  >End :
                   {{
                     item.end_time | moment("dddd, MMMM D YYYY, h:mm a")
                   }}</span
                 >
               </div>
               <div>
-                <b-iconstack font-scale="1.1" class="mr-2" @click="addschedule">
-                  <b-icon
-                    stacked
-                    icon="circle-fill"
-                    variant="dark-green"
-                  ></b-icon>
-                  <b-icon
-                    stacked
-                    icon="plus-circle-fill"
-                    scale="0.5"
-                    variant="white"
-                  ></b-icon>
-                </b-iconstack>
-
                 <b-iconstack
-                  font-scale="1.1"
+                  font-scale="1.3"
                   class="mr-2"
                   @click="current_schedule = id"
                 >
                   <b-icon stacked icon="circle-fill" variant="warning"></b-icon>
-                  <b-icon
-                    icon="pencil-fill"
-                    stacked
-                    scale="0.5"
-                    variant="white"
-                  ></b-icon>
+                  <b-icon icon="pencil" stacked scale="0.5"></b-icon>
                 </b-iconstack>
 
                 <b-iconstack
-                  font-scale="1.1"
+                  font-scale="1.3"
                   v-if="detail.schedule.length > 1"
                   @click="detail.schedule.splice(id, 1)"
                 >
@@ -927,8 +898,8 @@
                 </b-iconstack>
               </div>
             </div>
-            <div v-if="id == current_schedule">
-              <div class="text-right">
+            <div v-if="id == current_schedule" class="bg-light">
+              <div class="text-right px-3">
                 <b-icon
                   icon="chevron-up"
                   @click="current_schedule = null"
@@ -1052,16 +1023,17 @@
                   v-if="detail.schedule.length > 1"
                   >Delete schedule</b-button
                 >
-                <b-button
-                  variant="dark-green"
-                  class="my-2"
-                  size="sm"
-                  @click="addschedule"
-                  v-if="detail.schedule.length == id + 1"
-                  >Add new schedule</b-button
-                >
               </div>
             </div>
+          </div>
+          <div class="text-center">
+            <b-icon
+              icon="plus-circle-fill"
+              variant="dark-green"
+              class="my-2"
+              font-scale="1.4"
+              @click="addschedule"
+            ></b-icon>
           </div>
         </b-container>
 
@@ -1812,14 +1784,14 @@
                   <div class="" v-if="course.courseschedule.length">
                     <b-row>
                       <b-col cols="6">
-                        <h6 class="fs14 font-weight-bold">Start date</h6>
+                        <h6 class="fs14 font-weight-bold">Start</h6>
                         <span class="fs14">{{
                           course.courseschedule[0].start_time
                             | moment("MMM DD, YYYY")
                         }}</span>
                       </b-col>
                       <b-col cols="6">
-                        <h6 class="fs14 font-weight-bold">End date</h6>
+                        <h6 class="fs14 font-weight-bold">End</h6>
                         <span class="fs14">{{
                           course.courseschedule[0].end_time
                             | moment("MMM DD, YYYY")
@@ -2263,14 +2235,14 @@
               <div class="" v-if="course.courseschedule.length">
                 <b-row>
                   <b-col cols="6">
-                    <h6 class="fs14 font-weight-bold">Start date</h6>
+                    <h6 class="fs14 font-weight-bold">Start</h6>
                     <span class="fs14">{{
                       course.courseschedule[0].start_time
                         | moment("MMM DD, YYYY")
                     }}</span>
                   </b-col>
                   <b-col cols="6">
-                    <h6 class="fs14 font-weight-bold">End date</h6>
+                    <h6 class="fs14 font-weight-bold">End</h6>
                     <span class="fs14">{{
                       course.courseschedule[0].end_time | moment("MMM DD, YYYY")
                     }}</span>
