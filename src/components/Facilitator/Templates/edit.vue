@@ -240,9 +240,9 @@
                                       >Dropdown</b-form-select-option
                                     >
 
-                                    <b-form-select-option value="boolean"
+                                    <!-- <b-form-select-option value="boolean"
                                       >True/False</b-form-select-option
-                                    >
+                                    > -->
                                     <b-form-select-option value="email"
                                       >Email</b-form-select-option
                                     >

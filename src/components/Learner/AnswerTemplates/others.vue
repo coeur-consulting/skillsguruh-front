@@ -160,21 +160,26 @@
                           :key="subId"
                         >
                           <b-form-group :label="subquest.question">
-                            <b-form-input
-                              class="mb-1"
-                              v-if="question.type == 'short'"
-                              @change="handleResponse"
-                              size="sm"
-                              v-model="subquest.response"
-                              :placeholder="subquest.placeholder"
-                            ></b-form-input>
-                            <b-form-textarea
-                              v-if="question.type == 'long'"
-                              class="mb-1"
-                              @change="handleResponse"
-                              v-model="subquest.response"
-                              :placeholder="subquest.placeholder"
-                            ></b-form-textarea>
+                            <div
+                              v-for="(res, resId) in subquest.responses"
+                              :key="resId"
+                            >
+                              <b-form-input
+                                class="mb-1"
+                                v-if="question.type == 'short'"
+                                @change="handleResponse"
+                                size="sm"
+                                v-model="res.response"
+                                :placeholder="subquest.placeholder"
+                              ></b-form-input>
+                              <b-form-textarea
+                                v-if="question.type == 'long'"
+                                class="mb-1"
+                                @change="handleResponse"
+                                v-model="res.response"
+                                :placeholder="subquest.placeholder"
+                              ></b-form-textarea>
+                            </div>
                           </b-form-group>
                         </div>
                       </div>
