@@ -47,7 +47,7 @@
                 v-for="(section, idx) in questionnaire.sections"
                 :key="idx"
                 class="
-                  border
+                  border-bottom
                   bg-light
                   rounded
                   p-3
@@ -219,27 +219,27 @@
                                     size="sm"
                                     v-model="question.type"
                                   >
-                                    <b-form-select-option value="short"
-                                      >Short Answer</b-form-select-option
-                                    >
                                     <b-form-select-option value="single"
-                                      >Single Answer</b-form-select-option
-                                    >
-                                    <b-form-select-option value="multiple"
-                                      >Multiple Answer</b-form-select-option
-                                    >
-                                    <b-form-select-option value="long"
-                                      >Long Answer</b-form-select-option
-                                    >
-                                    <b-form-select-option value="paragraph"
-                                      >Paragraph</b-form-select-option
-                                    >
-                                    <b-form-select-option value="dropdown"
-                                      >Dropdown</b-form-select-option
+                                      >Radio</b-form-select-option
                                     >
                                     <b-form-select-option value="checkbox"
                                       >Checkbox</b-form-select-option
                                     >
+
+                                    <b-form-select-option value="short"
+                                      >Short Answer</b-form-select-option
+                                    >
+
+                                    <b-form-select-option value="long"
+                                      >Long Answer</b-form-select-option
+                                    >
+                                    <b-form-select-option value="multiple"
+                                      >Multiple Answer</b-form-select-option
+                                    >
+                                    <b-form-select-option value="dropdown"
+                                      >Dropdown</b-form-select-option
+                                    >
+
                                     <b-form-select-option value="boolean"
                                       >True/False</b-form-select-option
                                     >
@@ -275,38 +275,20 @@
                               "
                             >
                               <b-form-checkbox
-                                class="mr-2"
-                                size="sm"
-                                v-model="question.showAnswer"
-                                >Answer</b-form-checkbox
-                              >
-                              <b-form-checkbox
-                                class="mr-2"
+                                class="mr-3"
                                 size="sm"
                                 v-model="question.asAnswer"
-                                >Score</b-form-checkbox
+                                >Provide Score</b-form-checkbox
                               >
                               <b-form-checkbox
                                 v-if="
                                   question.type == 'short' ||
-                                  question.type == 'long' ||
-                                  question.type == 'multiple'
+                                  question.type == 'long'
                                 "
                                 class="mr-2"
                                 size="sm"
                                 v-model="question.addSubQuestion"
                                 >Sub-Question</b-form-checkbox
-                              >
-                              <b-form-checkbox
-                                v-if="
-                                  (question.type == 'short' ||
-                                    question.type == 'long' ||
-                                    question.type == 'multiple') &&
-                                  !question.addSubQuestion
-                                "
-                                size="sm"
-                                v-model="question.asPlaceholders"
-                                >Multiple Placeholders</b-form-checkbox
                               >
                             </b-col>
                           </b-form-row>
@@ -487,17 +469,17 @@
                           <b-form-row
                             class=""
                             v-if="
-                              question.showAnswer &&
-                              question.type !== 'multiple' &&
-                              question.type !== 'checkbox'
+                              question.type == 'single' ||
+                              question.type == 'checkbox' ||
+                              question.type == 'boolean'
                             "
                           >
                             <b-col sm="12">
-                              <b-form-group label="Answer">
+                              <b-form-group label="Corect Answer">
                                 <b-form-input
                                   size="sm"
                                   v-model="question.answer"
-                                  placeholder="Provide the answer"
+                                  placeholder="Provide the correct answer"
                                 >
                                 </b-form-input>
                               </b-form-group>
@@ -565,22 +547,27 @@
                               question.type == 'long' ||
                               question.type == 'paragraph' ||
                               question.type == 'email' ||
-                              question.type == 'multiple' ||
                               question.type == 'number'
                             "
                           >
                             <b-col sm="12" v-if="!question.addSubQuestion">
                               <b-form-group label="Placeholder (optional)">
                                 <b-form-input
-                                  v-if="!question.asPlaceholders"
                                   size="sm"
                                   v-model="question.placeholder"
                                   placeholder="Provide a placeholder"
                                 >
                                 </b-form-input>
-
+                              </b-form-group>
+                            </b-col>
+                          </b-form-row>
+                          <b-form-row
+                            class=""
+                            v-if="question.type == 'multiple'"
+                          >
+                            <b-col sm="12" v-if="!question.addSubQuestion">
+                              <b-form-group label="Placeholder (optional)">
                                 <b-input-group
-                                  v-else
                                   size="sm"
                                   v-for="(val, idp) in question.placeholders"
                                   :key="idp"
@@ -628,6 +615,7 @@
                               </b-form-group>
                             </b-col>
                           </b-form-row>
+
                           <b-form-row class="">
                             <b-col sm="12">
                               <b-form-group label="Hint (optional)">
