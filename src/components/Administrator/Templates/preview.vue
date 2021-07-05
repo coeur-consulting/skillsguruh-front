@@ -87,7 +87,7 @@
                         :placeholder="question.placeholder"
                       ></b-form-textarea>
                     </div>
-                    <div v-if="question.type == 'multiple'">
+                    <!-- <div v-if="question.type == 'multiple'">
                       <div
                         v-for="(item, id) in question.options"
                         :key="id"
@@ -119,28 +119,27 @@
                           ></b-button>
                         </b-button-group>
                       </div>
-                    </div>
+                    </div> -->
 
-                    <div v-if="question.asPlaceholders">
+                    <div v-if="question.type == 'multiple'">
                       <div
                         v-for="(place, idp) in question.placeholders"
                         :key="idp"
                       >
                         <b-form-input
                           class="mb-1"
-                          v-if="question.type == 'short'"
                           @change="handleResponse"
                           size="sm"
                           v-model="place.response"
                           :placeholder="place.placeholder"
                         ></b-form-input>
-                        <b-form-textarea
+                        <!-- <b-form-textarea
                           v-if="question.type == 'long'"
                           class="mb-1"
                           @change="handleResponse"
                           v-model="place.response"
                           :placeholder="place.placeholder"
-                        ></b-form-textarea>
+                        ></b-form-textarea> -->
                       </div>
                     </div>
 
