@@ -114,6 +114,32 @@
             <p class="fs15 text-muted">View all templates here</p>
           </div>
         </b-col>
+        <b-col sm="4" class="mb-4">
+          <div
+            class="
+              shadow
+              bg-white
+              rounded
+              p-3
+              position-relative
+              text-left
+              cursor-pointer
+            "
+            @click="$router.push('/learner/assessment/questionnaire')"
+          >
+            <b-badge class="mybadge" variant="danger">{{
+              questionnaire
+            }}</b-badge>
+            <b-img
+              :src="require('@/assets/images/ass2.png')"
+              alt="quiz"
+              fluid-grow
+              class="mb-3"
+            ></b-img>
+            <div class="font-weight-bold fs15">Questionnaire</div>
+            <p class="fs15 text-muted">View all questionnaire here</p>
+          </div>
+        </b-col>
       </b-row>
     </b-container>
   </div>

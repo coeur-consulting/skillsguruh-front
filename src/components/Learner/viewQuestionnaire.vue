@@ -1,14 +1,16 @@
 <template>
   <div class="p-3 bg-white">
     <b-form @submit.prevent="submit">
-      <b-container class="py-3 px-0 text-left" v-if="questionnaire.sections">
+      <b-container class="py-3 px-0 text-center" v-if="questionnaire.sections">
         <div class="mb-3">
           <span @click="$router.go(-1)"
             ><b-icon icon="arrow-left"></b-icon> Back</span
           >
         </div>
         <div class="text-left d-flex justify-content-between">
-          <h5 class="mb-4 text-capitalize">{{ questionnaire.title }}</h5>
+          <h5 class="mb-4 text-capitalize text-center">
+            {{ questionnaire.title }}
+          </h5>
           <span @click="$bvModal.show('preview')"
             >Preview <b-icon icon="eye"></b-icon
           ></span>
@@ -64,24 +66,120 @@
                       {{ question.hint }}</em
                     >
                   </div>
-                  <div v-if="question.type == 'short'">
+                  <div
+                    v-if="
+                      question.type == 'short' &&
+                      !question.asPlaceholders &&
+                      !question.addSubQuestion
+                    "
+                  >
                     <b-form-input
                       @change="handleResponse"
                       v-model="question.response"
                       :placeholder="question.placeholder"
                     ></b-form-input>
                   </div>
-                  <div v-if="question.type == 'long'">
+                  <div
+                    v-if="
+                      question.type == 'long' &&
+                      !question.asPlaceholders &&
+                      !question.addSubQuestion
+                    "
+                  >
                     <b-form-textarea
                       @change="handleResponse"
                       v-model="question.response"
                       :placeholder="question.placeholder"
                     ></b-form-textarea>
                   </div>
+                  <!-- <div v-if="question.type == 'multiple'">
+                      <div
+                        v-for="(item, id) in question.options"
+                        :key="id"
+                        class="d-flex align-items-center mb-1"
+                      >
+                        <b-form-input
+                          v-model="item.title"
+                          :placeholder="question.placeholder"
+                        ></b-form-input>
+                        <b-button-group>
+                          <b-button
+                            v-if="
+                              questionnaire.sections[section].questions[index]
+                                .options.length > 1
+                            "
+                            @click="
+                              questionnaire.sections[section].questions[
+                                index
+                              ].options.splice(id, 1)
+                            "
+                          >
+                            <b-icon icon="x"></b-icon
+                          ></b-button>
+                          <b-button
+                            variant="lighter-green"
+                            @click="addoption(index)"
+                          >
+                            <b-icon icon="plus"></b-icon
+                          ></b-button>
+                        </b-button-group>
+                      </div>
+                    </div> -->
+
+                  <div v-if="question.type == 'multiple'">
+                    <div
+                      v-for="(place, idp) in question.placeholders"
+                      :key="idp"
+                    >
+                      <b-form-input
+                        class="mb-1"
+                        @change="handleResponse"
+                        size="sm"
+                        v-model="place.response"
+                        :placeholder="place.placeholder"
+                      ></b-form-input>
+                      <!-- <b-form-textarea
+                          v-if="question.type == 'long'"
+                          class="mb-1"
+                          @change="handleResponse"
+                          v-model="place.response"
+                          :placeholder="place.placeholder"
+                        ></b-form-textarea> -->
+                    </div>
+                  </div>
+
+                  <div v-if="question.addSubQuestion">
+                    <div
+                      v-for="(subquest, subId) in question.subQuestion"
+                      :key="subId"
+                    >
+                      <b-form-group :label="subquest.question">
+                        <div
+                          v-for="(res, resId) in subquest.responses"
+                          :key="resId"
+                        >
+                          <b-form-input
+                            class="mb-1"
+                            v-if="question.type == 'short'"
+                            @change="handleResponse"
+                            size="sm"
+                            v-model="res.response"
+                            :placeholder="subquest.placeholder"
+                          ></b-form-input>
+                          <b-form-textarea
+                            v-if="question.type == 'long'"
+                            class="mb-1"
+                            @change="handleResponse"
+                            v-model="res.response"
+                            :placeholder="subquest.placeholder"
+                          ></b-form-textarea>
+                        </div>
+                      </b-form-group>
+                    </div>
+                  </div>
 
                   <div v-if="question.type == 'single'">
                     <b-form-radio-group
-                      class="text-capitalize"
                       size="sm"
                       @change="handleResponse"
                       v-model="question.response"
@@ -90,51 +188,18 @@
                       text-field="title"
                     ></b-form-radio-group>
                   </div>
-                  <div v-if="question.type == 'multiple'">
-                    <div
-                      v-for="(item, id) in question.options"
-                      :key="id"
-                      class="d-flex align-items-center mb-1"
-                    >
-                      <b-form-input
-                        v-model="item.title"
-                        :placeholder="question.placeholder"
-                      ></b-form-input>
-                      <b-button-group>
-                        <b-button
-                          v-if="
-                            questionnaire.sections[section].questions[index]
-                              .options.length > 1
-                          "
-                          @click="
-                            questionnaire.sections[section].questions[
-                              index
-                            ].options.splice(id, 1)
-                          "
-                        >
-                          <b-icon icon="x"></b-icon
-                        ></b-button>
-                        <b-button
-                          variant="lighter-green"
-                          @click="addoption(index)"
-                        >
-                          <b-icon icon="plus"></b-icon
-                        ></b-button>
-                      </b-button-group>
-                    </div>
-                  </div>
+
                   <div v-if="question.type == 'checkbox'">
                     <div>
                       <b-form-checkbox
                         size="sm"
-                        class="text-capitalize"
                         @change="handleResponse"
                         v-for="(item, index) in question.options"
                         :key="index"
                         :value="index"
                         v-model="question.responses"
                         :disabled="
-                          question.responses.length > question.limit &&
+                          question.responses.length > question.limit - 1 &&
                           question.responses.indexOf(index) === -1
                         "
                         inline
@@ -146,7 +211,6 @@
 
                   <div v-if="question.type == 'boolean'">
                     <b-form-radio
-                      class="text-capitalize"
                       size="sm"
                       @change="handleResponse"
                       v-model="question.response"
@@ -155,7 +219,6 @@
                     >
                     <b-form-radio
                       size="sm"
-                      class="text-capitalize"
                       @change="handleResponse"
                       v-model="question.response"
                       value="false"
@@ -165,7 +228,6 @@
 
                   <div v-if="question.type == 'dropdown'">
                     <b-form-select
-                      class="text-capitalize"
                       @change="handleResponse"
                       v-model="question.response"
                     >
@@ -371,12 +433,16 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.myquestionnaire = res.data;
-            var check = res.data.find(
-              (item) =>
-                item.question_template_id == this.$route.params.id &&
-                item.course_id == this.$route.params.course_id &&
-                item.module_id == this.$route.params.module_id
-            );
+            if (res.data.length) {
+              var check = res.data.find(
+                (item) =>
+                  item.question_template_id == this.$route.params.id &&
+                  item.course_id == this.$route.params.course_id &&
+                  item.module_id == this.$route.params.module_id
+              );
+            } else {
+              this.getQuestionnaire();
+            }
           }
           var sections = JSON.parse(check.content);
 
@@ -488,8 +554,9 @@ export default {
               },
             })
             .then((res) => {
-              if (res.status == 201) {
+              if (res.status == 201 || res.status == 200) {
                 this.$router.go(-1);
+                this.$toast.success("Submitted Successfully");
               }
             });
         }
@@ -518,6 +585,7 @@ export default {
             .then((res) => {
               if (res.status == 201 || res.status == 200) {
                 this.$router.go(-1);
+                this.$toast.success("Saved in Drafts ");
               }
             });
         }

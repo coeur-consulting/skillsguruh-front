@@ -35,7 +35,6 @@
                 v-html="questionnaire.sections[section].description"
               ></div>
             </div>
-
             <div
               class="
                 bg-white
@@ -59,19 +58,116 @@
                       {{ question.hint }}</em
                     >
                   </div>
-                  <div v-if="question.type == 'short'">
+                  <div
+                    v-if="
+                      question.type == 'short' &&
+                      !question.asPlaceholders &&
+                      !question.addSubQuestion
+                    "
+                  >
                     <b-form-input
                       @change="handleResponse"
                       v-model="question.response"
                       :placeholder="question.placeholder"
                     ></b-form-input>
                   </div>
-                  <div v-if="question.type == 'long'">
+                  <div
+                    v-if="
+                      question.type == 'long' &&
+                      !question.asPlaceholders &&
+                      !question.addSubQuestion
+                    "
+                  >
                     <b-form-textarea
                       @change="handleResponse"
                       v-model="question.response"
                       :placeholder="question.placeholder"
                     ></b-form-textarea>
+                  </div>
+                  <!-- <div v-if="question.type == 'multiple'">
+                      <div
+                        v-for="(item, id) in question.options"
+                        :key="id"
+                        class="d-flex align-items-center mb-1"
+                      >
+                        <b-form-input
+                          v-model="item.title"
+                          :placeholder="question.placeholder"
+                        ></b-form-input>
+                        <b-button-group>
+                          <b-button
+                            v-if="
+                              questionnaire.sections[section].questions[index]
+                                .options.length > 1
+                            "
+                            @click="
+                              questionnaire.sections[section].questions[
+                                index
+                              ].options.splice(id, 1)
+                            "
+                          >
+                            <b-icon icon="x"></b-icon
+                          ></b-button>
+                          <b-button
+                            variant="lighter-green"
+                            @click="addoption(index)"
+                          >
+                            <b-icon icon="plus"></b-icon
+                          ></b-button>
+                        </b-button-group>
+                      </div>
+                    </div> -->
+
+                  <div v-if="question.type == 'multiple'">
+                    <div
+                      v-for="(place, idp) in question.placeholders"
+                      :key="idp"
+                    >
+                      <b-form-input
+                        class="mb-1"
+                        @change="handleResponse"
+                        size="sm"
+                        v-model="place.response"
+                        :placeholder="place.placeholder"
+                      ></b-form-input>
+                      <!-- <b-form-textarea
+                          v-if="question.type == 'long'"
+                          class="mb-1"
+                          @change="handleResponse"
+                          v-model="place.response"
+                          :placeholder="place.placeholder"
+                        ></b-form-textarea> -->
+                    </div>
+                  </div>
+
+                  <div v-if="question.addSubQuestion">
+                    <div
+                      v-for="(subquest, subId) in question.subQuestion"
+                      :key="subId"
+                    >
+                      <b-form-group :label="subquest.question">
+                        <div
+                          v-for="(res, resId) in subquest.responses"
+                          :key="resId"
+                        >
+                          <b-form-input
+                            class="mb-1"
+                            v-if="question.type == 'short'"
+                            @change="handleResponse"
+                            size="sm"
+                            v-model="res.response"
+                            :placeholder="subquest.placeholder"
+                          ></b-form-input>
+                          <b-form-textarea
+                            v-if="question.type == 'long'"
+                            class="mb-1"
+                            @change="handleResponse"
+                            v-model="res.response"
+                            :placeholder="subquest.placeholder"
+                          ></b-form-textarea>
+                        </div>
+                      </b-form-group>
+                    </div>
                   </div>
 
                   <div v-if="question.type == 'single'">
@@ -84,39 +180,7 @@
                       text-field="title"
                     ></b-form-radio-group>
                   </div>
-                  <div v-if="question.type == 'multiple'">
-                    <div
-                      v-for="(item, id) in question.options"
-                      :key="id"
-                      class="d-flex align-items-center mb-1"
-                    >
-                      <b-form-input
-                        v-model="item.title"
-                        :placeholder="question.placeholder"
-                      ></b-form-input>
-                      <b-button-group>
-                        <b-button
-                          v-if="
-                            questionnaire.sections[section].questions[index]
-                              .options.length > 1
-                          "
-                          @click="
-                            questionnaire.sections[section].questions[
-                              index
-                            ].options.splice(id, 1)
-                          "
-                        >
-                          <b-icon icon="x"></b-icon
-                        ></b-button>
-                        <b-button
-                          variant="lighter-green"
-                          @click="addoption(index)"
-                        >
-                          <b-icon icon="plus"></b-icon
-                        ></b-button>
-                      </b-button-group>
-                    </div>
-                  </div>
+
                   <div v-if="question.type == 'checkbox'">
                     <div>
                       <b-form-checkbox
@@ -127,7 +191,7 @@
                         :value="index"
                         v-model="question.responses"
                         :disabled="
-                          question.responses.length > question.limit &&
+                          question.responses.length > question.limit - 1 &&
                           question.responses.indexOf(index) === -1
                         "
                         inline
@@ -273,20 +337,38 @@ export default {
       questionnaire: {
         id: null,
         module_id: null,
+        totalscore: 0,
         module_name: "",
         course_id: null,
         course_title: null,
         title: "",
+        type: "",
         showFeedback: false,
         feedback: "",
         showScores: false,
         sections: [
           {
             title: "",
+            description: "",
+            showSection: true,
             questions: [
               {
                 fixed: false,
+                showQuestion: true,
                 question: "",
+                addSubQuestion: false,
+                subQuestion: [
+                  {
+                    question: "",
+                    placeholder: "",
+                    responses: [
+                      {
+                        response: "",
+                      },
+                    ],
+                    response_count: "",
+                  },
+                ],
                 response: "",
                 responses: [],
                 result: "",
@@ -302,6 +384,13 @@ export default {
                 answers: [
                   {
                     title: "",
+                  },
+                ],
+                asPlaceholders: false,
+                placeholders: [
+                  {
+                    placeholder: "",
+                    response: "",
                   },
                 ],
                 placeholder: "",

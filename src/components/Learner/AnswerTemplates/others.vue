@@ -1,16 +1,14 @@
 <template>
   <div class="bg-light">
     <b-form @submit.prevent="submit">
-      <b-container class="py-3 px-0 text-left" v-if="questionnaire.sections">
+      <b-container
+        class="py-3 px-0 text-left"
+        v-if="questionnaire.sections.length"
+      >
         <b-row>
           <b-col sm="10" class="ber">
             <div class="text-left">
               <h5 class="mb-4 text-capitalize">{{ questionnaire.title }}</h5>
-              <div>
-                <em class="text-lighter-green fs11">{{
-                  questionnaire.hint
-                }}</em>
-              </div>
             </div>
             <div>
               <div class="mb-4 border-bottom">
@@ -97,60 +95,59 @@
                           :placeholder="question.placeholder"
                         ></b-form-textarea>
                       </div>
-                      <div v-if="question.type == 'multiple'">
-                        <div
-                          v-for="(item, id) in question.options"
-                          :key="id"
-                          class="d-flex align-items-center mb-1"
-                        >
-                          <b-form-input
-                            v-model="item.title"
-                            :placeholder="question.placeholder"
-                          ></b-form-input>
-                          <b-button-group>
-                            <b-button
-                              v-if="
-                                questionnaire.sections[section].questions[index]
-                                  .options.length > 1
-                              "
-                              @click="
-                                questionnaire.sections[section].questions[
-                                  index
-                                ].options.splice(id, 1)
-                              "
-                            >
-                              <b-icon icon="x"></b-icon
-                            ></b-button>
-                            <b-button
-                              variant="lighter-green"
-                              @click="addoption(index)"
-                            >
-                              <b-icon icon="plus"></b-icon
-                            ></b-button>
-                          </b-button-group>
-                        </div>
+                      <!-- <div v-if="question.type == 'multiple'">
+                      <div
+                        v-for="(item, id) in question.options"
+                        :key="id"
+                        class="d-flex align-items-center mb-1"
+                      >
+                        <b-form-input
+                          v-model="item.title"
+                          :placeholder="question.placeholder"
+                        ></b-form-input>
+                        <b-button-group>
+                          <b-button
+                            v-if="
+                              questionnaire.sections[section].questions[index]
+                                .options.length > 1
+                            "
+                            @click="
+                              questionnaire.sections[section].questions[
+                                index
+                              ].options.splice(id, 1)
+                            "
+                          >
+                            <b-icon icon="x"></b-icon
+                          ></b-button>
+                          <b-button
+                            variant="lighter-green"
+                            @click="addoption(index)"
+                          >
+                            <b-icon icon="plus"></b-icon
+                          ></b-button>
+                        </b-button-group>
                       </div>
+                    </div> -->
 
-                      <div v-if="question.asPlaceholders">
+                      <div v-if="question.type == 'multiple'">
                         <div
                           v-for="(place, idp) in question.placeholders"
                           :key="idp"
                         >
                           <b-form-input
                             class="mb-1"
-                            v-if="question.type == 'short'"
                             @change="handleResponse"
                             size="sm"
                             v-model="place.response"
                             :placeholder="place.placeholder"
                           ></b-form-input>
-                          <b-form-textarea
-                            v-if="question.type == 'long'"
-                            class="mb-1"
-                            @change="handleResponse"
-                            v-model="place.response"
-                            :placeholder="place.placeholder"
-                          ></b-form-textarea>
+                          <!-- <b-form-textarea
+                          v-if="question.type == 'long'"
+                          class="mb-1"
+                          @change="handleResponse"
+                          v-model="place.response"
+                          :placeholder="place.placeholder"
+                        ></b-form-textarea> -->
                         </div>
                       </div>
 
@@ -326,27 +323,25 @@
           </b-col>
           <b-col sm="2">
             <div class="mt-5 bg-white shadow p-3 rounded text-center">
-              <div class="fs12 mb-3">
+              <div class="fs12 mb-3" v-if="assessment.duration">
                 <span>Time remaining</span> <br />
                 <vue-countdown-timer
                   class="mb-4 fs13"
                   @start_callback="startCallBack('event started')"
                   @end_callback="endCallBack('event ended')"
-                  :start-time="'2018-10-10 00:00:00'"
-                  :end-time="1481450115"
+                  :start-time="$moment()"
+                  :end-time="$moment().add(assessment.duration, 'minutes')"
                   :interval="1000"
-                  :start-label="'Until start:'"
-                  :end-label="'Until end:'"
-                  label-position="begin"
+                  label-position=""
                   :end-text="'Event ended!'"
-                  :day-txt="'days'"
-                  :hour-txt="'hours'"
-                  :minutes-txt="'minutes'"
-                  :seconds-txt="'seconds'"
+                  :day-text="null"
+                  :hour-txt="':'"
+                  :minutes-txt="':'"
+                  :seconds-txt="''"
                 >
                 </vue-countdown-timer>
               </div>
-              <div class="mb-3">
+              <div class="mb-3" v-if="assessment.showcalc">
                 <b-icon
                   class="cursor-pointer"
                   @click="showcalc = !showcalc"
@@ -354,13 +349,13 @@
                   font-scale="1.4"
                 ></b-icon>
               </div>
-              <div class="mb-3">
+              <!-- <div class="mb-3">
                 <b-icon
                   font-scale="1.4"
                   class="cursor-pointer"
                   icon="clipboard"
                 ></b-icon>
-              </div>
+              </div> -->
               <Calculator
                 v-show="showcalc"
                 class="calc animate__animated animate__slideInUp"
@@ -378,48 +373,13 @@ export default {
   data() {
     return {
       showcalc: false,
+      assessment: {},
       questionnaire: {
         id: null,
-        module_id: null,
-        module_name: "",
+        sections: [],
+        title: null,
         course_id: null,
         course_title: null,
-        title: "",
-        showFeedback: false,
-        feedback: "",
-        showScores: false,
-        sections: [
-          {
-            title: "",
-            questions: [
-              {
-                fixed: false,
-                question: "",
-                response: "",
-                responses: [],
-                result: "",
-                type: "short",
-                limit: 1,
-                options: [
-                  {
-                    title: "",
-                  },
-                ],
-                showAnswer: false,
-                answer: "",
-                answers: [
-                  {
-                    title: "",
-                  },
-                ],
-                placeholder: "",
-                hint: "",
-                asScore: false,
-                score: 0,
-              },
-            ],
-          },
-        ],
       },
       section: 0,
       responses: [],
@@ -431,9 +391,8 @@ export default {
   components: {
     Calculator,
   },
-  mounted() {
+  created() {
     this.getQuestionnaire();
-    // window.addEventListener("beforeunload", this.warning);
   },
   computed: {
     totalscore() {
@@ -452,9 +411,11 @@ export default {
         }
       });
 
-      return score.reduce((a, b) => {
-        return a + b;
-      }, 0);
+      return (
+        score.reduce((a, b) => {
+          return a + b;
+        }, 0) || 0
+      );
     },
   },
   methods: {
@@ -475,7 +436,7 @@ export default {
     getQuestionnaire() {
       this.$http
         .get(
-          `${this.$store.getters.url}/question/templates/${this.$route.params.id}`,
+          `${this.$store.getters.url}/assessments/${this.$route.params.id}`,
           {
             headers: {
               Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
@@ -484,16 +445,16 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.questionnaire.id = res.data.id;
-            this.questionnaire.module_id = res.data.module_id;
-            this.questionnaire.module_name = res.data.module_name;
-            this.questionnaire.course_id = res.data.course_id;
-            this.questionnaire.course_title = res.data.course_title;
-            this.questionnaire.title = res.data.title;
-            this.questionnaire.showFeedback = res.data.showFeedback;
-            this.questionnaire.feedback = res.data.feedback;
-            this.questionnaire.showScores = res.data.showScores;
-            this.questionnaire.sections = JSON.parse(res.data.sections);
+            this.assessment = res.data;
+            this.questionnaire.id = res.data.questiontemplate.id;
+            this.questionnaire.module_id = res.data.questiontemplate.module_id;
+            this.questionnaire.course_id = res.data.questiontemplate.course_id;
+            this.questionnaire.course_title =
+              res.data.questiontemplate.course_title;
+            this.questionnaire.title = res.data.questiontemplate.title;
+            this.questionnaire.sections = JSON.parse(
+              res.data.questiontemplate.sections
+            );
           }
         });
     },
@@ -548,12 +509,12 @@ export default {
         if (response) {
           var data = {
             response: this.questionnaire,
-            template_id: this.$route.params.id,
+            assessment_id: this.$route.params.id,
             your_score: this.current_score,
             total_score: this.totalscore,
           };
           this.$http
-            .post(`${this.$store.getters.url}/question/responses`, data, {
+            .post(`${this.$store.getters.url}/assessment/responses`, data, {
               headers: {
                 Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
               },
@@ -562,19 +523,18 @@ export default {
               if (res.status == 201) {
                 this.$emit("handleCheck");
                 this.$bvModal
-                  .msgBoxOk(
-                    "Questionnaire was submitted successfully, Thank you for your feedback",
-                    {
-                      noCloseOnBackdrop: true,
-                      size: "sm",
-                      buttonSize: "sm",
-                      okVariant: "dark-green",
-                      headerClass: "p-2 border-bottom-0",
-                      footerClass: "p-2 border-top-0",
-                      centered: true,
-                    }
-                  )
-                  .then(() => {});
+                  .msgBoxOk("Submitted successfullY", {
+                    noCloseOnBackdrop: true,
+                    size: "sm",
+                    buttonSize: "sm",
+                    okVariant: "dark-green",
+                    headerClass: "p-2 border-bottom-0",
+                    footerClass: "p-2 border-top-0",
+                    centered: true,
+                  })
+                  .then(() => {
+                    this.$router.push("/learner/assessments");
+                  });
               }
             });
         }

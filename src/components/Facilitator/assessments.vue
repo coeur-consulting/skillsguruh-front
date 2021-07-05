@@ -107,7 +107,7 @@
             </p>
           </div>
         </b-col>
-        <b-col sm="4" class="mb-5">
+        <!-- <b-col sm="4" class="mb-5">
           <div
             class="
               shadow
@@ -130,7 +130,7 @@
             <div class="font-weight-bold fs15">Templates</div>
             <p class="fs15 text-muted">Create,view and mark templates here</p>
           </div>
-        </b-col>
+        </b-col> -->
       </b-row>
     </b-container>
   </div>

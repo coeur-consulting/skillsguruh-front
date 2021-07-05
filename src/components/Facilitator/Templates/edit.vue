@@ -192,8 +192,7 @@
                                 )
                               "
                               v-if="
-                                questionnaire.sections[idx].questions.length >
-                                index
+                                questionnaire.sections[idx].questions.length > 1
                               "
                             ></b-icon>
 
@@ -482,7 +481,6 @@
                             class=""
                             v-if="
                               question.type == 'single' ||
-                              question.type == 'checkbox' ||
                               question.type == 'boolean'
                             "
                           >
@@ -499,14 +497,10 @@
                           </b-form-row>
                           <b-form-row
                             class=""
-                            v-if="
-                              question.showAnswer &&
-                              (question.type == 'multiple' ||
-                                question.type == 'checkbox')
-                            "
+                            v-if="question.type == 'checkbox'"
                           >
                             <b-col sm="12">
-                              <b-form-row label="Answers">
+                              <b-form-group label="Correct Answers">
                                 <b-input-group
                                   size="sm"
                                   v-for="(answer, id) in question.answers"
@@ -529,7 +523,7 @@
                                         v-if="
                                           questionnaire.sections[idx].questions[
                                             index
-                                          ].answers.length > id
+                                          ].answers.length > 1
                                         "
                                         ><b-icon icon="x"></b-icon
                                       ></b-button>
@@ -543,13 +537,14 @@
                                           ].answers.length ==
                                           id + 1
                                         "
-                                        ><b-icon icon="plus"></b-icon> Add
-                                        answer</b-button
-                                      >
+                                        ><b-icon
+                                          icon="plus-circle-fill"
+                                        ></b-icon>
+                                      </b-button>
                                     </b-button-group>
                                   </b-input-group-append>
                                 </b-input-group>
-                              </b-form-row>
+                              </b-form-group>
                             </b-col>
                           </b-form-row>
                           <b-form-row
