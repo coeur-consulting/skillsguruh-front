@@ -904,6 +904,7 @@ export default {
         module_id: null,
         totalscore: 0,
         module_name: "",
+        duration: "",
         course_id: null,
         course_title: null,
         title: "",
@@ -1289,6 +1290,7 @@ export default {
             this.questionnaire.type = res.data.type;
             this.questionnaire.module_id = res.data.module_id;
             this.questionnaire.course_id = res.data.course_id;
+            this.questionnaire.duration = res.data.duration;
             this.questionnaire.options = JSON.parse(res.data.options);
             this.questionnaire.sections = JSON.parse(res.data.sections).slice();
           }

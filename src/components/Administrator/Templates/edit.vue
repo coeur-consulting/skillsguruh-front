@@ -908,6 +908,7 @@ export default {
         course_title: null,
         title: "",
         type: "",
+        duration: "",
         showFeedback: false,
         feedback: "",
         showScores: false,
@@ -1286,6 +1287,7 @@ export default {
           if (res.status == 200) {
             this.questionnaire.id = res.data.id;
             this.questionnaire.title = res.data.title;
+            this.questionnaire.duration = res.data.duration;
             this.questionnaire.type = res.data.type;
             this.questionnaire.module_id = res.data.module_id;
             this.questionnaire.course_id = res.data.course_id;

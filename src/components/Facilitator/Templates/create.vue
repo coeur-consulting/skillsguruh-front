@@ -892,6 +892,7 @@ export default {
         module_name: "",
         course_id: null,
         course_title: null,
+        duration: "",
         title: "",
         type: "",
         showFeedback: false,
