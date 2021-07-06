@@ -272,6 +272,11 @@ a:hover {
 ol.subquest {
   list-style: lower-alpha;
 }
+.igm {
+  width: 30px !important;
+  height: auto;
+  object-fit: contain;
+}
 .search {
   background: #fbfbfb;
   border-radius: 8px;

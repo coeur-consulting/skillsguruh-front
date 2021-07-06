@@ -153,11 +153,16 @@
           <b-form-row class="px-1">
             <b-col class="mb-2 px-3">
               <b-form-group label="Overview">
-                <b-textarea
-                  rows="3"
-                  required
+                <editor
+                  api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
                   v-model="detail.outline.overview"
-                ></b-textarea>
+                  :init="{
+                    height: 150,
+                    menubar: false,
+
+                    toolbar: ' formatselect | bold italic ',
+                  }"
+                />
               </b-form-group>
             </b-col>
           </b-form-row>
@@ -692,11 +697,16 @@
           <b-form-row class="px-1">
             <b-col class="mb-2 px-3">
               <b-form-group label="Overview">
-                <b-textarea
-                  required
-                  rows="3"
+                <editor
+                  api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
                   v-model="detail.outline.overview"
-                ></b-textarea>
+                  :init="{
+                    height: 150,
+                    menubar: false,
+
+                    toolbar: ' formatselect | bold italic  ',
+                  }"
+                />
               </b-form-group>
             </b-col>
           </b-form-row>
@@ -1648,9 +1658,9 @@
                     ></b-icon>
                   </b-iconstack>
                   <div>
-                    <span class="title text-capitalize" v-if="course.title">
+                    <span class="title" v-if="course.title">
                       {{ course.title }}
-                      <span class="text-muted" v-if="course.course_code">
+                      <span class="text-muted fs13" v-if="course.course_code">
                         ({{ course.course_code }})</span
                       ></span
                     >
@@ -1663,7 +1673,7 @@
                 </div>
 
                 <b-img
-                  style="width: 80px; height: 90px; object-fit: cover"
+                  style="width: 60px; height: 70px; object-fit: cover"
                   fluid
                   :src="course.cover"
                 ></b-img>
@@ -1787,14 +1797,14 @@
                   <div class="" v-if="course.courseschedule.length">
                     <b-row>
                       <b-col cols="6">
-                        <h6 class="fs14 font-weight-bold">Start</h6>
+                        <h6 class="fs14">Start</h6>
                         <span class="fs14">{{
                           course.courseschedule[0].start_time
                             | moment("MMM DD, YYYY")
                         }}</span>
                       </b-col>
                       <b-col cols="6">
-                        <h6 class="fs14 font-weight-bold">End</h6>
+                        <h6 class="fs14">End</h6>
                         <span class="fs14">{{
                           course.courseschedule[0].end_time
                             | moment("MMM DD, YYYY")
@@ -1833,7 +1843,7 @@
                   <div class="d-flex justify-content-between">
                     <div class="d-flex text-danger">
                       <b-img
-                        class="mr-2"
+                        class="mr-2 igm"
                         fluid-grow
                         :src="require('@/assets/images/video.png')"
                       ></b-img>
@@ -1849,7 +1859,7 @@
                     <div class="d-flex" style="color: #f3994a">
                       <b-img
                         fluid-grow
-                        class="mr-2"
+                        class="mr-2 igm"
                         :src="require('@/assets/images/file.png')"
                       ></b-img>
 
@@ -1864,7 +1874,7 @@
                     <div class="d-flex text-success">
                       <b-img
                         fluid-grow
-                        class="mr-2"
+                        class="mr-2 igm"
                         :src="require('@/assets/images/zip.png')"
                       ></b-img>
 
@@ -1915,10 +1925,19 @@
                         v-for="(mod, index) in JSON.parse(item.modules)"
                         :key="index"
                       >
-                        <b-card-text class="d-flex text-capitalize"
+                        <b-card-text class="d-flex"
                           ><span class="flex-1">{{ mod.title }}</span>
-                          <span>{{ mod.file_type }}</span></b-card-text
-                        >
+
+                          <span v-if="mod.file_type == 'video'"
+                            ><b-icon icon="camera-video-fill"></b-icon
+                          ></span>
+                          <span v-else-if="mod.file_type == 'audio'"
+                            ><b-icon icon="music-note-beamed"></b-icon
+                          ></span>
+                          <span v-else
+                            ><b-icon icon="file-earmark-richtext-fill"></b-icon>
+                          </span>
+                        </b-card-text>
                         <h6 class="fs12 font-weight-bold mb-2">Overview</h6>
                         <b-card-text class="fs12">{{
                           mod.overview
@@ -1944,7 +1963,10 @@
                 <div class="mb-4">
                   <h6 class="fs14 mb-3">Overview</h6>
 
-                  <p class="fs13">{{ course.courseoutline.overview }}</p>
+                  <div
+                    class="fs13"
+                    v-html="course.courseoutline.overview"
+                  ></div>
                 </div>
 
                 <div>
@@ -2007,32 +2029,32 @@
                     >
                       <div class="mb-1">
                         <span class="fs14 mr-2">Time: </span>
-                        <span class="text-sm font-weight-bold">
+                        <span class="text-sm">
                           {{ item.start_time | moment("LT") }}</span
                         >
                       </div>
                       <div class="mb-1">
                         <span class="fs14 mr-2">Date: </span>
-                        <span class="text-sm font-weight-bold">
+                        <span class="text-sm">
                           {{ item.start_time | moment("MMM DD, YYYY") }}</span
                         >
                       </div>
                       <div class="mb-1">
                         <span class="fs14 mr-2">Venue: </span>
-                        <span class="text-sm font-weight-bold">
+                        <span class="text-sm">
                           {{ item.venue ? item.venue : "None" }}</span
                         >
                       </div>
                       <div class="mb-1">
                         <span class="fs14 mr-2">Url: </span>
-                        <span class="text-sm font-weight-bold">
+                        <span class="text-sm">
                           {{ item.url ? item.url : "None" }}</span
                         >
                       </div>
                       <div>
                         <span class="fs14 mr-2">Facilitator: </span>
                         <span
-                          class="text-sm font-weight-bold"
+                          class="text-sm"
                           v-if="item.facilitator_id != null"
                           >{{
                             facilitators.find(
@@ -2102,9 +2124,9 @@
                 ></b-icon>
               </b-iconstack>
               <div>
-                <span class="title text-capitalize" v-if="course.title">
+                <span class="title" v-if="course.title">
                   {{ course.title }}
-                  <span class="text-muted" v-if="course.course_code">
+                  <span class="text-muted fs13" v-if="course.course_code">
                     ({{ course.course_code }})</span
                   ></span
                 >
@@ -2117,7 +2139,7 @@
             </div>
 
             <b-img
-              style="width: 80px; height: 90px; object-fit: cover"
+              style="width: 60px; height: 70px; object-fit: cover"
               fluid
               :src="course.cover"
             ></b-img>
@@ -2241,14 +2263,14 @@
               <div class="" v-if="course.courseschedule.length">
                 <b-row>
                   <b-col cols="6">
-                    <h6 class="fs14 font-weight-bold">Start</h6>
+                    <h6 class="fs14">Start</h6>
                     <span class="fs14">{{
                       course.courseschedule[0].start_time
                         | moment("MMM DD, YYYY")
                     }}</span>
                   </b-col>
                   <b-col cols="6">
-                    <h6 class="fs14 font-weight-bold">End</h6>
+                    <h6 class="fs14">End</h6>
                     <span class="fs14">{{
                       course.courseschedule[0].end_time | moment("MMM DD, YYYY")
                     }}</span>
@@ -2361,10 +2383,19 @@
                     v-for="(mod, index) in JSON.parse(item.modules)"
                     :key="index"
                   >
-                    <b-card-text class="d-flex text-capitalize"
+                    <b-card-text class="d-flex"
                       ><span class="flex-1">{{ mod.title }}</span>
-                      <span>{{ mod.file_type }}</span></b-card-text
-                    >
+                      <span v-if="mod.file_type == 'video'"
+                        ><b-icon icon="camera-video-fill"></b-icon
+                      ></span>
+                      <span v-else-if="mod.file_type == 'audio'"
+                        ><b-icon icon="music-note-beamed"></b-icon
+                      ></span>
+                      <span v-else
+                        ><b-icon
+                          icon="file-earmark-richtext-fill"
+                        ></b-icon> </span
+                    ></b-card-text>
                     <h6 class="fs12 font-weight-bold mb-2">Overview</h6>
                     <b-card-text class="fs12">{{ mod.overview }}</b-card-text>
                   </b-card-body>
@@ -2388,7 +2419,7 @@
             <div class="mb-4">
               <h6 class="fs14 mb-3">Overview</h6>
 
-              <p class="fs13">{{ course.courseoutline.overview }}</p>
+              <div class="fs13" v-html="course.courseoutline.overview"></div>
             </div>
 
             <div>
@@ -2445,39 +2476,34 @@
                 >
                   <div class="mb-1">
                     <span class="fs14 mr-2">Time: </span>
-                    <span class="text-sm font-weight-bold">
+                    <span class="text-sm">
                       {{ item.start_time | moment("LT") }}</span
                     >
                   </div>
                   <div class="mb-1">
                     <span class="fs14 mr-2">Date: </span>
-                    <span class="text-sm font-weight-bold">
+                    <span class="text-sm">
                       {{ item.start_time | moment("MMM DD, YYYY") }}</span
                     >
                   </div>
                   <div class="mb-1">
                     <span class="fs14 mr-2">Venue: </span>
-                    <span class="text-sm font-weight-bold">
+                    <span class="text-sm">
                       {{ item.venue ? item.venue : "None" }}</span
                     >
                   </div>
                   <div class="mb-1">
                     <span class="fs14 mr-2">Url: </span>
-                    <span class="text-sm font-weight-bold">
+                    <span class="text-sm">
                       {{ item.url ? item.url : "None" }}</span
                     >
                   </div>
                   <div>
                     <span class="fs14 mr-2">Facilitator: </span>
-                    <span
-                      class="text-sm font-weight-bold"
-                      v-if="item.facilitator_id != null"
-                      >{{
-                        facilitators.find(
-                          (val) => val.id == item.facilitator_id
-                        ).name
-                      }}</span
-                    >
+                    <span class="text-sm" v-if="item.facilitator_id != null">{{
+                      facilitators.find((val) => val.id == item.facilitator_id)
+                        .name
+                    }}</span>
                     <span v-else class="text-sm">Unavailable</span>
                   </div>
                 </b-col>
@@ -2492,6 +2518,7 @@
 <script>
 import Upload from "@/components/fileupload.vue";
 import Insight from "../insight.js";
+import Editor from "@tinymce/tinymce-vue";
 export default {
   data() {
     return {
@@ -2566,6 +2593,7 @@ export default {
   },
   components: {
     Upload,
+    Editor,
   },
   mounted() {
     this.getcourses();
@@ -2720,13 +2748,26 @@ export default {
       if (!arr.length) {
         return 0;
       }
-      arr.forEach((val) => {
-        JSON.parse(val.modules).forEach((item) => {
-          if (item.file_type.toLowerCase() == media.toLowerCase()) {
-            newarr.push(item);
-          }
+      if (media == "document") {
+        arr.forEach((val) => {
+          JSON.parse(val.modules).forEach((item) => {
+            if (
+              item.file_type.toLowerCase() == media.toLowerCase() ||
+              item.file_type.toLowerCase() == "template"
+            ) {
+              newarr.push(item);
+            }
+          });
         });
-      });
+      } else {
+        arr.forEach((val) => {
+          JSON.parse(val.modules).forEach((item) => {
+            if (item.file_type.toLowerCase() == media.toLowerCase()) {
+              newarr.push(item);
+            }
+          });
+        });
+      }
 
       return newarr.length;
     },
@@ -3082,6 +3123,11 @@ p {
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.3;
+}
+.igm {
+  width: 30px !important;
+  height: auto;
+  object-fit: contain;
 }
 @media (max-width: 600px) {
   .search {

@@ -102,9 +102,10 @@
                       >
                         {{ item.title }}
                       </h6>
-                      <p class="overview">
-                        {{ item.courseoutline.overview }}
-                      </p>
+                      <div
+                        class="fs13"
+                        v-html="course.courseoutline.overview"
+                      ></div>
                     </div>
                     <div class="info fs11">
                       <div class="d-flex">
@@ -592,8 +593,17 @@
                     >
                       <b-card-text class="d-flex text-capitalize"
                         ><span class="flex-1">{{ mod.title }}</span>
-                        <span>{{ mod.file_type }}</span></b-card-text
-                      >
+                        <span v-if="mod.file_type == 'video'"
+                          ><b-icon icon="camera-video-fill"></b-icon
+                        ></span>
+                        <span v-else-if="mod.file_type == 'audio'"
+                          ><b-icon icon="music-note-beamed"></b-icon
+                        ></span>
+                        <span v-else
+                          ><b-icon
+                            icon="file-earmark-richtext-fill"
+                          ></b-icon> </span
+                      ></b-card-text>
                       <h6 class="fs12 font-weight-bold mb-2">Overview</h6>
                       <b-card-text class="fs12">{{ mod.overview }}</b-card-text>
                     </b-card-body>
@@ -989,7 +999,7 @@
             <div class="d-flex justify-content-between">
               <div class="d-flex text-danger">
                 <b-img
-                  class="mr-2"
+                  class="mr-2 igm"
                   fluid-grow
                   :src="require('@/assets/images/video.png')"
                 ></b-img>
@@ -1005,7 +1015,7 @@
               <div class="d-flex" style="color: #f3994a">
                 <b-img
                   fluid-grow
-                  class="mr-2"
+                  class="mr-2 igm"
                   :src="require('@/assets/images/file.png')"
                 ></b-img>
 
@@ -1020,7 +1030,7 @@
               <div class="d-flex text-success">
                 <b-img
                   fluid-grow
-                  class="mr-2"
+                  class="mr-2 igm"
                   :src="require('@/assets/images/zip.png')"
                 ></b-img>
 
@@ -1066,8 +1076,17 @@
                 >
                   <b-card-text class="d-flex text-capitalize"
                     ><span class="flex-1">{{ mod.title }}</span>
-                    <span>{{ mod.file_type }}</span></b-card-text
-                  >
+                    <span v-if="mod.file_type == 'video'"
+                      ><b-icon icon="camera-video-fill"></b-icon
+                    ></span>
+                    <span v-else-if="mod.file_type == 'audio'"
+                      ><b-icon icon="music-note-beamed"></b-icon
+                    ></span>
+                    <span v-else
+                      ><b-icon
+                        icon="file-earmark-richtext-fill"
+                      ></b-icon> </span
+                  ></b-card-text>
                   <h6 class="fs12 font-weight-bold mb-2">Overview</h6>
                   <b-card-text class="fs12">{{ mod.overview }}</b-card-text>
                 </b-card-body>
@@ -1089,7 +1108,7 @@
           <div class="mb-4">
             <h6 class="fs14 mb-4">Overview</h6>
 
-            <p class="fs13">{{ course.courseoutline.overview }}</p>
+            <div class="fs13" v-html="course.courseoutline.overview"></div>
           </div>
 
           <div>
@@ -1341,13 +1360,26 @@ export default {
       if (!arr.length) {
         return 0;
       }
-      arr.forEach((val) => {
-        JSON.parse(val.modules).forEach((item) => {
-          if (item.file_type.toLowerCase() == media.toLowerCase()) {
-            newarr.push(item);
-          }
+      if (media == "document") {
+        arr.forEach((val) => {
+          JSON.parse(val.modules).forEach((item) => {
+            if (
+              item.file_type.toLowerCase() == media.toLowerCase() ||
+              item.file_type.toLowerCase() == "template"
+            ) {
+              newarr.push(item);
+            }
+          });
         });
-      });
+      } else {
+        arr.forEach((val) => {
+          JSON.parse(val.modules).forEach((item) => {
+            if (item.file_type.toLowerCase() == media.toLowerCase()) {
+              newarr.push(item);
+            }
+          });
+        });
+      }
 
       return newarr.length;
     },
