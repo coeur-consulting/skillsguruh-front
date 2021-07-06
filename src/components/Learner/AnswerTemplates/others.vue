@@ -7,7 +7,7 @@
       >
         <b-row>
           <b-col sm="10" class="ber">
-            <div class="text-left">
+            <div class="text-center">
               <h5 class="mb-4 text-capitalize">{{ questionnaire.title }}</h5>
             </div>
             <div>

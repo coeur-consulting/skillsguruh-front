@@ -1,14 +1,14 @@
 <template>
   <div class="p-3 bg-white">
     <b-form @submit.prevent="submit">
-      <b-container class="py-3 px-0 text-center" v-if="questionnaire.sections">
+      <b-container class="py-3 px-0 text-left" v-if="questionnaire.sections">
         <div class="mb-3">
           <span @click="$router.go(-1)"
             ><b-icon icon="arrow-left"></b-icon> Back</span
           >
         </div>
         <div class="text-left d-flex justify-content-between">
-          <h5 class="mb-4 text-capitalize text-center">
+          <h5 class="mb-4 text-capitalize">
             {{ questionnaire.title }}
           </h5>
           <span @click="$bvModal.show('preview')"

@@ -72,6 +72,19 @@
                   <span>Duration: </span>
                   <span>{{ item.duration }} minutes</span>
                 </div>
+                <div
+                  v-if="responses.find((val) => val.assessment_id == item.id)"
+                  class="fs14 text-muted mb-2"
+                >
+                  <span>Your score: </span>
+                  <span>{{
+                    responses.find((val) => val.assessment_id == item.id)
+                      .your_score
+                      ? responses.find((val) => val.assessment_id == item.id)
+                          .your_score
+                      : "N/A"
+                  }}</span>
+                </div>
                 <div class="fs14 text-muted mb-2">
                   <span>Total score: </span>
                   <span>{{
@@ -99,11 +112,7 @@
                   >
                     <span
                       v-if="
-                        !responses.find(
-                          (val) =>
-                            val.question_template_id ==
-                            item.question_template_id
-                        )
+                        !responses.find((val) => val.assessment_id == item.id)
                       "
                       class="text-dark-green cursor-pointer"
                       @click="solve(item.id, $route.params.type.toLowerCase())"
@@ -114,11 +123,7 @@
                       class="text-dark-green cursor-pointer"
                       @click="
                         viewResult(
-                          responses.find(
-                            (val) =>
-                              val.question_template_id ==
-                              item.question_template_id
-                          )
+                          responses.find((val) => val.assessment_id == item.id)
                         )
                       "
                       >View result</span
@@ -164,22 +169,13 @@
         </b-row>
       </div>
     </b-container>
-    <b-modal size="lg" hide-footer id="showquest">
-      <Questionnaire
-        :id="id"
-        :module_id="module_id"
-        :course_id="course_id"
-        :myquestionnaire="myquestionnaire"
-        :type="$route.params.type"
-        :total_score="total_score"
-        :your_score="your_score"
-        @handleCheck="handleCheck"
-      />
+    <b-modal id="preview" size="xl" centered hide-footer>
+      <Preview :questionnaire="myquestionnaire" />
     </b-modal>
   </div>
 </template>
 <script>
-import Questionnaire from "./viewQuestionnaire";
+import Preview from "./AnswerTemplates/preview.vue";
 export default {
   data() {
     return {
@@ -202,7 +198,7 @@ export default {
     };
   },
   components: {
-    Questionnaire,
+    Preview,
   },
   mounted() {
     // if (this.$route.params.type == "template") {
@@ -243,7 +239,7 @@ export default {
       this.your_score = val.your_score;
       this.id = val.question_template_id;
       this.total_score = val.total_score;
-      this.$bvModal.show("showquest");
+      this.$bvModal.show("preview");
     },
     viewQuest(val) {
       this.myquestionnaire = JSON.parse(val.content);
@@ -257,7 +253,7 @@ export default {
     },
     getResponses() {
       this.$http
-        .get(`${this.$store.getters.url}/question/responses`, {
+        .get(`${this.$store.getters.url}/assessment/responses`, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },

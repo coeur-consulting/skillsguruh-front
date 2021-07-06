@@ -51,29 +51,133 @@
                   .questions"
                 :key="question.title"
               >
-                <div class="d-flex">
-                  <span class="mr-2">{{ index + 1 }}.</span>
-                  <b-form-group :label="question.question" class="flex-1">
-                    <div class="mb-3" v-if="question.hint">
-                      <em class="text-dark-green fs12"
-                        ><b-icon icon="info-circle-fill"></b-icon>
-                        {{ question.hint }}</em
-                      >
-                    </div>
-                    <div>
-                      <h6 class="mb-2">Your response</h6>
-                      <div v-if="question.response">
-                        <p class="text-capitalize">{{ question.response }}</p>
-                      </div>
+                <b-row>
+                  <b-col cols="10">
+                    <div class="d-flex">
+                      <span class="mr-2">{{ index + 1 }}.</span>
+                      <b-form-group :label="question.question" class="flex-1">
+                        <div class="mb-3" v-if="question.hint">
+                          <em class="text-dark-green fs12"
+                            ><b-icon icon="info-circle-fill"></b-icon>
+                            {{ question.hint }}</em
+                          >
+                        </div>
+                        <div>
+                          <div v-if="question.response">
+                            <b-row>
+                              <b-col
+                                cols="4"
+                                v-for="(item, indx) in question.options"
+                                :key="indx"
+                              >
+                                <b-form-radio
+                                  disabled
+                                  class="text-capitalize mb-2"
+                                  size="sm"
+                                  v-model="question.response"
+                                  :value="item.title"
+                                  >{{ item.title }}
+                                  <b-icon
+                                    :icon="
+                                      question.answer == item.title
+                                        ? 'check2-circle'
+                                        : 'x'
+                                    "
+                                    :class="
+                                      question.answer == item.title
+                                        ? 'text-dark-green'
+                                        : 'text-danger'
+                                    "
+                                  ></b-icon
+                                ></b-form-radio>
+                              </b-col>
+                            </b-row>
+                          </div>
 
-                      <div v-if="question.responses.length">
-                        <ul v-for="(ite, id) in question.responses" :key="id">
-                          <li class="text-capitalize">{{ item.title }}</li>
-                        </ul>
-                      </div>
+                          <div v-if="question.type == 'checkbox'">
+                            <b-row>
+                              <b-col
+                                cols="4"
+                                v-for="(item, indx) in question.options"
+                                :key="indx"
+                              >
+                                <b-form-checkbox
+                                  disabled
+                                  class="text-capitalize mb-2"
+                                  size="sm"
+                                  v-model="question.responses"
+                                  :value="indx"
+                                  >{{ item.title }}
+                                  <b-icon
+                                    :icon="
+                                      question.answers.find(
+                                        (it) =>
+                                          it.title.toLowerCase() ==
+                                          question.options[
+                                            indx
+                                          ].title.toLowerCase()
+                                      )
+                                        ? 'check2-circle'
+                                        : 'x'
+                                    "
+                                    :class="
+                                      question.answers.find(
+                                        (it) =>
+                                          it.title.toLowerCase() ==
+                                          question.options[
+                                            indx
+                                          ].title.toLowerCase()
+                                      )
+                                        ? 'text-dark-green'
+                                        : 'text-danger'
+                                    "
+                                  ></b-icon
+                                ></b-form-checkbox>
+                              </b-col>
+                            </b-row>
+                          </div>
+                          <div v-if="question.type == 'multiple'">
+                            <ul>
+                              <li
+                                class="text-capitalize"
+                                v-for="(ite, id) in question.placeholders"
+                                :key="id"
+                              >
+                                <span v-if="ite.response">
+                                  {{ ite.response }}</span
+                                >
+                              </li>
+                            </ul>
+                          </div>
+                          <div v-if="question.addSubQuestion">
+                            <div
+                              v-for="(ite, id) in question.subQuestion"
+                              :key="id"
+                            >
+                              <ul
+                                class="text-capitalize"
+                                v-if="ite.responses.length"
+                              >
+                                <li
+                                  v-for="(item, idx) in ite.responses"
+                                  :key="idx"
+                                >
+                                  <span v-if="item.response">
+                                    {{ item.response }}</span
+                                  >
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </b-form-group>
                     </div>
-                  </b-form-group>
-                </div>
+                  </b-col>
+                  <b-col cols="2" v-if="question.score" class="text-center">
+                    <h6>Your score</h6>
+                    {{ question.score }}
+                  </b-col>
+                </b-row>
               </div>
 
               <div class="d-flex justify-content-between my-4">
