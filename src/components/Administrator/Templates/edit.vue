@@ -232,9 +232,9 @@
                                     <b-form-select-option value="long"
                                       >Long Answer</b-form-select-option
                                     >
-                                    <b-form-select-option value="multiple"
+                                    <!-- <b-form-select-option value="multiple"
                                       >Multiple Answer</b-form-select-option
-                                    >
+                                    > -->
                                     <b-form-select-option value="dropdown"
                                       >Dropdown</b-form-select-option
                                     >
