@@ -62,7 +62,7 @@
                   <b-icon
                     class="mr-2 cursor-pointer"
                     @click="questionnaire.sections.splice(idx, 1)"
-                    v-if="questionnaire.sections.length > idx"
+                    v-if="questionnaire.sections.length > 1"
                     icon="trash2-fill"
                     variant="danger"
                     font-scale=".8"
@@ -274,20 +274,6 @@
                               "
                             >
                               <b-form-checkbox
-                                class="mr-3"
-                                size="sm"
-                                v-model="question.asAnswer"
-                                >Provide Score</b-form-checkbox
-                              >
-                              <b-form-checkbox
-                                v-if="
-                                  question.type == 'short' ||
-                                  question.type == 'email' ||
-                                  question.type == 'number' ||
-                                  question.type == 'date' ||
-                                  question.type == 'time' ||
-                                  question.type == 'long'
-                                "
                                 class="mr-2"
                                 size="sm"
                                 v-model="question.addSubQuestion"
@@ -311,95 +297,256 @@
 
                           <b-form-row
                             class="p-2"
-                            v-if="
-                              question.addSubQuestion &&
-                              (question.type == 'long' ||
-                                question.type == 'email' ||
-                                question.type == 'number' ||
-                                question.type == 'time' ||
-                                question.type == 'date' ||
-                                question.type == 'short')
-                            "
+                            v-if="question.addSubQuestion"
                           >
-                            <b-col
-                              class="border-left bg-light rounded p-2"
-                              sm="12"
-                            >
+                            <b-col class="" sm="12">
                               <div
                                 v-for="(val, subId) in question.subQuestion"
                                 :key="subId"
-                                class="mb-2"
+                                class="
+                                  mb-2
+                                  border-left border-dark
+                                  bg-light
+                                  rounded
+                                  p-2
+                                "
                               >
-                                <b-row class="align-items-center">
-                                  <b-col cols="11">
+                                <b-row class="align-items-start">
+                                  <b-col cols="10" v-if="val.show">
                                     <b-form-group
                                       :label="`Sub Question ${subId + 1}`"
                                     >
-                                      <b-form-input
+                                      <b-form-textarea
                                         size="sm"
                                         v-model="val.question"
                                         :placeholder="`Provide question ${
                                           subId + 1
                                         }`"
                                       >
-                                      </b-form-input>
+                                      </b-form-textarea>
                                     </b-form-group>
-                                    <b-row>
-                                      <b-col cols="8">
+                                    <b-form-row
+                                      v-if="
+                                        question.type == 'short' ||
+                                        question.type == 'long'
+                                      "
+                                    >
+                                      <b-col>
                                         <b-form-group>
-                                          <b-form-input
+                                          <b-input-group
                                             size="sm"
-                                            v-model="val.placeholder"
-                                            :placeholder="`Provide placeholder ${
-                                              subId + 1
-                                            }`"
+                                            v-for="(v, idp) in val.placeholders"
+                                            :key="idp"
+                                            class="mb-1"
                                           >
-                                          </b-form-input>
+                                            <b-form-input
+                                              size="sm"
+                                              v-model="v.placeholder"
+                                              placeholder="Provide a placeholder"
+                                            >
+                                            </b-form-input>
+                                            <b-input-group-append>
+                                              <b-button-group size="sm">
+                                                <b-button
+                                                  size="sm"
+                                                  @click="
+                                                    val.placeholders.splice(
+                                                      idp,
+                                                      1
+                                                    )
+                                                  "
+                                                  v-if="
+                                                    val.placeholders.length > 1
+                                                  "
+                                                  ><b-icon icon="x"></b-icon
+                                                ></b-button>
+                                                <b-button
+                                                  v-if="
+                                                    val.placeholders.length ==
+                                                    idp + 1
+                                                  "
+                                                  size="sm"
+                                                  @click="
+                                                    addSubPlaceholder(
+                                                      idx,
+                                                      index,
+                                                      subId
+                                                    )
+                                                  "
+                                                  variant="lighter-green"
+                                                  ><b-icon
+                                                    icon="plus-circle-fill"
+                                                  ></b-icon>
+                                                </b-button>
+                                              </b-button-group>
+                                            </b-input-group-append>
+                                          </b-input-group>
                                         </b-form-group>
                                       </b-col>
-                                      <b-col cols="4">
-                                        <b-form-select
-                                          size="sm"
-                                          @change="
-                                            handleSubQuestion(
-                                              idx,
-                                              index,
-                                              subId,
-                                              val.response_count
-                                            )
-                                          "
-                                          v-model="val.response_count"
-                                        >
-                                          <b-form-select-option
-                                            disabled
-                                            value=""
-                                            >No of
-                                            Response</b-form-select-option
+                                    </b-form-row>
+
+                                    <b-form-row
+                                      class=""
+                                      v-if="
+                                        question.type !== 'short' &&
+                                        question.type !== 'long' &&
+                                        question.type !== 'multiple' &&
+                                        question.type !== 'boolean'
+                                      "
+                                    >
+                                      <b-col sm="12">
+                                        <b-form-group label="Options ">
+                                          <b-input-group
+                                            size="sm"
+                                            v-for="(option, id) in val.options"
+                                            :key="id"
+                                            class="mb-1"
                                           >
-                                          <b-form-select-option
-                                            v-for="n in 50"
-                                            :key="n"
-                                            :value="n"
-                                            >{{ n }}</b-form-select-option
-                                          >
-                                        </b-form-select>
+                                            <b-form-input
+                                              size="sm"
+                                              v-model="option.value"
+                                              placeholder="Provide an option"
+                                            >
+                                            </b-form-input>
+                                            <b-input-group-append>
+                                              <b-button-group size="sm">
+                                                <b-button
+                                                  size="sm"
+                                                  @click="
+                                                    val.options.splice(id, 1)
+                                                  "
+                                                  v-if="val.options.length > 1"
+                                                  ><b-icon icon="x"></b-icon
+                                                ></b-button>
+                                                <b-button
+                                                  size="sm"
+                                                  variant="lighter-green"
+                                                  @click="
+                                                    addSubOption(
+                                                      idx,
+                                                      index,
+                                                      subId
+                                                    )
+                                                  "
+                                                  v-if="
+                                                    val.options.length == id + 1
+                                                  "
+                                                  ><b-icon
+                                                    icon="plus-circle-fill"
+                                                  ></b-icon>
+                                                </b-button>
+                                              </b-button-group>
+                                            </b-input-group-append>
+                                          </b-input-group>
+                                        </b-form-group>
                                       </b-col>
-                                    </b-row>
+                                    </b-form-row>
+
+                                    <b-form-row
+                                      class=""
+                                      v-if="
+                                        (question.type == 'single' ||
+                                          question.type == 'boolean' ||
+                                          question.type == 'checkbox') &&
+                                        questionnaire.options &&
+                                        questionnaire.options.correct_answer
+                                      "
+                                    >
+                                      <b-col sm="12">
+                                        <b-form-group label="Correct Answer">
+                                          <b-input-group
+                                            size="sm"
+                                            v-for="(answer, id) in val.answers"
+                                            :key="id"
+                                            class="mb-1"
+                                          >
+                                            <b-form-input
+                                              v-model="answer.value"
+                                              placeholder="Provide answer"
+                                            >
+                                            </b-form-input>
+                                            <b-input-group-append
+                                              v-if="question.type == 'checkbox'"
+                                            >
+                                              <b-button-group size="sm">
+                                                <b-button
+                                                  size="sm"
+                                                  @click="
+                                                    val.answers.splice(id, 1)
+                                                  "
+                                                  v-if="val.answers.length > 1"
+                                                  ><b-icon icon="x"></b-icon
+                                                ></b-button>
+                                                <b-button
+                                                  v-if="
+                                                    val.answers.length == id + 1
+                                                  "
+                                                  size="sm"
+                                                  variant="lighter-green"
+                                                  @click="
+                                                    addSubAnswer(
+                                                      idx,
+                                                      index,
+                                                      subId
+                                                    )
+                                                  "
+                                                  ><b-icon
+                                                    icon="plus-circle-fill"
+                                                  ></b-icon>
+                                                </b-button>
+                                              </b-button-group>
+                                            </b-input-group-append>
+                                          </b-input-group>
+                                        </b-form-group>
+                                      </b-col>
+                                    </b-form-row>
+                                    <b-form-group
+                                      label="Set response limit"
+                                      v-if="question.type == 'checkbox'"
+                                    >
+                                      <b-form-select
+                                        size="sm"
+                                        v-model="val.limit"
+                                      >
+                                        <b-form-select-option
+                                          disabled
+                                          :value="null"
+                                          >Choose limit</b-form-select-option
+                                        >
+                                        <b-form-select-option
+                                          v-for="item in score"
+                                          :key="item"
+                                          :value="item"
+                                          >{{ item }}</b-form-select-option
+                                        >
+                                      </b-form-select>
+                                    </b-form-group>
                                   </b-col>
-                                  <b-col cols="1">
-                                    <div class="text-right">
+                                  <b-col cols="10" v-if="!val.show">
+                                    <p>{{ val.question }}</p>
+                                  </b-col>
+
+                                  <b-col
+                                    cols="2"
+                                    class="d-flex justify-content-end"
+                                  >
+                                    <div class="mr-3">
                                       <b-icon
                                         @click="
-                                          questionnaire.sections[idx].questions[
-                                            index
-                                          ].subQuestion.splice(id, 1)
+                                          question.subQuestion.splice(subId, 1)
                                         "
-                                        v-if="
-                                          questionnaire.sections[idx].questions[
-                                            index
-                                          ].subQuestion.length > 1
-                                        "
+                                        v-if="question.subQuestion.length > 1"
                                         icon="x-circle-fill"
+                                      ></b-icon>
+                                    </div>
+                                    <div>
+                                      <b-icon
+                                        @click="val.show = !val.show"
+                                        :icon="
+                                          !val.show
+                                            ? 'chevron-down'
+                                            : 'chevron-up'
+                                        "
                                       ></b-icon>
                                     </div>
                                   </b-col>
@@ -436,7 +583,7 @@
                                 >
                                   <b-form-input
                                     size="sm"
-                                    v-model="option.title"
+                                    v-model="option.value"
                                     placeholder="Provide an option"
                                   >
                                   </b-form-input>
@@ -480,38 +627,28 @@
                           <b-form-row
                             class=""
                             v-if="
-                              question.type == 'single' ||
-                              question.type == 'boolean'
+                              (question.type == 'single' ||
+                                question.type == 'boolean' ||
+                                question.type == 'checkbox') &&
+                              questionnaire.options.correct_answer
                             "
                           >
                             <b-col sm="12">
-                              <b-form-group label="Corect Answer">
-                                <b-form-input
-                                  size="sm"
-                                  v-model="question.answer"
-                                  placeholder="Provide the correct answer"
-                                >
-                                </b-form-input>
-                              </b-form-group>
-                            </b-col>
-                          </b-form-row>
-                          <b-form-row
-                            class=""
-                            v-if="question.type == 'checkbox'"
-                          >
-                            <b-col sm="12">
-                              <b-form-group label="Correct Answers">
+                              <b-form-group label="Correct Answer">
                                 <b-input-group
                                   size="sm"
                                   v-for="(answer, id) in question.answers"
                                   :key="id"
+                                  class="mb-1"
                                 >
                                   <b-form-input
-                                    v-model="answer.title"
-                                    placeholder="Provide the answers"
+                                    v-model="answer.value"
+                                    placeholder="Provide answer"
                                   >
                                   </b-form-input>
-                                  <b-input-group-append>
+                                  <b-input-group-append
+                                    v-if="question.type == 'checkbox'"
+                                  >
                                     <b-button-group size="sm">
                                       <b-button
                                         size="sm"
@@ -547,32 +684,19 @@
                               </b-form-group>
                             </b-col>
                           </b-form-row>
+
                           <b-form-row
                             class=""
                             v-if="
                               question.type == 'short' ||
                               question.type == 'long' ||
                               question.type == 'email' ||
+                              question.type == 'multiple' ||
                               question.type == 'number'
                             "
                           >
-                            <b-col sm="12" v-if="!question.addSubQuestion">
-                              <b-form-group label="Placeholder ">
-                                <b-form-input
-                                  size="sm"
-                                  v-model="question.placeholder"
-                                  placeholder="Provide a placeholder"
-                                >
-                                </b-form-input>
-                              </b-form-group>
-                            </b-col>
-                          </b-form-row>
-                          <b-form-row
-                            class=""
-                            v-if="question.type == 'multiple'"
-                          >
                             <b-col sm="12">
-                              <b-form-group label="Placeholder ">
+                              <b-form-group label="Placeholder">
                                 <b-input-group
                                   size="sm"
                                   v-for="(val, idp) in question.placeholders"
@@ -590,9 +714,7 @@
                                       <b-button
                                         size="sm"
                                         @click="
-                                          questionnaire.sections[idx].questions[
-                                            index
-                                          ].placeholders.splice(id, 1)
+                                          question.placeholders.splice(idp, 1)
                                         "
                                         v-if="
                                           questionnaire.sections[idx].questions[
@@ -639,7 +761,7 @@
                             v-if="question.type == 'checkbox'"
                           >
                             <b-col sm="4">
-                              <b-form-group label="Choose response limit">
+                              <b-form-group label="Set response limit">
                                 <b-form-select
                                   size="sm"
                                   v-model="question.limit"
@@ -657,12 +779,15 @@
                               </b-form-group>
                             </b-col>
                           </b-form-row>
-                          <b-form-row class="">
+                          <b-form-row
+                            class=""
+                            v-if="
+                              questionnaire.options &&
+                              questionnaire.options.grading
+                            "
+                          >
                             <b-col sm="3">
-                              <b-form-group
-                                label="Score"
-                                v-if="question.asAnswer"
-                              >
+                              <b-form-group label="Score">
                                 <b-form-select
                                   size="sm"
                                   v-model="question.score"
@@ -703,7 +828,23 @@
             >Preview <b-icon icon="eye"></b-icon
           ></span>
           <hr />
+
           <div class="p-3">
+            <div
+              v-if="questionnaire.options && questionnaire.options.time"
+              class="mb-5 text-left"
+            >
+              <b-form-group label="Duraton">
+                <b-input-group>
+                  <b-form-input
+                    type="number"
+                    placeholder="60"
+                    v-model="questionnaire.duration"
+                  ></b-form-input>
+                  <b-input-group-append is-text> minutes </b-input-group-append>
+                </b-input-group>
+              </b-form-group>
+            </div>
             <div class="mb-4">
               <div class="mb-3">
                 <b-button
@@ -758,6 +899,7 @@ export default {
       current_question: 0,
       answer: false,
       questionnaire: {
+        options: null,
         id: null,
         module_id: null,
         totalscore: 0,
@@ -782,8 +924,27 @@ export default {
                 addSubQuestion: false,
                 subQuestion: [
                   {
+                    show: true,
                     question: "",
-                    placeholder: "",
+                    placeholders: [
+                      {
+                        placeholder: "",
+                        response: "",
+                      },
+                    ],
+                    limit: 1,
+                    options: [
+                      {
+                        value: "",
+                      },
+                    ],
+                    answer: "",
+                    answers: [
+                      {
+                        value: "",
+                      },
+                    ],
+                    response: "",
                     responses: [
                       {
                         response: "",
@@ -799,17 +960,17 @@ export default {
                 limit: 1,
                 options: [
                   {
-                    title: "",
+                    value: "",
                   },
                 ],
                 showAnswer: false,
                 answer: "",
                 answers: [
                   {
-                    title: "",
+                    value: "",
                   },
                 ],
-                asPlaceholders: false,
+
                 placeholders: [
                   {
                     placeholder: "",
@@ -818,7 +979,7 @@ export default {
                 ],
                 placeholder: "",
                 hint: "",
-                asScore: false,
+
                 score: 0,
               },
             ],
@@ -908,8 +1069,27 @@ export default {
             addSubQuestion: false,
             subQuestion: [
               {
+                show: true,
                 question: "",
-                placeholder: "",
+                placeholders: [
+                  {
+                    placeholder: "",
+                    response: "",
+                  },
+                ],
+                limit: 1,
+                options: [
+                  {
+                    value: "",
+                  },
+                ],
+                answer: "",
+                answers: [
+                  {
+                    value: "",
+                  },
+                ],
+                response: "",
                 responses: [
                   {
                     response: "",
@@ -925,17 +1105,17 @@ export default {
             limit: 1,
             options: [
               {
-                title: "",
+                value: "",
               },
             ],
             showAnswer: false,
             answer: "",
             answers: [
               {
-                title: "",
+                value: "",
               },
             ],
-            asPlaceholders: false,
+
             placeholders: [
               {
                 placeholder: "",
@@ -944,7 +1124,7 @@ export default {
             ],
             placeholder: "",
             hint: "",
-            asScore: false,
+
             score: 0,
           },
         ],
@@ -961,8 +1141,27 @@ export default {
         addSubQuestion: false,
         subQuestion: [
           {
+            show: true,
             question: "",
-            placeholder: "",
+            placeholders: [
+              {
+                placeholder: "",
+                response: "",
+              },
+            ],
+            limit: 1,
+            options: [
+              {
+                value: "",
+              },
+            ],
+            answer: "",
+            answers: [
+              {
+                value: "",
+              },
+            ],
+            response: "",
             responses: [
               {
                 response: "",
@@ -978,17 +1177,17 @@ export default {
         limit: 1,
         options: [
           {
-            title: "",
+            value: "",
           },
         ],
         showAnswer: false,
         answer: "",
         answers: [
           {
-            title: "",
+            value: "",
           },
         ],
-        asPlaceholders: false,
+
         placeholders: [
           {
             placeholder: "",
@@ -997,13 +1196,13 @@ export default {
         ],
         placeholder: "",
         hint: "",
-        asScore: false,
+
         score: 0,
       });
     },
     addoption(idx, index) {
       this.questionnaire.sections[idx].questions[index].options.push({
-        title: "",
+        value: "",
       });
     },
     addplaceholder(idx, index) {
@@ -1013,15 +1212,64 @@ export default {
       });
     },
     addSubQuest(idx, index) {
+      this.questionnaire.sections[idx].questions[index].subQuestion[
+        this.questionnaire.sections[idx].questions[index].subQuestion.length - 1
+      ].show = false;
       this.questionnaire.sections[idx].questions[index].subQuestion.push({
+        show: true,
         question: "",
+        placeholders: [
+          {
+            placeholder: "",
+            response: "",
+          },
+        ],
+        limit: 1,
+        options: [
+          {
+            value: "",
+          },
+        ],
+        answer: "",
+        answers: [
+          {
+            value: "",
+          },
+        ],
+        response: "",
+        responses: [
+          {
+            response: "",
+          },
+        ],
+        response_count: "",
+      });
+    },
+    addSubOption(idx, index, sub) {
+      this.questionnaire.sections[idx].questions[index].subQuestion[
+        sub
+      ].options.push({
+        value: "",
+      });
+    },
+    addSubAnswer(idx, index, sub) {
+      this.questionnaire.sections[idx].questions[index].subQuestion[
+        sub
+      ].answers.push({
+        value: "",
+      });
+    },
+    addSubPlaceholder(idx, index, sub) {
+      this.questionnaire.sections[idx].questions[index].subQuestion[
+        sub
+      ].placeholders.push({
         placeholder: "",
         response: "",
       });
     },
     addanswer(idx, index) {
       this.questionnaire.sections[idx].questions[index].answers.push({
-        title: "",
+        value: "",
       });
     },
     getQuestionnaire() {
@@ -1041,6 +1289,7 @@ export default {
             this.questionnaire.type = res.data.type;
             this.questionnaire.module_id = res.data.module_id;
             this.questionnaire.course_id = res.data.course_id;
+            this.questionnaire.options = JSON.parse(res.data.options);
             this.questionnaire.sections = JSON.parse(res.data.sections).slice();
           }
         });

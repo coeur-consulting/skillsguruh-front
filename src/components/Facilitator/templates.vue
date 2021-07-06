@@ -44,7 +44,7 @@
                   size="sm"
                   variant="lighter-green"
                   class="fs12"
-                  @click="$bvModal.show('create')"
+                  @click="$bvModal.show('options')"
                 >
                   <b-icon icon="plus" font-scale=""></b-icon>
                 </b-button>
@@ -163,7 +163,31 @@
       </b-row>
     </b-container>
     <b-modal no-close-on-backdrop size="xl" id="create" centered hide-footer>
-      <CreateQuestion @close="close" @addtemplate="addtemplate" />
+      <CreateQuestion
+        @close="close"
+        @addtemplate="addtemplate"
+        :options="options"
+      />
+    </b-modal>
+    <b-modal id="options" size="sm" hide-header centered hide-footer>
+      <div class="">
+        <h5 class="mb-4">Choose options</h5>
+
+        <b-form-group>
+          <b-form-checkbox v-model="options.grading">Grading</b-form-checkbox>
+        </b-form-group>
+        <b-form-group>
+          <b-form-checkbox v-model="options.time">Timed</b-form-checkbox>
+        </b-form-group>
+        <b-form-group>
+          <b-form-checkbox v-model="options.correct_answer"
+            >Correct answer</b-form-checkbox
+          >
+        </b-form-group>
+        <b-form-group class="text-center mt-2">
+          <b-button @click="save">Save and continue</b-button>
+        </b-form-group>
+      </div>
     </b-modal>
   </div>
 </template>
@@ -181,6 +205,11 @@ export default {
       title: "",
       template: {},
       team: false,
+      options: {
+        grading: false,
+        correct_answer: false,
+        time: false,
+      },
     };
   },
   components: {
@@ -208,6 +237,10 @@ export default {
     }
   },
   methods: {
+    save() {
+      this.$bvModal.hide("options");
+      this.$bvModal.show("create");
+    },
     addtemplate() {
       this.getquestionnaires();
     },

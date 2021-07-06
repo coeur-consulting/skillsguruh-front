@@ -475,6 +475,7 @@ export default {
         if (item.asAnswer) {
           if (item.type !== "checkbox") {
             if (item.response == item.answer) {
+              item.result = item.score;
               return item.score;
             }
             return 0;
@@ -488,6 +489,7 @@ export default {
 
             correct = answers.filter((x) => responses.indexOf(x) !== -1).length;
             let score = (correct / answers.length) * item.score;
+            item.result = Math.round(score);
             return Math.round(score);
           }
           return 0;
