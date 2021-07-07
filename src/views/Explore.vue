@@ -52,7 +52,9 @@
           >
             <div
               class="course shadow"
-              @click="$router.push(`/explore/courses?course_id=${item.id}`)"
+              @click="
+                $router.push(`/explore/courses?course_id=${item.course.id}`)
+              "
             >
               <div
                 class="course_img"
