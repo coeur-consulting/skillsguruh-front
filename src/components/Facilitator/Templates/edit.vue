@@ -1024,7 +1024,7 @@ export default {
       });
 
       var score = newarr.map((item) => {
-        if (this.$props.options.grading) {
+        if (this.questionnaire.options.grading) {
           return item.score;
         }
       });
