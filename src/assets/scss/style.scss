@@ -461,14 +461,16 @@ ol.subquest {
   h6 {
     font-size: x-small !important;
   }
-  p {
-    font-size: x-small;
+  p,
+  .main_text {
+    font-size: x-small !important;
   }
   span.cursor-pointer {
     font-size: 11px;
   }
   span {
     line-height: 1.4;
+    font-size: xx-small;
   }
 
   .line-1 {
@@ -476,7 +478,19 @@ ol.subquest {
   }
   .fs14,
   .fs15,
-  .fs16 {
+  .fs16,
+  .fs13,
+  .col-form-label,
+  .custom-select,
+  .btn-sm {
+    font-size: x-small !important;
+  }
+  small,
+  .small {
+    font-size: 70%;
+    font-weight: 400;
+  }
+  .form-control {
     font-size: x-small !important;
   }
   .fs12,
@@ -490,7 +504,7 @@ ol.subquest {
     font-size: x-small !important;
   }
   .asked {
-    font-size: xx-small;
+    font-size: xx-small !important;
   }
   .top_header div {
     font-size: xx-small !important;
@@ -577,9 +591,18 @@ ol.subquest {
   .library .card-header ul li:nth-child(2).nav-item {
     display: block;
   }
+  .course {
+    height: 300px !important;
+  }
+  .course_img {
+    height: 42% !important;
+  }
+  .course_text {
+    height: 58% !important;
+  }
   .cours_tit {
     font-size: 13px;
-    height: 35px;
+    height: 25px;
     color: rgba($color: #000000, $alpha: 0.74);
     display: -webkit-box;
     line-clamp: 2;
@@ -591,11 +614,11 @@ ol.subquest {
   }
   .overview {
     font-size: x-small;
-    height: 32px;
+    height: 25px;
   }
   .overview-title {
     font-size: x-small;
-    height: 32px;
+    height: 25px;
   }
   .one-title {
     font-size: x-small;
@@ -603,5 +626,10 @@ ol.subquest {
   td,
   th {
     font-size: x-small !important;
+  }
+  .text-post,
+  .next_dis,
+  .bottom_bar {
+    width: 100% !important;
   }
 }

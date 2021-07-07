@@ -210,7 +210,7 @@
           </div>
         </PushRotate>
       </div>
-      <div class="org_name fs14" @click="$router.push('/administrator')">
+      <div class="org_name h4 mb-0" @click="$router.push('/administrator')">
         {{ this.$store.getters.admin.org_name }}
       </div>
     </div>

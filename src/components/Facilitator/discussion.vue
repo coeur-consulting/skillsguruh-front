@@ -307,30 +307,38 @@
                         </div>
                       </emoji-picker>
                     </div>
-                    <div class="d-flex align-items-center">
-                      <Attachment @getUpload="getUpload" class="mr-3" />
-                      <b-button
-                        variant="dark-green"
-                        font-scale="1.5"
-                        type="submit"
-                        >Post</b-button
-                      >
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <div class="share px-3 text-right">
+                        <span
+                          class="mr-3 fs12 cursor-pointer"
+                          @click="$bvModal.show('share')"
+                          >Share
+                          <b-icon icon="share-fill" font-scale=".9"></b-icon
+                        ></span>
+                        <span
+                          class="fs12 cursor-pointer"
+                          @click="$bvModal.show('invite')"
+                          >Invite
+                          <b-icon
+                            icon="person-plus-fill"
+                            font-scale=".9"
+                          ></b-icon
+                        ></span>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <Attachment @getUpload="getUpload" class="mr-3" />
+                        <b-button
+                          variant="dark-green"
+                          font-scale="1.5"
+                          type="submit"
+                          >Post</b-button
+                        >
+                      </div>
                     </div>
                   </div>
                 </b-form>
-                <div class="share px-3 text-right">
-                  <span
-                    class="mr-3 fs12 cursor-pointer"
-                    @click="$bvModal.show('share')"
-                    >Share <b-icon icon="share-fill" font-scale=".9"></b-icon
-                  ></span>
-                  <span
-                    class="fs12 cursor-pointer"
-                    @click="$bvModal.show('invite')"
-                    >Invite
-                    <b-icon icon="person-plus-fill" font-scale=".9"></b-icon
-                  ></span>
-                </div>
               </div>
             </div>
           </div>

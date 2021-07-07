@@ -271,7 +271,7 @@
           class="cursor-pointer mr-2"
           size="30px"
         ></b-avatar>
-        <span class="fs12 d-none d-sm-inline">{{
+        <span class="h4 d-none d-sm-inline">{{
           $store.getters.learner.name
         }}</span></span
       >
