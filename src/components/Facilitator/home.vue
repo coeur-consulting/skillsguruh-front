@@ -180,18 +180,12 @@
                               ).value
                             }}</span></span
                           >
-                          <span class="text-capitalize fs13">{{
+                          <span class="text-capitalize fs10">{{
                             item.course.type
                           }}</span>
                         </div>
                         <div class="border-bottom pt-3">
-                          <h6
-                            class="
-                              font-weight-bold
-                              text-capitalize
-                              overview-title
-                            "
-                          >
+                          <h6 class="overview-title">
                             {{ item.course.title }}
                           </h6>
                           <p class="overview">
@@ -282,18 +276,12 @@
                               ).value
                             }}</span></span
                           >
-                          <span class="text-capitalize fs13">{{
+                          <span class="text-capitalize fs10">{{
                             item[1].course.type
                           }}</span>
                         </div>
                         <div class="border-bottom pt-3">
-                          <h6
-                            class="
-                              font-weight-bold
-                              text-capitalize
-                              overview-title
-                            "
-                          >
+                          <h6 class="overview-title">
                             {{ item[1].course.title }}
                           </h6>
                           <p class="overview">

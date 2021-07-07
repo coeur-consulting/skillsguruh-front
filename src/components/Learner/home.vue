@@ -101,18 +101,12 @@
                                   .value
                               }}</span></span
                             >
-                            <span class="text-capitalize fs11">{{
+                            <span class="text-capitalize fs10">{{
                               item.type
                             }}</span>
                           </div>
                           <div class="border-bottom pt-3">
-                            <h6
-                              class="
-                                font-weight-bold
-                                text-capitalize
-                                overview-title
-                              "
-                            >
+                            <h6 class="overview-title">
                               {{ item.title }}
                             </h6>
                             <p class="overview">
