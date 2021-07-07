@@ -104,7 +104,7 @@
                       </h6>
                       <div
                         class="fs13"
-                        v-html="course.courseoutline.overview"
+                        v-html="item.courseoutline.overview"
                       ></div>
                     </div>
                     <div class="info fs11">
@@ -627,7 +627,7 @@
               <div class="mb-4">
                 <h6 class="fs14 mb-4">Overview</h6>
 
-                <p class="fs13">{{ course.courseoutline.overview }}</p>
+                <div class="fs13" v-html="course.courseoutline.overview"></div>
               </div>
 
               <div>

@@ -61,6 +61,7 @@
               <div class="course_text">
                 <div class="d-flex justify-content-between">
                   <span
+                    v-if="item.course.courseoutline"
                     class="p-2 rounded-pill text-white fs11"
                     :style="{
                       backgroundColor: JSON.parse(
@@ -88,7 +89,7 @@
                   <h6 class="font-weight-bold text-capitalize overview-title">
                     {{ item.course.title }}
                   </h6>
-                  <p class="overview">
+                  <p class="overview" v-if="item.course.courseoutline">
                     {{ item.course.courseoutline.overview }}
                   </p>
                 </div>

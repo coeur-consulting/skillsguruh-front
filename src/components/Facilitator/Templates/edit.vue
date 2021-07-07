@@ -167,7 +167,7 @@
                             </span></span
                           >
                           <span class="d-flex align-items-center">
-                            <b-button
+                            <!-- <b-button
                               size="sm"
                               class="mr-2 py-1 fs12"
                               variant="lighter-green"
@@ -178,7 +178,7 @@
                               "
                               ><b-icon icon="plus"></b-icon> New
                               question</b-button
-                            >
+                            > -->
 
                             <b-icon
                               icon="trash2-fill"
@@ -445,11 +445,9 @@
                                     <b-form-row
                                       class=""
                                       v-if="
-                                        (question.type == 'single' ||
-                                          question.type == 'boolean' ||
-                                          question.type == 'checkbox') &&
-                                        questionnaire.options &&
-                                        questionnaire.options.correct_answer
+                                        question.type == 'single' ||
+                                        question.type == 'boolean' ||
+                                        question.type == 'checkbox'
                                       "
                                     >
                                       <b-col sm="12">
@@ -627,10 +625,9 @@
                           <b-form-row
                             class=""
                             v-if="
-                              (question.type == 'single' ||
-                                question.type == 'boolean' ||
-                                question.type == 'checkbox') &&
-                              questionnaire.options.correct_answer
+                              question.type == 'single' ||
+                              question.type == 'boolean' ||
+                              question.type == 'checkbox'
                             "
                           >
                             <b-col sm="12">
@@ -809,6 +806,15 @@
                       </div>
                     </transition-group>
                   </draggable>
+                  <div class="text-center">
+                    <b-button
+                      size="sm"
+                      class="mr-2 py-1 fs12"
+                      variant="lighter-green"
+                      @click="addquestion(idx)"
+                      ><b-icon icon="plus"></b-icon> New question</b-button
+                    >
+                  </div>
                 </div>
               </div>
             </b-form>
@@ -933,7 +939,7 @@ export default {
                         response: "",
                       },
                     ],
-                    limit: 1,
+                    limit: 2,
                     options: [
                       {
                         value: "",
@@ -958,7 +964,7 @@ export default {
                 responses: [],
                 result: "",
                 type: "short",
-                limit: 1,
+                limit: 2,
                 options: [
                   {
                     value: "",
@@ -1078,7 +1084,7 @@ export default {
                     response: "",
                   },
                 ],
-                limit: 1,
+                limit: 2,
                 options: [
                   {
                     value: "",
@@ -1091,11 +1097,7 @@ export default {
                   },
                 ],
                 response: "",
-                responses: [
-                  {
-                    response: "",
-                  },
-                ],
+                responses: [],
                 response_count: "",
               },
             ],
@@ -1103,7 +1105,7 @@ export default {
             responses: [],
             result: "",
             type: "short",
-            limit: 1,
+            limit: 2,
             options: [
               {
                 value: "",
@@ -1150,7 +1152,7 @@ export default {
                 response: "",
               },
             ],
-            limit: 1,
+            limit: 2,
             options: [
               {
                 value: "",
@@ -1175,7 +1177,7 @@ export default {
         responses: [],
         result: "",
         type: "short",
-        limit: 1,
+        limit: 2,
         options: [
           {
             value: "",
@@ -1225,7 +1227,7 @@ export default {
             response: "",
           },
         ],
-        limit: 1,
+        limit: 2,
         options: [
           {
             value: "",

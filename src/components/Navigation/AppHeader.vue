@@ -25,6 +25,12 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav class="ml-auto">
             <b-nav-item to="/" class="mr-sm-4">Home</b-nav-item>
+            <b-nav-item
+              v-if="$route.path == '/explore/courses'"
+              to="/explore"
+              class="mr-sm-4"
+              >Explore</b-nav-item
+            >
             <b-nav-item to="/about" class="mr-sm-4">About</b-nav-item>
             <b-nav-item href="/#how-it-works" class="mr-sm-4"
               >How It Works</b-nav-item

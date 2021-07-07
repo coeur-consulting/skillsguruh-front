@@ -492,7 +492,7 @@ export default {
                 responses: [],
                 result: "",
                 type: "short",
-                limit: 1,
+                limit: 2,
                 options: [
                   {
                     title: "",
@@ -571,7 +571,7 @@ export default {
             responses: [],
             result: "",
             type: "short",
-            limit: 1,
+            limit: 2,
             options: [
               {
                 title: "",
@@ -601,7 +601,7 @@ export default {
         responses: [],
         result: "",
         type: "short",
-        limit: 1,
+        limit: 2,
         options: [
           {
             title: "",

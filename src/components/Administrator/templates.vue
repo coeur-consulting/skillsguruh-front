@@ -179,11 +179,11 @@
         <b-form-group>
           <b-form-checkbox v-model="options.time">Timed</b-form-checkbox>
         </b-form-group>
-        <b-form-group>
+        <!-- <b-form-group>
           <b-form-checkbox v-model="options.correct_answer"
             >Correct answer</b-form-checkbox
           >
-        </b-form-group>
+        </b-form-group> -->
         <b-form-group class="text-center mt-2">
           <b-button @click="save">Save and continue</b-button>
         </b-form-group>

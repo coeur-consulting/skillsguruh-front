@@ -903,13 +903,7 @@
             class="mb-4 px-3"
             :src="require('@/assets/images/creator.svg')"
           ></b-img>
-          <p class="mb-3">
-            There appears to be no course available <br />
-            please create a new course by clicking the button below
-          </p>
-          <b-button @click="$bvModal.show('addcourse')" variant="dark-green"
-            >Create new course</b-button
-          >
+          <p class="mb-3">There appears to be no course available</p>
         </b-col>
       </b-row>
     </b-container>
