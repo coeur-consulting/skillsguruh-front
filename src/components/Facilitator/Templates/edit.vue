@@ -26,8 +26,8 @@
                       <b-form-select-option disabled value=""
                         >Choose type</b-form-select-option
                       >
-                      <b-form-select-option value="template"
-                        >Template</b-form-select-option
+                      <b-form-select-option value="worksheet"
+                        >Worksheet</b-form-select-option
                       >
                       <b-form-select-option value="quiz"
                         >Quiz</b-form-select-option
@@ -35,8 +35,11 @@
                       <b-form-select-option value="questionnaire"
                         >Questionnaire</b-form-select-option
                       >
-                      <b-form-select-option value="assessment"
-                        >Assessment</b-form-select-option
+                      <b-form-select-option value="assignment"
+                        >Assignment</b-form-select-option
+                      >
+                      <b-form-select-option value="test"
+                        >Test</b-form-select-option
                       >
                     </b-form-select>
                   </b-form-group>
@@ -1021,7 +1024,7 @@ export default {
       });
 
       var score = newarr.map((item) => {
-        if (item.asAnswer) {
+        if (this.$props.options.grading) {
           return item.score;
         }
       });

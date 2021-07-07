@@ -1137,7 +1137,7 @@
           network="facebook"
           :url="link"
           title="COURSE INVITATION"
-          :description="`Check out my course  ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1150,7 +1150,7 @@
           network="twitter"
           :url="link"
           title="COURSE INVITATION"
-          :description="`Check out my course  ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1163,7 +1163,7 @@
           network="whatsApp"
           :url="link"
           title="COURSE INVITATION"
-          :description="`Check out my course  ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1185,7 +1185,7 @@
           network="Telegram"
           :url="link"
           title="COURSE INVITATION"
-          :description="`Check out my course ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`"
+          :description="`I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -2692,9 +2692,9 @@ export default {
       this.feed = {
         media: this.course.cover,
         message:
-          "Check out my course, " +
-          this.course.title.toUpperCase() +
-          " on SkillsGuruh and I think you’d like it. Join me!",
+          "I created a course titled, " +
+          this.course.title.bold() +
+          ", Check it out here",
         url:
           "https://skillsguruh.com/learner/courses/?course_id=" +
           this.course.id,

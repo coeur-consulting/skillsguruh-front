@@ -375,7 +375,10 @@
                 >
                 </vue-countdown-timer>
               </div>
-              <div class="mb-3" v-if="assessment.showcalc">
+              <div
+                class="mb-3"
+                v-if="JSON.parse(assessment.tools).includes('calculator')"
+              >
                 <b-icon
                   class="cursor-pointer"
                   @click="showcalc = !showcalc"
@@ -440,16 +443,12 @@ export default {
       });
 
       var score = newarr.map((item) => {
-        if (item.asAnswer) {
-          return item.score;
-        }
+        return item.score;
       });
 
-      return (
-        score.reduce((a, b) => {
-          return a + b;
-        }, 0) || 0
-      );
+      return score.reduce((a, b) => {
+        return a + b;
+      }, 0);
     },
   },
   methods: {
@@ -458,6 +457,7 @@ export default {
     },
     endCallBack: function (x) {
       console.log(x);
+      this.forceSubmit();
     },
     warning() {
       this.$toast.error("Do not reload");
@@ -504,30 +504,32 @@ export default {
       var newarr = arr.reduce((a, b) => {
         return a.concat(b);
       });
-      console.log(newarr);
+
       var score = newarr.map((item) => {
-        if (item.type !== "checkbox") {
-          if (item.response == item.answer) {
+        if (item.type == "single") {
+          answers = item.answers.map((item) => item.value.toLowerCase()).sort();
+          console.log(answers);
+          if (answers.includes(item.response.toLowerCase())) {
             item.result = item.score;
-            return item.score;
+            return item.result;
           }
           return 0;
         }
         if (item.type == "checkbox") {
-          answers = item.answers.map((item) => item.title).sort();
+          answers = item.answers.map((item) => item.value).sort();
           responses = item.responses
             .map((val) => item.options[val])
-            .map((item) => item.title)
+            .map((item) => item.value)
             .sort();
 
           correct = answers.filter((x) => responses.indexOf(x) !== -1).length;
           let score = (correct / answers.length) * item.score;
           item.result = Math.round(score);
-          return Math.round(score);
+          return item.result;
         }
         return 0;
       });
-
+      console.log(score);
       this.current_score = score.reduce((a, b) => {
         return a + b;
       }, 0);
@@ -557,7 +559,7 @@ export default {
               if (res.status == 201) {
                 this.$emit("handleCheck");
                 this.$bvModal
-                  .msgBoxOk("Submitted successfullY", {
+                  .msgBoxOk("Submitted successfully", {
                     noCloseOnBackdrop: true,
                     size: "sm",
                     buttonSize: "sm",
@@ -567,12 +569,44 @@ export default {
                     centered: true,
                   })
                   .then(() => {
-                    this.$router.push("/learner/assessments");
+                    this.$router.go("-1");
                   });
               }
             });
         }
       });
+    },
+    forceSubmit() {
+      var data = {
+        response: this.questionnaire,
+        assessment_id: this.$route.params.id,
+        your_score: this.current_score,
+        total_score: this.totalscore,
+      };
+      this.$http
+        .post(`${this.$store.getters.url}/assessment/responses`, data, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 201) {
+            this.$emit("handleCheck");
+            this.$bvModal
+              .msgBoxOk("Time Up, Submitted successfullY", {
+                noCloseOnBackdrop: true,
+                size: "sm",
+                buttonSize: "sm",
+                okVariant: "dark-green",
+                headerClass: "p-2 border-bottom-0",
+                footerClass: "p-2 border-top-0",
+                centered: true,
+              })
+              .then(() => {
+                this.$router.push("/learner/assessments");
+              });
+          }
+        });
     },
   },
 };

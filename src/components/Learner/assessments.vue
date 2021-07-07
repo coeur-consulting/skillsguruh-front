@@ -90,7 +90,7 @@
               text-left
               cursor-pointer
             "
-            @click="$router.push('/learner/assessment/template')"
+            @click="$router.push('/learner/assessment/worksheet')"
           >
             <div class="mybadge">
               <div>
@@ -110,8 +110,8 @@
               fluid-grow
               class="mb-3"
             ></b-img>
-            <div class="font-weight-bold fs15">Templates</div>
-            <p class="fs15 text-muted">View all templates here</p>
+            <div class="font-weight-bold fs15">Worksheets</div>
+            <p class="fs15 text-muted">View all workshets here</p>
           </div>
         </b-col>
         <b-col sm="4" class="mb-4">

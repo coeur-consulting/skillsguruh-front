@@ -358,7 +358,7 @@
                     <span v-html="feed.message"></span><br />
                     <span v-if="feed.url" class="text-dark-green"
                       ><a :href="feed.url" target="_blank"
-                        >Check it out !!</a
+                        >Link</a
                       ></span
                     >
                   </div>

@@ -85,6 +85,10 @@
                       : "N/A"
                   }}</span>
                 </div>
+                <div v-else class="fs14 text-muted mb-2">
+                  <span>Your score: </span>
+                  <span>"N/A" </span>
+                </div>
                 <div class="fs14 text-muted mb-2">
                   <span>Total score: </span>
                   <span>{{
@@ -126,7 +130,7 @@
                           responses.find((val) => val.assessment_id == item.id)
                         )
                       "
-                      >View result</span
+                      >View response</span
                     >
                   </span>
                   <span v-else> Unavailable</span>

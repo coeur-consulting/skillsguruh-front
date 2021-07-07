@@ -80,6 +80,12 @@
               <span class="side-link">Courses</span>
             </div>
           </router-link>
+          <router-link to="/facilitator/assessments">
+            <div class="side_item">
+              <database-icon size="1x" class="custom-class"></database-icon>
+              <span class="side-link">Assessments</span>
+            </div>
+          </router-link>
           <!-- <router-link to="/facilitator/outlines">
           <div class="side_item">
             <b-icon

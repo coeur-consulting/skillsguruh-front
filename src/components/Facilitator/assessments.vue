@@ -107,6 +107,32 @@
             </p>
           </div>
         </b-col>
+        <b-col sm="4" class="mb-5">
+          <div
+            class="
+              shadow
+              bg-white
+              rounded
+              p-3
+              position-relative
+              text-left
+              cursor-pointer
+            "
+            @click="$router.push('/facilitator/assessment/worksheet')"
+          >
+            <b-badge class="badge" variant="danger">{{
+              questionnaire
+            }}</b-badge>
+            <b-img
+              :src="require('@/assets/images/ass1.png')"
+              alt="test"
+              fluid-grow
+              class="mb-3"
+            ></b-img>
+            <div class="font-weight-bold fs15">Worksheets</div>
+            <p class="fs15 text-muted">Create,view and mark worksheets here</p>
+          </div>
+        </b-col>
         <!-- <b-col sm="4" class="mb-5">
           <div
             class="
@@ -160,8 +186,8 @@ export default {
     test() {
       return this.assessments.filter((item) => item.type == "test").length;
     },
-    template() {
-      return this.assessments.filter((item) => item.type == "template").length;
+    worksheet() {
+      return this.assessments.filter((item) => item.type == "worksheet").length;
     },
   },
   methods: {

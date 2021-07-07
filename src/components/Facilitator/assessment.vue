@@ -80,8 +80,13 @@
               <div class="font-weight-bold fs15 mb-2 text-capitalize">
                 {{ item.questiontemplate.title }}
               </div>
+              <div
+                class="font-weight-bold fs12 text-muted mb-2 text-capitalize"
+              >
+                Course: {{ item.course.title }}
+              </div>
               <div class="fs14 text-muted mb-2">
-                <span>Total score:</span>
+                <span>Total score: </span>
                 <span>{{
                   item.questiontemplate.totalscore
                     ? item.questiontemplate.totalscore
@@ -341,8 +346,8 @@ export default {
             this.courses = res.data;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Something went wrong");
         });
     },
     create() {
@@ -356,10 +361,21 @@ export default {
           if (res.status == 201) {
             this.assessments.unshift(res.data);
             this.$bvModal.hide("addassessment");
+
+            this.assessment = {
+              course: {},
+              template: {},
+              duration: "",
+              start: new Date(),
+              end: new Date(),
+              feedback: "",
+              tools: [],
+              type: this.$route.params.type,
+            };
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Something went wrong, check all fields");
         });
     },
     drop(id, index) {
@@ -377,8 +393,8 @@ export default {
                 this.assessments.splice(index, 1);
               }
             })
-            .catch((err) => {
-              this.$toast.error(err.response.data.message);
+            .catch(() => {
+              this.$toast.error("Something went wrong, check all fields");
             });
         }
       });

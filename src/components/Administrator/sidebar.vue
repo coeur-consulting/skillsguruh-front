@@ -1,6 +1,5 @@
 <template>
   <div id="sidebar">
-    
     <div class="logo_bar">
       <b-img
         class="mr-2"
@@ -22,13 +21,13 @@
         </router-link>
         <router-link to="/administrator/team">
           <div class="side_item">
-             <users-icon size="1x" class="custom-class"></users-icon>
+            <users-icon size="1x" class="custom-class"></users-icon>
             <span class="side-link p-2">Team</span>
           </div>
         </router-link>
         <router-link to="/administrator/schedule">
           <div class="side_item">
-             <calendar-icon size="1x" class="custom-class"></calendar-icon>
+            <calendar-icon size="1x" class="custom-class"></calendar-icon>
             <span class="side-link p-2">Schedule</span>
           </div>
         </router-link>
@@ -43,25 +42,25 @@
             <span class="side-link p-2">Courses</span>
           </div>
         </router-link>
-               <router-link to="/administrator/assessment">
+        <!--    <router-link to="/administrator/assessment">
           <div class="side_item">
            <database-icon size="1x" class="custom-class"></database-icon>
             <span class="side-link p-2">Assessment</span>
           </div>
-        </router-link>
+        </router-link> -->
       </div>
       <div>
         <h6 class="mt-3 mb-1 text-dark-green side_header">COMMUNITY</h6>
 
         <router-link to="/administrator/connections">
           <div class="side_item">
-         <link-icon size="1x" class="custom-class"></link-icon>
+            <link-icon size="1x" class="custom-class"></link-icon>
             <span class="side-link p-2">Connections</span>
           </div>
         </router-link>
         <router-link to="/administrator/feeds">
           <div class="side_item">
-             <rss-icon size="1x" class="custom-class"></rss-icon>
+            <rss-icon size="1x" class="custom-class"></rss-icon>
             <span class="side-link p-2">Feeds </span>
           </div>
         </router-link>
@@ -90,13 +89,16 @@
         <h6 class="mt-3 mb-1 text-dark-green side_header">OTHERS</h6>
         <router-link to="/administrator/question/templates">
           <div class="side_item">
-             <layout-icon size="1x" class="custom-class"></layout-icon>
+            <layout-icon size="1x" class="custom-class"></layout-icon>
             <span class="side-link p-2">Templates</span>
           </div>
         </router-link>
         <router-link to="/administrator/insights">
           <div class="side_item">
-           <arrow-up-right-icon size="1x" class="custom-class"></arrow-up-right-icon>
+            <arrow-up-right-icon
+              size="1x"
+              class="custom-class"
+            ></arrow-up-right-icon>
             <span class="side-link p-2">Insights</span>
           </div>
         </router-link>
@@ -109,21 +111,30 @@
       </div>
 
       <div class="side_item mt-4" @click="logout">
-      <log-out-icon size="1x" class="custom-class"></log-out-icon>
+        <log-out-icon size="1x" class="custom-class"></log-out-icon>
         <span class="side-link p-2">Log out</span>
       </div>
-
     </div>
   </div>
 </template>
 <script>
-import
- {HomeIcon, UsersIcon, TrelloIcon, CalendarIcon, LinkIcon, RssIcon, TwitchIcon,
-  BookmarkIcon, DatabaseIcon, LayoutIcon, CreditCardIcon, ArrowUpRightIcon, LogOutIcon}
-  from "vue-feather-icons";
+import {
+  HomeIcon,
+  UsersIcon,
+  TrelloIcon,
+  CalendarIcon,
+  LinkIcon,
+  RssIcon,
+  TwitchIcon,
+  BookmarkIcon,
+  LayoutIcon,
+  CreditCardIcon,
+  ArrowUpRightIcon,
+  LogOutIcon,
+} from "vue-feather-icons";
 
 export default {
-   components: {
+  components: {
     HomeIcon,
     UsersIcon,
     TrelloIcon,
@@ -132,12 +143,11 @@ export default {
     RssIcon,
     TwitchIcon,
     BookmarkIcon,
-    DatabaseIcon,
+
     LayoutIcon,
     ArrowUpRightIcon,
     CreditCardIcon,
-    LogOutIcon
-  
+    LogOutIcon,
   },
   data() {
     return {
@@ -211,8 +221,8 @@ export default {
   cursor: pointer;
 }
 .router-link-exact-active.router-link-active .side_item {
- background: rgba(56, 128, 135, 0.17);
- border-left: 2px solid #388087;
+  background: rgba(56, 128, 135, 0.17);
+  border-left: 2px solid #388087;
   /* color: white; */
 }
 

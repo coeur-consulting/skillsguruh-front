@@ -1,7 +1,10 @@
 <template>
   <div>
     <b-form @submit.prevent="submit" id="form">
-      <b-container class="py-3 px-0 text-left" v-if="questionnaire.sections">
+      <b-container
+        class="py-3 px-0 text-left"
+        v-if="questionnaire.sections.length"
+      >
         <h5 class="mb-4 text-capitalize">{{ questionnaire.title }}</h5>
         <b-row>
           <b-col sm="10">
@@ -111,8 +114,8 @@
                             ].response
                           "
                           @change="handleResponse()"
-                          :value="item.title"
-                          >{{ item.title }}
+                          :value="item.value"
+                          >{{ item.value }}
                           <b-icon
                             v-if="
                               questionnaire.sections[section].questions[
@@ -122,14 +125,18 @@
                             :icon="
                               questionnaire.sections[section].questions[
                                 question_num
-                              ].answer == item.title
+                              ].answers
+                                .map((t) => t.value.toLowerCase())
+                                .includes(item.value.toLowerCase())
                                 ? 'check2-circle'
                                 : 'x'
                             "
                             :class="
                               questionnaire.sections[section].questions[
                                 question_num
-                              ].answer == item.title
+                              ].answers
+                                .map((t) => t.value.toLowerCase())
+                                .includes(item.value.toLowerCase())
                                 ? 'text-dark-green'
                                 : 'text-danger'
                             "
@@ -151,7 +158,7 @@
                       class="d-flex align-items-center mb-1"
                     >
                       <b-form-input
-                        v-model="item.title"
+                        v-model="item.value"
                         :placeholder="
                           questionnaire.sections[section].questions[
                             question_num
@@ -201,11 +208,11 @@
                             v-model="
                               questionnaire.sections[section].questions[
                                 question_num
-                              ].response
+                              ].responses
                             "
                             @change="handleResponse()"
-                            :value="item.title"
-                            >{{ item.title }}</b-form-checkbox
+                            :value="item.value"
+                            >{{ item.value }}</b-form-checkbox
                           >
                         </b-col>
                       </b-form-row>
@@ -330,48 +337,14 @@
 export default {
   data() {
     return {
+      showcalc: false,
+      assessment: {},
       questionnaire: {
         id: null,
-        module_id: null,
-        module_name: "",
+        sections: [],
+        title: null,
         course_id: null,
         course_title: null,
-        title: "",
-        showFeedback: false,
-        feedback: "",
-        showScores: false,
-        sections: [
-          {
-            title: "",
-            questions: [
-              {
-                fixed: false,
-                question: "",
-                response: "",
-                responses: [],
-                result: "",
-                type: "short",
-                limit: 2,
-                options: [
-                  {
-                    title: "",
-                  },
-                ],
-                showAnswer: false,
-                answer: "",
-                answers: [
-                  {
-                    title: "",
-                  },
-                ],
-                placeholder: "",
-                hint: "",
-                asScore: false,
-                score: 0,
-              },
-            ],
-          },
-        ],
       },
       section: 0,
       responses: [],
@@ -397,9 +370,7 @@ export default {
       });
 
       var score = newarr.map((item) => {
-        if (item.asAnswer) {
-          return item.score;
-        }
+        return item.score;
       });
 
       return score.reduce((a, b) => {
@@ -425,7 +396,7 @@ export default {
     getQuestionnaire() {
       this.$http
         .get(
-          `${this.$store.getters.url}/question/templates/${this.$route.params.id}`,
+          `${this.$store.getters.url}/assessments/${this.$route.params.id}`,
           {
             headers: {
               Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
@@ -434,21 +405,24 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.questionnaire.id = res.data.id;
-            this.questionnaire.module_id = res.data.module_id;
-            this.questionnaire.module_name = res.data.module_name;
-            this.questionnaire.course_id = res.data.course_id;
-            this.questionnaire.course_title = res.data.course_title;
-            this.questionnaire.title = res.data.title;
-            this.questionnaire.showFeedback = res.data.showFeedback;
-            this.questionnaire.feedback = res.data.feedback;
-            this.questionnaire.showScores = res.data.showScores;
-            this.questionnaire.sections = JSON.parse(res.data.sections);
+            this.assessment = res.data;
+            this.questionnaire.id = res.data.questiontemplate.id;
+            this.questionnaire.module_id = res.data.questiontemplate.module_id;
+            this.questionnaire.course_id = res.data.questiontemplate.course_id;
+            this.questionnaire.course_title =
+              res.data.questiontemplate.course_title;
+            this.questionnaire.title = res.data.questiontemplate.title;
+            this.questionnaire.sections = JSON.parse(
+              res.data.questiontemplate.sections
+            );
           }
         });
     },
     handleResponse() {
       var arr = [];
+      var answers = [];
+      var responses = [];
+      var correct = 0;
       this.questionnaire.sections.forEach((item) => {
         arr.push(item.questions);
       });
@@ -458,25 +432,37 @@ export default {
       });
 
       var score = newarr.map((item) => {
-        if (item.asAnswer) {
-          if (item.response != "") {
-            if (item.response == item.answer) {
-              return item.score;
-            }
-            return 0;
+        if (item.type == "single") {
+          answers = item.answers.map((item) => item.value.toLowerCase()).sort();
+          console.log(answers);
+          if (answers.includes(item.response.toLowerCase())) {
+            item.result = item.score;
+            return item.result;
           }
           return 0;
         }
-      });
+        if (item.type == "checkbox") {
+          answers = item.answers.map((item) => item.value).sort();
+          responses = item.responses
+            .map((val) => item.options[val])
+            .map((item) => item.value)
+            .sort();
 
+          correct = answers.filter((x) => responses.indexOf(x) !== -1).length;
+          let score = (correct / answers.length) * item.score;
+          item.result = Math.round(score);
+          return item.result;
+        }
+        return 0;
+      });
+      console.log(score);
       this.current_score = score.reduce((a, b) => {
         return a + b;
       }, 0);
     },
-
     addoption(index) {
       this.questionnaire.sections[this.section].questions[index].options.push({
-        title: null,
+        value: null,
       });
     },
     submit() {
@@ -498,19 +484,18 @@ export default {
               if (res.status == 201) {
                 this.$emit("handleCheck");
                 this.$bvModal
-                  .msgBoxOk(
-                    "Assessment was submitted successfully, Thank you for your feedback",
-                    {
-                      noCloseOnBackdrop: true,
-                      size: "sm",
-                      buttonSize: "sm",
-                      okVariant: "dark-green",
-                      headerClass: "p-2 border-bottom-0",
-                      footerClass: "p-2 border-top-0",
-                      centered: true,
-                    }
-                  )
-                  .then(() => {});
+                  .msgBoxOk("Assessment was submitted successfully", {
+                    noCloseOnBackdrop: true,
+                    size: "sm",
+                    buttonSize: "sm",
+                    okVariant: "dark-green",
+                    headerClass: "p-2 border-bottom-0",
+                    footerClass: "p-2 border-top-0",
+                    centered: true,
+                  })
+                  .then(() => {
+                    this.$router.go("-1");
+                  });
               }
             });
         }

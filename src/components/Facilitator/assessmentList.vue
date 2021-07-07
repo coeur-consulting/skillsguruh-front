@@ -115,17 +115,7 @@
             <div v-else class="text-center admin_tab p-3 p-sm-5">
               <div>
                 <b-img :src="require('@/assets/images/creator.svg')"></b-img>
-                <h6 class="text-muted my-3 fs14">
-                  It appears you havent added any Learner yet,
-                  <br class="d-none d-sm-block" />
-                  Add your first Learner now!
-                </h6>
-                <b-button
-                  @click="$bvModal.show('add')"
-                  variant="dark-green"
-                  size="lg"
-                  >Add Learner</b-button
-                >
+                <h6 class="text-muted my-3 fs14">Nothing available</h6>
               </div>
             </div>
           </div>
