@@ -63,9 +63,7 @@
                 <div class="font-weight-bold fs15 mb-2 text-capitalize">
                   {{ item.questiontemplate.title }}
                 </div>
-                <div
-                  class="font-weight-bold fs13 mb-2 text-capitalize text-muted"
-                >
+                <div class="font-weight-bold fs13 mb-2 text-muted overview-ass">
                   Course: {{ item.course.title }}
                 </div>
                 <div class="fs12 text-muted mb-1">

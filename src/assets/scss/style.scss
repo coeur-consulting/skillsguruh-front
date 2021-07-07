@@ -313,6 +313,16 @@ ol.subquest {
   text-overflow: ellipsis;
   line-height: 1.4;
 }
+.overview-ass {
+  color: rgba($color: #000000, $alpha: 0.54);
+  display: -webkit-box;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+}
 .overview {
   font-size: 13px;
   height: 35px;
