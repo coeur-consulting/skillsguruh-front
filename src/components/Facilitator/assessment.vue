@@ -80,7 +80,7 @@
               <div class="font-weight-bold fs15 mb-2 text-capitalize">
                 {{ item.questiontemplate.title }}
               </div>
-              <h6 class="fs12 text-muted mb-2 text-capitalize">
+              <h6 class="fs12 overview-ass text-muted mb-2">
                 Course: {{ item.course.title }}
               </h6>
               <div class="fs14 text-muted mb-2">
