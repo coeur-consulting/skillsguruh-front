@@ -68,13 +68,13 @@
                 >
                   Course: {{ item.course.title }}
                 </div>
-                <div class="fs14 text-muted mb-1">
+                <div class="fs12 text-muted mb-1">
                   <span>Duration: </span>
                   <span>{{ item.duration }} minutes</span>
                 </div>
                 <div
                   v-if="responses.find((val) => val.assessment_id == item.id)"
-                  class="fs14 text-muted mb-2"
+                  class="fs12 text-muted mb-2"
                 >
                   <span>Your score: </span>
                   <span>{{
@@ -85,11 +85,11 @@
                       : "N/A"
                   }}</span>
                 </div>
-                <div v-else class="fs14 text-muted mb-2">
+                <div v-else class="fs12 text-muted mb-2">
                   <span>Your score: </span>
                   <span>"N/A" </span>
                 </div>
-                <div class="fs14 text-muted mb-2">
+                <div class="fs12 text-muted mb-2">
                   <span>Total score: </span>
                   <span>{{
                     item.questiontemplate.totalscore
@@ -97,14 +97,14 @@
                       : "N/A"
                   }}</span>
                 </div>
-                <div class="fs14 text-muted mb-1">
+                <div class="fs12 text-muted mb-1">
                   <span>Date: </span>
                   <span>{{ item.start | moment("ll") }}</span> -
                   <span>{{ item.end | moment("ll") }}</span>
                 </div>
 
                 <div
-                  class="fs14 text-muted d-flex justify-content-end text-right"
+                  class="fs12 text-muted d-flex justify-content-end text-right"
                 >
                   <span
                     v-if="
@@ -139,7 +139,10 @@
             </b-col>
           </b-row>
 
-          <div class="p-3 d-flex justify-content-between">
+          <div
+            class="p-3 d-flex justify-content-between"
+            v-if="assessments.length > 10"
+          >
             <div class="fs12 text-muted">
               Showing {{ perPage * currentPage - perPage + 1 }}-{{
                 perPage * currentPage

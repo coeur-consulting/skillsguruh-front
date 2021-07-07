@@ -4,7 +4,13 @@
       <b-row>
         <b-col class="mb-5 mb-sm-0">
           <div
-            class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-4"
+            class="
+              d-flex
+              flex-column flex-sm-row
+              justify-content-between
+              align-items-center
+              mb-4
+            "
           >
             <h6 class="mb-3 mb-sm-0">Administrators</h6>
             <div>
@@ -133,7 +139,10 @@
                   </b-tr>
                 </b-tbody>
               </b-table-simple>
-              <div class="p-3 d-flex justify-content-between">
+              <div
+                class="p-3 d-flex justify-content-between"
+                v-if="users.length > 10"
+              >
                 <div class="fs12 text-muted">
                   Showing 1-10 of {{ users.length }} items
                 </div>
@@ -169,7 +178,14 @@
       </b-row>
     </b-container>
 
-     <b-modal  no-close-on-backdrop  id="add" hide-footer centered size="lg" title="Add Administrator">
+    <b-modal
+      no-close-on-backdrop
+      id="add"
+      hide-footer
+      centered
+      size="lg"
+      title="Add Administrator"
+    >
       <b-form @submit.prevent="register" class="user">
         <div>
           <b-form-row class="mb-2">
@@ -242,7 +258,8 @@
         </div>
       </b-form>
     </b-modal>
-     <b-modal  no-close-on-backdrop
+    <b-modal
+      no-close-on-backdrop
       id="edit"
       hide-footer
       centered

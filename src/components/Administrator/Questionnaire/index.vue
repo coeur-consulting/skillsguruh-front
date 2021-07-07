@@ -4,7 +4,13 @@
       <b-row>
         <b-col class="mb-5 mb-sm-0">
           <div
-            class="d-flex flex-column flex-sm-row justify-content-between align-items-center mb-4"
+            class="
+              d-flex
+              flex-column flex-sm-row
+              justify-content-between
+              align-items-center
+              mb-4
+            "
           >
             <h6 class="mb-3 mb-sm-0">Questionnaires</h6>
             <div>
@@ -101,7 +107,10 @@
                   </b-tr>
                 </b-tbody>
               </b-table-simple>
-              <div class="p-3 d-flex justify-content-between">
+              <div
+                class="p-3 d-flex justify-content-between"
+                v-if="filter.length > 10"
+              >
                 <div class="fs12 text-muted">
                   Showing 1-10 of {{ filter.length }} items
                 </div>

@@ -155,7 +155,10 @@
                       </b-dropdown>
                     </div>
                   </div>
-                  <div class="py-3 d-flex justify-content-between">
+                  <div
+                    class="py-3 d-flex justify-content-between"
+                    v-if="filter.length > 10"
+                  >
                     <div class="fs12 text-muted">
                       Showing {{ perPage * currentPage - perPage + 1 }}-{{
                         perPage * currentPage

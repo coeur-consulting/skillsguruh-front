@@ -80,11 +80,9 @@
               <div class="font-weight-bold fs15 mb-2 text-capitalize">
                 {{ item.questiontemplate.title }}
               </div>
-              <div
-                class="font-weight-bold fs12 text-muted mb-2 text-capitalize"
-              >
+              <h6 class="fs12 text-muted mb-2 text-capitalize">
                 Course: {{ item.course.title }}
-              </div>
+              </h6>
               <div class="fs14 text-muted mb-2">
                 <span>Total score: </span>
                 <span>{{
@@ -94,20 +92,20 @@
                 }}</span>
               </div>
 
-              <div class="fs14 text-muted mb-2">
+              <div class="fs12 text-muted mb-2">
                 <span>Duration: </span> <span>{{ item.duration }} minutes</span>
               </div>
-              <div class="fs14 text-muted mb-2">
+              <div class="fs12 text-muted mb-2">
                 <span>Start date: </span>
                 <span>{{ item.start | moment("ll") }}</span>
               </div>
-              <div class="fs14 text-muted mb-3">
+              <div class="fs12 text-muted mb-3">
                 <span>Expiry date: </span>
                 <span>{{ item.end | moment("ll") }}</span>
               </div>
               <div
                 class="
-                  fs14
+                  fs12
                   text-muted
                   d-flex
                   justify-content-between
@@ -127,7 +125,10 @@
             </div>
           </b-col>
         </b-row>
-        <div class="p-3 d-flex justify-content-between">
+        <div
+          class="p-3 d-flex justify-content-between"
+          v-if="assessments.length > 10"
+        >
           <div class="fs12 text-muted">
             Showing {{ perPage * currentPage - perPage + 1 }}-{{
               perPage * currentPage

@@ -100,7 +100,10 @@
                   </b-tr>
                 </b-tbody>
               </b-table-simple>
-              <div class="p-3 d-flex justify-content-between">
+              <div
+                class="p-3 d-flex justify-content-between"
+                v-if="assessments.length > 10"
+              >
                 <div class="fs12 text-muted">
                   Showing {{ perPage * currentPage - perPage + 1 }}-{{
                     perPage * currentPage
