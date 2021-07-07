@@ -356,10 +356,10 @@ ol.subquest {
 }
 @media (max-width: 600px) {
   ::placeholder {
-    font-size: 13px;
+    font-size: x-small;
   }
   .reg .custom-control-label {
-    font-size: 11px;
+    font-size: xx-small;
     margin-top: 3px;
   }
   .bm-burger-button {
@@ -425,7 +425,7 @@ ol.subquest {
     & div {
       & div {
         & h4 {
-          font-size: 15px;
+          font-size: x-small;
         }
       }
     }
@@ -435,7 +435,7 @@ ol.subquest {
     & div {
       & div {
         & span {
-          font-size: 11px;
+          font-size: xx-small;
         }
       }
     }
@@ -443,14 +443,23 @@ ol.subquest {
   .bottom_bar {
     width: 100% !important;
   }
-  h4 {
+  h1 {
+    font-size: 1rem !important;
+  }
+  h2 {
     font-size: 0.9rem !important;
   }
-  h5 {
+  h3 {
     font-size: 0.8rem !important;
   }
+  h4 {
+    font-size: x-small !important;
+  }
+  h5 {
+    font-size: x-small !important;
+  }
   h6 {
-    font-size: 0.7rem !important;
+    font-size: x-small !important;
   }
   p {
     font-size: x-small;
@@ -465,23 +474,26 @@ ol.subquest {
   .line-1 {
     line-height: 1;
   }
-  .fs14 {
-    font-size: 12px !important;
+  .fs14,
+  .fs15,
+  .fs16 {
+    font-size: x-small !important;
   }
-  .fs12 {
-    font-size: 10.5px !important;
+  .fs12,
+  .fs11 {
+    font-size: xx-small !important;
   }
   .main_box {
     padding: 15px 0 !important;
   }
   .title {
-    font-size: 13.5px !important;
+    font-size: x-small !important;
   }
   .asked {
-    font-size: 11px;
+    font-size: xx-small;
   }
   .top_header div {
-    font-size: 12px !important;
+    font-size: xx-small !important;
   }
   .brad {
     border-radius: 0;
@@ -496,7 +508,7 @@ ol.subquest {
     font-size: 10px !important;
   }
   .description {
-    font-size: 14px !important;
+    font-size: x-small !important;
     line-height: 1.4;
   }
   .event_box {
@@ -521,7 +533,7 @@ ol.subquest {
     height: 30vh !important;
   }
   .viewevent {
-    font-size: 12px !important;
+    font-size: xx-small !important;
   }
   .img-s {
     width: 120px;
@@ -530,7 +542,7 @@ ol.subquest {
   }
   .feedname,
   .name {
-    font-size: 13px;
+    font-size: x-small;
   }
   td {
     min-width: 160px;
@@ -549,6 +561,13 @@ ol.subquest {
     height: 100% !important;
     overflow: auto;
   }
+  .card-header,
+  .card-header ul li {
+    font-size: xx-small;
+  }
+  .card-body {
+    font-size: xx-small;
+  }
   .library .card-header ul li a {
     color: #18696d;
     font-size: xx-small;
@@ -557,5 +576,32 @@ ol.subquest {
   }
   .library .card-header ul li:nth-child(2).nav-item {
     display: block;
+  }
+  .cours_tit {
+    font-size: 13px;
+    height: 35px;
+    color: rgba($color: #000000, $alpha: 0.74);
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+  }
+  .overview {
+    font-size: x-small;
+    height: 32px;
+  }
+  .overview-title {
+    font-size: x-small;
+    height: 32px;
+  }
+  .one-title {
+    font-size: x-small;
+  }
+  td,
+  th {
+    font-size: x-small !important;
   }
 }
