@@ -12,13 +12,19 @@
               mb-4
             "
           >
-            <h6 class="mb-3 mb-sm-0 text-capitalize">{{ title }}</h6>
+            <div class="text-left">
+              <h4 class="mb-3 mb-sm-0 text-capitalize">{{ course }}</h4>
+              <h6 class="mb-sm-0 text-capitalize text-muted">
+                {{ title }}
+              </h6>
+            </div>
+
             <div>
               <b-form-input
-                placeholder="Search"
+                placeholder="Search name"
                 size="sm"
                 type="search"
-                class="search"
+                class="search bg-white"
                 v-model="search"
               ></b-form-input>
             </div>
@@ -70,7 +76,7 @@
                       ><b-button-group size="sm">
                         <b-button
                           variant="light"
-                          @click="$bvModal.show('viewsheet')"
+                          @click="viewsheet(item)"
                           class="fs12 text-muted px-2"
                           >View response</b-button
                         >
@@ -123,8 +129,15 @@
       </b-row>
     </b-container>
 
-    <b-modal no-close-on-backdrop id="viewsheet" hide-footer centered size="lg">
-      <Approved :myquestionnaire="assessments.response" />
+    <b-modal
+      no-close-on-backdrop
+      id="viewsheet"
+      hide-footer
+      centered
+      size="lg"
+      v-if="result"
+    >
+      <Approved :myquestionnaire="result" />
     </b-modal>
   </div>
 </template>
@@ -134,13 +147,14 @@ export default {
   data() {
     return {
       id: null,
+      course: null,
       search: "",
       currentPage: 1,
       rows: null,
       perPage: 10,
       assessments: [],
       title: "",
-      result: [],
+      result: {},
       myquestionnaire: null,
     };
   },
@@ -175,6 +189,7 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
+            this.course = res.data.course.title;
             this.title = res.data.questiontemplate.title;
             this.assessments = res.data.assessmentresponse;
             this.rows = res.data.assessmentresponse.length;
@@ -186,6 +201,7 @@ export default {
     },
     viewsheet(value) {
       this.result = value;
+
       this.$bvModal.show("viewsheet");
     },
     update() {

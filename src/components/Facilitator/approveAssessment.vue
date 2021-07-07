@@ -1,10 +1,23 @@
 <template>
   <div class="p-3 bg-white">
     <b-form @submit.prevent="submit">
-      <b-container class="py-3 px-0 text-left" v-if="questionnaire.sections">
-        <div class="text-left">
+      <b-container
+        class="py-3 px-0 text-left"
+        v-if="questionnaire.sections.length"
+      >
+        <div class="d-flex justify-content-between">
           <h5 class="mb-4 text-center">{{ questionnaire.title }}</h5>
+          <div>
+            <h6 class="text-capitalize">{{ myquestionnaire.user.name }}</h6>
+            <p class="mb-1 text-muted fs12">
+              Student Score : {{ myquestionnaire.your_score }}
+            </p>
+            <p class="text-muted fs12">
+              Total Score : {{ myquestionnaire.total_score }}
+            </p>
+          </div>
         </div>
+
         <div>
           <div class="mb-4 border-bottom">
             <div
@@ -57,31 +70,139 @@
                       {{ question.hint }}</em
                     >
                   </div>
-                  <div class="d-flex justify-content-between">
-                    <div>
-                      <h6 class="mb-2">Your response</h6>
+                  <div
+                    class="
+                      d-flex
+                      justify-content-between
+                      align-items-start
+                      fs14
+                    "
+                  >
+                    <b-col cols="8">
+                      <h6 class="mb-2 fs13">Your response</h6>
                       <div v-if="question.response">
                         <p class="text-capitalize">{{ question.response }}</p>
                       </div>
 
                       <div v-if="question.responses.length">
-                        <ul v-for="(ite, id) in question.responses" :key="id">
-                          <li class="text-capitalize">{{ item.title }}</li>
+                        <ul class="">
+                          <li
+                            class="text-capitalize"
+                            v-for="(ite, id) in question.responses"
+                            :key="id"
+                          >
+                            {{ question.options[ite].value }}
+                          </li>
                         </ul>
                       </div>
-                    </div>
-                    <div>
-                      <div v-if="question.asAnswer" class="mb-2">
-                        <small>Correct answer</small> <br />
-                        <span class="text-capitalize">{{
-                          question.answer
-                        }}</span>
+                      <div v-if="question.score" class="text-muted fs13">
+                        <small>Your score</small> <br />
+                        <span>{{ question.result }}</span>
                       </div>
-                      <div v-if="question.asScore">
+                      <div v-if="question.addSubQuestion">
+                        <div
+                          v-for="(subquest, subId) in question.subQuestion"
+                          :key="subId"
+                        >
+                          <b-form-group
+                            :label="subquest.question"
+                            class="flex-1"
+                          >
+                            <div
+                              class="
+                                d-flex
+                                justify-content-between
+                                align-items-start
+                                fs14
+                              "
+                            >
+                              <b-col cols="8">
+                                <h6 class="mb-2 fs13">Your response</h6>
+                                <div v-if="subquest.response">
+                                  <p class="text-capitalize">
+                                    {{ subquest.response }}
+                                  </p>
+                                </div>
+
+                                <div v-if="subquest.responses.length">
+                                  <ul class="">
+                                    <li
+                                      class="text-capitalize"
+                                      v-for="(ite, id) in subquest.responses"
+                                      :key="id"
+                                    >
+                                      {{ subquest.options[ite].value }}
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div
+                                  v-if="subquest.score"
+                                  class="text-muted fs13"
+                                >
+                                  <small>Your score</small> <br />
+                                  <span>{{ subquest.result }}</span>
+                                </div>
+                              </b-col>
+                              <b-col cols="4">
+                                <div
+                                  v-if="
+                                    question.type == 'single' ||
+                                    question.type == 'checkbox'
+                                  "
+                                  class="mb-2"
+                                >
+                                  <div class="text-muted fs13">
+                                    <span>Correct answer</span> <br />
+                                    <ul class="pl-0 ml-0">
+                                      <li
+                                        class="text-capitalize"
+                                        v-for="(ite, id) in subquest.answers"
+                                        :key="id"
+                                      >
+                                        {{ ite.value }}
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                                <div
+                                  v-if="question.score"
+                                  class="text-muted fs13"
+                                >
+                                  <small>Total score</small> <br />
+                                  <span>{{ question.score }}</span>
+                                </div>
+                              </b-col>
+                            </div>
+                          </b-form-group>
+                        </div>
+                      </div>
+                    </b-col>
+                    <b-col cols="4">
+                      <div
+                        v-if="
+                          question.type == 'single' ||
+                          question.type == 'checkbox'
+                        "
+                        class="mb-2"
+                      >
+                        <div class="text-muted fs13">
+                          <span>Correct answer</span> <br />
+                          <ul class="pl-0 ml-0">
+                            <li
+                              class="text-capitalize"
+                              v-for="(ite, id) in question.answers"
+                              :key="id"
+                            >
+                              {{ ite.value }}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div v-if="question.score" class="text-muted fs13">
                         <small>Total score</small> <br />
                         <span>{{ question.score }}</span>
                       </div>
-                    </div>
+                    </b-col>
                   </div>
                 </b-form-group>
               </div>
@@ -106,23 +227,23 @@
                 >Next Section</b-button
               >
               <span class="ml-auto">
-                <b-button
+                <!-- <b-button
                   size="sm"
                   class="mr-3"
                   variant="lighter-green"
                   v-show="questionnaire.sections.length - 1 == section"
                   @click="saveforlater"
                   >Save for later</b-button
-                >
+                > -->
 
-                <b-button
+                <!-- <b-button
                   size="sm"
                   class=""
                   variant="dark-green"
                   v-show="questionnaire.sections.length - 1 == section"
                   type="submit"
                   >Submit</b-button
-                >
+                > -->
               </span>
             </div>
           </div>
@@ -205,7 +326,7 @@ export default {
       });
 
       var score = newarr.map((item) => {
-        if (item.asAnswer) {
+        if (this.$props.options.grading) {
           return item.score;
         }
       });
@@ -218,11 +339,11 @@ export default {
   methods: {
     getQuestionnaire() {
       if (this.myquest) {
-        var myquest = JSON.parse(this.$props.myquestionnaire.content);
+        var myquest = JSON.parse(this.$props.myquestionnaire.response);
 
         this.questionnaire.id = myquest.id;
         this.questionnaire.module_id = this.$props.myquestionnaire.module_id;
-        // this.questionnaire.module_name = myquest.module_name;
+
         this.questionnaire.course_id = this.$props.myquestionnaire.course_id;
         this.questionnaire.course_title = myquest.course_title;
         this.questionnaire.title = myquest.title;

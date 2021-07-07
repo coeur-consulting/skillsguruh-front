@@ -381,7 +381,7 @@
   </div>
 </template>
 <script>
-import { BellIcon, MailIcon } from "vue-feather-icons";
+import { BellIcon, MailIcon, DatabaseIcon } from "vue-feather-icons";
 import { PushRotate } from "vue-burger-menu";
 import Minichat from "../minichat";
 export default {
@@ -390,6 +390,7 @@ export default {
     MailIcon,
     PushRotate,
     Minichat,
+    DatabaseIcon,
   },
   data() {
     return {
