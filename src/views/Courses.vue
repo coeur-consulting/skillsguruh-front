@@ -103,7 +103,7 @@
                         {{ item.title }}
                       </h6>
                       <div
-                        class="fs13"
+                        class="fs13 overview"
                         v-html="item.courseoutline.overview"
                       ></div>
                     </div>
