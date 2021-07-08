@@ -1049,16 +1049,7 @@ export default {
         (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
       );
     },
-    handleSubQuestion(idx, index, subId, count) {
-      this.questionnaire.sections[idx].questions[index].subQuestion[
-        subId
-      ].responses = [];
-      for (let i = 0; i < count; i++) {
-        this.questionnaire.sections[idx].questions[index].subQuestion[
-          subId
-        ].responses.push({ response: "" });
-      }
-    },
+
     addsection() {
       this.questionnaire.sections[
         this.questionnaire.sections.length - 1
