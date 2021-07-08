@@ -72,7 +72,7 @@
                     </div>
 
                     <div v-if="question.responses.length">
-                      <ul class="">
+                      <ul class="" v-if="question.options.length">
                         <li
                           class="text-capitalize"
                           v-for="(ite, id) in question.responses"
@@ -109,7 +109,7 @@
                               </div>
 
                               <div v-if="subquest.responses.length">
-                                <ul class="">
+                                <ul class="" v-if="subquest.options.length">
                                   <li
                                     class="text-capitalize"
                                     v-for="(ite, id) in subquest.responses"
