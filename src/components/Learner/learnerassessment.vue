@@ -210,7 +210,7 @@ export default {
     //   this.getQuestionnaire();
     // }
     this.getLibrary();
-    this.getAssessments();
+    // this.getAssessments();
     this.addAssessments();
     this.getResponses();
   },
