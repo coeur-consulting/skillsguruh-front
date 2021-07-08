@@ -307,27 +307,36 @@ export default {
     },
 
     getToken() {
-      var data = {
-        client_id: "1000.CNHQH5U129TSKU1BJTFVYPQZALHGFR",
-        client_secret: "35ceda610ed59850407016ecbb0fb8a19e426cfa1f",
-        grant_type: "refresh_token",
-        refresh_token:
-          "1000.8a95402783eb492295ffa2b2ef3c16bd.50f5c77ad80f0f76757165079e58d90c",
+      const headers = {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Access-Control-Allow-Origin": "*",
       };
+      var bodyFormData = new FormData();
+
+      bodyFormData.append(
+        "refresh_token",
+        "1000.8a95402783eb492295ffa2b2ef3c16bd.50f5c77ad80f0f76757165079e58d90c"
+      );
+      bodyFormData.append("client_id", "1000.CNHQH5U129TSKU1BJTFVYPQZALHGFR");
+      bodyFormData.append("grant_type", "refresh_token");
+      bodyFormData.append(
+        "client_secret",
+        "35ceda610ed59850407016ecbb0fb8a19e426cfa1f"
+      );
 
       this.$http
-        .post("https://accounts.zoho.com/oauth/v2/token", data, {
-          header: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        })
+        .post(
+          "https://cors-anywhere.herokuapp.com/https://accounts.zoho.com/oauth/v2/token",
+          bodyFormData,
+          { headers: headers }
+        )
         .then((res) => {
           if (res.status == 200) {
             console.log(
               "🚀 ~ file: user.controller.js ~ line 18 ~ axios.post ~ res",
               res.data
             );
-            return res.data;
+
             //  addContact(res.access_token, emailvalue);
           }
         })

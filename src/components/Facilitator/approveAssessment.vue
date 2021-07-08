@@ -91,7 +91,9 @@
                             v-for="(ite, id) in question.responses"
                             :key="id"
                           >
-                            {{ question.options[ite].value }}
+                            <span v-if="ite">
+                              {{ question.options[ite].value }}</span
+                            >
                           </li>
                         </ul>
                       </div>
@@ -131,7 +133,9 @@
                                       v-for="(ite, id) in subquest.responses"
                                       :key="id"
                                     >
-                                      {{ subquest.options[ite].value }}
+                                      <span v-if="ite">
+                                        {{ subquest.options[ite].value }}</span
+                                      >
                                     </li>
                                   </ul>
                                 </div>

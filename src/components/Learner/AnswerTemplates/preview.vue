@@ -78,7 +78,9 @@
                           v-for="(ite, id) in question.responses"
                           :key="id"
                         >
-                          {{ question.options[ite].value }}
+                          <span v-if="ite">
+                            {{ question.options[ite].value }}
+                          </span>
                         </li>
                       </ul>
                     </div>
@@ -108,14 +110,22 @@
                                 </p>
                               </div>
 
-                              <div v-if="subquest.responses.length">
+                              <div
+                                v-if="
+                                  subquest.responses.length &&
+                                  (question.type == 'single' ||
+                                    question.type == 'checkbox')
+                                "
+                              >
                                 <ul class="" v-if="subquest.options.length">
                                   <li
                                     class="text-capitalize"
                                     v-for="(ite, id) in subquest.responses"
                                     :key="id"
                                   >
-                                    {{ subquest.options[ite].value }}
+                                    <span v-if="ite">
+                                      {{ subquest.options[ite].value }}</span
+                                    >
                                   </li>
                                 </ul>
                               </div>
