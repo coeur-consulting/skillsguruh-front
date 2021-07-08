@@ -160,7 +160,7 @@
                     height: 150,
                     menubar: false,
 
-                    toolbar: ' formatselect | bold italic ',
+                    toolbar: ' formatselect | bold italic '
                   }"
                 />
               </b-form-group>
@@ -704,7 +704,7 @@
                     height: 150,
                     menubar: false,
 
-                    toolbar: ' formatselect | bold italic  ',
+                    toolbar: ' formatselect | bold italic  '
                   }"
                 />
               </b-form-group>
@@ -1137,7 +1137,9 @@
           network="facebook"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`"
+          :description="
+            `I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1150,7 +1152,9 @@
           network="twitter"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`"
+          :description="
+            `I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1163,7 +1167,9 @@
           network="whatsApp"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`"
+          :description="
+            `I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1185,7 +1191,9 @@
           network="Telegram"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`"
+          :description="
+            `I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1205,7 +1213,7 @@
     <b-container fluid class="pr-sm-0">
       <div>
         <b-row v-if="courses.length">
-          <b-col sm="8" class="my_courses">
+          <b-col :md="sideOpen ? 8 : 12" class="my_courses main_box">
             <div class="d-block d-sm-flex justify-content-between py-3">
               <div class="">
                 <h4>Courses</h4>
@@ -1273,42 +1281,43 @@
                 </div>
               </div>
             </div>
-            <b-row v-if="showCourse">
-              <b-col
-                sm="4"
-                class="mb-4 side_box"
-                v-for="(course, index) in filteredCourse"
-                :key="index"
-              >
-                <div
-                  class="
-                    shadow-sm
-                    p-3
-                    bg-white
-                    text-left
-                    h-100
-                    cursor-pointer
-                    position-relative
-                    d-flex
-                    flex-column
-                  "
-                  @click="showcourse(course)"
+            <div v-if="showCourse">
+              <b-row class="w-100">
+                <b-col
+                  :sm="sideOpen ? 4 : 3"
+                  class="mb-4 side_box"
+                  v-for="(course, index) in filteredCourse"
+                  :key="index"
                 >
-                  <div class="flex-1">
-                    <b-dropdown
-                      size="sm"
-                      variant="transparent"
-                      no-caret
-                      class="no-focus dots"
-                    >
-                      <template #button-content>
-                        <b-icon
-                          icon="three-dots-vertical"
-                          class="position-absolute"
-                        ></b-icon>
-                      </template>
+                  <div
+                    class="
+                      shadow-sm
+                      p-3
+                      bg-white
+                      text-left
+                      h-100
+                      cursor-pointer
+                      position-relative
+                      d-flex
+                      flex-column
+                    "
+                    @click="showcourse(course)"
+                  >
+                    <div class="flex-1">
+                      <b-dropdown
+                        size="sm"
+                        variant="transparent"
+                        no-caret
+                        class="no-focus dots"
+                      >
+                        <template #button-content>
+                          <b-icon
+                            icon="three-dots-vertical"
+                            class="position-absolute"
+                          ></b-icon>
+                        </template>
 
-                      <!-- <b-dropdown-item
+                        <!-- <b-dropdown-item
                       class="fs12"
                       @click="
                         $router.push(
@@ -1317,181 +1326,200 @@
                       "
                       >View outline</b-dropdown-item
                     > -->
-                      <b-dropdown-item
-                        class="fs12"
-                        @click="
-                          $router.push(
-                            `/administrator/modules?showing=${course.title}`
-                          )
+                        <b-dropdown-item
+                          class="fs12"
+                          @click="
+                            $router.push(
+                              `/administrator/modules?showing=${course.title}`
+                            )
+                          "
+                          >Add resources</b-dropdown-item
+                        >
+
+                        <b-dropdown-item class="fs12" @click="edit(course)"
+                          >Edit course info</b-dropdown-item
+                        >
+                        <b-dropdown-item
+                          class="fs12"
+                          @click="drop(course.id, index)"
+                          >Drop course</b-dropdown-item
+                        >
+                      </b-dropdown>
+
+                      <b-iconstack font-scale="2.5" class="mr-2 mb-2">
+                        <b-icon
+                          stacked
+                          icon="circle-fill"
+                          :style="
+                            `color:${
+                              JSON.parse(course.courseoutline.knowledge_areas)
+                                .color
+                            }`
+                          "
+                        ></b-icon>
+                        <b-icon
+                          stacked
+                          :icon="
+                            JSON.parse(course.courseoutline.knowledge_areas)
+                              .icon
+                          "
+                          scale="0.5"
+                          variant="light"
+                        ></b-icon>
+                      </b-iconstack>
+
+                      <div class="course_title cours_tit mb-1">
+                        {{ course.title }}
+                      </div>
+                      <div class="mb-3">
+                        <span class="fs13 overview text-muted">
+                          {{ course.description }}</span
+                        >
+                      </div>
+                      <div
+                        class="
+                          course_fac
+                          d-flex
+                          align-items-center
+                          mb-1
+                          text-capitalize
+                          fs13
                         "
-                        >Add resources</b-dropdown-item
+                        v-if="sortfacilitators(course).length == 1"
                       >
-
-                      <b-dropdown-item class="fs12" @click="edit(course)"
-                        >Edit course info</b-dropdown-item
-                      >
-                      <b-dropdown-item
-                        class="fs12"
-                        @click="drop(course.id, index)"
-                        >Drop course</b-dropdown-item
-                      >
-                    </b-dropdown>
-
-                    <b-iconstack font-scale="2.5" class="mr-2 mb-2">
-                      <b-icon
-                        stacked
-                        icon="circle-fill"
-                        :style="`color:${
-                          JSON.parse(course.courseoutline.knowledge_areas).color
-                        }`"
-                      ></b-icon>
-                      <b-icon
-                        stacked
-                        :icon="
-                          JSON.parse(course.courseoutline.knowledge_areas).icon
+                        <b-icon
+                          icon="display"
+                          variant="dark-green"
+                          class="text-muted mr-2"
+                        ></b-icon>
+                        <span class="fs13">
+                          {{ sortfacilitators(course).join(" ") }}</span
+                        >
+                      </div>
+                      <div
+                        class="
+                          course_fac
+                          d-flex
+                          align-items-center
+                          mb-1
+                          text-capitalize
+                          fs13
                         "
-                        scale="0.5"
-                        variant="light"
-                      ></b-icon>
-                    </b-iconstack>
-
-                    <div class="course_title cours_tit mb-1">
-                      {{ course.title }}
-                    </div>
-                    <div class="mb-3">
-                      <span class="fs13 overview text-muted">
-                        {{ course.description }}</span
+                        v-else
                       >
-                    </div>
-                    <div
-                      class="
-                        course_fac
-                        d-flex
-                        align-items-center
-                        mb-1
-                        text-capitalize
-                        fs13
-                      "
-                      v-if="sortfacilitators(course).length == 1"
-                    >
-                      <b-icon
-                        icon="display"
-                        variant="dark-green"
-                        class="text-muted mr-2"
-                      ></b-icon>
-                      <span class="fs13">
-                        {{ sortfacilitators(course).join(" ") }}</span
-                      >
-                    </div>
-                    <div
-                      class="
-                        course_fac
-                        d-flex
-                        align-items-center
-                        mb-1
-                        text-capitalize
-                        fs13
-                      "
-                      v-else
-                    >
-                      <b-icon
-                        icon="display"
-                        variant="dark-green"
-                        class="text-muted mr-2"
-                      ></b-icon>
-                      <span class="fs13"> Multiple Facilitators</span>
-                    </div>
+                        <b-icon
+                          icon="display"
+                          variant="dark-green"
+                          class="text-muted mr-2"
+                        ></b-icon>
+                        <span class="fs13"> Multiple Facilitators</span>
+                      </div>
 
-                    <div
-                      class="
-                        course_time
-                        d-flex
-                        text-capitalize
-                        align-items-center
-                        mb-1
-                        fs13
-                      "
-                    >
-                      <b-icon
-                        icon="calendar"
-                        variant="dark-green"
-                        class="text-muted mr-2"
-                      ></b-icon>
-                      <div class="">
-                        <div class="text-capitalize">
-                          {{ course.courseoutline.duration }}
+                      <div
+                        class="
+                          course_time
+                          d-flex
+                          text-capitalize
+                          align-items-center
+                          mb-1
+                          fs13
+                        "
+                      >
+                        <b-icon
+                          icon="calendar"
+                          variant="dark-green"
+                          class="text-muted mr-2"
+                        ></b-icon>
+                        <div class="">
+                          <div class="text-capitalize">
+                            {{ course.courseoutline.duration }}
+                          </div>
                         </div>
+                      </div>
+
+                      <div
+                        v-if="course"
+                        class="course_modules align-items-center mb-1 fs13"
+                      >
+                        <b-icon
+                          icon="layers"
+                          variant="dark-green"
+                          class="text-muted mr-1"
+                        ></b-icon>
+                        <span class="fs13"> {{ sortmodules(course) }}</span>
+                        Modules
+                      </div>
+                      <div>
+                        <span
+                          class="fs13 text-muted d-flex justify-content-between"
+                          ><span
+                            ><b-icon
+                              class="mr-2"
+                              :icon="
+                                course.type == 'free'
+                                  ? 'unlock-fill'
+                                  : 'lock-fill'
+                              "
+                            ></b-icon>
+                            <span class="text-capitalize">{{
+                              course.type
+                            }}</span></span
+                          >
+                          <span v-if="course.type == 'paid'">
+                            {{ course.amount | currencyFormat }}</span
+                          >
+                        </span>
                       </div>
                     </div>
 
-                    <div
-                      v-if="course"
-                      class="course_modules align-items-center mb-1 fs13"
-                    >
-                      <b-icon
-                        icon="layers"
-                        variant="dark-green"
-                        class="text-muted mr-1"
-                      ></b-icon>
-                      <span class="fs13"> {{ sortmodules(course) }}</span>
-                      Modules
-                    </div>
-                    <div>
-                      <span
-                        class="fs13 text-muted d-flex justify-content-between"
+                    <div class="pt-3">
+                      <div class="d-flex justify-content-between fs13">
+                        <span>Resources upload</span
                         ><span
-                          ><b-icon
-                            class="mr-2"
-                            :icon="
-                              course.type == 'free'
-                                ? 'unlock-fill'
-                                : 'lock-fill'
-                            "
-                          ></b-icon>
-                          <span class="text-capitalize">{{
-                            course.type
-                          }}</span></span
+                          >{{
+                            Math.floor(
+                              getProgress(
+                                course.courseoutline.modules,
+                                course.modules
+                              )
+                            ) || 0
+                          }}%</span
                         >
-                        <span v-if="course.type == 'paid'">
-                          {{ course.amount | currencyFormat }}</span
-                        >
-                      </span>
-                    </div>
-                  </div>
-
-                  <div class="pt-3">
-                    <div class="d-flex justify-content-between fs13">
-                      <span>Resources upload</span
-                      ><span
-                        >{{
+                      </div>
+                      <b-progress
+                        :value="
                           Math.floor(
                             getProgress(
                               course.courseoutline.modules,
                               course.modules
                             )
-                          ) || 0
-                        }}%</span
-                      >
-                    </div>
-                    <b-progress
-                      :value="
-                        Math.floor(
-                          getProgress(
-                            course.courseoutline.modules,
-                            course.modules
                           )
-                        )
-                      "
-                      :max="100"
-                      show-value
-                      height=".8rem"
-                      class="mb-3"
-                      variant="dark-green"
-                    ></b-progress>
+                        "
+                        :max="100"
+                        show-value
+                        height=".8rem"
+                        class="mb-3"
+                        variant="dark-green"
+                      ></b-progress>
+                    </div>
                   </div>
+                </b-col>
+              </b-row>
+              <div class="py-3 d-flex justify-content-between" v-if="rows > 12">
+                <div class="fs12 text-muted">
+                  Showing 1-10 of {{ filteredCourse.length }} items
                 </div>
-              </b-col>
-            </b-row>
+                <b-pagination
+                  pills
+                  size="sm"
+                  variant="dark-green"
+                  align="right"
+                  v-model="currentPage"
+                  :total-rows="rows"
+                  :per-page="perPage"
+                ></b-pagination>
+              </div>
+            </div>
             <b-row v-else>
               <b-col sm="4" class="mb-4">
                 <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
@@ -1622,7 +1650,10 @@
             </b-row>
           </b-col>
 
-          <b-col sm="4" class="sidebar d-none d-sm-block">
+          <b-col md="4" v-show="sideOpen" class="sidebar toggleSide">
+            <span @click="sideOpen = !sideOpen" class="sideopen">
+              <b-icon :icon="sideOpen ? 'arrow-right' : 'arrow-left'"></b-icon>
+            </span>
             <div
               v-if="!course"
               class="h-100 d-flex align-items-center justify-content-center"
@@ -1644,9 +1675,11 @@
                     <b-icon
                       stacked
                       icon="circle-fill"
-                      :style="`color:${
-                        JSON.parse(course.courseoutline.knowledge_areas).color
-                      }`"
+                      :style="
+                        `color:${
+                          JSON.parse(course.courseoutline.knowledge_areas).color
+                        }`
+                      "
                     ></b-icon>
                     <b-icon
                       stacked
@@ -2058,7 +2091,7 @@
                           v-if="item.facilitator_id != null"
                           >{{
                             facilitators.find(
-                              (val) => val.id == item.facilitator_id
+                              val => val.id == item.facilitator_id
                             ).name
                           }}</span
                         >
@@ -2112,9 +2145,11 @@
                 <b-icon
                   stacked
                   icon="circle-fill"
-                  :style="`color:${
-                    JSON.parse(course.courseoutline.knowledge_areas).color
-                  }`"
+                  :style="
+                    `color:${
+                      JSON.parse(course.courseoutline.knowledge_areas).color
+                    }`
+                  "
                 ></b-icon>
                 <b-icon
                   stacked
@@ -2501,7 +2536,7 @@
                   <div>
                     <span class="fs14 mr-2">Facilitator: </span>
                     <span class="text-sm" v-if="item.facilitator_id != null">{{
-                      facilitators.find((val) => val.id == item.facilitator_id)
+                      facilitators.find(val => val.id == item.facilitator_id)
                         .name
                     }}</span>
                     <span v-else class="text-sm">Unavailable</span>
@@ -2522,6 +2557,7 @@ import Editor from "@tinymce/tinymce-vue";
 export default {
   data() {
     return {
+      sideOpen: true,
       current_schedule: 0,
       search: "",
       insight: [],
@@ -2536,9 +2572,9 @@ export default {
         url: "",
         users: [
           {
-            email: "",
-          },
-        ],
+            email: ""
+          }
+        ]
       },
       disable: false,
       message: "",
@@ -2553,7 +2589,7 @@ export default {
           description: "",
           cover: "",
           type: "group",
-          amount: null,
+          amount: null
         },
         outline: {
           overview: "",
@@ -2563,11 +2599,11 @@ export default {
           faqs: [
             {
               question: "",
-              answer: "",
-            },
+              answer: ""
+            }
           ],
           certification: null,
-          additional_info: "",
+          additional_info: ""
         },
         schedule: [
           {
@@ -2580,20 +2616,23 @@ export default {
             modules: [],
             start_time: new Date(),
             end_time: new Date(),
-            facilitator_id: null,
-          },
-        ],
+            facilitator_id: null
+          }
+        ]
       },
 
       course_type: "",
       recent: false,
       trending: false,
       alpha: false,
+      currentPage: 1,
+      rows: null,
+      perPage: 12
     };
   },
   components: {
     Upload,
-    Editor,
+    Editor
   },
   mounted() {
     this.getcourses();
@@ -2607,13 +2646,18 @@ export default {
   },
   computed: {
     filteredCourse() {
-      var title = this.courses.filter(
-        (item) =>
-          item.title.toLowerCase().includes(this.search.toLowerCase()) ||
-          JSON.parse(item.courseoutline.knowledge_areas)
-            .value.toLowerCase()
-            .includes(this.search)
-      );
+      var title = this.courses
+        .slice(
+          this.perPage * this.currentPage - this.perPage,
+          this.perPage * this.currentPage
+        )
+        .filter(
+          item =>
+            item.title.toLowerCase().includes(this.search.toLowerCase()) ||
+            JSON.parse(item.courseoutline.knowledge_areas)
+              .value.toLowerCase()
+              .includes(this.search)
+        );
       if (this.alpha) {
         title.sort((a, b) => {
           return a.title.localeCompare(b.title);
@@ -2621,11 +2665,11 @@ export default {
       }
       var courseType;
       if (this.course_type == "free") {
-        courseType = title.filter((item) => item.type == "free");
+        courseType = title.filter(item => item.type == "free");
       } else if (this.course_type == "paid") {
-        courseType = title.filter((item) => item.type == "paid");
+        courseType = title.filter(item => item.type == "paid");
       } else if (this.course_type == "group") {
-        courseType = title.filter((item) => item.type == "group");
+        courseType = title.filter(item => item.type == "group");
       } else {
         courseType = title;
       }
@@ -2634,7 +2678,7 @@ export default {
         return courseType.slice().reverse();
       }
       return courseType;
-    },
+    }
   },
   methods: {
     selectall(id, val, arr) {
@@ -2646,13 +2690,13 @@ export default {
     },
     addinvite() {
       this.inviteUsers.users.push({
-        email: "",
+        email: ""
       });
     },
-    onCopy: function (e) {
+    onCopy: function(e) {
       alert("You just copied the following text to the clipboard: " + e.text);
     },
-    onError: function (e) {
+    onError: function(e) {
       alert("Failed to copy the text to the clipboard");
       console.log(e);
     },
@@ -2662,10 +2706,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Invite Sent");
             this.$bvModal.hide("courselink");
@@ -2674,9 +2718,9 @@ export default {
               title: "",
               users: [
                 {
-                  email: "",
-                },
-              ],
+                  email: ""
+                }
+              ]
             };
           }
         })
@@ -2696,27 +2740,26 @@ export default {
           this.course.title.bold() +
           ", Check it out here",
         url:
-          "https://skillsguruh.com/learner/courses/?course_id=" +
-          this.course.id,
+          "https://skillsguruh.com/learner/courses/?course_id=" + this.course.id
       };
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Added to feeds ");
             this.$bvModal.hide("share");
 
             this.feed = {
               media: "",
-              message: "",
+              message: ""
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -2732,8 +2775,8 @@ export default {
 
       var resources = b;
 
-      modules.forEach((mod) => {
-        var val = resources.filter((item) => item.module == mod).length;
+      modules.forEach(mod => {
+        var val = resources.filter(item => item.module == mod).length;
 
         if (val) {
           count++;
@@ -2749,8 +2792,8 @@ export default {
         return 0;
       }
       if (media == "document") {
-        arr.forEach((val) => {
-          JSON.parse(val.modules).forEach((item) => {
+        arr.forEach(val => {
+          JSON.parse(val.modules).forEach(item => {
             if (
               item.file_type.toLowerCase() == media.toLowerCase() ||
               item.file_type.toLowerCase() == "template"
@@ -2760,8 +2803,8 @@ export default {
           });
         });
       } else {
-        arr.forEach((val) => {
-          JSON.parse(val.modules).forEach((item) => {
+        arr.forEach(val => {
+          JSON.parse(val.modules).forEach(item => {
             if (item.file_type.toLowerCase() == media.toLowerCase()) {
               newarr.push(item);
             }
@@ -2773,6 +2816,7 @@ export default {
     },
     showcourse(val) {
       this.course = val;
+      this.sideOpen = true;
       if (window.innerWidth < 600) {
         this.$bvModal.show("mobile-course");
       }
@@ -2788,10 +2832,10 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      var newArr = schedule.map((val) => {
+      var newArr = schedule.map(val => {
         if (val.facilitator_id) {
           var fac = this.facilitators.find(
-            (item) => item.id == val.facilitator_id
+            item => item.id == val.facilitator_id
           );
           if (fac) {
             return fac.name;
@@ -2806,7 +2850,7 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      return schedule.map((item) => {
+      return schedule.map(item => {
         var res = ` ${item.day} ${this.$moment(
           new Date("2021-05-18 " + item.start_time)
         ).format("LT")}`;
@@ -2827,7 +2871,7 @@ export default {
         modules: [],
         start_time: new Date(),
         end_time: new Date(),
-        facilitator_id: null,
+        facilitator_id: null
       });
       this.current_schedule = this.detail.schedule.length - 1;
     },
@@ -2843,7 +2887,7 @@ export default {
     addfaq() {
       this.detail.outline.faqs.push({
         question: "",
-        answer: "",
+        answer: ""
       });
     },
 
@@ -2851,15 +2895,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/admin-get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -2868,16 +2912,17 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/courses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.courses = res.data;
             this.showCourse = true;
+            this.rows = res.data.length;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -2886,10 +2931,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/courses`, this.detail, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.$toast.success("Course created");
             this.disable = false;
@@ -2902,7 +2947,7 @@ export default {
                 description: "",
                 cover: "",
                 type: "group",
-                amount: null,
+                amount: null
               },
               outline: {
                 overview: "",
@@ -2912,11 +2957,11 @@ export default {
                 faqs: [
                   {
                     question: "",
-                    answer: "",
-                  },
+                    answer: ""
+                  }
                 ],
                 certification: null,
-                additional_info: "",
+                additional_info: ""
               },
               schedule: [
                 {
@@ -2929,13 +2974,13 @@ export default {
                   modules: [],
                   start_time: new Date(),
                   end_time: new Date(),
-                  facilitator_id: null,
-                },
-              ],
+                  facilitator_id: null
+                }
+              ]
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.disable = false;
           this.$toast.error(err.response.data.message);
         });
@@ -2948,7 +2993,7 @@ export default {
           description: val.description,
           cover: val.cover,
           type: val.type,
-          amount: val.amount,
+          amount: val.amount
         },
         outline: {
           overview: val.courseoutline.overview,
@@ -2957,9 +3002,9 @@ export default {
           modules: JSON.parse(val.courseoutline.modules),
           faqs: JSON.parse(val.courseoutline.faqs),
           certification: val.courseoutline.certification,
-          additional_info: val.courseoutline.additional_info,
+          additional_info: val.courseoutline.additional_info
         },
-        schedule: val.courseschedule.map((item) => {
+        schedule: val.courseschedule.map(item => {
           return {
             id: item.id,
             all: item.all,
@@ -2971,9 +3016,9 @@ export default {
             modules: JSON.parse(item.modules),
             start_time: item.start_time,
             end_time: item.end_time,
-            facilitator_id: item.facilitator_id,
+            facilitator_id: item.facilitator_id
           };
-        }),
+        })
       };
 
       this.$bvModal.show("update");
@@ -2986,11 +3031,11 @@ export default {
           this.detail,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Update successful");
             this.$bvModal.hide("update");
@@ -3004,7 +3049,7 @@ export default {
                 description: "",
                 cover: "",
                 type: "group",
-                cost: "",
+                cost: ""
               },
               outline: {
                 overview: "",
@@ -3014,11 +3059,11 @@ export default {
                 faqs: [
                   {
                     question: "",
-                    answer: "",
-                  },
+                    answer: ""
+                  }
                 ],
                 certification: null,
-                additional_info: "",
+                additional_info: ""
               },
               schedule: [
                 {
@@ -3031,40 +3076,40 @@ export default {
                   modules: [],
                   start_time: new Date(),
                   end_time: new Date(),
-                  facilitator_id: null,
-                },
-              ],
+                  facilitator_id: null
+                }
+              ]
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.disable = false;
           this.$toast.error(err.response.data.message);
         });
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/courses/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.courses.splice(index, 1);
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.disable = false;
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -3083,6 +3128,10 @@ export default {
   width: 25%;
   overflow-y: scroll;
 }
+.main_box {
+  transition: 0.5s;
+}
+
 .course_title {
   font-weight: 500;
 }
@@ -3124,7 +3173,21 @@ p {
   text-overflow: ellipsis;
   line-height: 1.3;
 }
-
+.igm {
+  width: 30px !important;
+  height: auto;
+  object-fit: contain;
+}
+.sideopen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 2px 4px;
+  background: var(--lighter-green);
+  color: #333;
+  font-size: 13px;
+  cursor: pointer;
+}
 @media (max-width: 600px) {
   .search {
     width: 75%;

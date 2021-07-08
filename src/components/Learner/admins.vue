@@ -126,7 +126,7 @@
               </b-table-simple>
               <div
                 class="p-3 d-flex justify-content-between"
-                v-if="users.length > 10"
+                v-if="rows> 10"
               >
                 <div class="fs12 text-muted">
                   Showing 1-10 of {{ users.length }} items

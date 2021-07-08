@@ -1,8 +1,8 @@
 <template>
   <div>
     <b-container fluid class="">
-      <b-row v-if="courses.length">
-        <b-col sm="8" class="my_courses px-3 bg-light">
+      <b-row v-if="courses.length" class="w-100 h-100">
+        <b-col :md="sideOpen ? 8 : 12" class="my_courses main_box bg-light">
           <div
             class="d-flex flex-column flex-sm-row justify-content-between py-4"
           >
@@ -56,107 +56,116 @@
               </div>
             </div>
           </div>
-          <div v-if="showCourse" class="main-course">
-            <b-row>
-              <b-col
-                sm="4"
-                class="mb-3 side_box"
-                v-for="(item, index) in filteredCourse"
-                :key="index"
-              >
-                <div
-                  class="course border cursor-pointer"
-                  @click="showcourse(item)"
+          <div v-if="showCourse">
+            <div class="main-course">
+              <b-row>
+                <b-col
+                  :sm="sideOpen ? 4 : 3"
+                  class="mb-3 side_box"
+                  v-for="(item, index) in filteredCourse"
+                  :key="index"
                 >
                   <div
-                    class="course_img"
-                    :style="{
-                      backgroundImage: `url(${item.cover})`,
-                    }"
-                  ></div>
-                  <div class="course_text">
-                    <div class="d-flex justify-content-between">
-                      <span
-                        class="px-2 py-1 rounded-pill text-white fs11"
-                        :style="{
-                          backgroundColor: JSON.parse(
-                            item.courseoutline.knowledge_areas
-                          ).color,
-                        }"
-                      >
-                        <b-icon
-                          class="mr-2"
-                          :icon="
-                            JSON.parse(item.courseoutline.knowledge_areas).icon
-                          "
-                        ></b-icon>
-                        <span>{{
-                          JSON.parse(item.courseoutline.knowledge_areas).value
-                        }}</span></span
-                      >
-                      <span class="text-capitalize fs11">{{ item.type }}</span>
-                    </div>
-                    <div class="border-bottom pt-3 text-left">
-                      <h6
-                        class="font-weight-bold text-capitalize overview-title"
-                      >
-                        {{ item.title }}
-                      </h6>
-                      <div
-                        class="fs13 overview"
-                        v-html="item.courseoutline.overview"
-                      ></div>
-                    </div>
-                    <div class="info fs11">
-                      <div class="d-flex">
-                        <div class="mr-2">
-                          <b-icon icon="people" class="mr-1"></b-icon>
-                          <span
-                            >{{ item.enroll ? item.enroll.count : 0 }}+</span
-                          >
-                        </div>
-                        <div class="mr-3">
-                          <b-icon icon="eye" class="mr-1"></b-icon>
-                          <span
-                            >{{
-                              item.viewcount ? item.viewcount.count : 0
-                            }}
-                            +</span
-                          >
-                        </div>
-                        <div>
+                    class="course border cursor-pointer"
+                    @click="showcourse(item)"
+                  >
+                    <div
+                      class="course_img"
+                      :style="{
+                        backgroundImage: `url(${item.cover})`,
+                      }"
+                    ></div>
+                    <div class="course_text">
+                      <div class="d-flex justify-content-between">
+                        <span
+                          class="px-2 py-1 rounded-pill text-white fs11"
+                          :style="{
+                            backgroundColor: JSON.parse(
+                              item.courseoutline.knowledge_areas
+                            ).color,
+                          }"
+                        >
                           <b-icon
-                            icon="star-fill"
-                            style="color: gold"
-                            class="mr-1"
+                            class="mr-2"
+                            :icon="
+                              JSON.parse(item.courseoutline.knowledge_areas)
+                                .icon
+                            "
                           ></b-icon>
-                          <span>{{ item.review.length }} reviews</span>
-                        </div>
+                          <span>{{
+                            JSON.parse(item.courseoutline.knowledge_areas).value
+                          }}</span></span
+                        >
+                        <span class="text-capitalize fs11">{{
+                          item.type
+                        }}</span>
                       </div>
+                      <div class="border-bottom pt-3 text-left">
+                        <h6
+                          class="
+                            font-weight-bold
+                            text-capitalize
+                            overview-title
+                          "
+                        >
+                          {{ item.title }}
+                        </h6>
+                        <div
+                          class="fs13 overview"
+                          v-html="item.courseoutline.overview"
+                        ></div>
+                      </div>
+                      <div class="info fs11">
+                        <div class="d-flex">
+                          <div class="mr-2">
+                            <b-icon icon="people" class="mr-1"></b-icon>
+                            <span
+                              >{{ item.enroll ? item.enroll.count : 0 }}+</span
+                            >
+                          </div>
+                          <div class="mr-3">
+                            <b-icon icon="eye" class="mr-1"></b-icon>
+                            <span
+                              >{{
+                                item.viewcount ? item.viewcount.count : 0
+                              }}
+                              +</span
+                            >
+                          </div>
+                          <div>
+                            <b-icon
+                              icon="star-fill"
+                              style="color: gold"
+                              class="mr-1"
+                            ></b-icon>
+                            <span>{{ item.review.length }} reviews</span>
+                          </div>
+                        </div>
 
-                      <b-avatar size="sm" variant="light" :src="item.cover">
-                      </b-avatar>
+                        <b-avatar size="sm" variant="light" :src="item.cover">
+                        </b-avatar>
+                      </div>
                     </div>
                   </div>
+                </b-col>
+              </b-row>
+              <div class="p-3 d-flex justify-content-between" v-if="rows > 10">
+                <div class="fs12 text-muted">
+                  Showing {{ perPage * currentPage - perPage + 1 }}-{{
+                    perPage * currentPage
+                  }}
+                  of {{ courses.length }} items
                 </div>
-              </b-col>
-            </b-row>
-            <div class="p-3 d-flex justify-content-between"  v-if="courses.length > 10">
-              <div class="fs12 text-muted">
-                Showing {{ perPage * currentPage - perPage + 1 }}-{{
-                  perPage * currentPage
-                }}
-                of {{ courses.length }} items
+                <b-pagination
+                  pills
+                  size="sm"
+                  variant="dark-green"
+                  align="right"
+                  v-model="currentPage"
+                  :total-rows="rows"
+                  :per-page="perPage"
+                ></b-pagination>
               </div>
-              <b-pagination
-                pills
-                size="sm"
-                variant="dark-green"
-                align="right"
-                v-model="currentPage"
-                :total-rows="rows"
-                :per-page="perPage"
-              ></b-pagination>
             </div>
           </div>
           <b-row v-else>
@@ -288,7 +297,10 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col sm="4" class="sidebar d-none d-sm-block">
+        <b-col md="4" v-show="sideOpen" class="sidebar toggleSide h-100">
+          <span @click="sideOpen = !sideOpen" class="sideopen">
+            <b-icon :icon="sideOpen ? 'arrow-right' : 'arrow-left'"></b-icon>
+          </span>
           <div
             v-if="!course"
             class="h-100 d-flex align-items-center justify-content-center"
@@ -1264,6 +1276,7 @@
 export default {
   data() {
     return {
+      sideOpen: true,
       facilitators: [],
       courses: [],
       search: "",
@@ -1290,7 +1303,7 @@ export default {
       trending: false,
       currentPage: 1,
       rows: null,
-      perPage: 10,
+      perPage: 12,
     };
   },
   mounted() {
@@ -1385,6 +1398,7 @@ export default {
     },
     showcourse(val) {
       this.course = val;
+      this.sideOpen = true;
       this.addcount(val.id);
       if (window.innerWidth < 600) {
         this.$bvModal.show("mobile-course");
@@ -1524,21 +1538,25 @@ export default {
 </script>
 <style scoped lang="scss">
 .container {
-  min-height: 100vh;
+  height: 100vh;
 }
-.main-course {
-  height: calc(100vh - 80px);
+.my_courses {
+  max-height: 100%;
   overflow-y: scroll;
 }
-.main-course::-webkit-scrollbar {
+.my_courses::-webkit-scrollbar {
   display: none;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
-.main-course {
+.my_courses {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+.main_box {
+  transition: 0.5s;
+}
+
 .course_title {
   font-weight: 500;
 }
@@ -1594,6 +1612,16 @@ export default {
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
+}
+.sideopen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 2px 4px;
+  background: var(--lighter-green);
+  color: #333;
+  font-size: 11px;
+  cursor: pointer;
 }
 @media (max-width: 600px) {
   h4,

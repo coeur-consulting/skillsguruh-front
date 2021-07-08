@@ -143,7 +143,7 @@
                   </div>
                   <div
                     class="py-3 d-flex justify-content-between"
-                    v-if="filter.length > 10"
+                    v-if="rows > 10"
                   >
                     <div class="fs12 text-muted">
                       Showing 1-10 of {{ filter.length }} items

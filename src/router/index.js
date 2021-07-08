@@ -109,6 +109,26 @@ const routes = [
     },
   },
   {
+    path: "/discussion/:id",
+    name: "Discussion",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "about" */ "../views/Discussion.vue"),
+      footer: Footer,
+    },
+  },
+  {
+    path: "/event/:id",
+    name: "Event",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "about" */ "../views/Event.vue"),
+      footer: Footer,
+    },
+  },
+  {
     path: "/order",
     name: "Order",
     components: {
@@ -1580,6 +1600,7 @@ const routes = [
         ),
     },
   },
+
   {
     path: "/invite/:code",
     name: "Invite",
