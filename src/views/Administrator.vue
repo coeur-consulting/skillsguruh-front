@@ -33,16 +33,24 @@ export default {
   },
   created() {
     var channel = this.$pusher.subscribe("inbox");
+    var notificationChannel = this.$pusher.subscribe("notifications");
 
     channel.bind("inboxSent", (data) => {
-      console.log(data);
+      this.$store.commit("ADD_MESSAGE", data);
+    });
+    notificationChannel.bind("notificationSent", () => {
+      this.$store.dispatch("getNotifications", "admin");
     });
   },
   mounted() {
     this.getnotification();
     this.getloginhistory();
+    this.getinbox();
   },
   methods: {
+    getinbox() {
+      this.$store.dispatch("getInbox", "admin");
+    },
     getnotification() {
       this.$store.dispatch("getNotifications", "admin");
     },

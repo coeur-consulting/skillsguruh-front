@@ -25,8 +25,8 @@
       </div>
 
       <div v-if="showMessage">
-        <div class="message_box py-3" v-if="chatters.length">
-          <div v-for="(message, index) in chatters" :key="index">
+        <div class="message_box py-3" v-if="chatter.length">
+          <div v-for="(message, index) in chatter" :key="index">
             <div class="message px-3 py-3 d-flex border-bottom">
               <b-avatar size="2.2rem" :src="message.profile"></b-avatar>
 
@@ -44,13 +44,13 @@
                 <span class="message_name">{{ message.name }}</span>
                 <br />
                 <div class="last_message">
-                  {{ message.message }}
+                  {{ lastMessage(message).message }}
                 </div>
               </div>
 
               <div>
                 <span class="message_time">
-                  {{ message.time | moment("LT") }}</span
+                  {{ lastMessage(message).time | moment("LT") }}</span
                 >
               </div>
             </div>
@@ -165,9 +165,6 @@ export default {
   components: {
     MiniBox,
   },
-  watch: {
-    sortmessages: "getChatters",
-  },
 
   computed: {
     useraccess() {
@@ -190,30 +187,209 @@ export default {
       return this.inboxes.map((item) => {
         var info = {};
 
-        if (item.user_id && item.user_id == this.$store.getters.learner.id) {
-          info.admin = item.admin_info || null;
-          info.user = item.learner_info || null;
-          info.facilitator = item.facilitator_info || null;
-          info.message = item.message || null;
-          info.time = item.created_at || null;
+        if (this.$props.user == "learner") {
+          if (item.user_id && item.user_id == this.useraccess.id) {
+            info.admin = item.admin_info;
+            info.user = item.learner_info;
+            info.facilitator = item.facilitator_info;
+            info.message = item.message;
+            info.time = item.created_at;
+            return info;
+          }
+          if (
+            item.receiver == "user" &&
+            item.receiver_id == this.useraccess.id
+          ) {
+            info.admin = item.admin;
+            info.user = item.user;
+            info.facilitator = item.facilitator;
+            info.message = item.message;
+            info.time = item.created_at;
+            return info;
+          }
         }
-        if (
-          item.receiver == "user" &&
-          item.receiver_id == this.$store.getters.learner.id
-        ) {
-          info.admin = item.admin || null;
-          info.user = item.user || null;
-          info.facilitator = item.facilitator || null;
-          info.message = item.message || null;
-          info.time = item.created_at || null;
+        if (this.$props.user == "facilitator") {
+          if (
+            item.facilitator_id &&
+            item.facilitator_id == this.useraccess.id
+          ) {
+            info.admin = item.admin_info;
+            info.user = item.learner_info;
+            info.facilitator = item.facilitator_info;
+            info.message = item.message;
+            info.time = item.created_at;
+            return info;
+          }
+          if (
+            item.receiver == "facilitator" &&
+            item.receiver_id == this.useraccess.id
+          ) {
+            info.admin = item.admin;
+            info.user = item.user;
+            info.facilitator = item.facilitator;
+            info.message = item.message;
+            info.time = item.created_at;
+            return info;
+          }
+        }
+        if (this.$props.user == "admin") {
+          if (item.admin_id && item.admin_id == this.useraccess.id) {
+            info.admin = item.admin_info;
+            info.user = item.learner_info;
+            info.facilitator = item.facilitator_info;
+            info.message = item.message;
+            info.time = item.created_at;
+            return info;
+          }
+          if (
+            item.receiver == "admin" &&
+            item.receiver_id == this.useraccess.id
+          ) {
+            info.admin = item.admin;
+            info.user = item.user;
+            info.facilitator = item.facilitator;
+            info.message = item.message;
+            info.time = item.created_at;
+            return info;
+          }
+        }
+      });
+    },
+    chatter() {
+      var allnames = this.sortmessages.map((item) => {
+        var checkers = {};
+        if (this.$props.user == "admin") {
+          if (item.user) {
+            checkers.id = item.user.id;
+            checkers.type = "user";
+            checkers.name = item.user.name;
+            checkers.message = item.message;
+            checkers.time = item.time;
+            checkers.profile = item.user.profile;
+
+            return checkers;
+          }
+          if (item.admin && item.admin.id != this.useraccess.id) {
+            checkers.id = item.admin.id;
+            checkers.type = "admin";
+            checkers.name = item.admin.name;
+            checkers.message = item.message;
+            checkers.time = item.time;
+            checkers.profile = item.admin.profile;
+
+            return checkers;
+          }
+          if (item.facilitator) {
+            checkers.id = item.facilitator.id;
+            checkers.type = "facilitator";
+            checkers.name = item.facilitator.name;
+            checkers.message = item.message;
+            checkers.time = item.time;
+            checkers.profile = item.facilitator.profile;
+
+            return checkers;
+          }
         }
 
-        return info;
+        if (this.$props.user == "learner") {
+          if (item.user && item.user.id != this.useraccess.id) {
+            checkers.id = item.user.id;
+            checkers.type = "user";
+            checkers.name = item.user.name;
+            checkers.message = item.message;
+            checkers.time = item.time;
+            checkers.profile = item.user.profile;
+
+            return checkers;
+          }
+          if (item.admin) {
+            checkers.id = item.admin.id;
+            checkers.type = "admin";
+            checkers.name = item.admin.name;
+            checkers.message = item.message;
+            checkers.time = item.time;
+            checkers.profile = item.admin.profile;
+
+            return checkers;
+          }
+          if (item.facilitator) {
+            checkers.id = item.facilitator.id;
+            checkers.type = "facilitator";
+            checkers.name = item.facilitator.name;
+            checkers.message = item.message;
+            checkers.time = item.time;
+            checkers.profile = item.facilitator.profile;
+
+            return checkers;
+          }
+        }
+        if (this.$props.user == "facilitator") {
+          if (item.user) {
+            checkers.id = item.user.id;
+            checkers.type = "user";
+            checkers.name = item.user.name;
+            checkers.message = item.message;
+            checkers.time = item.time;
+            checkers.profile = item.user.profile;
+
+            return checkers;
+          }
+          if (item.admin) {
+            checkers.id = item.admin.id;
+            checkers.type = "admin";
+            checkers.name = item.admin.name;
+            checkers.message = item.message;
+            checkers.time = item.time;
+            checkers.profile = item.admin.profile;
+
+            return checkers;
+          }
+          if (item.facilitator && item.facilitator.id != this.useraccess.id) {
+            checkers.id = item.facilitator.id;
+            checkers.type = "facilitator";
+            checkers.name = item.facilitator.name;
+            checkers.message = item.message;
+            checkers.time = item.time;
+            checkers.profile = item.facilitator.profile;
+
+            return checkers;
+          }
+        }
       });
+
+      return [
+        ...new Set(
+          allnames
+            .filter((item) => item)
+            .map((item) => {
+              return JSON.stringify({
+                name: item.name,
+                id: item.id,
+                type: item.type,
+                profile: item.profile,
+              });
+            })
+        ),
+      ].map((item) => JSON.parse(item));
     },
   },
 
   methods: {
+    lastMessage(info) {
+      var mess = this.sortmessages.filter((item) => {
+        if (info.type == "user" && item.user) {
+          return item;
+        }
+        if (info.type == "admin" && item.admin) {
+          return item;
+        }
+        if (info.type == "facilitator" && item.facilitator) {
+          return item;
+        }
+      });
+
+      return mess.pop();
+    },
     togglechat() {
       this.mini_info = {
         id: "",
@@ -231,78 +407,6 @@ export default {
       this.mini_info.profile = profile;
       this.open = true;
       this.showAll = true;
-    },
-    getinbox() {
-      this.$http
-        .get(`${this.$store.getters.url}/inboxes`, {
-          headers: {
-            Authorization: `Bearer ${this.useraccess.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 200) {
-            this.sortmessages(res.data.reverse());
-            this.showMessage = true;
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
-    },
-
-    getChatters() {
-      var check = {};
-
-      this.sortmessages.reverse().forEach((item) => {
-        var checkers = {};
-        if (item.admin) {
-          checkers.id = item.admin.id;
-          checkers.type = "admin";
-          checkers.name = item.admin.name;
-          checkers.message = item.message;
-          checkers.time = item.time;
-          checkers.profile = item.admin.profile;
-          check = this.chatters.find((val) => {
-            if (val.type == "admin" && val.id == item.admin.id) {
-              return val;
-            }
-          });
-        }
-        if (item.facilitator) {
-          checkers.id = item.facilitator.id;
-          checkers.type = "facilitator";
-          checkers.name = item.facilitator.name;
-          checkers.profile = item.facilitator.profile;
-          checkers.message = item.message;
-          checkers.time = item.time;
-          check = this.chatters.find((val) => {
-            if (val.type == "facilitator" && val.id == item.facilitator.id) {
-              return val;
-            }
-          });
-        }
-        if (item.user) {
-          checkers.id = item.user.id;
-          checkers.type = "user";
-          checkers.name = item.user.name;
-          checkers.message = item.message;
-          checkers.profile = item.user.profile;
-          checkers.time = item.time;
-          check = this.chatters.find((val) => {
-            if (val.type == "user" && val.id == item.user.id) {
-              return val;
-            }
-          });
-        }
-
-        if (!check) {
-          this.chatters.push(checkers);
-          console.log(
-            "🚀 ~ file: topbar.vue ~ line 471 ~ this.sortmessages.reverse ~ checkers",
-            checkers
-          );
-        }
-      });
     },
   },
 };

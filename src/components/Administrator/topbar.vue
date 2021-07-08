@@ -300,10 +300,10 @@
 
       <b-popover id="inbox1" target="inbox" triggers="hover" placement="bottom">
         <template #title>Inbox</template>
-        <div class="inbox py-3" v-if="chatters.length">
+        <div class="inbox py-3" v-if="chatter.length">
           <div
             class="inbox_message"
-            v-for="(message, index) in chatters"
+            v-for="(message, index) in chatter"
             :key="index"
           >
             <div class="px-3 py-3 d-flex border-bottom">
@@ -323,13 +323,13 @@
                 <span class="message_name fs12">{{ message.name }}</span>
                 <br />
                 <div class="last_message fs11">
-                  {{ message.message }}
+                  {{ lastMessage(message).message }}
                 </div>
               </div>
 
               <div>
                 <span class="message_time fs11">
-                  {{ message.time | moment("LT") }}</span
+                  {{ lastMessage(message).time | moment("LT") }}</span
                 >
               </div>
             </div>
@@ -377,8 +377,7 @@ export default {
   data() {
     return {
       toggleMessage: true,
-      inboxes: [],
-      chatters: [],
+
       current: {
         id: "",
         type: "",
@@ -393,10 +392,23 @@ export default {
       showAll: false,
     };
   },
-  mounted() {
-    this.getinbox();
-  },
+
   methods: {
+    lastMessage(info) {
+      var mess = this.sortmessages.filter((item) => {
+        if (info.type == "user" && item.user) {
+          return item;
+        }
+        if (info.type == "admin" && item.admin) {
+          return item;
+        }
+        if (info.type == "facilitator" && item.facilitator) {
+          return item;
+        }
+      });
+
+      return mess.pop();
+    },
     togglechat() {
       this.mini_info = {
         id: "",
@@ -428,25 +440,21 @@ export default {
       this.open = true;
       this.showAll = true;
     },
-    getinbox() {
-      this.$http
-        .get(`${this.$store.getters.url}/inboxes`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 200) {
-            this.sortmessages(res.data.reverse());
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
+  },
+  computed: {
+    notifications() {
+      return this.$store.getters.notifications;
     },
-    async sortmessages(arr) {
-      this.inboxes = await arr.map((item) => {
+    unreadnotifications() {
+      return this.$store.getters.notifications.filter((item) => !item.read_at);
+    },
+    inboxes() {
+      return this.$store.getters.inboxes;
+    },
+    sortmessages() {
+      return this.inboxes.map((item) => {
         var info = {};
+
         if (item.admin_id && item.admin_id == this.$store.getters.admin.id) {
           info.admin = item.admin_info || null;
           info.user = item.learner_info || null;
@@ -464,67 +472,59 @@ export default {
           info.message = item.message || null;
           info.time = item.created_at || null;
         }
+
         return info;
       });
-      this.getChatters(this.inboxes);
     },
-    getChatters(arr) {
-      var check = {};
-
-      arr.reverse().forEach((item) => {
+    chatter() {
+      var allnames = this.sortmessages.map((item) => {
         var checkers = {};
-        if (item.admin) {
+        if (item.user) {
+          checkers.id = item.user.id;
+          checkers.type = "user";
+          checkers.name = item.user.name;
+          checkers.message = item.message;
+          checkers.time = item.time;
+          checkers.profile = item.user.profile;
+
+          return checkers;
+        }
+        if (item.admin && item.admin.id != this.$$store.getters.admin.id) {
           checkers.id = item.admin.id;
           checkers.type = "admin";
           checkers.name = item.admin.name;
           checkers.message = item.message;
           checkers.time = item.time;
           checkers.profile = item.admin.profile;
-          check = this.chatters.find((val) => {
-            if (val.type == "admin" && val.id == item.admin.id) {
-              return val;
-            }
-          });
+
+          return checkers;
         }
         if (item.facilitator) {
           checkers.id = item.facilitator.id;
           checkers.type = "facilitator";
           checkers.name = item.facilitator.name;
+          checkers.message = item.message;
+          checkers.time = item.time;
           checkers.profile = item.facilitator.profile;
-          checkers.message = item.message;
-          checkers.time = item.time;
-          check = this.chatters.find((val) => {
-            if (val.type == "facilitator" && val.id == item.facilitator.id) {
-              return val;
-            }
-          });
-        }
-        if (item.user) {
-          checkers.id = item.user.id;
-          checkers.type = "user";
-          checkers.name = item.user.name;
-          checkers.message = item.message;
-          checkers.profile = item.user.profile;
-          checkers.time = item.time;
-          check = this.chatters.find((val) => {
-            if (val.type == "user" && val.id == item.user.id) {
-              return val;
-            }
-          });
-        }
 
-        if (!check) {
-          this.chatters.push(checkers);
+          return checkers;
         }
       });
-    },
-  },
-  computed: {
-    notifications() {
-      return this.$store.getters.notifications;
-    },
-    unreadnotifications() {
-      return this.$store.getters.notifications.filter((item) => !item.read_at);
+
+      return [
+        ...new Set(
+          allnames
+            .filter((item) => item)
+            .map((item) => {
+              return JSON.stringify({
+                name: item.name,
+                id: item.id,
+                type: item.type,
+                profile: item.profile,
+              });
+            })
+        ),
+      ].map((item) => JSON.parse(item));
     },
   },
 };
