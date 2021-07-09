@@ -162,7 +162,8 @@
             </b-input-group-text>
           </template>
           <template #prepend>
-            <b-input-group-text class="border-0 bg-transparent"
+            <b-input-group-text
+              class="border-0 bg-transparent d-none d-md-block"
               ><span class=""
                 ><b-icon
                   icon="emoji-smile-fill"

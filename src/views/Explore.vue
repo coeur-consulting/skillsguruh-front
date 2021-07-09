@@ -51,14 +51,20 @@
             :key="item.id"
           >
             <div
-              class="course shadow"
+              class="course shadow-sm"
               @click="
                 $router.push(`/explore/courses?course_id=${item.course.id}`)
               "
             >
               <div
                 class="course_img"
-                :style="{ backgroundImage: `url(${item.course.cover})` }"
+                :style="{
+                  backgroundImage: `url(${
+                    item.course.cover
+                      ? item.course.cover
+                      : require('@/assets/images/default.png')
+                  })`,
+                }"
               ></div>
               <div class="course_text">
                 <div class="d-flex justify-content-between">
@@ -95,7 +101,7 @@
                   <div
                     v-if="item.course.courseoutline"
                     class="overview"
-                    v-html="item.courseoutline.overview"
+                    v-html="item.course.courseoutline.overview"
                   ></div>
                 </div>
                 <div class="info fs12">

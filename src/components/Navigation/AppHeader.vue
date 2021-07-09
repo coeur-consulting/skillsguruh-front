@@ -62,7 +62,7 @@
                 >
                   Dashboard</b-button
                 >
-                <b-button class="px-4" @click="logout" variant="lighter-green">
+                <b-button class="px-4" @click="logout" variant="white">
                   Logout</b-button
                 >
               </b-button-group>
@@ -76,7 +76,7 @@
                 >
                   Dashboard</b-button
                 >
-                <b-button class="px-4" @click="logout" variant="lighter-green">
+                <b-button class="px-4" @click="logout" variant="white">
                   Logout</b-button
                 >
               </b-button-group>
@@ -90,7 +90,7 @@
                 >
                   Dashboard</b-button
                 >
-                <b-button class="px-4" @click="logout" variant="lighter-green">
+                <b-button class="px-4" @click="logout" variant="white">
                   Logout</b-button
                 >
               </b-button-group>

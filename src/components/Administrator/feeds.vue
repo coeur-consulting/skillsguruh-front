@@ -16,7 +16,11 @@
           v-model="feed.message"
           :placeholder="'Whats on your mind ' + $store.getters.admin.name + '?'"
         ></b-form-input>
-        <emoji-picker @emoji="insertfeed" :search="search">
+        <emoji-picker
+          @emoji="insertfeed"
+          :search="search"
+          class="d-none d-md-block"
+        >
           <div
             class="emoji-invoker"
             slot="emoji-invoker"
@@ -231,8 +235,8 @@
 
     <b-container>
       <b-row>
-       <b-col sm="8" class="px-0 ">
-           <div class="border bg-white py-3  px-2 p-sm-4 rounded-8 mb-4">
+        <b-col sm="8" class="px-0">
+          <div class="border bg-white py-3 px-2 p-sm-4 rounded-8 mb-4">
             <div class="d-flex align-items-center mb-3">
               <b-avatar size="2.5rem" class="mr-3"></b-avatar>
 
@@ -282,7 +286,7 @@
                   :key="index"
                   class="border bg-white rounded-8 mb-2"
                 >
-                 <div class="d-flex mb-3 px-2 px-sm-3 pt-3">
+                  <div class="d-flex mb-3 px-2 px-sm-3 pt-3">
                     <div class="d-flex flex-1 text-left">
                       <div
                         class="font-weight-bold mr-2 mb-1 fs14 feedname"
@@ -513,9 +517,9 @@
                           ></b-input-group-text
                         >
                       </template>
-                      <template #prepend>
+                      <template #prepend class="d-none d-md-block">
                         <b-input-group-text
-                          class="border-0 bg-transparent d-block"
+                          class="border-0 bg-transparentd-none d-md-block"
                         >
                           <emoji-picker @emoji="insertcomment" :search="search">
                             <div
@@ -627,7 +631,7 @@
         />
       </b-row>
 
-      <div class="minichats d-none d-md-block">
+      <div class="minichats">
         <Minichat :user="'admin'" />
       </div>
     </b-container>

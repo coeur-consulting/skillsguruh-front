@@ -19,7 +19,11 @@
               'Whats on your mind ' + $store.getters.learner.name + '?'
             "
           ></b-form-input>
-          <emoji-picker @emoji="insertfeed" :search="search">
+          <emoji-picker
+            class="d-none d-md-block"
+            @emoji="insertfeed"
+            :search="search"
+          >
             <div
               class="emoji-invoker"
               slot="emoji-invoker"
@@ -238,8 +242,8 @@
       </b-modal>
       <b-container>
         <b-row>
-          <b-col sm="8" class="px-0 ">
-            <div class="border bg-white py-3  px-2 p-sm-4 rounded-8 mb-4">
+          <b-col sm="8" class="px-0">
+            <div class="border bg-white py-3 px-2 p-sm-4 rounded-8 mb-4">
               <div class="d-flex align-items-center mb-3">
                 <b-avatar
                   class="mr-2"
@@ -375,7 +379,9 @@
                     <div class="text-left feed_text px-3 px-sm-4 pb-3">
                       <span v-html="feed.message"></span><br />
                       <span v-if="feed.url" class="text-dark-green"
-                        ><a :href="feed.url" target="_blank">Click link</a></span
+                        ><a :href="feed.url" target="_blank"
+                          >Click link</a
+                        ></span
                       >
                     </div>
                     <div>
@@ -527,9 +533,9 @@
                             ></b-input-group-text
                           >
                         </template>
-                        <template #prepend>
+                        <template #prepend class="d-none d-md-block">
                           <b-input-group-text
-                            class="border-0 bg-transparent d-block"
+                            class="border-0 bg-transparent d-none d-md-block"
                           >
                             <emoji-picker
                               @emoji="insertcomment"

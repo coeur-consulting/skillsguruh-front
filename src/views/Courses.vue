@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-container fluid class="">
-      <b-row v-if="courses.length" class="w-100 h-100">
+      <b-row v-if="courses.length" class="h-100">
         <b-col :md="sideOpen ? 8 : 12" class="my_courses main_box bg-light">
           <div
             class="d-flex flex-column flex-sm-row justify-content-between py-4"
@@ -57,7 +57,7 @@
             </div>
           </div>
           <div v-if="showCourse">
-            <div class="main-course">
+            <b-container fluid class="main-course">
               <b-row>
                 <b-col
                   :sm="sideOpen ? 4 : 3"
@@ -66,13 +66,17 @@
                   :key="index"
                 >
                   <div
-                    class="course border cursor-pointer"
+                    class="course border cursor-pointer shadow-sm"
                     @click="showcourse(item)"
                   >
                     <div
                       class="course_img"
                       :style="{
-                        backgroundImage: `url(${item.cover})`,
+                        backgroundImage: `url(${
+                          item.cover
+                            ? item.cover
+                            : require('@/assets/images/default.png')
+                        })`,
                       }"
                     ></div>
                     <div class="course_text">
@@ -166,7 +170,7 @@
                   :per-page="perPage"
                 ></b-pagination>
               </div>
-            </div>
+            </b-container>
           </div>
           <b-row v-else>
             <b-col sm="4" class="mb-4">

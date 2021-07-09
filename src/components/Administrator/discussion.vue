@@ -9,7 +9,7 @@
               <div @click="$router.go(-1)" class="d-flex w-100">
                 <b-icon icon="arrow-left" class="pl-4 cursor-pointer"></b-icon>
               </div>
-              <div class="content  px-2 py-3 pt-4 pb-3">
+              <div class="content px-2 py-3 pt-4 pb-3">
                 <div class="top_dis d-flex align-items-center mb-2">
                   <div class="side_dis">
                     <b-avatar
@@ -256,7 +256,7 @@
                   ></b-textarea>
 
                   <div class="d-flex justify-content-between">
-                    <div>
+                    <div class="d-none d-md-block">
                       <emoji-picker @emoji="insert" :search="search">
                         <div
                           class="emoji-invoker"

@@ -1217,7 +1217,7 @@ const routes = [
       },
       {
         path: "facilitator/:id",
-        name: "Learner facilitator",
+        name: "Learner facilitatorprofile",
         components: {
           default: () =>
             import(

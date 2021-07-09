@@ -18,7 +18,11 @@
             'Whats on your mind ' + $store.getters.facilitator.name + '?'
           "
         ></b-form-input>
-        <emoji-picker @emoji="insertfeed" :search="search">
+        <emoji-picker
+          @emoji="insertfeed"
+          :search="search"
+          class="d-none d-md-block"
+        >
           <div
             class="emoji-invoker"
             slot="emoji-invoker"
@@ -232,8 +236,8 @@
     </b-modal>
     <b-container>
       <b-row>
-         <b-col sm="8" class="px-0 ">
-           <div class="border bg-white py-3  px-2 p-sm-4 rounded-8 mb-4">
+        <b-col sm="8" class="px-0">
+          <div class="border bg-white py-3 px-2 p-sm-4 rounded-8 mb-4">
             <div class="d-flex align-items-center mb-3">
               <b-avatar size="2.5rem" class="mr-3"></b-avatar>
 
@@ -514,9 +518,9 @@
                           ></b-input-group-text
                         >
                       </template>
-                      <template #prepend>
+                      <template #prepend class="d-none d-md-block">
                         <b-input-group-text
-                          class="border-0 bg-transparent d-block"
+                          class="border-0 bg-transparent d-none d-md-block"
                         >
                           <emoji-picker @emoji="insertcomment" :search="search">
                             <div
@@ -629,7 +633,8 @@
         />
       </b-row>
 
-      <div class="minichats d-none d-md-block">
+      <div class="minichats
+      ">
         <Minichat :user="'facilitator'" />
       </div>
     </b-container>

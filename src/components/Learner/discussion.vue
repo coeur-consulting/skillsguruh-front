@@ -266,7 +266,7 @@
                   ></b-textarea>
 
                   <div class="d-flex justify-content-between">
-                    <div>
+                    <div class="d-none d-md-block">
                       <emoji-picker @emoji="insert" :search="search">
                         <div
                           class="emoji-invoker"

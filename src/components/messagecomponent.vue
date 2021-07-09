@@ -127,7 +127,7 @@
         </div>
       </div>
     </div>
-    <div class="minichats d-none d-md-block">
+    <div class="minichats">
       <MiniBox
         :user="user"
         :mini_info="mini_info"
