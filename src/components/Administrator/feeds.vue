@@ -775,22 +775,22 @@ export default {
     insertcomment(emoji) {
       this.comment.comment += emoji + "";
     },
-    getmyfeeds() {
-      this.$http
-        .get(`${this.$store.getters.url}/get/feeds/tags`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 201 || res.status == 200) {
-            this.feedTags = res.data;
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
-    },
+    // getmyfeeds() {
+    //   this.$http
+    //     .get(`${this.$store.getters.url}/get/feeds/tags`, {
+    //       headers: {
+    //         Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+    //       },
+    //     })
+    //     .then((res) => {
+    //       if (res.status == 201 || res.status == 200) {
+    //         this.feedTags = res.data;
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       this.$toast.error(err.response.data.message);
+    //     });
+    // },
     getfeeds() {
       this.$http
         .get(`${this.$store.getters.url}/feeds`, {

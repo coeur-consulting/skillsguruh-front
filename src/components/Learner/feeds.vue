@@ -743,7 +743,7 @@ export default {
   },
   mounted() {
     this.getfeeds();
-    // this.getmyfeeds();
+    this.getmyfeeds();
   },
   methods: {
     onSelect(items, lastSelectItem) {
@@ -787,21 +787,20 @@ export default {
     },
     getmyfeeds() {
       this.$http
-        .get(`${this.$store.getters.url}/feeds/tags`, {
+        .get(`${this.$store.getters.url}/get/feeds/tags`, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
           },
         })
-        // .then((res) => {
-        //   if (res.status == 201 || res.status == 200) {
-
-        //   }
-        // })
+        .then((res) => {
+          if (res.status == 201 || res.status == 200) {
+            this.feedTags = res.data;
+          }
+        })
         .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
-
     getfeeds() {
       this.$http
         .get(`${this.$store.getters.url}/feeds`, {
