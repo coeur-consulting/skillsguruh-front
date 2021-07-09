@@ -2,7 +2,7 @@
   <b-container class="p-3 p-sm-5 text-left">
     <b-row>
       <b-col sm="7" class="mb-5">
-        <div class="box px-3 py-5 p-sm-5">
+        <div class="box px-2 py-4 p-sm-5">
           <h5 class="mb-3">{{ filteredConnections.length }} Connections</h5>
           <div class="px-3 py-2 d-flex align-items-center search bg-light">
             <b-icon icon="search"></b-icon>
@@ -94,7 +94,7 @@
         </div>
       </b-col>
       <b-col sm="5">
-        <div class="box p-4 mb-5">
+        <div class="box p-2 p-sm-4 mb-5">
           <h6 class="mb-3">Suggested</h6>
 
           <div class="py-1 suggestion_box" v-if="joinedUsers.length">

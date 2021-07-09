@@ -1281,8 +1281,8 @@
                 </div>
               </div>
             </div>
-            <div v-if="showCourse">
-              <b-row class="w-100">
+            <b-container fluid v-if="showCourse">
+              <b-row >
                 <b-col
                   :sm="sideOpen ? 4 : 3"
                   class="mb-4 side_box"
@@ -1519,7 +1519,7 @@
                   :per-page="perPage"
                 ></b-pagination>
               </div>
-            </div>
+            </b-container>
             <b-row v-else>
               <b-col sm="4" class="mb-4">
                 <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>

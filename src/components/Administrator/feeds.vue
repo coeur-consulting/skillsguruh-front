@@ -280,7 +280,7 @@
                 <div
                   v-for="(feed, index) in feeds"
                   :key="index"
-                  class="border bg-white rounded-8 mb-4"
+                  class="border bg-white rounded-8 mb-2"
                 >
                  <div class="d-flex mb-3 px-2 px-sm-3 pt-3">
                     <div class="d-flex flex-1 text-left">

@@ -76,7 +76,7 @@
                         <div
                           class="course_img"
                           :style="{
-                            backgroundImage: `url(${item.cover})`,
+                            backgroundImage: `url(${item.cover?item.cover:require('@/assets/images/default.png')})`,
                           }"
                         ></div>
                         <div class="course_text">
@@ -172,7 +172,8 @@
                     >
                       <b-card
                         :title="item.course.title"
-                        :img-src="item.course.cover"
+                        :img-src="item.course.cover?item.course.cover:require('@/assets/images/default.png')"
+
                         img-alt="Image"
                         img-top
                         tag="article"
@@ -181,25 +182,7 @@
                         <b-card-text class="overview">
                           {{ item.course.description }}
                         </b-card-text>
-                        <!-- <b-card-text
-                        class="fs13 text-muted d-flex align-items-center mb-2"
-                        v-if="item.course.modules"
-                      >
-                        <b-iconstack font-scale="1.5rem" class="mr-2">
-                          <b-icon
-                            stacked
-                            icon="circle-fill"
-                            variant="lighter-green"
-                          ></b-icon>
-                          <b-icon
-                            stacked
-                            icon="book"
-                            scale="0.5"
-                            variant="dark-green"
-                          ></b-icon>
-                        </b-iconstack>
-                        <span> {{ item.course.modules.length }} modules</span>
-                      </b-card-text> -->
+
                         <div class="mt-3">
                           <div class="mb-2 fs12">Your progress</div>
                           <b-progress

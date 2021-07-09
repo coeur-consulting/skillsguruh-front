@@ -364,12 +364,17 @@ ol.subquest {
   height: 350px;
   object-fit: cover;
 }
+.card-img,
+.card-img-top,
+.course_img {
+  background: #f7f8fa;
+}
 @media (max-width: 600px) {
   ::placeholder {
     font-size: x-small;
   }
   .reg .custom-control-label {
-    font-size: xx-small;
+    font-size: 14.5px;
     margin-top: 3px;
   }
   .bm-burger-button {
@@ -435,7 +440,7 @@ ol.subquest {
     & div {
       & div {
         & h4 {
-          font-size: x-small;
+          font-size: 15px;
         }
       }
     }
@@ -445,7 +450,7 @@ ol.subquest {
     & div {
       & div {
         & span {
-          font-size: xx-small;
+          font-size: 14px;
         }
       }
     }
@@ -454,33 +459,33 @@ ol.subquest {
     width: 100% !important;
   }
   h1 {
-    font-size: 1rem !important;
+    font-size: 16.5px !important;
   }
   h2 {
-    font-size: 0.9rem !important;
+    font-size: 16px !important;
   }
   h3 {
-    font-size: 0.8rem !important;
+    font-size: 15.5px !important;
   }
   h4 {
-    font-size: x-small !important;
+    font-size: 15px !important;
   }
   h5 {
-    font-size: x-small !important;
+    font-size: 14.5px !important;
   }
   h6 {
-    font-size: x-small !important;
+    font-size: 14px !important;
   }
   p,
   .main_text {
-    font-size: x-small !important;
+    font-size: 13px !important;
   }
   span.cursor-pointer {
     font-size: 11px;
   }
   span {
-    line-height: 1.4;
-    font-size: xx-small;
+    line-height: 1.3;
+    font-size: 12px;
   }
 
   .line-1 {
@@ -489,11 +494,10 @@ ol.subquest {
   .fs14,
   .fs15,
   .fs16,
-  .fs13,
   .col-form-label,
   .custom-select,
   .btn-sm {
-    font-size: x-small !important;
+    font-size: 14px !important;
   }
   small,
   .small {
@@ -501,23 +505,20 @@ ol.subquest {
     font-weight: 400;
   }
   .form-control {
-    font-size: x-small !important;
+    font-size: 14px !important;
   }
-  .fs12,
-  .fs11 {
-    font-size: xx-small !important;
-  }
+
   .main_box {
     padding: 15px 0 !important;
   }
   .title {
-    font-size: x-small !important;
+    font-size: 13.5px !important;
   }
   .asked {
-    font-size: xx-small !important;
+    font-size: x-small !important;
   }
   .top_header div {
-    font-size: xx-small !important;
+    font-size: 14px !important;
   }
   .brad {
     border-radius: 0;
@@ -532,7 +533,7 @@ ol.subquest {
     font-size: 10px !important;
   }
   .description {
-    font-size: x-small !important;
+    font-size: 14px !important;
     line-height: 1.4;
   }
   .event_box {
@@ -557,7 +558,7 @@ ol.subquest {
     height: 30vh !important;
   }
   .viewevent {
-    font-size: xx-small !important;
+    font-size: 13px !important;
   }
   .img-s {
     width: 120px;
@@ -566,7 +567,7 @@ ol.subquest {
   }
   .feedname,
   .name {
-    font-size: x-small;
+    font-size: 14px;
   }
   td {
     min-width: 160px;
@@ -587,14 +588,14 @@ ol.subquest {
   }
   .card-header,
   .card-header ul li {
-    font-size: xx-small;
+    font-size: 14px;
   }
   .card-body {
-    font-size: xx-small;
+    font-size: 14px;
   }
   .library .card-header ul li a {
     color: #18696d;
-    font-size: xx-small;
+    font-size: 14px;
     font-weight: bold;
     padding: 0.5rem 0.7rem;
   }
@@ -611,8 +612,8 @@ ol.subquest {
     height: 58% !important;
   }
   .cours_tit {
-    font-size: 13px;
-    height: 25px;
+    font-size: 15px;
+    height: 38px;
     color: rgba($color: #000000, $alpha: 0.74);
     display: -webkit-box;
     line-clamp: 2;
@@ -622,20 +623,21 @@ ol.subquest {
     text-overflow: ellipsis;
     line-height: 1.4;
   }
-  .overview {
-    font-size: x-small;
-    height: 25px;
+  .overview,
+  .overview p {
+    font-size: 14px;
+    height: 38px;
   }
   .overview-title {
-    font-size: x-small;
-    height: 25px;
+    font-size: 14px;
+    height: 38px;
   }
   .one-title {
-    font-size: x-small;
+    font-size: 14px;
   }
   td,
   th {
-    font-size: x-small !important;
+    font-size: 14px !important;
   }
   .text-post,
   .next_dis,
@@ -644,5 +646,8 @@ ol.subquest {
   }
   .toggleSide {
     display: none !important;
+  }
+  .card-body {
+    padding: 1rem 0.8rem;
   }
 }

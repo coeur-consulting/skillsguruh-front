@@ -55,7 +55,7 @@
             </div>
           </div>
 
-          <div v-if="showCourse">
+          <b-container fluid v-if="showCourse">
             <b-row>
               <b-col
                 :sm="sideOpen ? 4 : 3"
@@ -109,9 +109,12 @@
                       <b-icon
                         stacked
                         icon="circle-fill"
-                        :style="`color:${
-                          JSON.parse(course.courseoutline.knowledge_areas).color
-                        }`"
+                        :style="
+                          `color:${
+                            JSON.parse(course.courseoutline.knowledge_areas)
+                              .color
+                          }`
+                        "
                       ></b-icon>
                       <b-icon
                         stacked
@@ -273,7 +276,7 @@
                 :per-page="perPage"
               ></b-pagination>
             </div>
-          </div>
+          </b-container>
           <b-row v-else>
             <b-col sm="4" class="mb-4">
               <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
@@ -428,9 +431,11 @@
                   <b-icon
                     stacked
                     icon="circle-fill"
-                    :style="`color:${
-                      JSON.parse(course.courseoutline.knowledge_areas).color
-                    }`"
+                    :style="
+                      `color:${
+                        JSON.parse(course.courseoutline.knowledge_areas).color
+                      }`
+                    "
                   ></b-icon>
                   <b-icon
                     stacked
@@ -909,7 +914,7 @@
                         v-if="item.facilitator_id != null"
                         >{{
                           facilitators.find(
-                            (val) => val.id == item.facilitator_id
+                            val => val.id == item.facilitator_id
                           ).name
                         }}</span
                       >
@@ -957,9 +962,11 @@
                 <b-icon
                   stacked
                   icon="circle-fill"
-                  :style="`color:${
-                    JSON.parse(course.courseoutline.knowledge_areas).color
-                  }`"
+                  :style="
+                    `color:${
+                      JSON.parse(course.courseoutline.knowledge_areas).color
+                    }`
+                  "
                 ></b-icon>
                 <b-icon
                   stacked
@@ -1426,9 +1433,8 @@
                       class="text-sm font-weight-bold"
                       v-if="item.facilitator_id != null"
                       >{{
-                        facilitators.find(
-                          (val) => val.id == item.facilitator_id
-                        ).name
+                        facilitators.find(val => val.id == item.facilitator_id)
+                          .name
                       }}</span
                     >
                     <span v-else class="text-sm">Unavailable</span>
@@ -1529,7 +1535,9 @@
           network="facebook"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I just enrolled for the course titled, ${course.title.toUpperCase()}. Check it out here!`"
+          :description="
+            `I just enrolled for the course titled, ${course.title.toUpperCase()}. Check it out here!`
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1542,7 +1550,9 @@
           network="twitter"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I just enrolled for the course titled, ${course.title.toUpperCase()}. Check it out here!`"
+          :description="
+            `I just enrolled for the course titled, ${course.title.toUpperCase()}. Check it out here!`
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1555,7 +1565,9 @@
           network="whatsApp"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I just enrolled for the course titled, ${course.title.toUpperCase()}. Check it out here!`"
+          :description="
+            `I just enrolled for the course titled, ${course.title.toUpperCase()}. Check it out here!`
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1577,7 +1589,9 @@
           network="Telegram"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I just enrolled for the course titled, ${course.title.toUpperCase()}. Check it out here!`"
+          :description="
+            `I just enrolled for the course titled, ${course.title.toUpperCase()}. Check it out here!`
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1607,9 +1621,9 @@ export default {
         url: "",
         users: [
           {
-            email: "",
-          },
-        ],
+            email: ""
+          }
+        ]
       },
       courses: [],
       search: "",
@@ -1629,7 +1643,7 @@ export default {
       showCourse: false,
       currentPage: 1,
       rows: null,
-      perPage: 12,
+      perPage: 12
     };
   },
   components: {},
@@ -1647,7 +1661,7 @@ export default {
           this.perPage * this.currentPage
         )
         .filter(
-          (item) =>
+          item =>
             item.title.toLowerCase().includes(this.search.toLowerCase()) ||
             JSON.parse(item.courseoutline.knowledge_areas)
               .value.toLowerCase()
@@ -1660,11 +1674,11 @@ export default {
       }
       var courseType;
       if (this.course_type == "free") {
-        courseType = title.filter((item) => item.type == "free");
+        courseType = title.filter(item => item.type == "free");
       } else if (this.course_type == "paid") {
-        courseType = title.filter((item) => item.type == "paid");
+        courseType = title.filter(item => item.type == "paid");
       } else if (this.course_type == "group") {
-        courseType = title.filter((item) => item.type == "group");
+        courseType = title.filter(item => item.type == "group");
       } else {
         courseType = title;
       }
@@ -1673,14 +1687,14 @@ export default {
         return courseType.slice().reverse();
       }
       return courseType;
-    },
+    }
   },
   methods: {
     addcount(id) {
       this.$http.get(`${this.$store.getters.url}/course/view/${id}`, {
         headers: {
-          Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-        },
+          Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+        }
       });
     },
     purchase(course) {
@@ -1696,7 +1710,7 @@ export default {
             ". Check it out here!",
           url:
             "https://skillsguruh.com/learner/courses/?course_id=" +
-            this.course.id,
+            this.course.id
         };
       } else {
         this.feed = {
@@ -1707,33 +1721,33 @@ export default {
             " Check it out here!",
           url:
             "https://skillsguruh.com/learner/courses/?course_id=" +
-            this.course.id,
+            this.course.id
         };
       }
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Added to feeds ");
             this.$bvModal.hide("share");
 
             this.feed = {
               media: "",
-              message: "",
+              message: ""
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     loadCourse() {
       this.course = this.courses.find(
-        (item) => item.id == this.$route.query.course_id
+        item => item.id == this.$route.query.course_id
       );
     },
     sharelink(id) {
@@ -1743,11 +1757,11 @@ export default {
 
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             if (res.data) {
               this.link = `https://skillsguruh.com/explore/courses/?course=${encodeURIComponent(
@@ -1761,7 +1775,7 @@ export default {
             this.$bvModal.show("share");
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1771,10 +1785,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Invite Sent");
             this.$bvModal.hide("sharecourse");
@@ -1783,9 +1797,9 @@ export default {
               title: "",
               users: [
                 {
-                  email: "",
-                },
-              ],
+                  email: ""
+                }
+              ]
             };
           }
         })
@@ -1795,13 +1809,13 @@ export default {
     },
     addinvite() {
       this.inviteUsers.users.push({
-        email: "",
+        email: ""
       });
     },
-    onCopy: function (e) {
+    onCopy: function(e) {
       alert("You just copied the following text to the clipboard: " + e.text);
     },
-    onError: function (e) {
+    onError: function(e) {
       alert("Failed to copy the text to the clipboard");
       console.log(e);
     },
@@ -1809,8 +1823,8 @@ export default {
       var count = 0;
       var modules = JSON.parse(a);
       var resources = b;
-      modules.forEach((mod) => {
-        var val = resources.filter((item) => item.module == mod).length;
+      modules.forEach(mod => {
+        var val = resources.filter(item => item.module == mod).length;
 
         if (val) {
           count++;
@@ -1830,15 +1844,15 @@ export default {
           `${this.$store.getters.url}/apply-community`,
           {
             amount: amount,
-            course_id: id,
+            course_id: id
           },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.communitylink.push(res.data);
             this.message = `https://skillsguruh.com/explore/courses/?course_id=${this.course.id}&invite=${res.data.code}`;
@@ -1847,7 +1861,7 @@ export default {
             this.$bvModal.show("courselink");
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1862,18 +1876,18 @@ export default {
 
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.message = `https://skillsguruh.com/explore/courses/?course_id=${this.course.id}&invite=${res.data.code}`;
             this.inviteUsers.code = res.data.code;
             this.$bvModal.show("sharecourse");
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1885,15 +1899,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/apply-community`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.communitylink = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1906,21 +1920,21 @@ export default {
         .post(
           `${this.$store.getters.url}/libraries`,
           {
-            course_id: id,
+            course_id: id
           },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.library.push(res.data);
             this.$toast.success("Added to library");
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1933,15 +1947,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/libraries`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.library = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1952,7 +1966,7 @@ export default {
       }
 
       var check = this.communitylink.find(
-        (item) => item.course_id == this.course.id
+        item => item.course_id == this.course.id
       );
 
       return check;
@@ -1968,7 +1982,7 @@ export default {
       }
 
       var check = this.library.find(
-        (item) =>
+        item =>
           item.user_id == this.$store.getters.learner.id &&
           item.course_id == this.course.id
       );
@@ -1982,8 +1996,8 @@ export default {
         return 0;
       }
       if (media == "document") {
-        arr.forEach((val) => {
-          JSON.parse(val.modules).forEach((item) => {
+        arr.forEach(val => {
+          JSON.parse(val.modules).forEach(item => {
             if (
               item.file_type.toLowerCase() == media.toLowerCase() ||
               item.file_type.toLowerCase() == "template"
@@ -1993,8 +2007,8 @@ export default {
           });
         });
       } else {
-        arr.forEach((val) => {
-          JSON.parse(val.modules).forEach((item) => {
+        arr.forEach(val => {
+          JSON.parse(val.modules).forEach(item => {
             if (item.file_type.toLowerCase() == media.toLowerCase()) {
               newarr.push(item);
             }
@@ -2023,10 +2037,10 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      var newArr = schedule.map((val) => {
+      var newArr = schedule.map(val => {
         if (val.facilitator_id) {
           var fac = this.facilitators.find(
-            (item) => item.id == val.facilitator_id
+            item => item.id == val.facilitator_id
           );
           if (fac) {
             return fac.name;
@@ -2041,7 +2055,7 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      return schedule.map((item) => {
+      return schedule.map(item => {
         var res = ` ${item.day} ${this.$moment(
           new Date("2021-05-18 " + item.start_time)
         ).format("LT")}`;
@@ -2057,7 +2071,7 @@ export default {
         url: "",
         start_time: "",
         end_time: "",
-        facilitator_id: null,
+        facilitator_id: null
       });
     },
     addmodule() {
@@ -2072,7 +2086,7 @@ export default {
     addfaq() {
       this.detail.outline.faqs.push({
         question: "",
-        answer: "",
+        answer: ""
       });
     },
 
@@ -2080,15 +2094,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/user-get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -2097,10 +2111,10 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/interest-courses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.courses = res.data;
             this.loadCourse();
@@ -2108,7 +2122,7 @@ export default {
             this.rows = res.data.length;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -2116,10 +2130,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/courses`, this.detail, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.$toast.success("Course created");
             this.courses.unshift(res.data);
@@ -2129,7 +2143,7 @@ export default {
                 title: "",
                 code: "",
                 description: "",
-                cover: "",
+                cover: ""
               },
               outline: {
                 overview: "",
@@ -2139,11 +2153,11 @@ export default {
                 faqs: [
                   {
                     question: "",
-                    answer: "",
-                  },
+                    answer: ""
+                  }
                 ],
                 certification: null,
-                additional_info: "",
+                additional_info: ""
               },
               schedule: [
                 {
@@ -2153,13 +2167,13 @@ export default {
                   day: "",
                   start_time: "",
                   end_time: "",
-                  facilitator_id: null,
-                },
-              ],
+                  facilitator_id: null
+                }
+              ]
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -2169,7 +2183,7 @@ export default {
           title: val.title,
           code: val.code,
           description: val.description,
-          cover: val.cover,
+          cover: val.cover
         },
         outline: {
           overview: val.courseoutline.overview,
@@ -2178,9 +2192,9 @@ export default {
           modules: JSON.parse(val.courseoutline.modules),
           faqs: JSON.parse(val.courseoutline.faqs),
           certification: val.courseoutline.certification,
-          additional_info: val.courseoutline.additional_info,
+          additional_info: val.courseoutline.additional_info
         },
-        schedule: val.courseschedule,
+        schedule: val.courseschedule
       };
       this.$bvModal.show("update");
     },
@@ -2191,11 +2205,11 @@ export default {
           this.detail,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Update successful");
             this.$bvModal.hide("update");
@@ -2206,7 +2220,7 @@ export default {
                 title: "",
                 code: "",
                 description: "",
-                cover: "",
+                cover: ""
               },
               outline: {
                 overview: "",
@@ -2216,11 +2230,11 @@ export default {
                 faqs: [
                   {
                     question: "",
-                    answer: "",
-                  },
+                    answer: ""
+                  }
                 ],
                 certification: null,
-                additional_info: "",
+                additional_info: ""
               },
               schedule: [
                 {
@@ -2230,38 +2244,38 @@ export default {
                   day: "",
                   start_time: "",
                   end_time: "",
-                  facilitator_id: null,
-                },
-              ],
+                  facilitator_id: null
+                }
+              ]
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/courses/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.courses.splice(index, 1);
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

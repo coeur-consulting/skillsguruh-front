@@ -50,7 +50,7 @@
       <div v-if="showDiscussion">
         <div class="main_content" v-if="filteredData.length">
           <div
-            class="content border-bottom p-2 p-sm-3 pt-4 pb-5 cursor-pointer"
+            class="content border-bottom px-0 p-sm-3 pt-3 cursor-pointer"
             v-for="(item, index) in filteredData"
             :key="index"
           >
@@ -72,21 +72,24 @@
               </b-dropdown>
               <div class="side_dis">
                 <b-avatar
+                  size="1.5rem"
                   v-if="item.creator == 'admin'"
                   :src="item.admin.profile"
                 ></b-avatar>
 
                 <b-avatar
+                  size="1.5rem"
                   v-if="item.creator == 'user'"
                   :src="item.user.profile"
                 ></b-avatar>
                 <b-avatar
+                  size="1.5rem"
                   v-if="item.creator == 'facilitator'"
                   :src="item.facilitator.profile"
                 ></b-avatar>
               </div>
               <div class="text-left next_dis">
-                <span>
+                <div>
                   <span class="asked mr-2">
                     Started {{ item.created_at | moment("ll") }}</span
                   >
@@ -97,9 +100,9 @@
                       >{{ item.type }}</b-badge
                     ></span
                   >
-                </span>
-                <br />
-                <span class="title">{{ item.name }} </span>
+                </div>
+
+                <div class="title">{{ item.name }}</div>
               </div>
             </div>
             <div class="top_dis d-flex align-items-start">

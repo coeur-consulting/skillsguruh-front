@@ -282,7 +282,7 @@
                 <div
                   v-for="(feed, index) in feeds"
                   :key="index"
-                  class="border bg-white rounded mb-5"
+                  class="border bg-white rounded mb-2"
                 >
                   <div class="d-flex mb-3 px-2 px-sm-3 pt-3">
                     <div class="d-flex flex-1 text-left">
@@ -365,7 +365,7 @@
                   <div class="text-left feed_text px-3 pb-3">
                     <span v-html="feed.message"></span><br />
                     <span v-if="feed.url" class="text-dark-green"
-                      ><a :href="feed.url" target="_blank">Link</a></span
+                      ><a :href="feed.url" target="_blank">Click link</a></span
                     >
                   </div>
                   <div>

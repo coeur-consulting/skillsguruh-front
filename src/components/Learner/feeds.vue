@@ -375,7 +375,7 @@
                     <div class="text-left feed_text px-3 px-sm-4 pb-3">
                       <span v-html="feed.message"></span><br />
                       <span v-if="feed.url" class="text-dark-green"
-                        ><a :href="feed.url" target="_blank">Link</a></span
+                        ><a :href="feed.url" target="_blank">Click link</a></span
                       >
                     </div>
                     <div>

@@ -153,7 +153,7 @@
                       <div
                         class="course_img"
                         :style="{
-                          backgroundImage: `url(${item.course.cover})`,
+                          backgroundImage: `url(${item.course.cover?tem.course.cover:require('@/assets/images/default.png')})`,
                         }"
                       ></div>
                       <div class="course_text">
@@ -250,7 +250,7 @@
                       <div
                         class="course_img"
                         :style="{
-                          backgroundImage: `url(${item[1].course.cover})`,
+                          backgroundImage: `url(${item[1].course.cover?item[1].course.cover:require('@/assets/images/default.png')})`,
                         }"
                       ></div>
                       <div class="course_text">
