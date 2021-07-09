@@ -56,7 +56,15 @@
                 <div class="d-flex align-items-center flex-1">
                   <b-avatar class="mr-2" size="2.8rem"></b-avatar>
                   <div>
-                    <span>{{ item.facilitator_follower.name }}</span> <br />
+                    <span
+                      @click="
+                        $router.push(
+                          `/learner/facilitator/${item.facilitator_follower.id}`
+                        )
+                      "
+                      >{{ item.facilitator_follower.name }}</span
+                    >
+                    <br />
                     <span class="fs14 text-muted">{{
                       item.facilitator_follower.email
                     }}</span>
@@ -127,42 +135,6 @@
             <h6 class="text-muted text-center">Not available</h6>
           </div>
         </div>
-        <!-- <div class="box p-4">
-          <h6 class="mb-3">Suggested Facilitators</h6>
-
-          <div
-            class="py-2 suggestion_box"
-            v-if="filteredFacilitatorSuggested.length"
-          >
-            <div
-              class="d-flex align-items-end mb-4"
-              v-for="(item, id) in filteredFacilitatorSuggested.slice(0, 9)"
-              :key="id"
-            >
-              <div class="d-flex align-items-center flex-1">
-                <b-avatar class="mr-2" size="2rem"></b-avatar>
-                <div style="line-height: 1.2">
-                  <span class="fs14">{{ item.name }}</span> <br />
-                  <span class="fs12 text-muted">{{ item.email }}</span>
-                </div>
-              </div>
-
-              <div>
-                <b-button
-                  @click="addconnections(item.id, 'facilitator')"
-                  size="sm"
-                  variant="outline-dark-green"
-                  class="rounded-pill fs11"
-                  >Connect</b-button
-                >
-              </div>
-            </div>
-          </div>
-
-          <div v-else class="p-3">
-            <h6 class="text-muted text-center">Not available</h6>
-          </div>
-        </div> -->
       </b-col>
     </b-row>
     <Minichat

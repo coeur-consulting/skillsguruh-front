@@ -92,7 +92,7 @@
                         placement="bottom"
                       >
                         <div class="">
-                          <small
+                          <!-- <small
                             class="px-0 text-left cursor-pointer"
                             @click="
                               $router.push(
@@ -104,7 +104,7 @@
                             ><span>View</span>
                           </small>
                           <br />
-                          <hr class="my-1" />
+                          <hr class="my-1" /> -->
                           <small
                             class="px-0 text-left cursor-pointer"
                             @click="edit(item)"

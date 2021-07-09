@@ -94,6 +94,11 @@
                     >
                     <span
                       v-if="discussion.facilitator"
+                      @click="
+                        $router.push(
+                          `/facilitator/profile/${discussion.facilitator.id}`
+                        )
+                      "
                       class="fs12 font-weight-bold text-dark-green"
                       >{{ discussion.facilitator.name }}</span
                     >

@@ -31,7 +31,7 @@
                     ><br />
                     <span class="asked">
                       Created
-                      {{ discussion.created_at | moment("calendar") }}</span
+                      {{ discussion.created_at | moment("ll") }}</span
                     >
                   </div>
                 </div>
@@ -97,6 +97,11 @@
                     <span
                       v-if="discussion.facilitator"
                       class="fs12 font-weight-bold text-dark-green"
+                      @click="
+                        $router.push(
+                          `/learner/facilitator/${discussion.facilitator.id}`
+                        )
+                      "
                       >{{ discussion.facilitator.name }}</span
                     >
                   </div>

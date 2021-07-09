@@ -91,9 +91,12 @@
                   <h6 class="font-weight-bold text-capitalize overview-title">
                     {{ item.course.title }}
                   </h6>
-                  <p class="overview" v-if="item.course.courseoutline">
-                    {{ item.course.courseoutline.overview }}
-                  </p>
+
+                  <div
+                    v-if="item.course.courseoutline"
+                    class="overview"
+                    v-html="item.courseoutline.overview"
+                  ></div>
                 </div>
                 <div class="info fs12">
                   <div class="d-flex">

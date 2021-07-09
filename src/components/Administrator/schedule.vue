@@ -781,10 +781,16 @@
                         ></span
                       >
                     </div>
-                    <div class="mb-3">
+                    <div>
                       <span class="fs12"
                         ><b-icon icon="calendar3" class="mr-2"></b-icon>
                         <span>Today</span></span
+                      >
+                    </div>
+                    <div class="mb-3">
+                      <span class="fs12"
+                        ><b-icon icon="person" class="mr-2"></b-icon>
+                        <span>{{ item.customData.facilitator }}</span></span
                       >
                     </div>
 
@@ -1367,9 +1373,9 @@ export default {
           content: false,
           popover: true,
           customData: {
-            id: item.id,
             title: item.course.title,
             url: item.url,
+            facilitator: item.facilitator ? item.facilitator.name : "",
             duration:
               this.$moment(item.start_time).diff(
                 this.$moment(item.end_time),
@@ -1401,11 +1407,11 @@ export default {
           content: false,
           popover: true,
           customData: {
-            id: item.id,
             title: item.title,
+            url: item.url,
+            facilitator: item.facilitator ? item.facilitator.name : "",
             duration: item.schedule,
             type: item.type,
-            url: item.url,
             class: "bg-red-600 text-white",
           },
           dates: { start: new Date(item.start), end: new Date(item.end) },

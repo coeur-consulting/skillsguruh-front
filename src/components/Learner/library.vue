@@ -32,6 +32,7 @@
                       <div
                         v-for="(mods, idx) in item.course.modules"
                         :key="idx"
+                        class="py-2"
                       >
                         <b-card-body
                           v-if="
@@ -42,11 +43,11 @@
                               (ite) => ite.file_type == 'template'
                             ).length
                           "
-                          class="px-2"
+                          class="px-2 py-0 mb-2"
                         >
                           <h6 class="text-capitalize">{{ mods.module }}</h6>
                           <b-card-body
-                            class="py-1 worksheet"
+                            class="worksheet"
                             v-for="(mod, index) in JSON.parse(
                               mods.modules
                             ).filter((item) => item.file_type == 'template')"

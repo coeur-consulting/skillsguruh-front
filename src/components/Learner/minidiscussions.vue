@@ -88,7 +88,7 @@
               <div class="text-left next_dis">
                 <span>
                   <span class="asked mr-2">
-                    Started {{ item.created_at | moment("calendar") }}</span
+                    Started {{ item.created_at | moment("ll") }}</span
                   >
                   <span class="mr-2 fs13"
                     ><b-badge

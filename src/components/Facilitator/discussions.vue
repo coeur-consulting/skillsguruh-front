@@ -87,7 +87,7 @@
                       <span>
                         <span class="asked mr-2">
                           Started
-                          {{ item.created_at | moment("calendar") }}</span
+                          {{ item.created_at | moment("ll") }}</span
                         >
                         <span class="mr-2 fs13"
                           ><b-badge
@@ -414,6 +414,7 @@ export default {
       mytags: [],
       showDiscussions: false,
       showOther: false,
+      rows: null,
     };
   },
   components: {
@@ -525,6 +526,24 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
+    getevents() {
+      this.$http
+        .get(`${this.$store.getters.url}/events`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.events = res.data;
+            this.rows = res.data.length;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+
     getdiscussions() {
       this.$http
         .get(`${this.$store.getters.url}/discussions`, {

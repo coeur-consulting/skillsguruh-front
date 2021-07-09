@@ -119,10 +119,6 @@
                           {{ item.eventattendance.length }} Attending
                         </p>
                         <div class="d-flex">
-                          <b-icon
-                            class="mr-2 text-muted"
-                            icon="info-circle"
-                          ></b-icon>
                           <p class="description text-muted">
                             {{ item.description }}
                           </p>
@@ -762,19 +758,8 @@ export default {
             };
           }
         })
-        .catch((err) => {
-          if (err.response.data.errors.email[0]) {
-            this.$toast.error(err.response.data.errors.email[0]);
-          }
-          if (err.response.data.errors.phone[0]) {
-            this.$toast.error(err.response.data.errors.phone[0]);
-          }
-          if (err.response.data.errors.name[0]) {
-            this.$toast.error(err.response.data.errors.name[0]);
-          }
-          if (err.response.data.errors.password[0]) {
-            this.$toast.error(err.response.data.errors.password[0]);
-          }
+        .catch(() => {
+          this.$toast.error("Fill all fields");
         });
     },
     edit(data) {
@@ -807,8 +792,8 @@ export default {
             };
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Fill all fields");
         });
     },
     view(id) {

@@ -71,142 +71,333 @@
                     >
                   </div>
                   <div
-                    class="
-                      d-flex
-                      justify-content-between
-                      align-items-start
-                      fs14
+                    v-if="
+                      (question.type == 'short' || question.type == 'long') &&
+                      !question.addSubQuestion
                     "
                   >
-                    <b-col cols="8">
-                      <h6 class="mb-2 fs13">Your response</h6>
-                      <div v-if="question.response">
-                        <p class="text-capitalize">{{ question.response }}</p>
-                      </div>
+                    <div
+                      v-for="(place, idp) in question.placeholders"
+                      :key="idp"
+                    >
+                      <b-form-input
+                        disabled
+                        v-if="question.type == 'short'"
+                        v-model="place.response"
+                        class="mb-1"
+                        size="sm"
+                        :placeholder="place.placeholder"
+                      ></b-form-input>
+                      <b-form-textarea
+                        disabled
+                        v-model="place.response"
+                        v-if="question.type == 'long'"
+                        class="mb-1"
+                        :placeholder="place.placeholder"
+                      ></b-form-textarea>
+                    </div>
+                  </div>
 
-                      <div v-if="question.responses.length">
-                        <ul class="">
-                          <li
-                            class="text-capitalize"
-                            v-for="(ite, id) in question.responses"
-                            :key="id"
-                          >
-                            <span v-if="ite">
-                              {{ question.options[ite].value }}</span
-                            >
-                          </li>
-                        </ul>
-                      </div>
-                      <div v-if="question.score" class="text-muted fs13">
-                        <small>Your score</small> <br />
-                        <span>{{ question.result }}</span>
-                      </div>
-                      <div v-if="question.addSubQuestion">
-                        <div
-                          v-for="(subquest, subId) in question.subQuestion"
-                          :key="subId"
-                        >
-                          <b-form-group
-                            :label="subquest.question"
-                            class="flex-1"
+                  <div v-if="question.type == 'single'">
+                    <!-- <b-form-radio-group
+                    v-model="question.response"
+                    size="sm"
+                    v-if="question.options[0].value"
+                    :options="question.options"
+                    value-field="value"
+                    text-field="value"
+                  ></b-form-radio-group> -->
+
+                    <b-form-row>
+                      <b-col
+                        cols="5"
+                        v-for="(item, indx) in question.options"
+                        :key="indx"
+                      >
+                        <b-form-radio
+                          disabled
+                          class="text-capitalize mb-2"
+                          size="sm"
+                          v-model="question.response"
+                          :value="item.value"
+                          >{{ item.value }}
+                          <b-icon
+                            v-if="question.response"
+                            :icon="
+                              question.answers
+                                .map((t) => t.value.toLowerCase())
+                                .includes(item.value.toLowerCase())
+                                ? 'check2-circle'
+                                : 'x'
+                            "
+                            :class="
+                              question.answers
+                                .map((t) => t.value.toLowerCase())
+                                .includes(item.value.toLowerCase())
+                                ? 'text-dark-green'
+                                : 'text-danger'
+                            "
+                          ></b-icon
+                        ></b-form-radio>
+                      </b-col>
+                    </b-form-row>
+                  </div>
+
+                  <div v-if="question.type == 'checkbox'">
+                    <div v-if="question.options[0].value">
+                      <b-form-checkbox
+                        v-model="question.responses"
+                        size="sm"
+                        v-for="(item, index) in question.options"
+                        :key="index"
+                        :value="index"
+                        disabled
+                        inline
+                      >
+                        <span> {{ item.value }}</span>
+                        <b-icon
+                          :icon="
+                            question.answers
+                              .map((t) => t.value.toLowerCase())
+                              .includes(item.value.toLowerCase())
+                              ? 'check2-circle'
+                              : 'x'
+                          "
+                          :class="
+                            question.answers
+                              .map((t) => t.value.toLowerCase())
+                              .includes(item.value.toLowerCase())
+                              ? 'text-dark-green'
+                              : 'text-danger'
+                          "
+                        ></b-icon>
+                      </b-form-checkbox>
+                    </div>
+                  </div>
+
+                  <div v-if="question.type == 'dropdown'">
+                    <b-form-select
+                      v-model="question.response"
+                      v-if="question.options[0].value"
+                    >
+                      <b-form-select-option
+                        v-for="option in question.options"
+                        :key="option.value"
+                        :value="option.value"
+                        >{{ option.value }}</b-form-select-option
+                      >
+                    </b-form-select>
+                  </div>
+
+                  <div v-if="question.type == 'range'">
+                    <b-form-input
+                      disabled
+                      v-model="question.response"
+                      type="range"
+                      min="0"
+                      max="10"
+                    ></b-form-input>
+                  </div>
+                  <div v-if="question.type == 'email'">
+                    <b-form-input
+                      disabled
+                      v-model="question.response"
+                      type="email"
+                    ></b-form-input>
+                  </div>
+                  <div v-if="question.type == 'number'">
+                    <b-form-input
+                      disabled
+                      v-model="question.response"
+                      type="number"
+                    ></b-form-input>
+                  </div>
+                  <div v-if="question.type == 'time'">
+                    <b-form-input
+                      disabled
+                      v-model="question.response"
+                      type="time"
+                    ></b-form-input>
+                  </div>
+                  <div v-if="question.type == 'date'">
+                    <b-form-input
+                      disabled
+                      v-model="question.response"
+                      type="date"
+                    ></b-form-input>
+                  </div>
+                  <div v-if="question.type == 'color'">
+                    <b-form-input
+                      disabled
+                      v-model="question.response"
+                      type="color"
+                    ></b-form-input>
+                  </div>
+
+                  <div v-if="question.addSubQuestion" class="mt-2">
+                    <ol class="subquest">
+                      <li
+                        v-for="(subquest, subId) in question.subQuestion"
+                        :key="subId"
+                      >
+                        <b-form-group :label="subquest.question">
+                          <div
+                            v-if="
+                              question.type == 'short' ||
+                              question.type == 'long'
+                            "
                           >
                             <div
-                              class="
-                                d-flex
-                                justify-content-between
-                                align-items-start
-                                fs14
-                              "
+                              v-for="(place, idp) in subquest.placeholders"
+                              :key="idp"
                             >
-                              <b-col cols="8">
-                                <h6 class="mb-2 fs13">Your response</h6>
-                                <div v-if="subquest.response">
-                                  <p class="text-capitalize">
-                                    {{ subquest.response }}
-                                  </p>
-                                </div>
-
-                                <div v-if="subquest.responses.length">
-                                  <ul class="">
-                                    <li
-                                      class="text-capitalize"
-                                      v-for="(ite, id) in subquest.responses"
-                                      :key="id"
-                                    >
-                                      <span v-if="ite">
-                                        {{ subquest.options[ite].value }}</span
-                                      >
-                                    </li>
-                                  </ul>
-                                </div>
-                                <div
-                                  v-if="subquest.score"
-                                  class="text-muted fs13"
-                                >
-                                  <small>Your score</small> <br />
-                                  <span>{{ subquest.result }}</span>
-                                </div>
-                              </b-col>
-                              <b-col cols="4">
-                                <div
-                                  v-if="
-                                    question.type == 'single' ||
-                                    question.type == 'checkbox'
-                                  "
-                                  class="mb-2"
-                                >
-                                  <div class="text-muted fs13">
-                                    <span>Correct answer</span> <br />
-                                    <ul class="pl-0 ml-0">
-                                      <li
-                                        class="text-capitalize"
-                                        v-for="(ite, id) in subquest.answers"
-                                        :key="id"
-                                      >
-                                        {{ ite.value }}
-                                      </li>
-                                    </ul>
-                                  </div>
-                                </div>
-                                <div
-                                  v-if="question.score"
-                                  class="text-muted fs13"
-                                >
-                                  <small>Total score</small> <br />
-                                  <span>{{ question.score }}</span>
-                                </div>
-                              </b-col>
+                              <b-form-input
+                                disabled
+                                v-model="place.response"
+                                v-if="question.type == 'short'"
+                                class="mb-1"
+                                size="sm"
+                                :placeholder="place.placeholder"
+                              ></b-form-input>
+                              <b-form-textarea
+                                disabled
+                                v-model="place.responses"
+                                v-if="question.type == 'long'"
+                                class="mb-1"
+                                :placeholder="place.placeholder"
+                              ></b-form-textarea>
                             </div>
-                          </b-form-group>
-                        </div>
-                      </div>
-                    </b-col>
-                    <b-col cols="4">
-                      <div
-                        v-if="
-                          question.type == 'single' ||
-                          question.type == 'checkbox'
-                        "
-                        class="mb-2"
-                      >
-                        <div class="text-muted fs13">
-                          <span>Correct answer</span> <br />
-                          <ul class="pl-0 ml-0">
-                            <li
-                              class="text-capitalize"
-                              v-for="(ite, id) in question.answers"
-                              :key="id"
+                          </div>
+
+                          <div v-if="question.type == 'single'">
+                            <b-form-row>
+                              <b-col
+                                cols="5"
+                                v-for="(item, indx) in subquest.options"
+                                :key="indx"
+                              >
+                                <b-form-radio
+                                  disabled
+                                  class="text-capitalize mb-2"
+                                  size="sm"
+                                  v-model="subquest.response"
+                                  :value="item.value"
+                                  >{{ item.value }}
+                                  <b-icon
+                                    v-if="subquest.response"
+                                    :icon="
+                                      subquest.answers
+                                        .map((t) => t.value.toLowerCase())
+                                        .includes(item.value.toLowerCase())
+                                        ? 'check2-circle'
+                                        : 'x'
+                                    "
+                                    :class="
+                                      subquest.answers
+                                        .map((t) => t.value.toLowerCase())
+                                        .includes(item.value.toLowerCase())
+                                        ? 'text-dark-green'
+                                        : 'text-danger'
+                                    "
+                                  ></b-icon
+                                ></b-form-radio>
+                              </b-col>
+                            </b-form-row>
+                          </div>
+
+                          <div v-if="question.type == 'checkbox'">
+                            <div v-if="subquest.options[0].value">
+                              <b-form-checkbox
+                                v-model="subquest.responses"
+                                size="sm"
+                                v-for="(item, index) in subquest.options"
+                                :key="index"
+                                :value="index"
+                                disabled
+                                inline
+                              >
+                                <span> {{ item.value }}</span>
+                                <b-icon
+                                  :icon="
+                                    subquest.answers
+                                      .map((t) => t.value.toLowerCase())
+                                      .includes(item.value.toLowerCase())
+                                      ? 'check2-circle'
+                                      : 'x'
+                                  "
+                                  :class="
+                                    subquest.answers
+                                      .map((t) => t.value.toLowerCase())
+                                      .includes(item.value.toLowerCase())
+                                      ? 'text-dark-green'
+                                      : 'text-danger'
+                                  "
+                                ></b-icon>
+                              </b-form-checkbox>
+                            </div>
+                          </div>
+
+                          <div v-if="question.type == 'dropdown'">
+                            <b-form-select
+                              v-model="subquest.response"
+                              v-if="subquest.options[0].value"
                             >
-                              {{ ite.value }}
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      <div v-if="question.score" class="text-muted fs13">
-                        <small>Total score</small> <br />
-                        <span>{{ question.score }}</span>
-                      </div>
-                    </b-col>
+                              <b-form-select-option
+                                v-for="option in subquest.options"
+                                :key="option.value"
+                                :value="option.value"
+                                >{{ option.value }}</b-form-select-option
+                              >
+                            </b-form-select>
+                          </div>
+
+                          <div v-if="question.type == 'range'">
+                            <b-form-input
+                              disabled
+                              v-model="subquest.response"
+                              type="range"
+                              min="0"
+                              max="10"
+                            ></b-form-input>
+                          </div>
+                          <div v-if="question.type == 'email'">
+                            <b-form-input
+                              disabled
+                              v-model="subquest.response"
+                              type="email"
+                            ></b-form-input>
+                          </div>
+                          <div v-if="question.type == 'number'">
+                            <b-form-input
+                              disabled
+                              v-model="subquest.response"
+                              type="number"
+                            ></b-form-input>
+                          </div>
+                          <div v-if="question.type == 'time'">
+                            <b-form-input
+                              disabled
+                              v-model="subquest.response"
+                              type="time"
+                            ></b-form-input>
+                          </div>
+                          <div v-if="question.type == 'date'">
+                            <b-form-input
+                              disabled
+                              v-model="subquest.response"
+                              type="date"
+                            ></b-form-input>
+                          </div>
+                          <div v-if="question.type == 'color'">
+                            <b-form-input
+                              disabled
+                              v-model="subquest.response"
+                              type="color"
+                            ></b-form-input>
+                          </div>
+                        </b-form-group>
+                      </li>
+                    </ol>
                   </div>
                 </b-form-group>
               </div>

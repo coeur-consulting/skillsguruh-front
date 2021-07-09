@@ -232,8 +232,8 @@
     </b-modal>
     <b-container>
       <b-row>
-        <b-col sm="8">
-          <div class="border bg-white p-3 rounded mb-4">
+         <b-col sm="8" class="px-0 ">
+           <div class="border bg-white py-3  px-2 p-sm-4 rounded-8 mb-4">
             <div class="d-flex align-items-center mb-3">
               <b-avatar size="2.5rem" class="mr-3"></b-avatar>
 
@@ -284,7 +284,7 @@
                   :key="index"
                   class="border bg-white rounded mb-5"
                 >
-                  <div class="d-flex mb-3 px-3 pt-3">
+                  <div class="d-flex mb-3 px-2 px-sm-3 pt-3">
                     <div class="d-flex flex-1 text-left">
                       <div
                         class="font-weight-bold mr-2 mb-1 feedname"
@@ -314,7 +314,15 @@
                           class="mr-2"
                           :src="feed.facilitator.profile"
                         ></b-avatar>
-                        {{ feed.facilitator.name }}
+                        <span
+                          @click="
+                            $router.push(
+                              `/facilitator/profile/${feed.facilitator.id}`
+                            )
+                          "
+                        >
+                          {{ feed.facilitator.name }}</span
+                        >
                       </div>
                       <!--
                     <div class="profile">
@@ -357,9 +365,7 @@
                   <div class="text-left feed_text px-3 pb-3">
                     <span v-html="feed.message"></span><br />
                     <span v-if="feed.url" class="text-dark-green"
-                      ><a :href="feed.url" target="_blank"
-                        >Link</a
-                      ></span
+                      ><a :href="feed.url" target="_blank">Link</a></span
                     >
                   </div>
                   <div>
@@ -473,10 +479,16 @@
                           >
                           <span
                             class="font-weight-bold mr-2"
+                            @click="
+                              $router.push(
+                                `/facilitator/profile/${feed.facilitator.id}`
+                              )
+                            "
                             v-if="item.facilitator"
                           >
                             {{ item.facilitator.name }}</span
                           >
+
                           <span>{{ item.comment }}</span>
                         </div>
                         <div>

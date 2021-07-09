@@ -25,10 +25,10 @@ export default {
 }
 .calculator {
   border: 0.8rem solid var(--lighter-green);
-  width: 24rem;
-  height: 36rem;
+  width: 15rem;
+  height: 20rem;
   background-color: var(--lighter-green);
-  font-size: 1.4rem;
+  font-size: 0.7rem;
   -webkit-border-radius: 1rem;
   -moz-border-radius: 1rem;
   -ms-border-radius: 1rem;

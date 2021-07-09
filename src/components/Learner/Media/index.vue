@@ -138,7 +138,7 @@
                         <b-card-text>{{ course.description }}</b-card-text>
                       </div>
                     </b-tab>
-                    <b-tab class="d-block d-sm-none" title="Modules">
+                    <b-tab class="d-sm-none" title="Modules">
                       <div>
                         <h6>Modules</h6>
 
@@ -163,6 +163,7 @@
                               "
                             >
                               <b-form-checkbox
+                                size="sm"
                                 :disabled="id + 1 <= Number(current)"
                                 :checked="id + 1 <= Number(current)"
                               >
@@ -234,6 +235,7 @@
                               </b-card-body>
 
                               <b-card-body
+                                class="py-1 pt-2"
                                 v-if="
                                   JSON.parse(item.modules).filter(
                                     (item) => item.file_type == 'template'
@@ -243,7 +245,7 @@
                                   ).length
                                 "
                               >
-                                <h6>Worksheet</h6>
+                                <h6 class="fs13 mb-1">Worksheet</h6>
                                 <b-card-body
                                   class="py-1 px-0"
                                   v-for="(mod, index) in JSON.parse(
@@ -485,6 +487,7 @@
                 @click="updateProgress(id + 1, course.modules.length)"
               >
                 <b-form-checkbox
+                  size="sm"
                   :disabled="id + 1 <= Number(current)"
                   :checked="id + 1 <= Number(current)"
                 >
@@ -546,6 +549,7 @@
                 </b-card-body>
 
                 <b-card-body
+                  class="py-1 pt-2"
                   v-if="
                     JSON.parse(item.modules).filter(
                       (item) => item.file_type == 'template'
@@ -555,7 +559,7 @@
                     ).length
                   "
                 >
-                  <h6>Worksheet</h6>
+                  <h6 class="fs11 mb-1">Worksheet</h6>
                   <b-card-body
                     class="py-1 px-0"
                     v-for="(mod, index) in JSON.parse(item.modules).filter(

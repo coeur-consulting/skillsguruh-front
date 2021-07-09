@@ -119,10 +119,6 @@
                           {{ item.eventattendance.length }} Attending
                         </p>
                         <div class="d-flex">
-                          <b-icon
-                            class="mr-2 text-muted"
-                            icon="info-circle"
-                          ></b-icon>
                           <p class="description text-muted">
                             {{ item.description }}
                           </p>

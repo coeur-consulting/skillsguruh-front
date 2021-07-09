@@ -15,7 +15,7 @@
                 <div
                   class="
                     bg-white
-                    shadow
+                    shadow-sm
                     rounded
                     mb-5
                     section-box
@@ -49,7 +49,7 @@
                 <div
                   class="
                     bg-white
-                    shadow
+                    shadow-sm
                     rounded
                     mb-4
                     section-box
@@ -356,7 +356,7 @@
             </div>
           </b-col>
           <b-col sm="2">
-            <div class="mt-5 bg-white shadow p-3 rounded text-center">
+            <div class="mt-5 bg-white shadow-sm p-3 rounded text-center">
               <div class="fs12 mb-3" v-if="assessment.duration">
                 <span>Time remaining</span> <br />
                 <vue-countdown-timer
@@ -380,6 +380,7 @@
                 v-if="JSON.parse(assessment.tools).includes('calculator')"
               >
                 <b-icon
+                  :class="showcalc ? 'shadow' : 'text-muted'"
                   class="cursor-pointer"
                   @click="showcalc = !showcalc"
                   icon="calculator-fill"

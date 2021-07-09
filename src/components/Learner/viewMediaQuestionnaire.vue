@@ -13,7 +13,7 @@
             <div
               class="
                 bg-white
-                shadow
+                shadow-sm
                 rounded
                 mb-5
                 section-box
@@ -38,7 +38,7 @@
             <div
               class="
                 bg-white
-                shadow
+                shadow-sm
                 rounded
                 mb-4
                 section-box

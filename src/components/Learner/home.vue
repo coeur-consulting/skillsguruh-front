@@ -109,9 +109,10 @@
                             <h6 class="overview-title">
                               {{ item.title }}
                             </h6>
-                            <p class="overview">
-                              {{ item.courseoutline.overview }}
-                            </p>
+                            <div
+                              class="overview"
+                              v-html="item.courseoutline.overview"
+                            ></div>
                           </div>
                           <div class="info fs11">
                             <div class="d-flex">

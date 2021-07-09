@@ -678,10 +678,16 @@
                         ></span
                       >
                     </div>
-                    <div class="mb-3">
+                    <div>
                       <span class="fs12"
                         ><b-icon icon="calendar3" class="mr-2"></b-icon>
                         <span>Today</span></span
+                      >
+                    </div>
+                    <div class="mb-3">
+                      <span class="fs12"
+                        ><b-icon icon="person" class="mr-2"></b-icon>
+                        <span>{{ item.customData.facilitator }}</span></span
                       >
                     </div>
 

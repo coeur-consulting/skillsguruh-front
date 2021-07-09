@@ -929,6 +929,19 @@ const routes = [
         },
       },
       {
+        path: "profile/:id",
+        name: " facilitator profile",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "facilitator" */ "@/components/Facilitator/facilitator.vue"
+            ),
+        },
+        meta: {
+          typeFacilitator: true,
+        },
+      },
+      {
         path: "learners",
         name: "Facilitator learners",
         components: {
@@ -1196,6 +1209,19 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerfacilitators" */ "@/components/Learner/facilitators.vue"
+            ),
+        },
+        meta: {
+          typeLearner: true,
+        },
+      },
+      {
+        path: "facilitator/:id",
+        name: "Learner facilitator",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Learnerfacilitators" */ "@/components/Learner/facilitator.vue"
             ),
         },
         meta: {

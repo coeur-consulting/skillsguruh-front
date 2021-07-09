@@ -131,9 +131,9 @@ export default {
   background-color: #f5f8f8;
   margin: 1rem auto;
   /*width: 24rem;*/
-  height: 7rem;
+  height: 5rem;
   width: 90%;
-  font-size: 2rem;
+  font-size: 0.7rem;
   /*height:18.4%;*/
   -webkit-border-radius: 0.4rem;
   -moz-border-radius: 0.4rem;
@@ -172,7 +172,7 @@ export default {
 
 .calculator .calculator-border .calculator-items {
   /*border: 1px solid black;*/
-  margin: 3rem auto;
+  margin: 1.5rem auto;
   text-align: center;
   width: 100%;
   height: auto;
@@ -191,10 +191,10 @@ export default {
 .calculator .calculator-border .calculator-items .calculator-item {
   border: 0.1rem solid var(--lighter-green);
   width: 16.666%;
-  height: 4rem;
+  height: 1.8rem;
   display: inline-block;
   text-align: center;
-  line-height: 4rem;
+  line-height: 1.8rem;
   margin-right: 2.1%;
   color: #fff;
   cursor: pointer;

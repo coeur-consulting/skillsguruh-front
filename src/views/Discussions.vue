@@ -88,7 +88,7 @@
                       <span>
                         <span class="asked mr-2">
                           Started
-                          {{ item.created_at | moment("calendar") }}</span
+                          {{ item.created_at | moment("ll") }}</span
                         >
                         <span class="mr-2 fs13"
                           ><b-badge
@@ -170,7 +170,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="p-3 d-flex justify-content-between"  v-if="rows > 10">
+                <div
+                  class="p-3 d-flex justify-content-between"
+                  v-if="rows > 10"
+                >
                   <div class="fs12 text-muted">
                     Showing 1-10 of {{ filteredData.length }} items
                   </div>
