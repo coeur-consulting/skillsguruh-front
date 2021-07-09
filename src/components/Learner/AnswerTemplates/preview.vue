@@ -113,16 +113,12 @@
                         <b-icon
                           v-if="question.response"
                           :icon="
-                            question.answers
-                              .map((t) => t.value.toLowerCase())
-                              .includes(item.value.toLowerCase())
+                            question.answer == item.value
                               ? 'check2-circle'
                               : 'x'
                           "
                           :class="
-                            question.answers
-                              .map((t) => t.value.toLowerCase())
-                              .includes(item.value.toLowerCase())
+                            question.answer == item.value
                               ? 'text-dark-green'
                               : 'text-danger'
                           "
@@ -154,7 +150,7 @@
                         "
                         :class="
                           question.answers
-                            .map((t) => t.value.toLowerCase())
+                            .map((t) => t.toLowerCase())
                             .includes(item.value.toLowerCase())
                             ? 'text-dark-green'
                             : 'text-danger'
@@ -274,16 +270,12 @@
                                 <b-icon
                                   v-if="subquest.response"
                                   :icon="
-                                    subquest.answers
-                                      .map((t) => t.value.toLowerCase())
-                                      .includes(item.value.toLowerCase())
+                                    subquest.answer == item.value
                                       ? 'check2-circle'
                                       : 'x'
                                   "
                                   :class="
-                                    subquest.answers
-                                      .map((t) => t.value.toLowerCase())
-                                      .includes(item.value.toLowerCase())
+                                    subquest.answer == item.value
                                       ? 'text-dark-green'
                                       : 'text-danger'
                                   "
@@ -308,14 +300,14 @@
                               <b-icon
                                 :icon="
                                   subquest.answers
-                                    .map((t) => t.value.toLowerCase())
-                                    .includes(item.value.toLowerCase())
+                                    .map((t) => t.toLowerCase())
+                                    .includes(item.toLowerCase())
                                     ? 'check2-circle'
                                     : 'x'
                                 "
                                 :class="
                                   subquest.answers
-                                    .map((t) => t.value.toLowerCase())
+                                    .map((t) => t.toLowerCase())
                                     .includes(item.value.toLowerCase())
                                     ? 'text-dark-green'
                                     : 'text-danger'

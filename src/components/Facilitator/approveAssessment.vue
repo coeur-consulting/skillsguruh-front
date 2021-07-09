@@ -124,16 +124,12 @@
                           <b-icon
                             v-if="question.response"
                             :icon="
-                              question.answers
-                                .map((t) => t.value.toLowerCase())
-                                .includes(item.value.toLowerCase())
+                              question.answer == item.value
                                 ? 'check2-circle'
                                 : 'x'
                             "
                             :class="
-                              question.answers
-                                .map((t) => t.value.toLowerCase())
-                                .includes(item.value.toLowerCase())
+                              question.answer == item.value
                                 ? 'text-dark-green'
                                 : 'text-danger'
                             "
@@ -158,14 +154,14 @@
                         <b-icon
                           :icon="
                             question.answers
-                              .map((t) => t.value.toLowerCase())
+                              .map((t) => t.toLowerCase())
                               .includes(item.value.toLowerCase())
                               ? 'check2-circle'
                               : 'x'
                           "
                           :class="
                             question.answers
-                              .map((t) => t.value.toLowerCase())
+                              .map((t) => t.toLowerCase())
                               .includes(item.value.toLowerCase())
                               ? 'text-dark-green'
                               : 'text-danger'
@@ -286,16 +282,12 @@
                                   <b-icon
                                     v-if="subquest.response"
                                     :icon="
-                                      subquest.answers
-                                        .map((t) => t.value.toLowerCase())
-                                        .includes(item.value.toLowerCase())
+                                      subquest.answer == item.value
                                         ? 'check2-circle'
                                         : 'x'
                                     "
                                     :class="
-                                      subquest.answers
-                                        .map((t) => t.value.toLowerCase())
-                                        .includes(item.value.toLowerCase())
+                                      subquest.answer == item.value
                                         ? 'text-dark-green'
                                         : 'text-danger'
                                     "
@@ -320,14 +312,14 @@
                                 <b-icon
                                   :icon="
                                     subquest.answers
-                                      .map((t) => t.value.toLowerCase())
+                                      .map((t) => t.toLowerCase())
                                       .includes(item.value.toLowerCase())
                                       ? 'check2-circle'
                                       : 'x'
                                   "
                                   :class="
                                     subquest.answers
-                                      .map((t) => t.value.toLowerCase())
+                                      .map((t) => t.toLowerCase())
                                       .includes(item.value.toLowerCase())
                                       ? 'text-dark-green'
                                       : 'text-danger'
@@ -481,11 +473,7 @@ export default {
                 ],
                 showAnswer: false,
                 answer: "",
-                answers: [
-                  {
-                    title: "",
-                  },
-                ],
+                answers: [],
                 placeholder: "",
                 hint: "",
                 asScore: false,
@@ -563,17 +551,17 @@ export default {
 
       var score = newarr.map((item) => {
         if (item.asAnswer) {
-          if (item.type !== "checkbox" && item.type !== "multiple") {
+          if (item.type == "single") {
             if (item.response == item.answer) {
               return item.score;
             }
             return 0;
           }
-          if (item.type == "checkbox" || item.type == "multiple") {
-            answers = item.answers.map((item) => item.title).sort();
+          if (item.type == "checkbox") {
+            answers = item.answers.map((item) => item).sort();
             responses = item.responses
               .map((val) => item.options[val])
-              .map((item) => item.title)
+              .map((item) => item.value)
               .sort();
 
             correct = answers.filter((x) => responses.indexOf(x) !== -1).length;

@@ -455,49 +455,47 @@
                                     >
                                       <b-col sm="12">
                                         <b-form-group label="Correct Answer">
-                                          <b-input-group
-                                            size="sm"
-                                            v-for="(answer, id) in val.answers"
-                                            :key="id"
-                                            class="mb-1"
+                                          <b-form-row
+                                            v-if="question.type == 'single'"
                                           >
-                                            <b-form-input
-                                              v-model="answer.value"
-                                              placeholder="Provide answer"
+                                            <b-col
+                                              cols="5"
+                                              v-for="(
+                                                option, id
+                                              ) in val.options"
+                                              :key="id"
                                             >
-                                            </b-form-input>
-                                            <b-input-group-append
-                                              v-if="question.type == 'checkbox'"
+                                              <b-form-radio
+                                                v-if="option.value"
+                                                :value="option.value"
+                                                v-model="val.answer"
+                                                >{{
+                                                  option.value
+                                                }}</b-form-radio
+                                              >
+                                            </b-col>
+                                          </b-form-row>
+
+                                          <b-form-row
+                                            v-if="question.type == 'checkbox'"
+                                          >
+                                            <b-col
+                                              cols="5"
+                                              v-for="(
+                                                option, id
+                                              ) in val.options"
+                                              :key="id"
                                             >
-                                              <b-button-group size="sm">
-                                                <b-button
-                                                  size="sm"
-                                                  @click="
-                                                    val.answers.splice(id, 1)
-                                                  "
-                                                  v-if="val.answers.length > 1"
-                                                  ><b-icon icon="x"></b-icon
-                                                ></b-button>
-                                                <b-button
-                                                  v-if="
-                                                    val.answers.length == id + 1
-                                                  "
-                                                  size="sm"
-                                                  variant="lighter-green"
-                                                  @click="
-                                                    addSubAnswer(
-                                                      idx,
-                                                      index,
-                                                      subId
-                                                    )
-                                                  "
-                                                  ><b-icon
-                                                    icon="plus-circle-fill"
-                                                  ></b-icon>
-                                                </b-button>
-                                              </b-button-group>
-                                            </b-input-group-append>
-                                          </b-input-group>
+                                              <b-form-checkbox
+                                                v-if="option.value"
+                                                :value="option.value"
+                                                v-model="val.answers"
+                                                >{{
+                                                  option.value
+                                                }}</b-form-checkbox
+                                              >
+                                            </b-col>
+                                          </b-form-row>
                                         </b-form-group>
                                       </b-col>
                                     </b-form-row>
@@ -635,52 +633,34 @@
                           >
                             <b-col sm="12">
                               <b-form-group label="Correct Answer">
-                                <b-input-group
-                                  size="sm"
-                                  v-for="(answer, id) in question.answers"
-                                  :key="id"
-                                  class="mb-1"
-                                >
-                                  <b-form-input
-                                    v-model="answer.value"
-                                    placeholder="Provide answer"
+                                <b-form-row v-if="question.type == 'single'">
+                                  <b-col
+                                    cols="5"
+                                    v-for="(option, id) in question.options"
+                                    :key="id"
                                   >
-                                  </b-form-input>
-                                  <b-input-group-append
-                                    v-if="question.type == 'checkbox'"
+                                    <b-form-radio
+                                      v-if="option.value"
+                                      :value="option.value"
+                                      v-model="question.answer"
+                                      >{{ option.value }}</b-form-radio
+                                    >
+                                  </b-col>
+                                </b-form-row>
+                                <b-form-row v-if="question.type == 'checkbox'">
+                                  <b-col
+                                    cols="5"
+                                    v-for="(option, id) in question.options"
+                                    :key="id"
                                   >
-                                    <b-button-group size="sm">
-                                      <b-button
-                                        size="sm"
-                                        @click="
-                                          questionnaire.sections[idx].questions[
-                                            index
-                                          ].answers.splice(id, 1)
-                                        "
-                                        v-if="
-                                          questionnaire.sections[idx].questions[
-                                            index
-                                          ].answers.length > 1
-                                        "
-                                        ><b-icon icon="x"></b-icon
-                                      ></b-button>
-                                      <b-button
-                                        size="sm"
-                                        variant="lighter-green"
-                                        @click="addanswer(idx, index)"
-                                        v-if="
-                                          questionnaire.sections[idx].questions[
-                                            index
-                                          ].answers.length ==
-                                          id + 1
-                                        "
-                                        ><b-icon
-                                          icon="plus-circle-fill"
-                                        ></b-icon>
-                                      </b-button>
-                                    </b-button-group>
-                                  </b-input-group-append>
-                                </b-input-group>
+                                    <b-form-checkbox
+                                      v-if="option.value"
+                                      :value="option.value"
+                                      v-model="question.answers"
+                                      >{{ option.value }}</b-form-checkbox
+                                    >
+                                  </b-col>
+                                </b-form-row>
                               </b-form-group>
                             </b-col>
                           </b-form-row>
@@ -714,7 +694,9 @@
                                       <b-button
                                         size="sm"
                                         @click="
-                                          question.placeholders.splice(idp, 1)
+                                          questionnaire.sections[idx].questions[
+                                            index
+                                          ].placeholders.splice(id, 1)
                                         "
                                         v-if="
                                           questionnaire.sections[idx].questions[
@@ -781,10 +763,7 @@
                           </b-form-row>
                           <b-form-row
                             class=""
-                            v-if="
-                              questionnaire.options &&
-                              questionnaire.options.grading
-                            "
+                            v-if="questionnaire.options.grading"
                           >
                             <b-col sm="3">
                               <b-form-group label="Score">
@@ -949,11 +928,7 @@ export default {
                       },
                     ],
                     answer: "",
-                    answers: [
-                      {
-                        value: "",
-                      },
-                    ],
+                    answers: [],
                     response: "",
                     responses: [],
                     response_count: "",
@@ -971,11 +946,7 @@ export default {
                 ],
                 showAnswer: false,
                 answer: "",
-                answers: [
-                  {
-                    value: "",
-                  },
-                ],
+                answers: [],
 
                 placeholders: [
                   {
@@ -1081,11 +1052,7 @@ export default {
                   },
                 ],
                 answer: "",
-                answers: [
-                  {
-                    value: "",
-                  },
-                ],
+                answers: [],
                 response: "",
                 responses: [],
                 response_count: "",
@@ -1103,11 +1070,7 @@ export default {
             ],
             showAnswer: false,
             answer: "",
-            answers: [
-              {
-                value: "",
-              },
-            ],
+            answers: [],
 
             placeholders: [
               {
@@ -1149,11 +1112,7 @@ export default {
               },
             ],
             answer: "",
-            answers: [
-              {
-                value: "",
-              },
-            ],
+            answers: [],
             response: "",
             responses: [],
             response_count: "",
@@ -1171,11 +1130,7 @@ export default {
         ],
         showAnswer: false,
         answer: "",
-        answers: [
-          {
-            value: "",
-          },
-        ],
+        answers: [],
 
         placeholders: [
           {
@@ -1220,11 +1175,7 @@ export default {
           },
         ],
         answer: "",
-        answers: [
-          {
-            value: "",
-          },
-        ],
+        answers: [],
         response: "",
         responses: [],
         response_count: "",
@@ -1240,9 +1191,7 @@ export default {
     addSubAnswer(idx, index, sub) {
       this.questionnaire.sections[idx].questions[index].subQuestion[
         sub
-      ].answers.push({
-        value: "",
-      });
+      ].answers.push([]);
     },
     addSubPlaceholder(idx, index, sub) {
       this.questionnaire.sections[idx].questions[index].subQuestion[
@@ -1253,9 +1202,7 @@ export default {
       });
     },
     addanswer(idx, index) {
-      this.questionnaire.sections[idx].questions[index].answers.push({
-        value: "",
-      });
+      this.questionnaire.sections[idx].questions[index].answers.push();
     },
     getQuestionnaire() {
       this.$http

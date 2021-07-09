@@ -76,7 +76,11 @@
                         <div
                           class="course_img"
                           :style="{
-                            backgroundImage: `url(${item.cover?item.cover:require('@/assets/images/default.png')})`,
+                            backgroundImage: `url(${
+                              item.cover
+                                ? item.cover
+                                : require('@/assets/images/default.png')
+                            })`,
                           }"
                         ></div>
                         <div class="course_text">
@@ -172,8 +176,11 @@
                     >
                       <b-card
                         :title="item.course.title"
-                        :img-src="item.course.cover?item.course.cover:require('@/assets/images/default.png')"
-
+                        :img-src="
+                          item.course.cover
+                            ? item.course.cover
+                            : require('@/assets/images/default.png')
+                        "
                         img-alt="Image"
                         img-top
                         tag="article"

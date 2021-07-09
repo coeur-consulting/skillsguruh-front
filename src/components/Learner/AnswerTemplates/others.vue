@@ -508,16 +508,15 @@ export default {
 
       var score = newarr.map((item) => {
         if (item.type == "single") {
-          answers = item.answers.map((item) => item.value.toLowerCase()).sort();
-          console.log(answers);
-          if (answers.includes(item.response.toLowerCase())) {
+          if (item.response == item.answer) {
             item.result = item.score;
-            return item.result;
+            return item.score;
           }
+          item.result = 0;
           return 0;
         }
         if (item.type == "checkbox") {
-          answers = item.answers.map((item) => item.value).sort();
+          answers = item.answers.map((item) => item).sort();
           responses = item.responses
             .map((val) => item.options[val])
             .map((item) => item.value)
