@@ -62,6 +62,16 @@
           </div>
         </emoji-picker>
       </div>
+      <div>
+        <h6 class="text-muted fs11 mb-2">Add tags</h6>
+        <multi-select
+          :options="options"
+          :selected-options="feed.tags"
+          placeholder="select item"
+          @select="onSelect"
+        >
+        </multi-select>
+      </div>
 
       <div class="mb-4 position-relative media border rounded">
         <FeedUpload
@@ -373,12 +383,29 @@
                     </b-dropdown>
                   </div>
                   <div class="text-left feed_text px-3 pb-3">
-                    <span v-html="feed.message"></span><br />
-                    <span v-if="feed.url" class="text-dark-green"
-                      ><a :href="feed.url" target="_blank"
-                        >Check it out !!</a
-                      ></span
-                    >
+                    <div class="text-left feed_text px-3 pb-3">
+                      <div class="mb-2" v-html="feed.message"></div>
+
+                      <div v-if="feed.url" class="text-dark-green">
+                        <a :href="feed.url" target="_blank">Click link</a>
+                      </div>
+                      <div v-if="feed.tags" class="px-1">
+                        <b-row class="justify-content-start">
+                          <b-col
+                            sm="auto"
+                            class="px-1"
+                            v-for="(tag, id) in JSON.parse(feed.tags)"
+                            :key="id"
+                          >
+                            <b-badge
+                              class="fs11 text-black-50"
+                              variant="lighter-green"
+                              >#{{ tag.text }}</b-badge
+                            >
+                          </b-col>
+                        </b-row>
+                      </div>
+                    </div>
                   </div>
                   <div>
                     <div class="mb-4 position-relative">
@@ -642,9 +669,15 @@ import EmojiPicker from "vue-emoji-picker";
 import FeedUpload from "../feedupload";
 import Minichat from "../minichat";
 import Message from "../messagecomponent";
+import { MultiSelect } from "vue-search-select";
+import Interest from "../insight.js";
 export default {
   data() {
     return {
+      options: [],
+      searchText: "", // If value is falsy, reset searchText & searchItem
+      items: [],
+      lastSelectItem: {},
       open: false,
       feeds: [],
       search: "",
@@ -653,6 +686,7 @@ export default {
       feed: {
         media: "",
         message: "",
+        tags: [],
       },
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp"],
@@ -675,6 +709,7 @@ export default {
     Message,
     EmojiPicker,
     FeedUpload,
+    MultiSelect,
   },
   created() {
     var channel = this.$pusher.subscribe("addfeed");
@@ -682,11 +717,27 @@ export default {
     channel.bind("addfeed", (data) => {
       this.feeds.unshift(data.message);
     });
+    this.options = Interest.map((item) => {
+      var res = {};
+      res.text = item.value;
+      res.value = item.value;
+      res.color = item.color;
+      res.icon = item.icon;
+      return res;
+    });
   },
   mounted() {
     this.getfeeds();
   },
   methods: {
+    onSelect(items, lastSelectItem) {
+      this.feed.tags = items;
+      this.lastSelectItem = lastSelectItem;
+    },
+    // deselect option
+    reset() {
+      this.tags = []; // reset
+    },
     getmessage(id, name, type, profile) {
       this.mini_info.id = id;
       this.mini_info.name = name;
@@ -724,7 +775,22 @@ export default {
     insertcomment(emoji) {
       this.comment.comment += emoji + "";
     },
-
+    getmyfeeds() {
+      this.$http
+        .get(`${this.$store.getters.url}/get/feeds/tags`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 201 || res.status == 200) {
+            this.feedTags = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     getfeeds() {
       this.$http
         .get(`${this.$store.getters.url}/feeds`, {
