@@ -55,9 +55,9 @@
                   <carousel
                     :scrollPerPage="true"
                     :paginationEnabled="false"
-                    :perPage="2"
+                    :perPage="1"
                     :perPageCustom="[
-                      [600, 2],
+                      [600, 1],
                       [768, 3],
                     ]"
                     v-if="courses.length"
@@ -162,9 +162,9 @@
                   <carousel
                     :scrollPerPage="true"
                     :paginationEnabled="false"
-                    :perPage="2"
+                    :perPage="1"
                     :perPageCustom="[
-                      [600, 2],
+                      [600, 1],
                       [768, 3],
                     ]"
                     v-if="library.length"

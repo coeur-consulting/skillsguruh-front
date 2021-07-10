@@ -128,11 +128,11 @@
             <div v-if="showEnrolled">
               <div v-if="courseShown == 'mostenrolled'">
                 <carousel
-                  :perPage="2"
+                  :perPage="1"
                   :scrollPerPage="true"
                   :paginationEnabled="false"
                   :perPageCustom="[
-                    [600, 2],
+                    [600, 1],
                     [768, 3],
                   ]"
                   v-if="mostenrolledcourse.length"
@@ -235,9 +235,9 @@
                 <carousel
                   :scrollPerPage="true"
                   :paginationEnabled="false"
-                  :perPage="2"
+                  :perPage="1"
                   :perPageCustom="[
-                    [600, 2],
+                    [600, 1],
                     [768, 3],
                   ]"
                   v-if="topratedcourse.length"

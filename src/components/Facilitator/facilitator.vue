@@ -1038,7 +1038,7 @@ h4.card-title {
   padding-bottom: 8px;
 }
 #navbar li:hover {
-  border-color: var(--dark-green);
+  border-color: var(--lighter-green);
 }
 #navbar li.active {
   border-color: var(--dark-green);

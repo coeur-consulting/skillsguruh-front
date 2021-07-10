@@ -789,9 +789,7 @@
                       </div>
                       <div class="fs12">
                         <div>
-                          <div class="text-muted font-weight-bold fs11">
-                            Other interests
-                          </div>
+                          <div class="text-muted fs11">Other interests</div>
 
                           <b-badge
                             class="mr-1"
@@ -834,9 +832,7 @@
                       </div>
                       <div class="fs12">
                         <div>
-                          <div class="text-muted font-weight-bold fs11">
-                            Other interests
-                          </div>
+                          <div class="text-muted fs11">Other interests</div>
 
                           <b-badge
                             class="mr-1"
@@ -1741,7 +1737,7 @@ h4.card-title {
   padding-bottom: 8px;
 }
 #navbar li:hover {
-  border-color: var(--dark-green);
+  border-color: var(--lighter-green);
 }
 #navbar li.active {
   border-color: var(--dark-green);
