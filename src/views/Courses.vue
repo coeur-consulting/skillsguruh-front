@@ -1541,7 +1541,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.container {
+.container-fluid {
   height: 100vh;
 }
 .my_courses {
