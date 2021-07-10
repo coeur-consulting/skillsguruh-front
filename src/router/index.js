@@ -109,6 +109,18 @@ const routes = [
     },
   },
   {
+    path: "/interests/:interest",
+    name: "Interest",
+    components: {
+      header: Header,
+      default: () =>
+        import(
+          /* webpackChunkName: "interests" */ "../views/InterestContent.vue"
+        ),
+      footer: Footer,
+    },
+  },
+  {
     path: "/discussion/:id",
     name: "Discussion",
     components: {

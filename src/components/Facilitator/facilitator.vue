@@ -92,7 +92,7 @@
             <b-col cols="12" class="px-4 mb-3">
               <b-card no-body class="border-0" style="">
                 <b-row>
-                  <b-card-body class="text-left w-100 pb-1">
+                  <b-card-body class="text-left w-100 pb-0">
                     <nav class="w-100">
                       <ul
                         id="navbar"
@@ -566,7 +566,11 @@
                             <h5 class="text-capitalize mb-0 flex-1 fs16">
                               {{ item.title }}
                             </h5>
-                            <span @click="$router.push(`/facilitator/event/${item.id}`)">
+                            <span
+                              @click="
+                                $router.push(`/facilitator/event/${item.id}`)
+                              "
+                            >
                               <span class="fs15 cursor-pointer viewevent pl-2">
                                 View Event
                               </span>
@@ -1031,6 +1035,7 @@ h4.card-title {
   border-bottom: 3px solid transparent;
   width: 33.3%;
   text-align: center;
+  padding-bottom: 8px;
 }
 #navbar li:hover {
   border-color: var(--dark-green);

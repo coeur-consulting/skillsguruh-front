@@ -26,7 +26,9 @@
           <b-navbar-nav class="ml-auto">
             <b-nav-item to="/" class="mr-sm-4">Home</b-nav-item>
             <b-nav-item
-              v-if="$route.path == '/explore/courses'"
+              v-if="
+                $route.path == '/explore/courses' || $route.name == 'Interest'
+              "
               to="/explore"
               class="mr-sm-4"
               >Explore</b-nav-item
