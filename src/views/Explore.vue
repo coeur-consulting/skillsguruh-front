@@ -151,52 +151,100 @@
         </p>
 
         <b-row class="py-4">
-          <b-col class="mb-5" cols="4" sm="2"
+          <b-col
+            class="mb-5 cursor-pointer"
+            cols="4"
+            sm="2"
+            @click="$router.push('/interests/Literature')"
             ><b-img src="/img/one.png" class="mb-2 interest"></b-img>
             <h6 class="font-weight-bold">Literature</h6></b-col
           >
-          <b-col class="mb-5" cols="4" sm="2"
-            ><b-img src="/img/two.png" class="mb-2 interest"></b-img>
+          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            ><b-img
+              src="/img/two.png"
+              @click="$router.push('/interests/Politics')"
+              class="mb-2 interest"
+            ></b-img>
             <h6 class="font-weight-bold">Politics</h6>
           </b-col>
-          <b-col class="mb-5" cols="4" sm="2"
-            ><b-img src="/img/three.png" class="mb-2 interest"></b-img>
+          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            ><b-img
+              src="/img/three.png"
+              @click="$router.push('/interests/Sports')"
+              class="mb-2 interest"
+            ></b-img>
             <h6 class="font-weight-bold">Sports</h6></b-col
           >
-          <b-col class="mb-5" cols="4" sm="2"
-            ><b-img src="/img/four.png" class="mb-2 interest"></b-img>
+          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            ><b-img
+              src="/img/four.png"
+              @click="$router.push('/interests/Marketing')"
+              class="mb-2 interest"
+            ></b-img>
             <h6 class="font-weight-bold">Marketing</h6></b-col
           >
-          <b-col class="mb-5" cols="4" sm="2"
-            ><b-img src="/img/five.png" class="mb-2 interest"></b-img>
+          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            ><b-img
+              src="/img/five.png"
+              @click="$router.push('/interests/Health')"
+              class="mb-2 interest"
+            ></b-img>
             <h6 class="font-weight-bold">Health</h6></b-col
           >
-          <b-col class="mb-5" cols="4" sm="2"
-            ><b-img src="/img/six.png" class="mb-2 interest"></b-img>
+          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            ><b-img
+              src="/img/six.png"
+              @click="$router.push('/interests/Tech')"
+              class="mb-2 interest"
+            ></b-img>
             <h6 class="font-weight-bold">Tech</h6></b-col
           >
-          <b-col class="mb-5" cols="4" sm="2"
-            ><b-img src="/img/seven.png" class="mb-2 interest"></b-img>
+          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            ><b-img
+              src="/img/seven.png"
+              @click="$router.push('/interests/Gaming')"
+              class="mb-2 interest"
+            ></b-img>
             <h6 class="font-weight-bold">Gaming</h6></b-col
           >
-          <b-col class="mb-5" cols="4" sm="2"
-            ><b-img src="/img/eight.png" class="mb-2 interest"></b-img>
+          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            ><b-img
+              src="/img/eight.png"
+              @click="$router.push('/interests/Entrepreneurship')"
+              class="mb-2 interest"
+            ></b-img>
             <h6 class="font-weight-bold">Entrepreneurship</h6></b-col
           >
-          <b-col class="mb-5" cols="4" sm="2"
-            ><b-img src="/img/nine.png" class="mb-2 interest"></b-img>
+          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            ><b-img
+              src="/img/nine.png"
+              @click="$router.push('/interests/News')"
+              class="mb-2 interest"
+            ></b-img>
             <h6 class="font-weight-bold">News</h6></b-col
           >
-          <b-col class="mb-5" cols="4" sm="2"
-            ><b-img src="/img/ten.png" class="mb-2 interest"></b-img>
+          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            ><b-img
+              src="/img/ten.png"
+              @click="$router.push('/interests/Community')"
+              class="mb-2 interest"
+            ></b-img>
             <h6 class="font-weight-bold">Community</h6></b-col
           >
-          <b-col class="mb-5" cols="4" sm="2"
-            ><b-img src="/img/eleven.png" class="mb-2 interest"></b-img>
+          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            ><b-img
+              src="/img/eleven.png"
+              @click="$router.push('/interests/Art')"
+              class="mb-2 interest"
+            ></b-img>
             <h6 class="font-weight-bold">Art</h6>
           </b-col>
-          <b-col class="mb-5" cols="4" sm="2"
-            ><b-img src="/img/twelve.png" class="mb-2 interest"></b-img>
+          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            ><b-img
+              src="/img/twelve.png"
+              @click="$router.push('/interests/Law')"
+              class="mb-2 interest"
+            ></b-img>
             <h6 class="font-weight-bold">Law</h6></b-col
           >
         </b-row>
