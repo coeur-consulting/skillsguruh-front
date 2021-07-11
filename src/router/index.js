@@ -26,6 +26,16 @@ const routes = [
     },
   },
   {
+    path: "/auth/:provider/callback",
+    name: "Social login",
+    components: {
+      default: () =>
+        import(
+          /* webpackChunkName: "Register" */ "../views/Auth/SocialLogin.vue"
+        ),
+    },
+  },
+  {
     path: "/login",
     name: "Login",
     components: {
