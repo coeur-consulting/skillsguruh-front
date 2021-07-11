@@ -12,7 +12,12 @@
       <div>
         <div v-if="assessments.length">
           <b-row>
-            <b-col sm="4" v-for="(item, index) in filter" :key="index">
+            <b-col
+              class="mb-4"
+              sm="4"
+              v-for="(item, index) in filter"
+              :key="index"
+            >
               <div
                 class="
                   shadow

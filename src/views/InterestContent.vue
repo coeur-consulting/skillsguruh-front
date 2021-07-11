@@ -2,7 +2,7 @@
   <div class="bg-light">
     <b-container>
       <b-row>
-        <b-col cols="9">
+        <b-col sm="9">
           <b-row>
             <b-col cols="12" class="mb-0 rounded px-4 pb-2">
               <b-card no-body class="overflow-hidden border-0" style="">
@@ -766,7 +766,7 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col cols="3">
+        <b-col sm="3">
           <b-row class="bg-white rounded text-left py-3">
             <b-col cols="12" class="mb-4">
               <h6 class="fs13">Facilitators with shared Interest</h6>
