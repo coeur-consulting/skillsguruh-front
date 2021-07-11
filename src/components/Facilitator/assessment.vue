@@ -32,7 +32,12 @@
       </b-row>
       <div v-if="filter.length">
         <b-row>
-          <b-col sm="4" v-for="(item, index) in filter" :key="index">
+          <b-col
+            sm="4"
+            class="mb-4"
+            v-for="(item, index) in filter"
+            :key="index"
+          >
             <div
               class="
                 shadow
