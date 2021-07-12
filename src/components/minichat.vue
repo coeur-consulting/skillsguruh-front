@@ -216,6 +216,9 @@ export default {
     // this.getinbox();
   },
 
+  watch: {
+    $route: "closeChat",
+  },
   computed: {
     inboxes() {
       return this.$store.getters.inboxes;
@@ -432,5 +435,21 @@ export default {
 }
 .chatting_name {
   font-size: 12px;
+}
+@media (max-width: 600px) {
+  .reply_box {
+    position: fixed;
+    bottom: 0;
+    width: 95vw;
+    left: 0;
+    right: 0;
+    border-radius: 10px 10px 0 0;
+    z-index: 999;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+  .reply {
+    height: 70vh;
+  }
 }
 </style>

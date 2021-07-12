@@ -1362,7 +1362,14 @@
                         {{ course.title }}
                       </div>
                       <div class="mb-3">
-                        <span class="fs13 overview text-muted">
+                        <span
+                          class="
+                            fs13
+                            overview
+                            text-truncate text-truncate--2
+                            text-muted
+                          "
+                        >
                           {{ course.description }}</span
                         >
                       </div>

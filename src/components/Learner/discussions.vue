@@ -1,6 +1,6 @@
 <template>
-  <div class="pt-4">
-    <b-container>
+  <div class="pt-sm-4">
+    <b-container class="px-1 px-sm-3">
       <b-row>
         <b-col sm="8">
           <div class="border bg-white py-4 rounded">
@@ -11,6 +11,7 @@
                 d-flex
                 justify-content-around
                 position-relative
+                discussion_title
               "
             >
               <div
@@ -112,7 +113,7 @@
                         >
                       </div>
 
-                      <div class="title">{{ item.name }} </div>
+                      <div class="title">{{ item.name }}</div>
                     </div>
                   </div>
                   <div class="top_dis d-flex align-items-start">

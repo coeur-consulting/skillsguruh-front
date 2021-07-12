@@ -82,7 +82,10 @@
           </router-link>
           <router-link to="/facilitator/assessments">
             <div class="side_item">
-              <database-icon size="1x" class="custom-class"></database-icon>
+              <database-icon
+                size="1x"
+                class="custom-class mr-2"
+              ></database-icon>
               <span class="side-link">Assessments</span>
             </div>
           </router-link>

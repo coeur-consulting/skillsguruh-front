@@ -106,20 +106,20 @@
           <div class="recommended text-left mb-5">
             <div class="d-flex align-items-center mb-3 w-100">
               <div class="d-flex flex-1">
-                <h6
-                  class="pr-3 border-right cursor-pointer"
+                <div
+                  class="pr-3 fs12 font-weight-bold border-right cursor-pointer"
                   :class="courseShown == 'toprated' ? '' : 'text-muted'"
                   @click="courseShown = 'toprated'"
                 >
                   Top Rated
-                </h6>
-                <h6
-                  class="pl-3 cursor-pointer"
+                </div>
+                <div
+                  class="pl-3 fs12 font-weight-bold cursor-pointer"
                   :class="courseShown == 'mostenrolled' ? '' : 'text-muted'"
                   @click="courseShown = 'mostenrolled'"
                 >
                   Most Enrolled
-                </h6>
+                </div>
               </div>
               <span class="fs14" @click="$router.push('/learner/courses')"
                 >More <b-icon icon="arrow-right"></b-icon
@@ -138,7 +138,7 @@
                   v-if="mostenrolledcourse.length"
                 >
                   <slide
-                    class="pr-2"
+                    class="pr-sm-2"
                     v-for="item in mostenrolledcourse.slice(0, 6)"
                     :key="item.id"
                   >
@@ -188,12 +188,18 @@
                             item.course.type
                           }}</span>
                         </div>
-                        <div class="border-bottom pt-3">
-                          <h6 class="overview-title">
+                        <div class="pt-2 pb-1">
+                          <h6
+                            class="
+                              overview-title
+                              text-truncate text-truncate--2
+                              mb-0
+                            "
+                          >
                             {{ item.course.title }}
                           </h6>
                           <div
-                            class="overview"
+                            class="fs13 text-truncate text-truncate--2"
                             v-html="item.course.courseoutline.overview"
                           ></div>
                         </div>
@@ -243,7 +249,7 @@
                   v-if="topratedcourse.length"
                 >
                   <slide
-                    class="pr-2"
+                    class="pr-sm-2"
                     v-for="(item, id) in topratedcourse.slice(0, 6)"
                     :key="id"
                   >
@@ -289,13 +295,13 @@
                             item[1].course.type
                           }}</span>
                         </div>
-                        <div class="border-bottom pt-3">
-                          <h6 class="overview-title">
+                        <div class="pt-2 pb-1">
+                          <h6 class="overview-title mb-0">
                             {{ item[1].course.title }}
                           </h6>
 
                           <div
-                            class="overview"
+                            class="fs13 text-truncate text-truncate--2"
                             v-html="item[1].course.courseoutline.overview"
                           ></div>
                         </div>

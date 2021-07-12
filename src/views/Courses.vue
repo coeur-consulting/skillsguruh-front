@@ -104,18 +104,20 @@
                           item.type
                         }}</span>
                       </div>
-                      <div class="border-bottom pt-3 text-left">
+                      <div class="pt-3 pb-1 text-left">
                         <h6
                           class="
                             font-weight-bold
                             text-capitalize
                             overview-title
+                            text-truncate text-truncate--2
+                            mb-0
                           "
                         >
                           {{ item.title }}
                         </h6>
                         <div
-                          class="fs13 overview"
+                          class="fs13 text-truncate text-truncate--2"
                           v-html="item.courseoutline.overview"
                         ></div>
                       </div>

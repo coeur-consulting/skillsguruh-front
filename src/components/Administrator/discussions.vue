@@ -1,6 +1,6 @@
 <template>
-  <div class="pt-4">
-    <b-container>
+  <div class="pt-sm-4">
+    <b-container class="px-1 px-sm-3">
       <b-row>
         <b-col sm="8">
           <div class="sborder bg-white py-4 rounded">
@@ -11,6 +11,7 @@
                 d-flex
                 justify-content-around
                 position-relative
+                discussion_title
               "
             >
               <div

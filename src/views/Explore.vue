@@ -94,13 +94,21 @@
                   }}</span>
                 </div>
                 <div class="border-bottom pt-3">
-                  <h6 class="font-weight-bold text-capitalize overview-title">
+                  <h6
+                    class="
+                      text-truncate text-truncate--2
+                      mb-0
+                      font-weight-bold
+                      text-capitalize
+                      overview-title
+                    "
+                  >
                     {{ item.course.title }}
                   </h6>
 
                   <div
                     v-if="item.course.courseoutline"
-                    class="overview"
+                    class="fs13 text-truncate text-truncate--2"
                     v-html="item.course.courseoutline.overview"
                   ></div>
                 </div>

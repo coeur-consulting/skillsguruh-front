@@ -31,22 +31,28 @@
             <div class="recommended text-left mb-5">
               <div class="d-flex align-items-center mb-3 w-100">
                 <div class="d-flex flex-1">
-                  <h6
-                    class="pr-3 border-right cursor-pointer"
+                  <div
+                    class="
+                      pr-3
+                      fs12
+                      font-weight-bold
+                      border-right
+                      cursor-pointer
+                    "
                     :class="courseShown == 'enrolled' ? '' : 'text-muted'"
                     @click="courseShown = 'enrolled'"
                   >
                     Enrolled Courses
-                  </h6>
-                  <h6
-                    class="pl-3 cursor-pointer"
+                  </div>
+                  <div
+                    class="pl-3 fs12 font-weight-bold cursor-pointer"
                     :class="courseShown == 'recommended' ? '' : 'text-muted'"
                     @click="courseShown = 'recommended'"
                   >
-                    Recommended Courses
-                  </h6>
+                    Recommended
+                  </div>
                 </div>
-                <span class="fs14" @click="$router.push('/learner/courses')"
+                <span class="fs13" @click="$router.push('/learner/courses')"
                   >More <b-icon icon="arrow-right"></b-icon
                 ></span>
               </div>
@@ -63,7 +69,7 @@
                     v-if="courses.length"
                   >
                     <slide
-                      class="pr-2"
+                      class="pr-sm-2"
                       v-for="item in courses.slice(0, 6)"
                       :key="item.id"
                     >
@@ -109,12 +115,18 @@
                               item.type
                             }}</span>
                           </div>
-                          <div class="border-bottom pt-3">
-                            <h6 class="overview-title">
+                          <div class="pb-1 pt-3">
+                            <h6
+                              class="
+                                overview-title
+                                text-truncate text-truncate--2
+                                mb-0
+                              "
+                            >
                               {{ item.title }}
                             </h6>
                             <div
-                              class="overview"
+                              class="fs13 text-truncate text-truncate--2"
                               v-html="item.courseoutline.overview"
                             ></div>
                           </div>
@@ -170,7 +182,7 @@
                     v-if="library.length"
                   >
                     <slide
-                      class="pr-2"
+                      class="pr-sm-2"
                       v-for="item in library.slice(0, 6)"
                       :key="item.id"
                     >
@@ -186,7 +198,9 @@
                         tag="article"
                         class="mb-2 border"
                       >
-                        <b-card-text class="overview">
+                        <b-card-text
+                          class="fs13 text-truncate text-truncate--2"
+                        >
                           {{ item.course.description }}
                         </b-card-text>
 

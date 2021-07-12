@@ -2,9 +2,9 @@
   <div>
     <b-container>
       <b-row>
-        <b-col cols="8">
+        <b-col sm="8">
           <b-row>
-            <b-col cols="12" class="mb-0 rounded pt-2 px-4 pb-2">
+            <b-col cols="12" class="mb-0 rounded pt-sm-2 px-1 px-sm-4 pb-2">
               <b-card no-body class="overflow-hidden border-0" style="">
                 <b-row no-gutters>
                   <div class="prof_img">
@@ -89,7 +89,7 @@
                 </b-row>
               </b-card>
             </b-col>
-            <b-col cols="12" class="px-4 mb-3">
+            <b-col cols="12" class="px-1 px-sm-4 mb-3">
               <b-card no-body class="border-0" style="">
                 <b-row>
                   <b-card-body class="text-left w-100 pb-0">
@@ -137,7 +137,7 @@
                 </b-row>
               </b-card>
             </b-col>
-            <b-col cols="12" class="px-4">
+            <b-col cols="12" class="px-1 px-sm-4">
               <b-card no-body class="border-0 bg-transparent" style="">
                 <b-row>
                   <b-card-body
@@ -192,8 +192,8 @@
                               <b-dropdown
                                 v-if="
                                   feed.facilitator &&
-                                    feed.facilitator.id ==
-                                      $store.getters.facilitator.id
+                                  feed.facilitator.id ==
+                                    $store.getters.facilitator.id
                                 "
                                 size="sm"
                                 variant="transparent"
@@ -226,7 +226,7 @@
                                 <b-img
                                   v-if="
                                     feed.media &&
-                                      img_ext.includes(getextension(feed.media))
+                                    img_ext.includes(getextension(feed.media))
                                   "
                                   fluid-grow
                                   :src="feed.media"
@@ -236,7 +236,7 @@
                                   width="100%"
                                   v-if="
                                     feed.media &&
-                                      vid_ext.includes(getextension(feed.media))
+                                    vid_ext.includes(getextension(feed.media))
                                   "
                                   :src="feed.media"
                                   class="fluid-grow"
@@ -244,7 +244,7 @@
                                 <div
                                   v-if="
                                     feed.media &&
-                                      doc_ext.includes(getextension(feed.media))
+                                    doc_ext.includes(getextension(feed.media))
                                   "
                                   class="text-center p-3 bg-skills-grey"
                                 >
@@ -268,7 +268,7 @@
                                 <b-icon
                                   :icon="
                                     feed.stars.find(
-                                      item =>
+                                      (item) =>
                                         item.star &&
                                         item.facilitator_id ==
                                           $store.getters.facilitator.id
@@ -279,7 +279,7 @@
                                   class="text-blue mr-1"
                                 ></b-icon>
                                 <span>{{
-                                  feed.stars.filter(item => item.star).length
+                                  feed.stars.filter((item) => item.star).length
                                 }}</span>
                                 stars</span
                               >
@@ -287,7 +287,7 @@
                                 ><b-icon
                                   :icon="
                                     feed.likes.find(
-                                      item =>
+                                      (item) =>
                                         item.like &&
                                         item.facilitator_id ==
                                           $store.getters.facilitator.id
@@ -298,7 +298,7 @@
                                   class="text-danger mr-1"
                                 ></b-icon>
                                 <span>{{
-                                  feed.likes.filter(item => item.like).length
+                                  feed.likes.filter((item) => item.like).length
                                 }}</span>
                                 likes</span
                               >
@@ -621,8 +621,8 @@
                             <b-dropdown
                               v-if="
                                 item.facilitator_id &&
-                                  item.facilitator_id ==
-                                    $store.getters.facilitator.id
+                                item.facilitator_id ==
+                                  $store.getters.facilitator.id
                               "
                               size="sm"
                               variant="transparent"
@@ -696,7 +696,7 @@
                                     item.cover
                                       ? item.cover
                                       : require('@/assets/images/default.png')
-                                  })`
+                                  })`,
                                 }"
                               ></div>
                               <div class="course_text">
@@ -712,7 +712,7 @@
                                     :style="{
                                       backgroundColor: JSON.parse(
                                         item.courseoutline.knowledge_areas
-                                      ).color
+                                      ).color,
                                     }"
                                   >
                                     <b-icon
@@ -833,7 +833,7 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col cols="3">
+        <b-col class="d-none d-sm-block" cols="3">
           <Message
             class="d-none d-md-block"
             @getmessage="getmessage"
@@ -885,7 +885,7 @@
                   <div
                     v-if="
                       $store.getters.facilitator &&
-                        $store.getters.facilitator.id == $route.params.id
+                      $store.getters.facilitator.id == $route.params.id
                     "
                   >
                     <b-button
@@ -921,7 +921,7 @@
                   <div
                     v-if="
                       $store.getters.facilitator &&
-                        $store.getters.facilitator.id == $route.params.id
+                      $store.getters.facilitator.id == $route.params.id
                     "
                   >
                     <b-button
@@ -1029,16 +1029,16 @@ export default {
         id: "",
         name: "",
         type: "",
-        profile: ""
+        profile: "",
       },
       open: false,
       showAll: false,
-      showCourse: false
+      showCourse: false,
     };
   },
   components: {
     Message,
-    Minichat
+    Minichat,
   },
   computed: {
     filteredCourse() {
@@ -1048,7 +1048,7 @@ export default {
           this.perPage * this.currentPage
         )
         .filter(
-          item =>
+          (item) =>
             item.title.toLowerCase().includes(this.search.toLowerCase()) ||
             JSON.parse(item.courseoutline.knowledge_areas)
               .value.toLowerCase()
@@ -1061,11 +1061,11 @@ export default {
       }
       var courseType;
       if (this.course_type == "free") {
-        courseType = title.filter(item => item.type == "free");
+        courseType = title.filter((item) => item.type == "free");
       } else if (this.course_type == "paid") {
-        courseType = title.filter(item => item.type == "paid");
+        courseType = title.filter((item) => item.type == "paid");
       } else if (this.course_type == "group") {
-        courseType = title.filter(item => item.type == "group");
+        courseType = title.filter((item) => item.type == "group");
       } else {
         courseType = title;
       }
@@ -1079,7 +1079,7 @@ export default {
       if (!this.connections.length) {
         return [];
       }
-      return this.connections.filter(item => {
+      return this.connections.filter((item) => {
         if (item.user_follower) {
           return item.user_follower.name
             .toLowerCase()
@@ -1095,14 +1095,14 @@ export default {
 
     filterFeeds() {
       return this.feeds
-        .filter(item =>
+        .filter((item) =>
           item.name.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
           this.perPage * this.currentPage - this.perPage,
           this.perPage * this.currentPage
         );
-    }
+    },
   },
   mounted() {
     this.getdiscussions();
@@ -1131,12 +1131,12 @@ export default {
           .get(
             `${this.$store.getters.url}/facilitator/info/${this.$route.params.id}`
           )
-          .then(res => {
+          .then((res) => {
             if (res.status == 200) {
               this.detail = res.data;
             }
           })
-          .catch(err => {
+          .catch((err) => {
             this.$toast.error(err.response.data.message);
           });
       } else {
@@ -1144,12 +1144,12 @@ export default {
           .get(
             `${this.$store.getters.url}/learner/info/${this.$route.params.id}`
           )
-          .then(res => {
+          .then((res) => {
             if (res.status == 200) {
               this.detail = res.data;
             }
           })
-          .catch(err => {
+          .catch((err) => {
             this.$toast.error(err.response.data.message);
           });
       }
@@ -1161,12 +1161,12 @@ export default {
           .get(
             `${this.$store.getters.url}/facilitator/discussions/${this.$route.params.id}`
           )
-          .then(res => {
+          .then((res) => {
             if (res.status == 200) {
               this.discussions = res.data;
             }
           })
-          .catch(err => {
+          .catch((err) => {
             this.$toast.error(err.response.data.message);
           });
       } else {
@@ -1174,12 +1174,12 @@ export default {
           .get(
             `${this.$store.getters.url}/learner/discussions/${this.$route.params.id}`
           )
-          .then(res => {
+          .then((res) => {
             if (res.status == 200) {
               this.discussions = res.data;
             }
           })
-          .catch(err => {
+          .catch((err) => {
             this.$toast.error(err.response.data.message);
           });
       }
@@ -1189,7 +1189,7 @@ export default {
         id: "",
         name: "",
         type: "",
-        profile: ""
+        profile: "",
       };
       this.open = false;
       this.showAll = false;
@@ -1209,12 +1209,12 @@ export default {
           .get(
             `${this.$store.getters.url}/facilitator/feeds/${this.$route.params.id}`
           )
-          .then(res => {
+          .then((res) => {
             if (res.status == 200) {
               this.feeds = res.data;
             }
           })
-          .catch(err => {
+          .catch((err) => {
             this.$toast.error(err.response.data.message);
           });
       } else {
@@ -1222,12 +1222,12 @@ export default {
           .get(
             `${this.$store.getters.url}/learner/feeds/${this.$route.params.id}`
           )
-          .then(res => {
+          .then((res) => {
             if (res.status == 200) {
               this.feeds = res.data;
             }
           })
-          .catch(err => {
+          .catch((err) => {
             this.$toast.error(err.response.data.message);
           });
       }
@@ -1238,12 +1238,12 @@ export default {
           .get(
             `${this.$store.getters.url}/facilitator/events/${this.$route.params.id}`
           )
-          .then(res => {
+          .then((res) => {
             if (res.status == 200) {
               this.events = res.data;
             }
           })
-          .catch(err => {
+          .catch((err) => {
             this.$toast.error(err.response.data.message);
           });
       }
@@ -1254,13 +1254,13 @@ export default {
           .get(
             `${this.$store.getters.url}/facilitator/courses/${this.$route.params.id}`
           )
-          .then(res => {
+          .then((res) => {
             if (res.status == 200) {
               this.courses = res.data;
               this.showCourse = true;
             }
           })
-          .catch(err => {
+          .catch((err) => {
             this.$toast.error(err.response.data.message);
           });
       }
@@ -1278,12 +1278,12 @@ export default {
           .get(
             `${this.$store.getters.url}/facilitator/connections/${this.$route.params.id}`
           )
-          .then(res => {
+          .then((res) => {
             if (res.status == 200) {
               this.connections = res.data;
             }
           })
-          .catch(err => {
+          .catch((err) => {
             this.$toast.error(err.response.data.message);
           });
       } else {
@@ -1291,34 +1291,34 @@ export default {
           .get(
             `${this.$store.getters.url}/learner/connections/${this.$route.params.id}`
           )
-          .then(res => {
+          .then((res) => {
             if (res.status == 200) {
               this.connections = res.data;
             }
           })
-          .catch(err => {
+          .catch((err) => {
             this.$toast.error(err.response.data.message);
           });
       }
     },
     requestAccess() {
       var data = {
-        discussion_id: this.discussion_id
+        discussion_id: this.discussion_id,
       };
 
       this.$http
         .post(`${this.$store.getters.url}/join-discussion`, data, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.$toast.info("Your request has been sent");
             this.$bvModal.hide("access");
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1332,13 +1332,13 @@ export default {
         this.$http
           .get(`${this.$store.getters.url}/discussion/private/${item.id}`, {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
           })
-          .then(res => {
+          .then((res) => {
             if (res.status == 200) {
               var result = res.data
-                .map(item => item.facilitator_id)
+                .map((item) => item.facilitator_id)
                 .includes(this.$store.getters.facilitator.id);
 
               if (result) {
@@ -1352,11 +1352,11 @@ export default {
       }
     },
     vote(val) {
-      var positive = val.filter(item => item.vote).length;
-      var negative = val.filter(item => !item.vote).length;
+      var positive = val.filter((item) => item.vote).length;
+      var negative = val.filter((item) => !item.vote).length;
       return Number(positive) - Number(negative);
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped lang="scss">

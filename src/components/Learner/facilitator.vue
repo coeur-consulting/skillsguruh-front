@@ -2,9 +2,9 @@
   <div>
     <b-container>
       <b-row class="justify-content-sm-center">
-        <b-col cols="8">
+        <b-col sm="8">
           <b-row>
-            <b-col cols="12" class="mb-0 rounded pt-2 px-4 pb-2">
+            <b-col cols="12" class="mb-0 rounded px-1 pt-sm-2 px-sm-4 pb-2">
               <b-card no-body class="overflow-hidden border-0" style="">
                 <b-row no-gutters>
                   <div class="prof_img">
@@ -89,7 +89,7 @@
                 </b-row>
               </b-card>
             </b-col>
-            <b-col cols="12" class="px-4 mb-3">
+            <b-col cols="12" class="px-1 px-sm-4 mb-3">
               <b-card no-body class="border-0" style="">
                 <b-row>
                   <b-card-body class="text-left w-100 pb-0">
@@ -137,7 +137,7 @@
                 </b-row>
               </b-card>
             </b-col>
-            <b-col cols="12" class="px-4">
+            <b-col cols="12" class="px-1 px-sm-4">
               <b-card no-body class="border-0 bg-transparent" style="">
                 <b-row>
                   <b-card-body
@@ -833,7 +833,7 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col cols="3">
+        <b-col class="d-none d-sm-block" cols="3">
           <Message
             class="d-none d-md-block"
             @getmessage="getmessage"

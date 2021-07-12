@@ -1,7 +1,7 @@
 <template>
   <div id="chart1" style="overflow: hidden" class="p-1 rounded">
     <h6>To do List</h6>
-    <b-row class="p-3">
+    <b-row class="p-2 p-sm-3">
       <b-col sm="12">
         <b-form @submit.prevent="register">
           <b-input-group size="sm">
@@ -63,10 +63,7 @@
       </div>
 
       <div class="text-center p-3" v-else>
-        <h6 class="text-muted fs12">
-          You have no active To do, <br />
-          try adding one now !
-        </h6>
+        <h6 class="text-muted fs12">No active To do</h6>
       </div>
     </div>
     <div class="p-3" v-else>
