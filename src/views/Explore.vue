@@ -8,38 +8,6 @@
       </div>
     </div>
     <b-container class="pb-5">
-<<<<<<< Updated upstream
-      <b-row class="justify-content-around p-2 p-sm-5 my-5">
-        <b-col cols="4">
-          <span class="d-flex align-items-center tpp">
-            <b-img class="mr-2 tp" size="2.5rem" src="/img/learner.png"></b-img>
-            <span>
-              <span class="font-weight-bold">{{ users.length }}+</span> <br />
-              <span class="font-weight-bold">Happy Learner</span>
-            </span>
-          </span>
-        </b-col>
-        <b-col cols="4">
-          <span class="d-flex align-items-center tpp">
-            <b-img class="mr-2 tp" size="2.5rem" src="/img/program.png"></b-img>
-            <span>
-              <span class="font-weight-bold">{{ courses.length }}+</span> <br />
-              <span class="font-weight-bold">Online Programs</span>
-            </span>
-          </span>
-        </b-col>
-        <b-col cols="4">
-          <span class="d-flex align-items-center tpp">
-            <b-img class="mr-2 tp" size="2.5rem" src="/img/grp.png"></b-img>
-            <span>
-              <span class="font-weight-bold">{{ facilitators.length }}+</span>
-              <br />
-              <span class="font-weight-bold">Facilitators Onboard</span>
-            </span>
-          </span>
-        </b-col>
-      </b-row>
-=======
      <b-container class="pt-5">
        <b-row class="">
          <b-col md="4" class="p-3">
@@ -72,7 +40,6 @@
        </b-row>
         
      </b-container>
->>>>>>> Stashed changes
       <section class="py-5">
         <h4 class="mb-3 font-weight-bold">Most Popular Courses</h4>
         <b-row
@@ -185,22 +152,12 @@
           interest that can help improve your business skills
         </p>
 
-<<<<<<< Updated upstream
-        <b-row class="py-4">
-          <b-col
-            class="mb-5 cursor-pointer"
-            cols="4"
-            sm="2"
-            @click="$router.push('/interests/Literature')"
-            ><b-img src="/img/one.png" class="mb-2 interest"></b-img>
-=======
         <b-row class="py-4 interest">
-          <b-col class="mb-5" sm="2"
+          <b-col class="mb-5" sm="12" md="2"
             ><b-img src="/img/one.png" class="mb-2"></b-img>
->>>>>>> Stashed changes
             <h6 class="font-weight-bold">Literature</h6></b-col
           >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+          <b-col class="mb-5 cursor-pointer" md="2" sm="12"
             ><b-img
               src="/img/two.png"
               @click="$router.push('/interests/Politics')"
@@ -208,7 +165,7 @@
             ></b-img>
             <h6 class="font-weight-bold">Politics</h6>
           </b-col>
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+          <b-col class="mb-5 cursor-pointer" md="2" sm="12"
             ><b-img
               src="/img/three.png"
               @click="$router.push('/interests/Sports')"
@@ -216,7 +173,7 @@
             ></b-img>
             <h6 class="font-weight-bold">Sports</h6></b-col
           >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+          <b-col class="mb-5 cursor-pointer" md="2" sm="12"
             ><b-img
               src="/img/four.png"
               @click="$router.push('/interests/Marketing')"
@@ -224,7 +181,7 @@
             ></b-img>
             <h6 class="font-weight-bold">Marketing</h6></b-col
           >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+          <b-col class="mb-5 cursor-pointer" md="2" sm="12"
             ><b-img
               src="/img/five.png"
               @click="$router.push('/interests/Health')"
@@ -232,7 +189,7 @@
             ></b-img>
             <h6 class="font-weight-bold">Health</h6></b-col
           >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+          <b-col class="mb-5 cursor-pointer" md="2" sm="12"
             ><b-img
               src="/img/six.png"
               @click="$router.push('/interests/Tech')"
@@ -240,7 +197,7 @@
             ></b-img>
             <h6 class="font-weight-bold">Tech</h6></b-col
           >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+          <b-col class="mb-5 cursor-pointer" md="2" sm="12"
             ><b-img
               src="/img/seven.png"
               @click="$router.push('/interests/Gaming')"
@@ -248,7 +205,7 @@
             ></b-img>
             <h6 class="font-weight-bold">Gaming</h6></b-col
           >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+          <b-col class="mb-5 cursor-pointer" md="2" sm="12"
             ><b-img
               src="/img/eight.png"
               @click="$router.push('/interests/Entrepreneurship')"
@@ -256,7 +213,7 @@
             ></b-img>
             <h6 class="font-weight-bold">Entrepreneurship</h6></b-col
           >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+          <b-col class="mb-5 cursor-pointer" md="2" sm="12"
             ><b-img
               src="/img/nine.png"
               @click="$router.push('/interests/News')"
@@ -264,7 +221,7 @@
             ></b-img>
             <h6 class="font-weight-bold">News</h6></b-col
           >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+          <b-col class="mb-5 cursor-pointer" md="2" sm="12"
             ><b-img
               src="/img/ten.png"
               @click="$router.push('/interests/Community')"
@@ -272,7 +229,7 @@
             ></b-img>
             <h6 class="font-weight-bold">Community</h6></b-col
           >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+          <b-col class="mb-5 cursor-pointer" md="2" sm="12"
             ><b-img
               src="/img/eleven.png"
               @click="$router.push('/interests/Art')"
@@ -280,7 +237,7 @@
             ></b-img>
             <h6 class="font-weight-bold">Art</h6>
           </b-col>
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+          <b-col class="mb-5 cursor-pointer" md="2" sm="12"
             ><b-img
               src="/img/twelve.png"
               @click="$router.push('/interests/Law')"
@@ -704,11 +661,7 @@ export default {
 .course_img {
   height: 45%;
   width: 100%;
-<<<<<<< Updated upstream
-  border-radius: 8px;
-=======
     border-radius: 8px;
->>>>>>> Stashed changes
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -735,27 +688,7 @@ export default {
   height: 400px;
   object-fit: cover;
 }
-<<<<<<< Updated upstream
-@media (max-width: 600px) {
-  .interest {
-    width: 40px;
-  }
-  h6 {
-    font-size: 14px;
-  }
-  .tpp span span {
-    font-size: 12px;
-    line-height: 1.3;
-  }
-  .tpp span {
-    line-height: 1;
-  }
-  .tp {
-    width: 30px;
-  }
-=======
 .interest img{
   width: 100px;
->>>>>>> Stashed changes
 }
 </style>
