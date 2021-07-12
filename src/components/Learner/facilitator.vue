@@ -2,7 +2,7 @@
   <div>
     <b-container>
       <b-row class="justify-content-sm-center">
-        <b-col sm="10">
+        <b-col cols="8">
           <b-row>
             <b-col cols="12" class="mb-0 rounded pt-2 px-4 pb-2">
               <b-card no-body class="overflow-hidden border-0" style="">
@@ -32,20 +32,20 @@
                       <b-card-text
                         class="d-flex align-items-center mb-0"
                         style="line-height: 1.1"
+                        v-if="detail.age || detail.state || detail.country"
                       >
                         <span
                           class="fs11 text-muted cursor-pointer mr-2"
                           v-if="detail.age"
                         >
-                          {{ detail.age }} years </span
-                        >,
+                          {{ detail.age }} years ,</span
+                        >
 
                         <span
                           class="fs12 text-muted cursor-pointer"
                           style="line-height: 1.1"
                         >
-                          <span v-if="detail.state">{{ detail.state }}</span
-                          >,
+                          <span v-if="detail.state">{{ detail.state }},</span>
                           <span v-if="detail.country">
                             {{ detail.country }}</span
                           >
@@ -124,6 +124,13 @@
                         >
                           Events
                         </li>
+                        <li
+                          class="h6 fs14 cursor-pointer mb-0"
+                          :class="active == 4 ? 'active' : ''"
+                          @click="active = 4"
+                        >
+                          Courses
+                        </li>
                       </ul>
                     </nav>
                   </b-card-body>
@@ -152,6 +159,7 @@
                                   v-if="feed.admin"
                                 >
                                   <b-avatar
+                                    size="1.8rem"
                                     class="mr-2"
                                     :src="feed.admin.profile"
                                   ></b-avatar>
@@ -162,6 +170,7 @@
                                   v-if="feed.user"
                                 >
                                   <b-avatar
+                                    size="1.8rem"
                                     class="mr-2"
                                     :src="feed.user.profile"
                                   ></b-avatar>
@@ -172,6 +181,7 @@
                                   v-if="feed.facilitator"
                                 >
                                   <b-avatar
+                                    size="1.8rem"
                                     class="mr-2"
                                     :src="feed.facilitator.profile"
                                   ></b-avatar>
@@ -408,14 +418,17 @@
                             </b-dropdown>
                             <div class="side_dis">
                               <b-avatar
+                                size="1.8rem"
                                 v-if="item.creator == 'admin'"
                                 :src="item.admin.profile"
                               ></b-avatar>
                               <b-avatar
+                                size="1.8rem"
                                 v-if="item.creator == 'user'"
                                 :src="item.user.profile"
                               ></b-avatar>
                               <b-avatar
+                                size="1.8rem"
                                 v-if="item.creator == 'facilitator'"
                                 :src="item.facilitator.profile"
                               ></b-avatar>
@@ -499,7 +512,9 @@
                               <span
                                 v-if="item.type == 'public'"
                                 @click="
-                                  $router.push(`/learner/discussion/${item.id}`)
+                                  $router.push(
+                                    `/facilitator/discussion/${item.id}`
+                                  )
                                 "
                                 class="
                                   text-dark-green
@@ -529,7 +544,7 @@
                             :src="require('@/assets/images/creator.svg')"
                           ></b-img>
                           <h6 class="text-muted my-3 fs14">
-                            It appears you havent added any Discussion yet,
+                            No Discussion available
                           </h6>
                         </div>
                       </div>
@@ -565,7 +580,9 @@
                               {{ item.title }}
                             </h5>
                             <span
-                              @click="$router.push(`/learner/event/${item.id}`)"
+                              @click="
+                                $router.push(`/facilitator/event/${item.id}`)
+                              "
                             >
                               <span class="fs15 cursor-pointer viewevent pl-2">
                                 View Event
@@ -653,10 +670,161 @@
                             :src="require('@/assets/images/creator.svg')"
                           ></b-img>
                           <h6 class="text-muted my-3 fs14">
-                            It appears you have no event,
+                            No event available
                             <br class="d-none d-sm-block" />
                           </h6>
                         </div>
+                      </div>
+                    </div>
+                  </b-card-body>
+
+                  <b-card-body v-if="active == 4" class="pt-0 px-3">
+                    <div v-if="showCourse">
+                      <b-container fluid class="main-course">
+                        <b-row>
+                          <b-col
+                            sm="4 "
+                            class="mb-3 side_box"
+                            v-for="(item, index) in filteredCourse"
+                            :key="index"
+                          >
+                            <div class="course border cursor-pointer shadow-sm">
+                              <div
+                                class="course_img"
+                                :style="{
+                                  backgroundImage: `url(${
+                                    item.cover
+                                      ? item.cover
+                                      : require('@/assets/images/default.png')
+                                  })`,
+                                }"
+                              ></div>
+                              <div class="course_text">
+                                <div class="d-flex justify-content-between">
+                                  <span
+                                    class="
+                                      px-2
+                                      py-1
+                                      rounded-pill
+                                      text-white
+                                      fs11
+                                    "
+                                    :style="{
+                                      backgroundColor: JSON.parse(
+                                        item.courseoutline.knowledge_areas
+                                      ).color,
+                                    }"
+                                  >
+                                    <b-icon
+                                      class="mr-2"
+                                      :icon="
+                                        JSON.parse(
+                                          item.courseoutline.knowledge_areas
+                                        ).icon
+                                      "
+                                    ></b-icon>
+                                    <span>{{
+                                      JSON.parse(
+                                        item.courseoutline.knowledge_areas
+                                      ).value
+                                    }}</span></span
+                                  >
+                                  <span class="text-capitalize fs11">{{
+                                    item.type
+                                  }}</span>
+                                </div>
+                                <div class="border-bottom pt-3 text-left">
+                                  <h6
+                                    class="
+                                      font-weight-bold
+                                      text-capitalize
+                                      overview-title
+                                    "
+                                  >
+                                    {{ item.title }}
+                                  </h6>
+                                  <div
+                                    class="fs13 overview"
+                                    v-html="item.courseoutline.overview"
+                                  ></div>
+                                </div>
+                                <div class="info fs11">
+                                  <div class="d-flex">
+                                    <div class="mr-2">
+                                      <b-icon
+                                        icon="people"
+                                        class="mr-1"
+                                      ></b-icon>
+                                      <span
+                                        >{{
+                                          item.enroll ? item.enroll.count : 0
+                                        }}+</span
+                                      >
+                                    </div>
+                                    <div class="mr-3">
+                                      <b-icon icon="eye" class="mr-1"></b-icon>
+                                      <span
+                                        >{{
+                                          item.viewcount
+                                            ? item.viewcount.count
+                                            : 0
+                                        }}
+                                        +</span
+                                      >
+                                    </div>
+                                    <div>
+                                      <b-icon
+                                        icon="star-fill"
+                                        style="color: gold"
+                                        class="mr-1"
+                                      ></b-icon>
+                                      <span
+                                        >{{ item.review.length }} reviews</span
+                                      >
+                                    </div>
+                                  </div>
+
+                                  <b-avatar
+                                    size="sm"
+                                    variant="light"
+                                    :src="item.cover"
+                                  >
+                                  </b-avatar>
+                                </div>
+                              </div>
+                            </div>
+                          </b-col>
+                        </b-row>
+                        <div
+                          class="p-3 d-flex justify-content-between"
+                          v-if="rows > 10"
+                        >
+                          <div class="fs12 text-muted">
+                            Showing {{ perPage * currentPage - perPage + 1 }}-{{
+                              perPage * currentPage
+                            }}
+                            of {{ courses.length }} items
+                          </div>
+                          <b-pagination
+                            pills
+                            size="sm"
+                            variant="dark-green"
+                            align="right"
+                            v-model="currentPage"
+                            :total-rows="rows"
+                            :per-page="perPage"
+                          ></b-pagination>
+                        </div>
+                      </b-container>
+                    </div>
+                    <div v-else class="text-center admin_tab p-3 p-sm-5">
+                      <div>
+                        <b-img
+                          :src="require('@/assets/images/creator.svg')"
+                        ></b-img>
+                        <h6 class="text-muted my-3 fs14">
+                          No course available
+                        </h6>
                       </div>
                     </div>
                   </b-card-body>
@@ -665,13 +833,13 @@
             </b-col>
           </b-row>
         </b-col>
-        <!-- <b-col cols="3">
+        <b-col cols="3">
           <Message
             class="d-none d-md-block"
             @getmessage="getmessage"
             :user="'learner'"
           />
-        </b-col> -->
+        </b-col>
       </b-row>
     </b-container>
     <b-modal
@@ -819,19 +987,19 @@
         <b-button size="sm" variant="dark-green" @click="ok()"> OK </b-button>
       </template>
     </b-modal>
-    <!-- <Minichat
+    <Minichat
       class="minichats"
       :user="'learner'"
       :mini_info="mini_info"
       :open="open"
       :showAll="showAll"
       @togglechat="togglechat"
-    /> -->
+    />
   </div>
 </template>
 <script>
-// import Message from "../messagecomponent";
-// import Minichat from "../minichat";
+import Message from "../messagecomponent";
+import Minichat from "../minichat";
 export default {
   data() {
     return {
@@ -845,6 +1013,11 @@ export default {
       feeds: [],
       connections: [],
       discussions: [],
+      course_type: "",
+      facilitators: [],
+      recent: false,
+      trending: false,
+      alpha: false,
       events: [],
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp"],
@@ -858,13 +1031,48 @@ export default {
       },
       open: false,
       showAll: false,
+      showCourse: false,
     };
   },
-  // components: {
-  //   Message,
-  //   Minichat
-  // },
+  components: {
+    Message,
+    Minichat,
+  },
   computed: {
+    filteredCourse() {
+      var title = this.courses
+        .slice(
+          this.perPage * this.currentPage - this.perPage,
+          this.perPage * this.currentPage
+        )
+        .filter(
+          (item) =>
+            item.title.toLowerCase().includes(this.search.toLowerCase()) ||
+            JSON.parse(item.courseoutline.knowledge_areas)
+              .value.toLowerCase()
+              .includes(this.search)
+        );
+      if (this.alpha) {
+        title.sort((a, b) => {
+          return a.title.localeCompare(b.title);
+        });
+      }
+      var courseType;
+      if (this.course_type == "free") {
+        courseType = title.filter((item) => item.type == "free");
+      } else if (this.course_type == "paid") {
+        courseType = title.filter((item) => item.type == "paid");
+      } else if (this.course_type == "group") {
+        courseType = title.filter((item) => item.type == "group");
+      } else {
+        courseType = title;
+      }
+
+      if (this.recent) {
+        return courseType.slice().reverse();
+      }
+      return courseType;
+    },
     filteredConnections() {
       if (!this.connections.length) {
         return [];
@@ -914,8 +1122,27 @@ export default {
         return extension[0];
       }
     },
+    getcourses() {
+      this.$http
+        .get(`${this.$store.getters.url}/courses`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.courses = res.data;
+            this.showCourse = true;
+            this.rows = res.data.length;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     getinfo() {
       if (this.$route.params.user == "f") {
+        this.getcourses();
         this.$http
           .get(
             `${this.$store.getters.url}/facilitator/info/${this.$route.params.id}`

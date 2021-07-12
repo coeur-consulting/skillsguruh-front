@@ -456,7 +456,7 @@
                             :src="require('@/assets/images/creator.svg')"
                           ></b-img>
                           <h6 class="text-muted my-3 fs14">
-                            It appears you havent added any Discussion yet,
+                            No Discussion availbale
                           </h6>
                         </div>
                       </div>
@@ -465,7 +465,7 @@
 
                   <b-card-body v-if="active == 3" class="pt-0 px-3">
                     <div>
-                      <div v-if="showCourse">
+                      <div v-if="courses.length">
                         <b-container fluid class="main-course">
                           <b-row>
                             <b-col
@@ -613,152 +613,16 @@
                           </div>
                         </b-container>
                       </div>
-                      <b-row v-else>
-                        <b-col sm="4" class="mb-4">
-                          <div class="mb-3">
-                            <b-skeleton-img></b-skeleton-img>
-                          </div>
-                          <b-skeleton
-                            animation="fade"
-                            class="mb-2"
-                            width="65%"
-                          ></b-skeleton>
-                          <b-skeleton
-                            animation="fade"
-                            class="mb-2"
-                            width="55%"
-                          ></b-skeleton>
-                          <b-skeleton animation="fade" width="59%"></b-skeleton>
-                        </b-col>
-                        <b-col sm="4" class="mb-4">
-                          <div class="mb-3">
-                            <b-skeleton-img></b-skeleton-img>
-                          </div>
-                          <b-skeleton
-                            animation="fade"
-                            class="mb-2"
-                            width="65%"
-                          ></b-skeleton>
-                          <b-skeleton
-                            animation="fade"
-                            class="mb-2"
-                            width="55%"
-                          ></b-skeleton>
-                          <b-skeleton animation="fade" width="59%"></b-skeleton>
-                        </b-col>
-                        <b-col sm="4" class="mb-4">
-                          <div class="mb-3">
-                            <b-skeleton-img></b-skeleton-img>
-                          </div>
-                          <b-skeleton
-                            animation="fade"
-                            class="mb-2"
-                            width="65%"
-                          ></b-skeleton>
-                          <b-skeleton
-                            animation="fade"
-                            class="mb-2"
-                            width="55%"
-                          ></b-skeleton>
-                          <b-skeleton animation="fade" width="59%"></b-skeleton>
-                        </b-col>
-                        <b-col sm="4" class="mb-4">
-                          <div class="mb-3">
-                            <b-skeleton-img></b-skeleton-img>
-                          </div>
-                          <b-skeleton
-                            animation="fade"
-                            class="mb-2"
-                            width="65%"
-                          ></b-skeleton>
-                          <b-skeleton
-                            animation="fade"
-                            class="mb-2"
-                            width="55%"
-                          ></b-skeleton>
-                          <b-skeleton animation="fade" width="59%"></b-skeleton>
-                        </b-col>
-                        <b-col sm="4" class="mb-4">
-                          <div class="mb-3">
-                            <b-skeleton-img></b-skeleton-img>
-                          </div>
-                          <b-skeleton
-                            animation="fade"
-                            class="mb-2"
-                            width="65%"
-                          ></b-skeleton>
-                          <b-skeleton
-                            animation="fade"
-                            class="mb-2"
-                            width="55%"
-                          ></b-skeleton>
-                          <b-skeleton animation="fade" width="59%"></b-skeleton>
-                        </b-col>
-                        <b-col sm="4" class="mb-4">
-                          <div class="mb-3">
-                            <b-skeleton-img></b-skeleton-img>
-                          </div>
-                          <b-skeleton
-                            animation="fade"
-                            class="mb-2"
-                            width="65%"
-                          ></b-skeleton>
-                          <b-skeleton
-                            animation="fade"
-                            class="mb-2"
-                            width="55%"
-                          ></b-skeleton>
-                          <b-skeleton animation="fade" width="59%"></b-skeleton>
-                        </b-col>
-                        <b-col sm="4" class="mb-4">
-                          <div class="mb-3">
-                            <b-skeleton-img></b-skeleton-img>
-                          </div>
-                          <b-skeleton
-                            animation="fade"
-                            class="mb-2"
-                            width="65%"
-                          ></b-skeleton>
-                          <b-skeleton
-                            animation="fade"
-                            class="mb-2"
-                            width="55%"
-                          ></b-skeleton>
-                          <b-skeleton animation="fade" width="59%"></b-skeleton>
-                        </b-col>
-                        <b-col sm="4" class="mb-4">
-                          <div class="mb-3">
-                            <b-skeleton-img></b-skeleton-img>
-                          </div>
-                          <b-skeleton
-                            animation="fade"
-                            class="mb-2"
-                            width="65%"
-                          ></b-skeleton>
-                          <b-skeleton
-                            animation="fade"
-                            class="mb-2"
-                            width="55%"
-                          ></b-skeleton>
-                          <b-skeleton animation="fade" width="59%"></b-skeleton>
-                        </b-col>
-                        <b-col sm="4" class="mb-4">
-                          <div class="mb-3">
-                            <b-skeleton-img></b-skeleton-img>
-                          </div>
-                          <b-skeleton
-                            animation="fade"
-                            class="mb-2"
-                            width="65%"
-                          ></b-skeleton>
-                          <b-skeleton
-                            animation="fade"
-                            class="mb-2"
-                            width="55%"
-                          ></b-skeleton>
-                          <b-skeleton animation="fade" width="59%"></b-skeleton>
-                        </b-col>
-                      </b-row>
+                      <div v-else class="text-center admin_tab p-3 p-sm-5">
+                        <div>
+                          <b-img
+                            :src="require('@/assets/images/creator.svg')"
+                          ></b-img>
+                          <h6 class="text-muted my-3 fs14">
+                            No course available
+                          </h6>
+                        </div>
+                      </div>
                     </div>
                   </b-card-body>
                 </b-row>
@@ -812,7 +676,7 @@
                   </div>
                 </div>
               </div>
-              <div v-else class="text-center">Not Available</div>
+              <div v-else class="text-left fs13 text-muted">Not Available</div>
             </b-col>
             <b-col cols="12">
               <h6 class="fs13">Learners with shared Interest</h6>
@@ -855,7 +719,7 @@
                   </div>
                 </div>
               </div>
-              <div v-else class="text-center">Not Available</div>
+              <div v-else class="text-left text-muted fs13">Not Available</div>
             </b-col>
           </b-row>
         </b-col>

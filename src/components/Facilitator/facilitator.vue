@@ -124,6 +124,13 @@
                         >
                           Events
                         </li>
+                        <li
+                          class="h6 fs14 cursor-pointer mb-0"
+                          :class="active == 4 ? 'active' : ''"
+                          @click="active = 4"
+                        >
+                          Courses
+                        </li>
                       </ul>
                     </nav>
                   </b-card-body>
@@ -185,8 +192,8 @@
                               <b-dropdown
                                 v-if="
                                   feed.facilitator &&
-                                  feed.facilitator.id ==
-                                    $store.getters.facilitator.id
+                                    feed.facilitator.id ==
+                                      $store.getters.facilitator.id
                                 "
                                 size="sm"
                                 variant="transparent"
@@ -219,7 +226,7 @@
                                 <b-img
                                   v-if="
                                     feed.media &&
-                                    img_ext.includes(getextension(feed.media))
+                                      img_ext.includes(getextension(feed.media))
                                   "
                                   fluid-grow
                                   :src="feed.media"
@@ -229,7 +236,7 @@
                                   width="100%"
                                   v-if="
                                     feed.media &&
-                                    vid_ext.includes(getextension(feed.media))
+                                      vid_ext.includes(getextension(feed.media))
                                   "
                                   :src="feed.media"
                                   class="fluid-grow"
@@ -237,7 +244,7 @@
                                 <div
                                   v-if="
                                     feed.media &&
-                                    doc_ext.includes(getextension(feed.media))
+                                      doc_ext.includes(getextension(feed.media))
                                   "
                                   class="text-center p-3 bg-skills-grey"
                                 >
@@ -261,7 +268,7 @@
                                 <b-icon
                                   :icon="
                                     feed.stars.find(
-                                      (item) =>
+                                      item =>
                                         item.star &&
                                         item.facilitator_id ==
                                           $store.getters.facilitator.id
@@ -272,7 +279,7 @@
                                   class="text-blue mr-1"
                                 ></b-icon>
                                 <span>{{
-                                  feed.stars.filter((item) => item.star).length
+                                  feed.stars.filter(item => item.star).length
                                 }}</span>
                                 stars</span
                               >
@@ -280,7 +287,7 @@
                                 ><b-icon
                                   :icon="
                                     feed.likes.find(
-                                      (item) =>
+                                      item =>
                                         item.like &&
                                         item.facilitator_id ==
                                           $store.getters.facilitator.id
@@ -291,7 +298,7 @@
                                   class="text-danger mr-1"
                                 ></b-icon>
                                 <span>{{
-                                  feed.likes.filter((item) => item.like).length
+                                  feed.likes.filter(item => item.like).length
                                 }}</span>
                                 likes</span
                               >
@@ -537,7 +544,7 @@
                             :src="require('@/assets/images/creator.svg')"
                           ></b-img>
                           <h6 class="text-muted my-3 fs14">
-                            It appears you havent added any Discussion yet,
+                            No Discussion available
                           </h6>
                         </div>
                       </div>
@@ -614,8 +621,8 @@
                             <b-dropdown
                               v-if="
                                 item.facilitator_id &&
-                                item.facilitator_id ==
-                                  $store.getters.facilitator.id
+                                  item.facilitator_id ==
+                                    $store.getters.facilitator.id
                               "
                               size="sm"
                               variant="transparent"
@@ -663,10 +670,161 @@
                             :src="require('@/assets/images/creator.svg')"
                           ></b-img>
                           <h6 class="text-muted my-3 fs14">
-                            It appears you have no event,
+                            No event available
                             <br class="d-none d-sm-block" />
                           </h6>
                         </div>
+                      </div>
+                    </div>
+                  </b-card-body>
+
+                  <b-card-body v-if="active == 4" class="pt-0 px-3">
+                    <div v-if="showCourse">
+                      <b-container fluid class="main-course">
+                        <b-row>
+                          <b-col
+                            sm="4 "
+                            class="mb-3 side_box"
+                            v-for="(item, index) in filteredCourse"
+                            :key="index"
+                          >
+                            <div class="course border cursor-pointer shadow-sm">
+                              <div
+                                class="course_img"
+                                :style="{
+                                  backgroundImage: `url(${
+                                    item.cover
+                                      ? item.cover
+                                      : require('@/assets/images/default.png')
+                                  })`
+                                }"
+                              ></div>
+                              <div class="course_text">
+                                <div class="d-flex justify-content-between">
+                                  <span
+                                    class="
+                                      px-2
+                                      py-1
+                                      rounded-pill
+                                      text-white
+                                      fs11
+                                    "
+                                    :style="{
+                                      backgroundColor: JSON.parse(
+                                        item.courseoutline.knowledge_areas
+                                      ).color
+                                    }"
+                                  >
+                                    <b-icon
+                                      class="mr-2"
+                                      :icon="
+                                        JSON.parse(
+                                          item.courseoutline.knowledge_areas
+                                        ).icon
+                                      "
+                                    ></b-icon>
+                                    <span>{{
+                                      JSON.parse(
+                                        item.courseoutline.knowledge_areas
+                                      ).value
+                                    }}</span></span
+                                  >
+                                  <span class="text-capitalize fs11">{{
+                                    item.type
+                                  }}</span>
+                                </div>
+                                <div class="border-bottom pt-3 text-left">
+                                  <h6
+                                    class="
+                                      font-weight-bold
+                                      text-capitalize
+                                      overview-title
+                                    "
+                                  >
+                                    {{ item.title }}
+                                  </h6>
+                                  <div
+                                    class="fs13 overview"
+                                    v-html="item.courseoutline.overview"
+                                  ></div>
+                                </div>
+                                <div class="info fs11">
+                                  <div class="d-flex">
+                                    <div class="mr-2">
+                                      <b-icon
+                                        icon="people"
+                                        class="mr-1"
+                                      ></b-icon>
+                                      <span
+                                        >{{
+                                          item.enroll ? item.enroll.count : 0
+                                        }}+</span
+                                      >
+                                    </div>
+                                    <div class="mr-3">
+                                      <b-icon icon="eye" class="mr-1"></b-icon>
+                                      <span
+                                        >{{
+                                          item.viewcount
+                                            ? item.viewcount.count
+                                            : 0
+                                        }}
+                                        +</span
+                                      >
+                                    </div>
+                                    <div>
+                                      <b-icon
+                                        icon="star-fill"
+                                        style="color: gold"
+                                        class="mr-1"
+                                      ></b-icon>
+                                      <span
+                                        >{{ item.review.length }} reviews</span
+                                      >
+                                    </div>
+                                  </div>
+
+                                  <b-avatar
+                                    size="sm"
+                                    variant="light"
+                                    :src="item.cover"
+                                  >
+                                  </b-avatar>
+                                </div>
+                              </div>
+                            </div>
+                          </b-col>
+                        </b-row>
+                        <div
+                          class="p-3 d-flex justify-content-between"
+                          v-if="rows > 10"
+                        >
+                          <div class="fs12 text-muted">
+                            Showing {{ perPage * currentPage - perPage + 1 }}-{{
+                              perPage * currentPage
+                            }}
+                            of {{ courses.length }} items
+                          </div>
+                          <b-pagination
+                            pills
+                            size="sm"
+                            variant="dark-green"
+                            align="right"
+                            v-model="currentPage"
+                            :total-rows="rows"
+                            :per-page="perPage"
+                          ></b-pagination>
+                        </div>
+                      </b-container>
+                    </div>
+                    <div v-else class="text-center admin_tab p-3 p-sm-5">
+                      <div>
+                        <b-img
+                          :src="require('@/assets/images/creator.svg')"
+                        ></b-img>
+                        <h6 class="text-muted my-3 fs14">
+                          No course available
+                        </h6>
                       </div>
                     </div>
                   </b-card-body>
@@ -727,7 +885,7 @@
                   <div
                     v-if="
                       $store.getters.facilitator &&
-                      $store.getters.facilitator.id == $route.params.id
+                        $store.getters.facilitator.id == $route.params.id
                     "
                   >
                     <b-button
@@ -763,7 +921,7 @@
                   <div
                     v-if="
                       $store.getters.facilitator &&
-                      $store.getters.facilitator.id == $route.params.id
+                        $store.getters.facilitator.id == $route.params.id
                     "
                   >
                     <b-button
@@ -854,9 +1012,15 @@ export default {
       rows: null,
       perPage: 10,
       feeds: [],
+      courses: [],
       connections: [],
       discussions: [],
       events: [],
+      course_type: "",
+      facilitators: [],
+      recent: false,
+      trending: false,
+      alpha: false,
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp"],
       aud_ext: ["mp3"],
@@ -865,22 +1029,57 @@ export default {
         id: "",
         name: "",
         type: "",
-        profile: "",
+        profile: ""
       },
       open: false,
       showAll: false,
+      showCourse: false
     };
   },
   components: {
     Message,
-    Minichat,
+    Minichat
   },
   computed: {
+    filteredCourse() {
+      var title = this.courses
+        .slice(
+          this.perPage * this.currentPage - this.perPage,
+          this.perPage * this.currentPage
+        )
+        .filter(
+          item =>
+            item.title.toLowerCase().includes(this.search.toLowerCase()) ||
+            JSON.parse(item.courseoutline.knowledge_areas)
+              .value.toLowerCase()
+              .includes(this.search)
+        );
+      if (this.alpha) {
+        title.sort((a, b) => {
+          return a.title.localeCompare(b.title);
+        });
+      }
+      var courseType;
+      if (this.course_type == "free") {
+        courseType = title.filter(item => item.type == "free");
+      } else if (this.course_type == "paid") {
+        courseType = title.filter(item => item.type == "paid");
+      } else if (this.course_type == "group") {
+        courseType = title.filter(item => item.type == "group");
+      } else {
+        courseType = title;
+      }
+
+      if (this.recent) {
+        return courseType.slice().reverse();
+      }
+      return courseType;
+    },
     filteredConnections() {
       if (!this.connections.length) {
         return [];
       }
-      return this.connections.filter((item) => {
+      return this.connections.filter(item => {
         if (item.user_follower) {
           return item.user_follower.name
             .toLowerCase()
@@ -896,14 +1095,14 @@ export default {
 
     filterFeeds() {
       return this.feeds
-        .filter((item) =>
+        .filter(item =>
           item.name.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
           this.perPage * this.currentPage - this.perPage,
           this.perPage * this.currentPage
         );
-    },
+    }
   },
   mounted() {
     this.getdiscussions();
@@ -927,16 +1126,17 @@ export default {
     },
     getinfo() {
       if (this.$route.params.user == "f") {
+        this.getCourses();
         this.$http
           .get(
             `${this.$store.getters.url}/facilitator/info/${this.$route.params.id}`
           )
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.detail = res.data;
             }
           })
-          .catch((err) => {
+          .catch(err => {
             this.$toast.error(err.response.data.message);
           });
       } else {
@@ -944,12 +1144,12 @@ export default {
           .get(
             `${this.$store.getters.url}/learner/info/${this.$route.params.id}`
           )
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.detail = res.data;
             }
           })
-          .catch((err) => {
+          .catch(err => {
             this.$toast.error(err.response.data.message);
           });
       }
@@ -961,12 +1161,12 @@ export default {
           .get(
             `${this.$store.getters.url}/facilitator/discussions/${this.$route.params.id}`
           )
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.discussions = res.data;
             }
           })
-          .catch((err) => {
+          .catch(err => {
             this.$toast.error(err.response.data.message);
           });
       } else {
@@ -974,12 +1174,12 @@ export default {
           .get(
             `${this.$store.getters.url}/learner/discussions/${this.$route.params.id}`
           )
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.discussions = res.data;
             }
           })
-          .catch((err) => {
+          .catch(err => {
             this.$toast.error(err.response.data.message);
           });
       }
@@ -989,7 +1189,7 @@ export default {
         id: "",
         name: "",
         type: "",
-        profile: "",
+        profile: ""
       };
       this.open = false;
       this.showAll = false;
@@ -1009,12 +1209,12 @@ export default {
           .get(
             `${this.$store.getters.url}/facilitator/feeds/${this.$route.params.id}`
           )
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.feeds = res.data;
             }
           })
-          .catch((err) => {
+          .catch(err => {
             this.$toast.error(err.response.data.message);
           });
       } else {
@@ -1022,12 +1222,12 @@ export default {
           .get(
             `${this.$store.getters.url}/learner/feeds/${this.$route.params.id}`
           )
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.feeds = res.data;
             }
           })
-          .catch((err) => {
+          .catch(err => {
             this.$toast.error(err.response.data.message);
           });
       }
@@ -1038,28 +1238,52 @@ export default {
           .get(
             `${this.$store.getters.url}/facilitator/events/${this.$route.params.id}`
           )
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.events = res.data;
             }
           })
-          .catch((err) => {
+          .catch(err => {
             this.$toast.error(err.response.data.message);
           });
       }
     },
+    getCourses() {
+      if (this.$route.params.user == "f") {
+        this.$http
+          .get(
+            `${this.$store.getters.url}/facilitator/courses/${this.$route.params.id}`
+          )
+          .then(res => {
+            if (res.status == 200) {
+              this.courses = res.data;
+              this.showCourse = true;
+            }
+          })
+          .catch(err => {
+            this.$toast.error(err.response.data.message);
+          });
+      }
+    },
+    sortmodules(data) {
+      if (!data.courseoutline) {
+        return 0;
+      }
+      return JSON.parse(data.courseoutline.modules).length;
+    },
+
     getConnections() {
       if (this.$route.params.user == "f") {
         this.$http
           .get(
             `${this.$store.getters.url}/facilitator/connections/${this.$route.params.id}`
           )
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.connections = res.data;
             }
           })
-          .catch((err) => {
+          .catch(err => {
             this.$toast.error(err.response.data.message);
           });
       } else {
@@ -1067,34 +1291,34 @@ export default {
           .get(
             `${this.$store.getters.url}/learner/connections/${this.$route.params.id}`
           )
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.connections = res.data;
             }
           })
-          .catch((err) => {
+          .catch(err => {
             this.$toast.error(err.response.data.message);
           });
       }
     },
     requestAccess() {
       var data = {
-        discussion_id: this.discussion_id,
+        discussion_id: this.discussion_id
       };
 
       this.$http
         .post(`${this.$store.getters.url}/join-discussion`, data, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.info("Your request has been sent");
             this.$bvModal.hide("access");
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1108,13 +1332,13 @@ export default {
         this.$http
           .get(`${this.$store.getters.url}/discussion/private/${item.id}`, {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+            }
           })
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               var result = res.data
-                .map((item) => item.facilitator_id)
+                .map(item => item.facilitator_id)
                 .includes(this.$store.getters.facilitator.id);
 
               if (result) {
@@ -1128,11 +1352,11 @@ export default {
       }
     },
     vote(val) {
-      var positive = val.filter((item) => item.vote).length;
-      var negative = val.filter((item) => !item.vote).length;
+      var positive = val.filter(item => item.vote).length;
+      var negative = val.filter(item => !item.vote).length;
       return Number(positive) - Number(negative);
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">
@@ -1180,6 +1404,30 @@ h4.card-title {
 .side_dis {
   width: 15%;
   text-align: center;
+}
+.course {
+  height: 350px;
+  position: relative;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.course_img {
+  height: 45%;
+  width: 100%;
+
+  border-radius: 8px;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.course_text {
+  height: 55%;
+  padding: 10px;
+}
+.info {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
 }
 .next_dis {
   width: 85%;
