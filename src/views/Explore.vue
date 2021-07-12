@@ -8,6 +8,7 @@
       </div>
     </div>
     <b-container class="pb-5">
+<<<<<<< Updated upstream
       <b-row class="justify-content-around p-2 p-sm-5 my-5">
         <b-col cols="4">
           <span class="d-flex align-items-center tpp">
@@ -38,6 +39,40 @@
           </span>
         </b-col>
       </b-row>
+=======
+     <b-container class="pt-5">
+       <b-row class="">
+         <b-col md="4" class="p-3">
+           <div class="d-flex text-center">
+              <b-img size="" class="counter" src="/img/learners.png"></b-img>
+              <div class="px-3">
+                <span class="font-weight-bold">{{ users.length }}+</span> <br />
+              <span class="font-weight-bold">Happy Learner</span>
+              </div>
+           </div>
+         </b-col>
+          <b-col md="4" class="p-3">
+             <div class="d-flex text-center">
+              <b-img size="" class="counter" src="/img/programs.png"></b-img>
+              <div class="px-3">
+                <span class="font-weight-bold">{{ courses.length }}+</span> <br />
+              <span class="font-weight-bold">online Program</span>
+              </div>
+           </div>
+          </b-col>
+           <b-col md="4" class="p-3">
+               <div class="d-flex text-center">
+              <b-img  size="" class="counter" src="/img/facilitator.png"></b-img>
+              <div class="px-3">
+                <span class="font-weight-bold">{{ facilitators.length }}+</span> <br />
+              <span class="font-weight-bold">Facilitator Onboard</span>
+              </div>
+           </div>
+           </b-col>
+       </b-row>
+        
+     </b-container>
+>>>>>>> Stashed changes
       <section class="py-5">
         <h4 class="mb-3 font-weight-bold">Most Popular Courses</h4>
         <b-row
@@ -150,6 +185,7 @@
           interest that can help improve your business skills
         </p>
 
+<<<<<<< Updated upstream
         <b-row class="py-4">
           <b-col
             class="mb-5 cursor-pointer"
@@ -157,6 +193,11 @@
             sm="2"
             @click="$router.push('/interests/Literature')"
             ><b-img src="/img/one.png" class="mb-2 interest"></b-img>
+=======
+        <b-row class="py-4 interest">
+          <b-col class="mb-5" sm="2"
+            ><b-img src="/img/one.png" class="mb-2"></b-img>
+>>>>>>> Stashed changes
             <h6 class="font-weight-bold">Literature</h6></b-col
           >
           <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
@@ -663,10 +704,20 @@ export default {
 .course_img {
   height: 45%;
   width: 100%;
+<<<<<<< Updated upstream
   border-radius: 8px;
+=======
+    border-radius: 8px;
+>>>>>>> Stashed changes
   background-repeat: no-repeat;
   background-size: cover;
 }
+.counter{
+  width: 50px;
+  
+}
+
+
 .course_text {
   height: 55%;
   padding: 10px;
@@ -684,6 +735,7 @@ export default {
   height: 400px;
   object-fit: cover;
 }
+<<<<<<< Updated upstream
 @media (max-width: 600px) {
   .interest {
     width: 40px;
@@ -701,5 +753,9 @@ export default {
   .tp {
     width: 30px;
   }
+=======
+.interest img{
+  width: 100px;
+>>>>>>> Stashed changes
 }
 </style>
