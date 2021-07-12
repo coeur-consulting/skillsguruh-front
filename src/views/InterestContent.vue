@@ -56,7 +56,7 @@
                           :class="active == 1 ? 'active' : ''"
                           @click="active = 1"
                         >
-                          Feeds
+                          Feed
                         </li>
                         <li
                           class="h6 fs14 cursor-pointer mb-0"

@@ -69,7 +69,7 @@
             <div class="side_item">
               <rss-icon size="1.2x" class="custom-class"></rss-icon>
               <span class="side-link px-2"
-                ><span class="mr-5">Feeds</span>
+                ><span class="mr-5">Feed</span>
               </span>
             </div>
           </router-link>

@@ -1,5 +1,5 @@
 <template>
-  <b-container  class="p-0 pb-5">
+  <b-container class="p-0 pb-5">
     <b-row class="main bg-white" v-if="showEvent">
       <b-col
         sm="12"
@@ -377,7 +377,7 @@
         <b-button variant="outline-dark-green" @click="addToFeed">
           <b-icon icon="rss-fill" variant="dark-green"></b-icon>
 
-          Feeds</b-button
+          Feed</b-button
         >
       </div>
     </b-modal>

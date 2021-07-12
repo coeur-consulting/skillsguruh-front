@@ -155,7 +155,7 @@
               <div class="font-weight-bold mr-2 mb-1" v-if="allcomments.admin">
                 <b-avatar
                   class="mr-2"
-                  size="3rem"
+                  size="1.8rem"
                   :src="allcomments.admin.profile"
                 ></b-avatar>
                 {{ allcomments.admin.name }}
@@ -163,7 +163,7 @@
               <div class="font-weight-bold mr-2 mb-1" v-if="allcomments.user">
                 <b-avatar
                   class="mr-2"
-                  size="3rem"
+                  size="1.8rem"
                   :src="allcomments.user.profile"
                 ></b-avatar>
                 {{ allcomments.user.name }}
@@ -174,7 +174,7 @@
               >
                 <b-avatar
                   class="mr-2"
-                  size="3rem"
+                  size="1.8rem"
                   :src="allcomments.facilitator.profile"
                 ></b-avatar>
                 {{ allcomments.facilitator.name }}
@@ -250,7 +250,7 @@
         <b-col sm="8" class="px-0">
           <div class="border bg-white py-3 px-2 p-sm-4 rounded-8 mb-4">
             <div class="d-flex align-items-center mb-3">
-              <b-avatar size="2.5rem" class="mr-3"></b-avatar>
+              <b-avatar size="1.8rem" class="mr-3"></b-avatar>
 
               <b-form-input
                 class="rounded-pill stat cursor-pointer"
@@ -306,6 +306,7 @@
                         v-if="feed.admin"
                       >
                         <b-avatar
+                          size="1.8rem"
                           class="mr-2"
                           :src="feed.admin.profile"
                         ></b-avatar>
@@ -316,6 +317,7 @@
                         v-if="feed.user"
                       >
                         <b-avatar
+                          size="1.8rem"
                           class="mr-2"
                           :src="feed.user.profile"
                         ></b-avatar>
@@ -326,6 +328,7 @@
                         v-if="feed.facilitator"
                       >
                         <b-avatar
+                          size="1.8rem"
                           class="mr-2"
                           :src="feed.facilitator.profile"
                         ></b-avatar>

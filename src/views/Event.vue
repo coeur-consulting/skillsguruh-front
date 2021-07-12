@@ -377,7 +377,7 @@
         <b-button variant="outline-dark-green" @click="addToFeed">
           <b-icon icon="rss-fill" variant="dark-green"></b-icon>
 
-          Feeds</b-button
+          Feed</b-button
         >
       </div>
     </b-modal>

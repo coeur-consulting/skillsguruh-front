@@ -32,20 +32,20 @@
                       <b-card-text
                         class="d-flex align-items-center mb-0"
                         style="line-height: 1.1"
+                        v-if="detail.age || detail.state || detail.country"
                       >
                         <span
                           class="fs11 text-muted cursor-pointer mr-2"
                           v-if="detail.age"
                         >
-                          {{ detail.age }} years </span
-                        >,
+                          {{ detail.age }} years ,</span
+                        >
 
                         <span
                           class="fs12 text-muted cursor-pointer"
                           style="line-height: 1.1"
                         >
-                          <span v-if="detail.state">{{ detail.state }}</span
-                          >,
+                          <span v-if="detail.state">{{ detail.state }},</span>
                           <span v-if="detail.country">
                             {{ detail.country }}</span
                           >
@@ -108,7 +108,7 @@
                           :class="active == 1 ? 'active' : ''"
                           @click="active = 1"
                         >
-                          Feeds
+                          Feed
                         </li>
                         <li
                           class="h6 fs14 cursor-pointer mb-0"
@@ -152,6 +152,7 @@
                                   v-if="feed.admin"
                                 >
                                   <b-avatar
+                                    size="1.8rem"
                                     class="mr-2"
                                     :src="feed.admin.profile"
                                   ></b-avatar>
@@ -162,6 +163,7 @@
                                   v-if="feed.user"
                                 >
                                   <b-avatar
+                                    size="1.8rem"
                                     class="mr-2"
                                     :src="feed.user.profile"
                                   ></b-avatar>
@@ -172,6 +174,7 @@
                                   v-if="feed.facilitator"
                                 >
                                   <b-avatar
+                                    size="1.8rem"
                                     class="mr-2"
                                     :src="feed.facilitator.profile"
                                   ></b-avatar>
@@ -408,14 +411,17 @@
                             </b-dropdown>
                             <div class="side_dis">
                               <b-avatar
+                                size="1.8rem"
                                 v-if="item.creator == 'admin'"
                                 :src="item.admin.profile"
                               ></b-avatar>
                               <b-avatar
+                                size="1.8rem"
                                 v-if="item.creator == 'user'"
                                 :src="item.user.profile"
                               ></b-avatar>
                               <b-avatar
+                                size="1.8rem"
                                 v-if="item.creator == 'facilitator'"
                                 :src="item.facilitator.profile"
                               ></b-avatar>
