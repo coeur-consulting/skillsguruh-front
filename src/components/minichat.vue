@@ -5,7 +5,19 @@
     >
       <div class="d-flex flex-1 align-items-center">
         <b-avatar size="2rem" :src="mini_info.profile" class="mr-2"></b-avatar>
-        <span class="chat_name">{{ mini_info.name }}</span>
+        <span
+          v-if="mini_info.type == 'user'"
+          class="chat_name"
+          @click="$router.push(`/learner/u/${mini_info.id}`)"
+          >{{ mini_info.name }}</span
+        >
+        <span
+          v-else-if="mini_info.type == 'facilitator'"
+          class="chat_name"
+          @click="$router.push(`/learner/u/${mini_info.id}`)"
+          >{{ mini_info.name }}</span
+        >
+        <span v-else class="chat_name">{{ mini_info.name }}</span>
       </div>
       <div class="d-flex align-items-center">
         <b-icon

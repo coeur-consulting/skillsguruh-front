@@ -321,7 +321,13 @@
                           class="mr-2"
                           :src="feed.user.profile"
                         ></b-avatar>
-                        {{ feed.user.name }}
+                        <span
+                          @click="
+                            $router.push(`/facilitator/u/${feed.user.id}`)
+                          "
+                        >
+                          {{ feed.user.name }}</span
+                        >
                       </div>
                       <div
                         class="font-weight-bold mr-2 mb-1 feedname"
@@ -335,7 +341,7 @@
                         <span
                           @click="
                             $router.push(
-                              `/facilitator/profile/${feed.facilitator.id}`
+                              `/facilitator/f/${feed.facilitator.id}`
                             )
                           "
                         >
@@ -509,14 +515,20 @@
                           <span class="font-weight-bold mr-2" v-if="item.admin">
                             {{ item.admin.name }}</span
                           >
-                          <span class="font-weight-bold mr-2" v-if="item.user">
+                          <span
+                            class="font-weight-bold mr-2"
+                            @click="
+                              $router.push(`/facilitator/u/${item.user.id}`)
+                            "
+                            v-if="item.user"
+                          >
                             {{ item.user.name }}</span
                           >
                           <span
                             class="font-weight-bold mr-2"
                             @click="
                               $router.push(
-                                `/facilitator/profile/${feed.facilitator.id}`
+                                `/facilitator/f/${item.facilitator.id}`
                               )
                             "
                             v-if="item.facilitator"

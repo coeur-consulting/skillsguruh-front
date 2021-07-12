@@ -915,33 +915,63 @@ export default {
       }
     },
     getinfo() {
-      this.$http
-        .get(
-          `${this.$store.getters.url}/facilitator/info/${this.$route.params.id}`
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.detail = res.data;
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
+      if (this.$route.params.user == "f") {
+        this.$http
+          .get(
+            `${this.$store.getters.url}/facilitator/info/${this.$route.params.id}`
+          )
+          .then((res) => {
+            if (res.status == 200) {
+              this.detail = res.data;
+            }
+          })
+          .catch((err) => {
+            this.$toast.error(err.response.data.message);
+          });
+      } else {
+        this.$http
+          .get(
+            `${this.$store.getters.url}/learner/info/${this.$route.params.id}`
+          )
+          .then((res) => {
+            if (res.status == 200) {
+              this.detail = res.data;
+            }
+          })
+          .catch((err) => {
+            this.$toast.error(err.response.data.message);
+          });
+      }
     },
 
     getdiscussions() {
-      this.$http
-        .get(
-          `${this.$store.getters.url}/facilitator/discussions/${this.$route.params.id}`
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.discussions = res.data;
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
+      if (this.$route.params.user == "f") {
+        this.$http
+          .get(
+            `${this.$store.getters.url}/facilitator/discussions/${this.$route.params.id}`
+          )
+          .then((res) => {
+            if (res.status == 200) {
+              this.discussions = res.data;
+            }
+          })
+          .catch((err) => {
+            this.$toast.error(err.response.data.message);
+          });
+      } else {
+        this.$http
+          .get(
+            `${this.$store.getters.url}/learner/discussions/${this.$route.params.id}`
+          )
+          .then((res) => {
+            if (res.status == 200) {
+              this.discussions = res.data;
+            }
+          })
+          .catch((err) => {
+            this.$toast.error(err.response.data.message);
+          });
+      }
     },
     togglechat() {
       this.mini_info = {
@@ -963,46 +993,125 @@ export default {
       this.$bvModal.hide("connections");
     },
     getFeeds() {
-      this.$http
-        .get(
-          `${this.$store.getters.url}/facilitator/feeds/${this.$route.params.id}`
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.feeds = res.data;
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
+      if (this.$route.params.user == "f") {
+        this.$http
+          .get(
+            `${this.$store.getters.url}/facilitator/feeds/${this.$route.params.id}`
+          )
+          .then((res) => {
+            if (res.status == 200) {
+              this.feeds = res.data;
+            }
+          })
+          .catch((err) => {
+            this.$toast.error(err.response.data.message);
+          });
+      } else {
+        this.$http
+          .get(
+            `${this.$store.getters.url}/learner/feeds/${this.$route.params.id}`
+          )
+          .then((res) => {
+            if (res.status == 200) {
+              this.feeds = res.data;
+            }
+          })
+          .catch((err) => {
+            this.$toast.error(err.response.data.message);
+          });
+      }
     },
     getEvents() {
+      if (this.$route.params.user == "f") {
+        this.$http
+          .get(
+            `${this.$store.getters.url}/facilitator/events/${this.$route.params.id}`
+          )
+          .then((res) => {
+            if (res.status == 200) {
+              this.events = res.data;
+            }
+          })
+          .catch((err) => {
+            this.$toast.error(err.response.data.message);
+          });
+      }
+    },
+    getConnections() {
+      if (this.$route.params.user == "f") {
+        this.$http
+          .get(
+            `${this.$store.getters.url}/facilitator/connections/${this.$route.params.id}`
+          )
+          .then((res) => {
+            if (res.status == 200) {
+              this.connections = res.data;
+            }
+          })
+          .catch((err) => {
+            this.$toast.error(err.response.data.message);
+          });
+      } else {
+        this.$http
+          .get(
+            `${this.$store.getters.url}/learner/connections/${this.$route.params.id}`
+          )
+          .then((res) => {
+            if (res.status == 200) {
+              this.connections = res.data;
+            }
+          })
+          .catch((err) => {
+            this.$toast.error(err.response.data.message);
+          });
+      }
+    },
+    requestAccess() {
+      var data = {
+        discussion_id: this.discussion_id,
+      };
+
       this.$http
-        .get(
-          `${this.$store.getters.url}/facilitator/events/${this.$route.params.id}`
-        )
+        .post(`${this.$store.getters.url}/join-discussion`, data, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
         .then((res) => {
           if (res.status == 200) {
-            this.events = res.data;
+            this.$toast.info("Your request has been sent");
+            this.$bvModal.hide("access");
           }
         })
         .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
-    getConnections() {
-      this.$http
-        .get(
-          `${this.$store.getters.url}/facilitator/connections/${this.$route.params.id}`
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.connections = res.data;
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
+    joindiscussion(item) {
+      if (item.user && item.user.id == this.$store.getters.learner.id) {
+        this.$router.push(`/learner/discussion/${item.id}`);
+      } else {
+        this.$http
+          .get(`${this.$store.getters.url}/discussion/private/${item.id}`, {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          })
+          .then((res) => {
+            if (res.status == 200) {
+              var result = res.data
+                .map((item) => item.user_id)
+                .includes(this.$store.getters.learner.id);
+
+              if (result) {
+                this.$router.push(`/learner/discussion/${item.id}`);
+              } else {
+                this.discussion_id = item.id;
+                this.$bvModal.show("access");
+              }
+            }
+          });
+      }
     },
     async addconnections(id, type) {
       return this.$http

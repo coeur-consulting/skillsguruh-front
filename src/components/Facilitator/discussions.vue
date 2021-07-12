@@ -101,7 +101,7 @@
                         >
                       </div>
 
-                      <div class="title">{{ item.name }} </div>
+                      <div class="title">{{ item.name }}</div>
                     </div>
                   </div>
                   <div class="top_dis d-flex align-items-start">
@@ -372,7 +372,6 @@
         >
       </b-form>
     </b-modal>
-
     <b-modal id="access" title="Request Access" hide-footer centered>
       <div class="text-center">
         <p class="mb-4 fs16">Do you wish to join this discussion?</p>
@@ -383,10 +382,7 @@
           @click="$bvModal.hide('access')"
           >Cancel</b-button
         >
-        <b-button
-          variant="secondary"
-          size="sm"
-          @click="$toast.success('Request sent succesfully')"
+        <b-button variant="secondary" size="sm" @click="requestAccess"
           >Send a request</b-button
         >
       </div>
@@ -401,6 +397,7 @@ export default {
   data() {
     return {
       show: "recent",
+      discussion_id: null,
       discussions: [],
       recentdiscussions: [],
       courses: [],
@@ -466,8 +463,48 @@ export default {
       ) {
         this.$router.push(`/facilitator/discussion/${item.id}`);
       } else {
-        this.$bvModal.show("access");
+        this.$http
+          .get(`${this.$store.getters.url}/discussion/private/${item.id}`, {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
+          })
+          .then((res) => {
+            if (res.status == 200) {
+              var result = res.data
+                .map((item) => item.facilitator_id)
+                .includes(this.$store.getters.facilitator.id);
+
+              if (result) {
+                this.$router.push(`/facilitator/discussion/${item.id}`);
+              } else {
+                this.discussion_id = item.id;
+                this.$bvModal.show("access");
+              }
+            }
+          });
       }
+    },
+    requestAccess() {
+      var data = {
+        discussion_id: this.discussion_id,
+      };
+
+      this.$http
+        .post(`${this.$store.getters.url}/join-discussion`, data, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.$toast.info("Your request has been sent");
+            this.$bvModal.hide("access");
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
     },
     getothers() {
       this.$http
