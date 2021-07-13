@@ -166,7 +166,7 @@
               >
             </div>
 
-            <div>
+            <div v-if="type == 'learner'">
               <div class="or my-4">OR</div>
 
               <div class="socials mt-3">
@@ -407,9 +407,11 @@ export default {
       }
     },
     socialregister(provider) {
+      var url = `${this.$store.getters.url}/auth/${provider}/redirect`;
       window.open(
-        `${this.$store.getters.url}/auth/${provider}/redirect`,
-        "_blank"
+        url,
+        "Social_Login",
+        "toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=0,width=100,height=100,left = 490,top = 262"
       );
     },
   },
