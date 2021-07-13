@@ -11,15 +11,15 @@
                     class="prof_img"
                     v-if="
                       Interests.find(
-                        item => item.value == $route.params.interest
+                        (item) => item.value == $route.params.interest
                       )
                     "
                   >
                     <b-card-img
                       :style="{
                         backgroundColor: Interests.find(
-                          item => item.value == $route.params.interest
-                        ).color
+                          (item) => item.value == $route.params.interest
+                        ).color,
                       }"
                       width="15%"
                       :src="require('@/assets/images/default.png')"
@@ -140,7 +140,7 @@
                                 <b-img
                                   v-if="
                                     feed.media &&
-                                      img_ext.includes(getextension(feed.media))
+                                    img_ext.includes(getextension(feed.media))
                                   "
                                   fluid-grow
                                   :src="feed.media"
@@ -150,7 +150,7 @@
                                   width="100%"
                                   v-if="
                                     feed.media &&
-                                      vid_ext.includes(getextension(feed.media))
+                                    vid_ext.includes(getextension(feed.media))
                                   "
                                   :src="feed.media"
                                   class="fluid-grow"
@@ -158,7 +158,7 @@
                                 <div
                                   v-if="
                                     feed.media &&
-                                      doc_ext.includes(getextension(feed.media))
+                                    doc_ext.includes(getextension(feed.media))
                                   "
                                   class="text-center p-3 bg-skills-grey"
                                 >
@@ -183,7 +183,7 @@
                                 <b-icon
                                   :icon="
                                     feed.stars.find(
-                                      item =>
+                                      (item) =>
                                         item.star &&
                                         item.facilitator_id ==
                                           $store.getters.facilitator.id
@@ -194,7 +194,7 @@
                                   class="text-blue mr-1"
                                 ></b-icon>
                                 <span>{{
-                                  feed.stars.filter(item => item.star).length
+                                  feed.stars.filter((item) => item.star).length
                                 }}</span>
                                 stars</span
                               >
@@ -202,7 +202,7 @@
                                 ><b-icon
                                   :icon="
                                     feed.likes.find(
-                                      item =>
+                                      (item) =>
                                         item.like &&
                                         item.facilitator_id ==
                                           $store.getters.facilitator.id
@@ -213,7 +213,7 @@
                                   class="text-danger mr-1"
                                 ></b-icon>
                                 <span>{{
-                                  feed.likes.filter(item => item.like).length
+                                  feed.likes.filter((item) => item.like).length
                                 }}</span>
                                 likes</span
                               >
@@ -485,7 +485,7 @@
                                       item.cover
                                         ? item.cover
                                         : require('@/assets/images/default.png')
-                                    })`
+                                    })`,
                                   }"
                                 ></div>
                                 <div class="course_text">
@@ -501,7 +501,7 @@
                                       :style="{
                                         backgroundColor: JSON.parse(
                                           item.courseoutline.knowledge_areas
-                                        ).color
+                                        ).color,
                                       }"
                                     >
                                       <b-icon
@@ -740,9 +740,7 @@
           network="facebook"
           :url="link"
           title="COURSE INVITATION"
-          :description="
-            `I enrolled for the course, ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`
-          "
+          :description="`I enrolled for the course, ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -755,9 +753,7 @@
           network="twitter"
           :url="link"
           title="COURSE INVITATION"
-          :description="
-            `I enrolled for the course, ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`
-          "
+          :description="`I enrolled for the course, ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -770,9 +766,7 @@
           network="whatsApp"
           :url="link"
           title="COURSE INVITATION"
-          :description="
-            `I enrolled for the course, ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`
-          "
+          :description="`I enrolled for the course, ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -794,9 +788,7 @@
           network="Telegram"
           :url="link"
           title="COURSE INVITATION"
-          :description="
-            `I enrolled for the course, ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`
-          "
+          :description="`I enrolled for the course, ${course.title.toUpperCase()} on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -829,11 +821,9 @@
               <b-icon
                 stacked
                 icon="circle-fill"
-                :style="
-                  `color:${
-                    JSON.parse(course.courseoutline.knowledge_areas).color
-                  }`
-                "
+                :style="`color:${
+                  JSON.parse(course.courseoutline.knowledge_areas).color
+                }`"
               ></b-icon>
               <b-icon
                 stacked
@@ -1191,7 +1181,7 @@
                     class="text-sm font-weight-bold"
                     v-if="item.facilitator_id != null"
                     >{{
-                      facilitators.find(val => val.id == item.facilitator_id)
+                      facilitators.find((val) => val.id == item.facilitator_id)
                         .name
                     }}</span
                   >
@@ -1282,7 +1272,7 @@ export default {
         id: "",
         name: "",
         type: "",
-        profile: ""
+        profile: "",
       },
       open: false,
       showAll: false,
@@ -1296,11 +1286,12 @@ export default {
         url: "",
         users: [
           {
-            email: ""
-          }
-        ]
+            email: "",
+          },
+        ],
       },
       course: null,
+      courses: [],
       type: 1,
       newmodule: "",
       toggleCourse: 1,
@@ -1308,7 +1299,7 @@ export default {
       showCourse: false,
       course_type: "",
       recent: false,
-      trending: false
+      trending: false,
     };
   },
   mounted() {
@@ -1316,12 +1307,12 @@ export default {
     this.Interests = Interests;
   },
   watch: {
-    $route: "getcontent"
+    $route: "getcontent",
   },
   computed: {
     filterFeeds() {
       return this.feeds
-        .filter(item =>
+        .filter((item) =>
           item.name.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
@@ -1337,7 +1328,7 @@ export default {
     },
     filteredCourse() {
       var title = this.filter.filter(
-        item =>
+        (item) =>
           item.title.toLowerCase().includes(this.search.toLowerCase()) ||
           JSON.parse(item.courseoutline.knowledge_areas)
             .value.toLowerCase()
@@ -1350,11 +1341,11 @@ export default {
       }
       var courseType;
       if (this.course_type == "free") {
-        courseType = title.filter(item => item.type == "free");
+        courseType = title.filter((item) => item.type == "free");
       } else if (this.course_type == "paid") {
-        courseType = title.filter(item => item.type == "paid");
+        courseType = title.filter((item) => item.type == "paid");
       } else if (this.course_type == "group") {
-        courseType = title.filter(item => item.type == "group");
+        courseType = title.filter((item) => item.type == "group");
       } else {
         courseType = title;
       }
@@ -1363,7 +1354,7 @@ export default {
         return courseType.slice().reverse();
       }
       return courseType;
-    }
+    },
   },
 
   methods: {
@@ -1375,7 +1366,7 @@ export default {
     },
     loadCourse() {
       this.course = this.courses.find(
-        item => item.id == this.$route.query.course_id
+        (item) => item.id == this.$route.query.course_id
       );
     },
     getmediacount(arr, media) {
@@ -1384,8 +1375,8 @@ export default {
         return 0;
       }
       if (media == "document") {
-        arr.forEach(val => {
-          JSON.parse(val.modules).forEach(item => {
+        arr.forEach((val) => {
+          JSON.parse(val.modules).forEach((item) => {
             if (
               item.file_type.toLowerCase() == media.toLowerCase() ||
               item.file_type.toLowerCase() == "template"
@@ -1395,8 +1386,8 @@ export default {
           });
         });
       } else {
-        arr.forEach(val => {
-          JSON.parse(val.modules).forEach(item => {
+        arr.forEach((val) => {
+          JSON.parse(val.modules).forEach((item) => {
             if (item.file_type.toLowerCase() == media.toLowerCase()) {
               newarr.push(item);
             }
@@ -1443,7 +1434,7 @@ export default {
         .get(
           `${this.$store.getters.url}/get/interests/${this.$route.params.interest}`
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.feeds = res.data.feeds;
             this.courses = res.data.courses;
@@ -1453,19 +1444,19 @@ export default {
             this.showCourse = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
     getfacilitators() {
       this.$http
         .get(`${this.$store.getters.url}/guest/facilitators`)
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1474,8 +1465,8 @@ export default {
       this.$bvModal.show("sharecourse");
     },
     vote(val) {
-      var positive = val.filter(item => item.vote).length;
-      var negative = val.filter(item => !item.vote).length;
+      var positive = val.filter((item) => item.vote).length;
+      var negative = val.filter((item) => !item.vote).length;
       return Number(positive) - Number(negative);
     },
     sendinvite(title) {
@@ -1486,10 +1477,10 @@ export default {
         this.$http
           .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
           })
-          .then(res => {
+          .then((res) => {
             if (res.status == 200) {
               this.$toast.success("Invite Sent");
               this.$bvModal.hide("sharecourse");
@@ -1498,9 +1489,9 @@ export default {
                 title: "",
                 users: [
                   {
-                    email: ""
-                  }
-                ]
+                    email: "",
+                  },
+                ],
               };
             }
           })
@@ -1511,10 +1502,10 @@ export default {
         this.$http
           .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
           })
-          .then(res => {
+          .then((res) => {
             if (res.status == 200) {
               this.$toast.success("Invite Sent");
               this.$bvModal.hide("sharecourse");
@@ -1523,9 +1514,9 @@ export default {
                 title: "",
                 users: [
                   {
-                    email: ""
-                  }
-                ]
+                    email: "",
+                  },
+                ],
               };
             }
           })
@@ -1538,7 +1529,7 @@ export default {
             `${this.$store.getters.url}/guest/send/invite`,
             this.inviteUsers
           )
-          .then(res => {
+          .then((res) => {
             if (res.status == 200) {
               this.$toast.success("Invite Sent");
               this.$bvModal.hide("sharecourse");
@@ -1547,9 +1538,9 @@ export default {
                 title: "",
                 users: [
                   {
-                    email: ""
-                  }
-                ]
+                    email: "",
+                  },
+                ],
               };
             }
           })
@@ -1560,17 +1551,17 @@ export default {
     },
     addinvite() {
       this.inviteUsers.users.push({
-        email: ""
+        email: "",
       });
     },
-    onCopy: function(e) {
+    onCopy: function (e) {
       alert("You just copied the following text to the clipboard: " + e.text);
     },
-    onError: function(e) {
+    onError: function (e) {
       alert("Failed to copy the text to the clipboard");
       console.log(e);
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped lang="scss">

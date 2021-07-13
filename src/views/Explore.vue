@@ -93,7 +93,7 @@
                     item.course.type
                   }}</span>
                 </div>
-                <div class="border-bottom pt-3">
+                <div class="border-bottom pt-2 pb-1">
                   <h6
                     class="
                       text-truncate text-truncate--2
