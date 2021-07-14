@@ -1436,16 +1436,16 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.feeds = res.data.feeds;
-            this.courses = res.data.courses;
-            this.discussions = res.data.discussions;
-            this.users = res.data.users;
-            this.facilitators = res.data.facilitators;
+            this.feeds = Object.values(res.data.feeds);
+            this.courses = Object.values(res.data.courses);
+            this.discussions = Object.values(res.data.discussions);
+            this.users = Object.values(res.data.users);
+            this.facilitators = Object.values(res.data.facilitators);
             this.showCourse = true;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Something went wrong");
         });
     },
     getfacilitators() {
