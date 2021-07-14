@@ -630,7 +630,7 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col sm="3">
+        <b-col sm="3" class="d-none d-sm-block">
           <b-row class="bg-white rounded text-left py-3">
             <b-col cols="12" class="mb-4">
               <h6 class="fs13">Facilitators with shared Interest</h6>

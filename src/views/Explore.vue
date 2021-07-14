@@ -39,14 +39,16 @@
         </b-col>
       </b-row>
       <section class="py-5">
-        <h4 class="mb-3 font-weight-bold">Most Popular Courses</h4>
+        <h4 class="mb-3 font-weight-bold text-center text-sm-left">
+          Most Popular Courses
+        </h4>
         <b-row
           class="justify-content-start pt-5 pb-1"
           v-if="mostenrolledcourse.length"
         >
           <b-col
             sm="4"
-            class="mb-4 px-4"
+            class="mb-4 px-4 d-none d-sm-block"
             v-for="item in mostenrolledcourse.slice(0, 6)"
             :key="item.id"
           >
@@ -140,6 +142,115 @@
                 </div>
               </div>
             </div>
+          </b-col>
+          <b-col cols="12" class="mb-4 px-sm-4 d-sm-none">
+            <carousel
+              :scrollPerPage="true"
+              :perPage="1"
+              :paginationEnabled="true"
+            >
+              <slide
+                class="mb-4 px-4"
+                v-for="item in mostenrolledcourse.slice(0, 6)"
+                :key="item.id"
+              >
+                <div
+                  class="course shadow-sm"
+                  @click="
+                    $router.push(`/explore/courses?course_id=${item.course.id}`)
+                  "
+                >
+                  <div
+                    class="course_img"
+                    :style="{
+                      backgroundImage: `url(${
+                        item.course.cover
+                          ? item.course.cover
+                          : require('@/assets/images/default.png')
+                      })`,
+                    }"
+                  ></div>
+                  <div class="course_text">
+                    <div class="d-flex justify-content-between">
+                      <span
+                        v-if="item.course.courseoutline"
+                        class="p-2 rounded-pill text-white fs11"
+                        :style="{
+                          backgroundColor: JSON.parse(
+                            item.course.courseoutline.knowledge_areas
+                          ).color,
+                        }"
+                      >
+                        <b-icon
+                          class="mr-2"
+                          :icon="
+                            JSON.parse(
+                              item.course.courseoutline.knowledge_areas
+                            ).icon
+                          "
+                        ></b-icon>
+                        <span>{{
+                          JSON.parse(item.course.courseoutline.knowledge_areas)
+                            .value
+                        }}</span></span
+                      >
+                      <span class="text-capitalize fs13">{{
+                        item.course.type
+                      }}</span>
+                    </div>
+                    <div class="border-bottom pt-2 pb-1">
+                      <h6
+                        class="
+                          text-truncate text-truncate--2
+                          mb-0
+                          font-weight-bold
+                          text-capitalize
+                          overview-title
+                        "
+                      >
+                        {{ item.course.title }}
+                      </h6>
+
+                      <div
+                        v-if="item.course.courseoutline"
+                        class="fs13 text-truncate text-truncate--2"
+                        v-html="item.course.courseoutline.overview"
+                      ></div>
+                    </div>
+                    <div class="info fs12">
+                      <div class="d-flex">
+                        <div class="mr-3">
+                          <b-icon icon="people" class="mr-1"></b-icon>
+                          <span>{{ item.count }}+</span>
+                        </div>
+                        <div class="mr-3">
+                          <b-icon icon="eye" class="mr-1"></b-icon>
+                          <span
+                            >{{
+                              item.course.viewcount
+                                ? item.course.viewcount.count
+                                : 0
+                            }}
+                            +</span
+                          >
+                        </div>
+                        <div>
+                          <b-icon icon="star-fill" class="mr-1"></b-icon>
+                          <span>{{ item.course.review.length }} reviews</span>
+                        </div>
+                      </div>
+
+                      <b-avatar
+                        size="sm"
+                        variant="light"
+                        :src="item.course.cover"
+                      >
+                      </b-avatar>
+                    </div>
+                  </div>
+                </div>
+              </slide>
+            </carousel>
           </b-col>
         </b-row>
 

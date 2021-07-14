@@ -1,0 +1,129 @@
+[
+  {
+    "title": null,
+    "description": "<p class=\"p1\">At some point in their business lives, all entrepreneurs are inspired&mdash; by an idea, a person or an opportunity. That inspiration not only gets you started; it also keeps you going.</p>\n<p class=\"p1\">What inspired this business idea? What excites you about your business idea? If you have two or three ideas, what do you like best about each one? Where did the idea come from? How has it evolved since you started the process of turning the idea into a business?</p>\n<p class=\"p1\">By looking at how you initially got inspiration for your business, you can take the next step toward determining how you might get others excited about your business as well. You will find it useful to have a record of what initially inspired you, to which you can refer from time to time, especially as your business grows.</p>",
+    "showSection": false,
+    "questions": [
+      {
+        "fixed": false,
+        "showQuestion": false,
+        "question": "What is my business idea?",
+        "addSubQuestion": false,
+        "subQuestion": [
+          {
+            "question": "",
+            "placeholder": "",
+            "responses": [],
+            "response_count": ""
+          }
+        ],
+        "response": null,
+        "responses": [],
+        "result": null,
+        "type": "long",
+        "limit": 1,
+        "options": [
+          {
+            "value": null
+          }
+        ],
+        "showAnswer": false,
+        "answer": null,
+        "answers": [
+          {
+            "value": null
+          }
+        ],
+        "asPlaceholders": false,
+        "placeholders": [
+          {
+            "placeholder": "",
+            "response": ""
+          }
+        ],
+        "placeholder": null,
+        "hint": null,
+        "asScore": false,
+        "score": 0
+      },
+      {
+        "fixed": false,
+        "showQuestion": false,
+        "question": "How did I come up with it?",
+        "addSubQuestion": false,
+        "subQuestion": [
+          {
+            "question": "",
+            "placeholder": "",
+            "responses": [],
+            "response_count": ""
+          }
+        ],
+        "response": null,
+        "responses": [],
+        "result": null,
+        "type": "long",
+        "limit": 1,
+        "options": [
+          {
+            "value": null
+          }
+        ],
+        "answer": null,
+        "answers": [
+          {
+            "value": null
+          }
+        ],
+        "asPlaceholders": false,
+        "placeholders": [
+          {
+            "placeholder": "",
+            "response": ""
+          }
+        ],
+        "placeholder": null,
+        "hint": null
+      },
+      {
+        "fixed": false,
+        "showQuestion": false,
+        "question": "What excites me about it?",
+        "addSubQuestion": false,
+        "subQuestion": [
+          {
+            "question": "",
+            "placeholder": "",
+            "responses": [],
+            "response_count": ""
+          }
+        ],
+        "response": null,
+        "responses": [],
+        "result": null,
+        "type": "long",
+        "limit": 1,
+        "options": [
+          {
+            "value": null
+          }
+        ],
+        "answer": null,
+        "answers": [
+          {
+            "value": null
+          }
+        ],
+        "asPlaceholders": false,
+        "placeholders": [
+          {
+            "placeholder": "",
+            "response": ""
+          }
+        ],
+        "placeholder": null,
+        "hint": null
+      }
+    ]
+  }
+]
