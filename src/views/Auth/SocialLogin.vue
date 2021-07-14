@@ -213,7 +213,7 @@ export default {
     async callback() {
       try {
         var response = await this.$http.post(
-          `http://localhost:8000/v1/auth/${this.$route.params.provider}/callback`,
+          `https://skillsguruh-api.herokuapp.com/v1/auth/${this.$route.params.provider}/callback`,
           this.$route.query
         );
 
