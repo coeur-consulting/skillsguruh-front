@@ -33,7 +33,7 @@
             <b-icon class="mr-2" icon="info-circle"></b-icon>
             <span class="mr-1">Requests</span>
             <b-icon
-              v-if="requests.filter((item) => item.response == 'pending')"
+              v-if="requests.some((item) => item.response == 'pending')"
               class=""
               variant="danger"
               font-scale=".4"
