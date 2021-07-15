@@ -348,31 +348,31 @@
                             <b-form-select-option value="document"
                               >Document</b-form-select-option
                             >
-                            <b-form-select-option value="template"
-                              >Template</b-form-select-option
+                            <b-form-select-option value="worksheet"
+                              >Worksheet</b-form-select-option
                             >
                           </b-form-select>
                         </b-form-group>
                       </b-col>
                     </b-form-row>
 
-                    <div class="" v-if="item.file_type == 'template'">
-                      <b-form-group label=" Template type">
+                    <div class="" v-if="item.file_type == 'worksheet'">
+                      <b-form-group label=" Worksheet type">
                         <b-form-select size="sm" v-model="item.type">
                           <b-form-select-option disabled value="">
-                            Choose template type</b-form-select-option
+                            Choose worksheet type</b-form-select-option
                           >
-                          <b-form-select-option value="template">
+                          <!-- <b-form-select-option value="template">
                             Template</b-form-select-option
-                          >
-                          <b-form-select-option value="questionnaire">
-                            Questionnaire</b-form-select-option
+                          > -->
+                          <b-form-select-option value="test">
+                            Test</b-form-select-option
                           >
                           <b-form-select-option value="quiz">
                             Quiz</b-form-select-option
                           >
-                          <b-form-select-option value="assessment">
-                            Assessment</b-form-select-option
+                          <b-form-select-option value="assignment">
+                            Assignment</b-form-select-option
                           >
                         </b-form-select>
                       </b-form-group>
@@ -387,7 +387,7 @@
                           v-model="item.template"
                           option-value="id"
                           option-text="title"
-                          placeholder="select item"
+                          placeholder="select template"
                         >
                         </model-list-select>
                       </b-form-group>
