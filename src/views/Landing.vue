@@ -1,22 +1,22 @@
 <template>
   <div id="main">
-    <section class="banner">
+    <section class="banner" id="banner">
       <span class="vector1"></span>
       <span class="vector2"></span>
       <span class="vector3"></span>
       <span class="vector4"></span>
       <span class="vector5"></span>
       <span class="vector6"></span>
-      <b-container>
+      <b-container class="h-100 d-flex align-items-end">
         <b-row class="justify-content-center align-items-center">
-          <b-col md="6" sm="12">
+          <b-col md="6" sm="12" class="mb-3 mb-sm-0">
             <div class="banner-text">
-                <h1 class="mb-4 mt-4 mt-sm-0">
+              <h1 class="mb-4 mt-4 mt-sm-0">
                 Here you can truly have it all. A Social Learning Place!
               </h1>
               <p>Enjoy a more engaging and organized virtual learning</p>
             </div>
-              <div class="banner-buttons  d-sm-flex">
+            <div class="banner-buttons d-sm-flex">
               <b-button
                 block
                 size="lg"
@@ -31,20 +31,25 @@
                 size="lg"
                 class="m-0"
                 variant="outline-dark-green"
-                @click="$router.push('/register')">
-                Connect & Learn</b-button>
+                @click="$router.push('/register')"
+              >
+                Connect & Learn</b-button
+              >
             </div>
           </b-col>
-          <b-col md="6" class="">
-               <b-img
-              class="animate__animated animate__slideInUp animate__slow img-fluid"
+          <b-col md="6" class="position-relative">
+            <b-img
+              class="
+                animate__animated animate__slideInUp animate__slow
+                img-fluid
+              "
               :src="require('../assets/images/banner-img.png')"
             ></b-img>
           </b-col>
         </b-row>
       </b-container>
     </section>
-   
+
     <section id="how-it-works">
       <b-container class="">
         <h2 class="text-center">How it works</h2>
@@ -396,11 +401,10 @@
 }
 #banner {
   position: relative;
- 
-  height: calc(100vh - 70px);
+  height: calc(100vh - 90px);
 }
-.banner{
- background-color: var(--skills-grey);
+.banner {
+  background-color: var(--skills-grey);
 }
 .banner-text {
   text-align: left;
@@ -503,7 +507,7 @@
   text-align: left;
   padding-bottom: 1.5rem;
 }
-.onboard h3{
+.onboard h3 {
   font-style: normal;
   font-weight: 500;
   line-height: 29px;
