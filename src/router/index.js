@@ -86,6 +86,36 @@ const routes = [
     },
   },
   {
+    path: "/Admin/login",
+    name: "Admin Login",
+    components: {
+      default: () =>
+        import(/* webpackChunkName: "Login" */ "../views/Auth/OrgLogin.vue"),
+    },
+    meta: {
+      title: "Admin Login | SkillsGuruh",
+    },
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem("authAdmin")) {
+        let user = localStorage.getItem("authAdmin");
+        if (!user) {
+          next();
+        } else {
+          next("/administrator");
+        }
+      } else if (localStorage.getItem("authOrg")) {
+        let user = localStorage.getItem("authOrg");
+        if (!user) {
+          next();
+        } else {
+          next("/organization");
+        }
+      } else {
+        next();
+      }
+    },
+  },
+  {
     path: "/transaction",
     name: " transaction",
     components: {

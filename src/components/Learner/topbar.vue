@@ -264,17 +264,29 @@
         </div>
       </b-popover>
 
-      <span @click="$router.push('/learner/profile')">
-        <b-avatar
-          :src="$store.getters.learner.profile"
-          id="profile"
-          class="cursor-pointer mr-2"
-          size="30px"
-        ></b-avatar>
-        <span class="fs12 d-none d-sm-inline">{{
-          $store.getters.learner.name
-        }}</span></span
-      >
+      <span>
+        <b-dropdown size="sm" variant="transparent" no-caret class="no-focus">
+          <template #button-content>
+            <b-avatar
+              :src="$store.getters.learner.profile"
+              id="profile"
+              class="cursor-pointer mr-2"
+              size="30px"
+            ></b-avatar>
+            <span class="fs14 d-none d-sm-inline">{{
+              $store.getters.learner.name
+            }}</span>
+          </template>
+
+          <b-dropdown-item
+            class="fs14"
+            @click="$router.push(`/learner/profile`)"
+            >Profile</b-dropdown-item
+          >
+
+          <b-dropdown-item class="fs12" @click="logout">Logout</b-dropdown-item>
+        </b-dropdown>
+      </span>
     </div>
 
     <Minichat

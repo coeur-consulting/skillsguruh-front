@@ -343,14 +343,26 @@
         </div>
       </b-popover>
 
-      <span @click="$router.push('/administrator/profile')">
-        <b-avatar
-          :src="$store.getters.admin.profile"
-          id="profile"
-          class="cursor-pointer"
-          size="30px"
-        ></b-avatar
-      ></span>
+      <span>
+        <b-dropdown size="sm" variant="transparent" no-caret class="no-focus">
+          <template #button-content>
+            <b-avatar
+              :src="$store.getters.administrator.profile"
+              id="profile"
+              class="cursor-pointer"
+              size="30px"
+            ></b-avatar>
+          </template>
+
+          <b-dropdown-item
+            class="fs14"
+            @click="$router.push(`/administrator/profile`)"
+            >Profile</b-dropdown-item
+          >
+
+          <b-dropdown-item class="fs14" @click="logout">Logout</b-dropdown-item>
+        </b-dropdown>
+      </span>
     </div>
 
     <Minichat

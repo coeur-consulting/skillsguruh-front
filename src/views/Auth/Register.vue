@@ -209,7 +209,7 @@
               </b-form-group>
             </div>
 
-            <div>
+            <div v-if="type == 'learner'">
               <div class="or my-4">OR</div>
 
               <div class="socials mt-3">

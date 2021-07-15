@@ -156,14 +156,26 @@
         class="mr-4 text-muted cursor-pointer"
       ></b-icon>
 
-      <span @click="$router.push('/organization/profile')">
-        <b-avatar
-          :src="$store.getters.organization.profile"
-          id="profile"
-          class="cursor-pointer"
-          size="30px"
-        ></b-avatar
-      ></span>
+      <span>
+        <b-dropdown size="sm" variant="transparent" no-caret class="no-focus">
+          <template #button-content>
+            <b-avatar
+              :src="$store.getters.organization.profile"
+              id="profile"
+              class="cursor-pointer"
+              size="30px"
+            ></b-avatar>
+          </template>
+
+          <b-dropdown-item
+            class="fs14"
+            @click="$router.push(`/organization/profile`)"
+            >Profile</b-dropdown-item
+          >
+
+          <b-dropdown-item class="fs14" @click="logout">Logout</b-dropdown-item>
+        </b-dropdown>
+      </span>
     </div>
   </div>
 </template>

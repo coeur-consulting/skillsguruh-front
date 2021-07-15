@@ -39,28 +39,28 @@
           <b-form @submit.prevent="register" class="user">
             <legend>Login as</legend>
             <b-form-row class="mb-4 my_type">
-              <b-col cols="6" sm="4" class="text-left">
+              <b-col cols="5">
                 <div
                   class="type"
-                  :class="{ selected_type: type == 'facilitator' }"
+                  :class="{ selected_type: type == 'organization' }"
                 >
                   <b-form-radio
                     class="reg"
                     size="sm"
                     v-model="type"
-                    value="facilitator"
-                    >Facilitator</b-form-radio
+                    value="organization"
+                    >Organization</b-form-radio
                   >
                 </div>
               </b-col>
-              <b-col cols="6" sm="4" class="text-left">
-                <div class="type" :class="{ selected_type: type == 'learner' }">
+              <b-col cols="5">
+                <div class="type" :class="{ selected_type: type == 'admin' }">
                   <b-form-radio
                     class="reg"
                     size="sm"
                     v-model="type"
-                    value="learner"
-                    >Learner</b-form-radio
+                    value="admin"
+                    >Administrator</b-form-radio
                   >
                 </div>
               </b-col>
@@ -135,19 +135,18 @@
             <div class="d-flex mb-2">
               <div
                 class="text-dark-green fs16 cursor-pointer"
-                @click="$router.push('/admin/login')"
+                @click="$router.push('/login')"
               >
-                Login as an Organization
+                Login as an Learner
               </div>
               <span class="mx-3">|</span>
               <div
                 class="text-dark-green fs16 cursor-pointer"
-                @click="$router.push('/admin/login')"
+                @click="$router.push('/login')"
               >
-                Login as an Administrator
+                Login as an Facilitator
               </div>
             </div>
-
             <div>
               Don't have an account?
               <span
@@ -193,7 +192,7 @@ export default {
   name: "register-component",
   data() {
     return {
-      type: "facilitator",
+      type: "organization",
       loading: false,
       user: {
         name: "",

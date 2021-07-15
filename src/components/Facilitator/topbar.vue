@@ -228,12 +228,6 @@
 
     <div class="d-flex align-items-center">
       <div class="position-relative mr-4">
-        <!-- <b-icon
-          id="bell"
-          icon="bell"
-          font-scale="1.5rem"
-          class="text-dark-green"
-        ></b-icon> -->
         <bell-icon
           size="1.5x"
           class="custom-class text-dark-green"
@@ -306,12 +300,6 @@
         </div>
       </b-popover>
 
-      <!-- <b-icon
-        icon="envelope"
-        id="inbox"
-        font-scale="1.5rem"
-        class="mr-4 text-muted cursor-pointer"
-      ></b-icon> -->
       <mail-icon
         size="1.5x"
         class="custom-class mr-4 text-muted cursor-pointer"
@@ -363,14 +351,26 @@
         </div>
       </b-popover>
 
-      <span @click="$router.push('/facilitator/profile')">
-        <b-avatar
-          :src="$store.getters.facilitator.profile"
-          id="profile"
-          class="cursor-pointer"
-          size="30px"
-        ></b-avatar
-      ></span>
+      <span>
+        <b-dropdown size="sm" variant="transparent" no-caret class="no-focus">
+          <template #button-content>
+            <b-avatar
+              :src="$store.getters.facilitator.profile"
+              id="profile"
+              class="cursor-pointer"
+              size="30px"
+            ></b-avatar>
+          </template>
+
+          <b-dropdown-item
+            class="fs14"
+            @click="$router.push(`/facilitator/profile`)"
+            >Profile</b-dropdown-item
+          >
+
+          <b-dropdown-item class="fs14" @click="logout">Logout</b-dropdown-item>
+        </b-dropdown>
+      </span>
     </div>
 
     <Minichat
