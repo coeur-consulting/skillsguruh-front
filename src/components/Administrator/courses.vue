@@ -3207,4 +3207,12 @@ p {
     width: 75%;
   }
 }
+@media (max-width: 600px) {
+  .container-fluid {
+    overflow: unset;
+  }
+  .my_courses {
+    overflow-y: unset;
+  }
+}
 </style>

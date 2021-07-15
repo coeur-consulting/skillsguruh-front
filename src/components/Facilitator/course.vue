@@ -7,7 +7,14 @@
         :style="{ backgroundImage: `url(${course.cover})` }"
       >
         <div
-          class="course-overlay d-flex flex-column justify-content-center p-5 text-white"
+          class="
+            course-overlay
+            d-flex
+            flex-column
+            justify-content-center
+            p-5
+            text-white
+          "
         >
           <div class="course_content">
             <div class="display-4 mb-3">{{ course.title }}</div>
@@ -300,5 +307,13 @@ export default {
   right: 10%;
   z-index: 10;
   width: 200px;
+}
+@media (max-width: 600px) {
+  .container-fluid {
+    overflow: unset;
+  }
+  .my_courses {
+    overflow-y: unset;
+  }
 }
 </style>

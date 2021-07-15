@@ -389,8 +389,8 @@ ol.subquest {
   }
   .bm-burger-button {
     position: relative !important;
-    width: 28px !important;
-    height: 25px !important;
+    width: 18px !important;
+    height: 17px !important;
     left: unset !important;
     top: unset !important;
     cursor: pointer;
@@ -674,5 +674,8 @@ ol.subquest {
   }
   .discussion_title div {
     font-size: 11px !important;
+  }
+  .sideB {
+    overflow: unset;
   }
 }
