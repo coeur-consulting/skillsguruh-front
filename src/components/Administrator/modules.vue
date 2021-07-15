@@ -54,7 +54,7 @@
                     <b-th class="text-muted"> Added</b-th>
                     <b-th></b-th> </b-tr
                 ></b-thead>
-                <b-tbody class="text-left">
+                <b-tbody class="text-left" v-if="filter.length">
                   <b-tr v-for="(item, index) in filter" :key="item.id">
                     <b-td class="text-left">
                       <span>{{ item.module }} </span>
@@ -120,6 +120,9 @@
                     </b-td>
                   </b-tr>
                 </b-tbody>
+                <div v-else class="text-center p-2 w-100 position-absolute">
+                  <span class="fs13 text-muted">No Data Available</span>
+                </div>
               </b-table-simple>
               <div class="p-3 d-flex justify-content-between" v-if="rows > 10">
                 <div class="fs12 text-muted">
@@ -131,7 +134,7 @@
                   variant="dark-green"
                   align="right"
                   v-model="currentPage"
-                  :total-rows="rows"
+                  :total-rows="filter"
                   :per-page="perPage"
                 ></b-pagination>
               </div>
