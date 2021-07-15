@@ -153,7 +153,7 @@
                   variant="dark-green"
                   align="right"
                   v-model="currentPage"
-                  :total-rows="rows"
+                  :total-rows="filter"
                   :per-page="perPage"
                 ></b-pagination>
               </div>
