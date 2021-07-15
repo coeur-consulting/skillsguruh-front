@@ -341,6 +341,10 @@ ol.subquest {
   text-overflow: ellipsis;
   line-height: 1.4;
 }
+.sideB {
+  max-height: 90vh;
+  overflow-y: scroll;
+}
 .overview-title {
   font-size: 13px;
   height: 36px;
@@ -461,6 +465,7 @@ ol.subquest {
       }
     }
   }
+
   .bottom_bar {
     width: 100% !important;
   }

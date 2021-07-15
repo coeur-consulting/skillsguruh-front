@@ -10,53 +10,63 @@
           type="search"
         ></b-form-input>
       </div>
-      <b-row>
+      <b-row class="mb-4">
         <b-col
           cols="6"
-          sm="3"
+          sm="4"
           v-for="interest in filteredInterest"
           :key="interest.value"
           class="mb-4"
         >
           <div
             class="
-              px-2
+              px-4
               py-3
-              bg-light
               rounded-pill
-              text-center
-              fs12
+              fs14
               font-weight-bold
               cursor-pointer
-              position-relative
+              d-flex
+              justify-content-between
+              align-items-center
+              text-white
             "
+            :style="`backgroundColor:${interest.color}`"
             @click="addInterest(interest.value)"
             :class="
               selected_interests.includes(interest.value)
-                ? 'shadow bg-lighter-green'
-                : ''
+                ? 'shadow'
+                : 'disabled'
             "
           >
-            <b-iconstack font-scale="1.6rem" class="mr-2 icon">
-              <b-icon
-                stacked
-                icon="circle-fill"
-                :color="interest.color"
-              ></b-icon>
-              <b-icon
-                stacked
-                :icon="interest.icon"
-                scale="0.5"
-                variant="light"
-              ></b-icon>
-            </b-iconstack>
             <span> {{ interest.value }}</span>
+
+            <b-icon
+              v-if="selected_interests.includes(interest.value)"
+              icon="check2-circle"
+              font-scale="1.5"
+            ></b-icon>
+            <b-icon
+              v-if="!selected_interests.includes(interest.value)"
+              icon="plus-circle"
+              font-scale="1.5"
+            ></b-icon>
           </div>
+        </b-col>
+        <b-col class="text-center" v-if="initial != 60">
+          <span @click="loadMore" class="fs12 cursor-pointer text-muted"
+            >Load more</span
+          >
         </b-col>
       </b-row>
 
       <div class="text-center my-4">
-        <b-button variant="outline-secondary" class="mr-3" @click="skip">
+        <b-button
+          variant="outline-secondary"
+          v-if="!$route.name.includes('profile')"
+          class="mr-3"
+          @click="skip"
+        >
           Skip for later</b-button
         >
         <b-button variant="dark-green" @click="saveinterest"
@@ -76,6 +86,7 @@ export default {
       interests: [],
       selected_interests: [],
       search: "",
+      initial: 30,
     };
   },
   mounted() {
@@ -92,12 +103,17 @@ export default {
   },
   computed: {
     filteredInterest() {
-      return this.interests.filter((item) =>
-        item.value.toLowerCase().includes(this.search.toLowerCase())
-      );
+      return this.interests
+        .filter((item) =>
+          item.value.toLowerCase().includes(this.search.toLowerCase())
+        )
+        .slice(0, this.initial);
     },
   },
   methods: {
+    loadMore() {
+      this.initial = this.initial * 2;
+    },
     skip() {
       this.$emit("skip");
     },
@@ -154,6 +170,9 @@ export default {
 .icon {
   position: absolute;
   left: 20px;
+}
+.disabled {
+  opacity: 0.5;
 }
 @media (min-width: 600px) {
   .search {

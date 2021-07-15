@@ -31,7 +31,14 @@
         >
           <span class="flex-1">
             <b-icon class="mr-2" icon="info-circle"></b-icon>
-            <span class="">Requests</span>
+            <span class="mr-1">Requests</span>
+            <b-icon
+              v-if="requests.filter((item) => !item.response)"
+              class=""
+              variant="danger"
+              font-scale=".4"
+              icon="circle-fill"
+            ></b-icon>
           </span>
           <b-icon v-if="type == 'request'" icon="chevron-right"></b-icon>
         </div>
@@ -58,7 +65,7 @@
           <b-icon v-if="type == 'security'" icon="chevron-right"></b-icon>
         </div>
       </b-col>
-      <b-col sm="9">
+      <b-col sm="9" class="sideB">
         <div class="p-4" v-if="type == 'edit'">
           <div class="mb-5">
             <Upload @getUpload="getUpload" :id="'avatar'">
@@ -241,18 +248,27 @@
                 class="mr-2 mt-1"
               ></b-icon>
               <div class="d-flex justify-content-between">
-                <p class="mb-0">{{ item.body }} -</p>
-                <div class="text-right" v-if="!item.response">
-                  <b-button
-                    class="mr-3 fs11"
-                    variant="lighter-green"
-                    size="sm"
-                    @click="accept(item)"
-                    >Accept</b-button
-                  >
-                  <b-button class="fs11" size="sm" @click="reject(item)"
-                    >Reject</b-button
-                  >
+                <p class="mb-0 fs14">{{ item.body }} -</p>
+                <div class="d-flex text-right" v-if="!item.response">
+                  <span>
+                    <b-button
+                      v-b-tooltip.hover
+                      title="Accept request"
+                      class="mr-3 fs11"
+                      variant="lighter-green"
+                      size="sm"
+                      @click="accept(item)"
+                      ><b-icon icon="check2-circle"></b-icon></b-button
+                  ></span>
+                  <span>
+                    <b-button
+                      v-b-tooltip.hover
+                      title="Reject request"
+                      class="fs11"
+                      size="sm"
+                      @click="reject(item)"
+                      ><b-icon icon="x-circle-fill"></b-icon></b-button
+                  ></span>
                 </div>
                 <div v-else class="text-capitalize text-muted">
                   {{ item.response }}
@@ -398,7 +414,7 @@ export default {
 
 <style scoped>
 .container-fluid {
-  height: calc(100vh - 120px);
+  height: calc(100vh - 85px);
   overflow: hidden;
 }
 .edit_button {

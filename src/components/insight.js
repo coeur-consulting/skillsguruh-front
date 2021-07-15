@@ -72,7 +72,7 @@ var insights = [
   {
     value: "Pop Culture",
     icon: "speaker-fill",
-    color: "#CCFB5D",
+    color: "#7ecc00",
   },
   {
     value: "Politics",
@@ -147,7 +147,7 @@ var insights = [
   {
     value: "Literature",
     icon: "type-underline",
-    color: "#FFF21E",
+    color: "#bdb300",
   },
   {
     value: "Literacy",
@@ -172,12 +172,12 @@ var insights = [
   {
     value: "Fund Management ",
     icon: "suit-club-fill",
-    color: "#E0FFFF",
+    color: "#001414",
   },
   {
     value: "Crypto",
     icon: "bullseye",
-    color: "#0AFFFF",
+    color: "#007575",
   },
   {
     value: "Legal",
