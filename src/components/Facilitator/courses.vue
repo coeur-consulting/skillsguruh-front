@@ -1322,7 +1322,7 @@
                           class="fs12"
                           @click="
                             $router.push(
-                              `/facilitator/modules?showing=${course.title}`
+                              `/facilitator/modules/${course.id}?showing=${course.title}`
                             )
                           "
                           >Add resources</b-dropdown-item

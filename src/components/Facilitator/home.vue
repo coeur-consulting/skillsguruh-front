@@ -474,6 +474,7 @@ export default {
       },
     };
   },
+
   components: {
     Discussions,
     Todo,

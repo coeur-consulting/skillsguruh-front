@@ -57,12 +57,6 @@
                 <b-tbody class="text-left">
                   <b-tr v-for="(item, index) in filter" :key="item.id">
                     <b-td class="text-left">
-                      <b-avatar
-                        size="sm"
-                        rounded
-                        class="mr-3"
-                        :src="item.cover_image"
-                      ></b-avatar>
                       <span>{{ item.module }} </span>
                     </b-td>
                     <b-td>
@@ -75,7 +69,7 @@
                       </div>
                     </b-td>
 
-                    <b-td class="text-center">
+                    <b-td class="text-left">
                       {{ JSON.parse(item.modules).length }}</b-td
                     >
 
@@ -199,103 +193,72 @@
               <h6 class="px-2">Upload Resource</h6>
               <b-form-row>
                 <b-col
-                  sm="6"
-                  class="p-3"
+                  sm="12"
+                  class="px-3 mb-3"
                   v-for="(item, id) in detail.modules"
                   :key="id"
                 >
-                  <div
-                    class="p-2 rounded d-flex justify-content-between shadow"
-                    v-if="id != current_module"
-                  >
-                    <div>
-                      <b-icon icon="grid" class="mr-2"></b-icon>
-                      <span class="mr-3 text-capitalize">
-                        {{ item.title }}</span
-                      >
-                    </div>
-                    <div>
-                      <b-iconstack
-                        font-scale="1.1"
-                        class="mr-2"
-                        @click="addmodule"
-                      >
-                        <b-icon
-                          stacked
-                          icon="circle-fill"
-                          variant="dark-green"
-                        ></b-icon>
-                        <b-icon
-                          stacked
-                          icon="plus"
-                          scale="0.9"
-                          variant="white"
-                        ></b-icon>
-                      </b-iconstack>
-
-                      <b-iconstack
-                        font-scale="1.1"
-                        class="mr-2"
-                        @click="current_module = id"
-                      >
-                        <b-icon
-                          stacked
-                          icon="circle-fill"
-                          variant="warning"
-                        ></b-icon>
-                        <b-icon
-                          icon="pencil-fill"
-                          stacked
-                          scale="0.5"
-                          variant="white"
-                        ></b-icon>
-                      </b-iconstack>
-
-                      <b-iconstack
-                        font-scale="1.1"
-                        v-if="detail.modules.length > 1"
-                        @click="detail.modules.splice(id, 1)"
-                      >
-                        <b-icon
-                          stacked
-                          icon="circle-fill"
-                          variant="danger"
-                        ></b-icon>
-                        <b-icon
-                          icon="trash2-fill"
-                          stacked
-                          scale="0.5"
-                          variant="white"
-                        ></b-icon>
-                      </b-iconstack>
-                    </div>
-                  </div>
-                  <div
-                    class="bg-light p-3 rounded"
-                    v-show="id == current_module"
-                  >
-                    <div class="d-flex justify-content-between">
-                      <div class="py-3 text-right">
+                  <div v-show="!item.show">
+                    <div
+                      class="
+                        p-3
+                        rounded
+                        d-flex
+                        justify-content-between
+                        shadow-sm
+                        bg-light
+                      "
+                    >
+                      <div>
+                        <b-icon icon="grid" class="mr-2"></b-icon>
+                        <span class="mr-3 text-capitalize">
+                          {{ item.title }}</span
+                        >
+                      </div>
+                      <div>
                         <b-iconstack
-                          font-scale="1.5"
+                          font-scale="1.1"
                           class="mr-2"
-                          @click="addmodule"
+                          @click="item.show = !item.show"
                         >
                           <b-icon
                             stacked
                             icon="circle-fill"
-                            variant="dark-green"
+                            variant="warning"
                           ></b-icon>
                           <b-icon
+                            icon="pencil-fill"
                             stacked
-                            icon="plus"
-                            scale="0.9"
+                            scale="0.5"
                             variant="white"
                           ></b-icon>
                         </b-iconstack>
 
                         <b-iconstack
-                          font-scale="1.5"
+                          font-scale="1.1"
+                          v-if="detail.modules.length > 1"
+                          @click="detail.modules.splice(id, 1)"
+                        >
+                          <b-icon
+                            stacked
+                            icon="circle-fill"
+                            variant="danger"
+                          ></b-icon>
+                          <b-icon
+                            icon="trash2-fill"
+                            stacked
+                            scale="0.5"
+                            variant="white"
+                          ></b-icon>
+                        </b-iconstack>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="bg-light p-3 rounded" v-show="item.show">
+                    <div class="d-flex align-items-center justify-content-end">
+                      <span class="mr-2">
+                        <b-iconstack
+                          font-scale="1.2"
                           v-if="detail.modules.length > 1"
                           @click="detail.modules.splice(id, 1)"
                         >
@@ -311,11 +274,11 @@
                             variant="white"
                           ></b-icon>
                         </b-iconstack>
-                      </div>
+                      </span>
 
                       <b-icon
                         icon="chevron-up"
-                        @click="current_module = null"
+                        @click="item.show = !item.show"
                       ></b-icon>
                     </div>
                     <b-form-group label=" Title">
@@ -411,7 +374,7 @@
 
                     <b-form-group
                       v-else
-                      label="Upload Resource File"
+                      label="Upload  File"
                       class="text-center"
                     >
                       <Upload
@@ -420,38 +383,46 @@
                         :type="'document'"
                         :file_type="item.file_type"
                       >
-                        <b-icon
-                          icon="cloud-upload"
-                          class="text-muted"
-                          font-scale="3.5rem"
-                        ></b-icon>
+                        <b-iconstack font-scale="3.5">
+                          <b-icon
+                            stacked
+                            icon="circle-fill"
+                            variant="lighter-green"
+                          ></b-icon>
+                          <b-icon
+                            icon="arrow-bar-up"
+                            stacked
+                            scale="0.6"
+                            variant="dark-green"
+                          ></b-icon>
+                        </b-iconstack>
                       </Upload>
                     </b-form-group>
                   </div>
                 </b-col>
-              </b-form-row>
-            </div>
-
-            <b-form-row>
-              <b-col sm="6" class="px-3">
-                <div class="p-3 rounded">
-                  <b-form-group label=" Cover image">
-                    <Upload
-                      @getUpload="getUpload"
-                      :id="'cover'"
-                      :type="'image'"
-                      :file_type="'image'"
+                <b-col>
+                  <div class="text-center">
+                    <b-iconstack
+                      font-scale="1.9"
+                      class="mr-2"
+                      @click="addmodule"
                     >
                       <b-icon
-                        icon="image"
-                        class="text-muted"
-                        font-scale="6rem"
+                        stacked
+                        icon="circle-fill"
+                        variant="secondary"
                       ></b-icon>
-                    </Upload>
-                  </b-form-group>
-                </div>
-              </b-col>
-            </b-form-row>
+                      <b-icon
+                        stacked
+                        icon="plus"
+                        scale="1.2"
+                        variant="white"
+                      ></b-icon>
+                    </b-iconstack>
+                  </div>
+                </b-col>
+              </b-form-row>
+            </div>
           </b-container>
           <b-form-group>
             <div class="mb-3 text-center mt-4">
@@ -492,7 +463,7 @@
             <b-form-row class="mb-4">
               <b-col sm="6" class="px-3">
                 <b-form-group label="Course">
-                  <b-form-select v-model="detail.course_id">
+                  <b-form-select v-model="detail.course_id" disabled>
                     <b-form-select-option value="" disabled
                       >Choose Course</b-form-select-option
                     >
@@ -526,259 +497,240 @@
               </b-col>
             </b-form-row>
 
-            <b-form-row>
-              <b-col
-                sm="6"
-                class="p-3"
-                v-for="(item, id) in detail.modules"
-                :key="id"
-              >
-                <div
-                  class="p-2 rounded d-flex justify-content-between shadow"
-                  v-if="id != current_module"
+            <div>
+              <h6 class="px-2">Upload Resource</h6>
+              <b-form-row>
+                <b-col
+                  sm="12"
+                  class="px-3 mb-3"
+                  v-for="(item, id) in detail.modules"
+                  :key="id"
                 >
-                  <div>
-                    <b-icon icon="grid" class="mr-2"></b-icon>
-                    <span class="mr-3 text-capitalize"> {{ item.title }}</span>
+                  <div v-show="!item.show">
+                    <div
+                      class="
+                        p-3
+                        rounded
+                        d-flex
+                        justify-content-between
+                        shadow-sm
+                        bg-light
+                      "
+                    >
+                      <div>
+                        <b-icon icon="grid" class="mr-2"></b-icon>
+                        <span class="mr-3 text-capitalize">
+                          {{ item.title }}</span
+                        >
+                      </div>
+                      <div>
+                        <b-iconstack
+                          font-scale="1.1"
+                          class="mr-2"
+                          @click="item.show = !item.show"
+                        >
+                          <b-icon
+                            stacked
+                            icon="circle-fill"
+                            variant="warning"
+                          ></b-icon>
+                          <b-icon
+                            icon="pencil-fill"
+                            stacked
+                            scale="0.5"
+                            variant="white"
+                          ></b-icon>
+                        </b-iconstack>
+
+                        <b-iconstack
+                          font-scale="1.1"
+                          v-if="detail.modules.length > 1"
+                          @click="detail.modules.splice(id, 1)"
+                        >
+                          <b-icon
+                            stacked
+                            icon="circle-fill"
+                            variant="danger"
+                          ></b-icon>
+                          <b-icon
+                            icon="trash2-fill"
+                            stacked
+                            scale="0.5"
+                            variant="white"
+                          ></b-icon>
+                        </b-iconstack>
+                      </div>
+                    </div>
                   </div>
-                  <div>
+                  <div class="bg-light p-3 rounded" v-show="item.show">
+                    <div class="d-flex align-items-center justify-content-end">
+                      <span class="mr-2">
+                        <b-iconstack
+                          font-scale="1.2"
+                          v-if="detail.modules.length > 1"
+                          @click="detail.modules.splice(id, 1)"
+                        >
+                          <b-icon
+                            stacked
+                            icon="circle-fill"
+                            variant="danger"
+                          ></b-icon>
+                          <b-icon
+                            icon="trash2-fill"
+                            stacked
+                            scale="0.6"
+                            variant="white"
+                          ></b-icon>
+                        </b-iconstack>
+                      </span>
+
+                      <b-icon
+                        icon="chevron-up"
+                        @click="item.show = !item.show"
+                      ></b-icon>
+                    </div>
+                    <b-form-group label=" Title">
+                      <b-form-input
+                        size="sm"
+                        v-model="item.title"
+                        placeholder="Enter Title"
+                      ></b-form-input>
+                    </b-form-group>
+                    <b-form-group label=" Overview">
+                      <b-form-textarea
+                        size="sm"
+                        v-model="item.overview"
+                        placeholder="Enter Overview"
+                      ></b-form-textarea>
+                    </b-form-group>
+                    <b-form-row>
+                      <b-col>
+                        <b-form-group label="File type">
+                          <b-form-select size="sm" v-model="item.file_type">
+                            <b-form-select disabled value=""
+                              >Choose file type</b-form-select
+                            >
+                            <b-form-select-option value="video"
+                              >Video</b-form-select-option
+                            >
+                            <b-form-select-option value="audio"
+                              >Audio</b-form-select-option
+                            >
+                            <b-form-select-option value="document"
+                              >Document</b-form-select-option
+                            >
+                            <b-form-select-option value="worksheet"
+                              >Worksheet</b-form-select-option
+                            >
+                          </b-form-select>
+                        </b-form-group>
+                      </b-col>
+                    </b-form-row>
+
+                    <div class="" v-if="item.file_type == 'worksheet'">
+                      <b-form-group label=" Worksheet type">
+                        <b-form-select size="sm" v-model="item.type">
+                          <b-form-select-option disabled value="">
+                            Choose worksheet type</b-form-select-option
+                          >
+                          <!-- <b-form-select-option value="template">
+                            Template</b-form-select-option
+                          > -->
+                          <b-form-select-option value="test">
+                            Test</b-form-select-option
+                          >
+                          <b-form-select-option value="quiz">
+                            Quiz</b-form-select-option
+                          >
+                          <b-form-select-option value="assignment">
+                            Assignment</b-form-select-option
+                          >
+                        </b-form-select>
+                      </b-form-group>
+
+                      <b-form-group label="Choose template">
+                        <model-list-select
+                          :list="
+                            allquestionnaires.filter((val) =>
+                              val.type.toLowerCase().includes(item.type)
+                            )
+                          "
+                          v-model="item.template"
+                          option-value="id"
+                          option-text="title"
+                          placeholder="select template"
+                        >
+                        </model-list-select>
+                      </b-form-group>
+
+                      <div
+                        v-for="(item, id) in detail.questionnaires"
+                        :key="id"
+                        class="d-flex justify-content-between px-2 py-2 rounded"
+                      >
+                        <div class="text-capitalize">
+                          <span class="mr-2">{{ id + 1 }}.</span>
+                          {{ item.title }}
+                        </div>
+                        <b-icon
+                          icon="x"
+                          @click="detail.questionnaires.splice(id, 1)"
+                          font-scale="1.5"
+                        ></b-icon>
+                      </div>
+                    </div>
+
+                    <b-form-group
+                      v-else
+                      label="Upload  File"
+                      class="text-center"
+                    >
+                      <Upload
+                        @getUpload="getUpload"
+                        :id="'file-' + id"
+                        :type="'document'"
+                        :file_type="item.file_type"
+                      >
+                        <b-iconstack font-scale="3.5">
+                          <b-icon
+                            stacked
+                            icon="circle-fill"
+                            variant="lighter-green"
+                          ></b-icon>
+                          <b-icon
+                            icon="arrow-bar-up"
+                            stacked
+                            scale="0.6"
+                            variant="dark-green"
+                          ></b-icon>
+                        </b-iconstack>
+                      </Upload>
+                    </b-form-group>
+                  </div>
+                </b-col>
+                <b-col>
+                  <div class="text-center">
                     <b-iconstack
-                      font-scale="1.1"
+                      font-scale="1.9"
                       class="mr-2"
                       @click="addmodule"
                     >
                       <b-icon
                         stacked
                         icon="circle-fill"
-                        variant="dark-green"
+                        variant="secondary"
                       ></b-icon>
                       <b-icon
                         stacked
                         icon="plus"
-                        scale="0.9"
-                        variant="white"
-                      ></b-icon>
-                    </b-iconstack>
-
-                    <b-iconstack
-                      font-scale="1.1"
-                      class="mr-2"
-                      @click="current_module = id"
-                    >
-                      <b-icon
-                        stacked
-                        icon="circle-fill"
-                        variant="warning"
-                      ></b-icon>
-                      <b-icon
-                        icon="pencil-fill"
-                        stacked
-                        scale="0.5"
-                        variant="white"
-                      ></b-icon>
-                    </b-iconstack>
-
-                    <b-iconstack
-                      font-scale="1.1"
-                      v-if="detail.modules.length > 1"
-                      @click="detail.modules.splice(id, 1)"
-                    >
-                      <b-icon
-                        stacked
-                        icon="circle-fill"
-                        variant="danger"
-                      ></b-icon>
-                      <b-icon
-                        icon="trash2-fill"
-                        stacked
-                        scale="0.5"
+                        scale="1.2"
                         variant="white"
                       ></b-icon>
                     </b-iconstack>
                   </div>
-                </div>
-                <div class="bg-light p-3 rounded" v-show="id == current_module">
-                  <div class="d-flex justify-content-between">
-                    <div class="py-3 text-right">
-                      <b-iconstack
-                        font-scale="1.5"
-                        class="mr-2"
-                        @click="addmodule"
-                      >
-                        <b-icon
-                          stacked
-                          icon="circle-fill"
-                          variant="dark-green"
-                        ></b-icon>
-                        <b-icon
-                          stacked
-                          icon="plus"
-                          scale="0.9"
-                          variant="white"
-                        ></b-icon>
-                      </b-iconstack>
-
-                      <b-iconstack
-                        font-scale="1.5"
-                        v-if="detail.modules.length > 1"
-                        @click="detail.modules.splice(id, 1)"
-                      >
-                        <b-icon
-                          stacked
-                          icon="circle-fill"
-                          variant="danger"
-                        ></b-icon>
-                        <b-icon
-                          icon="trash2-fill"
-                          stacked
-                          scale="0.6"
-                          variant="white"
-                        ></b-icon>
-                      </b-iconstack>
-                    </div>
-
-                    <b-icon
-                      icon="chevron-up"
-                      @click="current_module = null"
-                    ></b-icon>
-                  </div>
-                  <b-form-group label=" Title">
-                    <b-form-input
-                      size="sm"
-                      v-model="item.title"
-                      placeholder="Enter Title"
-                    ></b-form-input>
-                  </b-form-group>
-                  <b-form-group label=" Overview">
-                    <b-form-textarea
-                      size="sm"
-                      v-model="item.overview"
-                      placeholder="Enter Overview"
-                    ></b-form-textarea>
-                  </b-form-group>
-                  <b-form-row>
-                    <b-col>
-                      <b-form-group label="File type">
-                        <b-form-select size="sm" v-model="item.file_type">
-                          <b-form-select disabled value=""
-                            >Choose file type</b-form-select
-                          >
-                          <b-form-select-option value="video"
-                            >Video</b-form-select-option
-                          >
-                          <b-form-select-option value="audio"
-                            >Audio</b-form-select-option
-                          >
-                          <b-form-select-option value="document"
-                            >Document</b-form-select-option
-                          >
-                          <b-form-select-option value="template"
-                            >Template</b-form-select-option
-                          >
-                        </b-form-select>
-                      </b-form-group>
-                    </b-col>
-                  </b-form-row>
-
-                  <div class="" v-if="item.file_type == 'template'">
-                    <b-form-group label=" Template type">
-                      <b-form-select size="sm" v-model="item.type">
-                        <b-form-select-option disabled value="">
-                          Choose template type</b-form-select-option
-                        >
-                        <b-form-select-option value="questionnaire">
-                          Questionnaire</b-form-select-option
-                        >
-                        <b-form-select-option value="quiz">
-                          Quiz</b-form-select-option
-                        >
-                        <b-form-select-option value="assessment">
-                          Assessment</b-form-select-option
-                        >
-                      </b-form-select>
-                    </b-form-group>
-
-                    <b-form-group label="Choose template">
-                      <model-list-select
-                        :list="
-                          allquestionnaires.filter((val) =>
-                            val.type.toLowerCase().includes(item.type)
-                          )
-                        "
-                        v-model="item.template"
-                        option-value="id"
-                        option-text="title"
-                        placeholder="select item"
-                      >
-                      </model-list-select>
-                    </b-form-group>
-
-                    <div
-                      v-for="(item, id) in detail.questionnaires"
-                      :key="id"
-                      class="d-flex justify-content-between px-2 py-2 rounded"
-                    >
-                      <div class="text-capitalize">
-                        <span class="mr-2">{{ id + 1 }}.</span>
-                        {{ item.title }}
-                      </div>
-                      <b-icon
-                        icon="x"
-                        @click="detail.questionnaires.splice(id, 1)"
-                        font-scale="1.5"
-                      ></b-icon>
-                    </div>
-                  </div>
-
-                  <b-form-group
-                    v-else
-                    label="Upload Resource File"
-                    class="text-center"
-                  >
-                    <Upload
-                      @getUpload="getUpload"
-                      :id="'file-' + id"
-                      :type="'document'"
-                      :file_type="item.file_type"
-                    >
-                      <b-icon
-                        icon="cloud-upload"
-                        class="text-muted"
-                        font-scale="3.5rem"
-                      ></b-icon>
-                    </Upload>
-                  </b-form-group>
-                </div>
-              </b-col>
-            </b-form-row>
-
-            <b-form-row>
-              <b-col sm="6" class="px-3">
-                <div class="p-3 rounded">
-                  <b-form-group label=" Cover image">
-                    <Upload
-                      @getUpload="getUpload"
-                      :id="'cover'"
-                      :type="'image'"
-                      :file_type="'image'"
-                    >
-                      <b-icon
-                        v-if="!detail.cover_image"
-                        icon="image"
-                        class="text-muted"
-                        font-scale="6rem"
-                      ></b-icon>
-                      <b-avatar
-                        size="6rem"
-                        v-if="detail.cover_image"
-                        :src="detail.cover_image"
-                        blank-color="transparent"
-                      ></b-avatar>
-                    </Upload>
-                  </b-form-group>
-                </div>
-              </b-col>
-            </b-form-row>
+                </b-col>
+              </b-form-row>
+            </div>
           </b-container>
           <b-form-group>
             <div class="mb-3 text-center mt-4">
@@ -819,6 +771,7 @@ export default {
     return {
       id: null,
       search: "",
+      totalmodules: [],
       current_module: 0,
       currentPage: 1,
       rows: null,
@@ -838,6 +791,7 @@ export default {
         module: "",
         modules: [
           {
+            show: true,
             title: "",
             overview: "",
             file_type: "video",
@@ -847,7 +801,7 @@ export default {
             type: "",
           },
         ],
-        cover_image: "",
+
         questionnaires: [],
       },
       questionnaires: [],
@@ -861,7 +815,7 @@ export default {
   },
   computed: {
     filter() {
-      return this.modules
+      return this.totalmodules
         .filter((item) =>
           item.course.title.toLowerCase().includes(this.search.toLowerCase())
         )
@@ -881,6 +835,7 @@ export default {
   mounted() {
     this.getcourses();
     this.allmodules();
+    this.getmodule();
     this.getfacilitators();
     this.getQuestionnairs();
     if (this.$route.query.showing) {
@@ -929,6 +884,7 @@ export default {
         type: "",
         course_id: "",
         module: "",
+        show: true,
         modules: [
           {
             title: "",
@@ -940,7 +896,7 @@ export default {
             type: "",
           },
         ],
-        cover_image: "",
+
         questionnaires: [],
       });
       this.current_module = this.detail.modules.length - 1;
@@ -1027,7 +983,7 @@ export default {
         .then((res) => {
           if (res.status == 201) {
             this.$toast.success("Added successfully");
-            this.allmodules();
+            this.getmodule();
             this.$bvModal.hide("add");
             this.detail = {
               module: "",
@@ -1042,7 +998,6 @@ export default {
                   type: "",
                 },
               ],
-              cover_image: "",
             };
           }
         })
@@ -1053,9 +1008,25 @@ export default {
     edit(data) {
       this.detail.course_id = data.course_id;
       this.detail.module = data.module;
-      this.detail.cover_image = data.cover_image;
+
       this.detail.modules = JSON.parse(data.modules);
       this.$bvModal.show("edit");
+    },
+    getmodule() {
+      this.$http
+        .get(`${this.$store.getters.url}/modules/${this.$route.params.id}`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.totalmodules = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
     },
     updatecourse() {
       this.$http
@@ -1075,6 +1046,7 @@ export default {
               module: "",
               modules: [
                 {
+                  show: true,
                   title: "",
                   overview: "",
                   file_type: "video",
@@ -1084,9 +1056,8 @@ export default {
                   type: "",
                 },
               ],
-              cover_image: "",
             };
-            this.getmodules();
+            this.getmodule();
           }
         })
         .catch(() => {
@@ -1105,7 +1076,7 @@ export default {
             .then((res) => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
-                this.allmodules();
+                this.getmodule();
               }
             })
             .catch((err) => {

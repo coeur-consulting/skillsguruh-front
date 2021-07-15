@@ -15,6 +15,9 @@ const routes = [
       default: Landing,
       footer: Footer,
     },
+    meta: {
+      title: "Home | SkillsGuruh",
+    },
   },
 
   {
@@ -23,6 +26,9 @@ const routes = [
     components: {
       default: () =>
         import(/* webpackChunkName: "Register" */ "../views/Auth/Register.vue"),
+    },
+    meta: {
+      title: "Register | SkillsGuruh",
     },
   },
   {
@@ -41,6 +47,9 @@ const routes = [
     components: {
       default: () =>
         import(/* webpackChunkName: "Login" */ "../views/Auth/Login.vue"),
+    },
+    meta: {
+      title: "Login | SkillsGuruh",
     },
     beforeEnter: (to, from, next) => {
       if (localStorage.getItem("authLearner")) {
@@ -87,6 +96,9 @@ const routes = [
         ),
       footer: Footer,
     },
+    meta: {
+      title: "Transaction | SkillsGuruh",
+    },
   },
   {
     path: "/explore",
@@ -96,6 +108,9 @@ const routes = [
       default: () =>
         import(/* webpackChunkName: "about" */ "../views/Explore.vue"),
       footer: Footer,
+    },
+    meta: {
+      title: "Explore | SkillsGuruh",
     },
   },
   {
@@ -107,6 +122,9 @@ const routes = [
         import(/* webpackChunkName: "ExploreCourses" */ "../views/Courses.vue"),
       footer: Footer,
     },
+    meta: {
+      title: "Explore courses | SkillsGuruh",
+    },
   },
   {
     path: "/about",
@@ -116,6 +134,9 @@ const routes = [
       default: () =>
         import(/* webpackChunkName: "about" */ "../views/About.vue"),
       footer: Footer,
+    },
+    meta: {
+      title: "About | SkillsGuruh",
     },
   },
   {
@@ -129,6 +150,9 @@ const routes = [
         ),
       footer: Footer,
     },
+    meta: {
+      title: "Interests | SkillsGuruh",
+    },
   },
   {
     path: "/discussion/:id",
@@ -138,6 +162,9 @@ const routes = [
       default: () =>
         import(/* webpackChunkName: "about" */ "../views/Discussion.vue"),
       footer: Footer,
+    },
+    meta: {
+      title: "Discussion | SkillsGuruh",
     },
   },
   {
@@ -149,6 +176,9 @@ const routes = [
         import(/* webpackChunkName: "about" */ "../views/Event.vue"),
       footer: Footer,
     },
+    meta: {
+      title: "Event | SkillsGuruh",
+    },
   },
   {
     path: "/order",
@@ -158,6 +188,9 @@ const routes = [
       default: () =>
         import(/* webpackChunkName: "about" */ "@/components/order"),
       footer: Footer,
+    },
+    meta: {
+      title: "Order | SkillsGuruh",
     },
   },
   {
@@ -169,6 +202,9 @@ const routes = [
         import(/* webpackChunkName: "feeds" */ "../views/Feeds.vue"),
       footer: Footer,
     },
+    meta: {
+      title: "Feeds | SkillsGuruh",
+    },
   },
   {
     path: "/events",
@@ -178,6 +214,9 @@ const routes = [
       default: () =>
         import(/* webpackChunkName: "events" */ "../views/Events.vue"),
       footer: Footer,
+    },
+    meta: {
+      title: "Events | SkillsGuruh",
     },
   },
   {
@@ -191,6 +230,9 @@ const routes = [
         ),
       footer: Footer,
     },
+    meta: {
+      title: "Discussion | SkillsGuruh",
+    },
   },
   {
     path: "/contact",
@@ -201,6 +243,9 @@ const routes = [
         import(/* webpackChunkName: "contact" */ "../views/Contact.vue"),
       footer: Footer,
     },
+    meta: {
+      title: "Contact us | SkillsGuruh",
+    },
   },
   {
     path: "/quiz",
@@ -209,6 +254,9 @@ const routes = [
       header: Header,
       default: () => import(/* webpackChunkName: "quiz" */ "../views/Quiz.vue"),
       footer: Footer,
+    },
+    meta: {
+      title: "Quiz | SkillsGuruh",
     },
   },
   {
@@ -220,6 +268,9 @@ const routes = [
         import(/* webpackChunkName: "Assessment" */ "../views/Assessment.vue"),
       footer: Footer,
     },
+    meta: {
+      title: "Asseeement | SkillsGuruh",
+    },
   },
   {
     path: "/auth/:provider/callback",
@@ -229,6 +280,9 @@ const routes = [
       default: () =>
         import(/* webpackChunkName: "callback" */ "../views/Auth.vue"),
       footer: Footer,
+    },
+    meta: {
+      title: "Loading | SkillsGuruh",
     },
   },
 
@@ -254,6 +308,7 @@ const routes = [
         },
         meta: {
           typeOrg: true,
+          title: "Admins - Organization",
         },
       },
       {
@@ -267,6 +322,7 @@ const routes = [
         },
         meta: {
           typeOrg: true,
+          title: "Admins - Organization",
         },
       },
       {
@@ -280,6 +336,7 @@ const routes = [
         },
         meta: {
           typeOrg: true,
+          title: "Admin - Organization",
         },
       },
       {
@@ -293,6 +350,7 @@ const routes = [
         },
         meta: {
           typeOrg: true,
+          title: "Facilitators - Organization",
         },
       },
       {
@@ -306,6 +364,7 @@ const routes = [
         },
         meta: {
           typeOrg: true,
+          title: "Facilitator - Organization",
         },
       },
       {
@@ -319,6 +378,7 @@ const routes = [
         },
         meta: {
           typeOrg: true,
+          title: "Learners - Organization",
         },
       },
       {
@@ -332,6 +392,7 @@ const routes = [
         },
         meta: {
           typeOrg: true,
+          title: "Learner - Organization",
         },
       },
       {
@@ -345,6 +406,7 @@ const routes = [
         },
         meta: {
           typeOrg: true,
+          title: "Schedule - Organization",
         },
       },
     ],
@@ -372,6 +434,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Home | Administrator",
         },
       },
 
@@ -386,6 +449,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Facilitators | Administrator",
         },
       },
       {
@@ -399,6 +463,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Team | Administrator",
         },
       },
       {
@@ -412,6 +477,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Templates | Administrator",
         },
       },
       {
@@ -425,6 +491,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Template | Administrator",
         },
       },
       {
@@ -438,6 +505,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Edit Template | Administrator",
         },
       },
       {
@@ -451,6 +519,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Questionnaire | Administrator",
         },
       },
       {
@@ -464,6 +533,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Questionnaires | Administrator",
         },
       },
       {
@@ -477,6 +547,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Edit Questionnaire | Administrator",
         },
       },
       {
@@ -490,6 +561,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "View Questionnaire | Administrator",
         },
       },
       {
@@ -503,11 +575,12 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Facilitator | Administrator",
         },
       },
 
       {
-        path: "modules",
+        path: "modules/:id",
         name: "Administrator modules",
         components: {
           default: () =>
@@ -517,6 +590,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Modules | Administrator",
         },
       },
       {
@@ -530,6 +604,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Learners | Administrator",
         },
       },
       {
@@ -543,6 +618,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Learner | Administrator",
         },
       },
       {
@@ -556,6 +632,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Schedule | Administrator",
         },
       },
       {
@@ -569,6 +646,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Discussions | Administrator",
         },
       },
       {
@@ -582,6 +660,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Discussion | Administrator",
         },
       },
       {
@@ -595,6 +674,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Feeds | Administrator",
         },
       },
       {
@@ -608,6 +688,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Courses | Administrator",
         },
       },
       {
@@ -621,6 +702,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Modules | Administrator",
         },
       },
       {
@@ -634,6 +716,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Module | Administrator",
         },
       },
       {
@@ -647,6 +730,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Events | Administrator",
         },
       },
       {
@@ -660,6 +744,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Event | Administrator",
         },
       },
       {
@@ -673,6 +758,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Connections | Administrator",
         },
       },
       {
@@ -686,6 +772,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Refferals | Administrator",
         },
       },
       {
@@ -699,6 +786,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Insight | Administrator",
         },
       },
       {
@@ -712,6 +800,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Bonuses | Administrator",
         },
       },
       {
@@ -725,6 +814,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "Profile | Administrator",
         },
       },
       {
@@ -738,6 +828,7 @@ const routes = [
         },
         meta: {
           typeAdmin: true,
+          title: "View profile | Administrator",
         },
       },
     ],
@@ -765,11 +856,12 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Home | Facilitator",
         },
       },
 
       {
-        path: "modules",
+        path: "modules/:id",
         name: "facilitators modules",
         components: {
           default: () =>
@@ -779,6 +871,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Modules | Facilitator",
         },
       },
       {
@@ -792,6 +885,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Questionnaire | Facilitator",
         },
       },
       {
@@ -805,6 +899,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Templates | Facilitator",
         },
       },
       {
@@ -818,6 +913,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Template | Facilitator",
         },
       },
       {
@@ -831,6 +927,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Edit template | Facilitator",
         },
       },
       {
@@ -844,6 +941,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Assessments | Facilitator",
         },
       },
       {
@@ -857,6 +955,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Assessment | Facilitator",
         },
       },
       {
@@ -870,6 +969,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Assessment List | Facilitator",
         },
       },
       {
@@ -883,6 +983,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Questionnaire | Facilitator",
         },
       },
       {
@@ -896,6 +997,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Edit questionnaire | Facilitator",
         },
       },
       {
@@ -909,6 +1011,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "View Questionnaire | Facilitator",
         },
       },
       {
@@ -922,6 +1025,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Attendance | Facilitator",
         },
       },
       {
@@ -935,6 +1039,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Team | Facilitator",
         },
       },
       {
@@ -948,6 +1053,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Facilitator| Facilitator",
         },
       },
       {
@@ -961,6 +1067,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "View profile | Facilitator",
         },
       },
       {
@@ -974,6 +1081,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "View Learners | Facilitator",
         },
       },
       {
@@ -987,6 +1095,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "View Learner | Facilitator",
         },
       },
       {
@@ -1000,6 +1109,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Schedule | Facilitator",
         },
       },
       {
@@ -1013,6 +1123,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Discussion | Facilitator",
         },
       },
       {
@@ -1026,6 +1137,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Discussion | Facilitator",
         },
       },
       {
@@ -1039,6 +1151,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Feeds | Facilitator",
         },
       },
       {
@@ -1052,6 +1165,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Courses | Facilitator",
         },
       },
       {
@@ -1065,6 +1179,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "View Course | Facilitator",
         },
       },
 
@@ -1079,6 +1194,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Modules | Facilitator",
         },
       },
       {
@@ -1092,6 +1208,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "View module | Facilitator",
         },
       },
       {
@@ -1105,6 +1222,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "View Events | Facilitator",
         },
       },
       {
@@ -1118,6 +1236,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "View Event | Facilitator",
         },
       },
       {
@@ -1131,6 +1250,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Connections | Facilitator",
         },
       },
       {
@@ -1144,6 +1264,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Referrals| Facilitator",
         },
       },
       {
@@ -1157,6 +1278,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Insight| Facilitator",
         },
       },
       {
@@ -1170,6 +1292,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "Bonuses | Facilitator",
         },
       },
       {
@@ -1183,6 +1306,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "View Profile | Facilitator",
         },
       },
       {
@@ -1196,6 +1320,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
+          title: "View Profile | Facilitator",
         },
       },
     ],
@@ -1221,6 +1346,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Home | Learner",
         },
       },
 
@@ -1235,6 +1361,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "View Facilitators | Learner",
         },
       },
       {
@@ -1248,6 +1375,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "View Profile | Learner",
         },
       },
       {
@@ -1261,6 +1389,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Assessments | Learner",
         },
       },
       {
@@ -1274,6 +1403,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Assessment | Learner",
         },
       },
       {
@@ -1287,6 +1417,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Solve Quiz | Learner",
         },
       },
       {
@@ -1300,6 +1431,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Solve Assessment | Learner",
         },
       },
       {
@@ -1313,6 +1445,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "View Facilitator | Learner",
         },
       },
       {
@@ -1326,6 +1459,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Order | Learner",
         },
       },
       {
@@ -1339,6 +1473,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Transaction | Learner",
         },
       },
       {
@@ -1352,6 +1487,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Questionnaire | Learner",
         },
       },
       {
@@ -1365,6 +1501,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Solve | Learner",
         },
       },
       {
@@ -1378,6 +1515,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "View Learners | Learner",
         },
       },
       {
@@ -1391,6 +1529,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "View Learner | Learner",
         },
       },
       {
@@ -1404,6 +1543,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Schedule | Learner",
         },
       },
       {
@@ -1417,6 +1557,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Library | Learner",
         },
       },
       {
@@ -1430,6 +1571,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Discussions | Learner",
         },
       },
       {
@@ -1443,6 +1585,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Discussion | Learner",
         },
       },
       {
@@ -1456,6 +1599,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Feeds | Learner",
         },
       },
       {
@@ -1469,6 +1613,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Courses | Learner",
         },
       },
       {
@@ -1482,6 +1627,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Course | Learner",
         },
       },
 
@@ -1496,6 +1642,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Modules | Learner",
         },
       },
       {
@@ -1509,6 +1656,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Module | Learner",
         },
       },
       {
@@ -1522,6 +1670,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Events | Learner",
         },
       },
       {
@@ -1535,6 +1684,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Event | Learner",
         },
       },
       {
@@ -1548,6 +1698,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Connections | Learner",
         },
       },
       {
@@ -1561,6 +1712,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Referrals | Learner",
         },
       },
       {
@@ -1574,6 +1726,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Insight | Learner",
         },
       },
       {
@@ -1587,6 +1740,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Bonuses | Learner",
         },
       },
       {
@@ -1600,6 +1754,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Profile | Learner",
         },
       },
       {
@@ -1613,6 +1768,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "Media | Learner",
         },
       },
       {
@@ -1626,6 +1782,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
+          title: "View Profile | Learner",
         },
       },
     ],
@@ -1637,6 +1794,9 @@ const routes = [
       default: () =>
         import(/* webpackChunkName: "course" */ "@/components/course.vue"),
     },
+    meta: {
+      title: "Course | Learner",
+    },
   },
   {
     path: "/question",
@@ -1646,6 +1806,9 @@ const routes = [
         import(
           /* webpackChunkName: "question" */ "@/components/Questionnaire/index.vue"
         ),
+    },
+    meta: {
+      title: "Questionnaire | Learner",
     },
   },
 
@@ -1658,6 +1821,9 @@ const routes = [
         import(/* webpackChunkName: "Invite" */ "../views/Invite.vue"),
       footer: Footer,
     },
+    meta: {
+      title: "Event | SkillsGuruh",
+    },
   },
 
   {
@@ -1669,6 +1835,9 @@ const routes = [
         import(/* webpackChunkName: "404pages" */ "../views/NotFound.vue"),
       footer: Footer,
     },
+    meta: {
+      title: "Not Found | SkillsGuruh",
+    },
   },
 ];
 
@@ -1676,6 +1845,13 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  // to and from are both route objects. must call `next`.
+  window.document.title =
+    to.meta && to.meta.title ? to.meta.title : "Home | SkillsGuruh";
+  next();
 });
 
 export default router;
