@@ -1373,6 +1373,9 @@ export default {
       this.course = this.courses.find(
         (item) => item.id == this.$route.query.course_id
       );
+      if (window.innerWidth < 600) {
+        this.$bvModal.show("mobile-course");
+      }
     },
     getmediacount(arr, media) {
       var newarr = [];

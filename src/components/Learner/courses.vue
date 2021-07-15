@@ -768,8 +768,8 @@
               >
                 <b-card
                   no-body
-                  class="mb-4"
-                  v-for="(item, id) in course.modules"
+                  class="mb-1"
+                  v-for="(item, id) in JSON.parse(course.courseoutline.modules)"
                   :key="id"
                 >
                   <b-card-header
@@ -782,7 +782,7 @@
                         icon="check2-circle"
                         variant="light-green"
                       ></b-icon>
-                      {{ item.module }}
+                      {{ item }}
                     </div>
                   </b-card-header>
                   <b-collapse
@@ -790,26 +790,45 @@
                     accordion="my-accordion"
                     role="tabpanel"
                   >
-                    <b-card-body
-                      v-for="(mod, index) in JSON.parse(item.modules)"
-                      :key="index"
+                    <div
+                      v-if="
+                        course.modules.some(
+                          (i) => i.module.toLowerCase() == item.toLowerCase()
+                        )
+                      "
                     >
-                      <b-card-text class="d-flex text-capitalize"
-                        ><span class="flex-1">{{ mod.title }}</span>
-                        <span v-if="mod.file_type == 'video'"
-                          ><b-icon icon="camera-video-fill"></b-icon
-                        ></span>
-                        <span v-else-if="mod.file_type == 'audio'"
-                          ><b-icon icon="music-note-beamed"></b-icon
-                        ></span>
-                        <span v-else
-                          ><b-icon
-                            icon="file-earmark-richtext-fill"
-                          ></b-icon> </span
-                      ></b-card-text>
-                      <h6 class="fs12 font-weight-bold mb-2">Overview</h6>
-                      <b-card-text class="fs12">{{ mod.overview }}</b-card-text>
-                    </b-card-body>
+                      <b-card-body
+                        v-for="(mod, index) in JSON.parse(
+                          course.modules.find(
+                            (i) => i.module.toLowerCase() == item.toLowerCase()
+                          ).modules
+                        )"
+                        :key="index"
+                      >
+                        <b-card-text class="d-flex text-capitalize"
+                          ><span class="flex-1">{{ mod.title }}</span>
+                          <span v-if="mod.file_type == 'video'"
+                            ><b-icon icon="camera-video-fill"></b-icon
+                          ></span>
+                          <span v-else-if="mod.file_type == 'audio'"
+                            ><b-icon icon="music-note-beamed"></b-icon
+                          ></span>
+                          <span v-else
+                            ><b-icon
+                              icon="file-earmark-richtext-fill"
+                            ></b-icon> </span
+                        ></b-card-text>
+                        <h6 class="fs12 font-weight-bold mb-2">Overview</h6>
+                        <b-card-text class="fs12">{{
+                          mod.overview
+                        }}</b-card-text>
+                      </b-card-body>
+                    </div>
+                    <div v-else>
+                      <b-card-body>
+                        <b-card-text>N/A</b-card-text>
+                      </b-card-body>
+                    </div>
                   </b-collapse>
                 </b-card>
               </div>
@@ -1742,6 +1761,9 @@ export default {
       this.course = this.courses.find(
         (item) => item.id == this.$route.query.course_id
       );
+      if (window.innerWidth < 600) {
+        this.$bvModal.show("mobile-course");
+      }
     },
     sharelink(id) {
       this.$http
@@ -1757,7 +1779,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             if (res.data) {
-              this.link = `https://skillsguruh.com/explore/courses/?course=${encodeURIComponent(
+              this.link = `https://skillsguruh.com/explore/courses/?course_id=${id}&course=${encodeURIComponent(
                 this.course.title.trim()
               )}&invite=${res.data.code}`;
             } else {
