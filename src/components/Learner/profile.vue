@@ -33,7 +33,7 @@
             <b-icon class="mr-2" icon="info-circle"></b-icon>
             <span class="mr-1">Requests</span>
             <b-icon
-              v-if="requests.filter((item) => !item.response)"
+              v-if="requests.filter((item) => item.response == 'pending')"
               class=""
               variant="danger"
               font-scale=".4"
@@ -213,8 +213,11 @@
                 class="mr-2 mt-1"
               ></b-icon>
               <div class="d-flex justify-content-between">
-                <p class="mb-0">{{ item.body }} -</p>
-                <div class="d-flex text-right" v-if="!item.response">
+                <p class="mb-0 fs13">{{ item.body }} -</p>
+                <div
+                  class="d-flex text-right"
+                  v-if="!item.response == 'pending'"
+                >
                   <span>
                     <b-button
                       v-b-tooltip.hover
@@ -235,7 +238,7 @@
                       ><b-icon icon="x-circle-fill"></b-icon></b-button
                   ></span>
                 </div>
-                <div v-else class="text-capitalize text-muted">
+                <div v-else class="text-capitalize text-muted fs13">
                   {{ item.response }}
                 </div>
               </div>
