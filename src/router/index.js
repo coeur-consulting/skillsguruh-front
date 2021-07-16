@@ -1881,6 +1881,7 @@ router.beforeEach((to, from, next) => {
   // to and from are both route objects. must call `next`.
   window.document.title =
     to.meta && to.meta.title ? to.meta.title : "Home | SkillsGuruh";
+  window.scrollTo(0, 0);
   next();
 });
 
