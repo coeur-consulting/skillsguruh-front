@@ -599,7 +599,7 @@
                       {{ item.eventattendance.length }} Attending
                     </p>
                     <div class="d-flex">
-                      <p class="description">
+                      <p class="description text-truncate text-truncate--2">
                         {{ item.description }}
                       </p>
                     </div>
