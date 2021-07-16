@@ -60,7 +60,7 @@
                 <div v-if="courseShown == 'recommended'">
                   <carousel
                     :scrollPerPage="true"
-                    :paginationEnabled="false"
+                    :paginationEnabled="true"
                     :perPage="1"
                     :perPageCustom="[
                       [600, 1],
@@ -173,7 +173,7 @@
                 <div v-if="courseShown == 'enrolled'">
                   <carousel
                     :scrollPerPage="true"
-                    :paginationEnabled="false"
+                    :paginationEnabled="true"
                     :perPage="1"
                     :perPageCustom="[
                       [600, 1],

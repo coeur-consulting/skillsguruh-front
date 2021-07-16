@@ -130,7 +130,7 @@
                 <carousel
                   :perPage="1"
                   :scrollPerPage="true"
-                  :paginationEnabled="false"
+                  :paginationEnabled="true"
                   :perPageCustom="[
                     [600, 1],
                     [768, 3],
@@ -240,7 +240,7 @@
               <div v-if="courseShown == 'toprated'">
                 <carousel
                   :scrollPerPage="true"
-                  :paginationEnabled="false"
+                  :paginationEnabled="true"
                   :perPage="1"
                   :perPageCustom="[
                     [600, 1],
