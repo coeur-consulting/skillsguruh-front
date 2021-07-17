@@ -17,6 +17,7 @@ import VueClipboard from "vue-clipboard2";
 import VueSocialSharing from "vue-social-sharing";
 import VueCountdownTimer from "vuejs-countdown-timer";
 import VueSocialauth from "vue-social-auth";
+import VueWebSpeech from "vue-web-speech";
 
 import "vue-toast-notification/dist/theme-sugar.css";
 import "animate.css";
@@ -35,6 +36,7 @@ Vue.use(VueApexCharts);
 Vue.use(VueAxios, axios);
 Vue.use(VueAnimateOnScroll);
 Vue.use(VueCountdownTimer);
+Vue.use(VueWebSpeech);
 Vue.use(VueToast, {
   position: "top-right",
 });

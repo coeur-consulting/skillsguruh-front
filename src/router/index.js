@@ -1087,7 +1087,7 @@ const routes = [
         },
       },
       {
-        path: ":user/:id",
+        path: "profile/:user/:id",
         name: " facilitator profile",
         components: {
           default: () =>
@@ -1395,7 +1395,7 @@ const routes = [
         },
       },
       {
-        path: ":user/:id",
+        path: "profile/:user/:id",
         name: "Learner facilitatorprofile",
         components: {
           default: () =>

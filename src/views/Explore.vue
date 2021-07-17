@@ -553,7 +553,7 @@
           <div class="events" v-if="events.length">
             <carousel
               :perPage="1"
-              :paginationEnabled="false"
+              :paginationEnabled="true"
               :autoplay="true"
               :speed="1000"
               :autoplayTimeout="5000"

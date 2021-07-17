@@ -53,6 +53,7 @@
           </span>
           <b-icon v-if="type == 'preference'" icon="chevron-right"></b-icon>
         </div>
+
         <div
           class="px-2 fs14 cursor-pointer d-flex"
           :class="{ 'font-weight-bold': type == 'security' }"
@@ -141,6 +142,20 @@
                     v-model="user.referral_code"
                   ></b-form-input></b-form-group
               ></b-col>
+            </b-form-row>
+            <b-form-row>
+              <b-col sm="6">
+                <b-form-group label="Change Speech Voice">
+                  <b-form-select v-model="user.voice">
+                    <b-form-select-option
+                      v-for="(item, index) in voices"
+                      :key="index"
+                      :value="index"
+                      >{{ item.name }}</b-form-select-option
+                    >
+                  </b-form-select></b-form-group
+                >
+              </b-col>
             </b-form-row>
             <div>
               <b-button variant="dark-green" type="submit" class="px-5 mt-4"
@@ -257,7 +272,22 @@ export default {
   data() {
     return {
       type: "edit",
-      user: {},
+      user: {
+        address: null,
+        age: "",
+        bio: null,
+        country: "NG",
+        email: "",
+        gender: "",
+        interests: "",
+        lga: null,
+        name: "",
+        phone: "",
+        profile: "",
+        state: "",
+        verification: null,
+        voice: null,
+      },
       requests: [],
       detail: {
         old_password: "",
@@ -274,6 +304,9 @@ export default {
     this.getrequests();
   },
   computed: {
+    voices() {
+      return this.$store.getters.voices;
+    },
     notifications() {
       return this.$store.getters.notifications;
     },
@@ -344,6 +377,7 @@ export default {
             this.user = res.data;
             var authLearner = JSON.parse(localStorage.getItem("authLearner"));
             authLearner.profile = res.data.profile;
+            authLearner.voice = res.data.voice;
             localStorage.setItem("authLearner", JSON.stringify(authLearner));
             this.$toast.success("Updated successfully");
           }

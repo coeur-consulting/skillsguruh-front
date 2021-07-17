@@ -341,7 +341,7 @@
                         <span
                           @click="
                             $router.push(
-                              `/facilitator/f/${feed.facilitator.id}`
+                              `/facilitator/profile/f/${feed.facilitator.id}`
                             )
                           "
                         >
@@ -528,7 +528,7 @@
                             class="font-weight-bold mr-2"
                             @click="
                               $router.push(
-                                `/facilitator/f/${item.facilitator.id}`
+                                `/facilitator/profile/f/${item.facilitator.id}`
                               )
                             "
                             v-if="item.facilitator"

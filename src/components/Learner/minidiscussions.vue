@@ -29,6 +29,7 @@
           d-flex
           justify-content-around
           position-relative
+          discussion_title
         "
       >
         <div :class="{ active: show == 'recent' }" @click="show = 'recent'">

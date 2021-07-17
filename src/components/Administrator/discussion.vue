@@ -102,10 +102,16 @@
 
                 <div v-if="posts" v-chat-scroll>
                   <div
-                    class="bottom_bar mb-3"
+                    class="bottom_bar mb-3 position-relative"
                     v-for="(item, index) in posts"
                     :key="index"
                   >
+                    <span v-if="item.message" class="text2speech">
+                      <text-to-speech
+                        :text="item.message"
+                        :voice="voices"
+                      ></text-to-speech>
+                    </span>
                     <div>
                       <p class="fs14" v-if="item.message">
                         {{ item.message }}
@@ -306,9 +312,14 @@
                       </emoji-picker>
                     </div>
                     <div
-                      class="d-flex justify-content-between align-items-center"
+                      class="
+                        d-flex
+                        justify-content-between
+                        align-items-center
+                        w-100
+                      "
                     >
-                      <div class="share px-3 text-right">
+                      <div class="share text-left">
                         <span
                           class="mr-3 fs12 cursor-pointer"
                           @click="$bvModal.show('share')"
@@ -326,7 +337,11 @@
                         ></span>
                       </div>
                       <div class="d-flex align-items-center">
-                        <Attachment @getUpload="getUpload" class="mr-3" />
+                        <Attachment @getUpload="getUpload" />
+                        <speech-to-text
+                          class="mx-2"
+                          @getText="getText"
+                        ></speech-to-text>
                         <b-button
                           variant="dark-green"
                           font-scale="1.5"
@@ -573,6 +588,9 @@
 <script>
 import EmojiPicker from "vue-emoji-picker";
 import Attachment from "../miniupload";
+
+import SpeechToText from "@/components/speechToText";
+import TextToSpeech from "@/components/textToSpeech";
 export default {
   data() {
     return {
@@ -601,6 +619,8 @@ export default {
   components: {
     EmojiPicker,
     Attachment,
+    SpeechToText,
+    TextToSpeech,
   },
   created() {
     var channel = this.$pusher.subscribe("adddiscussion");
@@ -616,6 +636,11 @@ export default {
       "https://skillsguruh.com/learner/discussion/" + this.$route.params.id;
   },
   computed: {
+    voices() {
+      return this.$store.getters.voices[
+        Number(this.$store.getters.learner.voice)
+      ];
+    },
     related() {
       if (!this.discussion.related.length) {
         return [];
@@ -655,6 +680,9 @@ export default {
     },
   },
   methods: {
+    getText(res) {
+      this.info.message = `${this.info.message} ${res}`;
+    },
     async getconnections() {
       return this.$http
         .get(`${this.$store.getters.url}/connections`, {

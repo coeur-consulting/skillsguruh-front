@@ -10,10 +10,6 @@
 
 <script>
 export default {
-  created() {},
-  mounted() {
-    // this.$store.dispatch("postNotifications", { name: "hello" });
-  },
   computed: {
     version() {
       return process.env.VUE_APP_VERSION;

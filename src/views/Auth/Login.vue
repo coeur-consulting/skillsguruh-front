@@ -324,6 +324,7 @@ export default {
                 authFacilitator.id = res.data.id;
                 authFacilitator.name = res.data.name;
                 authFacilitator.email = res.data.email;
+                authFacilitator.voice = res.data.voice;
                 authFacilitator.profile = res.data.profile;
                 authFacilitator.facilitator_role = res.data.facilitator_role;
                 authFacilitator.interests = res.data.interests;
@@ -373,6 +374,7 @@ export default {
                   authLearner.name = res.data.name;
                   authLearner.email = res.data.email;
                   authLearner.profile = res.data.profile;
+                  authLearner.voice = res.data.voice;
                   authLearner.interests = res.data.interests;
                   authLearner.org_profile = res.data.organization.logo;
                   authLearner.org_name = res.data.organization.name;

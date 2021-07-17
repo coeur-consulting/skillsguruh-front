@@ -8,13 +8,13 @@
         <span
           v-if="mini_info.type == 'user'"
           class="chat_name"
-          @click="$router.push(`/learner/u/${mini_info.id}`)"
+          @click="$router.push(`/learner/profile/u/${mini_info.id}`)"
           >{{ mini_info.name }}</span
         >
         <span
           v-else-if="mini_info.type == 'facilitator'"
           class="chat_name"
-          @click="$router.push(`/learner/u/${mini_info.id}`)"
+          @click="$router.push(`/learner/profile/u/${mini_info.id}`)"
           >{{ mini_info.name }}</span
         >
         <span v-else class="chat_name">{{ mini_info.name }}</span>

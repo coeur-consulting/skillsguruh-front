@@ -2,9 +2,9 @@
 <template>
   <div class="pt-4">
     <b-container v-if="discussion">
-      <b-row>
+      <b-row v-if="showdiscussion">
         <b-col sm="8">
-          <div class="shadow-sm bg-white py-4 rounded">
+          <div class="bg-white py-4 rounded">
             <div class="main_content text-left">
               <div @click="$router.go(-1)" class="d-flex w-100">
                 <b-icon icon="arrow-left" class="pl-4 cursor-pointer"></b-icon>
@@ -17,10 +17,20 @@
                       v-if="discussion.admin"
                     ></b-avatar>
                     <b-avatar
+                      @click="
+                        $router.push(
+                          `/facilitator/profile/f/${discussion.user.id}`
+                        )
+                      "
                       :src="discussion.user.profile"
                       v-if="discussion.user"
                     ></b-avatar>
                     <b-avatar
+                      @click="
+                        $router.push(
+                          `/facilitator/profile/f/${discussion.facilitator.id}`
+                        )
+                      "
                       :src="discussion.facilitator.profile"
                       v-if="discussion.facilitator"
                     ></b-avatar>
@@ -84,22 +94,27 @@
                     Created by
                     <span
                       v-if="discussion.admin"
-                      class="fs12 font-weight-bold text-dark-green"
+                      class="fs12 h6 cursor-pointer text-dark-green"
                       >{{ discussion.admin.name }}</span
                     >
                     <span
                       v-if="discussion.user"
-                      class="fs12 font-weight-bold text-dark-green"
+                      class="fs12 h6 cursor-pointer text-dark-green"
+                      @click="
+                        $router.push(
+                          `/facilitator/profile/u/${discussion.user.id}`
+                        )
+                      "
                       >{{ discussion.user.name }}</span
                     >
                     <span
                       v-if="discussion.facilitator"
                       @click="
                         $router.push(
-                          `/facilitator/profile/${discussion.facilitator.id}`
+                          `/facilitator/profile/f/${discussion.facilitator.id}`
                         )
                       "
-                      class="fs12 font-weight-bold text-dark-green"
+                      class="fs12 h6 cursor-pointer text-dark-green"
                       >{{ discussion.facilitator.name }}</span
                     >
                   </div>
@@ -107,10 +122,16 @@
 
                 <div v-if="posts" v-chat-scroll>
                   <div
-                    class="bottom_bar mb-3"
+                    class="bottom_bar mb-3 position-relative"
                     v-for="(item, index) in posts"
                     :key="index"
                   >
+                    <span v-if="item.message" class="text2speech">
+                      <text-to-speech
+                        :text="item.message"
+                        :voice="voices"
+                      ></text-to-speech>
+                    </span>
                     <div>
                       <p class="fs14" v-if="item.message">
                         {{ item.message }}
@@ -237,15 +258,29 @@
                             class="mr-2"
                           ></b-avatar>
                         </span>
-                        <span v-if="item.admin" class="fs13">{{
+                        <span v-if="item.admin" class="fs13 cursor-pointer">{{
                           item.admin.name
                         }}</span>
-                        <span v-if="item.user" class="fs13">{{
-                          item.user.name
-                        }}</span>
-                        <span v-if="item.facilitator" class="fs13">{{
-                          item.facilitator.name
-                        }}</span>
+                        <span
+                          v-if="item.user"
+                          @click="
+                            $router.push(
+                              `/facilitator/profile/u/${item.user.id}`
+                            )
+                          "
+                          class="fs13 cursor-pointer"
+                          >{{ item.user.name }}</span
+                        >
+                        <span
+                          v-if="item.facilitator"
+                          @click="
+                            $router.push(
+                              `/facilitator/profile/f/${item.facilitator.id}`
+                            )
+                          "
+                          class="fs13 cursor-pointer"
+                          >{{ item.facilitator.name }}</span
+                        >
                       </div>
                       <span>{{ item.created_at | moment("ll") }}</span>
                     </div>
@@ -313,9 +348,14 @@
                       </emoji-picker>
                     </div>
                     <div
-                      class="d-flex justify-content-between align-items-center"
+                      class="
+                        d-flex
+                        justify-content-between
+                        align-items-center
+                        w-100
+                      "
                     >
-                      <div class="share px-3 text-right">
+                      <div class="share text-left">
                         <span
                           class="mr-3 fs12 cursor-pointer"
                           @click="$bvModal.show('share')"
@@ -333,11 +373,12 @@
                         ></span>
                       </div>
                       <div class="d-flex align-items-center">
-                        <Attachment @getUpload="getUpload" class="mr-3" />
-                        <b-button
-                          variant="dark-green"
-                          font-scale="1.5"
-                          type="submit"
+                        <Attachment @getUpload="getUpload" />
+                        <speech-to-text
+                          class="mx-2"
+                          @getText="getText"
+                        ></speech-to-text>
+                        <b-button variant="dark-green" size="sm" type="submit"
                           >Post</b-button
                         >
                       </div>
@@ -349,7 +390,7 @@
           </div>
         </b-col>
         <b-col sm="4" class="d-none d-md-block">
-          <div class="shadow-sm bg-white p-4 rounded">
+          <div class="bg-white p-4 rounded">
             <div class="text-center mb-4">
               <b-button variant="dark-green" size="lg" class="px-3"
                 >Start a discussion</b-button
@@ -580,6 +621,8 @@
 <script>
 import EmojiPicker from "vue-emoji-picker";
 import Attachment from "../miniupload";
+import SpeechToText from "@/components/speechToText";
+import TextToSpeech from "@/components/textToSpeech";
 export default {
   data() {
     return {
@@ -588,7 +631,7 @@ export default {
       aud_ext: ["mp3"],
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       discussion: {},
-
+      showdiscussion: false,
       info: {
         attachment: "",
         message: "",
@@ -609,6 +652,8 @@ export default {
   components: {
     EmojiPicker,
     Attachment,
+    SpeechToText,
+    TextToSpeech,
   },
   created() {
     var channel = this.$pusher.subscribe("adddiscussion");
@@ -624,6 +669,11 @@ export default {
       "https://skillsguruh.com/learner/discussion/" + this.$route.params.id;
   },
   computed: {
+    voices() {
+      return this.$store.getters.voices[
+        Number(this.$store.getters.learner.voice)
+      ];
+    },
     related() {
       if (!this.discussion.related.length) {
         return [];
@@ -664,6 +714,9 @@ export default {
     },
   },
   methods: {
+    getText(res) {
+      this.info.message = `${this.info.message} ${res}`;
+    },
     async getconnections() {
       return this.$http
         .get(`${this.$store.getters.url}/connections`, {
@@ -785,6 +838,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.discussion = res.data;
+            this.showdiscussion = true;
           }
         })
         .catch((err) => {

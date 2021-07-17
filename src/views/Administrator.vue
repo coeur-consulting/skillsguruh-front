@@ -23,6 +23,14 @@ import SideBar from "@/components/Administrator/sidebar.vue";
 import TopBar from "@/components/Administrator/topbar.vue";
 import Insight from "@/components/InterestComponent";
 export default {
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      window.speechSynthesis.onvoiceschanged = function () {
+        var speech = window.speechSynthesis.getVoices();
+        vm.$store.commit("SET_SPEECH", speech);
+      };
+    });
+  },
   components: {
     SideBar,
     TopBar,
