@@ -323,7 +323,9 @@
                         ></b-avatar>
                         <span
                           @click="
-                            $router.push(`/facilitator/u/${feed.user.id}`)
+                            $router.push(
+                              `/facilitator/profile/u/${feed.user.id}`
+                            )
                           "
                         >
                           {{ feed.user.name }}</span
@@ -341,7 +343,7 @@
                         <span
                           @click="
                             $router.push(
-                              `/facilitator/f/${feed.facilitator.id}`
+                              `/facilitator/profile/f/${feed.facilitator.id}`
                             )
                           "
                         >
@@ -518,7 +520,9 @@
                           <span
                             class="font-weight-bold mr-2"
                             @click="
-                              $router.push(`/facilitator/u/${item.user.id}`)
+                              $router.push(
+                                `/facilitator/profile/u/${item.user.id}`
+                              )
                             "
                             v-if="item.user"
                           >
@@ -528,7 +532,7 @@
                             class="font-weight-bold mr-2"
                             @click="
                               $router.push(
-                                `/facilitator/f/${item.facilitator.id}`
+                                `/facilitator/profile/f/${item.facilitator.id}`
                               )
                             "
                             v-if="item.facilitator"
