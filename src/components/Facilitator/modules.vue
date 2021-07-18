@@ -326,11 +326,11 @@
                       <b-form-group label=" Worksheet type">
                         <b-form-select size="sm" v-model="item.type">
                           <b-form-select-option disabled value="">
-                            Choose worksheet type</b-form-select-option
+                            Choose type</b-form-select-option
                           >
-                          <!-- <b-form-select-option value="template">
-                            Template</b-form-select-option
-                          > -->
+                          <b-form-select-option value="worksheet">
+                            Worksheet</b-form-select-option
+                          >
                           <b-form-select-option value="test">
                             Test</b-form-select-option
                           >
@@ -634,11 +634,11 @@
                       <b-form-group label=" Worksheet type">
                         <b-form-select size="sm" v-model="item.type">
                           <b-form-select-option disabled value="">
-                            Choose worksheet type</b-form-select-option
+                            Choose type</b-form-select-option
                           >
-                          <!-- <b-form-select-option value="template">
-                            Template</b-form-select-option
-                          > -->
+                          <b-form-select-option value="worksheet">
+                            Worksheet</b-form-select-option
+                          >
                           <b-form-select-option value="test">
                             Test</b-form-select-option
                           >

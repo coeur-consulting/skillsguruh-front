@@ -883,7 +883,7 @@ export default {
 }
 
 .main_box {
-  width: 92%;
+  width: 100%;
   transition: 0.5s;
 }
 .side_box {

@@ -442,7 +442,7 @@ export default {
   font-size: 0.7rem;
 }
 .main_box {
-  width: 92%;
+  width: 100%;
 }
 .rside {
   width: 92%;
