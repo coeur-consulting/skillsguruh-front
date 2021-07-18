@@ -67,7 +67,15 @@
                   </div>
                 </div>
 
-                <div class="bottom_bar d-flex justify-content-between mb-4">
+                <div
+                  class="
+                    bottom_bar
+                    d-flex
+                    justify-content-between
+                    mb-4
+                    discussion_title
+                  "
+                >
                   <div>
                     <span class="mr-3"
                       ><b-icon icon="chat" class="mr-1"></b-icon>
@@ -80,21 +88,17 @@
                       <span v-else>0</span> views</span
                     >
                   </div>
-                  <div class="fs12">
+                  <div class="">
                     Created by
-                    <span
-                      v-if="discussion.admin"
-                      class="fs12 font-weight-bold text-dark-green"
-                      >{{ discussion.admin.name }}</span
-                    >
-                    <span
-                      v-if="discussion.user"
-                      class="fs12 font-weight-bold text-dark-green"
-                      >{{ discussion.user.name }}</span
-                    >
+                    <span v-if="discussion.admin" class="text-dark-green">{{
+                      discussion.admin.name
+                    }}</span>
+                    <span v-if="discussion.user" class="text-dark-green">{{
+                      discussion.user.name
+                    }}</span>
                     <span
                       v-if="discussion.facilitator"
-                      class="fs12 font-weight-bold text-dark-green"
+                      class="text-dark-green"
                       >{{ discussion.facilitator.name }}</span
                     >
                   </div>
