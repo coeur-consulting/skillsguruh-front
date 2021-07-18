@@ -1,7 +1,7 @@
 <template>
   <div>
-    <b-container>
-      <b-row class="justify-content-sm-center">
+    <b-container fluid>
+      <b-row class="justify-content-sm-start">
         <b-col sm="8">
           <b-row>
             <b-col cols="12" class="mb-0 rounded px-1 pt-sm-2 px-sm-4 pb-2">
@@ -155,7 +155,7 @@
                             <div class="d-flex mb-3 px-3 pt-3">
                               <div class="d-flex flex-1 text-left">
                                 <div
-                                  class="font-weight-bold mr-2 mb-1 feedname"
+                                  class="h6 mr-2 mb-1 feedname"
                                   v-if="feed.admin"
                                 >
                                   <b-avatar
@@ -166,7 +166,7 @@
                                   {{ feed.admin.name }}
                                 </div>
                                 <div
-                                  class="font-weight-bold mr-2 mb-1 feedname"
+                                  class="h6 mr-2 mb-1 feedname"
                                   v-if="feed.user"
                                 >
                                   <b-avatar
@@ -177,7 +177,7 @@
                                   {{ feed.user.name }}
                                 </div>
                                 <div
-                                  class="font-weight-bold mr-2 mb-1 feedname"
+                                  class="h6 mr-2 mb-1 feedname"
                                   v-if="feed.facilitator"
                                 >
                                   <b-avatar
@@ -1370,7 +1370,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.container {
+.container-fluid {
   padding-top: 30px;
 }
 .shadow {

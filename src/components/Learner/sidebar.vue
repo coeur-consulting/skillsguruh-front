@@ -218,12 +218,12 @@ export default {
   border-right: 2px solid #388087;
 }
 
-.router-link-exact-active.router-link-active .side_item .b-icon.bi {
+/* .router-link-exact-active.router-link-active .side_item .b-icon.bi {
   color: white !important;
 }
 .side_item:hover .b-icon.bi {
   color: white !important;
-}
+} */
 /* .side_item:hover {
   background: rgba(56, 128, 135, 0.17);
   color: var(--dark-green);

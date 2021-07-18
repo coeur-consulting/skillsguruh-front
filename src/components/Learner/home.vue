@@ -883,38 +883,8 @@ export default {
 }
 
 .main_box {
-  width: 92%;
+  width: 100%;
   transition: 0.5s;
-}
-.side_box {
-  position: fixed;
-  top: 14%;
-  right: 1%;
-  text-align: left;
-  transition: 0.5s;
-  width: 5%;
-  height: 80vh;
-  z-index: 88;
-}
-.side_box .sided .tools {
-  display: none;
-}
-.side_box:hover {
-  width: 20%;
-}
-.side_box:hover ~ .main_box {
-  width: 73%;
-}
-
-.side_box:hover .sided .tools {
-  display: block;
-}
-.side_box:hover .sided .tools_icons {
-  display: none;
-}
-.sided {
-  height: 100%;
-  overflow: scroll;
 }
 
 @media (max-width: 600px) {
