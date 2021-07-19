@@ -323,7 +323,7 @@
                     </b-form-row>
 
                     <div class="" v-if="item.file_type == 'worksheet'">
-                      <b-form-group label=" Worksheet type">
+                      <b-form-group label=" Type">
                         <b-form-select size="sm" v-model="item.type">
                           <b-form-select-option disabled value="">
                             Choose type</b-form-select-option
@@ -631,7 +631,7 @@
                     </b-form-row>
 
                     <div class="" v-if="item.file_type == 'worksheet'">
-                      <b-form-group label=" Worksheet type">
+                      <b-form-group label=" Type">
                         <b-form-select size="sm" v-model="item.type">
                           <b-form-select-option disabled value="">
                             Choose type</b-form-select-option

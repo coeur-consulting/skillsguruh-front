@@ -1,9 +1,9 @@
 /* eslint-disable vue/no-unused-vars */
 <template>
-  <div class="pt-4">
+  <div class="pt-sm-4">
     <b-container v-if="discussion">
       <b-row v-if="showdiscussion">
-        <b-col sm="8">
+        <b-col class="px-0 px-sm-3" sm="8">
           <div class="bg-white py-4 rounded">
             <div class="main_content text-left">
               <div @click="$router.go(-1)" class="d-flex w-100">
@@ -36,11 +36,11 @@
                     ></b-avatar>
                   </div>
                   <div class="text-left next_dis">
-                    <span class="title h4">{{ discussion.name }} </span><br />
-                    <span class="asked">
+                    <div class="title h4 mb-1">{{ discussion.name }}</div>
+                    <div class="asked">
                       Created
-                      {{ discussion.created_at | moment("ll") }}</span
-                    >
+                      {{ discussion.created_at | moment("ll") }}
+                    </div>
                   </div>
                 </div>
                 <div class="top_dis d-flex align-items-start">
@@ -87,19 +87,19 @@
                   "
                 >
                   <div>
-                    <span class="mr-3"
+                    <span class="mr-3 dis_set"
                       ><b-icon icon="chat" class="mr-1"></b-icon>
                       <span v-if="posts"> {{ posts.length }}</span>
                       <span v-else>0</span> answers</span
                     >
-                    <span class="mr-3"
+                    <span class="mr-3 dis_set"
                       ><b-icon icon="eye-fill" class="mr-1"></b-icon>
                       <span v-if="views"> {{ views }}</span>
                       <span v-else>0</span> views</span
                     >
                   </div>
-                  <div class="">
-                    Created by
+                  <div class="dis_set">
+                    <span> Created by </span>
                     <span
                       v-if="discussion.admin"
                       class="cursor-pointer text-dark-green"
@@ -1148,5 +1148,11 @@ export default {
   font-size: 11px;
   border-radius: 4px;
   text-align: center;
+}
+@media (max-width: 600px) {
+  .b-avatar {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
 }
 </style>

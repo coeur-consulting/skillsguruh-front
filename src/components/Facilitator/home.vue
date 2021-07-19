@@ -131,6 +131,7 @@
                   :perPage="1"
                   :scrollPerPage="true"
                   :paginationEnabled="true"
+                  :spacePadding="15"
                   :perPageCustom="[
                     [600, 1],
                     [768, 3],
@@ -138,7 +139,7 @@
                   v-if="mostenrolledcourse.length"
                 >
                   <slide
-                    class="pr-sm-2"
+                    class="pr-3"
                     v-for="item in mostenrolledcourse.slice(0, 6)"
                     :key="item.id"
                   >
@@ -242,14 +243,16 @@
                   :scrollPerPage="true"
                   :paginationEnabled="true"
                   :perPage="1"
+                  :spacePadding="15"
                   :perPageCustom="[
                     [600, 1],
                     [768, 3],
                   ]"
+                  class="px-sm-0"
                   v-if="topratedcourse.length"
                 >
                   <slide
-                    class="pr-sm-2"
+                    class="pr-3"
                     v-for="(item, id) in topratedcourse.slice(0, 6)"
                     :key="id"
                   >

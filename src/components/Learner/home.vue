@@ -62,6 +62,7 @@
                     :scrollPerPage="true"
                     :paginationEnabled="true"
                     :perPage="1"
+                    :spacePadding="15"
                     :perPageCustom="[
                       [600, 1],
                       [768, 3],
@@ -69,7 +70,7 @@
                     v-if="courses.length"
                   >
                     <slide
-                      class="pr-sm-2"
+                      class="p-2"
                       v-for="item in courses.slice(0, 6)"
                       :key="item.id"
                     >
@@ -175,6 +176,7 @@
                     :scrollPerPage="true"
                     :paginationEnabled="true"
                     :perPage="1"
+                    :spacePadding="15"
                     :perPageCustom="[
                       [600, 1],
                       [768, 3],
@@ -182,7 +184,7 @@
                     v-if="library.length"
                   >
                     <slide
-                      class="pr-sm-2"
+                      class="p-2"
                       v-for="item in library.slice(0, 6)"
                       :key="item.id"
                     >
