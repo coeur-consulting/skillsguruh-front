@@ -1387,7 +1387,7 @@ export default {
           JSON.parse(val.modules).forEach((item) => {
             if (
               item.file_type.toLowerCase() == media.toLowerCase() ||
-              item.file_type.toLowerCase() == "template"
+              item.file_type.toLowerCase() == "worksheet"
             ) {
               newarr.push(item);
             }
