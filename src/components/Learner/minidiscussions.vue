@@ -145,12 +145,12 @@
 
             <div class="bottom_bar d-flex justify-content-between">
               <div>
-                <span class="mr-4"
+                <span class="mr-4 dis_ses"
                   ><b-icon icon="chat" class="mr-1"></b-icon>
                   <span>{{ item.discussionmessage.length }}</span>
                   answers</span
                 >
-                <span class="mr-4"
+                <span class="mr-4 dis_ses"
                   ><b-icon icon="eye-fill" class="mr-1"></b-icon>
                   <span v-if="item.discussionview">{{
                     item.discussionview.view || 0
@@ -162,13 +162,23 @@
                 <span
                   v-if="item.type == 'public'"
                   @click="$router.push(`/learner/discussion/${item.id}`)"
-                  class="text-dark-green font-weight-bold cursor-pointer"
+                  class="
+                    text-dark-green
+                    font-weight-bold
+                    cursor-pointer
+                    dis_ses
+                  "
                   >Join Discussion</span
                 >
                 <span
                   v-else
                   @click="joindiscussion(item)"
-                  class="text-dark-green font-weight-bold cursor-pointer"
+                  class="
+                    text-dark-green
+                    font-weight-bold
+                    cursor-pointer
+                    dis_ses
+                  "
                   >Join Discussion</span
                 >
               </div>

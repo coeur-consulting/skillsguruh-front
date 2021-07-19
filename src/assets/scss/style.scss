@@ -85,6 +85,11 @@ html::-webkit-scrollbar {
 .text-muted {
   color: rgba($color: #000000, $alpha: 0.34) !important;
 }
+.text2speech {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
 a,
 a:hover {
   text-decoration: none;
@@ -503,7 +508,7 @@ ol.subquest {
     line-height: 1;
   }
   .fs14,
-  .col-form-label,
+  tz .col-form-label,
   .custom-select,
   .btn-sm {
     font-size: 14px !important;
@@ -673,5 +678,13 @@ ol.subquest {
   }
   .sideB {
     overflow: unset;
+  }
+  .dis_set,
+  .dis_set span {
+    font-size: 9px;
+  }
+  .dis_ses,
+  .dis_ses span {
+    font-size: 10px;
   }
 }

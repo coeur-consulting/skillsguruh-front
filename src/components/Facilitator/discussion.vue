@@ -36,7 +36,15 @@
                     ></b-avatar>
                   </div>
                   <div class="text-left next_dis">
-                    <div class="title h4 mb-1">{{ discussion.name }}</div>
+                    <div class="title h4 mb-1 d-flex">
+                      <span class="mr-2 flex-1">{{ discussion.name }}</span
+                      ><span>
+                        <text-to-speech
+                          :text="thread"
+                          :voice="voices"
+                        ></text-to-speech
+                      ></span>
+                    </div>
                     <div class="asked">
                       Created
                       {{ discussion.created_at | moment("ll") }}
@@ -655,6 +663,7 @@ export default {
       connections: [],
       emails: [],
       link: "",
+      allfeed: [],
     };
   },
   components: {
@@ -677,6 +686,35 @@ export default {
       "https://skillsguruh.com/learner/discussion/" + this.$route.params.id;
   },
   computed: {
+    thread() {
+      var thread = this.discussion.discussionmessage.map((item) => {
+        if (item.admin) {
+          return `${item.admin.name}, ${item.message}`;
+        }
+        if (item.facilitator) {
+          return `${item.facilitator.name}, ${item.message}`;
+        }
+        if (item.user) {
+          return `${item.user.name}, ${item.message}`;
+        }
+      });
+      if (this.discussion.admin) {
+        thread.unshift(
+          `${this.discussion.name} by ${this.discussion.admin.name}. ${this.discussion.description}`
+        );
+      }
+      if (this.discussion.facilitator) {
+        thread.unshift(
+          `${this.discussion.name} by ${this.discussion.facilitator.name} . ${this.discussion.description}`
+        );
+      }
+      if (this.discussion.user) {
+        thread.unshift(
+          `${this.discussion.name} by ${this.discussion.user.name} . ${this.discussion.description}`
+        );
+      }
+      return thread.toString();
+    },
     voices() {
       return this.$store.getters.voices[
         Number(this.$store.getters.learner.voice)
@@ -846,6 +884,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.discussion = res.data;
+
             this.showdiscussion = true;
           }
         })
