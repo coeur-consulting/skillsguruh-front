@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 <template>
-  <div class="pb-5 pt-4">
+  <div class="pb-5 pt-sm-4">
     <b-modal
       no-close-on-backdrop
       id="feed"
@@ -395,7 +395,7 @@
                     <div v-if="feed.tags" class="px-1">
                       <b-row class="justify-content-start">
                         <b-col
-                          sm="auto"
+                          cols="auto"
                           class="px-1"
                           v-for="(tag, id) in JSON.parse(feed.tags)"
                           :key="id"

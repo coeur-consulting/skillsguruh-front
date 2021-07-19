@@ -151,16 +151,9 @@ a:hover {
 .border-left-green {
   border-left: 4px solid var(--dark-green);
 }
-.text2speech {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  opacity: 0.6;
-  cursor: pointer;
-}
-.text2speech:hover {
-  opacity: 1;
-}
+// .vc-highlight {
+//   border-radius: unset !important;
+// }
 .vc-container.vc-is-expanded {
   border: 1px solid rgba(0, 0, 0, 0.04) !important ;
 }
@@ -510,8 +503,6 @@ ol.subquest {
     line-height: 1;
   }
   .fs14,
-  .fs15,
-  .fs16,
   .col-form-label,
   .custom-select,
   .btn-sm {
@@ -682,13 +673,5 @@ ol.subquest {
   }
   .sideB {
     overflow: unset;
-  }
-  .dis_set,
-  .dis_set span {
-    font-size: 9px;
-  }
-  .dis_ses,
-  .dis_ses span {
-    font-size: 10px;
   }
 }
