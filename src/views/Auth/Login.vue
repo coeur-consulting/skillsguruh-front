@@ -132,28 +132,29 @@
                 </div>
               </b-form-group>
             </div>
-            <div class="d-flex flex-column flex-sm-row mb-3">
-              <div
-                class="text-dark-green fs14 cursor-pointer mb-2 mb-sm-0"
-                @click="$router.push('/admin/login')"
-              >
-                Login as an Organization
-              </div>
-              <span class="mx-3 d-none d-sm-inline">|</span>
-              <div
-                class="text-dark-green fs14 cursor-pointer"
-                @click="$router.push('/admin/login')"
-              >
-                Login as an Administrator
+            <div class="mb-2 d-flex">
+              <div class="fs14" @click="$router.push('/admin/login')">
+                Login as an
+                <span
+                  class="text-dark-green cursor-pointer"
+                  @click="$router.push('/admin/login')"
+                  >Organization</span
+                >
+                or
+                <span
+                  class="text-dark-green cursor-pointer"
+                  @click="$router.push('/admin/login')"
+                  >Administrator</span
+                >
               </div>
             </div>
 
-            <div>
-              Don't have an account?
+            <div class="fs14">
+              Don't have an account yet?
               <span
-                class="text-dark-green fs16 cursor-pointer"
+                class="text-dark-green cursor-pointer"
                 @click="$router.push('/register')"
-                >Register</span
+                >Register now</span
               >
             </div>
 

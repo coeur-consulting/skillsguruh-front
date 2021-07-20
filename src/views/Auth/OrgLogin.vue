@@ -132,27 +132,29 @@
                 </div>
               </b-form-group>
             </div>
-            <div class="d-flex flex-column flex-sm-row mb-3">
-              <div
-                class="text-dark-green fs14 cursor-pointer mb-2 mb-sm-0"
-                @click="$router.push('/login')"
-              >
-                Login as an Learner
-              </div>
-              <span class="mx-3 d-none d-sm-inline">|</span>
-              <div
-                class="text-dark-green fs14 cursor-pointer"
-                @click="$router.push('/login')"
-              >
-                Login as an Facilitator
+            <div class="d-flex mb-2">
+              <div class="fs14 cursor-pointer">
+                Login as a
+                <span
+                  class="text-dark-green cursor-pointer"
+                  @click="$router.push('/login')"
+                  >Learner</span
+                >
+                or
+                <span
+                  class="text-dark-green cursor-pointer"
+                  @click="$router.push('/login')"
+                >
+                  Facilitator</span
+                >
               </div>
             </div>
-            <div>
-              Don't have an account?
+            <div class="fs14">
+              Don't have an accounty yet?
               <span
-                class="text-dark-green fs16 cursor-pointer"
+                class="text-dark-green cursor-pointer"
                 @click="$router.push('/register')"
-                >Register</span
+                >Register now</span
               >
             </div>
 
