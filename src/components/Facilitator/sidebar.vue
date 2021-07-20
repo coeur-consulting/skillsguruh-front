@@ -251,12 +251,12 @@ export default {
   /* color: white; */
 }
 
-.router-link-exact-active.router-link-active .side_item .b-icon.bi {
+/* .router-link-exact-active.router-link-active .side_item .b-icon.bi {
   color: white !important;
 }
 .side_item:hover .b-icon.bi {
   color: white !important;
-}
+} */
 /* .side_item:hover {
   background: var(--light-green);
   color: white;

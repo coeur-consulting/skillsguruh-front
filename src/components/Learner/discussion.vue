@@ -169,83 +169,117 @@
                         </div>
                       </div>
 
-                      <div class="document text-center mb-2" v-else>
-                        <a download="" target="_blank" :href="item.attachment">
-                          <span
-                            class="d-flex justify-content-center"
-                            v-if="
-                              item.attachment &&
-                              vid_ext.includes(getextension(item.attachment))
-                            "
-                          >
-                            <span class="p-2 text-dark bg-white"
-                              >Download video</span
-                            >
-                            <b-iconstack font-scale="3">
-                              <b-icon
-                                stacked
-                                icon="square-fill"
-                                variant="warning"
-                              ></b-icon>
-                              <b-icon
-                                stacked
-                                icon="camera-video"
-                                variant="white"
-                                scale="0.5"
-                              ></b-icon>
-                            </b-iconstack>
-                          </span>
-
-                          <span
-                            class="d-flex justify-content-center"
-                            v-if="
-                              item.attachment &&
-                              aud_ext.includes(getextension(item.attachment))
-                            "
-                          >
-                            <span class="p-2 text-dark bg-white"
-                              >Download audio</span
-                            >
-                            <b-iconstack font-scale="3">
-                              <b-icon
-                                stacked
-                                icon="square-fill"
-                                variant="warning"
-                              ></b-icon>
-                              <b-icon
-                                stacked
-                                icon="music-note-beamed"
-                                variant="white"
-                                scale="0.5"
-                              ></b-icon>
-                            </b-iconstack>
-                          </span>
-
-                          <span
-                            class="d-flex justify-content-center"
-                            v-if="
-                              item.attachment &&
-                              doc_ext.includes(getextension(item.attachment))
-                            "
-                          >
-                            <span class="p-2 text-dark bg-white"
-                              >Download file</span
-                            >
-                            <b-iconstack font-scale="3">
-                              <b-icon
-                                stacked
-                                icon="square-fill"
-                                variant="warning"
-                              ></b-icon>
-                              <b-icon
-                                stacked
-                                icon="file-arrow-down"
-                                scale="0.5"
-                                variant="white"
-                              ></b-icon>
-                            </b-iconstack>
-                          </span>
-                        </a>
+                      <div
+                        v-if="
+                          item.attachment &&
+                          vid_ext.includes(getextension(item.attachment))
+                        "
+                        class="
+                          p-1
+                          bg-lighter-green
+                          d-flex
+                          align-items-center
+                          rounded
+                          cursor-pointer
+                        "
+                      >
+                        <div class="bg-dark-green text-center rounded p-2 mr-3">
+                          <b-icon
+                            icon="camera-video-fill"
+                            variant="white"
+                            font-scale="2rem"
+                          ></b-icon>
+                        </div>
+                        <div
+                          class="
+                            d-flex
+                            w-100
+                            align-items-center
+                            p-2
+                            justify-content-center justify-content-center
+                            text-dark
+                            fs15
+                          "
+                        >
+                          <!-- {{ getFileDetails(item.attachment).then((res) => res) }} -->
+                          Download Video
+                        </div>
+                      </div>
+                      <div
+                        v-if="
+                          item.attachment &&
+                          aud_ext.includes(getextension(item.attachment))
+                        "
+                        class="
+                          p-1
+                          bg-lighter-green
+                          d-flex
+                          align-items-center
+                          rounded
+                          cursor-pointer
+                        "
+                      >
+                        <div class="bg-dark-green text-center rounded p-2 mr-3">
+                          <b-icon
+                            icon="music-note-beamed"
+                            variant="white"
+                            font-scale="2rem"
+                          ></b-icon>
+                        </div>
+                        <!-- <div class="d-flex align-items-center">
+                  <audio
+                    :src="item.attachment"
+                    controls
+                    class="bg-transparent"
+                  ></audio>
+                </div> -->
+                        <div
+                          class="
+                            d-flex
+                            w-100
+                            align-items-center
+                            p-2
+                            justify-content-center justify-content-center
+                            text-dark
+                            fs15
+                          "
+                        >
+                          Download Audio
+                        </div>
+                      </div>
+                      <div
+                        v-if="
+                          item.attachment &&
+                          doc_ext.includes(getextension(item.attachment))
+                        "
+                        class="
+                          p-1
+                          bg-lighter-green
+                          d-flex
+                          align-items-center
+                          rounded
+                          cursor-pointer
+                        "
+                      >
+                        <div class="bg-dark-green text-center rounded p-2 mr-3">
+                          <b-icon
+                            icon="file-earmark-ruled-fill"
+                            variant="white"
+                            font-scale="2rem"
+                          ></b-icon>
+                        </div>
+                        <div
+                          class="
+                            d-flex
+                            align-items-center
+                            p-2
+                            justify-content-center
+                            text-dark
+                            fs15
+                          "
+                        >
+                          Download File
+                        </div>
                       </div>
                     </div>
 
@@ -924,7 +958,7 @@ export default {
         });
     },
     post() {
-      if (this.info.message || this.info.attachment) {
+      if (!this.info.message && !this.info.attachment) {
         this.$toast.info("Type a message!");
         return;
       }
@@ -1051,8 +1085,8 @@ export default {
 </script>
 <style scoped lang="scss">
 .image {
-  width: 100px;
-  height: 150px;
+  width: 80%;
+  height: auto;
   margin: 0 auto;
 }
 .wrapper {

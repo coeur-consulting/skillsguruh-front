@@ -174,80 +174,124 @@
 
                       <div class="document text-center mb-2" v-else>
                         <a download="" target="_blank" :href="item.attachment">
-                          <span
-                            class="d-flex justify-content-center"
+                          <div
                             v-if="
                               item.attachment &&
                               vid_ext.includes(getextension(item.attachment))
                             "
+                            class="
+                              p-1
+                              bg-lighter-green
+                              d-flex
+                              align-items-center
+                              rounded
+                              cursor-pointer
+                            "
                           >
-                            <span class="p-2 text-dark bg-white"
-                              >Download video</span
+                            <div
+                              class="bg-dark-green text-center rounded p-2 mr-3"
                             >
-                            <b-iconstack font-scale="3">
                               <b-icon
-                                stacked
-                                icon="square-fill"
-                                variant="warning"
-                              ></b-icon>
-                              <b-icon
-                                stacked
-                                icon="camera-video"
+                                icon="camera-video-fill"
                                 variant="white"
-                                scale="0.5"
+                                font-scale="2rem"
                               ></b-icon>
-                            </b-iconstack>
-                          </span>
-
-                          <span
-                            class="d-flex justify-content-center"
+                            </div>
+                            <div
+                              class="
+                                d-flex
+                                w-100
+                                align-items-center
+                                p-2
+                                justify-content-center justify-content-center
+                                text-dark
+                                fs15
+                              "
+                            >
+                              <!-- {{ getFileDetails(item.attachment).then((res) => res) }} -->
+                              Download Video
+                            </div>
+                          </div>
+                          <div
                             v-if="
                               item.attachment &&
                               aud_ext.includes(getextension(item.attachment))
                             "
+                            class="
+                              p-1
+                              bg-lighter-green
+                              d-flex
+                              align-items-center
+                              rounded
+                              cursor-pointer
+                            "
                           >
-                            <span class="p-2 text-dark bg-white"
-                              >Download audio</span
+                            <div
+                              class="bg-dark-green text-center rounded p-2 mr-3"
                             >
-                            <b-iconstack font-scale="3">
                               <b-icon
-                                stacked
-                                icon="square-fill"
-                                variant="warning"
-                              ></b-icon>
-                              <b-icon
-                                stacked
                                 icon="music-note-beamed"
                                 variant="white"
-                                scale="0.5"
+                                font-scale="2rem"
                               ></b-icon>
-                            </b-iconstack>
-                          </span>
-
-                          <span
-                            class="d-flex justify-content-center"
+                            </div>
+                            <!-- <div class="d-flex align-items-center">
+                  <audio
+                    :src="item.attachment"
+                    controls
+                    class="bg-transparent"
+                  ></audio>
+                </div> -->
+                            <div
+                              class="
+                                d-flex
+                                w-100
+                                align-items-center
+                                p-2
+                                justify-content-center justify-content-center
+                                text-dark
+                                fs15
+                              "
+                            >
+                              Download Audio
+                            </div>
+                          </div>
+                          <div
                             v-if="
                               item.attachment &&
                               doc_ext.includes(getextension(item.attachment))
                             "
+                            class="
+                              p-1
+                              bg-lighter-green
+                              d-flex
+                              align-items-center
+                              rounded
+                              cursor-pointer
+                            "
                           >
-                            <span class="p-2 text-dark bg-white"
-                              >Download file</span
+                            <div
+                              class="bg-dark-green text-center rounded p-2 mr-3"
                             >
-                            <b-iconstack font-scale="3">
                               <b-icon
-                                stacked
-                                icon="square-fill"
-                                variant="warning"
-                              ></b-icon>
-                              <b-icon
-                                stacked
-                                icon="file-arrow-down"
-                                scale="0.5"
+                                icon="file-earmark-ruled-fill"
                                 variant="white"
+                                font-scale="2rem"
                               ></b-icon>
-                            </b-iconstack>
-                          </span>
+                            </div>
+                            <div
+                              class="
+                                d-flex
+                                align-items-center
+                                p-2
+                                justify-content-center
+                                text-dark
+                                fs15
+                              "
+                            >
+                              Download File
+                            </div>
+                          </div>
                         </a>
                       </div>
                     </div>
@@ -922,7 +966,7 @@ export default {
         });
     },
     post() {
-      if (this.info.message || this.info.attachment) {
+      if (!this.info.message && !this.info.attachment) {
         this.$toast.info("Type a message!");
         return;
       }
@@ -1049,8 +1093,8 @@ export default {
 </script>
 <style scoped lang="scss">
 .image {
-  width: 100px;
-  height: 150px;
+  width: 80%;
+  height: auto;
   margin: 0 auto;
 }
 .wrapper {
@@ -1214,7 +1258,10 @@ export default {
 .related {
   font-size: 12px;
 }
-
+.document {
+  width: 40%;
+  margin: 10px auto;
+}
 @media (max-width: 600px) {
   .b-avatar {
     width: 1.8rem;

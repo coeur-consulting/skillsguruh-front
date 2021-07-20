@@ -15,6 +15,7 @@
                 d-flex
                 align-items-center
                 justify-content-center
+                px-3 px-sm-0
               "
             >
               <b-icon
@@ -1427,9 +1428,9 @@ export default {
             this.courses = res.data;
             this.showCourse = true;
             this.rows = res.data.length;
-          if (this.$route.query.course_id) {
-               this.loadCourse();
-          }
+            if (this.$route.query.course_id) {
+              this.loadCourse();
+            }
           }
         })
         .catch((err) => {
