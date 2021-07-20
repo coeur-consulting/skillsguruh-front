@@ -23,14 +23,14 @@
           >
         </div>
       </div>
-      <div class="d-flex align-items-center">
+      <div class="d-flex flex-column flex-sm-row align-items-center">
         <!-- <b-button-group class="mr-4">
           <b-button variant="outline-secondary" size="sm">A week</b-button>
           <b-button variant="outline-secondary" size="sm">One month</b-button>
           <b-button variant="outline-secondary" size="sm">3 months</b-button>
         </b-button-group> -->
 
-        <span class="d-flex align-items-center mr-4">
+        <span class="d-flex flex-column flex-sm-row align-items-center mr-4">
           <b-datepicker size="sm" class="" v-model="start"></b-datepicker>
           <span class="px-2">-</span>
           <b-datepicker size="sm" v-model="end"></b-datepicker>

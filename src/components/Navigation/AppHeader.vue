@@ -34,63 +34,50 @@
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">
-            <b-nav-item href="#" v-if="authLearner">
-              <b-button-group>
-                <b-button
-                  class="px-4"
-                  @click="$router.push('/learner')"
-                  variant="dark-green"
-                >
-                  Dashboard</b-button
-                >
-                <b-button class="px-4" @click="logout" variant="lighter-green">
+            <span class="d-flex flex-column flex-sm-row align-items-center">
+              <b-nav-item
+                v-if="authLearner"
+                class="px-4"
+                @click="$router.push('/learner')"
+              >
+                Dashboard</b-nav-item
+              >
+
+              <b-nav-item
+                class="px-4"
+                v-else-if="authFacilitator"
+                @click="$router.push('/facilitator')"
+              >
+                Dashboard</b-nav-item
+              >
+
+              <b-nav-item
+                class="px-4"
+                v-else-if="authAdmin"
+                @click="$router.push('/administrator')"
+              >
+                Dashboard</b-nav-item
+              >
+
+              <b-nav-item
+                class="px-4"
+                v-else-if="authOrg"
+                @click="$router.push('/organization')"
+              >
+                Dashboard</b-nav-item
+              >
+              <b-nav-item
+                v-if="authLearner || authFacilitator || authAdmin || authOrg"
+              >
+                <b-button class="px-4" @click="logout" variant="dark-green">
                   Logout</b-button
                 >
-              </b-button-group>
-            </b-nav-item>
-            <b-nav-item href="#" v-else-if="authFacilitator">
-              <b-button-group>
-                <b-button
-                  class="px-4"
-                  @click="$router.push('/facilitator')"
-                  variant="dark-green"
-                >
-                  Dashboard</b-button
-                >
-                <b-button class="px-4" @click="logout" variant="white">
-                  Logout</b-button
-                >
-              </b-button-group>
-            </b-nav-item>
-            <b-nav-item href="#" v-else-if="authAdmin">
-              <b-button-group>
-                <b-button
-                  class="px-4"
-                  @click="$router.push('/administrator')"
-                  variant="dark-green"
-                >
-                  Dashboard</b-button
-                >
-                <b-button class="px-4" @click="logout" variant="white">
-                  Logout</b-button
-                >
-              </b-button-group>
-            </b-nav-item>
-            <b-nav-item href="#" v-else-if="authOrg">
-              <b-button-group>
-                <b-button
-                  class="px-4"
-                  @click="$router.push('/organization')"
-                  variant="dark-green"
-                >
-                  Dashboard</b-button
-                >
-                <b-button class="px-4" @click="logout" variant="white">
-                  Logout</b-button
-                >
-              </b-button-group>
-            </b-nav-item>
-            <b-nav-item href="#" v-else>
+              </b-nav-item>
+            </span>
+            <b-nav-item
+              href="#"
+              v-if="!authLearner && !authFacilitator && !authAdmin && !authOrg"
+            >
               <b-button
                 class="px-5"
                 @click="$router.push('/login')"

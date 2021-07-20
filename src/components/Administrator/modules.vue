@@ -831,8 +831,11 @@ export default {
       if (!this.detail.course_id) {
         return [];
       }
+      if (!this.courses) {
+        return [];
+      }
       var first = this.courses.find((item) => item.id == this.detail.course_id);
-      return JSON.parse(first.courseoutline.modules);
+      return first ? JSON.parse(first.courseoutline.modules) : [];
     },
   },
   mounted() {

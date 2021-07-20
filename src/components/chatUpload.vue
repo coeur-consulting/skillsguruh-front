@@ -15,7 +15,7 @@
             @change="handleFileChange($event)"
           />
           <div class="position-relative text-center">
-            <slot v-if="!uploadedFileUrl"></slot>
+            <slot></slot>
             <div v-if="start" class="spinner-start">
               <b-spinner
                 class="text-dark-green"
@@ -30,27 +30,6 @@
               Ready <b-icon icon="check2-circle"></b-icon>
             </div>
           </div>
-
-          <b-img
-            v-if="uploadedFileUrl && type !== 'document'"
-            :src="uploadedFileUrl"
-            blank-color="transparent"
-            style="width: 7rem; height: 7rem"
-            class="rounded-circle"
-          ></b-img>
-          <b-progress
-            v-if="start"
-            :value="progress"
-            :max="100"
-            show-progress
-            animated
-          ></b-progress>
-          <b-icon
-            v-if="uploadedFileUrl && type == 'document'"
-            icon="check2-circle"
-            variant="dark-green"
-            font-scale="4rem"
-          ></b-icon>
         </label>
       </div>
     </form>

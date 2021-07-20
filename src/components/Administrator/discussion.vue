@@ -257,13 +257,28 @@
               </div>
               <div class="py-4 px-3 text-post">
                 <b-form @submit.prevent="post" class="wrapper">
-                  <b-textarea
-                    @keyup.enter="post"
-                    class="regular-input mb-2"
-                    v-model="info.message"
-                    rows="3"
-                    placeholder="Start typing here.."
-                  ></b-textarea>
+                  <b-form-group>
+                    <editor
+                      api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
+                      @keyup.enter="post"
+                      class="regular-input mb-4"
+                      placeholder="Start typing here.."
+                      v-model="info.message"
+                      :init="{
+                        height: 150,
+                        menubar: false,
+                        plugins: [
+                          '  lists link  charmap   anchor',
+                          'searchreplace visualblocks code fullscreen',
+                          '  table paste code',
+                        ],
+                        toolbar:
+                          ' formatselect | bold italic | \
+           alignleft aligncenter alignright alignjustify | \
+           bullist numlist  ',
+                      }"
+                    />
+                  </b-form-group>
 
                   <div class="d-flex justify-content-between">
                     <div class="d-none d-md-block">
@@ -592,7 +607,7 @@
 <script>
 import EmojiPicker from "vue-emoji-picker";
 import Attachment from "../miniupload";
-
+import Editor from "@tinymce/tinymce-vue";
 import SpeechToText from "@/components/speechToText";
 import TextToSpeech from "@/components/textToSpeech";
 export default {
@@ -625,6 +640,7 @@ export default {
     Attachment,
     SpeechToText,
     TextToSpeech,
+    Editor,
   },
   created() {
     var channel = this.$pusher.subscribe("adddiscussion");
@@ -1101,13 +1117,5 @@ export default {
 }
 .related {
   font-size: 12px;
-}
-.related_count {
-  width: 50px;
-  padding: 4px 5px;
-  background: var(--lighter-green);
-  font-size: 11px;
-  border-radius: 4px;
-  text-align: center;
 }
 </style>

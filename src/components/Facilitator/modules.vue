@@ -832,13 +832,13 @@ export default {
       if (!this.detail.course_id) {
         return [];
       }
-      if (!this.modules.length) {
+      if (!this.modules) {
         return [];
       }
       var first = this.modules.find(
         (item) => item.course_id == this.detail.course_id
       );
-      return JSON.parse(first.modules);
+      return first ? JSON.parse(first.modules) : [];
     },
   },
   created() {

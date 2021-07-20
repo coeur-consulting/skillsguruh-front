@@ -140,15 +140,17 @@
                   >
                     <span v-if="item.message" class="text2speech">
                       <text-to-speech
-                        :text="item.message"
+                        :text="toText(item.message)"
                         :voice="voices"
                       ></text-to-speech>
                     </span>
 
                     <div class="position-relative">
-                      <p class="fs14 mb-1" v-if="item.message">
-                        {{ item.message }}
-                      </p>
+                      <div
+                        class="fs14 mb-1"
+                        v-if="item.message"
+                        v-html="item.message"
+                      ></div>
                       <div
                         class="text-center"
                         v-if="
@@ -300,13 +302,35 @@
               </div>
               <div class="py-4 px-3 text-post">
                 <b-form @submit.prevent="post" class="wrapper">
-                  <b-textarea
+                  <!-- <b-textarea
                     @keyup.enter="post"
                     class="regular-input mb-2"
                     v-model="info.message"
                     rows="3"
                     placeholder="Start typing here.."
-                  ></b-textarea>
+                  ></b-textarea> -->
+                  <b-form-group>
+                    <editor
+                      api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
+                      @keyup.enter="post"
+                      class="regular-input mb-4"
+                      placeholder="Start typing here.."
+                      v-model="info.message"
+                      :init="{
+                        height: 150,
+                        menubar: false,
+                        plugins: [
+                          '  lists link  charmap   anchor',
+                          'searchreplace visualblocks code fullscreen',
+                          '  table paste code',
+                        ],
+                        toolbar:
+                          ' formatselect | bold italic | \
+           alignleft aligncenter alignright alignjustify | \
+           bullist numlist  ',
+                      }"
+                    />
+                  </b-form-group>
 
                   <div class="d-flex justify-content-between">
                     <div class="d-none d-md-block">
@@ -629,7 +653,7 @@
 <script>
 import EmojiPicker from "vue-emoji-picker";
 import Attachment from "../miniupload";
-
+import Editor from "@tinymce/tinymce-vue";
 import SpeechToText from "@/components/speechToText";
 import TextToSpeech from "@/components/textToSpeech";
 
@@ -666,6 +690,7 @@ export default {
     Attachment,
     SpeechToText,
     TextToSpeech,
+    Editor,
   },
   created() {
     this.getdiscussion();
@@ -685,28 +710,28 @@ export default {
     thread() {
       var thread = this.discussion.discussionmessage.map((item) => {
         if (item.admin) {
-          return `${item.admin.name}, ${item.message}`;
+          return `${item.admin.name}, ${this.toText(item.message)} ... `;
         }
         if (item.facilitator) {
-          return `${item.facilitator.name}, ${item.message}`;
+          return `${item.facilitator.name}, ${this.toText(item.message)} ... `;
         }
         if (item.user) {
-          return `${item.user.name}, ${item.message}`;
+          return `${item.user.name}, ${this.toText(item.message)} ... `;
         }
       });
       if (this.discussion.admin) {
         thread.unshift(
-          `${this.discussion.name} by ${this.discussion.admin.name} . ${this.discussion.description}`
+          `${this.discussion.name} by ${this.discussion.admin.name} . ${this.discussion.description} ... `
         );
       }
       if (this.discussion.facilitator) {
         thread.unshift(
-          `${this.discussion.name} by ${this.discussion.facilitator.name}. ${this.discussion.description}`
+          `${this.discussion.name} by ${this.discussion.facilitator.name}. ${this.discussion.description} ... `
         );
       }
       if (this.discussion.user) {
         thread.unshift(
-          `${this.discussion.name} by ${this.discussion.user.name}. ${this.discussion.description}`
+          `${this.discussion.name} by ${this.discussion.user.name}. ${this.discussion.description} ... `
         );
       }
       return thread.toString();
@@ -756,6 +781,15 @@ export default {
     },
   },
   methods: {
+    toText(HTML) {
+      var input = HTML;
+      return input
+        .replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi, "")
+        .replace(/<[^>]+?>/g, "")
+        .replace(/\s+/g, " ")
+        .replace(/ /g, " ")
+        .replace(/>/g, " ");
+    },
     getText(res) {
       this.info.message = `${this.info.message} ${res}`;
     },
@@ -1043,6 +1077,7 @@ export default {
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.2s;
+  z-index: 9;
 }
 .emoji-invoker:hover {
   transform: scale(1.1);
@@ -1175,14 +1210,7 @@ export default {
 .related {
   font-size: 12px;
 }
-.related_count {
-  width: 50px;
-  padding: 4px 5px;
-  background: var(--lighter-green);
-  font-size: 11px;
-  border-radius: 4px;
-  text-align: center;
-}
+
 @media (max-width: 600px) {
   .b-avatar {
     width: 1.8rem;

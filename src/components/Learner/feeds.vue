@@ -435,6 +435,16 @@
                           :src="feed.media"
                           class="fluid-grow"
                         ></video>
+                        <audio
+                          width="100%"
+                          controls
+                          v-if="
+                            feed.media &&
+                            aud_ext.includes(getextension(feed.media))
+                          "
+                          :src="feed.media"
+                          class="fluid-grow"
+                        ></audio>
                         <div
                           v-if="
                             feed.media &&

@@ -1467,13 +1467,7 @@ h4.card-title {
 .related {
   font-size: 12px;
 }
-.related_count {
-  width: 60px;
-  padding: 4px 6px;
-  background: var(--lighter-green);
-  font-size: 11px;
-  border-radius: 4px;
-}
+
 .drop {
   position: absolute;
   top: 0;

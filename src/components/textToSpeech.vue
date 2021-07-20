@@ -12,6 +12,7 @@
       :voice="voice"
       v-model="play"
       :pitch="1"
+      :rate="0.8"
       :text="text"
     />
   </div>

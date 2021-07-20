@@ -1427,7 +1427,9 @@ export default {
             this.courses = res.data;
             this.showCourse = true;
             this.rows = res.data.length;
-            this.loadCourse();
+          if (this.$route.query.course_id) {
+               this.loadCourse();
+          }
           }
         })
         .catch((err) => {

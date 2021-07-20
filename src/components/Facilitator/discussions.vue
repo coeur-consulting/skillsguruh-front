@@ -253,10 +253,8 @@
                     v-for="(dis, id) in otherdiscussion.slice(0, 6)"
                     :key="id"
                   >
-                    <div>
-                      <span class="mr-3 related_count">{{
-                        dis.discussionmessage.length
-                      }}</span>
+                    <div class="mr-3 related_count">
+                      {{ dis.discussionmessage.length }}
                     </div>
                     <span
                       class="related text-left text-capitalize font-weight-bold"
@@ -747,13 +745,7 @@ export default {
 .related {
   font-size: 12px;
 }
-.related_count {
-  width: 60px;
-  padding: 4px 6px;
-  background: var(--lighter-green);
-  font-size: 11px;
-  border-radius: 4px;
-}
+
 .drop {
   position: absolute;
   top: 0;

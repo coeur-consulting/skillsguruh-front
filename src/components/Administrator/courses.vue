@@ -208,21 +208,49 @@
 
                   <div>
                     <b-row>
-                      <b-col
-                        v-for="(item, id) in detail.outline.modules"
-                        :key="id"
-                        sm="6"
+                      <draggable
+                        v-model="detail.outline.modules"
+                        v-bind="dragOptions"
+                        :move="onMove"
+                        @start="isDragging = true"
+                        @end="isDragging = false"
+                        class=""
                       >
-                        <div
-                          class="border rounded bg-lighter-green px-5 py-2 mb-2"
+                        <transition-group
+                          type="transition"
+                          :name="'flip-list'"
+                          class="d-flex flex-wrap"
                         >
-                          <span class="mr-4 text-capitalize">{{ item }}</span>
-                          <b-icon
-                            icon="x"
-                            @click="detail.outline.modules.splice(id, 1)"
-                          ></b-icon>
-                        </div>
-                      </b-col>
+                          <b-col
+                            v-for="(item, id) in detail.outline.modules"
+                            :key="id + 1"
+                            cols="auto"
+                          >
+                            <div
+                              class="
+                                rounded-pill
+                                module_border
+                                mb-2
+                                d-flex
+                                justify-content-between
+                                align-items-center
+                              "
+                            >
+                              <div class="fs14 px-3 py-1">
+                                {{ item.module }}
+                              </div>
+                              <div
+                                class="module_border_left text-center py-1 px-1"
+                              >
+                                <b-icon
+                                  icon="x"
+                                  @click="detail.outline.modules.splice(id, 1)"
+                                ></b-icon>
+                              </div>
+                            </div>
+                          </b-col>
+                        </transition-group>
+                      </draggable>
                     </b-row>
                   </div>
                 </b-form-group>
@@ -234,9 +262,9 @@
             <div class="p-2 border rounded">
               <label class="d-flex justify-content-between">
                 <span>Faqs</span>
-                <div>
+                <span>
                   <b-button size="sm" @click="addfaq">Add</b-button>
-                </div>
+                </span>
               </label>
               <b-form-row>
                 <b-col
@@ -422,7 +450,9 @@
                       id="checkbox-group-1"
                       v-model="item.modules"
                       :options="detail.outline.modules"
-                      name="flavour-1"
+                      name="modules"
+                      value-field="module"
+                      text-field="module"
                     ></b-form-checkbox-group>
                   </b-form-group>
                 </b-col>
@@ -752,21 +782,49 @@
 
                   <div>
                     <b-row>
-                      <b-col
-                        v-for="(item, id) in detail.outline.modules"
-                        :key="id"
-                        sm="6"
+                      <draggable
+                        v-model="detail.outline.modules"
+                        v-bind="dragOptions"
+                        :move="onMove"
+                        @start="isDragging = true"
+                        @end="isDragging = false"
+                        class=""
                       >
-                        <div
-                          class="border rounded bg-lighter-green px-5 py-2 mb-2"
+                        <transition-group
+                          type="transition"
+                          :name="'flip-list'"
+                          class="d-flex flex-wrap"
                         >
-                          <span class="mr-4 text-capitalize">{{ item }}</span>
-                          <b-icon
-                            icon="x"
-                            @click="detail.outline.modules.splice(id, 1)"
-                          ></b-icon>
-                        </div>
-                      </b-col>
+                          <b-col
+                            v-for="(item, id) in detail.outline.modules"
+                            :key="id + 1"
+                            cols="auto"
+                          >
+                            <div
+                              class="
+                                rounded-pill
+                                module_border
+                                mb-2
+                                d-flex
+                                justify-content-between
+                                align-items-center
+                              "
+                            >
+                              <div class="fs14 px-3 py-1">
+                                {{ item.module }}
+                              </div>
+                              <div
+                                class="module_border_left text-center py-1 px-1"
+                              >
+                                <b-icon
+                                  icon="x"
+                                  @click="detail.outline.modules.splice(id, 1)"
+                                ></b-icon>
+                              </div>
+                            </div>
+                          </b-col>
+                        </transition-group>
+                      </draggable>
                     </b-row>
                   </div>
                 </b-form-group>
@@ -966,7 +1024,9 @@
                       id="checkbox-group-1"
                       v-model="item.modules"
                       :options="detail.outline.modules"
-                      name="flavour-1"
+                      name="modules"
+                      value-field="module"
+                      text-field="module"
                     ></b-form-checkbox-group>
                   </b-form-group>
                 </b-col>
@@ -1141,7 +1201,7 @@
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
-          <b-button variant="outline-dark-green"
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
             ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
           >
         </ShareNetwork>
@@ -1154,7 +1214,7 @@
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
-          <b-button variant="outline-dark-green"
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
             ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
           >
         </ShareNetwork>
@@ -1167,7 +1227,7 @@
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
-          <b-button variant="outline-dark-green">
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green">
             <b-iconstack>
               <b-icon stacked icon="circle-fill" variant="dark-green"></b-icon>
               <b-icon
@@ -1189,13 +1249,18 @@
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
-          <b-button variant="outline-dark-green"
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
             ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
             Telegram</b-button
           >
         </ShareNetwork>
 
-        <b-button variant="outline-dark-green" @click="addToFeed">
+        <b-button
+          size="sm"
+          class="mb-2 mb-sm-0"
+          variant="outline-dark-green"
+          @click="addToFeed"
+        >
           <b-icon icon="rss-fill" variant="dark-green"></b-icon>
 
           Feed</b-button
@@ -1943,7 +2008,7 @@
                           icon="check2-circle"
                           variant="light-green"
                         ></b-icon>
-                        {{ item }}
+                        {{ item.module }}
                       </div>
                     </b-card-header>
                     <b-collapse
@@ -2003,7 +2068,7 @@
                     :key="index"
                   >
                     <b-icon icon="check2-circle" variant="light-green"></b-icon>
-                    {{ item }}
+                    {{ item.module }}
                   </div>
                 </div>
               </div>
@@ -2459,7 +2524,7 @@
                 :key="index"
               >
                 <b-icon icon="check2-circle" variant="light-green"></b-icon>
-                {{ item }}
+                {{ item.module }}
               </div>
             </div>
           </div>
@@ -2567,9 +2632,13 @@
 import Upload from "@/components/fileupload.vue";
 import Insight from "../insight.js";
 import Editor from "@tinymce/tinymce-vue";
+import draggable from "vuedraggable";
 export default {
   data() {
     return {
+      editable: true,
+      isDragging: false,
+      delayedDragging: false,
       sideOpen: true,
       current_schedule: 0,
       search: "",
@@ -2646,6 +2715,7 @@ export default {
   components: {
     Upload,
     Editor,
+    draggable,
   },
   mounted() {
     this.getcourses();
@@ -2658,6 +2728,14 @@ export default {
     });
   },
   computed: {
+    dragOptions() {
+      return {
+        animation: 0,
+        group: "description",
+        disabled: !this.editable,
+        ghostClass: "ghost",
+      };
+    },
     filteredCourse() {
       var title = this.courses
         .slice(
@@ -2693,10 +2771,29 @@ export default {
       return courseType;
     },
   },
+  watch: {
+    isDragging(newValue) {
+      if (newValue) {
+        this.delayedDragging = true;
+        return;
+      }
+      this.$nextTick(() => {
+        this.delayedDragging = false;
+      });
+    },
+  },
   methods: {
+    onMove({ relatedContext, draggedContext }) {
+      const relatedElement = relatedContext.element;
+      const draggedElement = draggedContext.element;
+      return (
+        (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
+      );
+    },
+
     selectall(id, val, arr) {
       if (val) {
-        this.detail.schedule[id].modules = arr;
+        this.detail.schedule[id].modules = arr.map((item) => item.module);
       } else {
         this.detail.schedule[id].modules = [];
       }
@@ -2790,7 +2887,7 @@ export default {
       var resources = b;
 
       modules.forEach((mod) => {
-        var val = resources.filter((item) => item.module == mod).length;
+        var val = resources.filter((item) => item.module == mod.module).length;
 
         if (val) {
           count++;
@@ -2894,7 +2991,10 @@ export default {
         this.$toast.info("Cannot be empty!");
         return;
       }
-      this.detail.outline.modules.push(this.newmodule);
+      this.detail.outline.modules.push({
+        fixed: false,
+        module: this.newmodule,
+      });
       this.newmodule = "";
     },
 

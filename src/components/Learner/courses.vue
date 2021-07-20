@@ -623,7 +623,7 @@
                     <b-icon
                       class="cursor-pointer"
                       font-scale=".9"
-                      @click="sharelink(course.id)"
+                      @click="sharelink(course)"
                       icon="share"
                     ></b-icon>
                   </div>
@@ -639,7 +639,7 @@
                     <b-icon
                       class="cursor-pointer"
                       font-scale="1.15"
-                      @click="sharelink(course.id)"
+                      @click="sharelink(course)"
                       icon="share"
                     ></b-icon>
                   </div>
@@ -782,7 +782,7 @@
                         icon="check2-circle"
                         variant="light-green"
                       ></b-icon>
-                      {{ item }}
+                      {{ item.module }}
                     </div>
                   </b-card-header>
                   <b-collapse
@@ -841,7 +841,7 @@
                   :key="index"
                 >
                   <b-icon icon="check2-circle" variant="light-green"></b-icon>
-                  {{ item }}
+                  {{ item.module }}
                 </div>
               </div>
             </div>
@@ -1169,7 +1169,7 @@
                   <b-icon
                     class="cursor-pointer"
                     font-scale=".9"
-                    @click="sharelink(course.id)"
+                    @click="sharelink(course)"
                     icon="share"
                   ></b-icon>
                 </div>
@@ -1184,7 +1184,7 @@
                   ></b-icon>
                   <b-icon
                     font-scale="1.15"
-                    @click="sharelink(course.id)"
+                    @click="sharelink(course)"
                     icon="share"
                   ></b-icon>
                 </div>
@@ -1359,7 +1359,7 @@
                 :key="index"
               >
                 <b-icon icon="check2-circle" variant="light-green"></b-icon>
-                {{ item }}
+                {{ item.module }}
               </div>
             </div>
           </div>
@@ -1555,11 +1555,11 @@
           network="facebook"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I just enrolled for the course titled, ${course.title.toUpperCase()}. Check it out here!`"
+          :description="description"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
-          <b-button variant="outline-dark-green"
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
             ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
           >
         </ShareNetwork>
@@ -1568,11 +1568,11 @@
           network="twitter"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I just enrolled for the course titled, ${course.title.toUpperCase()}. Check it out here!`"
+          :description="description"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
-          <b-button variant="outline-dark-green"
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
             ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
           >
         </ShareNetwork>
@@ -1581,11 +1581,11 @@
           network="whatsApp"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I just enrolled for the course titled, ${course.title.toUpperCase()}. Check it out here!`"
+          :description="description"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
-          <b-button variant="outline-dark-green">
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green">
             <b-iconstack>
               <b-icon stacked icon="circle-fill" variant="dark-green"></b-icon>
               <b-icon
@@ -1603,16 +1603,21 @@
           network="Telegram"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I just enrolled for the course titled, ${course.title.toUpperCase()}. Check it out here!`"
+          :description="description"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
-          <b-button variant="outline-dark-green"
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
             ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
             Telegram</b-button
           >
         </ShareNetwork>
-        <b-button variant="outline-dark-green" @click="addToFeed">
+        <b-button
+          size="sm"
+          class="mb-2 mb-sm-0"
+          variant="outline-dark-green"
+          @click="addToFeed"
+        >
           <b-icon icon="rss-fill" variant="dark-green"></b-icon>
 
           Feeds</b-button
@@ -1656,6 +1661,7 @@ export default {
       currentPage: 1,
       rows: null,
       perPage: 12,
+      description: "",
     };
   },
   components: {},
@@ -1702,6 +1708,13 @@ export default {
     },
   },
   methods: {
+    socialShare(course) {
+      if (this.library.some((item) => item.id == course.id)) {
+        this.description = `I just enrolled for the course titled, ${course.title.toUpperCase()}. Check it out here!`;
+      } else {
+        this.description = `Let's enroll for the course titled, ${course.title.toUpperCase()}. Check it out here!`;
+      }
+    },
     addcount(id) {
       this.$http.get(`${this.$store.getters.url}/course/view/${id}`, {
         headers: {
@@ -1765,10 +1778,10 @@ export default {
         this.$bvModal.show("mobile-course");
       }
     },
-    sharelink(id) {
+    sharelink(course) {
       this.$http
         .get(
-          `${this.$store.getters.url}/apply-community/${id}`,
+          `${this.$store.getters.url}/apply-community/${course.id}`,
 
           {
             headers: {
@@ -1779,13 +1792,20 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             if (res.data) {
-              this.link = `https://skillsguruh.com/explore/courses/?course_id=${id}&course=${encodeURIComponent(
-                this.course.title.trim()
-              )}&invite=${res.data.code}`;
+              this.link = `https://skillsguruh.com/explore/courses/?course_id=${
+                course.id
+              }&course=${encodeURIComponent(this.course.title.trim())}&invite=${
+                res.data.code
+              }`;
             } else {
               this.link = `https://skillsguruh.com/explore/?course=${encodeURIComponent(
                 this.course.title.trim()
-              )}&course_id=${id}`;
+              )}&course_id=${course.id}`;
+            }
+            if (this.library.some((item) => item.course_id == course.id)) {
+              this.description = `I just enrolled for the course titled, ${course.title.toUpperCase()}. Check it out here!`;
+            } else {
+              this.description = `Let's enroll for the course titled, ${course.title.toUpperCase()}. Check it out here!`;
             }
             this.$bvModal.show("share");
           }
@@ -1839,7 +1859,7 @@ export default {
       var modules = JSON.parse(a);
       var resources = b;
       modules.forEach((mod) => {
-        var val = resources.filter((item) => item.module == mod).length;
+        var val = resources.filter((item) => item.module == mod.module).length;
 
         if (val) {
           count++;
