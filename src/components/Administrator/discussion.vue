@@ -922,6 +922,10 @@ export default {
         });
     },
     post() {
+      if (this.info.message || this.info.attachment) {
+        this.$toast.info("Type a message!");
+        return;
+      }
       this.info.discussion_id = this.$route.params.id;
       this.$http
         .post(`${this.$store.getters.url}/discussion-messages`, this.info, {
