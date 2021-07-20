@@ -132,14 +132,14 @@
                 </div>
               </b-form-group>
             </div>
-            <div class="d-flex mb-2">
+            <div class="d-flex flex-column flex-sm-row mb-3">
               <div
-                class="text-dark-green fs14 cursor-pointer"
+                class="text-dark-green fs14 cursor-pointer mb-2 mb-sm-0"
                 @click="$router.push('/login')"
               >
                 Login as an Learner
               </div>
-              <span class="mx-3">|</span>
+              <span class="mx-3 d-none d-sm-inline">|</span>
               <div
                 class="text-dark-green fs14 cursor-pointer"
                 @click="$router.push('/login')"
