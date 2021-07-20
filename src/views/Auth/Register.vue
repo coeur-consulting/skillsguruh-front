@@ -261,8 +261,10 @@ export default {
     };
   },
   mounted() {
-    this.user.referral = this.$route.query.invite;
-    this.user.referral_type = "normal";
+    if (this.$route.query.invite) {
+      this.user.referral = this.$route.query.invite;
+      this.user.referral_type = "normal";
+    }
   },
   components: {
     Upload,

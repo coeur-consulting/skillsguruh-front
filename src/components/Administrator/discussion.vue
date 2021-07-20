@@ -67,7 +67,15 @@
                   </div>
                 </div>
 
-                <div class="bottom_bar d-flex justify-content-between mb-4">
+                <div
+                  class="
+                    bottom_bar
+                    d-flex
+                    justify-content-between
+                    mb-4
+                    discussion_title
+                  "
+                >
                   <div>
                     <span class="mr-3"
                       ><b-icon icon="chat" class="mr-1"></b-icon>
@@ -80,21 +88,17 @@
                       <span v-else>0</span> views</span
                     >
                   </div>
-                  <div class="fs12">
+                  <div class="">
                     Created by
-                    <span
-                      v-if="discussion.admin"
-                      class="fs12 font-weight-bold text-dark-green"
-                      >{{ discussion.admin.name }}</span
-                    >
-                    <span
-                      v-if="discussion.user"
-                      class="fs12 font-weight-bold text-dark-green"
-                      >{{ discussion.user.name }}</span
-                    >
+                    <span v-if="discussion.admin" class="text-dark-green">{{
+                      discussion.admin.name
+                    }}</span>
+                    <span v-if="discussion.user" class="text-dark-green">{{
+                      discussion.user.name
+                    }}</span>
                     <span
                       v-if="discussion.facilitator"
-                      class="fs12 font-weight-bold text-dark-green"
+                      class="text-dark-green"
                       >{{ discussion.facilitator.name }}</span
                     >
                   </div>
@@ -102,10 +106,16 @@
 
                 <div v-if="posts" v-chat-scroll>
                   <div
-                    class="bottom_bar mb-3"
+                    class="bottom_bar mb-3 position-relative"
                     v-for="(item, index) in posts"
                     :key="index"
                   >
+                    <span v-if="item.message" class="text2speech">
+                      <text-to-speech
+                        :text="item.message"
+                        :voice="voices"
+                      ></text-to-speech>
+                    </span>
                     <div>
                       <p class="fs14" v-if="item.message">
                         {{ item.message }}
@@ -247,13 +257,28 @@
               </div>
               <div class="py-4 px-3 text-post">
                 <b-form @submit.prevent="post" class="wrapper">
-                  <b-textarea
-                    @keyup.enter="post"
-                    class="regular-input mb-2"
-                    v-model="info.message"
-                    rows="3"
-                    placeholder="Start typing here.."
-                  ></b-textarea>
+                  <b-form-group>
+                    <editor
+                      api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
+                      @keyup.enter="post"
+                      class="regular-input mb-4"
+                      placeholder="Start typing here.."
+                      v-model="info.message"
+                      :init="{
+                        height: 150,
+                        menubar: false,
+                        plugins: [
+                          '  lists link  charmap   anchor',
+                          'searchreplace visualblocks code fullscreen',
+                          '  table paste code',
+                        ],
+                        toolbar:
+                          ' formatselect | bold italic | \
+           alignleft aligncenter alignright alignjustify | \
+           bullist numlist  ',
+                      }"
+                    />
+                  </b-form-group>
 
                   <div class="d-flex justify-content-between">
                     <div class="d-none d-md-block">
@@ -306,9 +331,14 @@
                       </emoji-picker>
                     </div>
                     <div
-                      class="d-flex justify-content-between align-items-center"
+                      class="
+                        d-flex
+                        justify-content-between
+                        align-items-center
+                        w-100
+                      "
                     >
-                      <div class="share px-3 text-right">
+                      <div class="share text-left">
                         <span
                           class="mr-3 fs12 cursor-pointer"
                           @click="$bvModal.show('share')"
@@ -326,7 +356,11 @@
                         ></span>
                       </div>
                       <div class="d-flex align-items-center">
-                        <Attachment @getUpload="getUpload" class="mr-3" />
+                        <Attachment @getUpload="getUpload" />
+                        <speech-to-text
+                          class="mx-2"
+                          @getText="getText"
+                        ></speech-to-text>
                         <b-button
                           variant="dark-green"
                           font-scale="1.5"
@@ -573,6 +607,9 @@
 <script>
 import EmojiPicker from "vue-emoji-picker";
 import Attachment from "../miniupload";
+import Editor from "@tinymce/tinymce-vue";
+import SpeechToText from "@/components/speechToText";
+import TextToSpeech from "@/components/textToSpeech";
 export default {
   data() {
     return {
@@ -601,6 +638,9 @@ export default {
   components: {
     EmojiPicker,
     Attachment,
+    SpeechToText,
+    TextToSpeech,
+    Editor,
   },
   created() {
     var channel = this.$pusher.subscribe("adddiscussion");
@@ -616,6 +656,11 @@ export default {
       "https://skillsguruh.com/learner/discussion/" + this.$route.params.id;
   },
   computed: {
+    voices() {
+      return this.$store.getters.voices[
+        Number(this.$store.getters.learner.voice)
+      ];
+    },
     related() {
       if (!this.discussion.related.length) {
         return [];
@@ -655,6 +700,9 @@ export default {
     },
   },
   methods: {
+    getText(res) {
+      this.info.message = `${this.info.message} ${res}`;
+    },
     async getconnections() {
       return this.$http
         .get(`${this.$store.getters.url}/connections`, {
@@ -1069,13 +1117,5 @@ export default {
 }
 .related {
   font-size: 12px;
-}
-.related_count {
-  width: 50px;
-  padding: 4px 5px;
-  background: var(--lighter-green);
-  font-size: 11px;
-  border-radius: 4px;
-  text-align: center;
 }
 </style>

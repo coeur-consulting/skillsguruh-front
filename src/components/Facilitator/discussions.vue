@@ -1,6 +1,6 @@
 <template>
   <div class="pt-sm-4">
-    <b-container class="px-1 px-sm-3">
+    <b-container class="px-0 px-sm-3">
       <b-row>
         <b-col sm="8">
           <div class="border bg-white py-4 rounded">
@@ -144,12 +144,12 @@
 
                   <div class="bottom_bar d-flex justify-content-between">
                     <div>
-                      <span class="mr-4"
+                      <span class="mr-4 dis_ses"
                         ><b-icon icon="chat" class="mr-1"></b-icon>
                         <span>{{ item.discussionmessage.length }}</span>
                         answers</span
                       >
-                      <span class="mr-4"
+                      <span class="mr-4 dis_ses"
                         ><b-icon icon="eye-fill" class="mr-1"></b-icon>
                         <span v-if="item.discussionview">{{
                           item.discussionview.view || 0
@@ -163,13 +163,23 @@
                         @click="
                           $router.push(`/facilitator/discussion/${item.id}`)
                         "
-                        class="text-dark-green font-weight-bold cursor-pointer"
+                        class="
+                          text-dark-green
+                          font-weight-bold
+                          cursor-pointer
+                          dis_ses
+                        "
                         >Join Discussion</span
                       >
                       <span
                         v-else
                         @click="joindiscussion(item)"
-                        class="text-dark-green font-weight-bold cursor-pointer"
+                        class="
+                          text-dark-green
+                          font-weight-bold
+                          cursor-pointer
+                          dis_ses
+                        "
                         >Join Discussion</span
                       >
                     </div>
@@ -243,10 +253,8 @@
                     v-for="(dis, id) in otherdiscussion.slice(0, 6)"
                     :key="id"
                   >
-                    <div>
-                      <span class="mr-3 related_count">{{
-                        dis.discussionmessage.length
-                      }}</span>
+                    <div class="mr-3 related_count">
+                      {{ dis.discussionmessage.length }}
                     </div>
                     <span
                       class="related text-left text-capitalize font-weight-bold"
@@ -737,13 +745,7 @@ export default {
 .related {
   font-size: 12px;
 }
-.related_count {
-  width: 60px;
-  padding: 4px 6px;
-  background: var(--lighter-green);
-  font-size: 11px;
-  border-radius: 4px;
-}
+
 .drop {
   position: absolute;
   top: 0;

@@ -85,6 +85,11 @@ html::-webkit-scrollbar {
 .text-muted {
   color: rgba($color: #000000, $alpha: 0.34) !important;
 }
+.text2speech {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
 a,
 a:hover {
   text-decoration: none;
@@ -379,6 +384,26 @@ ol.subquest {
 .course_img {
   background: #f7f8fa;
 }
+.related_count {
+  width: 50px;
+  padding: 2px 3.5px;
+  background: var(--lighter-green);
+  font-size: 10px;
+  border-radius: 4px;
+  text-align: center;
+}
+.flip-list-move {
+  transition: transform 0.4s;
+}
+.no-move {
+  transition: transform 0s;
+}
+.module_border {
+  border: 1px solid #388087 !important;
+}
+.module_border_left {
+  border-left: 1px solid #388087 !important;
+}
 @media (max-width: 600px) {
   ::placeholder {
     font-size: x-small;
@@ -503,9 +528,7 @@ ol.subquest {
     line-height: 1;
   }
   .fs14,
-  .fs15,
-  .fs16,
-  .col-form-label,
+  tz .col-form-label,
   .custom-select,
   .btn-sm {
     font-size: 14px !important;
@@ -675,5 +698,16 @@ ol.subquest {
   }
   .sideB {
     overflow: unset;
+  }
+  .dis_set,
+  .dis_set span {
+    font-size: 9px;
+  }
+  .dis_ses,
+  .dis_ses span {
+    font-size: 10px;
+  }
+  .library .card-header ul li a {
+    font-size: 11px;
   }
 }

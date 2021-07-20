@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-container>
+    <b-container fluid>
       <b-row>
         <b-col sm="8">
           <b-row>
@@ -155,7 +155,7 @@
                             <div class="d-flex mb-3 px-3 pt-3">
                               <div class="d-flex flex-1 text-left">
                                 <div
-                                  class="font-weight-bold mr-2 mb-1 feedname"
+                                  class="h6 mr-2 mb-1 feedname"
                                   v-if="feed.admin"
                                 >
                                   <b-avatar
@@ -166,7 +166,7 @@
                                   {{ feed.admin.name }}
                                 </div>
                                 <div
-                                  class="font-weight-bold mr-2 mb-1 feedname"
+                                  class="h6 mr-2 mb-1 feedname"
                                   v-if="feed.user"
                                 >
                                   <b-avatar
@@ -177,7 +177,7 @@
                                   {{ feed.user.name }}
                                 </div>
                                 <div
-                                  class="font-weight-bold mr-2 mb-1 feedname"
+                                  class="h6mr-2 mb-1 feedname"
                                   v-if="feed.facilitator"
                                 >
                                   <b-avatar
@@ -1360,7 +1360,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.container {
+.container-fluid {
   padding-top: 30px;
 }
 .shadow {
@@ -1467,13 +1467,7 @@ h4.card-title {
 .related {
   font-size: 12px;
 }
-.related_count {
-  width: 60px;
-  padding: 4px 6px;
-  background: var(--lighter-green);
-  font-size: 11px;
-  border-radius: 4px;
-}
+
 .drop {
   position: absolute;
   top: 0;

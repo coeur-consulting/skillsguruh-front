@@ -32,6 +32,14 @@ export default {
     TopBar,
     Insight,
   },
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      window.speechSynthesis.onvoiceschanged = function () {
+        var speech = window.speechSynthesis.getVoices();
+        vm.$store.commit("SET_SPEECH", speech);
+      };
+    });
+  },
   watch: {
     $route: "getnotification",
   },

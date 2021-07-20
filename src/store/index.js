@@ -6,6 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     notifications: [],
+    voices: [],
     organization: JSON.parse(localStorage.getItem("authOrg")) || {},
     admin: JSON.parse(localStorage.getItem("authAdmin")) || {},
     facilitator: JSON.parse(localStorage.getItem("authFacilitator")) || {},
@@ -26,6 +27,9 @@ export default new Vuex.Store({
     },
     ADD_MESSAGE(state, data) {
       state.inboxes.push(data.message);
+    },
+    SET_SPEECH(state, voices) {
+      state.voices = voices;
     },
   },
   actions: {
@@ -143,6 +147,7 @@ export default new Vuex.Store({
           commit("SET_NOTIFICATION", response.data);
         });
     },
+
     markNotification({ commit, state }, data) {
       Vue.axios
         .get(`${state.url}/mark-notification/${data.id}`, {
@@ -164,5 +169,6 @@ export default new Vuex.Store({
     url: (state) => state.url,
     notifications: (state) => state.notifications,
     inboxes: (state) => state.inboxes,
+    voices: (state) => state.voices,
   },
 });

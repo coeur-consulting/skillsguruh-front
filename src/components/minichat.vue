@@ -20,9 +20,36 @@
         <span v-else class="chat_name">{{ mini_info.name }}</span>
       </div>
       <div class="d-flex align-items-center">
+        <b-dropdown
+          size="sm"
+          variant="transparent"
+          no-caret
+          class="no-focus mr-1"
+        >
+          <template #button-content>
+            <b-icon font-scale="1" icon="paperclip"></b-icon>
+          </template>
+
+          <Upload @getUpload="getUpload" :file_type="'image'" :id="'image'">
+            <b-dropdown-text class="fs14 cursor-pointer">
+              Insert image
+            </b-dropdown-text>
+          </Upload>
+          <Upload @getUpload="getUpload" :file_type="'audio'" :id="'audio'">
+            <b-dropdown-text class="fs14 cursor-pointer">
+              Insert audio
+            </b-dropdown-text>
+          </Upload>
+          <Upload @getUpload="getUpload" :file_type="'video'" :id="'video'">
+            <b-dropdown-text class="fs14 cursor-pointer">
+              Insert video
+            </b-dropdown-text>
+          </Upload>
+        </b-dropdown>
         <b-icon
-          class="mr-3 cursor-pointer"
+          class="mr-2 cursor-pointer"
           icon="arrows-angle-expand"
+          font-scale=".9"
           @click="open = !open"
         ></b-icon>
         <b-icon
@@ -116,6 +143,129 @@
                 {{ item.created_at | moment("LT") }}</span
               >
             </div>
+            <a :href="item.attachment" target="_blank" download class="mb-1">
+              <b-img
+                v-if="
+                  item.attachment &&
+                  img_ext.includes(getextension(item.attachment))
+                "
+                class="cursor-pointer"
+                fluid-grow
+                :src="item.attachment"
+              ></b-img>
+              <div
+                v-if="
+                  item.attachment &&
+                  vid_ext.includes(getextension(item.attachment))
+                "
+                class="
+                  p-1
+                  bg-lighter-green
+                  d-flex
+                  align-items-center
+                  rounded
+                  cursor-pointer
+                "
+              >
+                <div class="bg-dark-green text-center rounded p-2 mr-3">
+                  <b-icon
+                    icon="camera-video-fill"
+                    variant="white"
+                    font-scale="2rem"
+                  ></b-icon>
+                </div>
+                <div
+                  class="
+                    d-flex
+                    w-100
+                    align-items-center
+                    p-2
+                    justify-content-center justify-content-center
+                    text-dark
+                    fs15
+                  "
+                >
+                  <!-- {{ getFileDetails(item.attachment).then((res) => res) }} -->
+                  Download Video
+                </div>
+              </div>
+              <div
+                v-if="
+                  item.attachment &&
+                  aud_ext.includes(getextension(item.attachment))
+                "
+                class="
+                  p-1
+                  bg-lighter-green
+                  d-flex
+                  align-items-center
+                  rounded
+                  cursor-pointer
+                "
+              >
+                <div class="bg-dark-green text-center rounded p-2 mr-3">
+                  <b-icon
+                    icon="music-note-beamed"
+                    variant="white"
+                    font-scale="2rem"
+                  ></b-icon>
+                </div>
+                <!-- <div class="d-flex align-items-center">
+                  <audio
+                    :src="item.attachment"
+                    controls
+                    class="bg-transparent"
+                  ></audio>
+                </div> -->
+                <div
+                  class="
+                    d-flex
+                    w-100
+                    align-items-center
+                    p-2
+                    justify-content-center justify-content-center
+                    text-dark
+                    fs15
+                  "
+                >
+                  Download Audio
+                </div>
+              </div>
+              <div
+                v-if="
+                  item.attachment &&
+                  doc_ext.includes(getextension(item.attachment))
+                "
+                class="
+                  p-1
+                  bg-lighter-green
+                  d-flex
+                  align-items-center
+                  rounded
+                  cursor-pointer
+                "
+              >
+                <div class="bg-dark-green text-center rounded p-2 mr-3">
+                  <b-icon
+                    icon="file"
+                    variant="white"
+                    font-scale="2rem"
+                  ></b-icon>
+                </div>
+                <div
+                  class="
+                    d-flex
+                    align-items-center
+                    p-2
+                    justify-content-center
+                    text-dark
+                    fs15
+                  "
+                >
+                  Download File
+                </div>
+              </div>
+            </a>
             <span>{{ item.message }}</span>
           </div>
           <div
@@ -161,7 +311,7 @@
           </div>
         </div>
       </div>
-      <div class="text-left px-1 pb-1 border-top">
+      <div class="text-left py-2 bg-light mb-1">
         <b-input-group class="mt-1">
           <template #append>
             <b-input-group-text class="border-0 bg-transparent">
@@ -187,22 +337,116 @@
           <b-form-input
             @keyup.enter="addinbox"
             v-model="inbox.message"
-            size="sm"
             autocomplete="off"
             autocorrect="off"
             placeholder="Type here .."
-            class="border-0 no-focus fs13"
+            class="border-0 no-focus rounded-pill fs13"
           ></b-form-input>
         </b-input-group>
       </div>
     </div>
+    <b-modal id="media" size="sm" centered hide-footer>
+      <b-img
+        v-if="
+          inbox.attachment && img_ext.includes(getextension(inbox.attachment))
+        "
+        fluid-grow
+        :src="inbox.attachment"
+        blank-color="transparent"
+        style="width: 7rem; height: 7rem"
+        class="rounded mb-1"
+      ></b-img>
+      <video
+        width="100%"
+        controls
+        v-if="
+          inbox.attachment && vid_ext.includes(getextension(inbox.attachment))
+        "
+        :src="inbox.attachment"
+        class="fluid-grow"
+      ></video>
+
+      <audio
+        width="100%"
+        controls
+        v-if="
+          inbox.attachment && aud_ext.includes(getextension(inbox.attachment))
+        "
+        :src="inbox.attachment"
+        class="fluid-grow"
+      ></audio>
+      <div
+        v-if="
+          inbox.attachment && doc_ext.includes(getextension(inbox.attachment))
+        "
+        class="
+          p-1
+          bg-lighter-green
+          d-flex
+          align-items-center
+          rounded
+          cursor-pointer
+        "
+      >
+        <div class="bg-dark-green text-center rounded p-2 mr-3">
+          <b-icon icon="file" variant="white" font-scale="2rem"></b-icon>
+        </div>
+        <div
+          class="
+            d-flex
+            align-items-center
+            p-2
+            justify-content-center
+            text-dark
+            fs15
+          "
+        >
+          Download File
+        </div>
+      </div>
+      <b-input-group class="mt-1">
+        <template #append>
+          <b-input-group-text class="border-0 bg-transparent">
+            <b-icon
+              @click="addinbox"
+              font-scale="1"
+              icon="cursor-fill"
+              class="text-dark cursor-pointer"
+            ></b-icon>
+          </b-input-group-text>
+        </template>
+        <template #prepend>
+          <b-input-group-text class="border-0 bg-transparent d-none d-md-block"
+            ><span class=""
+              ><b-icon
+                icon="emoji-smile-fill"
+                class="text-dark cursor-pointer"
+                font-scale="1"
+              ></b-icon></span
+          ></b-input-group-text>
+        </template>
+        <b-form-input
+          @keyup.enter="addinbox"
+          v-model="inbox.message"
+          autocomplete="off"
+          autocorrect="off"
+          placeholder="Type here .."
+          class="border-0 no-focus rounded-pill fs13"
+        ></b-form-input>
+      </b-input-group>
+    </b-modal>
   </div>
 </template>
 <script>
+import Upload from "@/components/chatUpload";
 export default {
   props: ["mini_info", "user", "open", "showAll"],
   data() {
     return {
+      img_ext: ["jpg", "png", "jpeg", "gif"],
+      vid_ext: ["mp4", "3gp", "mov", "flv"],
+      aud_ext: ["mp3", "aac"],
+      doc_ext: ["docx", "pdf", "ppt", "zip"],
       inbox: {
         mesage: "",
         attachment: "",
@@ -215,7 +459,9 @@ export default {
   mounted() {
     // this.getinbox();
   },
-
+  components: {
+    Upload,
+  },
   watch: {
     $route: "closeChat",
   },
@@ -254,6 +500,32 @@ export default {
     },
   },
   methods: {
+    async getFileDetails(media) {
+      window.URL = window.URL || window.webkitURL;
+      var video = document.createElement("video");
+      video.preload = "metadata";
+
+      video.onloadedmetadata = function () {
+        window.URL.revokeObjectURL(video.src);
+        var duration = video.duration;
+
+        return new Date(duration * 1000).toISOString().substr(11, 8);
+      };
+      video.src = media;
+    },
+
+    getextension(fileName) {
+      if (fileName) {
+        var regex = new RegExp("[^.]+$");
+        var extension = fileName.match(regex);
+
+        return extension[0];
+      }
+    },
+    getUpload(val) {
+      this.inbox.attachment = val;
+      this.$bvModal.show("media");
+    },
     closeChat() {
       this.$emit("togglechat");
     },
@@ -355,7 +627,9 @@ export default {
             this.$toast.success("Message sent ");
 
             // this.inboxes.push(res.data);
-
+            if (this.inbox.attachment) {
+              this.$bvModal.hide("media");
+            }
             this.inbox = {
               attachment: "",
               message: "",
@@ -404,12 +678,12 @@ export default {
   left: 50%;
   border-radius: 10px 10px 0 0;
   z-index: 999;
-  overflow: hidden;
+
   margin-left: -165px;
 }
 .reply {
   height: 360px;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 .left_text {
   font-size: 12px;
@@ -435,6 +709,10 @@ export default {
 }
 .chatting_name {
   font-size: 12px;
+}
+audio {
+  max-width: 200px;
+  height: 44px;
 }
 @media (max-width: 600px) {
   .reply_box {

@@ -323,7 +323,7 @@
                     </b-form-row>
 
                     <div class="" v-if="item.file_type == 'worksheet'">
-                      <b-form-group label=" Worksheet type">
+                      <b-form-group label="  Type">
                         <b-form-select size="sm" v-model="item.type">
                           <b-form-select-option disabled value="">
                             Choose type</b-form-select-option
@@ -631,7 +631,7 @@
                     </b-form-row>
 
                     <div class="" v-if="item.file_type == 'worksheet'">
-                      <b-form-group label=" Worksheet type">
+                      <b-form-group label=" Type">
                         <b-form-select size="sm" v-model="item.type">
                           <b-form-select-option disabled value="">
                             Choose type</b-form-select-option
@@ -831,8 +831,11 @@ export default {
       if (!this.detail.course_id) {
         return [];
       }
+      if (!this.courses) {
+        return [];
+      }
       var first = this.courses.find((item) => item.id == this.detail.course_id);
-      return JSON.parse(first.courseoutline.modules);
+      return first ? JSON.parse(first.courseoutline.modules) : [];
     },
   },
   mounted() {

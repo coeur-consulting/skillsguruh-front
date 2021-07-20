@@ -40,7 +40,7 @@ export default {
       //     access_token: this.access_token, // access token issued by specified provider
       //   };
       //   this.$http
-      //     .post("http://localhost:8000/oauth/token", data)
+      //     .post("https://skillsguruh-api.herokuapp.com//oauth/token", data)
       //     .then((res) => {
       //       authOrg.access_token = res.data.access_token;
       //       authOrg.refresh_token = res.data.refresh_token;
@@ -80,7 +80,7 @@ export default {
       //     password: this.user.password,
       //   };
       //   this.$http
-      //     .post("http://localhost:8000/oauth/token", data)
+      //     .post("https://skillsguruh-api.herokuapp.com//oauth/token", data)
       //     .then((res) => {
       //       authAdmin.access_token = res.data.access_token;
       //       authAdmin.refresh_token = res.data.refresh_token;
@@ -124,7 +124,7 @@ export default {
       //     password: this.user.password,
       //   };
       //   this.$http
-      //     .post("http://localhost:8000/oauth/token", data)
+      //     .post("https://skillsguruh-api.herokuapp.com//oauth/token", data)
       //     .then((res) => {
       //       authFacilitator.access_token = res.data.access_token;
       //       authFacilitator.refresh_token = res.data.refresh_token;
@@ -187,6 +187,7 @@ export default {
                 authLearner.name = res.data.name;
                 authLearner.email = res.data.email;
                 authLearner.profile = res.data.profile;
+                authLearner.voice = res.data.voice;
                 authLearner.interests = res.data.interests;
                 authLearner.org_profile = res.data.organization.logo;
                 authLearner.org_name = res.data.organization.name;

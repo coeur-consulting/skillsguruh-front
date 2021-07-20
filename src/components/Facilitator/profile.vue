@@ -149,6 +149,20 @@
                   ></b-form-input></b-form-group
               ></b-col>
             </b-form-row>
+            <b-form-row>
+              <b-col sm="6">
+                <b-form-group label="Change Speech Voice">
+                  <b-form-select v-model="user.voice">
+                    <b-form-select-option
+                      v-for="(item, index) in voices"
+                      :key="index"
+                      :value="index"
+                      >{{ item.name }}</b-form-select-option
+                    >
+                  </b-form-select></b-form-group
+                >
+              </b-col>
+            </b-form-row>
             <hr />
             <b-form-row>
               <b-col sm="6">
@@ -310,6 +324,9 @@ export default {
     this.getrequests();
   },
   computed: {
+    voices() {
+      return this.$store.getters.voices;
+    },
     notifications() {
       return this.$store.getters.notifications;
     },
@@ -386,6 +403,7 @@ export default {
               localStorage.getItem("authFacilitator")
             );
             authFacilitator.profile = res.data.profile;
+            authFacilitator.voice = res.data.voice;
             localStorage.setItem(
               "authFacilitator",
               JSON.stringify(authFacilitator)

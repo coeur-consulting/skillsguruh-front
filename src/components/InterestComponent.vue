@@ -92,7 +92,7 @@ export default {
   mounted() {
     this.interests = Interest;
 
-    if (this.$props.type == "user") {
+    if (this.$props.type == "learner") {
       this.selected_interests =
         JSON.parse(this.$store.getters.learner.interests) || [];
     }
@@ -142,7 +142,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             var user;
-            if (this.$props.type == "user") {
+            if (this.$props.type == "learner") {
               user = JSON.parse(localStorage.getItem("authLearner"));
               user.interests = res.data.interests;
               localStorage.setItem("authLearner", JSON.stringify(user));

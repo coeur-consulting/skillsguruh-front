@@ -957,12 +957,4 @@ export default {
 .related {
   font-size: 12px;
 }
-.related_count {
-  width: 50px;
-  padding: 4px 5px;
-  background: var(--lighter-green);
-  font-size: 11px;
-  border-radius: 4px;
-  text-align: center;
-}
 </style>

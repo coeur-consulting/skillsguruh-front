@@ -120,7 +120,7 @@
                     :disabled="loading"
                     class="px-5 d-flex d-sm-none justify-content-center"
                   >
-                    <span>Login</span>
+                    <span class="fs16">Login</span>
                     <b-icon
                       icon="three-dots"
                       v-if="loading"
@@ -134,14 +134,14 @@
             </div>
             <div class="d-flex mb-2">
               <div
-                class="text-dark-green fs16 cursor-pointer"
+                class="text-dark-green fs14 cursor-pointer"
                 @click="$router.push('/login')"
               >
                 Login as an Learner
               </div>
               <span class="mx-3">|</span>
               <div
-                class="text-dark-green fs16 cursor-pointer"
+                class="text-dark-green fs14 cursor-pointer"
                 @click="$router.push('/login')"
               >
                 Login as an Facilitator

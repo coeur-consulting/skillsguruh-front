@@ -445,7 +445,7 @@ export default {
   width: 100%;
 }
 .rside {
-  width: 92%;
+  width: 100%;
   transition: 0.5s;
 }
 .side_box {
