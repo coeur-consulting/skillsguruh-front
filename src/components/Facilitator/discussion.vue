@@ -779,7 +779,9 @@ export default {
   },
   methods: {
     toText(HTML) {
+      if (!HTML) return "nullyy";
       var input = HTML;
+
       return input
         .replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi, "")
         .replace(/<[^>]+?>/g, "")

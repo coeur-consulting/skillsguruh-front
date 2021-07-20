@@ -1,10 +1,10 @@
 /* eslint-disable vue/no-unused-vars */
 <template>
-  <div class="pt-4">
-    <b-container>
-      <b-row>
-        <b-col sm="8" v-if="discussion">
-          <div class="shadow-sm bg-white py-4 rounded">
+  <div class="pt-sm-4">
+    <b-container v-if="discussion">
+      <b-row v-if="showdiscussion">
+        <b-col class="px-0 px-sm-3" sm="8">
+          <div class="bg-white py-4 rounded">
             <div class="main_content text-left">
               <div @click="$router.go(-1)" class="d-flex w-100">
                 <b-icon icon="arrow-left" class="pl-4 cursor-pointer"></b-icon>
@@ -17,20 +17,38 @@
                       v-if="discussion.admin"
                     ></b-avatar>
                     <b-avatar
+                      @click="
+                        $router.push(
+                          `/administrator/profile/f/${discussion.user.id}`
+                        )
+                      "
                       :src="discussion.user.profile"
                       v-if="discussion.user"
                     ></b-avatar>
                     <b-avatar
+                      @click="
+                        $router.push(
+                          `/administrator/profile/f/${discussion.facilitator.id}`
+                        )
+                      "
                       :src="discussion.facilitator.profile"
                       v-if="discussion.facilitator"
                     ></b-avatar>
                   </div>
                   <div class="text-left next_dis">
-                    <span class="title h4">{{ discussion.name }} </span><br />
-                    <span class="asked">
+                    <div class="title h4 mb-1 d-flex">
+                      <span class="mr-2 flex-1">{{ discussion.name }}</span
+                      ><span>
+                        <text-to-speech
+                          :text="thread"
+                          :voice="voices"
+                        ></text-to-speech
+                      ></span>
+                    </div>
+                    <div class="asked">
                       Created
-                      {{ discussion.created_at | moment("ll") }}</span
-                    >
+                      {{ discussion.created_at | moment("ll") }}
+                    </div>
                   </div>
                 </div>
                 <div class="top_dis d-flex align-items-start">
@@ -77,28 +95,42 @@
                   "
                 >
                   <div>
-                    <span class="mr-3"
+                    <span class="mr-3 dis_set"
                       ><b-icon icon="chat" class="mr-1"></b-icon>
                       <span v-if="posts"> {{ posts.length }}</span>
                       <span v-else>0</span> answers</span
                     >
-                    <span class="mr-3"
+                    <span class="mr-3 dis_set"
                       ><b-icon icon="eye-fill" class="mr-1"></b-icon>
                       <span v-if="views"> {{ views }}</span>
                       <span v-else>0</span> views</span
                     >
                   </div>
-                  <div class="">
-                    Created by
-                    <span v-if="discussion.admin" class="text-dark-green">{{
-                      discussion.admin.name
-                    }}</span>
-                    <span v-if="discussion.user" class="text-dark-green">{{
-                      discussion.user.name
-                    }}</span>
+                  <div class="dis_set">
+                    <span> Created by </span>
+                    <span
+                      v-if="discussion.admin"
+                      class="cursor-pointer text-dark-green"
+                      >{{ discussion.admin.name }}</span
+                    >
+                    <span
+                      v-if="discussion.user"
+                      class="cursor-pointer text-dark-green"
+                      @click="
+                        $router.push(
+                          `/administrator/profile/u/${discussion.user.id}`
+                        )
+                      "
+                      >{{ discussion.user.name }}</span
+                    >
                     <span
                       v-if="discussion.facilitator"
-                      class="text-dark-green"
+                      @click="
+                        $router.push(
+                          `/administrator/profile/f/${discussion.facilitator.id}`
+                        )
+                      "
+                      class="cursor-pointer text-dark-green"
                       >{{ discussion.facilitator.name }}</span
                     >
                   </div>
@@ -112,14 +144,16 @@
                   >
                     <span v-if="item.message" class="text2speech">
                       <text-to-speech
-                        :text="item.message"
+                        :text="toText(item.message)"
                         :voice="voices"
                       ></text-to-speech>
                     </span>
                     <div>
-                      <p class="fs14" v-if="item.message">
-                        {{ item.message }}
-                      </p>
+                      <p
+                        class="fs14"
+                        v-if="item.message"
+                        v-html="item.message"
+                      ></p>
                       <div
                         class="text-center"
                         v-if="
@@ -218,9 +252,11 @@
                       </div>
                     </div>
 
-                    <div class="d-flex justify-content-between">
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
                       <div class="d-flex align-items-center">
-                        <span>
+                        <span class="">
                           <b-avatar
                             size="sm"
                             :src="item.admin.profile"
@@ -240,15 +276,29 @@
                             class="mr-2"
                           ></b-avatar>
                         </span>
-                        <span v-if="item.admin" class="fs13">{{
+                        <span v-if="item.admin" class="fs13 cursor-pointer">{{
                           item.admin.name
                         }}</span>
-                        <span v-if="item.user" class="fs13">{{
-                          item.user.name
-                        }}</span>
-                        <span v-if="item.facilitator" class="fs13">{{
-                          item.facilitator.name
-                        }}</span>
+                        <span
+                          v-if="item.user"
+                          @click="
+                            $router.push(
+                              `/administrator/profile/u/${item.user.id}`
+                            )
+                          "
+                          class="fs13 cursor-pointer"
+                          >{{ item.user.name }}</span
+                        >
+                        <span
+                          v-if="item.facilitator"
+                          @click="
+                            $router.push(
+                              `/administrator/profile/f/${item.facilitator.id}`
+                            )
+                          "
+                          class="fs13 cursor-pointer"
+                          >{{ item.facilitator.name }}</span
+                        >
                       </div>
                       <span>{{ item.created_at | moment("ll") }}</span>
                     </div>
@@ -279,7 +329,6 @@
                       }"
                     />
                   </b-form-group>
-
                   <div class="d-flex justify-content-between">
                     <div class="d-none d-md-block">
                       <emoji-picker @emoji="insert" :search="search">
@@ -361,10 +410,7 @@
                           class="mx-2"
                           @getText="getText"
                         ></speech-to-text>
-                        <b-button
-                          variant="dark-green"
-                          font-scale="1.5"
-                          type="submit"
+                        <b-button variant="dark-green" size="sm" type="submit"
                           >Post</b-button
                         >
                       </div>
@@ -376,7 +422,7 @@
           </div>
         </b-col>
         <b-col sm="4" class="d-none d-md-block">
-          <div class="shadow-sm bg-white p-4 rounded">
+          <div class="bg-white p-4 rounded">
             <div class="text-center mb-4">
               <b-button variant="dark-green" size="lg" class="px-3"
                 >Start a discussion</b-button
@@ -387,7 +433,7 @@
               v-if="discussion.related"
             >
               <h6 class="mb-3 px-3">Related Discussions</h6>
-              <div v-for="item in related" :key="item.id">
+              <div v-for="item in discussion.related" :key="item.id">
                 <div
                   class="d-flex p-2 px-3"
                   v-if="item.type == 'public'"
@@ -553,7 +599,7 @@
             </b-button>
           </div>
         </div>
-
+        <!--
         <div class="connections p-3 border rounded">
           <h6 class="mb-3 fs13 text-left">Connections</h6>
           <div class="px-2 py-1 d-flex align-items-center search bg-light mb-3">
@@ -598,7 +644,7 @@
               </b-form-checkbox>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </b-modal>
   </div>
@@ -607,9 +653,9 @@
 <script>
 import EmojiPicker from "vue-emoji-picker";
 import Attachment from "../miniupload";
-import Editor from "@tinymce/tinymce-vue";
 import SpeechToText from "@/components/speechToText";
 import TextToSpeech from "@/components/textToSpeech";
+import Editor from "@tinymce/tinymce-vue";
 export default {
   data() {
     return {
@@ -618,6 +664,7 @@ export default {
       aud_ext: ["mp3"],
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       discussion: {},
+      showdiscussion: false,
       info: {
         attachment: "",
         message: "",
@@ -633,6 +680,7 @@ export default {
       connections: [],
       emails: [],
       link: "",
+      allfeed: [],
     };
   },
   components: {
@@ -656,6 +704,35 @@ export default {
       "https://skillsguruh.com/learner/discussion/" + this.$route.params.id;
   },
   computed: {
+    thread() {
+      var thread = this.discussion.discussionmessage.map((item) => {
+        if (item.admin) {
+          return `${item.admin.name}, ${this.toText(item.message)} ...  `;
+        }
+        if (item.facilitator) {
+          return `${item.facilitator.name}, ${this.toText(item.message)} ...  `;
+        }
+        if (item.user) {
+          return `${item.user.name}, ${this.toText(item.message)} ...  `;
+        }
+      });
+      if (this.discussion.admin) {
+        thread.unshift(
+          `${this.discussion.name} by ${this.discussion.admin.name}. ${this.discussion.description} ... `
+        );
+      }
+      if (this.discussion.facilitator) {
+        thread.unshift(
+          `${this.discussion.name} by ${this.discussion.facilitator.name} . ${this.discussion.description} ...  `
+        );
+      }
+      if (this.discussion.user) {
+        thread.unshift(
+          `${this.discussion.name} by ${this.discussion.user.name} . ${this.discussion.description} ...  `
+        );
+      }
+      return thread.toString();
+    },
     voices() {
       return this.$store.getters.voices[
         Number(this.$store.getters.learner.voice)
@@ -684,6 +761,7 @@ export default {
       ).length;
       return Number(positive) - Number(negative);
     },
+
     filteredConnections() {
       return this.connections.filter((item) => {
         if (item.user_follower) {
@@ -700,6 +778,17 @@ export default {
     },
   },
   methods: {
+    toText(HTML) {
+      if (!HTML) return "nullyy";
+      var input = HTML;
+
+      return input
+        .replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi, "")
+        .replace(/<[^>]+?>/g, "")
+        .replace(/\s+/g, " ")
+        .replace(/ /g, " ")
+        .replace(/>/g, " ");
+    },
     getText(res) {
       this.info.message = `${this.info.message} ${res}`;
     },
@@ -824,6 +913,8 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.discussion = res.data;
+
+            this.showdiscussion = true;
           }
         })
         .catch((err) => {
@@ -841,7 +932,7 @@ export default {
         .then((res) => {
           if (res.status == 201 || res.status == 200) {
             // this.$toast.success("Discussion created");
-            // this.posts.push(res.data);
+            //   this.posts.push(res.data);
 
             this.info = {
               attachment: "",
@@ -904,7 +995,7 @@ export default {
           }
           if (res.status == 200) {
             this.discussion.discussionvote.map((item) => {
-              if (item.admin_id == this.$store.getters.admin.id) {
+              if (item.admin_id == this.$store.getters.administrator.id) {
                 return (item.vote = res.data.vote);
               }
             });
@@ -932,7 +1023,7 @@ export default {
           }
           if (res.status == 200) {
             this.discussion.discussionvote.map((item) => {
-              if (item.admin_id == this.$store.getters.admin.id) {
+              if (item.admin_id == this.$store.getters.administrator.id) {
                 return (item.vote = res.data.vote);
               }
             });
@@ -986,6 +1077,7 @@ export default {
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.2s;
+  z-index: 9;
 }
 .emoji-invoker:hover {
   transform: scale(1.1);
@@ -1117,5 +1209,12 @@ export default {
 }
 .related {
   font-size: 12px;
+}
+
+@media (max-width: 600px) {
+  .b-avatar {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
 }
 </style>
