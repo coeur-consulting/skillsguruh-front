@@ -446,7 +446,9 @@
 export default {
   data() {
     return {
+      showEvent: false,
       event: {},
+
       facilitators: [],
       vid_ext: ["mp4", "3gp"],
       search: "",
@@ -612,6 +614,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.event = res.data;
+            this.showEvent = true;
           }
         })
         .catch((err) => {

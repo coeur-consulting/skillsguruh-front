@@ -39,7 +39,7 @@
                 : 'disabled'
             "
           >
-            <span> {{ interest.value }}</span>
+            <span class="value_1"> {{ interest.value }}</span>
 
             <b-icon
               v-if="selected_interests.includes(interest.value)"
@@ -62,6 +62,7 @@
 
       <div class="text-center my-4">
         <b-button
+          size="sm"
           variant="outline-secondary"
           v-if="!$route.name.includes('profile')"
           class="mr-3"
@@ -69,7 +70,7 @@
         >
           Skip for later</b-button
         >
-        <b-button variant="dark-green" @click="saveinterest"
+        <b-button variant="dark-green" size="sm" @click="saveinterest"
           >Save Interests</b-button
         >
       </div>
@@ -173,6 +174,9 @@ export default {
 }
 .disabled {
   opacity: 0.5;
+}
+span.value_1 {
+  font-size: 0.6rem;
 }
 @media (min-width: 600px) {
   .search {

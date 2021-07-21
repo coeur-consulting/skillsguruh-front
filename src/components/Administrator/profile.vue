@@ -251,17 +251,4 @@ export default {
   height: calc(100vh - 120px);
   overflow: hidden;
 }
-.edit_button {
-  bottom: 10px;
-  right: 0;
-}
-.password {
-  width: 60%;
-  margin: 0 auto;
-}
-
-.notif {
-  width: 80%;
-  margin: 0 auto;
-}
 </style>

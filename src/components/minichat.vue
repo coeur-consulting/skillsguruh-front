@@ -307,6 +307,129 @@
                 {{ item.created_at | moment("LT") }}</span
               >
             </div>
+            <a :href="item.attachment" target="_blank" download class="mb-1">
+              <b-img
+                v-if="
+                  item.attachment &&
+                  img_ext.includes(getextension(item.attachment))
+                "
+                class="cursor-pointer"
+                fluid-grow
+                :src="item.attachment"
+              ></b-img>
+              <div
+                v-if="
+                  item.attachment &&
+                  vid_ext.includes(getextension(item.attachment))
+                "
+                class="
+                  p-1
+                  bg-lighter-green
+                  d-flex
+                  align-items-center
+                  rounded
+                  cursor-pointer
+                "
+              >
+                <div class="bg-dark-green text-center rounded p-2 mr-3">
+                  <b-icon
+                    icon="camera-video-fill"
+                    variant="white"
+                    font-scale="2rem"
+                  ></b-icon>
+                </div>
+                <div
+                  class="
+                    d-flex
+                    w-100
+                    align-items-center
+                    p-2
+                    justify-content-center justify-content-center
+                    text-dark
+                    fs15
+                  "
+                >
+                  <!-- {{ getFileDetails(item.attachment).then((res) => res) }} -->
+                  Download Video
+                </div>
+              </div>
+              <div
+                v-if="
+                  item.attachment &&
+                  aud_ext.includes(getextension(item.attachment))
+                "
+                class="
+                  p-1
+                  bg-lighter-green
+                  d-flex
+                  align-items-center
+                  rounded
+                  cursor-pointer
+                "
+              >
+                <div class="bg-dark-green text-center rounded p-2 mr-3">
+                  <b-icon
+                    icon="music-note-beamed"
+                    variant="white"
+                    font-scale="2rem"
+                  ></b-icon>
+                </div>
+                <!-- <div class="d-flex align-items-center">
+                  <audio
+                    :src="item.attachment"
+                    controls
+                    class="bg-transparent"
+                  ></audio>
+                </div> -->
+                <div
+                  class="
+                    d-flex
+                    w-100
+                    align-items-center
+                    p-2
+                    justify-content-center justify-content-center
+                    text-dark
+                    fs15
+                  "
+                >
+                  Download Audio
+                </div>
+              </div>
+              <div
+                v-if="
+                  item.attachment &&
+                  doc_ext.includes(getextension(item.attachment))
+                "
+                class="
+                  p-1
+                  bg-lighter-green
+                  d-flex
+                  align-items-center
+                  rounded
+                  cursor-pointer
+                "
+              >
+                <div class="bg-dark-green text-center rounded p-2 mr-3">
+                  <b-icon
+                    icon="file"
+                    variant="white"
+                    font-scale="2rem"
+                  ></b-icon>
+                </div>
+                <div
+                  class="
+                    d-flex
+                    align-items-center
+                    p-2
+                    justify-content-center
+                    text-dark
+                    fs15
+                  "
+                >
+                  Download File
+                </div>
+              </div>
+            </a>
             <span>{{ item.message }}</span>
           </div>
         </div>
@@ -353,7 +476,7 @@
         fluid-grow
         :src="inbox.attachment"
         blank-color="transparent"
-        style="width: 7rem; height: 7rem"
+        style="width: 7rem; height: 7rem; object-fit: contain"
         class="rounded mb-1"
       ></b-img>
       <video
@@ -404,7 +527,7 @@
           Download File
         </div>
       </div>
-      <b-input-group class="mt-1">
+      <b-input-group class="mt-1 bg-light">
         <template #append>
           <b-input-group-text class="border-0 bg-transparent">
             <b-icon
@@ -691,14 +814,14 @@ export default {
   background-color: #fbfbfb;
   border-radius: 0 10px 10px 0;
   border-left: 3px solid var(--lighter-green);
-  width: 90%;
+  width: 80%;
   margin-right: auto;
 }
 .right_text {
   font-size: 12px;
   padding: 10px;
   border-radius: 10px 0 0 10px;
-  width: 90%;
+  width: 80%;
   margin-left: auto;
   background-color: #f7f8fa;
   border-right: 3px solid var(--red);
