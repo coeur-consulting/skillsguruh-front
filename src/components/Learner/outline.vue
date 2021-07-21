@@ -71,7 +71,7 @@
 export default {
   data() {
     return {
-      outline: {},
+      outline: {}
     };
   },
   mounted() {
@@ -84,20 +84,20 @@ export default {
           `${this.$store.getters.url}/courseoutlines/${this.$route.params.id}`,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.outline = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

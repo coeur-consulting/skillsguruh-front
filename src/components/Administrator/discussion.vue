@@ -6,9 +6,12 @@
         <b-col class="px-0 px-sm-3" sm="8">
           <div class="bg-white py-4 rounded">
             <div class="main_content text-left">
-              <div @click="$router.go(-1)" class="d-flex w-100">
-                <b-icon icon="arrow-left" class="pl-4 cursor-pointer"></b-icon>
-              </div>
+              <span @click="$router.go(-1)" class="pl-3 cursor-pointer">
+                <span class="mr-2">
+                  <b-icon icon="arrow-left" class=""></b-icon
+                ></span>
+                <span>Back</span>
+              </span>
               <div class="content px-2 py-3 pt-4 pb-3">
                 <div class="top_dis d-flex align-items-center mb-2">
                   <div class="side_dis">
@@ -150,7 +153,7 @@
                     </span>
                     <div>
                       <p
-                        class="fs14"
+                        class="discusion_text"
                         v-if="item.message"
                         v-html="item.message"
                       ></p>
@@ -167,122 +170,98 @@
                             target="_blank"
                             :href="item.attachment"
                           >
-                            <b-img fluid-grow :src="item.attachment"></b-img
-                          ></a>
+                            <cld-image
+                              v-if="item.publicId"
+                              :publicId="item.publicId"
+                              width="250"
+                              crop="fill"
+                            >
+                              <cld-transformation radius="20" />
+                            </cld-image>
+                          </a>
                         </div>
                       </div>
 
-                      <div
-                        v-if="
-                          item.attachment &&
-                          vid_ext.includes(getextension(item.attachment))
-                        "
-                        class="
-                          p-1
-                          bg-lighter-green
-                          d-flex
-                          align-items-center
-                          rounded
-                          cursor-pointer
-                        "
-                      >
-                        <div class="bg-dark-green text-center rounded p-2 mr-3">
-                          <b-icon
-                            icon="camera-video-fill"
-                            variant="white"
-                            font-scale="2rem"
-                          ></b-icon>
-                        </div>
-                        <div
-                          class="
-                            d-flex
-                            w-100
-                            align-items-center
-                            p-2
-                            justify-content-center justify-content-center
-                            text-dark
-                            fs15
-                          "
-                        >
-                          <!-- {{ getFileDetails(item.attachment).then((res) => res) }} -->
-                          Download Video
-                        </div>
-                      </div>
-                      <div
-                        v-if="
-                          item.attachment &&
-                          aud_ext.includes(getextension(item.attachment))
-                        "
-                        class="
-                          p-1
-                          bg-lighter-green
-                          d-flex
-                          align-items-center
-                          rounded
-                          cursor-pointer
-                        "
-                      >
-                        <div class="bg-dark-green text-center rounded p-2 mr-3">
-                          <b-icon
-                            icon="music-note-beamed"
-                            variant="white"
-                            font-scale="2rem"
-                          ></b-icon>
-                        </div>
-                        <!-- <div class="d-flex align-items-center">
-                  <audio
-                    :src="item.attachment"
-                    controls
-                    class="bg-transparent"
-                  ></audio>
-                </div> -->
-                        <div
-                          class="
-                            d-flex
-                            w-100
-                            align-items-center
-                            p-2
-                            justify-content-center justify-content-center
-                            text-dark
-                            fs15
-                          "
-                        >
-                          Download Audio
-                        </div>
-                      </div>
-                      <div
-                        v-if="
-                          item.attachment &&
-                          doc_ext.includes(getextension(item.attachment))
-                        "
-                        class="
-                          p-1
-                          bg-lighter-green
-                          d-flex
-                          align-items-center
-                          rounded
-                          cursor-pointer
-                        "
-                      >
-                        <div class="bg-dark-green text-center rounded p-2 mr-3">
-                          <b-icon
-                            icon="file-earmark-ruled-fill"
-                            variant="white"
-                            font-scale="2rem"
-                          ></b-icon>
-                        </div>
-                        <div
-                          class="
-                            d-flex
-                            align-items-center
-                            p-2
-                            justify-content-center
-                            text-dark
-                            fs15
-                          "
-                        >
-                          Download File
-                        </div>
+                      <div class="document text-center mb-2" v-else>
+                        <a download="" target="_blank" :href="item.attachment">
+                          <div
+                            v-if="
+                              item.attachment &&
+                              vid_ext.includes(getextension(item.attachment))
+                            "
+                            class="p-1 rounded cursor-pointer"
+                          >
+                            <cld-video
+                              class="mx-auto"
+                              controls
+                              v-if="item.publicId"
+                              :publicId="item.publicId"
+                              width="250"
+                              crop="fill"
+                            >
+                              <cld-transformation />
+                            </cld-video>
+                          </div>
+                          <div
+                            v-if="
+                              item.attachment &&
+                              aud_ext.includes(getextension(item.attachment))
+                            "
+                            class="
+                              p-1
+                              bg-lighter-green
+                              d-flex
+                              align-items-center
+                              rounded
+                              cursor-pointer
+                            "
+                          >
+                            <cld-video
+                              controls
+                              v-if="item.publicId"
+                              :publicId="item.publicId"
+                              crop="fill"
+                            >
+                              <cld-transformation />
+                            </cld-video>
+                          </div>
+                          <div
+                            v-if="
+                              item.attachment &&
+                              doc_ext.includes(getextension(item.attachment))
+                            "
+                            class="
+                              p-1
+                              bg-lighter-green
+                              d-flex
+                              align-items-center
+                              rounded
+                              cursor-pointer
+                            "
+                          >
+                            <div
+                              class="bg-dark-green text-center rounded p-2 mr-3"
+                            >
+                              <b-icon
+                                icon="file-earmark-ruled-fill"
+                                variant="white"
+                                font-scale="2rem"
+                              ></b-icon>
+                            </div>
+                            <div
+                              class="
+                                d-flex
+                                align-items-center
+                                p-2
+                                justify-content-center
+                                text-dark
+                                fs15
+                              "
+                            >
+                              Download File
+                            </div>
+                          </div>
+                        </a>
                       </div>
                     </div>
 
@@ -317,7 +296,7 @@
                           v-if="item.user"
                           @click="
                             $router.push(
-                              `/administrator/profile/u/${item.user.id}`
+                              `/facilitator/profile/u/${item.user.id}`
                             )
                           "
                           class="fs13 cursor-pointer"
@@ -327,7 +306,7 @@
                           v-if="item.facilitator"
                           @click="
                             $router.push(
-                              `/administrator/profile/f/${item.facilitator.id}`
+                              `/facilitator/profile/f/${item.facilitator.id}`
                             )
                           "
                           class="fs13 cursor-pointer"
@@ -681,6 +660,61 @@
         </div> -->
       </div>
     </b-modal>
+    <b-modal id="media" centered hide-footer>
+      <div class="text-center">
+        <cld-image
+          v-if="
+            info.attachment && img_ext.includes(getextension(info.attachment))
+          "
+          :publicId="info.publicId"
+          width="250"
+          crop="fill"
+        >
+          <cld-transformation radius="20" />
+        </cld-image>
+
+        <cld-video
+          controls
+          v-if="
+            info.attachment && vid_ext.includes(getextension(info.attachment))
+          "
+          :publicId="info.publicId"
+        >
+          <cld-transformation height="200" width="300" crop="crop" />
+        </cld-video>
+        <b-input-group class="mt-1 bg-light">
+          <template #append>
+            <b-input-group-text class="border-0 bg-transparent">
+              <b-icon
+                @click="post"
+                font-scale="1"
+                icon="cursor-fill"
+                class="text-dark cursor-pointer"
+              ></b-icon>
+            </b-input-group-text>
+          </template>
+          <template #prepend>
+            <b-input-group-text
+              class="border-0 bg-transparent d-none d-md-block"
+              ><span class=""
+                ><b-icon
+                  icon="emoji-smile-fill"
+                  class="text-dark cursor-pointer"
+                  font-scale="1"
+                ></b-icon></span
+            ></b-input-group-text>
+          </template>
+          <b-form-input
+            @keyup.enter="post"
+            v-model="info.message"
+            autocomplete="off"
+            autocorrect="off"
+            placeholder="Enter caption"
+            class="border-0 no-focus rounded-pill fs13"
+          ></b-form-input>
+        </b-input-group>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -703,6 +737,7 @@ export default {
         attachment: "",
         message: "",
         discussion_id: null,
+        publicId: null,
       },
       myviews: null,
       search: "",
@@ -920,16 +955,18 @@ export default {
     },
     getUpload(val) {
       if (
-        !this.img_ext.includes(this.getextension(val)) &&
-        !this.vid_ext.includes(this.getextension(val)) &&
-        !this.aud_ext.includes(this.getextension(val)) &&
-        !this.doc_ext.includes(this.getextension(val))
+        !this.img_ext.includes(this.getextension(val.secure_url)) &&
+        !this.vid_ext.includes(this.getextension(val.secure_url)) &&
+        !this.aud_ext.includes(this.getextension(val.secure_url)) &&
+        !this.doc_ext.includes(this.getextension(val.secure_url))
       ) {
         this.$toast.error("Unsupported content type !");
         return;
       }
 
-      this.info.attachment = val;
+      this.info.attachment = val.secure_url;
+      this.info.publicId = val.public_id;
+      this.$bvModal.show("media");
     },
     insert(emoji) {
       this.info.message += emoji + "";
@@ -969,13 +1006,15 @@ export default {
         })
         .then((res) => {
           if (res.status == 201 || res.status == 200) {
-            // this.$toast.success("Discussion created");
-            //   this.posts.push(res.data);
+            if (this.info.publicId) {
+              this.$bvModal.hide("media");
+            }
 
             this.info = {
               attachment: "",
               message: "",
               discussion_id: null,
+              publicId: null,
             };
           }
         })
@@ -1222,17 +1261,7 @@ export default {
 .title {
   color: rgba($color: #000000, $alpha: 0.64);
 }
-.main_text {
-  display: -webkit-box;
-  font-size: 15px;
-  line-height: 1.6;
-  color: rgba($color: #000000, $alpha: 0.5);
-  text-overflow: ellipsis;
-  overflow: hidden;
-  line-clamp: 4;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-}
+
 .bottom_bar {
   width: 85%;
   margin-left: auto;
@@ -1248,11 +1277,18 @@ export default {
 .related {
   font-size: 12px;
 }
-
+.document {
+  width: 40%;
+  margin: 10px auto;
+}
 @media (max-width: 600px) {
   .b-avatar {
     width: 1.8rem;
     height: 1.8rem;
+  }
+  .document {
+    width: 100%;
+    margin: 10px auto;
   }
 }
 </style>

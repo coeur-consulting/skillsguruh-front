@@ -11,8 +11,8 @@ import CalculatorContent from "./calculatorContent.vue";
 export default {
   name: "calculator",
   components: {
-    CalculatorContent,
-  },
+    CalculatorContent
+  }
 };
 </script>
 

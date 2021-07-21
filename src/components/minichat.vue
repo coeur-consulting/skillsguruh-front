@@ -147,7 +147,7 @@
               <b-img
                 v-if="
                   item.attachment &&
-                  img_ext.includes(getextension(item.attachment))
+                    img_ext.includes(getextension(item.attachment))
                 "
                 class="cursor-pointer"
                 fluid-grow
@@ -156,7 +156,7 @@
               <div
                 v-if="
                   item.attachment &&
-                  vid_ext.includes(getextension(item.attachment))
+                    vid_ext.includes(getextension(item.attachment))
                 "
                 class="
                   p-1
@@ -192,7 +192,7 @@
               <div
                 v-if="
                   item.attachment &&
-                  aud_ext.includes(getextension(item.attachment))
+                    aud_ext.includes(getextension(item.attachment))
                 "
                 class="
                   p-1
@@ -234,7 +234,7 @@
               <div
                 v-if="
                   item.attachment &&
-                  doc_ext.includes(getextension(item.attachment))
+                    doc_ext.includes(getextension(item.attachment))
                 "
                 class="
                   p-1
@@ -451,8 +451,8 @@ export default {
         mesage: "",
         attachment: "",
         receiver: "",
-        receiver_id: "",
-      },
+        receiver_id: ""
+      }
     };
   },
 
@@ -460,10 +460,10 @@ export default {
     // this.getinbox();
   },
   components: {
-    Upload,
+    Upload
   },
   watch: {
-    $route: "closeChat",
+    $route: "closeChat"
   },
   computed: {
     inboxes() {
@@ -483,7 +483,7 @@ export default {
       return token;
     },
     messages() {
-      return this.inboxes.filter((item) => {
+      return this.inboxes.filter(item => {
         if (
           (item.admin_id == this.$props.mini_info.id &&
             this.$props.mini_info.type == "admin") ||
@@ -497,7 +497,7 @@ export default {
           return item;
         }
       });
-    },
+    }
   },
   methods: {
     async getFileDetails(media) {
@@ -505,7 +505,7 @@ export default {
       var video = document.createElement("video");
       video.preload = "metadata";
 
-      video.onloadedmetadata = function () {
+      video.onloadedmetadata = function() {
         window.URL.revokeObjectURL(video.src);
         var duration = video.duration;
 
@@ -533,20 +533,20 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/inboxes`, {
           headers: {
-            Authorization: `Bearer ${this.useraccess.access_token}`,
-          },
+            Authorization: `Bearer ${this.useraccess.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.inboxes = res.data.reverse();
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     async sortmessages(arr) {
-      var inboxes = await arr.map((item) => {
+      var inboxes = await arr.map(item => {
         var info = {};
         if (this.$props.user == "admin") {
           if (item.admin_id && item.admin_id == this.useraccess.id) {
@@ -619,10 +619,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/inboxes`, this.inbox, {
           headers: {
-            Authorization: `Bearer ${this.useraccess.access_token}`,
-          },
+            Authorization: `Bearer ${this.useraccess.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.$toast.success("Message sent ");
 
@@ -634,36 +634,36 @@ export default {
               attachment: "",
               message: "",
               receiver: "",
-              receiver_id: "",
+              receiver_id: ""
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     dropinbox(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/inboxes/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.organization.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 200) {
                 this.$toast.success("Message deleted");
                 this.inboxes.splice(index, 1);
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

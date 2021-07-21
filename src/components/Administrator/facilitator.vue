@@ -77,7 +77,7 @@
                       class="text-left"
                       :class="{
                         'text-success': item.status,
-                        'text-danger': !item.status,
+                        'text-danger': !item.status
                       }"
                       >{{ item.status ? "Active" : "Inactive" }}</b-td
                     >
@@ -326,22 +326,22 @@ export default {
         name: "",
         email: "",
         phone: "",
-        password: "",
+        password: ""
       },
-      showTable: false,
+      showTable: false
     };
   },
   computed: {
     filter() {
       return this.users
-        .filter((item) =>
+        .filter(item =>
           item.name.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
           this.perPage * this.currentPage - this.perPage,
           this.perPage * this.currentPage
         );
-    },
+    }
   },
   mounted() {
     this.getfacilitators();
@@ -351,16 +351,16 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.organization.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.users = res.data;
             this.rows = res.data.length;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -369,10 +369,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/register-facilitator`, this.user, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.organization.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.$toast.success("Added successfully");
             this.$bvModal.hide("add");
@@ -381,11 +381,11 @@ export default {
               name: "",
               email: "",
               phone: "",
-              password: "",
+              password: ""
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err.response.data.errors.email[0]) {
             this.$toast.error(err.response.data.errors.email[0]);
           }
@@ -411,46 +411,46 @@ export default {
           this.user,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.organization.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.user = {
               name: "",
               email: "",
               phone: "",
-              password: "",
+              password: ""
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/delete-facilitator/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.organization.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.users.splice(index, 1);
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

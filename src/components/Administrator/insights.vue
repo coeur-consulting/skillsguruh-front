@@ -544,7 +544,7 @@ export default {
         "13:00",
         "14:00",
         "15:00",
-        "16:00",
+        "16:00"
       ],
       learners: [],
       facilitators: [],
@@ -555,7 +555,7 @@ export default {
       series: ["33", "33", "33"],
       chartOptions: {
         chart: {
-          type: "pie",
+          type: "pie"
         },
         colors: ["#377f87", "#3d96a5", "#6beed1"],
         labels: ["Males", "Females", "Others"],
@@ -565,17 +565,17 @@ export default {
             options: {
               chart: {},
               legend: {
-                position: "bottom",
-              },
-            },
-          },
-        ],
+                position: "bottom"
+              }
+            }
+          }
+        ]
       },
 
       facilitatorPieSeries: [],
       facilitatorPieOptions: {
         chart: {
-          type: "pie",
+          type: "pie"
         },
         colors: ["#377f87", "#3d96a5", "#6beed1"],
         labels: ["Males", "Females", "Others"],
@@ -585,11 +585,11 @@ export default {
             options: {
               chart: {},
               legend: {
-                position: "bottom",
-              },
-            },
-          },
-        ],
+                position: "bottom"
+              }
+            }
+          }
+        ]
       },
       facilitatorLoginSeries: [
         {
@@ -597,257 +597,257 @@ export default {
           data: [
             {
               x: "8:00am",
-              y: 12,
+              y: 12
             },
             {
               x: "9:00am",
-              y: 9,
+              y: 9
             },
             {
               x: "10:00am",
-              y: 13,
+              y: 13
             },
             {
               x: "11:00am",
-              y: 16,
+              y: 16
             },
             {
               x: "12:00pm",
-              y: 21,
+              y: 21
             },
             {
               x: "01:00pm",
-              y: 7,
+              y: 7
             },
             {
               x: "02:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "03:00pm",
-              y: 19,
+              y: 19
             },
             {
               x: "04:00pm",
-              y: 20,
-            },
-          ],
+              y: 20
+            }
+          ]
         },
         {
           name: "Tuesday",
           data: [
             {
               x: "8:00am",
-              y: 12,
+              y: 12
             },
             {
               x: "9:00am",
-              y: 29,
+              y: 29
             },
             {
               x: "10:00am",
-              y: 13,
+              y: 13
             },
             {
               x: "11:00am",
-              y: 26,
+              y: 26
             },
             {
               x: "12:00pm",
-              y: 2,
+              y: 2
             },
             {
               x: "01:00pm",
-              y: 17,
+              y: 17
             },
             {
               x: "02:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "03:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "04:00pm",
-              y: 29,
-            },
-          ],
+              y: 29
+            }
+          ]
         },
         {
           name: "Wednessday",
           data: [
             {
               x: "8:00am",
-              y: 12,
+              y: 12
             },
             {
               x: "9:00am",
-              y: 29,
+              y: 29
             },
             {
               x: "10:00am",
-              y: 13,
+              y: 13
             },
             {
               x: "11:00am",
-              y: 26,
+              y: 26
             },
             {
               x: "12:00pm",
-              y: 2,
+              y: 2
             },
             {
               x: "01:00pm",
-              y: 17,
+              y: 17
             },
             {
               x: "02:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "03:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "04:00pm",
-              y: 29,
-            },
-          ],
+              y: 29
+            }
+          ]
         },
         {
           name: "Thursday",
           data: [
             {
               x: "8:00am",
-              y: 12,
+              y: 12
             },
             {
               x: "9:00am",
-              y: 29,
+              y: 29
             },
             {
               x: "10:00am",
-              y: 13,
+              y: 13
             },
             {
               x: "11:00am",
-              y: 26,
+              y: 26
             },
             {
               x: "12:00pm",
-              y: 2,
+              y: 2
             },
             {
               x: "01:00pm",
-              y: 17,
+              y: 17
             },
             {
               x: "02:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "03:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "04:00pm",
-              y: 29,
-            },
-          ],
+              y: 29
+            }
+          ]
         },
         {
           name: "Friday",
           data: [
             {
               x: "8:00am",
-              y: 12,
+              y: 12
             },
             {
               x: "9:00am",
-              y: 29,
+              y: 29
             },
             {
               x: "10:00am",
-              y: 13,
+              y: 13
             },
             {
               x: "11:00am",
-              y: 26,
+              y: 26
             },
             {
               x: "12:00pm",
-              y: 2,
+              y: 2
             },
             {
               x: "01:00pm",
-              y: 17,
+              y: 17
             },
             {
               x: "02:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "03:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "04:00pm",
-              y: 29,
-            },
-          ],
+              y: 29
+            }
+          ]
         },
         {
           name: "Saturday",
           data: [
             {
               x: "8:00am",
-              y: 12,
+              y: 12
             },
             {
               x: "9:00am",
-              y: 29,
+              y: 29
             },
             {
               x: "10:00am",
-              y: 13,
+              y: 13
             },
             {
               x: "11:00am",
-              y: 26,
+              y: 26
             },
             {
               x: "12:00pm",
-              y: 2,
+              y: 2
             },
             {
               x: "01:00pm",
-              y: 17,
+              y: 17
             },
             {
               x: "02:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "03:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "04:00pm",
-              y: 29,
-            },
-          ],
-        },
+              y: 29
+            }
+          ]
+        }
       ],
       facilitatorLoginOptions: {
         chart: {
           height: 200,
-          type: "heatmap",
+          type: "heatmap"
         },
         dataLabels: {
-          enabled: false,
+          enabled: false
         },
-        colors: ["#377f87"],
+        colors: ["#377f87"]
       },
 
       series1: [
@@ -856,284 +856,284 @@ export default {
           data: [
             {
               x: "8:00am",
-              y: 12,
+              y: 12
             },
             {
               x: "9:00am",
-              y: 9,
+              y: 9
             },
             {
               x: "10:00am",
-              y: 13,
+              y: 13
             },
             {
               x: "11:00am",
-              y: 16,
+              y: 16
             },
             {
               x: "12:00pm",
-              y: 21,
+              y: 21
             },
             {
               x: "01:00pm",
-              y: 7,
+              y: 7
             },
             {
               x: "02:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "03:00pm",
-              y: 19,
+              y: 19
             },
             {
               x: "04:00pm",
-              y: 20,
-            },
-          ],
+              y: 20
+            }
+          ]
         },
         {
           name: "Tuesday",
           data: [
             {
               x: "8:00am",
-              y: 12,
+              y: 12
             },
             {
               x: "9:00am",
-              y: 29,
+              y: 29
             },
             {
               x: "10:00am",
-              y: 13,
+              y: 13
             },
             {
               x: "11:00am",
-              y: 26,
+              y: 26
             },
             {
               x: "12:00pm",
-              y: 2,
+              y: 2
             },
             {
               x: "01:00pm",
-              y: 17,
+              y: 17
             },
             {
               x: "02:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "03:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "04:00pm",
-              y: 29,
-            },
-          ],
+              y: 29
+            }
+          ]
         },
         {
           name: "Wednessday",
           data: [
             {
               x: "8:00am",
-              y: 12,
+              y: 12
             },
             {
               x: "9:00am",
-              y: 29,
+              y: 29
             },
             {
               x: "10:00am",
-              y: 13,
+              y: 13
             },
             {
               x: "11:00am",
-              y: 26,
+              y: 26
             },
             {
               x: "12:00pm",
-              y: 2,
+              y: 2
             },
             {
               x: "01:00pm",
-              y: 17,
+              y: 17
             },
             {
               x: "02:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "03:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "04:00pm",
-              y: 29,
-            },
-          ],
+              y: 29
+            }
+          ]
         },
         {
           name: "Thursday",
           data: [
             {
               x: "8:00am",
-              y: 12,
+              y: 12
             },
             {
               x: "9:00am",
-              y: 29,
+              y: 29
             },
             {
               x: "10:00am",
-              y: 13,
+              y: 13
             },
             {
               x: "11:00am",
-              y: 26,
+              y: 26
             },
             {
               x: "12:00pm",
-              y: 2,
+              y: 2
             },
             {
               x: "01:00pm",
-              y: 17,
+              y: 17
             },
             {
               x: "02:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "03:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "04:00pm",
-              y: 29,
-            },
-          ],
+              y: 29
+            }
+          ]
         },
         {
           name: "Friday",
           data: [
             {
               x: "8:00am",
-              y: 12,
+              y: 12
             },
             {
               x: "9:00am",
-              y: 29,
+              y: 29
             },
             {
               x: "10:00am",
-              y: 13,
+              y: 13
             },
             {
               x: "11:00am",
-              y: 26,
+              y: 26
             },
             {
               x: "12:00pm",
-              y: 2,
+              y: 2
             },
             {
               x: "01:00pm",
-              y: 17,
+              y: 17
             },
             {
               x: "02:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "03:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "04:00pm",
-              y: 29,
-            },
-          ],
+              y: 29
+            }
+          ]
         },
         {
           name: "Saturday",
           data: [
             {
               x: "8:00am",
-              y: 12,
+              y: 12
             },
             {
               x: "9:00am",
-              y: 29,
+              y: 29
             },
             {
               x: "10:00am",
-              y: 13,
+              y: 13
             },
             {
               x: "11:00am",
-              y: 26,
+              y: 26
             },
             {
               x: "12:00pm",
-              y: 2,
+              y: 2
             },
             {
               x: "01:00pm",
-              y: 17,
+              y: 17
             },
             {
               x: "02:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "03:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "04:00pm",
-              y: 29,
-            },
-          ],
-        },
+              y: 29
+            }
+          ]
+        }
       ],
       chartOptions1: {
         chart: {
           height: 200,
-          type: "heatmap",
+          type: "heatmap"
         },
         dataLabels: {
-          enabled: false,
+          enabled: false
         },
-        colors: ["#377f87"],
+        colors: ["#377f87"]
       },
       courseSeries: [
         {
           name: "Courses",
-          data: [],
-        },
+          data: []
+        }
       ],
       courseOptions: {
         chart: {
           type: "bar",
-          height: 400,
+          height: 400
         },
         plotOptions: {
           bar: {
             horizontal: false,
             columnWidth: "55%",
-            endingShape: "rounded",
-          },
+            endingShape: "rounded"
+          }
         },
         dataLabels: {
-          enabled: false,
+          enabled: false
         },
         colors: ["#377f87", "#88b6bf", "#6beed1"],
         stroke: {
           show: true,
           width: 2,
-          colors: ["transparent"],
+          colors: ["transparent"]
         },
         xaxis: {
           categories: [
@@ -1148,50 +1148,50 @@ export default {
             "Sep",
             "Oct",
             "Nov",
-            "Dec",
-          ],
+            "Dec"
+          ]
         },
         yaxis: {
           title: {
-            text: "Courses",
-          },
+            text: "Courses"
+          }
         },
         fill: {
-          opacity: 1,
+          opacity: 1
         },
         tooltip: {
           y: {
-            formatter: function (val) {
+            formatter: function(val) {
               return val + " courses";
-            },
-          },
-        },
+            }
+          }
+        }
       },
       ageSeries: [
         {
           name: "Learners",
-          data: [],
-        },
+          data: []
+        }
       ],
       ageOptions: {
         chart: {
-          type: "bar",
+          type: "bar"
         },
         plotOptions: {
           bar: {
             horizontal: false,
             columnWidth: "55%",
-            endingShape: "rounded",
-          },
+            endingShape: "rounded"
+          }
         },
         dataLabels: {
-          enabled: false,
+          enabled: false
         },
         colors: ["#377f87", "#88b6bf", "#6beed1"],
         stroke: {
           show: true,
           width: 2,
-          colors: ["transparent"],
+          colors: ["transparent"]
         },
         xaxis: {
           categories: [
@@ -1199,50 +1199,50 @@ export default {
             "13 -17 years",
             "18 -22 years",
             "23 - 40 years",
-            "40years - above ",
-          ],
+            "40years - above "
+          ]
         },
         yaxis: {
           title: {
-            text: "Learners ",
-          },
+            text: "Learners "
+          }
         },
         fill: {
-          opacity: 1,
+          opacity: 1
         },
         tooltip: {
           y: {
-            formatter: function (val) {
+            formatter: function(val) {
               return val;
-            },
-          },
-        },
+            }
+          }
+        }
       },
       stateSeries: [
         {
           name: "Learners",
-          data: [],
-        },
+          data: []
+        }
       ],
       stateOptions: {
         chart: {
-          type: "bar",
+          type: "bar"
         },
         plotOptions: {
           bar: {
             horizontal: false,
             columnWidth: "55%",
-            endingShape: "rounded",
-          },
+            endingShape: "rounded"
+          }
         },
         dataLabels: {
-          enabled: false,
+          enabled: false
         },
         colors: ["#377f87", "#88b6bf", "#6beed1"],
         stroke: {
           show: true,
           width: 2,
-          colors: ["transparent"],
+          colors: ["transparent"]
         },
         xaxis: {
           categories: [
@@ -1257,46 +1257,46 @@ export default {
             "Sep",
             "Oct",
             "Nov",
-            "Dec",
-          ],
+            "Dec"
+          ]
         },
         yaxis: {
           title: {
-            text: "Courses",
-          },
+            text: "Courses"
+          }
         },
         fill: {
-          opacity: 1,
+          opacity: 1
         },
         tooltip: {
           y: {
-            formatter: function (val) {
+            formatter: function(val) {
               return val + " courses";
-            },
-          },
-        },
+            }
+          }
+        }
       },
       facilitatorSeries: [],
       facilitatorOptions: {
         chart: {
           type: "bar",
-          height: 400,
+          height: 400
         },
         plotOptions: {
           bar: {
             horizontal: false,
             columnWidth: "55%",
-            endingShape: "rounded",
-          },
+            endingShape: "rounded"
+          }
         },
         dataLabels: {
-          enabled: false,
+          enabled: false
         },
         colors: ["#377f87", "#88b6bf", "#6beed1"],
         stroke: {
           show: true,
           width: 2,
-          colors: ["transparent"],
+          colors: ["transparent"]
         },
         xaxis: {
           categories: [
@@ -1311,43 +1311,43 @@ export default {
             "Sep",
             "Oct",
             "Nov",
-            "Dec",
-          ],
+            "Dec"
+          ]
         },
         yaxis: {
           title: {
-            text: "Facilitators",
-          },
+            text: "Facilitators"
+          }
         },
         fill: {
-          opacity: 1,
+          opacity: 1
         },
         tooltip: {
           y: {
-            formatter: function (val) {
+            formatter: function(val) {
               return val + " facilitators";
-            },
-          },
-        },
+            }
+          }
+        }
       },
 
       revenueSeries: [
         {
           name: "Revenue",
-          data: [],
-        },
+          data: []
+        }
       ],
       revenueOptions: {
         chart: {
           height: 350,
-          type: "area",
+          type: "area"
         },
         dataLabels: {
-          enabled: false,
+          enabled: false
         },
         colors: ["#377f87"],
         stroke: {
-          curve: "smooth",
+          curve: "smooth"
         },
         xaxis: {
           categories: [
@@ -1362,23 +1362,23 @@ export default {
             "Sep",
             "Oct",
             "Nov",
-            "Dec",
-          ],
+            "Dec"
+          ]
         },
         tooltip: {
           y: {
-            formatter: function (val) {
+            formatter: function(val) {
               return (
                 "₦ " + val.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
               );
-            },
-          },
-        },
-      },
+            }
+          }
+        }
+      }
     };
   },
   components: {
-    MapChart,
+    MapChart
   },
   created() {
     this.getlearners();
@@ -1391,12 +1391,12 @@ export default {
     states: "handleStateSeries",
     loginHistory: "handleTimeSeries",
     facilitatorLoginHistory: "handleFacilitatorTimeSeries",
-    sortLearner: "getGender",
+    sortLearner: "getGender"
   },
   computed: {
     sortCourse() {
       if (this.start && this.end) {
-        return this.courses.filter((item) => {
+        return this.courses.filter(item => {
           return this.$moment(item.created_at).isBetween(
             this.$moment(this.start),
             this.$moment(this.end)
@@ -1407,7 +1407,7 @@ export default {
     },
     sortRevenue() {
       if (this.start && this.end) {
-        return this.revenues.filter((item) => {
+        return this.revenues.filter(item => {
           return this.$moment(item.created_at).isBetween(
             this.$moment(this.start),
             this.$moment(this.end)
@@ -1418,7 +1418,7 @@ export default {
     },
     sortLearner() {
       if (this.start && this.end) {
-        return this.learners.filter((item) => {
+        return this.learners.filter(item => {
           return this.$moment(item.created_at).isBetween(
             this.$moment(this.start),
             this.$moment(this.end)
@@ -1429,7 +1429,7 @@ export default {
     },
     sortFacilitator() {
       if (this.start && this.end) {
-        return this.facilitators.filter((item) => {
+        return this.facilitators.filter(item => {
           return this.$moment(item.created_at).isBetween(
             this.$moment(this.start),
             this.$moment(this.end)
@@ -1440,7 +1440,7 @@ export default {
     },
     totalRevenue() {
       return this.sortRevenue
-        .map((item) => item.revenue)
+        .map(item => item.revenue)
         .reduce((a, b) => {
           return Number(a) + Number(b);
         }, 0);
@@ -1448,10 +1448,9 @@ export default {
     totalRevenueThisWeek() {
       return this.sortRevenue
         .filter(
-          (item) =>
-            this.$moment(item.created_at).week() == this.$moment().week()
+          item => this.$moment(item.created_at).week() == this.$moment().week()
         )
-        .map((item) => item.revenue)
+        .map(item => item.revenue)
         .reduce((a, b) => {
           return Number(a) + Number(b);
         }, 0);
@@ -1459,11 +1458,11 @@ export default {
     totalRevenueThisMonth() {
       return this.sortRevenue
         .filter(
-          (item) =>
+          item =>
             this.$moment(item.created_at).format("MMMM") ==
             this.$moment().format("MMMM")
         )
-        .map((item) => item.revenue)
+        .map(item => item.revenue)
         .reduce((a, b) => {
           return Number(a) + Number(b);
         }, 0);
@@ -1471,28 +1470,28 @@ export default {
     totalRevenueThisYear() {
       return this.sortRevenue
         .filter(
-          (item) =>
+          item =>
             this.$moment(item.created_at).format("YYYY") ==
             this.$moment().format("YYYY")
         )
-        .map((item) => item.revenue)
+        .map(item => item.revenue)
         .reduce((a, b) => {
           return Number(a) + Number(b);
         }, 0);
     },
     male() {
-      return this.sortLearner.filter((item) => item.gender == "male").length;
+      return this.sortLearner.filter(item => item.gender == "male").length;
     },
     female() {
-      return this.sortLearner.filter((item) => item.gender == "male").length;
+      return this.sortLearner.filter(item => item.gender == "male").length;
     },
     others() {
       return this.sortLearner.filter(
-        (item) => item.gender !== "male" && item.gender !== "female"
+        item => item.gender !== "male" && item.gender !== "female"
       ).length;
     },
     countries() {
-      return this.sortLearner.map((item) => item.country);
+      return this.sortLearner.map(item => item.country);
     },
     uniqueCountries() {
       var count = [...new Set(this.countries)];
@@ -1501,9 +1500,9 @@ export default {
     },
     countryData() {
       if (this.uniqueCountries.length) {
-        var arr = this.uniqueCountries.map((element) => {
+        var arr = this.uniqueCountries.map(element => {
           var data = {};
-          data[element] = this.countries.filter((item) =>
+          data[element] = this.countries.filter(item =>
             item.includes(element)
           ).length;
           return data;
@@ -1514,25 +1513,25 @@ export default {
     },
     states() {
       var state = this.learners.map(
-        (item) => item.state.slice(0, 1).toUpperCase() + item.state.slice(1)
+        item => item.state.slice(0, 1).toUpperCase() + item.state.slice(1)
       );
       return [...new Set(state)];
     },
     loginHistory() {
-      var arr = this.sortLearner.map((item) => item.loginhistory);
+      var arr = this.sortLearner.map(item => item.loginhistory);
       return arr.flat();
     },
     facilitatorLoginHistory() {
-      var arr = this.sortFacilitator.map((item) => item.loginhistory);
+      var arr = this.sortFacilitator.map(item => item.loginhistory);
       return arr.flat();
     },
     thisweekcourses() {
       return this.sortCourse.filter(
-        (item) => this.$moment(item.created_at).week() == this.$moment().week()
+        item => this.$moment(item.created_at).week() == this.$moment().week()
       ).length;
     },
     courseviews() {
-      var count = this.sortCourse.map((item) => {
+      var count = this.sortCourse.map(item => {
         if (item.viewcount) {
           return item.viewcount.count;
         }
@@ -1545,10 +1544,9 @@ export default {
     courseviewsthisweek() {
       var count = this.sortCourse
         .filter(
-          (item) =>
-            this.$moment(item.created_at).week() == this.$moment().week()
+          item => this.$moment(item.created_at).week() == this.$moment().week()
         )
-        .map((item) => {
+        .map(item => {
           if (item.viewcount) {
             return item.viewcount.count;
           }
@@ -1559,13 +1557,13 @@ export default {
       }, 0);
     },
     totalpaid() {
-      return this.sortCourse.filter((item) => item.type == "paid").length;
+      return this.sortCourse.filter(item => item.type == "paid").length;
     },
     totalgroup() {
-      return this.sortCourse.filter((item) => item.type == "group").length;
+      return this.sortCourse.filter(item => item.type == "group").length;
     },
     totalenrollment() {
-      var count = this.sortCourse.map((item) => {
+      var count = this.sortCourse.map(item => {
         if (item.enroll) {
           return item.enroll.count;
         }
@@ -1578,10 +1576,9 @@ export default {
     totalenrollmentthisweek() {
       var count = this.sortCourse
         .filter(
-          (item) =>
-            this.$moment(item.created_at).week() == this.$moment().week()
+          item => this.$moment(item.created_at).week() == this.$moment().week()
         )
-        .map((item) => {
+        .map(item => {
           if (item.enroll) {
             return item.enroll.count;
           }
@@ -1594,22 +1591,20 @@ export default {
     totalgroupthisweek() {
       return this.courses
         .filter(
-          (item) =>
-            this.$moment(item.created_at).week() == this.$moment().week()
+          item => this.$moment(item.created_at).week() == this.$moment().week()
         )
-        .filter((item) => item.type == "group").length;
+        .filter(item => item.type == "group").length;
     },
     totalpaidthisweek() {
       return this.sortCourse
         .filter(
-          (item) =>
-            this.$moment(item.created_at).week() == this.$moment().week()
+          item => this.$moment(item.created_at).week() == this.$moment().week()
         )
-        .filter((item) => item.type == "paid").length;
+        .filter(item => item.type == "paid").length;
     },
     mostenrolled() {
       return this.sortCourse
-        .filter((item) => item.enroll)
+        .filter(item => item.enroll)
         .sort((a, b) => {
           return b.enroll.count - a.enroll.count;
         })
@@ -1617,7 +1612,7 @@ export default {
     },
     mostviewed() {
       return this.sortCourse
-        .filter((item) => item.viewcount)
+        .filter(item => item.viewcount)
         .sort((a, b) => {
           return b.viewcount.count - a.viewcount.count;
         })
@@ -1625,8 +1620,8 @@ export default {
     },
     mostinteracted() {
       return this.sortCourse
-        .filter((item) => item.viewcount && item.enroll)
-        .map((val) => {
+        .filter(item => item.viewcount && item.enroll)
+        .map(val => {
           let data = {};
           data.title = val.title;
           data.count = val.viewcount.count + val.enroll.count;
@@ -1639,77 +1634,73 @@ export default {
     },
     thisweekfacilitators() {
       return this.sortFacilitator.filter(
-        (item) => this.$moment(item.created_at).week() == this.$moment().week()
+        item => this.$moment(item.created_at).week() == this.$moment().week()
       ).length;
     },
     malefacilitators() {
-      return this.sortFacilitator.filter((item) => item.gender == "male")
-        .length;
+      return this.sortFacilitator.filter(item => item.gender == "male").length;
     },
     femalefacilitators() {
-      return this.sortFacilitator.filter((item) => item.gender == "male")
-        .length;
+      return this.sortFacilitator.filter(item => item.gender == "male").length;
     },
     femalefacilitatorsthisweek() {
       return this.sortFacilitator
         .filter(
-          (item) =>
-            this.$moment(item.created_at).week() == this.$moment().week()
+          item => this.$moment(item.created_at).week() == this.$moment().week()
         )
-        .filter((item) => item.gender == "female").length;
+        .filter(item => item.gender == "female").length;
     },
     malefacilitatorsthisweek() {
       return this.sortFacilitator
         .filter(
-          (item) =>
-            this.$moment(item.created_at).week() == this.$moment().week()
+          item => this.$moment(item.created_at).week() == this.$moment().week()
         )
-        .filter((item) => item.gender == "male").length;
+        .filter(item => item.gender == "male").length;
     },
     otherfacilitators() {
       return this.sortFacilitator.filter(
-        (item) => item.gender !== "male" && item.gender !== "female"
+        item => item.gender !== "male" && item.gender !== "female"
       ).length;
     },
     otherfacilitatorsthisweek() {
       return this.sortFacilitator
         .filter(
-          (item) =>
-            this.$moment(item.created_at).week() == this.$moment().week()
+          item => this.$moment(item.created_at).week() == this.$moment().week()
         )
-        .filter((item) => item.gender !== "male" && item.gender !== "female")
+        .filter(item => item.gender !== "male" && item.gender !== "female")
         .length;
-    },
+    }
   },
   methods: {
     sortDays(day) {
       var res = this.loginHistory.filter(
-        (item) =>
-          this.$moment(item.record).format("dddd").toLowerCase() ==
-          day.toLowerCase()
+        item =>
+          this.$moment(item.record)
+            .format("dddd")
+            .toLowerCase() == day.toLowerCase()
       );
 
       return res;
     },
     sortFacilitatorDays(day) {
       var res = this.facilitatorLoginHistory.filter(
-        (item) =>
-          this.$moment(item.record).format("dddd").toLowerCase() ==
-          day.toLowerCase()
+        item =>
+          this.$moment(item.record)
+            .format("dddd")
+            .toLowerCase() == day.toLowerCase()
       );
 
       return res;
     },
     sortAge(a, b) {
-      var res = this.sortLearner.filter(
-        (item) => item.age >= a && item.age < b
-      ).length;
+      var res = this.sortLearner.filter(item => item.age >= a && item.age < b)
+        .length;
 
       return res;
     },
     sortState(state) {
       var res = this.sortLearner.filter(
-        (item) => item.state.toLowerCase() == state.toLowerCase()
+        item => item.state.toLowerCase() == state.toLowerCase()
       ).length;
 
       return res;
@@ -1722,42 +1713,48 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/highest/revenue/course`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.highestrevenue = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     sortCourses(month) {
       var res = this.courses.filter(
-        (item) =>
-          this.$moment(item.created_at).format("MMM").toLowerCase() == month
+        item =>
+          this.$moment(item.created_at)
+            .format("MMM")
+            .toLowerCase() == month
       );
       return res.length;
     },
     sortFacilitators(month) {
       var res = this.facilitators.filter(
-        (item) =>
-          this.$moment(item.created_at).format("MMM").toLowerCase() == month
+        item =>
+          this.$moment(item.created_at)
+            .format("MMM")
+            .toLowerCase() == month
       );
       return res.length;
     },
     sortRevenues(month) {
       var first = this.revenues.filter(
-        (item) =>
-          this.$moment(item.created_at).format("MMM").toLowerCase() == month
+        item =>
+          this.$moment(item.created_at)
+            .format("MMM")
+            .toLowerCase() == month
       );
       if (!first.length) {
         return 0;
       }
 
-      var second = first.map((val) => val.revenue || 0);
+      var second = first.map(val => val.revenue || 0);
 
       var result = second.reduce((a, b) => {
         return Number(a) + Number(b);
@@ -1769,7 +1766,7 @@ export default {
       this.series = [this.male, this.female, this.others];
       this.chartOptions = {
         chart: {
-          type: "pie",
+          type: "pie"
         },
         colors: ["#377f87", "#3d96a5", "#6beed1"],
         labels: ["Males", "Females", "Others"],
@@ -1779,35 +1776,35 @@ export default {
             options: {
               chart: {},
               legend: {
-                position: "bottom",
-              },
-            },
-          },
-        ],
+                position: "bottom"
+              }
+            }
+          }
+        ]
       };
     },
     getGenderFacilitator() {
       this.facilitatorPieSeries = [
         this.malefacilitators,
         this.femalefacilitators,
-        this.otherfacilitators,
+        this.otherfacilitators
       ];
     },
     getRevenue() {
       this.$http
         .get(`${this.$store.getters.url}/revenue`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.revenues = res.data;
             this.handleRevenueSeries();
             // this.sortLoginDays("monday");
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1815,17 +1812,17 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/admin-get-users`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.learners = res.data;
             this.handleAgeSeries();
             this.getGender();
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1845,9 +1842,9 @@ export default {
             this.sortCourses("sep"),
             this.sortCourses("oct"),
             this.sortCourses("nov"),
-            this.sortCourses("dec"),
-          ],
-        },
+            this.sortCourses("dec")
+          ]
+        }
       ];
     },
     handleFacilitatorSeries() {
@@ -1866,9 +1863,9 @@ export default {
             this.sortFacilitators("sep"),
             this.sortFacilitators("oct"),
             this.sortFacilitators("nov"),
-            this.sortFacilitators("dec"),
-          ],
-        },
+            this.sortFacilitators("dec")
+          ]
+        }
       ];
     },
     handleRevenueSeries() {
@@ -1887,9 +1884,9 @@ export default {
             this.sortRevenues("sep"),
             this.sortRevenues("oct"),
             this.sortRevenues("nov"),
-            this.sortRevenues("dec"),
-          ],
-        },
+            this.sortRevenues("dec")
+          ]
+        }
       ];
     },
     handleAgeSeries() {
@@ -1901,60 +1898,60 @@ export default {
             this.sortAge(13, 17),
             this.sortAge(18, 24),
             this.sortAge(25, 40),
-            this.sortAge(41, 1000),
-          ],
-        },
+            this.sortAge(41, 1000)
+          ]
+        }
       ];
     },
     handleStateSeries() {
-      var states = this.states.map((item) => {
+      var states = this.states.map(item => {
         return this.sortState(item);
       });
 
       this.stateSeries = [
         {
           name: "Learners ",
-          data: states,
-        },
+          data: states
+        }
       ];
       this.stateOptions = {
         chart: {
-          type: "bar",
+          type: "bar"
         },
         plotOptions: {
           bar: {
             horizontal: false,
             columnWidth: "55%",
-            endingShape: "rounded",
-          },
+            endingShape: "rounded"
+          }
         },
         dataLabels: {
-          enabled: false,
+          enabled: false
         },
         colors: ["#377f87", "#88b6bf", "#6beed1"],
         stroke: {
           show: true,
           width: 2,
-          colors: ["transparent"],
+          colors: ["transparent"]
         },
         xaxis: {
-          categories: this.states,
+          categories: this.states
         },
         yaxis: {
           title: {
-            text: "Learners ",
-          },
+            text: "Learners "
+          }
         },
         fill: {
-          opacity: 1,
+          opacity: 1
         },
         tooltip: {
           y: {
-            formatter: function (val) {
+            formatter: function(val) {
               return val;
-            },
-          },
-        },
+            }
+          }
+        }
       };
     },
     handleTimeSeries() {
@@ -1964,82 +1961,82 @@ export default {
           data: [
             {
               x: "8:00am",
-              y: this.handleDayTime(this.sortDays("monday"), "08:00", "09:00"),
+              y: this.handleDayTime(this.sortDays("monday"), "08:00", "09:00")
             },
             {
               x: "9:00am",
-              y: this.handleDayTime(this.sortDays("monday"), "09:00", "10:00"),
+              y: this.handleDayTime(this.sortDays("monday"), "09:00", "10:00")
             },
             {
               x: "10:00am",
-              y: this.handleDayTime(this.sortDays("monday"), "10:00", "11:00"),
+              y: this.handleDayTime(this.sortDays("monday"), "10:00", "11:00")
             },
             {
               x: "11:00am",
-              y: this.handleDayTime(this.sortDays("monday"), "11:00", "12:00"),
+              y: this.handleDayTime(this.sortDays("monday"), "11:00", "12:00")
             },
             {
               x: "12:00pm",
-              y: this.handleDayTime(this.sortDays("monday"), "12:00", "13:00"),
+              y: this.handleDayTime(this.sortDays("monday"), "12:00", "13:00")
             },
             {
               x: "01:00pm",
-              y: this.handleDayTime(this.sortDays("monday"), "13:00", "14:00"),
+              y: this.handleDayTime(this.sortDays("monday"), "13:00", "14:00")
             },
             {
               x: "02:00pm",
-              y: this.handleDayTime(this.sortDays("monday"), "14:00", "15:00"),
+              y: this.handleDayTime(this.sortDays("monday"), "14:00", "15:00")
             },
             {
               x: "03:00pm",
-              y: this.handleDayTime(this.sortDays("monday"), "15:00", "16:00"),
+              y: this.handleDayTime(this.sortDays("monday"), "15:00", "16:00")
             },
             {
               x: "04:00pm",
-              y: this.handleDayTime(this.sortDays("monday"), "16:00", "17:00"),
-            },
-          ],
+              y: this.handleDayTime(this.sortDays("monday"), "16:00", "17:00")
+            }
+          ]
         },
         {
           name: "Tuesday",
           data: [
             {
               x: "8:00am",
-              y: this.handleDayTime(this.sortDays("tuesday"), "08:00", "09:00"),
+              y: this.handleDayTime(this.sortDays("tuesday"), "08:00", "09:00")
             },
             {
               x: "9:00am",
-              y: this.handleDayTime(this.sortDays("tuesday"), "09:00", "10:00"),
+              y: this.handleDayTime(this.sortDays("tuesday"), "09:00", "10:00")
             },
             {
               x: "10:00am",
-              y: this.handleDayTime(this.sortDays("tuesday"), "10:00", "11:00"),
+              y: this.handleDayTime(this.sortDays("tuesday"), "10:00", "11:00")
             },
             {
               x: "11:00am",
-              y: this.handleDayTime(this.sortDays("tuesday"), "11:00", "12:00"),
+              y: this.handleDayTime(this.sortDays("tuesday"), "11:00", "12:00")
             },
             {
               x: "12:00pm",
-              y: this.handleDayTime(this.sortDays("tuesday"), "12:00", "13:00"),
+              y: this.handleDayTime(this.sortDays("tuesday"), "12:00", "13:00")
             },
             {
               x: "01:00pm",
-              y: this.handleDayTime(this.sortDays("monday"), "13:00", "14:00"),
+              y: this.handleDayTime(this.sortDays("monday"), "13:00", "14:00")
             },
             {
               x: "02:00pm",
-              y: this.handleDayTime(this.sortDays("tuesday"), "14:00", "15:00"),
+              y: this.handleDayTime(this.sortDays("tuesday"), "14:00", "15:00")
             },
             {
               x: "03:00pm",
-              y: this.handleDayTime(this.sortDays("tuesday"), "15:00", "16:00"),
+              y: this.handleDayTime(this.sortDays("tuesday"), "15:00", "16:00")
             },
             {
               x: "04:00pm",
-              y: this.handleDayTime(this.sortDays("tuesday"), "16:00", "17:00"),
-            },
-          ],
+              y: this.handleDayTime(this.sortDays("tuesday"), "16:00", "17:00")
+            }
+          ]
         },
         {
           name: "Wednessday",
@@ -2050,7 +2047,7 @@ export default {
                 this.sortDays("wednessday"),
                 "08:00",
                 "09:00"
-              ),
+              )
             },
             {
               x: "9:00am",
@@ -2058,7 +2055,7 @@ export default {
                 this.sortDays("wednessday"),
                 "09:00",
                 "10:00"
-              ),
+              )
             },
             {
               x: "10:00am",
@@ -2066,7 +2063,7 @@ export default {
                 this.sortDays("wednessday"),
                 "10:00",
                 "11:00"
-              ),
+              )
             },
             {
               x: "11:00am",
@@ -2074,7 +2071,7 @@ export default {
                 this.sortDays("wednessday"),
                 "11:00",
                 "12:00"
-              ),
+              )
             },
             {
               x: "12:00pm",
@@ -2082,7 +2079,7 @@ export default {
                 this.sortDays("wednessday"),
                 "12:00",
                 "13:00"
-              ),
+              )
             },
             {
               x: "01:00pm",
@@ -2090,7 +2087,7 @@ export default {
                 this.sortDays("wednessday"),
                 "13:00",
                 "14:00"
-              ),
+              )
             },
             {
               x: "02:00pm",
@@ -2098,7 +2095,7 @@ export default {
                 this.sortDays("wednessday"),
                 "14:00",
                 "15:00"
-              ),
+              )
             },
             {
               x: "03:00pm",
@@ -2106,7 +2103,7 @@ export default {
                 this.sortDays("wednessday"),
                 "15:00",
                 "16:00"
-              ),
+              )
             },
             {
               x: "04:00pm",
@@ -2114,205 +2111,133 @@ export default {
                 this.sortDays("wednessday"),
                 "16:00",
                 "17:00"
-              ),
-            },
-          ],
+              )
+            }
+          ]
         },
         {
           name: "Thursday",
           data: [
             {
               x: "8:00am",
-              y: this.handleDayTime(
-                this.sortDays("thursday"),
-                "08:00",
-                "09:00"
-              ),
+              y: this.handleDayTime(this.sortDays("thursday"), "08:00", "09:00")
             },
             {
               x: "9:00am",
-              y: this.handleDayTime(
-                this.sortDays("thursday"),
-                "09:00",
-                "10:00"
-              ),
+              y: this.handleDayTime(this.sortDays("thursday"), "09:00", "10:00")
             },
             {
               x: "10:00am",
-              y: this.handleDayTime(
-                this.sortDays("thursday"),
-                "10:00",
-                "11:00"
-              ),
+              y: this.handleDayTime(this.sortDays("thursday"), "10:00", "11:00")
             },
             {
               x: "11:00am",
-              y: this.handleDayTime(
-                this.sortDays("thursday"),
-                "11:00",
-                "12:00"
-              ),
+              y: this.handleDayTime(this.sortDays("thursday"), "11:00", "12:00")
             },
             {
               x: "12:00pm",
-              y: this.handleDayTime(
-                this.sortDays("thursday"),
-                "12:00",
-                "13:00"
-              ),
+              y: this.handleDayTime(this.sortDays("thursday"), "12:00", "13:00")
             },
             {
               x: "01:00pm",
-              y: this.handleDayTime(
-                this.sortDays("thursday"),
-                "13:00",
-                "14:00"
-              ),
+              y: this.handleDayTime(this.sortDays("thursday"), "13:00", "14:00")
             },
             {
               x: "02:00pm",
-              y: this.handleDayTime(
-                this.sortDays("thursday"),
-                "14:00",
-                "15:00"
-              ),
+              y: this.handleDayTime(this.sortDays("thursday"), "14:00", "15:00")
             },
             {
               x: "03:00pm",
-              y: this.handleDayTime(
-                this.sortDays("thursday"),
-                "15:00",
-                "16:00"
-              ),
+              y: this.handleDayTime(this.sortDays("thursday"), "15:00", "16:00")
             },
             {
               x: "04:00pm",
-              y: this.handleDayTime(
-                this.sortDays("thursday"),
-                "16:00",
-                "17:00"
-              ),
-            },
-          ],
+              y: this.handleDayTime(this.sortDays("thursday"), "16:00", "17:00")
+            }
+          ]
         },
         {
           name: "Friday",
           data: [
             {
               x: "8:00am",
-              y: this.handleDayTime(this.sortDays("friday"), "08:00", "09:00"),
+              y: this.handleDayTime(this.sortDays("friday"), "08:00", "09:00")
             },
             {
               x: "9:00am",
-              y: this.handleDayTime(this.sortDays("friday"), "09:00", "10:00"),
+              y: this.handleDayTime(this.sortDays("friday"), "09:00", "10:00")
             },
             {
               x: "10:00am",
-              y: this.handleDayTime(this.sortDays("friday"), "10:00", "11:00"),
+              y: this.handleDayTime(this.sortDays("friday"), "10:00", "11:00")
             },
             {
               x: "11:00am",
-              y: this.handleDayTime(this.sortDays("friday"), "11:00", "12:00"),
+              y: this.handleDayTime(this.sortDays("friday"), "11:00", "12:00")
             },
             {
               x: "12:00pm",
-              y: this.handleDayTime(this.sortDays("friday"), "12:00", "13:00"),
+              y: this.handleDayTime(this.sortDays("friday"), "12:00", "13:00")
             },
             {
               x: "01:00pm",
-              y: this.handleDayTime(this.sortDays("friday"), "13:00", "14:00"),
+              y: this.handleDayTime(this.sortDays("friday"), "13:00", "14:00")
             },
             {
               x: "02:00pm",
-              y: this.handleDayTime(this.sortDays("friday"), "14:00", "15:00"),
+              y: this.handleDayTime(this.sortDays("friday"), "14:00", "15:00")
             },
             {
               x: "03:00pm",
-              y: this.handleDayTime(this.sortDays("friday"), "15:00", "16:00"),
+              y: this.handleDayTime(this.sortDays("friday"), "15:00", "16:00")
             },
             {
               x: "04:00pm",
-              y: this.handleDayTime(this.sortDays("friday"), "16:00", "17:00"),
-            },
-          ],
+              y: this.handleDayTime(this.sortDays("friday"), "16:00", "17:00")
+            }
+          ]
         },
         {
           name: "Saturday",
           data: [
             {
               x: "8:00am",
-              y: this.handleDayTime(
-                this.sortDays("saturday"),
-                "08:00",
-                "09:00"
-              ),
+              y: this.handleDayTime(this.sortDays("saturday"), "08:00", "09:00")
             },
             {
               x: "9:00am",
-              y: this.handleDayTime(
-                this.sortDays("saturday"),
-                "09:00",
-                "10:00"
-              ),
+              y: this.handleDayTime(this.sortDays("saturday"), "09:00", "10:00")
             },
             {
               x: "10:00am",
-              y: this.handleDayTime(
-                this.sortDays("saturday"),
-                "10:00",
-                "11:00"
-              ),
+              y: this.handleDayTime(this.sortDays("saturday"), "10:00", "11:00")
             },
             {
               x: "11:00am",
-              y: this.handleDayTime(
-                this.sortDays("saturday"),
-                "11:00",
-                "12:00"
-              ),
+              y: this.handleDayTime(this.sortDays("saturday"), "11:00", "12:00")
             },
             {
               x: "12:00pm",
-              y: this.handleDayTime(
-                this.sortDays("saturday"),
-                "12:00",
-                "13:00"
-              ),
+              y: this.handleDayTime(this.sortDays("saturday"), "12:00", "13:00")
             },
             {
               x: "01:00pm",
-              y: this.handleDayTime(
-                this.sortDays("saturday"),
-                "13:00",
-                "14:00"
-              ),
+              y: this.handleDayTime(this.sortDays("saturday"), "13:00", "14:00")
             },
             {
               x: "02:00pm",
-              y: this.handleDayTime(
-                this.sortDays("saturday"),
-                "14:00",
-                "15:00"
-              ),
+              y: this.handleDayTime(this.sortDays("saturday"), "14:00", "15:00")
             },
             {
               x: "03:00pm",
-              y: this.handleDayTime(
-                this.sortDays("saturday"),
-                "15:00",
-                "16:00"
-              ),
+              y: this.handleDayTime(this.sortDays("saturday"), "15:00", "16:00")
             },
             {
               x: "04:00pm",
-              y: this.handleDayTime(
-                this.sortDays("saturday"),
-                "16:00",
-                "17:00"
-              ),
-            },
-          ],
-        },
+              y: this.handleDayTime(this.sortDays("saturday"), "16:00", "17:00")
+            }
+          ]
+        }
       ];
     },
     handleFacilitatorTimeSeries() {
@@ -2326,7 +2251,7 @@ export default {
                 this.sortFacilitatorDays("monday"),
                 "08:00",
                 "09:00"
-              ),
+              )
             },
             {
               x: "9:00am",
@@ -2334,7 +2259,7 @@ export default {
                 this.sortFacilitatorDays("monday"),
                 "09:00",
                 "10:00"
-              ),
+              )
             },
             {
               x: "10:00am",
@@ -2342,7 +2267,7 @@ export default {
                 this.sortFacilitatorDays("monday"),
                 "10:00",
                 "11:00"
-              ),
+              )
             },
             {
               x: "11:00am",
@@ -2350,7 +2275,7 @@ export default {
                 this.sortFacilitatorDays("monday"),
                 "11:00",
                 "12:00"
-              ),
+              )
             },
             {
               x: "12:00pm",
@@ -2358,7 +2283,7 @@ export default {
                 this.sortFacilitatorDays("monday"),
                 "12:00",
                 "13:00"
-              ),
+              )
             },
             {
               x: "01:00pm",
@@ -2366,7 +2291,7 @@ export default {
                 this.sortFacilitatorDays("monday"),
                 "13:00",
                 "14:00"
-              ),
+              )
             },
             {
               x: "02:00pm",
@@ -2374,7 +2299,7 @@ export default {
                 this.sortFacilitatorDays("monday"),
                 "14:00",
                 "15:00"
-              ),
+              )
             },
             {
               x: "03:00pm",
@@ -2382,7 +2307,7 @@ export default {
                 this.sortFacilitatorDays("monday"),
                 "15:00",
                 "16:00"
-              ),
+              )
             },
             {
               x: "04:00pm",
@@ -2390,9 +2315,9 @@ export default {
                 this.sortFacilitatorDays("monday"),
                 "16:00",
                 "17:00"
-              ),
-            },
-          ],
+              )
+            }
+          ]
         },
         {
           name: "Tuesday",
@@ -2403,7 +2328,7 @@ export default {
                 this.sortFacilitatorDays("tuesday"),
                 "08:00",
                 "09:00"
-              ),
+              )
             },
             {
               x: "9:00am",
@@ -2411,7 +2336,7 @@ export default {
                 this.sortFacilitatorDays("tuesday"),
                 "09:00",
                 "10:00"
-              ),
+              )
             },
             {
               x: "10:00am",
@@ -2419,7 +2344,7 @@ export default {
                 this.sortFacilitatorDays("tuesday"),
                 "10:00",
                 "11:00"
-              ),
+              )
             },
             {
               x: "11:00am",
@@ -2427,7 +2352,7 @@ export default {
                 this.sortFacilitatorDays("tuesday"),
                 "11:00",
                 "12:00"
-              ),
+              )
             },
             {
               x: "12:00pm",
@@ -2435,7 +2360,7 @@ export default {
                 this.sortFacilitatorDays("tuesday"),
                 "12:00",
                 "13:00"
-              ),
+              )
             },
             {
               x: "01:00pm",
@@ -2443,7 +2368,7 @@ export default {
                 this.sortFacilitatorDays("monday"),
                 "13:00",
                 "14:00"
-              ),
+              )
             },
             {
               x: "02:00pm",
@@ -2451,7 +2376,7 @@ export default {
                 this.sortFacilitatorDays("tuesday"),
                 "14:00",
                 "15:00"
-              ),
+              )
             },
             {
               x: "03:00pm",
@@ -2459,7 +2384,7 @@ export default {
                 this.sortFacilitatorDays("tuesday"),
                 "15:00",
                 "16:00"
-              ),
+              )
             },
             {
               x: "04:00pm",
@@ -2467,9 +2392,9 @@ export default {
                 this.sortFacilitatorDays("tuesday"),
                 "16:00",
                 "17:00"
-              ),
-            },
-          ],
+              )
+            }
+          ]
         },
         {
           name: "Wednessday",
@@ -2480,7 +2405,7 @@ export default {
                 this.sortFacilitatorDays("wednessday"),
                 "08:00",
                 "09:00"
-              ),
+              )
             },
             {
               x: "9:00am",
@@ -2488,7 +2413,7 @@ export default {
                 this.sortFacilitatorDays("wednessday"),
                 "09:00",
                 "10:00"
-              ),
+              )
             },
             {
               x: "10:00am",
@@ -2496,7 +2421,7 @@ export default {
                 this.sortFacilitatorDays("wednessday"),
                 "10:00",
                 "11:00"
-              ),
+              )
             },
             {
               x: "11:00am",
@@ -2504,7 +2429,7 @@ export default {
                 this.sortFacilitatorDays("wednessday"),
                 "11:00",
                 "12:00"
-              ),
+              )
             },
             {
               x: "12:00pm",
@@ -2512,7 +2437,7 @@ export default {
                 this.sortFacilitatorDays("wednessday"),
                 "12:00",
                 "13:00"
-              ),
+              )
             },
             {
               x: "01:00pm",
@@ -2520,7 +2445,7 @@ export default {
                 this.sortFacilitatorDays("wednessday"),
                 "13:00",
                 "14:00"
-              ),
+              )
             },
             {
               x: "02:00pm",
@@ -2528,7 +2453,7 @@ export default {
                 this.sortFacilitatorDays("wednessday"),
                 "14:00",
                 "15:00"
-              ),
+              )
             },
             {
               x: "03:00pm",
@@ -2536,7 +2461,7 @@ export default {
                 this.sortFacilitatorDays("wednessday"),
                 "15:00",
                 "16:00"
-              ),
+              )
             },
             {
               x: "04:00pm",
@@ -2544,9 +2469,9 @@ export default {
                 this.sortFacilitatorDays("wednessday"),
                 "16:00",
                 "17:00"
-              ),
-            },
-          ],
+              )
+            }
+          ]
         },
         {
           name: "Thursday",
@@ -2557,7 +2482,7 @@ export default {
                 this.sortFacilitatorDays("thursday"),
                 "08:00",
                 "09:00"
-              ),
+              )
             },
             {
               x: "9:00am",
@@ -2565,7 +2490,7 @@ export default {
                 this.sortFacilitatorDays("thursday"),
                 "09:00",
                 "10:00"
-              ),
+              )
             },
             {
               x: "10:00am",
@@ -2573,7 +2498,7 @@ export default {
                 this.sortFacilitatorDays("thursday"),
                 "10:00",
                 "11:00"
-              ),
+              )
             },
             {
               x: "11:00am",
@@ -2581,7 +2506,7 @@ export default {
                 this.sortFacilitatorDays("thursday"),
                 "11:00",
                 "12:00"
-              ),
+              )
             },
             {
               x: "12:00pm",
@@ -2589,7 +2514,7 @@ export default {
                 this.sortFacilitatorDays("thursday"),
                 "12:00",
                 "13:00"
-              ),
+              )
             },
             {
               x: "01:00pm",
@@ -2597,7 +2522,7 @@ export default {
                 this.sortFacilitatorDays("thursday"),
                 "13:00",
                 "14:00"
-              ),
+              )
             },
             {
               x: "02:00pm",
@@ -2605,7 +2530,7 @@ export default {
                 this.sortFacilitatorDays("thursday"),
                 "14:00",
                 "15:00"
-              ),
+              )
             },
             {
               x: "03:00pm",
@@ -2613,7 +2538,7 @@ export default {
                 this.sortFacilitatorDays("thursday"),
                 "15:00",
                 "16:00"
-              ),
+              )
             },
             {
               x: "04:00pm",
@@ -2621,9 +2546,9 @@ export default {
                 this.sortFacilitatorDays("thursday"),
                 "16:00",
                 "17:00"
-              ),
-            },
-          ],
+              )
+            }
+          ]
         },
         {
           name: "Friday",
@@ -2634,7 +2559,7 @@ export default {
                 this.sortFacilitatorDays("friday"),
                 "08:00",
                 "09:00"
-              ),
+              )
             },
             {
               x: "9:00am",
@@ -2642,7 +2567,7 @@ export default {
                 this.sortFacilitatorDays("friday"),
                 "09:00",
                 "10:00"
-              ),
+              )
             },
             {
               x: "10:00am",
@@ -2650,7 +2575,7 @@ export default {
                 this.sortFacilitatorDays("friday"),
                 "10:00",
                 "11:00"
-              ),
+              )
             },
             {
               x: "11:00am",
@@ -2658,7 +2583,7 @@ export default {
                 this.sortFacilitatorDays("friday"),
                 "11:00",
                 "12:00"
-              ),
+              )
             },
             {
               x: "12:00pm",
@@ -2666,7 +2591,7 @@ export default {
                 this.sortFacilitatorDays("friday"),
                 "12:00",
                 "13:00"
-              ),
+              )
             },
             {
               x: "01:00pm",
@@ -2674,7 +2599,7 @@ export default {
                 this.sortFacilitatorDays("friday"),
                 "13:00",
                 "14:00"
-              ),
+              )
             },
             {
               x: "02:00pm",
@@ -2682,7 +2607,7 @@ export default {
                 this.sortFacilitatorDays("friday"),
                 "14:00",
                 "15:00"
-              ),
+              )
             },
             {
               x: "03:00pm",
@@ -2690,7 +2615,7 @@ export default {
                 this.sortFacilitatorDays("friday"),
                 "15:00",
                 "16:00"
-              ),
+              )
             },
             {
               x: "04:00pm",
@@ -2698,9 +2623,9 @@ export default {
                 this.sortFacilitatorDays("friday"),
                 "16:00",
                 "17:00"
-              ),
-            },
-          ],
+              )
+            }
+          ]
         },
         {
           name: "Saturday",
@@ -2711,7 +2636,7 @@ export default {
                 this.sortFacilitatorDays("saturday"),
                 "08:00",
                 "09:00"
-              ),
+              )
             },
             {
               x: "9:00am",
@@ -2719,7 +2644,7 @@ export default {
                 this.sortFacilitatorDays("saturday"),
                 "09:00",
                 "10:00"
-              ),
+              )
             },
             {
               x: "10:00am",
@@ -2727,7 +2652,7 @@ export default {
                 this.sortFacilitatorDays("saturday"),
                 "10:00",
                 "11:00"
-              ),
+              )
             },
             {
               x: "11:00am",
@@ -2735,7 +2660,7 @@ export default {
                 this.sortFacilitatorDays("saturday"),
                 "11:00",
                 "12:00"
-              ),
+              )
             },
             {
               x: "12:00pm",
@@ -2743,7 +2668,7 @@ export default {
                 this.sortFacilitatorDays("saturday"),
                 "12:00",
                 "13:00"
-              ),
+              )
             },
             {
               x: "01:00pm",
@@ -2751,7 +2676,7 @@ export default {
                 this.sortFacilitatorDays("saturday"),
                 "13:00",
                 "14:00"
-              ),
+              )
             },
             {
               x: "02:00pm",
@@ -2759,7 +2684,7 @@ export default {
                 this.sortFacilitatorDays("saturday"),
                 "14:00",
                 "15:00"
-              ),
+              )
             },
             {
               x: "03:00pm",
@@ -2767,7 +2692,7 @@ export default {
                 this.sortFacilitatorDays("saturday"),
                 "15:00",
                 "16:00"
-              ),
+              )
             },
             {
               x: "04:00pm",
@@ -2775,14 +2700,14 @@ export default {
                 this.sortFacilitatorDays("saturday"),
                 "16:00",
                 "17:00"
-              ),
-            },
-          ],
-        },
+              )
+            }
+          ]
+        }
       ];
     },
     handleDayTime(arr, a, b) {
-      var result = arr.filter((val) => {
+      var result = arr.filter(val => {
         return this.$moment(val.record).isBetween(
           this.$moment(this.$moment(val.record).format("YYYY-MM-DD") + " " + a),
           this.$moment(this.$moment(val.record).format("YYYY-MM-DD") + " " + b)
@@ -2796,16 +2721,16 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/courses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.courses = res.data;
             this.handleCourseSeries();
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -2814,21 +2739,21 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/admin-get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.facilitators = res.data;
             this.handleFacilitatorSeries();
             this.getGenderFacilitator();
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

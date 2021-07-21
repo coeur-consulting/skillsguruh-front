@@ -258,7 +258,7 @@
                 @click="
                   $store.dispatch('markNotification', {
                     id: item.id,
-                    user: $store.getters.facilitaator,
+                    user: $store.getters.facilitaator
                   })
                 "
               >
@@ -393,7 +393,7 @@ export default {
     MailIcon,
     PushRotate,
     Minichat,
-    DatabaseIcon,
+    DatabaseIcon
   },
   data() {
     return {
@@ -402,16 +402,16 @@ export default {
       chatters: [],
       current: {
         id: "",
-        type: "",
+        type: ""
       },
       mini_info: {
         id: "",
         name: "",
         type: "",
-        profile: "",
+        profile: ""
       },
       open: false,
-      showAll: false,
+      showAll: false
     };
   },
   mounted() {},
@@ -421,7 +421,7 @@ export default {
         id: "",
         name: "",
         type: "",
-        profile: "",
+        profile: ""
       };
       this.open = false;
       this.showAll = false;
@@ -433,8 +433,8 @@ export default {
     markread() {
       this.$http.get(`${this.$store.getters.url}/mark-notifications`, {
         headers: {
-          Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-        },
+          Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+        }
       });
     },
     getmessage(id, name, type, profile) {
@@ -448,7 +448,7 @@ export default {
       this.showAll = true;
     },
     lastMessage(info) {
-      var mess = this.sortmessages.filter((item) => {
+      var mess = this.sortmessages.filter(item => {
         if (info.type == "user" && item.user) {
           return item;
         }
@@ -461,20 +461,20 @@ export default {
       });
 
       return mess.pop();
-    },
+    }
   },
   computed: {
     notifications() {
       return this.$store.getters.notifications;
     },
     unreadnotifications() {
-      return this.$store.getters.notifications.filter((item) => !item.read_at);
+      return this.$store.getters.notifications.filter(item => !item.read_at);
     },
     inboxes() {
       return this.$store.getters.inboxes;
     },
     sortmessages() {
-      return this.inboxes.map((item) => {
+      return this.inboxes.map(item => {
         var info = {};
 
         if (
@@ -502,7 +502,7 @@ export default {
       });
     },
     chatter() {
-      var allnames = this.sortmessages.map((item) => {
+      var allnames = this.sortmessages.map(item => {
         var checkers = {};
 
         if (item.user) {
@@ -542,19 +542,19 @@ export default {
       return [
         ...new Set(
           allnames
-            .filter((item) => item)
-            .map((item) => {
+            .filter(item => item)
+            .map(item => {
               return JSON.stringify({
                 name: item.name,
                 id: item.id,
                 type: item.type,
-                profile: item.profile,
+                profile: item.profile
               });
             })
-        ),
-      ].map((item) => JSON.parse(item));
-    },
-  },
+        )
+      ].map(item => JSON.parse(item));
+    }
+  }
 };
 </script>
 <style scoped>

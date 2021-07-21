@@ -24,8 +24,8 @@ import TopBar from "@/components/Administrator/topbar.vue";
 import Insight from "@/components/InterestComponent";
 export default {
   beforeRouteEnter(to, from, next) {
-    next((vm) => {
-      window.speechSynthesis.onvoiceschanged = function () {
+    next(vm => {
+      window.speechSynthesis.onvoiceschanged = function() {
         var speech = window.speechSynthesis.getVoices();
         vm.$store.commit("SET_SPEECH", speech);
       };
@@ -34,16 +34,16 @@ export default {
   components: {
     SideBar,
     TopBar,
-    Insight,
+    Insight
   },
   watch: {
-    $route: "getnotification",
+    $route: "getnotification"
   },
   created() {
     var channel = this.$pusher.subscribe("inbox");
     var notificationChannel = this.$pusher.subscribe("notifications");
 
-    channel.bind("inboxSent", (data) => {
+    channel.bind("inboxSent", data => {
       this.$store.commit("ADD_MESSAGE", data);
     });
     notificationChannel.bind("notificationSent", () => {
@@ -72,15 +72,15 @@ export default {
 
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+            }
           }
         )
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

@@ -183,7 +183,7 @@
 import { PushRotate } from "vue-burger-menu";
 export default {
   components: {
-    PushRotate,
+    PushRotate
   },
   methods: {
     logout() {
@@ -193,19 +193,19 @@ export default {
     markread() {
       this.$http.get(`${this.$store.getters.url}/mark-notifications`, {
         headers: {
-          Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-        },
+          Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+        }
       });
-    },
+    }
   },
   computed: {
     notifications() {
       return this.$store.getters.notifications;
     },
     unreadnotifications() {
-      return this.$store.getters.notifications.filter((item) => !item.read_at);
-    },
-  },
+      return this.$store.getters.notifications.filter(item => !item.read_at);
+    }
+  }
 };
 </script>
 <style scoped>

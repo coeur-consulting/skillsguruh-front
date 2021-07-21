@@ -553,25 +553,25 @@ export default {
         faqs: [
           {
             question: "",
-            answer: "",
-          },
+            answer: ""
+          }
         ],
         certification: null,
-        additional_info: "",
-      },
+        additional_info: ""
+      }
     };
   },
   computed: {
     filter() {
       return this.outlines
-        .filter((item) =>
+        .filter(item =>
           item.title.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
           this.perPage * this.currentPage - this.perPage,
           this.perPage * this.currentPage
         );
-    },
+    }
   },
   mounted() {
     this.getcourses();
@@ -583,10 +583,8 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      var newArr = schedule.map((val) => {
-        var fac = this.facilitators.find(
-          (item) => item.id == val.facilitator_id
-        );
+      var newArr = schedule.map(val => {
+        var fac = this.facilitators.find(item => item.id == val.facilitator_id);
         if (fac) {
           return fac.name;
         }
@@ -597,15 +595,15 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/user-get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -614,16 +612,16 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/courses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.outlines = res.data;
             this.rows = res.data.length;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -640,7 +638,7 @@ export default {
     addfaq() {
       this.detail.faqs.push({
         question: "",
-        answer: "",
+        answer: ""
       });
     },
 
@@ -648,10 +646,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/courseoutlines`, this.detail, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Added successfully");
             this.$bvModal.hide("add");
@@ -665,15 +663,15 @@ export default {
               faqs: [
                 {
                   question: "",
-                  answer: "",
-                },
+                  answer: ""
+                }
               ],
               certification: null,
-              additional_info: "",
+              additional_info: ""
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err.response.data.errors.email[0]) {
             this.$toast.error(err.response.data.errors.email[0]);
           }
@@ -703,11 +701,11 @@ export default {
           this.detail,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Updated successfully");
             this.detail = {
@@ -719,41 +717,41 @@ export default {
               faqs: [
                 {
                   question: "",
-                  answer: "",
-                },
+                  answer: ""
+                }
               ],
               certification: null,
-              additional_info: "",
+              additional_info: ""
             };
             this.getcourses();
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     drop(id) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/courseoutlines/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.getcourses();
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

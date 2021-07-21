@@ -79,7 +79,7 @@ import pdf from "vue-pdf";
 export default {
   props: ["media"],
   components: {
-    pdf: pdf,
+    pdf: pdf
   },
   data() {
     return {
@@ -90,7 +90,7 @@ export default {
       loadedRatio: 0,
       page: 1,
       numPages: 0,
-      rotate: 0,
+      rotate: 0
     };
   },
   mounted() {
@@ -108,14 +108,14 @@ export default {
         return extension[0];
       }
     },
-    password: function (updatePassword, reason) {
+    password: function(updatePassword, reason) {
       console.log("🚀 ~ file: pdf.vue ~ line 70 ~ reason", reason);
       updatePassword(prompt('password is "test"'));
     },
-    error: function (err) {
+    error: function(err) {
       console.log(err);
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -11,9 +11,9 @@ export default new Vuex.Store({
     admin: JSON.parse(localStorage.getItem("authAdmin")) || {},
     facilitator: JSON.parse(localStorage.getItem("authFacilitator")) || {},
     learner: JSON.parse(localStorage.getItem("authLearner")) || {},
-    //url: "http://localhost:8000/v1",
-    url: "https://skillsguruh-api.herokuapp.com/v1",
-    inboxes: [],
+    url: "http://localhost:8000/v1",
+    //url: "https://skillsguruh-api.herokuapp.com/v1",
+    inboxes: []
   },
   mutations: {
     SET_NOTIFICATION(state, notifications) {
@@ -30,7 +30,7 @@ export default new Vuex.Store({
     },
     SET_SPEECH(state, voices) {
       state.voices = voices;
-    },
+    }
   },
   actions: {
     getInbox({ commit, state }, user) {
@@ -38,10 +38,10 @@ export default new Vuex.Store({
         Vue.axios
           .get(`${state.url}/inboxes`, {
             headers: {
-              Authorization: `Bearer ${state.organization.access_token}`,
-            },
+              Authorization: `Bearer ${state.organization.access_token}`
+            }
           })
-          .then((response) => {
+          .then(response => {
             commit("SET_INBOX", response.data);
           });
       }
@@ -49,10 +49,10 @@ export default new Vuex.Store({
         Vue.axios
           .get(`${state.url}/inboxes`, {
             headers: {
-              Authorization: `Bearer ${state.admin.access_token}`,
-            },
+              Authorization: `Bearer ${state.admin.access_token}`
+            }
           })
-          .then((response) => {
+          .then(response => {
             commit("SET_INBOX", response.data);
           });
       }
@@ -60,10 +60,10 @@ export default new Vuex.Store({
         Vue.axios
           .get(`${state.url}/inboxes`, {
             headers: {
-              Authorization: `Bearer ${state.facilitator.access_token}`,
-            },
+              Authorization: `Bearer ${state.facilitator.access_token}`
+            }
           })
-          .then((response) => {
+          .then(response => {
             commit("SET_INBOX", response.data);
           });
       }
@@ -71,10 +71,10 @@ export default new Vuex.Store({
         Vue.axios
           .get(`${state.url}/inboxes`, {
             headers: {
-              Authorization: `Bearer ${state.learner.access_token}`,
-            },
+              Authorization: `Bearer ${state.learner.access_token}`
+            }
           })
-          .then((response) => {
+          .then(response => {
             commit("SET_INBOX", response.data);
           });
       }
@@ -84,10 +84,10 @@ export default new Vuex.Store({
         Vue.axios
           .get(`${state.url}/get-notifications`, {
             headers: {
-              Authorization: `Bearer ${state.organization.access_token}`,
-            },
+              Authorization: `Bearer ${state.organization.access_token}`
+            }
           })
-          .then((response) => {
+          .then(response => {
             commit("SET_NOTIFICATION", response.data);
           });
       }
@@ -95,10 +95,10 @@ export default new Vuex.Store({
         Vue.axios
           .get(`${state.url}/get-notifications`, {
             headers: {
-              Authorization: `Bearer ${state.admin.access_token}`,
-            },
+              Authorization: `Bearer ${state.admin.access_token}`
+            }
           })
-          .then((response) => {
+          .then(response => {
             commit("SET_NOTIFICATION", response.data);
           });
       }
@@ -106,10 +106,10 @@ export default new Vuex.Store({
         Vue.axios
           .get(`${state.url}/get-notifications`, {
             headers: {
-              Authorization: `Bearer ${state.facilitator.access_token}`,
-            },
+              Authorization: `Bearer ${state.facilitator.access_token}`
+            }
           })
-          .then((response) => {
+          .then(response => {
             commit("SET_NOTIFICATION", response.data);
           });
       }
@@ -117,10 +117,10 @@ export default new Vuex.Store({
         Vue.axios
           .get(`${state.url}/get-notifications`, {
             headers: {
-              Authorization: `Bearer ${state.learner.access_token}`,
-            },
+              Authorization: `Bearer ${state.learner.access_token}`
+            }
           })
-          .then((response) => {
+          .then(response => {
             commit("SET_NOTIFICATION", response.data);
           });
       }
@@ -129,10 +129,10 @@ export default new Vuex.Store({
       Vue.axios
         .get(`${state.url}/mark-notifications`, {
           headers: {
-            Authorization: `Bearer ${user.access_token}`,
-          },
+            Authorization: `Bearer ${user.access_token}`
+          }
         })
-        .then((response) => {
+        .then(response => {
           commit("SET_NOTIFICATION", response.data);
         });
     },
@@ -140,10 +140,10 @@ export default new Vuex.Store({
       Vue.axios
         .post(`${state.url}/unread-notifications`, data, {
           headers: {
-            Authorization: `Bearer ${user.access_token}`,
-          },
+            Authorization: `Bearer ${user.access_token}`
+          }
         })
-        .then((response) => {
+        .then(response => {
           commit("SET_NOTIFICATION", response.data);
         });
     },
@@ -152,23 +152,23 @@ export default new Vuex.Store({
       Vue.axios
         .get(`${state.url}/mark-notification/${data.id}`, {
           headers: {
-            Authorization: `Bearer ${data.user.access_token}`,
-          },
+            Authorization: `Bearer ${data.user.access_token}`
+          }
         })
-        .then((response) => {
+        .then(response => {
           commit("SET_NOTIFICATION", response.data);
         });
-    },
+    }
   },
   modules: {},
   getters: {
-    organization: (state) => state.organization,
-    admin: (state) => state.admin,
-    facilitator: (state) => state.facilitator,
-    learner: (state) => state.learner,
-    url: (state) => state.url,
-    notifications: (state) => state.notifications,
-    inboxes: (state) => state.inboxes,
-    voices: (state) => state.voices,
-  },
+    organization: state => state.organization,
+    admin: state => state.admin,
+    facilitator: state => state.facilitator,
+    learner: state => state.learner,
+    url: state => state.url,
+    notifications: state => state.notifications,
+    inboxes: state => state.inboxes,
+    voices: state => state.voices
+  }
 });

@@ -156,7 +156,7 @@ import {
   LayoutIcon,
   CreditCardIcon,
   ArrowUpRightIcon,
-  LogOutIcon,
+  LogOutIcon
 } from "vue-feather-icons";
 export default {
   components: {
@@ -172,17 +172,17 @@ export default {
     LayoutIcon,
     ArrowUpRightIcon,
     CreditCardIcon,
-    LogOutIcon,
+    LogOutIcon
   },
   data() {
     return {
-      events: [],
+      events: []
     };
   },
   computed: {
     activeaccount() {
-      return this.events.filter((item) => item.status == "active").length;
-    },
+      return this.events.filter(item => item.status == "active").length;
+    }
   },
   methods: {
     logout() {
@@ -193,19 +193,19 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/events`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.events = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

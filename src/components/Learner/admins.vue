@@ -77,7 +77,7 @@
                       class="text-left"
                       :class="{
                         'text-success': item.verification,
-                        'text-danger': !item.verification,
+                        'text-danger': !item.verification
                       }"
                       >{{ item.verification ? "Active" : "Inactive" }}</b-td
                     >
@@ -124,10 +124,7 @@
                   </b-tr>
                 </b-tbody>
               </b-table-simple>
-              <div
-                class="p-3 d-flex justify-content-between"
-                v-if="rows> 10"
-              >
+              <div class="p-3 d-flex justify-content-between" v-if="rows > 10">
                 <div class="fs12 text-muted">
                   Showing 1-10 of {{ users.length }} items
                 </div>
@@ -340,21 +337,21 @@ export default {
         name: "",
         email: "",
         phone: "",
-        password: "",
-      },
+        password: ""
+      }
     };
   },
   computed: {
     filter() {
       return this.users
-        .filter((item) =>
+        .filter(item =>
           item.name.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
           this.perPage * this.currentPage - this.perPage,
           this.perPage * this.currentPage
         );
-    },
+    }
   },
   mounted() {
     this.getadmins();
@@ -364,16 +361,16 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/get-admins`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.organization.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.users = res.data;
             this.rows = res.data.length;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -382,10 +379,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/register-admin`, this.user, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.organization.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.$toast.success("Added successfully");
             this.$bvModal.hide("add");
@@ -394,11 +391,11 @@ export default {
               name: "",
               email: "",
               phone: "",
-              password: "",
+              password: ""
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err.response.data.errors.email[0]) {
             this.$toast.error(err.response.data.errors.email[0]);
           }
@@ -424,11 +421,11 @@ export default {
           this.user,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.organization.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Update successful");
             this.$bvModal.hide("edit");
@@ -436,36 +433,36 @@ export default {
               name: "",
               email: "",
               phone: "",
-              password: "",
+              password: ""
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/delete-admin/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.organization.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.users.splice(index, 1);
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

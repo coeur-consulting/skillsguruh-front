@@ -86,7 +86,7 @@ export default {
       interests: [],
       selected_interests: [],
       search: "",
-      initial: 30,
+      initial: 30
     };
   },
   mounted() {
@@ -104,11 +104,11 @@ export default {
   computed: {
     filteredInterest() {
       return this.interests
-        .filter((item) =>
+        .filter(item =>
           item.value.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(0, this.initial);
-    },
+    }
   },
   methods: {
     loadMore() {
@@ -135,11 +135,11 @@ export default {
           { interest: this.selected_interests },
           {
             headers: {
-              Authorization: `Bearer ${this.$props.user.access_token}`,
-            },
+              Authorization: `Bearer ${this.$props.user.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             var user;
             if (this.$props.type == "learner") {
@@ -158,11 +158,11 @@ export default {
             this.skip();
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

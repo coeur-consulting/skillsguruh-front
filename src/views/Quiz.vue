@@ -241,7 +241,7 @@
                     <b-button
                       :disabled="
                         question_num + 1 ==
-                        questionnaire.sections[section].questions.length
+                          questionnaire.sections[section].questions.length
                       "
                       variant="lighter-green"
                       @click="question_num++"
@@ -255,8 +255,8 @@
                 class="d-flex justify-content-between my-4"
                 v-if="
                   questionnaire.sections.length > 1 &&
-                  question_num + 1 ==
-                    questionnaire.sections[section].questions.length
+                    question_num + 1 ==
+                      questionnaire.sections[section].questions.length
                 "
               >
                 <b-button
@@ -347,30 +347,30 @@ export default {
                 limit: 2,
                 options: [
                   {
-                    title: "",
-                  },
+                    title: ""
+                  }
                 ],
                 showAnswer: false,
                 answer: "",
                 answers: [
                   {
-                    title: "",
-                  },
+                    title: ""
+                  }
                 ],
                 placeholder: "",
                 hint: "",
                 asScore: false,
-                score: 0,
-              },
-            ],
-          },
-        ],
+                score: 0
+              }
+            ]
+          }
+        ]
       },
       section: 0,
       responses: [],
       score: 0,
       question_num: 0,
-      current_score: 0,
+      current_score: 0
     };
   },
   components: {},
@@ -381,7 +381,7 @@ export default {
   computed: {
     totalscore() {
       var arr = [];
-      this.questionnaire.sections.forEach((item) => {
+      this.questionnaire.sections.forEach(item => {
         arr.push(item.questions);
       });
 
@@ -389,7 +389,7 @@ export default {
         return a.concat(b);
       });
 
-      var score = newarr.map((item) => {
+      var score = newarr.map(item => {
         if (item.asAnswer) {
           return item.score;
         }
@@ -398,13 +398,13 @@ export default {
       return score.reduce((a, b) => {
         return a + b;
       }, 0);
-    },
+    }
   },
   methods: {
-    startCallBack: function (x) {
+    startCallBack: function(x) {
       console.log(x);
     },
-    endCallBack: function (x) {
+    endCallBack: function(x) {
       console.log(x);
     },
     warning() {
@@ -419,10 +419,10 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/question/templates/${4}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.questionnaire.id = res.data.id;
             this.questionnaire.module_id = res.data.module_id;
@@ -439,7 +439,7 @@ export default {
     },
     handleResponse() {
       var arr = [];
-      this.questionnaire.sections.forEach((item) => {
+      this.questionnaire.sections.forEach(item => {
         arr.push(item.questions);
       });
 
@@ -447,7 +447,7 @@ export default {
         return a.concat(b);
       });
 
-      var score = newarr.map((item) => {
+      var score = newarr.map(item => {
         if (item.asAnswer) {
           if (item.response != "") {
             if (item.response == item.answer) {
@@ -466,25 +466,25 @@ export default {
 
     addoption(index) {
       this.questionnaire.sections[this.section].questions[index].options.push({
-        title: null,
+        title: null
       });
     },
     submit() {
-      this.$bvModal.msgBoxConfirm("Are you sure?").then((response) => {
+      this.$bvModal.msgBoxConfirm("Are you sure?").then(response => {
         if (response) {
           var data = {
             response: this.questionnaire,
             template_id: this.$props.id,
             your_score: this.current_score,
-            total_score: this.totalscore,
+            total_score: this.totalscore
           };
           this.$http
             .post(`${this.$store.getters.url}/question/responses`, data, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 201) {
                 this.$emit("handleCheck");
                 this.$bvModal
@@ -497,7 +497,7 @@ export default {
                       okVariant: "dark-green",
                       headerClass: "p-2 border-bottom-0",
                       footerClass: "p-2 border-top-0",
-                      centered: true,
+                      centered: true
                     }
                   )
                   .then(() => {});
@@ -505,8 +505,8 @@ export default {
             });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

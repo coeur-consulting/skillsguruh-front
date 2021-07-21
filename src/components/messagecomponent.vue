@@ -154,16 +154,16 @@ export default {
         id: "",
         name: "",
         type: "",
-        profile: "",
+        profile: ""
       },
       current: {
         id: "",
-        type: "",
-      },
+        type: ""
+      }
     };
   },
   components: {
-    MiniBox,
+    MiniBox
   },
 
   computed: {
@@ -184,7 +184,7 @@ export default {
       return this.$store.getters.inboxes;
     },
     sortmessages() {
-      return this.inboxes.map((item) => {
+      return this.inboxes.map(item => {
         var info = {};
 
         if (this.$props.user == "learner") {
@@ -256,7 +256,7 @@ export default {
       });
     },
     chatter() {
-      var allnames = this.sortmessages.map((item) => {
+      var allnames = this.sortmessages.map(item => {
         var checkers = {};
         if (this.$props.user == "admin") {
           if (item.user) {
@@ -360,23 +360,23 @@ export default {
       return [
         ...new Set(
           allnames
-            .filter((item) => item)
-            .map((item) => {
+            .filter(item => item)
+            .map(item => {
               return JSON.stringify({
                 name: item.name,
                 id: item.id,
                 type: item.type,
-                profile: item.profile,
+                profile: item.profile
               });
             })
-        ),
-      ].map((item) => JSON.parse(item));
-    },
+        )
+      ].map(item => JSON.parse(item));
+    }
   },
 
   methods: {
     lastMessage(info) {
-      var mess = this.sortmessages.filter((item) => {
+      var mess = this.sortmessages.filter(item => {
         if (info.type == "user" && item.user) {
           return item;
         }
@@ -395,7 +395,7 @@ export default {
         id: "",
         name: "",
         type: "",
-        profile: "",
+        profile: ""
       };
       this.open = false;
       this.showAll = false;
@@ -407,8 +407,8 @@ export default {
       this.mini_info.profile = profile;
       this.open = true;
       this.showAll = true;
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

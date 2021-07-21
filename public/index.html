@@ -82,6 +82,11 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@voerro/vue-tagsinput@2.7.0/dist/style.css"
     />
+
+    <link
+      href="https://unpkg.com/cloudinary-video-player@1.5.4/dist/cld-video-player.min.css"
+      rel="stylesheet"
+    />
     <meta name="msapplication-TileColor" content="#ffffff" />
     <meta
       name="msapplication-TileImage"
@@ -102,16 +107,25 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
 
-    <!-- <script
+    <script
+      src="https://unpkg.com/cloudinary-core@latest/cloudinary-core-shrinkwrap.min.js"
       type="text/javascript"
-      src="node_modules/vuejs/dist/vue.min.js"
     ></script>
     <script
+      src="https://unpkg.com/cloudinary-video-player@1.5.4/dist/cld-video-player.min.js"
       type="text/javascript"
-      src="node_modules/text-to-speech/dist/vue-text-to-speech.min.js"
     ></script>
-    <script type="text/javascript">
-      Vue.use(VueTextToSpeech);
-    </script> -->
+    <script>
+      var cld = cloudinary.Cloudinary.new({ cloud_name: "skillsguruh" });
+
+      // Initialize player
+
+      var player = cld.videoPlayer("player", {
+        playlistWidget: {
+          direction: "horizontal",
+          total: 4,
+        },
+      });
+    </script>
   </body>
 </html>

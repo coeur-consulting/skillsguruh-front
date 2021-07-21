@@ -58,7 +58,7 @@ export default {
     return {
       record: false,
       listening: false,
-      listen_text: "",
+      listen_text: ""
     };
   },
   methods: {
@@ -95,8 +95,8 @@ export default {
     onresultsRaw() {},
     onResults(res) {
       this.$emit("getText", res.pop().toString());
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -165,7 +165,7 @@
 export default {
   data() {
     return {
-      assessments: [],
+      assessments: []
     };
   },
   mounted() {
@@ -173,42 +173,41 @@ export default {
   },
   computed: {
     quiz() {
-      return this.assessments.filter((item) => item.type == "quiz").length;
+      return this.assessments.filter(item => item.type == "quiz").length;
     },
     questionnaire() {
-      return this.assessments.filter((item) => item.type == "questionnaire")
+      return this.assessments.filter(item => item.type == "questionnaire")
         .length;
     },
     assignment() {
-      return this.assessments.filter((item) => item.type == "assignment")
-        .length;
+      return this.assessments.filter(item => item.type == "assignment").length;
     },
     test() {
-      return this.assessments.filter((item) => item.type == "test").length;
+      return this.assessments.filter(item => item.type == "test").length;
     },
     worksheet() {
-      return this.assessments.filter((item) => item.type == "worksheet").length;
-    },
+      return this.assessments.filter(item => item.type == "worksheet").length;
+    }
   },
   methods: {
     getAssessments() {
       this.$http
         .get(`${this.$store.getters.url}/assessments`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.assessments = res.data;
             this.rows = res.data.length;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

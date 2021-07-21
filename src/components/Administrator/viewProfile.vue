@@ -82,7 +82,7 @@
 export default {
   data() {
     return {
-      user: {},
+      user: {}
     };
   },
 
@@ -101,11 +101,11 @@ export default {
           `${this.$store.getters.url}/admin-get-facilitator/${this.$route.params.id}`,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.user = res.data;
           }
@@ -117,17 +117,17 @@ export default {
           `${this.$store.getters.url}/admin-get-user/${this.$route.params.id}`,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.user = res.data;
           }
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

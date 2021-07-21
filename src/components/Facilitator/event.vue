@@ -612,6 +612,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.event = res.data;
+            this.showEvent = true;
           }
         })
         .catch((err) => {

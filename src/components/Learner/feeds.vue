@@ -92,6 +92,7 @@
             fluid-grow
             :src="feed.media"
           ></b-img>
+
           <video
             width="100%"
             v-if="feed.media && vid_ext.includes(getextension(feed.media))"
@@ -124,7 +125,7 @@
                 width="18px"
                 class="mr-1 cursor-pointer"
               ></b-img
-              >Video
+              >Media
             </FeedUpload>
           </div>
           <div>
@@ -197,7 +198,7 @@
                 </div>
               </div>
             </div>
-            <div class="text-left feed_text px-3 px-sm-4 pb-3">
+            <div class="text-left feed_text px-3 px-sm-4">
               <span>{{ allcomments.message }}</span>
             </div>
           </div>
@@ -288,7 +289,7 @@
                     width="18px"
                     class="mr-1 cursor-pointer"
                   ></b-img
-                  >Video
+                  >Media
                 </div>
                 <div @click="$bvModal.show('feed')">
                   <b-img
@@ -416,25 +417,36 @@
                       </div>
                     </div>
                     <div>
-                      <div class="mb-4 position-relative">
-                        <b-img
+                      <div class="mb-4 position-relative w-100 media">
+                        <cld-image
                           v-if="
-                            feed.media &&
+                            feed.publicId &&
                             img_ext.includes(getextension(feed.media))
                           "
-                          fluid-grow
-                          :src="feed.media"
-                        ></b-img>
-                        <video
-                          width="100%"
+                          :publicId="feed.publicId"
+                        >
+                          <cld-transformation
+                            aspectRatio="4:3"
+                            crop="fill"
+                            quality="auto"
+                          />
+                          <cld-transformation width="auto" crop="scale" />
+                          <cld-transformation dpr="auto" />
+                        </cld-image>
+
+                        <cld-video
+                          id="player"
                           controls
+                          class="cld-video-player"
                           v-if="
-                            feed.media &&
+                            feed.publicId &&
                             vid_ext.includes(getextension(feed.media))
                           "
-                          :src="feed.media"
-                          class="fluid-grow"
-                        ></video>
+                          :publicId="feed.publicId"
+                        >
+                          <cld-transformation crop="fill" height="500" />
+                        </cld-video>
+
                         <audio
                           width="100%"
                           controls
@@ -721,6 +733,7 @@ export default {
       feed: {
         media: "",
         message: "",
+        publicId: "",
         tags: [],
       },
       img_ext: ["jpg", "png", "jpeg", "gif"],
@@ -788,16 +801,18 @@ export default {
     },
     getUpload(val) {
       if (
-        !this.img_ext.includes(this.getextension(val)) &&
-        !this.vid_ext.includes(this.getextension(val)) &&
-        !this.aud_ext.includes(this.getextension(val)) &&
-        !this.doc_ext.includes(this.getextension(val))
+        !this.img_ext.includes(this.getextension(val.secure_url)) &&
+        !this.vid_ext.includes(this.getextension(val.secure_url)) &&
+        !this.aud_ext.includes(this.getextension(val.secure_url)) &&
+        !this.doc_ext.includes(this.getextension(val.secure_url))
       ) {
         this.$toast.error("Unsupported content type !");
         return;
       }
 
-      this.feed.media = val;
+      this.feed.media = val.secure_url;
+      this.feed.publicId = val.public_id;
+      this.$bvModal.show("media");
     },
     insertfeed(emoji) {
       this.feed.message += emoji + "";
@@ -839,7 +854,7 @@ export default {
         });
     },
     post() {
-      if (!this.feed.message) {
+      if (!this.feed.message && !this.feed.media) {
         return;
       }
       this.$http
@@ -857,6 +872,8 @@ export default {
             this.feed = {
               media: "",
               message: "",
+              publicId: "",
+              tags: [],
             };
           }
         })

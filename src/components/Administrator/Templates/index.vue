@@ -139,21 +139,21 @@ export default {
       perPage: 10,
       questionnaires: [],
 
-      title: "",
+      title: ""
     };
   },
   components: {},
   computed: {
     filter() {
       return this.questionnaires
-        .filter((item) =>
+        .filter(item =>
           item.module.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
           this.perPage * this.currentPage - this.perPage,
           this.perPage * this.currentPage
         );
-    },
+    }
   },
   mounted() {
     this.getquestionnaires();
@@ -166,16 +166,16 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/questionnaires`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.questionnaires = res.data;
             this.rows = res.data.length;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -188,27 +188,27 @@ export default {
     },
 
     drop(id) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/questionnaires/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.getquestionnaires();
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

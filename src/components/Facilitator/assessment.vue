@@ -60,7 +60,7 @@
                       $moment(item.start),
                       $moment(item.end)
                     ),
-                    'text-warning': $moment().isAfter($moment(item.end)),
+                    'text-warning': $moment().isAfter($moment(item.end))
                   }"
                 ></b-icon>
                 <span
@@ -174,7 +174,7 @@
         <b-form-group label="Choose template">
           <model-list-select
             :list="
-              templates.filter((val) =>
+              templates.filter(val =>
                 val.type.toLowerCase().includes($route.params.type)
               )
             "
@@ -288,7 +288,7 @@
 import { ModelListSelect } from "vue-search-select";
 export default {
   components: {
-    ModelListSelect,
+    ModelListSelect
   },
   data() {
     return {
@@ -309,8 +309,8 @@ export default {
         end: new Date(),
         feedback: "",
         tools: [],
-        type: this.$route.params.type,
-      },
+        type: this.$route.params.type
+      }
     };
   },
   mounted() {
@@ -321,30 +321,30 @@ export default {
   computed: {
     filter() {
       return this.assessments
-        .filter((item) =>
+        .filter(item =>
           item.questiontemplate.title
             .toLowerCase()
             .includes(this.search.toLowerCase())
         )
         .filter(
-          (item) =>
+          item =>
             item.type.toLowerCase() == this.$route.params.type.toLowerCase()
         )
         .slice(
           this.perPage * this.currentPage - this.perPage,
           this.perPage * this.currentPage
         );
-    },
+    }
   },
   methods: {
     getcourses() {
       this.$http
         .get(`${this.$store.getters.url}/courses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.courses = res.data;
           }
@@ -357,10 +357,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/assessments`, this.assessment, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.assessments.unshift(res.data);
             this.$bvModal.hide("addassessment");
@@ -373,7 +373,7 @@ export default {
               end: new Date(),
               feedback: "",
               tools: [],
-              type: this.$route.params.type,
+              type: this.$route.params.type
             };
           }
         })
@@ -382,15 +382,15 @@ export default {
         });
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/assessments/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.assessments.splice(index, 1);
@@ -406,15 +406,15 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/question/templates`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 200) {
-            this.templates = res.data.filter((item) => item.status == "active");
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
           }
         })
-        .catch((err) => {
+        .then(res => {
+          if (res.status == 200) {
+            this.templates = res.data.filter(item => item.status == "active");
+          }
+        })
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -426,16 +426,16 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/assessments`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.assessments = res.data;
             this.rows = res.data.length;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -443,20 +443,20 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/solved/assessments`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.assessments = res.data;
             this.rows = res.data.length;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

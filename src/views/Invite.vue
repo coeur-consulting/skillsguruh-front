@@ -5,10 +5,10 @@
 <script>
 export default {
   beforeRouteEnter(to, from, next) {
-    next((vm) => {
+    next(vm => {
       vm.$router.push(`/register?invite=${to.params.code}`);
     });
-  },
+  }
 };
 </script>
 <style scoped>

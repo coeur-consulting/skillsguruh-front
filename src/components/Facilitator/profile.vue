@@ -204,9 +204,7 @@
                 icon="bell-fill"
                 class="mr-2 mt-1"
               ></b-icon>
-              <div>
-                <div>{{ item.data.notification }}</div>
-              </div>
+              <span> {{ item.data.notification }}</span>
             </div>
           </div>
         </div>

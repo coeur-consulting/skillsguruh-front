@@ -40,7 +40,7 @@
                         $moment(item.start),
                         $moment(item.end)
                       ),
-                      'text-warning': $moment().isAfter($moment(item.end)),
+                      'text-warning': $moment().isAfter($moment(item.end))
                     }"
                   ></b-icon>
                   <span
@@ -76,14 +76,14 @@
                   <span>{{ item.duration }} minutes</span>
                 </div>
                 <div
-                  v-if="responses.find((val) => val.assessment_id == item.id)"
+                  v-if="responses.find(val => val.assessment_id == item.id)"
                   class="fs12 text-muted mb-2"
                 >
                   <span>Your score: </span>
                   <span>{{
-                    responses.find((val) => val.assessment_id == item.id)
+                    responses.find(val => val.assessment_id == item.id)
                       .your_score
-                      ? responses.find((val) => val.assessment_id == item.id)
+                      ? responses.find(val => val.assessment_id == item.id)
                           .your_score
                       : "N/A"
                   }}</span>
@@ -119,7 +119,7 @@
                   >
                     <span
                       v-if="
-                        !responses.find((val) => val.assessment_id == item.id)
+                        !responses.find(val => val.assessment_id == item.id)
                       "
                       class="text-dark-green cursor-pointer"
                       @click="solve(item.id, $route.params.type.toLowerCase())"
@@ -130,7 +130,7 @@
                       class="text-dark-green cursor-pointer"
                       @click="
                         viewResult(
-                          responses.find((val) => val.assessment_id == item.id)
+                          responses.find(val => val.assessment_id == item.id)
                         )
                       "
                       >View response</span
@@ -205,11 +205,11 @@ export default {
       module_id: null,
       responses: [],
       total_score: null,
-      your_score: null,
+      your_score: null
     };
   },
   components: {
-    Preview,
+    Preview
   },
   mounted() {
     // if (this.$route.params.type == "template") {
@@ -223,10 +223,10 @@ export default {
   computed: {
     filter() {
       return this.assessments
-        .filter((item) =>
+        .filter(item =>
           item.course.title.toLowerCase().includes(this.search.toLowerCase())
         )
-        .filter((item) => item.type == this.$route.params.type)
+        .filter(item => item.type == this.$route.params.type)
         .slice(
           this.perPage * this.currentPage - this.perPage,
           this.perPage * this.currentPage
@@ -234,7 +234,7 @@ export default {
     },
     templatefilter() {
       return this.templates
-        .filter((item) =>
+        .filter(item =>
           item.course.title.toLowerCase().includes(this.search.toLowerCase())
         )
 
@@ -242,7 +242,7 @@ export default {
           this.perPage * this.currentPage - this.perPage,
           this.perPage * this.currentPage
         );
-    },
+    }
   },
   methods: {
     viewResult(val) {
@@ -266,10 +266,10 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/assessment/responses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.responses = res.data;
           }
@@ -279,10 +279,10 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/answer-questionnaires`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.templates = res.data;
             this.rows = res.data.length;
@@ -293,17 +293,17 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/add/assessment`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.assessments = res.data;
             this.rows = res.data.length;
           }
         })
 
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -311,7 +311,7 @@ export default {
     getToken() {
       const headers = {
         "Content-Type": "application/json;charset=UTF-8",
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": "*"
       };
       var bodyFormData = new FormData();
 
@@ -332,7 +332,7 @@ export default {
           bodyFormData,
           { headers: headers }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             console.log(
               "🚀 ~ file: user.controller.js ~ line 18 ~ axios.post ~ res",
@@ -342,7 +342,7 @@ export default {
             //  addContact(res.access_token, emailvalue);
           }
         })
-        .catch((err) => {
+        .catch(err => {
           return err.response.message;
         });
     },
@@ -350,27 +350,27 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/libraries`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.library = res.data;
             this.assessments = res.data
-              .map((item) => {
+              .map(item => {
                 if (item.assessment) {
                   return item.assessment;
                 }
               })
               .filter(
-                (item) =>
+                item =>
                   item &&
                   item.type.toLowerCase() ==
                     this.$route.params.type.toLowerCase()
               );
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -378,16 +378,16 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/learner/assessments`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.learnerassessments = res.data;
             this.rows = res.data.length;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -401,8 +401,8 @@ export default {
     handleCheck() {
       this.$bvModal.hide("showquest");
     },
-    getSolvedAssessments() {},
-  },
+    getSolvedAssessments() {}
+  }
 };
 </script>
 <style scoped>

@@ -22,7 +22,7 @@ export default {
   props: ["text", "voice"],
   data() {
     return {
-      play: false,
+      play: false
     };
   },
   computed: {},
@@ -34,7 +34,7 @@ export default {
         return;
       }
       this.play = !this.play;
-    },
-  },
+    }
+  }
 };
 </script>

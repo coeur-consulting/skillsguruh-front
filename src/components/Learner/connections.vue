@@ -157,7 +157,7 @@ export default {
         id: "",
         name: "",
         type: "",
-        profile: "",
+        profile: ""
       },
       search: "",
       suggested_search: "",
@@ -165,11 +165,11 @@ export default {
       learner_connections: [],
       facilitators_connections: [],
       open: false,
-      showAll: false,
+      showAll: false
     };
   },
   components: {
-    Minichat,
+    Minichat
   },
   mounted() {
     this.getconnections();
@@ -183,7 +183,7 @@ export default {
       );
     },
     filteredConnections() {
-      return this.connections.filter((item) => {
+      return this.connections.filter(item => {
         if (item.user_follower) {
           return item.user_follower.name
             .toLowerCase()
@@ -198,22 +198,22 @@ export default {
     },
     filteredLearnerSuggested() {
       return this.learner_connections.filter(
-        (item) =>
+        item =>
           !this.connections
-            .filter((ite) => ite.user_follower)
-            .map((val) => val.user_follower.id)
+            .filter(ite => ite.user_follower)
+            .map(val => val.user_follower.id)
             .includes(item.id)
       );
     },
     filteredFacilitatorSuggested() {
       return this.facilitators_connections.filter(
-        (item) =>
+        item =>
           !this.connections
-            .filter((ite) => ite.facilitator_follower)
-            .map((val) => val.facilitator_follower.id)
+            .filter(ite => ite.facilitator_follower)
+            .map(val => val.facilitator_follower.id)
             .includes(item.id)
       );
-    },
+    }
   },
   methods: {
     togglechat() {
@@ -221,7 +221,7 @@ export default {
         id: "",
         name: "",
         type: "",
-        profile: "",
+        profile: ""
       };
       this.open = false;
       this.showAll = false;
@@ -233,11 +233,11 @@ export default {
 
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.learner_connections = res.data;
           }
@@ -250,11 +250,11 @@ export default {
 
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.facilitators_connections = res.data;
           }
@@ -272,15 +272,15 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/connections`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.connections = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -292,21 +292,21 @@ export default {
           { following_id: id, follow_type: type },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200 || res.status == 201) {
             this.$toast.success("Successful");
             this.getconnections();
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

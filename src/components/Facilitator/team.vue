@@ -15,12 +15,12 @@ import Learners from "./learners";
 export default {
   data() {
     return {
-      team: true,
+      team: true
     };
   },
   components: {
     Admin,
-    Learners,
-  },
+    Learners
+  }
 };
 </script>

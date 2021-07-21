@@ -37,11 +37,11 @@
                         <b-card-body
                           v-if="
                             JSON.parse(mods.modules).filter(
-                              (ite) => ite.file_type == 'template'
+                              ite => ite.file_type == 'template'
                             ) &&
-                            JSON.parse(mods.modules).filter(
-                              (ite) => ite.file_type == 'template'
-                            ).length
+                              JSON.parse(mods.modules).filter(
+                                ite => ite.file_type == 'template'
+                              ).length
                           "
                           class="px-2 py-0 mb-2"
                         >
@@ -50,7 +50,7 @@
                             class="worksheet"
                             v-for="(mod, index) in JSON.parse(
                               mods.modules
-                            ).filter((item) => item.file_type == 'template')"
+                            ).filter(item => item.file_type == 'template')"
                             :key="index"
                           >
                             <b-card-text
@@ -72,17 +72,17 @@
                                 v-b-popover.hover.top="'Submitted'"
                                 v-if="
                                   myquestionnaire.find(
-                                    (it) =>
+                                    it =>
                                       it.question_template_id ==
                                         mod.template.id &&
                                       it.course_id == item.course.id
                                   ) &&
-                                  myquestionnaire.find(
-                                    (it) =>
-                                      it.question_template_id ==
-                                        mod.template.id &&
-                                      it.course_id == item.course.id
-                                  ).status == 'submitted'
+                                    myquestionnaire.find(
+                                      it =>
+                                        it.question_template_id ==
+                                          mod.template.id &&
+                                        it.course_id == item.course.id
+                                    ).status == 'submitted'
                                 "
                                 variant="dark-green"
                                 icon="check-circle-fill"
@@ -91,17 +91,17 @@
                                 v-b-popover.hover.top="'Draft'"
                                 v-if="
                                   myquestionnaire.find(
-                                    (it) =>
+                                    it =>
                                       it.question_template_id ==
                                         mod.template.id &&
                                       it.course_id == item.course.id
                                   ) &&
-                                  myquestionnaire.find(
-                                    (it) =>
-                                      it.question_template_id ==
-                                        mod.template.id &&
-                                      it.course_id == item.course.id
-                                  ).status == 'draft'
+                                    myquestionnaire.find(
+                                      it =>
+                                        it.question_template_id ==
+                                          mod.template.id &&
+                                        it.course_id == item.course.id
+                                    ).status == 'draft'
                                 "
                                 variant="warning"
                                 icon="stop-circle-fill"
@@ -110,7 +110,7 @@
                                 v-b-popover.hover.top="'Begin'"
                                 v-if="
                                   !myquestionnaire.find(
-                                    (it) =>
+                                    it =>
                                       it.question_template_id ==
                                         mod.template.id &&
                                       it.course_id == item.course.id
@@ -484,7 +484,7 @@ export default {
       showLibrary: false,
       showRecent: false,
       myquestionnaire: [],
-      media: {},
+      media: {}
     };
   },
   mounted() {
@@ -497,7 +497,7 @@ export default {
   computed: {
     filteredLibrary() {
       var title = this.library.filter(
-        (item) =>
+        item =>
           item.course.title.toLowerCase().includes(this.search.toLowerCase()) ||
           JSON.parse(item.course.courseoutline.knowledge_areas)
             .value.toLowerCase()
@@ -510,11 +510,11 @@ export default {
       }
       var courseType;
       if (this.course_type == "free") {
-        courseType = title.filter((item) => item.course.type == "free");
+        courseType = title.filter(item => item.course.type == "free");
       } else if (this.course_type == "paid") {
-        courseType = title.filter((item) => item.course.type == "paid");
+        courseType = title.filter(item => item.course.type == "paid");
       } else if (this.course_type == "group") {
-        courseType = title.filter((item) => item.course.type == "group");
+        courseType = title.filter(item => item.course.type == "group");
       } else {
         courseType = title;
       }
@@ -525,18 +525,21 @@ export default {
       return courseType;
     },
     recentlyAdded() {
-      return this.library.slice().reverse().splice(0, 6);
-    },
+      return this.library
+        .slice()
+        .reverse()
+        .splice(0, 6);
+    }
   },
   methods: {
     getQuestionnaire() {
       this.$http
         .get(`${this.$store.getters.url}/answer-questionnaires`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.myquestionnaire = res.data;
             this.getLibrary();
@@ -558,21 +561,21 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/libraries`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.library = res.data;
             this.showLibrary = true;
             this.showRecent = true;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

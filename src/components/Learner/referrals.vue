@@ -244,14 +244,14 @@ export default {
         code: "",
         users: [
           {
-            email: "",
-          },
-        ],
+            email: ""
+          }
+        ]
       },
       referrals: [],
       email: "",
       message: `https://skillsguruh.com/invite/${this.$store.getters.learner.referral}`,
-      communities_link: [],
+      communities_link: []
     };
   },
   mounted() {
@@ -262,24 +262,24 @@ export default {
   methods: {
     addinvite() {
       this.inviteUsers.users.push({
-        email: "",
+        email: ""
       });
     },
     getreferrals() {
       this.$http
         .get(`${this.$store.getters.url}/referrals`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.referrals = res.data;
             this.showReferral = true;
             this.showRef = true;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -287,48 +287,48 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/add-community`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.communities_link = res.data;
             this.showCommunity = true;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     sendInvite() {
       var data = {
         emails: this.inviteUsers.users,
-        code: this.$store.getters.learner.referral,
+        code: this.$store.getters.learner.referral
       };
       this.$http
         .post(`${this.$store.getters.url}/send-referral`, data, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Invite sent");
             this.email = "";
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
-    onCopy: function (e) {
+    onCopy: function(e) {
       alert("You just copied the following text to the clipboard: " + e.text);
     },
-    onError: function (e) {
+    onError: function(e) {
       alert("Failed to copy the text to the clipboard");
       console.log(e);
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

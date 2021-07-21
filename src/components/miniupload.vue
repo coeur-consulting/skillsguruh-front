@@ -15,7 +15,12 @@
             @change="handleFileChange($event)"
           />
           <div class="position-relative text-center">
-            <b-icon icon="paperclip" font-scale="1.1"></b-icon>
+            <b-icon
+              icon="paperclip"
+              font-scale="1.1"
+              v-b-tooltip.hover
+              title="Add Attachment"
+            ></b-icon>
             <div v-if="start" class="spinner-start">
               <b-spinner
                 class="text-dark-green"
@@ -23,21 +28,7 @@
                 label="Spinning"
               ></b-spinner>
             </div>
-            <div
-              v-if="uploadedFileUrl"
-              class="fs12 text-center text-dark-green"
-            >
-              Ready <b-icon icon="check2-circle"></b-icon>
-            </div>
           </div>
-
-          <!-- <b-img
-            v-if="uploadedFileUrl"
-            :src="uploadedFileUrl"
-            blank-color="transparent"
-            width="100%"
-            height="100%"
-          ></b-img> -->
         </label>
       </div>
     </form>
@@ -90,6 +81,13 @@ label {
   margin-left: -1rem;
   margin-top: -1rem;
 }
+.done-upload {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -0.75rem;
+  margin-top: -0.75rem;
+}
 </style>
 <script>
 export default {
@@ -106,9 +104,8 @@ export default {
       uploadedFile: null,
       uploadedFileUrl: null,
       cloudinary: {
-        uploadPreset: "knkccgjv",
-        apiKey: "634813511968181",
-        cloudName: "bizguruh-com",
+        uploadPreset: "skillsguruh_preset",
+        cloudName: "skillsguruh",
       },
       progress: 0,
       start: false,
@@ -184,7 +181,7 @@ export default {
           var response = JSON.parse(xhr.response);
           this.start = false;
           this.uploadedFileUrl = response.secure_url; // https address of uploaded file
-          this.$emit("getUpload", this.uploadedFileUrl);
+          this.$emit("getUpload", response);
         } else {
           this.start = false;
           alert("Upload failed. Please try again.");

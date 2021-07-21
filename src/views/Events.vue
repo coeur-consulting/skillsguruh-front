@@ -221,16 +221,16 @@ export default {
         start: "",
         end: "",
         resource: "",
-        facilitators: [],
+        facilitators: []
       },
-      showEvents: false,
+      showEvents: false
     };
   },
   components: {},
   computed: {
     filter() {
       var event = this.events
-        .filter((item) =>
+        .filter(item =>
           item.title.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
@@ -239,13 +239,13 @@ export default {
         );
 
       if (this.showing == "upcoming") {
-        return event.filter((item) => item.status == "pending");
+        return event.filter(item => item.status == "pending");
       }
       if (this.showing == "ongoing") {
-        return event.filter((item) => item.status == "ongoing");
+        return event.filter(item => item.status == "ongoing");
       }
-      return event.filter((item) => item.status == "expired");
-    },
+      return event.filter(item => item.status == "expired");
+    }
   },
   mounted() {
     this.getevents();
@@ -254,22 +254,22 @@ export default {
     getevents() {
       this.$http
         .get(`${this.$store.getters.url}/guest/events`)
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.events = res.data;
             this.rows = res.data.length;
             this.showEvents = true;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
 
     view(id) {
       this.$router.push(`/learner/event/${id}`);
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

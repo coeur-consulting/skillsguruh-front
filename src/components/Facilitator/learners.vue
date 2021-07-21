@@ -70,8 +70,8 @@
                     <b-td>
                       <div class="text-left" v-if="item.loginhistory.length">
                         <span v-if="item.loginhistory.length">{{
-                          item.loginhistory[item.loginhistory.length - 1].record
-                            | moment("ll")
+                          item.loginhistory[item.loginhistory.length - 1]
+                            .record | moment("ll")
                         }}</span>
                         <br />
                         <span
@@ -92,7 +92,7 @@
                       class="text-left"
                       :class="{
                         'text-success': item.verification,
-                        'text-danger': !item.verification,
+                        'text-danger': !item.verification
                       }"
                       >{{ item.verification ? "Active" : "Inactive" }}</b-td
                     >
@@ -342,21 +342,21 @@ export default {
         name: "",
         email: "",
         phone: "",
-        password: "",
-      },
+        password: ""
+      }
     };
   },
   computed: {
     filter() {
       return this.users
-        .filter((item) =>
+        .filter(item =>
           item.name.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
           this.perPage * this.currentPage - this.perPage,
           this.perPage * this.currentPage
         );
-    },
+    }
   },
   mounted() {
     this.getusers();
@@ -366,16 +366,16 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/facilitator-get-users`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.users = res.data;
             this.rows = res.data.length;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -387,11 +387,11 @@ export default {
           this.user,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.$toast.success("Added successfully");
             this.$bvModal.hide("add");
@@ -400,11 +400,11 @@ export default {
               name: "",
               email: "",
               phone: "",
-              password: "",
+              password: ""
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           if (err.response.data.errors.email[0]) {
             this.$toast.error(err.response.data.errors.email[0]);
           }
@@ -430,11 +430,11 @@ export default {
           this.user,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Update successful");
             this.$bvModal.hide("edit");
@@ -442,39 +442,39 @@ export default {
               name: "",
               email: "",
               phone: "",
-              password: "",
+              password: ""
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
         if (val) {
           this.$http
             .delete(
               `${this.$store.getters.url}/facilitator-delete-user/${id}`,
               {
                 headers: {
-                  Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-                },
+                  Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+                }
               }
             )
-            .then((res) => {
+            .then(res => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.users.splice(index, 1);
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

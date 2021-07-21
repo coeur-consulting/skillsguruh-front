@@ -100,7 +100,7 @@
 export default {
   data() {
     return {
-      questionnaire: [],
+      questionnaire: []
     };
   },
   mounted() {
@@ -113,17 +113,17 @@ export default {
           `${this.$store.getters.url}/questionnaires/${this.$route.params.id}`,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.questionnaire = res.data;
             this.questionnaire.sections = JSON.parse(res.data.content);
           }
         });
-    },
-  },
+    }
+  }
 };
 </script>
