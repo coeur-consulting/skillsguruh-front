@@ -624,6 +624,9 @@
             >
           </b-container>
         </div>
+        <div class="px-4">
+          <b-alert show><span class="fs10">Fill all (*) fields</span></b-alert>
+        </div>
         <b-container v-show="type == 1">
           <b-form-row>
             <b-col sm="6" class="mb-3 px-3">
