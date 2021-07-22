@@ -255,9 +255,9 @@ export default {
         password: "",
         profile: "",
         referral: "",
-        referral_type: "",
+        referral_type: ""
       },
-      agree: false,
+      agree: false
     };
   },
   mounted() {
@@ -267,7 +267,7 @@ export default {
     }
   },
   components: {
-    Upload,
+    Upload
   },
   methods: {
     getUpload(val) {
@@ -279,7 +279,7 @@ export default {
         if (this.type == "organization") {
           this.$http
             .post(`${this.$store.getters.url}/register-organization`, this.user)
-            .then((res) => {
+            .then(res => {
               if (res.status == 201) {
                 this.$toast.success("Registration successful");
                 this.$router.push("/login");
@@ -288,11 +288,11 @@ export default {
                   email: "",
                   phone: "",
                   password: "",
-                  profile: "",
+                  profile: ""
                 };
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.loading = false;
               if (err.response.data.errors.email) {
                 this.$toast.error(err.response.data.errors.email[0]);
@@ -311,7 +311,7 @@ export default {
         if (this.type == "facilitator") {
           this.$http
             .post(`${this.$store.getters.url}/facilitator-register`, this.user)
-            .then((res) => {
+            .then(res => {
               if (res.status == 201) {
                 this.$toast.success("Registration successful");
                 this.$router.push("/login");
@@ -320,11 +320,11 @@ export default {
                   email: "",
                   phone: "",
                   password: "",
-                  profile: "",
+                  profile: ""
                 };
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.loading = false;
               if (err.response.data.errors.email) {
                 this.$toast.error(err.response.data.errors.email[0]);
@@ -343,7 +343,7 @@ export default {
         if (this.type == "learner") {
           this.$http
             .post(`${this.$store.getters.url}/user-register`, this.user)
-            .then((res) => {
+            .then(res => {
               if (res.status == 201) {
                 this.$toast.success("Registration successful");
                 if (this.$route.query.course_id) {
@@ -359,11 +359,11 @@ export default {
                   email: "",
                   phone: "",
                   password: "",
-                  profile: "",
+                  profile: ""
                 };
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.loading = false;
               if (err.response.data.errors.email) {
                 this.$toast.error(err.response.data.errors.email[0]);
@@ -388,8 +388,8 @@ export default {
         `${this.$store.getters.url}/auth/${provider}/redirect`,
         "_blank"
       );
-    },
-  },
+    }
+  }
 };
 </script>
 

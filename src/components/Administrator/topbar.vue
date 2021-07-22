@@ -292,11 +292,18 @@
         </div>
       </b-popover>
 
-      <mail-icon
-        size="1.5x"
-        class="custom-class mr-4 text-muted cursor-pointer"
-        id="inbox"
-      ></mail-icon>
+      <div class="position-relative mr-4">
+        <mail-icon
+          size="1.5x"
+          class="custom-class text-muted"
+          id="inbox"
+        ></mail-icon>
+        <small class="unread">
+          <b-badge variant="danger" v-if="unreadmesages.length">{{
+            unreadmesages.length
+          }}</b-badge></small
+        >
+      </div>
 
       <b-popover id="inbox1" target="inbox" triggers="hover" placement="bottom">
         <template #title>Inbox</template>
@@ -322,7 +329,15 @@
               >
                 <span class="message_name fs12">{{ message.name }}</span>
                 <br />
-                <div class="last_message fs11">
+                <div
+                  class="last_message fs11"
+                  :class="
+                    !lastMessage(message).status &&
+                    lastMessage(message).admin_id != $store.getters.admin.id
+                      ? 'font-weight-bold'
+                      : ''
+                  "
+                >
                   {{ lastMessage(message).message }}
                 </div>
               </div>
@@ -347,7 +362,7 @@
         <b-dropdown size="sm" variant="transparent" no-caret class="no-focus">
           <template #button-content>
             <b-avatar
-              :src="$store.getters.administrator.profile"
+              :src="$store.getters.admin.profile"
               id="profile"
               class="cursor-pointer"
               size="30px"
@@ -406,15 +421,29 @@ export default {
   },
 
   methods: {
+    markMessagesRead() {
+      let data = {
+        ids: this.unreadmesages.map((item) => item.id),
+      };
+      this.$http.post(`${this.$store.getters.url}/inboxes/mark/read`, data, {
+        headers: {
+          Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+        },
+      });
+    },
     lastMessage(info) {
       var mess = this.sortmessages.filter((item) => {
-        if (info.type == "user" && item.user) {
+        if (info.type == "user" && item.user && item.user.id == info.id) {
           return item;
         }
-        if (info.type == "admin" && item.admin) {
+        if (info.type == "admin" && item.admin && item.admin.id == info.id) {
           return item;
         }
-        if (info.type == "facilitator" && item.facilitator) {
+        if (
+          info.type == "facilitator" &&
+          item.facilitator &&
+          item.facilitator.id == info.id
+        ) {
           return item;
         }
       });
@@ -454,6 +483,14 @@ export default {
     },
   },
   computed: {
+    unreadmesages() {
+      return this.inboxes.filter(
+        (item) =>
+          !item.status &&
+          item.receiver_id == this.$store.getters.admin.id &&
+          item.receiver == "admin"
+      );
+    },
     notifications() {
       return this.$store.getters.notifications;
     },
@@ -473,6 +510,9 @@ export default {
           info.facilitator = item.facilitator_info || null;
           info.message = item.message || null;
           info.time = item.created_at || null;
+          info.status = item.status;
+          info.id = item.id;
+          info.admin_id = item.admin_id;
         }
         if (
           item.receiver == "admin" &&
@@ -483,6 +523,8 @@ export default {
           info.facilitator = item.facilitator || null;
           info.message = item.message || null;
           info.time = item.created_at || null;
+          info.status = item.status;
+          info.id = item.id;
         }
 
         return info;

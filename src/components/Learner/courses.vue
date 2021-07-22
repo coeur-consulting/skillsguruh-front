@@ -13,6 +13,7 @@
                 d-flex
                 align-items-center
                 justify-content-center justify-content-sm-end
+                px-3
               "
             >
               <b-icon
@@ -200,7 +201,7 @@
 
                     <div
                       v-if="course"
-                      class="course_fac align-items-center fs13"
+                      class="course_fac align-items-center fs13 mb-1"
                     >
                       <b-icon
                         icon="layers"

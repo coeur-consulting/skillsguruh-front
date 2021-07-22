@@ -36,6 +36,7 @@
                       d-flex
                       align-items-center
                       cursor-pointer cursor-pointer
+                      event_title
                     "
                     @click="showing = 'ongoing'"
                     ><b-icon
@@ -52,6 +53,7 @@
                       d-flex
                       align-items-center
                       cursor-pointer cursor-pointer
+                      event_title
                     "
                     @click="showing = 'upcoming'"
                     ><b-icon
@@ -68,6 +70,7 @@
                       d-flex
                       align-items-center
                       cursor-pointer cursor-pointer
+                      event_title
                     "
                     ><b-icon
                       :icon="showing == 'past' ? 'circle-fill' : 'circle'"

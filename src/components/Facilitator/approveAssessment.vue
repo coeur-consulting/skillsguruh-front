@@ -73,7 +73,7 @@
                   <div
                     v-if="
                       (question.type == 'short' || question.type == 'long') &&
-                      !question.addSubQuestion
+                        !question.addSubQuestion
                     "
                   >
                     <div
@@ -154,14 +154,14 @@
                         <b-icon
                           :icon="
                             question.answers
-                              .map((t) => t.toLowerCase())
+                              .map(t => t.toLowerCase())
                               .includes(item.value.toLowerCase())
                               ? 'check2-circle'
                               : 'x'
                           "
                           :class="
                             question.answers
-                              .map((t) => t.toLowerCase())
+                              .map(t => t.toLowerCase())
                               .includes(item.value.toLowerCase())
                               ? 'text-dark-green'
                               : 'text-danger'
@@ -240,7 +240,7 @@
                           <div
                             v-if="
                               question.type == 'short' ||
-                              question.type == 'long'
+                                question.type == 'long'
                             "
                           >
                             <div
@@ -312,14 +312,14 @@
                                 <b-icon
                                   :icon="
                                     subquest.answers
-                                      .map((t) => t.toLowerCase())
+                                      .map(t => t.toLowerCase())
                                       .includes(item.value.toLowerCase())
                                       ? 'check2-circle'
                                       : 'x'
                                   "
                                   :class="
                                     subquest.answers
-                                      .map((t) => t.toLowerCase())
+                                      .map(t => t.toLowerCase())
                                       .includes(item.value.toLowerCase())
                                       ? 'text-dark-green'
                                       : 'text-danger'
@@ -468,8 +468,8 @@ export default {
                 limit: 2,
                 options: [
                   {
-                    title: "",
-                  },
+                    title: ""
+                  }
                 ],
                 showAnswer: false,
                 answer: "",
@@ -477,22 +477,22 @@ export default {
                 placeholder: "",
                 hint: "",
                 asScore: false,
-                score: 0,
-              },
-            ],
-          },
-        ],
+                score: 0
+              }
+            ]
+          }
+        ]
       },
       section: 0,
       responses: [],
-      score: 0,
+      score: 0
     };
   },
   mounted() {
     this.getQuestionnaire();
   },
   watch: {
-    id: "getQuestionnaire",
+    id: "getQuestionnaire"
   },
   computed: {
     myquest() {
@@ -500,7 +500,7 @@ export default {
     },
     totalscore() {
       var arr = [];
-      this.questionnaire.sections.forEach((item) => {
+      this.questionnaire.sections.forEach(item => {
         arr.push(item.questions);
       });
 
@@ -508,7 +508,7 @@ export default {
         return a.concat(b);
       });
 
-      var score = newarr.map((item) => {
+      var score = newarr.map(item => {
         if (this.$props.options.grading) {
           return item.score;
         }
@@ -517,7 +517,7 @@ export default {
       return score.reduce((a, b) => {
         return a + b;
       }, 0);
-    },
+    }
   },
   methods: {
     getQuestionnaire() {
@@ -541,7 +541,7 @@ export default {
       var answers = [];
       var responses = [];
       var correct = 0;
-      this.questionnaire.sections.forEach((item) => {
+      this.questionnaire.sections.forEach(item => {
         arr.push(item.questions);
       });
 
@@ -549,7 +549,7 @@ export default {
         return a.concat(b);
       });
 
-      var score = newarr.map((item) => {
+      var score = newarr.map(item => {
         if (item.asAnswer) {
           if (item.type == "single") {
             if (item.response == item.answer) {
@@ -558,13 +558,13 @@ export default {
             return 0;
           }
           if (item.type == "checkbox") {
-            answers = item.answers.map((item) => item).sort();
+            answers = item.answers.map(item => item).sort();
             responses = item.responses
-              .map((val) => item.options[val])
-              .map((item) => item.value)
+              .map(val => item.options[val])
+              .map(item => item.value)
               .sort();
 
-            correct = answers.filter((x) => responses.indexOf(x) !== -1).length;
+            correct = answers.filter(x => responses.indexOf(x) !== -1).length;
             let score = (correct / answers.length) * item.score;
             return Math.round(score);
           }
@@ -579,11 +579,11 @@ export default {
 
     addoption(index) {
       this.questionnaire.sections[this.section].questions[index].options.push({
-        title: null,
+        title: null
       });
     },
     submit() {
-      this.$bvModal.msgBoxConfirm("Are you sure?").then((response) => {
+      this.$bvModal.msgBoxConfirm("Are you sure?").then(response => {
         if (response) {
           var data = {
             module_id: this.$props.module_id,
@@ -594,15 +594,15 @@ export default {
             template_id: this.$props.id,
             your_score: this.current_score,
             total_score: this.totalscore,
-            status: "submitted",
+            status: "submitted"
           };
           this.$http
             .post(`${this.$store.getters.url}/answer-questionnaires`, data, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 201) {
                 this.$emit("handleCheck");
                 // this.$bvModal
@@ -625,7 +625,7 @@ export default {
       });
     },
     saveforlater() {
-      this.$bvModal.msgBoxConfirm("Are you sure?").then((response) => {
+      this.$bvModal.msgBoxConfirm("Are you sure?").then(response => {
         if (response) {
           var data = {
             module_id: this.$props.module_id,
@@ -636,15 +636,15 @@ export default {
             template_id: this.$props.id,
             your_score: this.current_score,
             total_score: this.totalscore,
-            status: "draft",
+            status: "draft"
           };
           this.$http
             .post(`${this.$store.getters.url}/answer-questionnaires`, data, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 201) {
                 this.$emit("handleCheck");
                 // this.$bvModal
@@ -662,8 +662,8 @@ export default {
             });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

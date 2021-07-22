@@ -124,11 +124,15 @@
             <h5 class="font-weight-bold mb-4">Notifications</h5>
 
             <div
-              class="d-flex mb-3 align-items-center border bg-light p-3 rounded"
+              class="d-flex mb-3 border bg-light p-3 rounded"
               v-for="item in notifications"
               :key="item.id"
             >
-              <b-icon variant="dark-green" icon="bell" class="mr-2"></b-icon>
+              <b-icon
+                variant="dark-green"
+                icon="bell-fill"
+                class="mr-2 mt-1"
+              ></b-icon>
               <span> {{ item.data.notification }}</span>
             </div>
           </div>

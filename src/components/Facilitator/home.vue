@@ -199,10 +199,9 @@
                           >
                             {{ item.course.title }}
                           </h6>
-                          <div
-                            class="fs13 text-truncate text-truncate--2"
-                            v-html="item.course.courseoutline.overview"
-                          ></div>
+                          <div class="fs13 text-truncate text-truncate--2">
+                            {{ item.course.description }}
+                          </div>
                         </div>
                         <div class="info fs12">
                           <div class="d-flex">
@@ -303,10 +302,9 @@
                             {{ item[1].course.title }}
                           </h6>
 
-                          <div
-                            class="fs13 text-truncate text-truncate--2"
-                            v-html="item[1].course.courseoutline.overview"
-                          ></div>
+                          <div class="fs13 text-truncate text-truncate--2">
+                            {{ item[1].course.description }}
+                          </div>
                         </div>
                         <div class="info fs12">
                           <div class="d-flex">

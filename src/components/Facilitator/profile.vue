@@ -204,9 +204,7 @@
                 icon="bell-fill"
                 class="mr-2 mt-1"
               ></b-icon>
-              <div>
-                <div>{{ item.data.notification }}</div>
-              </div>
+              <span> {{ item.data.notification }}</span>
             </div>
           </div>
         </div>
@@ -262,7 +260,7 @@
                 class="mr-2 mt-1"
               ></b-icon>
               <div class="d-flex justify-content-between">
-                <p class="mb-0 fs13">{{ item.body }} -</p>
+                <p class="mb-0">{{ item.body }} -</p>
                 <div
                   class="d-flex text-right"
                   v-if="item.response == 'pending'"
@@ -287,7 +285,7 @@
                       ><b-icon icon="x-circle-fill"></b-icon></b-button
                   ></span>
                 </div>
-                <div v-else class="text-capitalize text-muted fs13">
+                <div v-else class="text-capitalize text-muted">
                   {{ item.response }}
                 </div>
               </div>

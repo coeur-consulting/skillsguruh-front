@@ -123,7 +123,7 @@ export default {
       series: [33, 33, 33],
       chartOptions: {
         chart: {
-          type: "pie",
+          type: "pie"
         },
         colors: ["#377f87", "#3d96a5", "#6beed1"],
         labels: ["Males", "Females", "Others"],
@@ -133,11 +133,11 @@ export default {
             options: {
               chart: {},
               legend: {
-                position: "bottom",
-              },
-            },
-          },
-        ],
+                position: "bottom"
+              }
+            }
+          }
+        ]
       },
 
       series1: [
@@ -146,269 +146,269 @@ export default {
           data: [
             {
               x: "8:00am",
-              y: 12,
+              y: 12
             },
             {
               x: "9:00am",
-              y: 9,
+              y: 9
             },
             {
               x: "10:00am",
-              y: 13,
+              y: 13
             },
             {
               x: "11:00am",
-              y: 16,
+              y: 16
             },
             {
               x: "12:00pm",
-              y: 21,
+              y: 21
             },
             {
               x: "01:00pm",
-              y: 7,
+              y: 7
             },
             {
               x: "02:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "03:00pm",
-              y: 19,
+              y: 19
             },
             {
               x: "04:00pm",
-              y: 20,
-            },
-          ],
+              y: 20
+            }
+          ]
         },
         {
           name: "Tuesday",
           data: [
             {
               x: "8:00am",
-              y: 12,
+              y: 12
             },
             {
               x: "9:00am",
-              y: 29,
+              y: 29
             },
             {
               x: "10:00am",
-              y: 13,
+              y: 13
             },
             {
               x: "11:00am",
-              y: 26,
+              y: 26
             },
             {
               x: "12:00pm",
-              y: 2,
+              y: 2
             },
             {
               x: "01:00pm",
-              y: 17,
+              y: 17
             },
             {
               x: "02:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "03:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "04:00pm",
-              y: 29,
-            },
-          ],
+              y: 29
+            }
+          ]
         },
         {
           name: "Wednessday",
           data: [
             {
               x: "8:00am",
-              y: 12,
+              y: 12
             },
             {
               x: "9:00am",
-              y: 29,
+              y: 29
             },
             {
               x: "10:00am",
-              y: 13,
+              y: 13
             },
             {
               x: "11:00am",
-              y: 26,
+              y: 26
             },
             {
               x: "12:00pm",
-              y: 2,
+              y: 2
             },
             {
               x: "01:00pm",
-              y: 17,
+              y: 17
             },
             {
               x: "02:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "03:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "04:00pm",
-              y: 29,
-            },
-          ],
+              y: 29
+            }
+          ]
         },
         {
           name: "Thursday",
           data: [
             {
               x: "8:00am",
-              y: 12,
+              y: 12
             },
             {
               x: "9:00am",
-              y: 29,
+              y: 29
             },
             {
               x: "10:00am",
-              y: 13,
+              y: 13
             },
             {
               x: "11:00am",
-              y: 26,
+              y: 26
             },
             {
               x: "12:00pm",
-              y: 2,
+              y: 2
             },
             {
               x: "01:00pm",
-              y: 17,
+              y: 17
             },
             {
               x: "02:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "03:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "04:00pm",
-              y: 29,
-            },
-          ],
+              y: 29
+            }
+          ]
         },
         {
           name: "Friday",
           data: [
             {
               x: "8:00am",
-              y: 12,
+              y: 12
             },
             {
               x: "9:00am",
-              y: 29,
+              y: 29
             },
             {
               x: "10:00am",
-              y: 13,
+              y: 13
             },
             {
               x: "11:00am",
-              y: 26,
+              y: 26
             },
             {
               x: "12:00pm",
-              y: 2,
+              y: 2
             },
             {
               x: "01:00pm",
-              y: 17,
+              y: 17
             },
             {
               x: "02:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "03:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "04:00pm",
-              y: 29,
-            },
-          ],
+              y: 29
+            }
+          ]
         },
         {
           name: "Saturday",
           data: [
             {
               x: "8:00am",
-              y: 12,
+              y: 12
             },
             {
               x: "9:00am",
-              y: 29,
+              y: 29
             },
             {
               x: "10:00am",
-              y: 13,
+              y: 13
             },
             {
               x: "11:00am",
-              y: 26,
+              y: 26
             },
             {
               x: "12:00pm",
-              y: 2,
+              y: 2
             },
             {
               x: "01:00pm",
-              y: 17,
+              y: 17
             },
             {
               x: "02:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "03:00pm",
-              y: 29,
+              y: 29
             },
             {
               x: "04:00pm",
-              y: 29,
-            },
-          ],
-        },
+              y: 29
+            }
+          ]
+        }
       ],
       chartOptions1: {
         chart: {
           height: 200,
-          type: "heatmap",
+          type: "heatmap"
         },
         dataLabels: {
-          enabled: false,
+          enabled: false
         },
-        colors: ["#377f87"],
-      },
+        colors: ["#377f87"]
+      }
     };
   },
   components: {
-    MapChart,
+    MapChart
   },
   methods: {
     initPie() {
       this.series = [this.males, this.females, this.others];
       this.chartOptions = {
         chart: {
-          type: "pie",
+          type: "pie"
         },
         colors: ["#377f87", "#3d96a5", "#6beed1"],
         labels: ["Learners", "Facilitators", "Administrators"],
@@ -418,14 +418,14 @@ export default {
             options: {
               chart: {},
               legend: {
-                position: "bottom",
-              },
-            },
-          },
-        ],
+                position: "bottom"
+              }
+            }
+          }
+        ]
       };
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

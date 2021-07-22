@@ -9,7 +9,7 @@ export default {
       USER_CLIENT_SECRET: process.env.VUE_APP_USER_CLIENT_SECRET,
       USER_CLIENT_ID: process.env.VUE_APP_USER_CLIENT_ID,
       FAC_CLIENT_SECRET: process.env.VUE_APP_FAC_CLIENT_SECRET,
-      FAC_CLIENT_ID: process.env.VUE_APP_FAC_CLIENT_ID,
+      FAC_CLIENT_ID: process.env.VUE_APP_FAC_CLIENT_ID
     };
   },
   mounted() {
@@ -168,20 +168,20 @@ export default {
         client_id: this.USER_CLIENT_ID,
         client_secret: this.USER_CLIENT_SECRET, // client secret
         provider: this.$route.params.provider, // name of provider (e.g., 'facebook', 'google' etc.)
-        access_token: this.access_token, // access token issued by specified provider
+        access_token: this.access_token // access token issued by specified provider
       };
       this.$http
         .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
-        .then((res) => {
+        .then(res => {
           authLearner.access_token = res.data.access_token;
           authLearner.refresh_token = res.data.refresh_token;
           this.$http
             .get(`${this.$store.getters.url}/user`, {
               headers: {
-                Authorization: `Bearer ${res.data.access_token}`,
-              },
+                Authorization: `Bearer ${res.data.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 200) {
                 authLearner.id = res.data.id;
                 authLearner.name = res.data.name;
@@ -223,7 +223,7 @@ export default {
       } catch (error) {
         this.access_token = error;
       }
-    },
-  },
+    }
+  }
 };
 </script>

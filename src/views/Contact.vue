@@ -120,29 +120,29 @@ export default {
       contact: {
         name: "",
         email: "",
-        message: "",
-      },
+        message: ""
+      }
     };
   },
   methods: {
     sendmessage() {
       this.$http
         .post(`${this.$store.getters.url}/send/message`, this.contact)
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Your message has been sent ");
             this.contact = {
               name: "",
               email: "",
-              message: "",
+              message: ""
             };
           }
         })
         .catch(() => {
           this.$toast.error("Message not sent");
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

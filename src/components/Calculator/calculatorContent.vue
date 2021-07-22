@@ -53,7 +53,7 @@ export default {
   data() {
     return {
       formula: "",
-      result: 0,
+      result: 0
     };
   },
 
@@ -115,8 +115,8 @@ export default {
         ? (this.formula = Math.abs(eval(this.formula)).toString())
         : (this.formula = "-(" + this.formula + ")");
       this.equal();
-    },
-  },
+    }
+  }
 };
 </script>
 

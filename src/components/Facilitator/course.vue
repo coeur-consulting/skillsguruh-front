@@ -181,7 +181,7 @@ export default {
   data() {
     return {
       course: {},
-      inLibrary: false,
+      inLibrary: false
     };
   },
   mounted() {
@@ -194,12 +194,12 @@ export default {
     getcourse() {
       this.$http
         .get(`${this.$store.getters.url}/get-course/${this.$route.params.id}`)
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.course = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -213,20 +213,20 @@ export default {
         .get(
           `${this.$store.getters.url}/libraries/`,
           {
-            course_id: this.$route.params.id,
+            course_id: this.$route.params.id
           },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.inLibrary = true;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -238,10 +238,10 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/libraries/${this.$route.params.id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             if (res.data) {
               this.inLibrary = true;
@@ -250,11 +250,11 @@ export default {
             }
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -15,6 +15,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
+    "cloudinary-vue": "^1.2.3",
     "core-js": "^3.6.5",
     "firebase": "^8.6.8",
     "register-service-worker": "^1.7.1",
@@ -63,6 +64,7 @@
     "node-sass": "^4.14.1",
     "prettier": "^1.19.1",
     "sass-loader": "^8.0.2",
+    "vue-cli-plugin-cloudinary": "~0.0.5",
     "vue-template-compiler": "^2.6.14",
     "vue-text-to-speech": "^1.0.6"
   },

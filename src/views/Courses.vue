@@ -15,6 +15,7 @@
                 d-flex
                 align-items-center
                 justify-content-center
+                px-3 px-sm-0
               "
             >
               <b-icon
@@ -116,10 +117,9 @@
                         >
                           {{ item.title }}
                         </h6>
-                        <div
-                          class="fs13 text-truncate text-truncate--2"
-                          v-html="item.courseoutline.overview"
-                        ></div>
+                        <div class="fs13 text-truncate text-truncate--2">
+                          {{ item.description }}
+                        </div>
                       </div>
                       <div class="info fs11">
                         <div class="d-flex">
@@ -1427,9 +1427,9 @@ export default {
             this.courses = res.data;
             this.showCourse = true;
             this.rows = res.data.length;
-          if (this.$route.query.course_id) {
-               this.loadCourse();
-          }
+            if (this.$route.query.course_id) {
+              this.loadCourse();
+            }
           }
         })
         .catch((err) => {

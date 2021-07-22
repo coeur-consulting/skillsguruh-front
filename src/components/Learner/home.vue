@@ -126,10 +126,9 @@
                             >
                               {{ item.title }}
                             </h6>
-                            <div
-                              class="fs13 text-truncate text-truncate--2"
-                              v-html="item.courseoutline.overview"
-                            ></div>
+                            <div class="fs13 text-truncate text-truncate--2">
+                              {{ item.description }}
+                            </div>
                           </div>
                           <div class="info fs11">
                             <div class="d-flex">

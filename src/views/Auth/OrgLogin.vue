@@ -137,13 +137,13 @@
                 Login as a
                 <span
                   class="text-dark-green cursor-pointer"
-                  @click="$router.push('/login')"
+                  @click="$router.push('/login?auth=learner')"
                   >Learner</span
                 >
                 or
                 <span
                   class="text-dark-green cursor-pointer"
-                  @click="$router.push('/login')"
+                  @click="$router.push('/login?auth=facilitator')"
                 >
                   Facilitator</span
                 >
@@ -206,7 +206,11 @@ export default {
       agree: false,
     };
   },
-
+  mounted() {
+    this.$route.query.auth
+      ? (this.type = this.$route.query.auth)
+      : (this.type = "organization");
+  },
   methods: {
     getUpload(val) {
       this.user.profile = val;
@@ -215,8 +219,6 @@ export default {
       this.loading = true;
       var authOrg = {};
       var authAdmin = {};
-      var authFacilitator = {};
-      var authLearner = {};
 
       if (this.type == "organization") {
         let data = {
@@ -298,102 +300,6 @@ export default {
                   return;
                 }
                 window.location.href = "/administrator";
-              })
-              .catch(() => {
-                this.$toast.error("Invalid credentials");
-              });
-          })
-          .catch(() => {
-            this.loading = false;
-            this.$toast.error("Invalid credentials");
-          });
-      }
-
-      if (this.type == "facilitator") {
-        let data = {
-          grant_type: "password",
-          client_id: 4,
-          client_secret: "NVXAR1hE3wGF6cz5lZKdo2rsaafzZ73sGGsBPH7h",
-          username: this.user.email,
-          password: this.user.password,
-        };
-        this.$http
-          .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
-          .then((res) => {
-            authFacilitator.access_token = res.data.access_token;
-            authFacilitator.refresh_token = res.data.refresh_token;
-            this.$http
-              .get(`${this.$store.getters.url}/facilitator`, {
-                headers: {
-                  Authorization: `Bearer ${res.data.access_token}`,
-                },
-              })
-              .then((res) => {
-                authFacilitator.id = res.data.id;
-                authFacilitator.name = res.data.name;
-                authFacilitator.email = res.data.email;
-                authFacilitator.profile = res.data.profile;
-                authFacilitator.facilitator_role = res.data.facilitator_role;
-                authFacilitator.interests = res.data.interests;
-                authFacilitator.org_profile = res.data.organization.logo;
-                authFacilitator.org_name = res.data.organization.name;
-                authFacilitator.referral = res.data.referral_code;
-
-                localStorage.setItem(
-                  "authFacilitator",
-                  JSON.stringify(authFacilitator)
-                );
-                this.$toast.success("Login successful");
-
-                window.location.href = "/facilitator";
-              })
-              .catch(() => {
-                this.$toast.error("Invalid credentials");
-              });
-          })
-          .catch(() => {
-            this.loading = false;
-            this.$toast.error("Invalid credentials");
-          });
-      }
-      if (this.type == "learner") {
-        let data = {
-          grant_type: "password",
-          client_id: 2,
-          client_secret: "OAniIlKCpBOv2oMpKVoRLBau55xLKbz1Qo5YNuee",
-          username: this.user.email,
-          password: this.user.password,
-        };
-        this.$http
-          .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
-          .then((res) => {
-            authLearner.access_token = res.data.access_token;
-            authLearner.refresh_token = res.data.refresh_token;
-            this.$http
-              .get(`${this.$store.getters.url}/user`, {
-                headers: {
-                  Authorization: `Bearer ${res.data.access_token}`,
-                },
-              })
-              .then((res) => {
-                if (res.status == 200) {
-                  authLearner.id = res.data.id;
-                  authLearner.name = res.data.name;
-                  authLearner.email = res.data.email;
-                  authLearner.profile = res.data.profile;
-                  authLearner.interests = res.data.interests;
-                  authLearner.org_profile = res.data.organization.logo;
-                  authLearner.org_name = res.data.organization.name;
-                  authLearner.referral = res.data.referral_code;
-
-                  localStorage.setItem(
-                    "authLearner",
-                    JSON.stringify(authLearner)
-                  );
-                  this.$toast.success("Login successful");
-
-                  window.location.href = "/learner";
-                }
               })
               .catch(() => {
                 this.$toast.error("Invalid credentials");

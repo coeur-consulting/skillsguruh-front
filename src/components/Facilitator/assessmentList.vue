@@ -155,23 +155,23 @@ export default {
       assessments: [],
       title: "",
       result: {},
-      myquestionnaire: null,
+      myquestionnaire: null
     };
   },
   computed: {
     filter() {
       return this.assessments
-        .filter((item) =>
+        .filter(item =>
           item.user.name.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
           this.perPage * this.currentPage - this.perPage,
           this.perPage * this.currentPage
         );
-    },
+    }
   },
   components: {
-    Approved,
+    Approved
   },
   mounted() {
     this.getassessments();
@@ -183,11 +183,11 @@ export default {
           `${this.$store.getters.url}/assessments/${this.$route.params.id}`,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.course = res.data.course.title;
             this.title = res.data.questiontemplate.title;
@@ -195,7 +195,7 @@ export default {
             this.rows = res.data.assessmentresponse.length;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -211,11 +211,11 @@ export default {
           this.user,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Update successful");
             this.$bvModal.hide("edit");
@@ -223,15 +223,15 @@ export default {
               name: "",
               email: "",
               phone: "",
-              password: "",
+              password: ""
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

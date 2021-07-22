@@ -21,10 +21,10 @@ import TopBar from "@/components/Organization/topbar.vue";
 export default {
   components: {
     SideBar,
-    TopBar,
+    TopBar
   },
   watch: {
-    $route: "getnotification",
+    $route: "getnotification"
   },
   mounted() {
     this.getnotification();
@@ -32,8 +32,8 @@ export default {
   methods: {
     getnotification() {
       this.$store.dispatch("getNotifications", "organization");
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

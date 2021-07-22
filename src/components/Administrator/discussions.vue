@@ -1,6 +1,6 @@
 <template>
   <div class="pt-sm-4">
-    <b-container class="px-1 px-sm-3">
+    <b-container class="px-0 px-sm-3">
       <b-row>
         <b-col sm="8">
           <div class="sborder bg-white py-4 rounded">
@@ -42,7 +42,14 @@
             <div v-if="showDiscussions">
               <div class="main_content" v-if="discussions.length">
                 <div
-                  class="content border-bottom p-3 pt-4 pb-5 cursor-pointer"
+                  class="
+                    content
+                    border-bottom
+                    px-2 px-sm-3
+                    pt-4
+                    pb-5
+                    cursor-pointer
+                  "
                   v-for="(item, index) in filteredDiscussions"
                   :key="index"
                 >
@@ -72,14 +79,17 @@
                     </b-dropdown>
                     <div class="side_dis">
                       <b-avatar
+                        class="starter"
                         v-if="item.creator == 'admin'"
                         :src="item.admin.profile"
                       ></b-avatar>
                       <b-avatar
+                        class="starter"
                         v-if="item.creator == 'user'"
                         :src="item.user.profile"
                       ></b-avatar>
                       <b-avatar
+                        class="starter"
                         v-if="item.creator == 'facilitator'"
                         :src="item.facilitator.profile"
                       ></b-avatar>

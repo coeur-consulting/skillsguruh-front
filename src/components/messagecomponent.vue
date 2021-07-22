@@ -43,7 +43,46 @@
               >
                 <span class="message_name">{{ message.name }}</span>
                 <br />
-                <div class="last_message">
+                <div
+                  class="last_message"
+                  v-if="user == 'learner'"
+                  :class="
+                    !lastMessage(message).status &&
+                    lastMessage(message).receiver_id ==
+                      $store.getters.learner.id &&
+                    lastMessage(message).receiver == 'learner'
+                      ? 'font-weight-bold'
+                      : ''
+                  "
+                >
+                  {{ lastMessage(message).message }}
+                </div>
+                <div
+                  class="last_message"
+                  v-if="user == 'facilitator'"
+                  :class="
+                    !lastMessage(message).status &&
+                    lastMessage(message).receiver_id ==
+                      $store.getters.facilitator.id &&
+                    lastMessage(message).receiver == 'facilitator'
+                      ? 'font-weight-bold'
+                      : ''
+                  "
+                >
+                  {{ lastMessage(message).message }}
+                </div>
+                <div
+                  class="last_message"
+                  v-if="user == 'admin'"
+                  :class="
+                    !lastMessage(message).status &&
+                    lastMessage(message).receiver_id ==
+                      $store.getters.admin.id &&
+                    lastMessage(message).receiver == 'admin'
+                      ? 'font-weight-bold'
+                      : ''
+                  "
+                >
                   {{ lastMessage(message).message }}
                 </div>
               </div>
@@ -167,6 +206,28 @@ export default {
   },
 
   computed: {
+    unreadmesages() {
+      if (this.$props.user == "admin") {
+        return this.inboxes.filter(
+          (item) =>
+            !item.status && item.admin_id !== this.$store.getters.admin.id
+        );
+      }
+      if (this.$props.user == "facilitator") {
+        return this.inboxes.filter(
+          (item) =>
+            !item.status &&
+            item.facilitator_id !== this.$store.getters.facilitator.id
+        );
+      }
+      if (this.$props.user == "learner") {
+        return this.inboxes.filter(
+          (item) =>
+            !item.status && item.user_id !== this.$store.getters.learner.id
+        );
+      }
+      return [];
+    },
     useraccess() {
       var token = null;
       if (this.$props.user == "admin") {
@@ -194,6 +255,11 @@ export default {
             info.facilitator = item.facilitator_info;
             info.message = item.message;
             info.time = item.created_at;
+            info.status = item.status;
+            info.id = item.id;
+            info.learner_id = item.learner_id;
+            info.receiver_id = item.receiver_id;
+            info.receiver = item.receiver;
             return info;
           }
           if (
@@ -205,6 +271,10 @@ export default {
             info.facilitator = item.facilitator;
             info.message = item.message;
             info.time = item.created_at;
+            info.status = item.status;
+            info.id = item.id;
+            info.receiver_id = item.receiver_id;
+            info.receiver = item.receiver;
             return info;
           }
         }
@@ -218,6 +288,11 @@ export default {
             info.facilitator = item.facilitator_info;
             info.message = item.message;
             info.time = item.created_at;
+            info.status = item.status;
+            info.id = item.id;
+            info.facilitator_id = item.facilitator_id;
+            info.receiver_id = item.receiver_id;
+            info.receiver = item.receiver;
             return info;
           }
           if (
@@ -229,6 +304,10 @@ export default {
             info.facilitator = item.facilitator;
             info.message = item.message;
             info.time = item.created_at;
+            info.status = item.status;
+            info.id = item.id;
+            info.receiver_id = item.receiver_id;
+            info.receiver = item.receiver;
             return info;
           }
         }
@@ -239,6 +318,11 @@ export default {
             info.facilitator = item.facilitator_info;
             info.message = item.message;
             info.time = item.created_at;
+            info.status = item.status;
+            info.id = item.id;
+            info.admin_id = item.admin_id;
+            info.receiver_id = item.receiver_id;
+            info.receiver = item.receiver;
             return info;
           }
           if (
@@ -250,6 +334,10 @@ export default {
             info.facilitator = item.facilitator;
             info.message = item.message;
             info.time = item.created_at;
+            info.status = item.status;
+            info.id = item.id;
+            info.receiver_id = item.receiver_id;
+            info.receiver = item.receiver;
             return info;
           }
         }
@@ -377,13 +465,17 @@ export default {
   methods: {
     lastMessage(info) {
       var mess = this.sortmessages.filter((item) => {
-        if (info.type == "user" && item.user) {
+        if (info.type == "user" && item.user && item.user.id == info.id) {
           return item;
         }
-        if (info.type == "admin" && item.admin) {
+        if (info.type == "admin" && item.admin && item.admin.id == info.id) {
           return item;
         }
-        if (info.type == "facilitator" && item.facilitator) {
+        if (
+          info.type == "facilitator" &&
+          item.facilitator &&
+          item.facilitator.id == info.id
+        ) {
           return item;
         }
       });

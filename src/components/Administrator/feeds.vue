@@ -87,6 +87,7 @@
           v-if="feed.media && img_ext.includes(getextension(feed.media))"
           fluid-grow
           :src="feed.media"
+          style="object-fit: contain"
         ></b-img>
         <video
           controls
@@ -120,7 +121,7 @@
               width="18px"
               class="mr-1 cursor-pointer"
             ></b-img
-            >Video
+            >Media
           </FeedUpload>
         </div>
         <div>
@@ -146,35 +147,32 @@
       size="md"
     >
       <div class="comments" v-if="allcomments">
-        <div class="mb-4">
+        <div class="mb-3">
           <div class="d-flex mb-3 pt-3">
             <div class="d-flex flex-1 text-left">
-              <div class="font-weight-bold mr-2 mb-1" v-if="allcomments.admin">
+              <div class="mr-2 mb-1" v-if="allcomments.admin">
                 <b-avatar
                   class="mr-2"
-                  size="3rem"
+                  size="1.8rem"
                   :src="allcomments.admin.profile"
                 ></b-avatar>
-                {{ allcomments.admin.name }}
               </div>
-              <div class="font-weight-bold mr-2 mb-1" v-if="allcomments.user">
+              <div class="mr-2 mb-1" v-if="allcomments.user">
                 <b-avatar
                   class="mr-2"
-                  size="3rem"
+                  size="1.8rem"
                   :src="allcomments.user.profile"
                 ></b-avatar>
-                {{ allcomments.user.name }}
               </div>
               <div
-                class="font-weight-bold mr-2 mb-1"
+                class="comment_name mr-2 mb-1"
                 v-if="allcomments.facilitator"
               >
                 <b-avatar
                   class="mr-2"
-                  size="3rem"
+                  size="1.8rem"
                   :src="allcomments.facilitator.profile"
                 ></b-avatar>
-                {{ allcomments.facilitator.name }}
               </div>
               <div class="profile">
                 <span class="name" v-if="allcomments.admin">{{
@@ -203,46 +201,75 @@
             v-for="(item, index) in allcomments.comments"
             :key="index"
           >
-            <b-col cols="9">
+            <div class="flex-1">
               <div class="flex-1 pr-2">
-                <div class="font-weight-bold mr-2 mb-1" v-if="item.admin">
-                  <b-avatar
-                    class="mr-2"
-                    size="sm"
-                    :src="item.admin.profile"
-                  ></b-avatar>
-                  {{ item.admin.name }}
+                <div class="d-flex mb-1" v-if="item.admin">
+                  <div class="d-flex flex-1">
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.admin.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.admin.name }}
+                      </div>
+                      <div class="comment_text">{{ item.comment }}</div>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="comment_mins pl-2">{{
+                      $moment(item.created_at).fromNow()
+                    }}</span>
+                  </div>
                 </div>
-                <div class="font-weight-bold mr-2 mb-1" v-if="item.user">
-                  <b-avatar
-                    class="mr-2"
-                    size="sm"
-                    :src="item.user.profile"
-                  ></b-avatar>
-                  {{ item.user.name }}
+                <div class="d-flex mb-1" v-if="item.user">
+                  <div class="d-flex flex-1">
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.user.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.user.name }}
+                      </div>
+                      <div class="comment_text">{{ item.comment }}</div>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="comment_mins pl-2">{{
+                      $moment(item.created_at).fromNow()
+                    }}</span>
+                  </div>
                 </div>
-                <div class="font-weight-bold mr-2 mb-1" v-if="item.facilitator">
-                  <b-avatar
-                    class="mr-2"
-                    size="sm"
-                    :src="item.facilitator.profile"
-                  ></b-avatar>
-                  {{ item.facilitator.name }}
+                <div class="d-flex mb-1" v-if="item.facilitator">
+                  <div class="d-flex flex-1">
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.facilitator.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.facilitator.name }}
+                      </div>
+                      <div class="comment_text">{{ item.comment }}</div>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="comment_mins pl-2">{{
+                      $moment(item.created_at).fromNow()
+                    }}</span>
+                  </div>
                 </div>
-
-                <div>{{ item.comment }}</div>
               </div>
-            </b-col>
-            <b-col cols="3">
-              <div>
-                <span class="fs11">{{ item.created_at | moment("ll") }}</span>
-              </div></b-col
-            >
+            </div>
+            <div></div>
           </div>
         </div>
       </div>
     </b-modal>
-
     <b-container>
       <b-row>
         <b-col sm="8" class="px-0">
@@ -276,7 +303,7 @@
                   width="18px"
                   class="mr-1 cursor-pointer"
                 ></b-img
-                >Video
+                >Media
               </div>
               <div @click="$bvModal.show('feed')">
                 <b-img
@@ -298,52 +325,46 @@
                 >
                   <div class="d-flex mb-3 px-2 px-sm-3 pt-3">
                     <div class="d-flex flex-1 text-left">
-                      <div
-                        class="font-weight-bold mr-2 mb-1 fs14 feedname"
-                        v-if="feed.admin"
-                      >
+                      <div class="mr-2 mb-1 feedname" v-if="feed.admin">
                         <b-avatar
+                          size="1.8rem"
                           class="mr-2"
                           :src="feed.admin.profile"
                         ></b-avatar>
                         {{ feed.admin.name }}
                       </div>
-                      <div
-                        class="font-weight-bold mr-2 mb-1 fs14 feedname"
-                        v-if="feed.user"
-                      >
+                      <div class="mr-2 mb-1 feedname" v-if="feed.user">
                         <b-avatar
+                          size="1.8rem"
                           class="mr-2"
                           :src="feed.user.profile"
                         ></b-avatar>
-                        {{ feed.user.name }}
+                        <span
+                          @click="
+                            $router.push(
+                              `/facilitator/profile/u/${feed.user.id}`
+                            )
+                          "
+                        >
+                          {{ feed.user.name }}</span
+                        >
                       </div>
-                      <div
-                        class="font-weight-bold mr-2 mb-1 fs14 feedname"
-                        v-if="feed.facilitator"
-                      >
+                      <div class="mr-2 mb-1 feedname" v-if="feed.facilitator">
                         <b-avatar
+                          size="1.8rem"
                           class="mr-2"
                           :src="feed.facilitator.profile"
                         ></b-avatar>
-                        {{ feed.facilitator.name }}
+                        <span
+                          @click="
+                            $router.push(
+                              `/facilitator/profile/f/${feed.facilitator.id}`
+                            )
+                          "
+                        >
+                          {{ feed.facilitator.name }}</span
+                        >
                       </div>
-
-                      <!-- <div class="profile">
-                      <span class="name" v-if="feed.admin">{{
-                        feed.admin.name
-                      }}</span>
-                      <span class="name" v-if="feed.user">{{
-                        feed.user.name
-                      }}</span>
-                      <span class="name" v-if="feed.facilitator">{{
-                        feed.facilitator.name
-                      }}</span>
-                      <br />
-                      <span class="date">{{
-                        feed.created_at | moment("ll")
-                      }}</span>
-                    </div> -->
                     </div>
 
                     <b-dropdown
@@ -382,63 +403,81 @@
                       >
                     </b-dropdown>
                   </div>
-                  <div class="text-left feed_text px-3 pb-3">
-                    <div class="text-left feed_text px-3 pb-3">
-                      <div class="mb-2" v-html="feed.message"></div>
+                  <div class="text-left feed_text px-3">
+                    <div class="mb-2" v-html="feed.message"></div>
 
-                      <div v-if="feed.url" class="text-dark-green">
-                        <a :href="feed.url" target="_blank">Click link</a>
-                      </div>
-                      <div v-if="feed.tags" class="px-1">
-                        <b-row class="justify-content-start">
-                          <b-col
-                            sm="auto"
-                            class="px-1"
-                            v-for="(tag, id) in JSON.parse(feed.tags)"
-                            :key="id"
+                    <div v-if="feed.url" class="text-dark-green">
+                      <a :href="feed.url" target="_blank">Click link</a>
+                    </div>
+                    <div v-if="feed.tags" class="px-1">
+                      <b-row class="justify-content-start">
+                        <b-col
+                          cols="auto"
+                          class="px-1"
+                          v-for="(tag, id) in JSON.parse(feed.tags)"
+                          :key="id"
+                        >
+                          <b-badge
+                            class="fs10 text-black-50"
+                            size="sm"
+                            variant="lighter-green"
+                            >#{{ tag.text }}</b-badge
                           >
-                            <b-badge
-                              class="fs11 text-black-50"
-                              variant="lighter-green"
-                              >#{{ tag.text }}</b-badge
-                            >
-                          </b-col>
-                        </b-row>
-                      </div>
+                        </b-col>
+                      </b-row>
                     </div>
                   </div>
                   <div>
-                    <div class="mb-4 position-relative">
-                      <b-img
+                    <div class="mb-4 position-relative w-100 media">
+                      <cld-image
                         v-if="
-                          feed.media &&
+                          feed.publicId &&
                           img_ext.includes(getextension(feed.media))
                         "
-                        fluid-grow
-                        :src="feed.media"
-                      ></b-img>
-                      <video
+                        :publicId="feed.publicId"
+                      >
+                        <cld-transformation
+                          aspectRatio="4:3"
+                          crop="fill"
+                          quality="auto"
+                        />
+                        <cld-transformation width="auto" crop="scale" />
+                        <cld-transformation dpr="auto" />
+                      </cld-image>
+
+                      <cld-video
                         controls
+                        v-if="
+                          feed.publicId &&
+                          vid_ext.includes(getextension(feed.media))
+                        "
+                        :publicId="feed.publicId"
+                      >
+                        <cld-transformation crop="fill" height="500" />
+                      </cld-video>
+
+                      <audio
                         width="100%"
+                        controls
                         v-if="
                           feed.media &&
-                          vid_ext.includes(getextension(feed.media))
+                          aud_ext.includes(getextension(feed.media))
                         "
                         :src="feed.media"
                         class="fluid-grow"
-                      ></video>
+                      ></audio>
                       <div
                         v-if="
                           feed.media &&
                           doc_ext.includes(getextension(feed.media))
                         "
-                        class="text-center p-3 bg-skills-grey"
+                        class="text-center p-3 p-sm-4 bg-skills-grey"
                       >
                         <b-icon icon="image" font-scale="3rem"></b-icon>
                       </div>
                     </div>
                   </div>
-                  <div class="interactions text-left px-3 py-3 border-bottom">
+                  <div class="interactions text-left px-3 py-2 border-bottom">
                     <span
                       class="mr-3 cursor-pointer"
                       @click="toggleStar(feed.id, index)"
@@ -448,8 +487,7 @@
                           feed.stars.find(
                             (item) =>
                               item.star &&
-                              item.facilitator_id ==
-                                $store.getters.facilitator.id
+                              item.admin_id == $store.getters.admin.id
                           )
                             ? 'star-fill'
                             : 'star'
@@ -469,8 +507,7 @@
                           feed.likes.find(
                             (item) =>
                               item.like &&
-                              item.facilitator_id ==
-                                $store.getters.facilitator.id
+                              item.admin_id == $store.getters.admin.id
                           )
                             ? 'heart-fill'
                             : 'heart'
@@ -498,7 +535,10 @@
                       v-if="feed.comments.length"
                       class="comment_header mb-2 cursor-pointer"
                       @click="showcomments(feed)"
-                      >View all {{ feed.comments.length }} comments</span
+                      >View {{ feed.comments.length }}
+                      {{
+                        feed.comments.length > 1 ? "comments" : "comment"
+                      }}</span
                     >
                     <div class="all_comment">
                       <div
@@ -507,31 +547,43 @@
                         :key="item.id"
                       >
                         <div class="flex-1 pr-2">
-                          <span class="font-weight-bold mr-2" v-if="item.admin">
+                          <span class="comment_name mr-2" v-if="item.admin">
                             {{ item.admin.name }}</span
                           >
-                          <span class="font-weight-bold mr-2" v-if="item.user">
+                          <span
+                            class="comment_name mr-2"
+                            @click="
+                              $router.push(
+                                `/facilitator/profile/u/${item.user.id}`
+                              )
+                            "
+                            v-if="item.user"
+                          >
                             {{ item.user.name }}</span
                           >
                           <span
-                            class="font-weight-bold mr-2"
+                            class="comment_name mr-2"
+                            @click="
+                              $router.push(
+                                `/facilitator/profile/f/${item.facilitator.id}`
+                              )
+                            "
                             v-if="item.facilitator"
                           >
                             {{ item.facilitator.name }}</span
                           >
-                          <span>{{ item.comment }}</span>
+
+                          <span class="comment_text">{{ item.comment }}</span>
                         </div>
                         <div>
-                          <span class="fs11">{{
-                            item.created_at | moment("ll")
-                          }}</span>
+                          <span class="comment_mins"
+                            >{{ $moment(item.created_at).fromNow() }}
+                          </span>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <!-- <div class="px-3 py-1 comment_header mb-1 text-left">
-                  {{ feed.created_at | moment("ll") }}
-                </div> -->
+
                   <div class="interact text-left px-3 pb-1">
                     <b-input-group class="mt-1">
                       <template #append>
@@ -539,14 +591,14 @@
                           class="border-0 bg-transparent d-block"
                           ><span
                             @click="addcomment(feed.id, index)"
-                            class="text-dark-green cursor-pointer"
+                            class="text-dark-green cursor-pointer comment_post"
                             >Post</span
                           ></b-input-group-text
                         >
                       </template>
                       <template #prepend class="d-none d-md-block">
                         <b-input-group-text
-                          class="border-0 bg-transparentd-none d-md-block"
+                          class="border-0 bg-transparent d-none d-md-block"
                         >
                           <emoji-picker @emoji="insertcomment" :search="search">
                             <div
@@ -598,10 +650,12 @@
                         </b-input-group-text>
                       </template>
                       <b-form-input
+                        size="sm"
                         autocomplete="off"
                         autocorrect="off"
+                        rows="1"
                         v-model="comment.comment"
-                        placeholder="Add a comment"
+                        placeholder="Add comment"
                         class="border-0 no-focus"
                       ></b-form-input>
                     </b-input-group>
@@ -686,6 +740,7 @@ export default {
       feed: {
         media: "",
         message: "",
+        publicId: "",
         tags: [],
       },
       img_ext: ["jpg", "png", "jpeg", "gif"],
@@ -758,16 +813,18 @@ export default {
     },
     getUpload(val) {
       if (
-        !this.img_ext.includes(this.getextension(val)) &&
-        !this.vid_ext.includes(this.getextension(val)) &&
-        !this.aud_ext.includes(this.getextension(val)) &&
-        !this.doc_ext.includes(this.getextension(val))
+        !this.img_ext.includes(this.getextension(val.secure_url)) &&
+        !this.vid_ext.includes(this.getextension(val.secure_url)) &&
+        !this.aud_ext.includes(this.getextension(val.secure_url)) &&
+        !this.doc_ext.includes(this.getextension(val.secure_url))
       ) {
         this.$toast.error("Unsupported content type !");
         return;
       }
 
-      this.feed.media = val;
+      this.feed.media = val.secure_url;
+      this.feed.publicId = val.public_id;
+      this.$bvModal.show("media");
     },
     insertfeed(emoji) {
       this.feed.message += emoji + "";
@@ -824,6 +881,8 @@ export default {
             this.feed = {
               media: "",
               message: "",
+              publicId: "",
+              tags: [],
             };
           }
         })
@@ -1072,7 +1131,7 @@ export default {
   margin: 0 auto;
 }
 .event div {
-  font-size: 14px;
+  font-size: 0.8rem;
 }
 .profile {
   line-height: 1.2;

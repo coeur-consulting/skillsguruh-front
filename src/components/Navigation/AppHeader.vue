@@ -99,7 +99,7 @@ export default {
       authLearner: false,
       authAdmin: false,
       authOrg: false,
-      authFacilitator: false,
+      authFacilitator: false
     };
   },
   mounted() {
@@ -119,8 +119,8 @@ export default {
     logout() {
       localStorage.clear();
       window.location.reload();
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

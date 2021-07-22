@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-  props: ["src"],
+  props: ["src"]
 };
 </script>
 <style scoped>

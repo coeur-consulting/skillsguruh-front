@@ -201,7 +201,7 @@ export default {
     return {
       assessments: [],
       myquestionnaire: [],
-      responses: [],
+      responses: []
     };
   },
   mounted() {
@@ -212,15 +212,15 @@ export default {
   },
   computed: {
     quiz() {
-      return this.assessments.filter((item) => item.type == "quiz");
+      return this.assessments.filter(item => item.type == "quiz");
     },
     expiredQuiz() {
-      return this.quiz.filter((item) =>
+      return this.quiz.filter(item =>
         this.$moment().isAfter(this.$moment(item.end))
       ).length;
     },
     activeQuiz() {
-      return this.quiz.filter((item) =>
+      return this.quiz.filter(item =>
         this.$moment().isBetween(
           this.$moment(item.start),
           this.$moment(item.end)
@@ -228,21 +228,21 @@ export default {
       );
     },
     submittedQuiz() {
-      return this.activeQuiz.filter((item) => {
-        return this.responses.map((val) => val.assessment_id).includes(item.id);
+      return this.activeQuiz.filter(item => {
+        return this.responses.map(val => val.assessment_id).includes(item.id);
       }).length;
     },
 
     questionnaire() {
-      return this.assessments.filter((item) => item.type == "questionnaire");
+      return this.assessments.filter(item => item.type == "questionnaire");
     },
     expiredQuestionnaire() {
-      return this.questionnaire.filter((item) =>
+      return this.questionnaire.filter(item =>
         this.$moment().isAfter(this.$moment(item.end))
       ).length;
     },
     activeQuestionnaire() {
-      return this.questionnaire.filter((item) =>
+      return this.questionnaire.filter(item =>
         this.$moment().isBetween(
           this.$moment(item.start),
           this.$moment(item.end)
@@ -250,22 +250,22 @@ export default {
       );
     },
     submittedQuest() {
-      return this.activeQuestionnaire.filter((item) => {
-        return this.responses.map((val) => val.assessment_id).includes(item.id);
+      return this.activeQuestionnaire.filter(item => {
+        return this.responses.map(val => val.assessment_id).includes(item.id);
       }).length;
     },
 
     assignment() {
-      return this.assessments.filter((item) => item.type == "assignment");
+      return this.assessments.filter(item => item.type == "assignment");
     },
 
     expiredAssigment() {
-      return this.assignment.filter((item) =>
+      return this.assignment.filter(item =>
         this.$moment().isAfter(this.$moment(item.end))
       ).length;
     },
     activeAssigment() {
-      return this.assignment.filter((item) =>
+      return this.assignment.filter(item =>
         this.$moment().isBetween(
           this.$moment(item.start),
           this.$moment(item.end)
@@ -273,21 +273,21 @@ export default {
       );
     },
     submittedAssignment() {
-      return this.activeAssigment.filter((item) => {
-        return this.responses.map((val) => val.assessment_id).includes(item.id);
+      return this.activeAssigment.filter(item => {
+        return this.responses.map(val => val.assessment_id).includes(item.id);
       }).length;
     },
 
     test() {
-      return this.assessments.filter((item) => item.type == "test");
+      return this.assessments.filter(item => item.type == "test");
     },
     expiredTest() {
-      return this.test.filter((item) =>
+      return this.test.filter(item =>
         this.$moment().isAfter(this.$moment(item.end))
       ).length;
     },
     activeTest() {
-      return this.test.filter((item) =>
+      return this.test.filter(item =>
         this.$moment().isBetween(
           this.$moment(item.start),
           this.$moment(item.end)
@@ -295,29 +295,28 @@ export default {
       );
     },
     submittedTest() {
-      return this.activeTest.filter((item) => {
-        return this.responses.map((val) => val.assessment_id).includes(item.id);
+      return this.activeTest.filter(item => {
+        return this.responses.map(val => val.assessment_id).includes(item.id);
       }).length;
     },
 
     submittedtemplate() {
-      return this.myquestionnaire.filter((item) => item.status == "submitted")
+      return this.myquestionnaire.filter(item => item.status == "submitted")
         .length;
     },
     drafttemplate() {
-      return this.myquestionnaire.filter((item) => item.status == "draft")
-        .length;
-    },
+      return this.myquestionnaire.filter(item => item.status == "draft").length;
+    }
   },
   methods: {
     getResponses() {
       this.$http
         .get(`${this.$store.getters.url}/assessment/responses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.responses = res.data;
           }
@@ -327,10 +326,10 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/answer-questionnaires`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.myquestionnaire = res.data;
           }
@@ -340,22 +339,22 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/libraries`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.library = res.data;
             this.assessments = res.data
-              .map((item) => {
+              .map(item => {
                 if (item.assessment) {
                   return item.assessment;
                 }
               })
-              .filter((item) => item);
+              .filter(item => item);
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -363,20 +362,20 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/add/assessment`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.assessments = res.data;
           }
         })
 
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

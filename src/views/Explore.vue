@@ -214,8 +214,9 @@
                       <div
                         v-if="item.course.courseoutline"
                         class="fs13 text-truncate text-truncate--2"
-                        v-html="item.course.courseoutline.overview"
-                      ></div>
+                      >
+                        {{ item.description }}
+                      </div>
                     </div>
                     <div class="info fs12">
                       <div class="d-flex">
@@ -482,7 +483,7 @@
           </b-col>
           <b-col sm="5">
             <h6 class="font-weight-bold mb-4">Top Contributors</h6>
-            <p class="fs15">
+            <p class="">
               See our users who have been active contibutors to discussions
             </p>
             <div v-if="filterContributors.length">
@@ -590,11 +591,11 @@
                   </div>
                   <b-img fluid-grow :src="item.cover" class="event_img"></b-img>
                   <div class="px-3 py-3">
-                    <p class="mb-2 fs15">
+                    <p class="mb-2">
                       <b-icon icon="calendar2-check" class="mr-2"></b-icon>
                       {{ item.schedule }}
                     </p>
-                    <p class="mb-1 fs15">
+                    <p class="mb-1">
                       <b-icon icon="people" class="mr-2"></b-icon>
                       {{ item.eventattendance.length }} Attending
                     </p>

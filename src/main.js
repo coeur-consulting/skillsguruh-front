@@ -18,13 +18,20 @@ import VueSocialSharing from "vue-social-sharing";
 import VueCountdownTimer from "vuejs-countdown-timer";
 import VueSocialauth from "vue-social-auth";
 import VueWebSpeech from "vue-web-speech";
+import Cloudinary from "cloudinary-vue";
 
 import "vue-toast-notification/dist/theme-sugar.css";
 import "animate.css";
 import "vue-event-calendar/dist/style.css";
 import "vue-search-select/dist/VueSearchSelect.css";
 import "./assets/scss/style.scss";
+import "./cloudinary.js";
 
+Vue.use(Cloudinary, {
+  configuration: {
+    cloudName: "skillsguruh",
+  },
+});
 Vue.use(VueSocialSharing);
 Vue.use(require("vue-moment"));
 Vue.use(BootstrapVue);

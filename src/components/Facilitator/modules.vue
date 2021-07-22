@@ -346,7 +346,7 @@
                       <b-form-group label="Choose template">
                         <model-list-select
                           :list="
-                            allquestionnaires.filter((val) =>
+                            allquestionnaires.filter(val =>
                               val.type.toLowerCase().includes(item.type)
                             )
                           "
@@ -654,7 +654,7 @@
                       <b-form-group label="Choose template">
                         <model-list-select
                           :list="
-                            allquestionnaires.filter((val) =>
+                            allquestionnaires.filter(val =>
                               val.type.toLowerCase().includes(item.type)
                             )
                           "
@@ -802,25 +802,25 @@ export default {
             file: "",
             template: {},
             templates: [],
-            type: "",
-          },
+            type: ""
+          }
         ],
 
-        questionnaires: [],
+        questionnaires: []
       },
       questionnaires: [],
-      allquestionnaires: [],
+      allquestionnaires: []
     };
   },
   components: {
     Upload,
     questionnaire,
-    ModelListSelect,
+    ModelListSelect
   },
   computed: {
     filter() {
       return this.totalmodules
-        .filter((item) =>
+        .filter(item =>
           item.course.title.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
@@ -836,10 +836,10 @@ export default {
         return [];
       }
       var first = this.modules.find(
-        (item) => item.course_id == this.detail.course_id
+        item => item.course_id == this.detail.course_id
       );
       return first ? JSON.parse(first.modules) : [];
-    },
+    }
   },
   created() {
     this.getcourses();
@@ -860,17 +860,17 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/question/templates`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.allquestionnaires = res.data.filter(
-              (item) => item.status == "active"
+              item => item.status == "active"
             );
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -903,11 +903,11 @@ export default {
             file: "",
             template: {},
             templates: [],
-            type: "",
-          },
+            type: ""
+          }
         ],
 
-        questionnaires: [],
+        questionnaires: []
       });
       this.current_module = this.detail.modules.length - 1;
     },
@@ -916,10 +916,8 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      var newArr = schedule.map((val) => {
-        var fac = this.facilitators.find(
-          (item) => item.id == val.facilitator_id
-        );
+      var newArr = schedule.map(val => {
+        var fac = this.facilitators.find(item => item.id == val.facilitator_id);
         if (fac) {
           return fac.name;
         }
@@ -930,15 +928,15 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -947,21 +945,21 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/courses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.courses = res.data;
             this.rows = res.data.length;
-            this.detail.course_id = this.courses.find((item) =>
+            this.detail.course_id = this.courses.find(item =>
               item.title
                 .toLowerCase()
                 .includes(this.$route.query.showing.toLowerCase())
             ).id;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -969,15 +967,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/facilitator/modules`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.modules = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -985,15 +983,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/modules/${this.$route.params.id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.totalmodules = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1001,16 +999,16 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/modules`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.modules = res.data;
             this.rows = res.data.length;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1019,10 +1017,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/modules`, this.detail, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.$toast.success("Added successfully");
             this.getmodule();
@@ -1036,8 +1034,8 @@ export default {
                 file: "",
                 template: {},
                 templates: [],
-                type: "",
-              },
+                type: ""
+              }
             ];
           }
         })
@@ -1059,11 +1057,11 @@ export default {
           this.detail,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Updated successfully");
 
@@ -1076,8 +1074,8 @@ export default {
                 file: "",
                 template: {},
                 templates: [],
-                type: "",
-              },
+                type: ""
+              }
             ];
 
             this.getmodule();
@@ -1088,27 +1086,27 @@ export default {
         });
     },
     drop(id) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/modules/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.getmodule();
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

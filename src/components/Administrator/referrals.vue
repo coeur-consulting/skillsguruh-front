@@ -106,9 +106,9 @@
                 </div>
               </b-col>
             </b-row>
-            <div class="p-3 text-center mb-4">
-              <div class="mb-3 border px-4 py-2 rounded d-flex text-muted">
-                <b-icon icon="link45deg" font-scale="1.5rem"></b-icon>
+            <div class="p-sm-3 text-center mb-4">
+              <div class="mb-3 px-sm-4 py-2 rounded d-flex text-muted">
+                <b-icon icon="link45deg" font-scale="1.3rem"></b-icon>
                 <b-form-input
                   v-model="message"
                   readonly
@@ -118,12 +118,13 @@
               </div>
               <div>
                 <b-button
+                  size="sm"
                   variant="lighter-green"
                   type="button"
                   v-clipboard:copy="message"
                   v-clipboard:success="onCopy"
                   v-clipboard:error="onError"
-                  class="rounded px-4"
+                  class="rounded px-sm-4"
                   >Copy link</b-button
                 >
               </div>

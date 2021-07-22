@@ -18,11 +18,11 @@ import Paystack from "@/components/paystack.vue";
 export default {
   data() {
     return {
-      order: {},
+      order: {}
     };
   },
   components: {
-    Paystack,
+    Paystack
   },
   mounted() {
     this.getcourse();
@@ -35,17 +35,17 @@ export default {
 
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.course = res.data;
           }
         });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

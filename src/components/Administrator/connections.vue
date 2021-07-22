@@ -2,7 +2,7 @@
   <b-container class="p-3 p-sm-5 text-left">
     <b-row>
       <b-col sm="7">
-        <div class="box p-5 mb-5">
+        <div class="box p-3 p-sm-5 mb-5">
           <h5 class="mb-3">{{ filteredConnections.length }} Connections</h5>
           <div class="px-3 py-2 d-flex align-items-center search bg-light">
             <b-icon icon="search"></b-icon>

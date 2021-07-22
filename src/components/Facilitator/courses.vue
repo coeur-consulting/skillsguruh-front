@@ -47,10 +47,13 @@
             >
           </b-container>
         </div>
+        <div class="px-4">
+          <b-alert show><span class="fs10">Fill all (*) fields</span></b-alert>
+        </div>
         <b-container v-show="type == 1">
           <b-form-row>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Course title">
+              <b-form-group label="Course title*">
                 <b-form-input
                   required
                   placeholder="Enter course title"
@@ -87,7 +90,7 @@
               class="mb-3 px-3"
               v-if="detail.general.type == 'paid'"
             >
-              <b-form-group label="Course amount">
+              <b-form-group label="Course amount*">
                 <b-form-input
                   size="sm"
                   type="number"
@@ -102,7 +105,7 @@
               class="mb-3 px-3"
               v-if="detail.general.type == 'group'"
             >
-              <b-form-group label="No of participants">
+              <b-form-group label="No of participants*">
                 <b-form-select
                   size="sm"
                   required
@@ -120,7 +123,7 @@
           </b-form-row>
           <b-form-row>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Course Description">
+              <b-form-group label="Course Description*">
                 <b-form-textarea
                   required
                   v-model="detail.general.description"
@@ -130,7 +133,7 @@
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Course Cover">
+              <b-form-group label="Course Cover*">
                 <Upload
                   @getUpload="getUpload"
                   :id="'image'"
@@ -152,7 +155,7 @@
         <b-container v-show="type == 2">
           <b-form-row class="px-1">
             <b-col class="mb-2 px-3">
-              <b-form-group label="Overview">
+              <b-form-group label="Overview*">
                 <editor
                   api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
                   v-model="detail.outline.overview"
@@ -168,7 +171,7 @@
           </b-form-row>
           <b-form-row class="px-1">
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Knowledge area">
+              <b-form-group label="Knowledge area*">
                 <b-form-select
                   required
                   class="text-capitalize"
@@ -184,7 +187,7 @@
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Duration">
+              <b-form-group label="Duration*">
                 <b-form-input
                   required
                   v-model="detail.outline.duration"
@@ -196,7 +199,7 @@
           <div>
             <div class="mb-3 px-3">
               <div class="border rounded p-2">
-                <b-form-group label="Modules">
+                <b-form-group label="Modules*">
                   <b-input-group class="addmodule mb-3">
                     <b-form-input v-model="newmodule"></b-form-input>
                     <b-input-group-append>
@@ -621,10 +624,13 @@
             >
           </b-container>
         </div>
+        <div class="px-4">
+          <b-alert show><span class="fs10">Fill all (*) fields</span></b-alert>
+        </div>
         <b-container v-show="type == 1">
           <b-form-row>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Course title">
+              <b-form-group label="Course title*">
                 <b-form-input
                   required
                   placeholder="Enter course title"
@@ -660,7 +666,7 @@
               class="mb-3 px-3"
               v-if="detail.general.type == 'paid'"
             >
-              <b-form-group label="Course amount">
+              <b-form-group label="Course amount*">
                 <b-form-input
                   size="sm"
                   type="number"
@@ -675,7 +681,7 @@
               class="mb-3 px-3"
               v-if="detail.general.type == 'group'"
             >
-              <b-form-group label="No of participants">
+              <b-form-group label="No of participants*">
                 <b-form-select
                   size="sm"
                   required
@@ -693,7 +699,7 @@
           </b-form-row>
           <b-form-row>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Course Description">
+              <b-form-group label="Course Description*">
                 <b-form-textarea
                   required
                   v-model="detail.general.description"
@@ -703,7 +709,7 @@
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Course Cover">
+              <b-form-group label="Course Cover*">
                 <Upload
                   @getUpload="getUpload"
                   :id="'image'"
@@ -726,7 +732,7 @@
         <b-container v-show="type == 2">
           <b-form-row class="px-1">
             <b-col class="mb-2 px-3">
-              <b-form-group label="Overview">
+              <b-form-group label="Overview*">
                 <editor
                   api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
                   v-model="detail.outline.overview"
@@ -742,7 +748,7 @@
           </b-form-row>
           <b-form-row class="px-1">
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Knowledge area">
+              <b-form-group label="Knowledge area*">
                 <b-form-select
                   class="text-capitalize"
                   v-model="detail.outline.knowledge_area"
@@ -758,7 +764,7 @@
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Duration">
+              <b-form-group label="Duration*">
                 <b-form-input
                   required
                   v-model="detail.outline.duration"
@@ -770,7 +776,7 @@
           <div>
             <div class="mb-3 px-3">
               <div class="border rounded p-2">
-                <b-form-group label="Modules">
+                <b-form-group label="Modules*">
                   <b-input-group class="addmodule mb-3">
                     <b-form-input v-model="newmodule"></b-form-input>
                     <b-input-group-append>
@@ -1020,7 +1026,7 @@
                       v-model="item.all"
                       >Select all</b-form-checkbox
                     >
-                   <b-form-checkbox-group
+                    <b-form-checkbox-group
                       id="checkbox-group-1"
                       v-model="item.modules"
                       :options="detail.outline.modules"
@@ -1283,6 +1289,7 @@
                   align-items-center
                   justify-content-center justify-content-sm-end
                   mr-sm-3
+                  px-3
                 "
               >
                 <b-icon
@@ -2793,7 +2800,7 @@ export default {
 
     selectall(id, val, arr) {
       if (val) {
-        this.detail.schedule[id].modules = arr.map(item => item.module);
+        this.detail.schedule[id].modules = arr.map((item) => item.module);
       } else {
         this.detail.schedule[id].modules = [];
       }
@@ -3042,6 +3049,16 @@ export default {
     },
     createcourse() {
       this.disable = true;
+      if (
+        !this.detail.general.title ||
+        !this.detail.general.description ||
+        !this.detail.general.amount ||
+        this.detail.outline.overview
+      ) {
+        this.$toast.info("Fill all (*) fields!");
+        this.disable = false;
+        return;
+      }
       this.$http
         .post(`${this.$store.getters.url}/courses`, this.detail, {
           headers: {
@@ -3139,6 +3156,16 @@ export default {
     },
     updatecourse() {
       this.disable = true;
+      if (
+        !this.detail.general.title ||
+        !this.detail.general.description ||
+        !this.detail.general.amount ||
+        this.detail.outline.overview
+      ) {
+        this.$toast.info("Fill all (*) fields!");
+        this.disable = false;
+        return;
+      }
       this.$http
         .put(
           `${this.$store.getters.url}/courses/${this.course.id}`,

@@ -21,13 +21,13 @@ export default {
           `${this.$store.getters.url}/auth/google/callback`,
           this.$route.query
         )
-        .then((response) => {
+        .then(response => {
           console.log(response.data);
         })
-        .catch((err) => {
+        .catch(err => {
           console.log({ err: err });
         });
-    },
-  },
+    }
+  }
 };
 </script>

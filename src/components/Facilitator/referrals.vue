@@ -106,8 +106,8 @@
                 </div>
               </b-col>
             </b-row>
-            <div class="p-3 text-center mb-4">
-              <div class="mb-3 border px-4 py-2 rounded d-flex text-muted">
+            <div class="py-3 text-center mb-4">
+              <div class="mb-3 border px-sm-4 py-2 rounded d-flex text-muted">
                 <b-icon icon="link45deg" font-scale="1.5rem"></b-icon>
                 <b-form-input
                   v-model="message"
@@ -118,6 +118,7 @@
               </div>
               <div>
                 <b-button
+                  size="sm"
                   variant="lighter-green"
                   type="button"
                   v-clipboard:copy="message"

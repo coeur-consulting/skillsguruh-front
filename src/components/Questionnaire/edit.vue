@@ -117,7 +117,7 @@
                           @click="addquestion(idx)"
                           v-if="
                             questionnaire.sections[idx].questions.length ==
-                            index + 1
+                              index + 1
                           "
                           ><b-icon icon="plus"></b-icon> Add question</b-button
                         >
@@ -198,8 +198,8 @@
                         class="mb-3"
                         v-if="
                           question.type !== 'short' &&
-                          question.type !== 'long' &&
-                          question.type !== 'boolean'
+                            question.type !== 'long' &&
+                            question.type !== 'boolean'
                         "
                       >
                         <b-col sm="12">
@@ -237,7 +237,7 @@
                                       questionnaire.sections[idx].questions[
                                         index
                                       ].options.length ==
-                                      id + 1
+                                        id + 1
                                     "
                                     ><b-icon icon="plus"></b-icon> Add
                                     option</b-button
@@ -261,8 +261,8 @@
                             label="Answer"
                             v-if="
                               question.showAnswer &&
-                              question.type !== 'multiple' &&
-                              question.type !== 'checkbox'
+                                question.type !== 'multiple' &&
+                                question.type !== 'checkbox'
                             "
                           >
                             <b-form-input
@@ -277,8 +277,8 @@
                         class="mb-3"
                         v-if="
                           question.showAnswer &&
-                          (question.type == 'multiple' ||
-                            question.type == 'checkbox')
+                            (question.type == 'multiple' ||
+                              question.type == 'checkbox')
                         "
                       >
                         <b-col sm="12">
@@ -316,7 +316,7 @@
                                       questionnaire.sections[idx].questions[
                                         index
                                       ].answers.length ==
-                                      id + 1
+                                        id + 1
                                     "
                                     ><b-icon icon="plus"></b-icon> Add
                                     answer</b-button

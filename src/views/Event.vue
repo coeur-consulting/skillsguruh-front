@@ -37,7 +37,7 @@
                 :class="{
                   'bg-success': event.status == 'ongoing',
                   'bg-danger': event.status == 'expired',
-                  'bg-primary': event.status == 'pending',
+                  'bg-primary': event.status == 'pending'
                 }"
                 >{{ event.status }}</b-badge
               >
@@ -203,7 +203,7 @@
                 :class="{
                   'bg-success': event.status == 'ongoing',
                   'bg-danger': event.status == 'expired',
-                  'bg-primary': event.status == 'pending',
+                  'bg-primary': event.status == 'pending'
                 }"
                 >{{ event.status }}</b-badge
               >
@@ -314,7 +314,9 @@
           network="facebook"
           :url="link"
           title="EVENT INVITATION"
-          :description="`I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`"
+          :description="
+            `I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -328,7 +330,9 @@
           network="twitter"
           :url="link"
           title="EVENT INVITATION"
-          :description="`I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`"
+          :description="
+            `I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -342,7 +346,9 @@
           network="whatsApp"
           :url="link"
           title="EVENT INVITATION"
-          :description="`I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`"
+          :description="
+            `I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -365,7 +371,9 @@
           network="Telegram"
           :url="link"
           title="EVENT INVITATION"
-          :description="`I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`"
+          :description="
+            `I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -438,12 +446,12 @@ export default {
       feed: {},
       inviteUsers: {
         title: "",
-        users: [],
+        users: []
       },
       connections: [],
       emails: [],
       link: "",
-      checkEvent: null,
+      checkEvent: null
     };
   },
   mounted() {
@@ -458,10 +466,10 @@ export default {
       if (!this.event.facilitators) {
         return [];
       }
-      return this.facilitators.filter((val) =>
+      return this.facilitators.filter(val =>
         JSON.parse(this.event.facilitators).includes(val.id)
       );
-    },
+    }
   },
   methods: {
     attendEvent() {
@@ -475,9 +483,9 @@ export default {
     },
 
     sendinvite() {
-      var emails = this.emails.map((item) => {
+      var emails = this.emails.map(item => {
         return {
-          email: item,
+          email: item
         };
       });
       this.inviteUsers.title = this.event.title;
@@ -489,11 +497,11 @@ export default {
           this.inviteUsers,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Invite Sent");
             this.$bvModal.hide("invite");
@@ -501,16 +509,16 @@ export default {
               title: "",
               users: [
                 {
-                  email: "",
-                },
-              ],
+                  email: ""
+                }
+              ]
             };
           }
         });
     },
     addinvite() {
       this.inviteUsers.users.push({
-        email: "",
+        email: ""
       });
     },
     getextension(fileName) {
@@ -524,29 +532,29 @@ export default {
     async getfacilitators() {
       return this.$http
         .get(`${this.$store.getters.url}/guest/facilitators`)
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     getevent() {
       this.$http
         .get(`${this.$store.getters.url}/guest/events/${this.$route.params.id}`)
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.event = res.data;
             this.showEvent = true;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

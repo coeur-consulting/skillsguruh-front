@@ -98,6 +98,6 @@
 </template>
 <script>
 export default {
-  props: ["questionnaire"],
+  props: ["questionnaire"]
 };
 </script>

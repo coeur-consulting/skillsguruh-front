@@ -107,13 +107,11 @@
                         align-items-center
                       "
                     >
-                      <h4 class="text-capitalize mb-0 flex-1">
+                      <h4 class="text-capitalize mb-0 flex-1 event_title">
                         {{ item.title }}
                       </h4>
-                      <span @click="view(item.id)">
-                        <span class="fs15 cursor-pointer viewevent pl-2">
-                          View Event
-                        </span>
+                      <span @click="view(item.id)" class="viewevent">
+                        <span class="cursor-pointer pl-2"> View Event </span>
                         <b-icon icon="chevron-double-right"></b-icon>
                       </span>
                     </div>
@@ -123,14 +121,14 @@
                       :src="item.cover"
                     ></b-img>
                     <div class="px-3 py-2 bg-white">
-                      <p class="mb-1 text-muted fs15">
+                      <p class="mb-1 text-muted">
                         <b-icon
                           icon="calendar2-check"
                           class="mr-2 text-muted"
                         ></b-icon>
                         {{ item.schedule }}
                       </p>
-                      <p class="mb-1 text-muted fs15">
+                      <p class="mb-1 text-muted">
                         <b-icon icon="people" class="mr-2 text-muted"></b-icon>
                         {{ item.eventattendance.length }} Attending
                       </p>

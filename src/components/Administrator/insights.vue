@@ -1,6 +1,6 @@
 <template>
   <b-container class="py-4 text-left">
-    <div class="d-flex justify-content-between align-items-end mb-4">
+    <div class="d-flex justify-content-between align-items-end mb-3">
       <div>
         <h5 class="font-weight-bold">Analytics</h5>
         <div class="d-flex align-items-center">
@@ -21,9 +21,15 @@
               >
             </b-form-select></span
           >
+          <span class="d-sm-none ml-2">
+            <b-icon
+              icon="funnel"
+              @click="$bvModal.show('mobile_filter')"
+            ></b-icon>
+          </span>
         </div>
       </div>
-      <div class="d-flex flex-column flex-sm-row align-items-center">
+      <div class="flex-column flex-sm-row align-items-center d-none d-sm-flex">
         <!-- <b-button-group class="mr-4">
           <b-button variant="outline-secondary" size="sm">A week</b-button>
           <b-button variant="outline-secondary" size="sm">One month</b-button>
@@ -40,12 +46,37 @@
           >Reset <b-icon icon="arrow-repeat"></b-icon
         ></span>
       </div>
+      <div>
+        <b-modal
+          size="sm"
+          hide-footer
+          centered
+          id="mobile_filter"
+          title="Choose date range"
+        >
+          <div class="p-3">
+            <div class="text-center">
+              <b-form-group label="Start" class="">
+                <b-datepicker size="sm" class="" v-model="start"></b-datepicker>
+              </b-form-group>
+
+              <b-form-group label="End"
+                ><b-datepicker size="sm" v-model="end"></b-datepicker
+              ></b-form-group>
+            </div>
+
+            <span @click="reset" class="fs13"
+              >Reset <b-icon icon="arrow-repeat"></b-icon
+            ></span>
+          </div>
+        </b-modal>
+      </div>
     </div>
     <div v-if="about == 'audience'">
-      <b-row class="mb-4">
-        <b-col class="bg-white border rounded p-4">
+      <b-row class="mb-3">
+        <b-col class="bg-white border rounded p-3 p-sm-4">
           <div>
-            <div class="mb-4 d-flex justify-content-between align-items-center">
+            <div class="mb-3 d-flex justify-content-between align-items-center">
               <h6 class="font-weight-bold">Demographic Audience</h6>
               <span
                 ><b-form-select size="sm" v-model="gender">
@@ -90,9 +121,9 @@
         ></b-col>
       </b-row>
 
-      <b-row class="mb-4">
-        <b-col sm="6" class="pl-sm-0">
-          <div class="w-100 h-100 p-4 bg-white border rounded 0">
+      <b-row class="">
+        <b-col sm="6" class="pl-sm-0 mb-3">
+          <div class="w-100 h-100 p-3 p-sm-4 bg-white border rounded 0">
             <div class="mb-3">
               <h5 class="font-weight-bold">Statistics by State</h5>
               <!-- <span class="text-muted fs12">Jan 23 - Jun 22</span> -->
@@ -105,8 +136,8 @@
             ></apexchart>
           </div>
         </b-col>
-        <b-col sm="6" class="pr-sm-0">
-          <div class="w-100 h-100 p-4 bg-white border rounded pr-sm-3">
+        <b-col sm="6" class="pr-sm-0 mb-3">
+          <div class="w-100 h-100 p-3 p-sm-4 bg-white border rounded pr-sm-3">
             <div class="mb-3">
               <h5 class="font-weight-bold">Statistics by Age</h5>
               <!-- <span class="text-muted fs12">Jan 23 - Jun 22</span> -->
@@ -121,8 +152,8 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-col sm="4" class="pl-sm-0">
-          <div class="w-100 h-100 p-4 bg-white border rounded">
+        <b-col sm="4" class="pl-sm-0 mb-3">
+          <div class="w-100 h-100 p-3 p-sm-4 bg-white border rounded">
             <div class="mb-3">
               <h5 class="font-weight-bold">Statistics by Gender</h5>
               <!-- <span class="text-muted fs12">Jan 23 - Jun 22</span> -->
@@ -136,7 +167,7 @@
             ></apexchart>
           </div>
         </b-col>
-        <b-col sm="8" class="p-4 bg-white border rounded">
+        <b-col sm="8" class="p-3 p-sm-4 bg-white border rounded mb-3">
           <div>
             <div class="mb-3">
               <h5 class="font-weight-bold">Login Activity</h5>
@@ -156,10 +187,10 @@
     </div>
 
     <div v-if="about == 'courses'">
-      <b-row class="mb-4">
-        <b-col class="bg-white border rounded p-4">
+      <b-row class="mb-3">
+        <b-col class="bg-white border rounded p-3 p-sm-4">
           <div>
-            <div class="mb-4 d-flex justify-content-between align-items-center">
+            <div class="mb-3 d-flex justify-content-between align-items-center">
               <h6 class="font-weight-bold">Course Activities</h6>
             </div>
 
@@ -173,9 +204,9 @@
             </div></div
         ></b-col>
       </b-row>
-      <b-row class="mb-3">
-        <b-col sm="4" class="pl-sm-0">
-          <div class="p-4 bg-white border rounded h-100 w-100">
+      <b-row class="">
+        <b-col sm="4" class="pl-sm-0 mb-3">
+          <div class="p-3 p-sm-4 bg-white border rounded h-100 w-100">
             <div class="mb-3">
               <h6 class="font-weight-bold">Total Courses</h6>
             </div>
@@ -188,8 +219,8 @@
             </div>
           </div>
         </b-col>
-        <b-col sm="4">
-          <div class="p-4 bg-white border rounded h-100 w-100">
+        <b-col sm="4" class="mb-3">
+          <div class="p-3 p-sm-4 bg-white border rounded h-100 w-100">
             <div class="mb-3">
               <h6 class="font-weight-bold">Total Views</h6>
             </div>
@@ -203,8 +234,8 @@
             </div>
           </div>
         </b-col>
-        <b-col sm="4" class="pr-sm-0">
-          <div class="p-4 bg-white border rounded h-100 w-100">
+        <b-col sm="4" class="pr-sm-0 mb-3">
+          <div class="p-3 p-sm-4 bg-white border rounded h-100 w-100">
             <div class="mb-3">
               <h6 class="font-weight-bold">Total Enrollments</h6>
             </div>
@@ -219,9 +250,9 @@
         </b-col>
       </b-row>
 
-      <b-row class="mb-3">
-        <b-col sm="4" class="pl-sm-0">
-          <div class="p-4 bg-white border rounded h-100 w-100">
+      <b-row class="">
+        <b-col sm="4" class="pl-sm-0 mb-3">
+          <div class="p-3 p-sm-4 bg-white border rounded h-100 w-100">
             <div class="mb-3">
               <h6 class="font-weight-bold">Most Enrolled</h6>
             </div>
@@ -235,8 +266,8 @@
             </div>
           </div>
         </b-col>
-        <b-col sm="4">
-          <div class="p-4 bg-white border rounded h-100 w-100">
+        <b-col sm="4" class="mb-3">
+          <div class="p-3 p-sm-4 bg-white border rounded h-100 w-100">
             <div class="mb-3">
               <h6 class="font-weight-bold">Most Viewed</h6>
             </div>
@@ -251,8 +282,8 @@
           </div>
         </b-col>
 
-        <b-col sm="4" class="pr-sm-0">
-          <div class="p-4 bg-white border rounded h-100 w-100">
+        <b-col sm="4" class="pr-sm-0 mb-3">
+          <div class="p-3 p-sm-4 bg-white border rounded h-100 w-100">
             <div class="mb-3">
               <h6 class="font-weight-bold">Most Interactions</h6>
             </div>
@@ -268,8 +299,8 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-col sm="4" class="pl-sm-0">
-          <div class="p-4 bg-white border rounded h-100 w-100">
+        <b-col sm="4" class="pl-sm-0 mb-3">
+          <div class="p-3 p-sm-4 bg-white border rounded h-100 w-100">
             <div class="mb-3">
               <h6 class="font-weight-bold">Total Interactions</h6>
             </div>
@@ -283,8 +314,8 @@
             </div>
           </div>
         </b-col>
-        <b-col sm="4" class="pl-sm-0">
-          <div class="p-4 bg-white border rounded h-100 w-100">
+        <b-col sm="4" class="pl-sm-0 mb-3">
+          <div class="p-3 p-sm-4 bg-white border rounded h-100 w-100">
             <div class="mb-3">
               <h6 class="font-weight-bold">Total Paid Courses</h6>
             </div>
@@ -297,8 +328,8 @@
             </div>
           </div>
         </b-col>
-        <b-col sm="4">
-          <div class="p-4 bg-white border rounded h-100 w-100">
+        <b-col sm="4" class="mb-3">
+          <div class="p-3 p-sm-4 bg-white border rounded h-100 w-100">
             <div class="mb-3">
               <h6 class="font-weight-bold">Total Group Courses</h6>
             </div>
@@ -315,10 +346,10 @@
       </b-row>
     </div>
     <div v-if="about == 'facilitators'">
-      <b-row class="mb-4">
-        <b-col class="bg-white border rounded p-4">
+      <b-row class="">
+        <b-col class="bg-white border rounded p-3 p-sm-4 mb-3">
           <div>
-            <div class="mb-4 d-flex justify-content-between align-items-center">
+            <div class="mb-3 d-flex justify-content-between align-items-center">
               <h6 class="font-weight-bold">
                 Facilitators Enrollment Activities
               </h6>
@@ -346,9 +377,9 @@
             </div></div
         ></b-col>
       </b-row>
-      <b-row class="mb-4">
-        <b-col sm="4" class="pl-sm-0">
-          <div class="p-4 bg-white border rounded h-100 w-100">
+      <b-row class="">
+        <b-col sm="4" class="pl-sm-0 mb-3">
+          <div class="p-3 p-sm-4 bg-white border rounded h-100 w-100">
             <div class="mb-3">
               <h6 class="font-weight-bold">Total Facilitators</h6>
             </div>
@@ -361,8 +392,8 @@
             </div>
           </div>
         </b-col>
-        <b-col sm="4">
-          <div class="p-4 bg-white border rounded h-100 w-100">
+        <b-col sm="4" class="mb-3">
+          <div class="p-3 p-sm-4 bg-white border rounded h-100 w-100">
             <div>
               <div class="mb-3">
                 <h6 class="font-weight-bold">Statistics by Gender</h6>
@@ -378,8 +409,8 @@
             </div>
           </div>
         </b-col>
-        <b-col sm="4" class="pr-sm-0">
-          <div class="p-4 bg-white border rounded h-100 w-100">
+        <b-col sm="4" class="pr-sm-0 mb-3">
+          <div class="p-3 p-sm-4 bg-white border rounded h-100 w-100">
             <div class="mb-3">
               <h6 class="font-weight-bold">Facilitators This Week</h6>
             </div>
@@ -401,7 +432,7 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-col sm="12" class="p-4 bg-white border rounded">
+        <b-col sm="12" class="p-3 p-sm-4 bg-white border rounded mb-3">
           <div>
             <div class="mb-3">
               <h5 class="font-weight-bold">Login Activity</h5>
@@ -420,10 +451,10 @@
       </b-row>
     </div>
     <div v-if="about == 'revenue'">
-      <b-row class="mb-4">
-        <b-col class="bg-white border rounded p-4">
+      <b-row class="mb-3">
+        <b-col class="bg-white border rounded p-3 p-sm-4">
           <div>
-            <div class="mb-4 d-flex justify-content-between align-items-center">
+            <div class="mb-3 d-flex justify-content-between align-items-center">
               <h6 class="font-weight-bold">Revenue Chart</h6>
             </div>
 
@@ -437,9 +468,9 @@
             </div></div
         ></b-col>
       </b-row>
-      <b-row class="mb-3">
-        <b-col sm="4" class="pl-sm-0">
-          <div class="p-4 bg-white border rounded h-100 w-100">
+      <b-row class="">
+        <b-col sm="4" class="pl-sm-0 mb-3">
+          <div class="p-3 p-sm-4 bg-white border rounded h-100 w-100">
             <div class="mb-3">
               <h6 class="font-weight-bold">Total revenue</h6>
             </div>
@@ -452,8 +483,8 @@
             </div>
           </div>
         </b-col>
-        <b-col sm="4">
-          <div class="p-4 bg-white border rounded h-100 w-100">
+        <b-col sm="4" class="mb-3">
+          <div class="p-3 p-sm-4 bg-white border rounded h-100 w-100">
             <div class="mb-3">
               <h6 class="font-weight-bold">Revenue This Year</h6>
             </div>
@@ -463,8 +494,8 @@
             </div>
           </div>
         </b-col>
-        <b-col sm="4" class="pr-sm-0">
-          <div class="p-4 bg-white border rounded h-100 w-100">
+        <b-col sm="4" class="pr-sm-0 mb-3">
+          <div class="p-3 p-sm-4 bg-white border rounded h-100 w-100">
             <div class="mb-3">
               <h6 class="font-weight-bold">Revenue This Month</h6>
             </div>
@@ -476,8 +507,8 @@
       </b-row>
 
       <b-row>
-        <b-col sm="4" class="pl-sm-0">
-          <div class="p-4 bg-white border rounded h-100 w-100">
+        <b-col sm="4" class="pl-sm-0 mb-3">
+          <div class="p-3 p-sm-4 bg-white border rounded h-100 w-100">
             <div class="mb-3">
               <h6 class="font-weight-bold">Highest Earning Course</h6>
             </div>

@@ -70,12 +70,12 @@
                         plugins: [
                           'advlist autolink lists link image charmap print preview anchor',
                           'searchreplace visualblocks code fullscreen',
-                          'insertdatetime media table paste code help wordcount',
+                          'insertdatetime media table paste code help wordcount'
                         ],
                         toolbar:
                           'undo redo | formatselect | bold italic backcolor | \
            alignleft aligncenter alignright alignjustify | \
-           bullist numlist outdent indent | removeformat | help',
+           bullist numlist outdent indent | removeformat | help'
                       }"
                     />
                   </b-form-group>
@@ -136,7 +136,7 @@
                           @click="addquestion(idx)"
                           v-if="
                             questionnaire.sections[idx].questions.length ==
-                            index + 1
+                              index + 1
                           "
                           ><b-icon icon="plus"></b-icon> Add question</b-button
                         >
@@ -232,9 +232,9 @@
                         class="mb-3"
                         v-if="
                           question.type !== 'short' &&
-                          question.type !== 'long' &&
-                          question.type !== 'multiple' &&
-                          question.type !== 'boolean'
+                            question.type !== 'long' &&
+                            question.type !== 'multiple' &&
+                            question.type !== 'boolean'
                         "
                       >
                         <b-col sm="12">
@@ -272,7 +272,7 @@
                                       questionnaire.sections[idx].questions[
                                         index
                                       ].options.length ==
-                                      id + 1
+                                        id + 1
                                     "
                                     ><b-icon icon="plus"></b-icon> Add
                                     option</b-button
@@ -296,8 +296,8 @@
                             label="Answer"
                             v-if="
                               question.showAnswer &&
-                              question.type !== 'multiple' &&
-                              question.type !== 'checkbox'
+                                question.type !== 'multiple' &&
+                                question.type !== 'checkbox'
                             "
                           >
                             <b-form-input
@@ -312,8 +312,8 @@
                         class="mb-3"
                         v-if="
                           question.showAnswer &&
-                          (question.type == 'multiple' ||
-                            question.type == 'checkbox')
+                            (question.type == 'multiple' ||
+                              question.type == 'checkbox')
                         "
                       >
                         <b-col sm="12">
@@ -351,7 +351,7 @@
                                       questionnaire.sections[idx].questions[
                                         index
                                       ].answers.length ==
-                                      id + 1
+                                        id + 1
                                     "
                                     ><b-icon icon="plus"></b-icon> Add
                                     answer</b-button
@@ -366,11 +366,11 @@
                         class="mb-3"
                         v-if="
                           question.type == 'short' ||
-                          question.type == 'long' ||
-                          question.type == 'paragraph' ||
-                          question.type == 'email' ||
-                          question.type == 'multiple' ||
-                          question.type == 'number'
+                            question.type == 'long' ||
+                            question.type == 'paragraph' ||
+                            question.type == 'email' ||
+                            question.type == 'multiple' ||
+                            question.type == 'number'
                         "
                       >
                         <b-col sm="12">
@@ -466,7 +466,7 @@ export default {
   components: {
     draggable,
     Preview,
-    editor: Editor,
+    editor: Editor
   },
   data() {
     return {
@@ -499,28 +499,28 @@ export default {
                 limit: 2,
                 options: [
                   {
-                    title: "",
-                  },
+                    title: ""
+                  }
                 ],
                 showAnswer: false,
                 answer: "",
                 answers: [
                   {
-                    title: "",
-                  },
+                    title: ""
+                  }
                 ],
                 placeholder: "",
                 hint: "",
                 asScore: false,
-                score: 0,
-              },
-            ],
-          },
-        ],
+                score: 0
+              }
+            ]
+          }
+        ]
       },
       editable: true,
       isDragging: false,
-      delayedDragging: false,
+      delayedDragging: false
     };
   },
   mounted() {
@@ -540,9 +540,9 @@ export default {
         animation: 0,
         group: "description",
         disabled: !this.editable,
-        ghostClass: "ghost",
+        ghostClass: "ghost"
       };
-    },
+    }
   },
   watch: {
     isDragging(newValue) {
@@ -553,7 +553,7 @@ export default {
       this.$nextTick(() => {
         this.delayedDragging = false;
       });
-    },
+    }
   },
   methods: {
     sendQuestionnaire() {
@@ -581,23 +581,23 @@ export default {
             limit: 2,
             options: [
               {
-                title: "",
-              },
+                title: ""
+              }
             ],
             showAnswer: false,
 
             answer: "",
             answers: [
               {
-                title: "",
-              },
+                title: ""
+              }
             ],
             placeholder: "",
             hint: "",
             asScore: false,
-            score: 0,
-          },
-        ],
+            score: 0
+          }
+        ]
       });
     },
     addquestion(idx) {
@@ -611,43 +611,43 @@ export default {
         limit: 2,
         options: [
           {
-            title: "",
-          },
+            title: ""
+          }
         ],
         answer: "",
         answers: [
           {
-            title: "",
-          },
+            title: ""
+          }
         ],
         placeholder: "",
-        hint: "",
+        hint: ""
       });
     },
     addoption(idx, index) {
       this.questionnaire.sections[idx].questions[index].options.push({
-        title: "",
+        title: ""
       });
     },
     addanswer(idx, index) {
       this.questionnaire.sections[idx].questions[index].answers.push({
-        title: "",
+        title: ""
       });
     },
     save() {
       this.$http
         .post(`${this.$store.getters.url}/questionnaires`, this.questionnaire, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.$toast.success("Created successfully");
             this.$router.go(-1);
           }
         })
-        .catch((err) => {
+        .catch(err => {
           err.response.data.errors.title[0]
             ? this.$toast.error(err.response.data.errors.title[0])
             : "";
@@ -658,8 +658,8 @@ export default {
     },
     preview() {
       this.$bvModal.show("preview");
-    },
-  },
+    }
+  }
 };
 </script>
 

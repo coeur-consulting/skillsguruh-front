@@ -69,8 +69,8 @@
                   <div
                     v-if="
                       question.type == 'short' &&
-                      !question.asPlaceholders &&
-                      !question.addSubQuestion
+                        !question.asPlaceholders &&
+                        !question.addSubQuestion
                     "
                   >
                     <b-form-input
@@ -82,8 +82,8 @@
                   <div
                     v-if="
                       question.type == 'long' &&
-                      !question.asPlaceholders &&
-                      !question.addSubQuestion
+                        !question.asPlaceholders &&
+                        !question.addSubQuestion
                     "
                   >
                     <b-form-textarea
@@ -200,7 +200,7 @@
                         v-model="question.responses"
                         :disabled="
                           question.responses.length > question.limit - 1 &&
-                          question.responses.indexOf(index) === -1
+                            question.responses.indexOf(index) === -1
                         "
                         inline
                       >
@@ -365,33 +365,33 @@ export default {
                 limit: 2,
                 options: [
                   {
-                    title: "",
-                  },
+                    title: ""
+                  }
                 ],
                 showAnswer: false,
                 answer: "",
                 answers: [
                   {
-                    title: "",
-                  },
+                    title: ""
+                  }
                 ],
                 placeholder: "",
                 hint: "",
                 asScore: false,
-                score: 0,
-              },
-            ],
-          },
-        ],
+                score: 0
+              }
+            ]
+          }
+        ]
       },
       getLibrary: [],
       section: 0,
       responses: [],
-      score: 0,
+      score: 0
     };
   },
   components: {
-    Preview,
+    Preview
   },
   mounted() {
     this.getAnswers();
@@ -403,7 +403,7 @@ export default {
     },
     totalscore() {
       var arr = [];
-      this.questionnaire.sections.forEach((item) => {
+      this.questionnaire.sections.forEach(item => {
         arr.push(item.questions);
       });
 
@@ -411,7 +411,7 @@ export default {
         return a.concat(b);
       });
 
-      var score = newarr.map((item) => {
+      var score = newarr.map(item => {
         if (item.asAnswer) {
           return item.score;
         }
@@ -420,22 +420,22 @@ export default {
       return score.reduce((a, b) => {
         return a + b;
       }, 0);
-    },
+    }
   },
   methods: {
     getAnswers() {
       this.$http
         .get(`${this.$store.getters.url}/answer-questionnaires`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.myquestionnaire = res.data;
             if (res.data.length) {
               var check = res.data.find(
-                (item) =>
+                item =>
                   item.question_template_id == this.$route.params.id &&
                   item.course_id == this.$route.params.course_id &&
                   item.module_id == this.$route.params.module_id
@@ -468,11 +468,11 @@ export default {
           `${this.$store.getters.url}/question/templates/${this.$route.params.id}`,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.questionnaire.id = res.data.id;
             this.questionnaire.module_id = res.data.module_id;
@@ -492,7 +492,7 @@ export default {
       var answers = [];
       var responses = [];
       var correct = 0;
-      this.questionnaire.sections.forEach((item) => {
+      this.questionnaire.sections.forEach(item => {
         arr.push(item.questions);
       });
 
@@ -500,7 +500,7 @@ export default {
         return a.concat(b);
       });
 
-      var score = newarr.map((item) => {
+      var score = newarr.map(item => {
         if (item.asAnswer) {
           if (item.type !== "checkbox" && item.type !== "multiple") {
             if (item.response == item.answer) {
@@ -509,13 +509,13 @@ export default {
             return 0;
           }
           if (item.type == "checkbox" || item.type == "multiple") {
-            answers = item.answers.map((item) => item.title).sort();
+            answers = item.answers.map(item => item.title).sort();
             responses = item.responses
-              .map((val) => item.options[val])
-              .map((item) => item.title)
+              .map(val => item.options[val])
+              .map(item => item.title)
               .sort();
 
-            correct = answers.filter((x) => responses.indexOf(x) !== -1).length;
+            correct = answers.filter(x => responses.indexOf(x) !== -1).length;
             let score = (correct / answers.length) * item.score;
             return Math.round(score);
           }
@@ -530,11 +530,11 @@ export default {
 
     addoption(index) {
       this.questionnaire.sections[this.section].questions[index].options.push({
-        title: null,
+        title: null
       });
     },
     submit() {
-      this.$bvModal.msgBoxConfirm("Are you sure?").then((response) => {
+      this.$bvModal.msgBoxConfirm("Are you sure?").then(response => {
         if (response) {
           var data = {
             module_id: this.$route.params.module_id,
@@ -545,15 +545,15 @@ export default {
             template_id: this.$route.params.id,
             your_score: this.current_score,
             total_score: this.totalscore,
-            status: "submitted",
+            status: "submitted"
           };
           this.$http
             .post(`${this.$store.getters.url}/answer-questionnaires`, data, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 201 || res.status == 200) {
                 this.$router.go(-1);
                 this.$toast.success("Submitted Successfully");
@@ -563,7 +563,7 @@ export default {
       });
     },
     saveforlater() {
-      this.$bvModal.msgBoxConfirm("Are you sure?").then((response) => {
+      this.$bvModal.msgBoxConfirm("Are you sure?").then(response => {
         if (response) {
           var data = {
             module_id: this.$route.params.module_id,
@@ -574,15 +574,15 @@ export default {
             template_id: this.$route.params.id,
             your_score: this.current_score,
             total_score: this.totalscore,
-            status: "draft",
+            status: "draft"
           };
           this.$http
             .post(`${this.$store.getters.url}/answer-questionnaires`, data, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 201 || res.status == 200) {
                 this.$router.go(-1);
                 this.$toast.success("Saved in Drafts ");
@@ -590,8 +590,8 @@ export default {
             });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

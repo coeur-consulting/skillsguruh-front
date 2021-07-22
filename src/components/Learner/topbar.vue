@@ -213,15 +213,22 @@
           No new notification !
         </div>
       </b-popover>
-      <mail-icon
-        size="1.5x"
-        class="custom-class mr-4 text-muted"
-        id="inbox"
-      ></mail-icon>
+      <div class="position-relative mr-4">
+        <mail-icon
+          size="1.5x"
+          class="custom-class text-muted"
+          id="inbox"
+        ></mail-icon>
+        <small class="unread">
+          <b-badge variant="danger" v-if="unreadmesages.length">{{
+            unreadmesages.length
+          }}</b-badge></small
+        >
+      </div>
 
       <b-popover id="inbox1" target="inbox" triggers="hover" placement="bottom">
         <template #title>Inbox</template>
-        <div class="inbox py-2" v-if="chatter.length">
+        <div class="inbox" v-if="chatter.length">
           <div
             class="inbox_message"
             v-for="(message, index) in chatter"
@@ -243,7 +250,15 @@
               >
                 <span class="message_name fs12">{{ message.name }}</span>
                 <br />
-                <div class="last_message fs11">
+                <div
+                  class="last_message fs11"
+                  :class="
+                    !lastMessage(message).status &&
+                    lastMessage(message).user_id != $store.getters.learner.id
+                      ? 'font-weight-bold'
+                      : ''
+                  "
+                >
                   {{ lastMessage(message).message }}
                 </div>
               </div>
@@ -354,6 +369,7 @@ export default {
   },
 
   mounted() {},
+
   methods: {
     togglechat() {
       this.mini_info = {
@@ -378,13 +394,17 @@ export default {
     },
     lastMessage(info) {
       var mess = this.sortmessages.filter((item) => {
-        if (info.type == "user" && item.user) {
+        if (info.type == "user" && item.user && item.user.id == info.id) {
           return item;
         }
-        if (info.type == "admin" && item.admin) {
+        if (info.type == "admin" && item.admin && item.admin.id == info.id) {
           return item;
         }
-        if (info.type == "facilitator" && item.facilitator) {
+        if (
+          info.type == "facilitator" &&
+          item.facilitator &&
+          item.facilitator.id == info.id
+        ) {
           return item;
         }
       });
@@ -419,6 +439,14 @@ export default {
     },
   },
   computed: {
+    unreadmesages() {
+      return this.inboxes.filter(
+        (item) =>
+          !item.status &&
+          item.receiver_id == this.$store.getters.learner.id &&
+          item.receiver == "learner"
+      );
+    },
     inboxes() {
       return this.$store.getters.inboxes;
     },
@@ -438,6 +466,9 @@ export default {
           info.facilitator = item.facilitator_info || null;
           info.message = item.message || null;
           info.time = item.created_at || null;
+          info.status = item.status;
+          info.id = item.id;
+          info.user_id = item.user_id;
         }
         if (
           item.receiver == "user" &&
@@ -448,6 +479,8 @@ export default {
           info.facilitator = item.facilitator || null;
           info.message = item.message || null;
           info.time = item.created_at || null;
+          info.status = item.status;
+          info.id = item.id;
         }
 
         return info;

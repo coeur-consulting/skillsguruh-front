@@ -136,9 +136,8 @@ export default {
       uploadedFile: null,
       uploadedFileUrl: null,
       cloudinary: {
-        uploadPreset: "knkccgjv",
-        apiKey: "634813511968181",
-        cloudName: "bizguruh-com",
+        uploadPreset: "skillsguruh_preset",
+        cloudName: "skillsguruh",
       },
       progress: 0,
       start: false,
@@ -218,14 +217,11 @@ export default {
           this.start = false;
           this.current = "success";
           this.uploadedFileUrl = response.secure_url; // https address of uploaded file
-          this.$emit("getUpload", this.uploadedFileUrl, this.$props.id);
+          this.$emit("getUpload", response, this.$props.id);
         } else {
           this.start = false;
           this.current = "fail";
-          console.log(
-            "🚀 ~ file: feedupload.vue ~ line 224 ~ processUpload ~ this.current",
-            this.current
-          );
+
           alert("Upload failed. Please try again.");
         }
       };

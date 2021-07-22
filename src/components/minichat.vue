@@ -65,7 +65,7 @@
         <div v-for="(item, index) in messages" :key="index">
           <div
             v-if="item.admin_id"
-            class="mb-1"
+            class="mb-2"
             :class="
               item.admin_id == $store.getters.admin.id
                 ? 'right_text'
@@ -106,7 +106,7 @@
           </div>
           <div
             v-if="item.user_id"
-            class="mb-1"
+            class="mb-2"
             :class="
               item.user_id == $store.getters.learner.id
                 ? 'right_text'
@@ -270,7 +270,7 @@
           </div>
           <div
             v-if="item.facilitator_id"
-            class="mb-1"
+            class="mb-2"
             :class="
               item.facilitator_id == $store.getters.facilitator.id
                 ? 'right_text'
@@ -442,7 +442,7 @@
                 @click="addinbox"
                 font-scale="1"
                 icon="cursor-fill"
-                class="text-dark-green cursor-pointer"
+                class="text-dark cursor-pointer"
               ></b-icon>
             </b-input-group-text>
           </template>
@@ -452,7 +452,7 @@
               ><span class=""
                 ><b-icon
                   icon="emoji-smile-fill"
-                  class="text-dark-green cursor-pointer"
+                  class="text-dark cursor-pointer"
                   font-scale="1"
                 ></b-icon></span
             ></b-input-group-text>
@@ -527,7 +527,7 @@
           Download File
         </div>
       </div>
-      <b-input-group class="mt-1 bg-light">
+      <b-input-group class="mt-1">
         <template #append>
           <b-input-group-text class="border-0 bg-transparent">
             <b-icon
@@ -587,8 +587,18 @@ export default {
   },
   watch: {
     $route: "closeChat",
+    mini_info: {
+      handler() {
+        this.markMessagesRead();
+      },
+      deep: true,
+    },
   },
+
   computed: {
+    unreadmesages() {
+      return this.messages.filter((item) => !item.status);
+    },
     inboxes() {
       return this.$store.getters.inboxes;
     },
@@ -606,6 +616,9 @@ export default {
       return token;
     },
     messages() {
+      if (!this.$props.mini_info) {
+        return [];
+      }
       return this.inboxes.filter((item) => {
         if (
           (item.admin_id == this.$props.mini_info.id &&
@@ -623,6 +636,67 @@ export default {
     },
   },
   methods: {
+    markMessagesRead() {
+      if (!this.unreadmesages.length) {
+        return;
+      }
+
+      if (this.$props.user == "learner") {
+        if (
+          !this.unreadmesages.some(
+            (item) =>
+              item.receiver == "learner" &&
+              item.receiver_id == this.$store.getters.learner.id
+          )
+        ) {
+          return;
+        }
+      }
+
+      if (this.$props.user == "facilitator") {
+        if (
+          !this.unreadmesages.some(
+            (item) =>
+              item.receiver == "facilitator" &&
+              item.receiver_id == this.$store.getters.facilitator.id
+          )
+        ) {
+          return;
+        }
+      }
+
+      if (this.$props.user == "admin") {
+        if (
+          !this.unreadmesages.some(
+            (item) =>
+              item.receiver == "admin" &&
+              item.receiver_id == this.$store.getters.admin.id
+          )
+        ) {
+          return;
+        }
+      }
+      let data = {
+        ids: this.unreadmesages.map((item) => item.id),
+      };
+      this.$http
+        .post(`${this.$store.getters.url}/inboxes/mark/read`, data)
+        .then((res) => {
+          if (res.status == 200) {
+            if (this.$props.user == "learner") {
+              this.$store.dispatch("getInbox", "learner");
+            }
+
+            if (this.$props.user == "facilitator") {
+              this.$store.dispatch("getInbox", "facilitator");
+            }
+
+            if (this.$props.user == "admin") {
+              this.$store.dispatch("getInbox", "admin");
+            }
+          }
+        });
+    },
     async getFileDetails(media) {
       window.URL = window.URL || window.webkitURL;
       var video = document.createElement("video");
@@ -761,8 +835,8 @@ export default {
             };
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Message not sent");
         });
     },
     dropinbox(id, index) {
@@ -801,21 +875,41 @@ export default {
   left: 50%;
   border-radius: 10px 10px 0 0;
   z-index: 999;
-
   margin-left: -165px;
 }
 .reply {
   height: 360px;
   overflow-y: scroll;
 }
+.reply::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.reply {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
 .left_text {
   font-size: 12px;
   padding: 10px;
   background-color: #fbfbfb;
   border-radius: 0 10px 10px 0;
-  border-left: 3px solid var(--lighter-green);
+  border-left: 3px solid var(--dark-green);
   width: 80%;
   margin-right: auto;
+  position: relative;
+}
+.left_text::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 1px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 15px solid #fbfbfb;
+  position: absolute;
+  right: -12px;
+  top: 0;
 }
 .right_text {
   font-size: 12px;
@@ -825,6 +919,18 @@ export default {
   margin-left: auto;
   background-color: #f7f8fa;
   border-right: 3px solid var(--red);
+  position: relative;
+}
+.right_text::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 1px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 15px solid #fbfbfb;
+  position: absolute;
+  left: -12px;
+  top: 0;
 }
 .chat_name {
   font-size: 13px;

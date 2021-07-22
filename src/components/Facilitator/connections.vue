@@ -25,12 +25,14 @@
                 class="d-flex align-items-end mb-4"
               >
                 <div class="d-flex align-items-center flex-1">
-                  <b-avatar class="mr-2" size="2.8rem"></b-avatar>
+                  <b-avatar class="mr-2" size="2rem"></b-avatar>
                   <div>
-                    <span>{{ item.user_follower.name }}</span> <br />
-                    <span class="fs14 text-muted">{{
-                      item.user_follower.email
-                    }}</span>
+                    <div class="connection_name">
+                      {{ item.user_follower.name }}
+                    </div>
+                    <div class="connection_email text-muted">
+                      {{ item.user_follower.email }}
+                    </div>
                   </div>
                 </div>
 
@@ -47,27 +49,28 @@
                         item.user_follower.profile
                       )
                     "
-                    >Message</b-button
+                    ><span class="connection_button">Message</span></b-button
                   >
-                  <b-icon icon="three-dots-vertical"></b-icon>
                 </div>
               </div>
               <div v-else class="d-flex align-items-end mb-4">
                 <div class="d-flex align-items-center flex-1">
-                  <b-avatar class="mr-2" size="2.8rem"></b-avatar>
+                  <b-avatar class="mr-2" size="2rem"></b-avatar>
                   <div>
-                    <span
+                    <div
                       @click="
                         $router.push(
                           `/facilitator/profile/${item.facilitator_follower.id}`
                         )
                       "
-                      >{{ item.facilitator_follower.name }}</span
+                      class="connection_name"
                     >
-                    <br />
-                    <span class="fs14 text-muted">{{
-                      item.facilitator_follower.email
-                    }}</span>
+                      {{ item.facilitator_follower.name }}
+                    </div>
+
+                    <div class="connection_email text-muted">
+                      {{ item.facilitator_follower.email }}
+                    </div>
                   </div>
                 </div>
 
@@ -84,9 +87,9 @@
                         item.facilitator_follower.profile
                       )
                     "
-                    >Message</b-button
                   >
-                  <b-icon icon="three-dots-vertical"></b-icon>
+                    <span class="connection_button">Message</span>
+                  </b-button>
                 </div>
               </div>
             </div>
@@ -106,8 +109,10 @@
               <div class="d-flex align-items-center flex-1">
                 <b-avatar class="mr-2" size="2rem"></b-avatar>
                 <div style="line-height: 1.2">
-                  <span class="fs14">{{ item.name }}</span> <br />
-                  <span class="fs12 text-muted">{{ item.email }}</span>
+                  <div class="connection_name">{{ item.name }}</div>
+                  <div class="fsconnection_email12 text-muted">
+                    {{ item.email }}
+                  </div>
                 </div>
               </div>
 
@@ -118,7 +123,7 @@
                   size="sm"
                   variant="outline-dark-green"
                   class="rounded-pill fs11"
-                  >Connect</b-button
+                  ><span class="connection_button">Connect</span></b-button
                 >
                 <b-button
                   v-else

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-container fluid class="py-5">
+    <b-container fluid class="py-3 py-sm-5">
       <h5 class="text-left mb-4">Your Library</h5>
       <b-row class="flex-column-reverse flex-sm-row">
         <b-col sm="4" class="text-left pr-4">
@@ -198,7 +198,7 @@
                   </b-input-group-append>
                 </b-input-group>
               </div>
-              <div>
+              <div class="d-flex">
                 <b-icon
                   class="mr-3"
                   :icon="alpha ? 'sort-alpha-up' : 'sort-alpha-down'"
@@ -249,10 +249,10 @@
                     bg-white
                     d-flex
                     justify-content-between
-                    p-2
+                    p-3
                     border
                     rounded
-                    mb-4
+                    mb-3
                     text-left
                   "
                   :class="list ? 'flex-row' : 'flex-column'"
@@ -289,11 +289,11 @@
 
                   <b-col
                     :sm="list ? 6 : 12"
-                    class="d-flex justify-content-between"
+                    class="d-flex justify-content-between px-0"
                     :class="list ? 'flex-row' : 'flex-column'"
                   >
                     <div class="">
-                      <div
+                      <!-- <div
                         class="fs14 text-muted d-flex align-items-center"
                         :class="!list ? 'mb-2' : ''"
                         v-if="item.course.modules"
@@ -312,7 +312,7 @@
                           ></b-icon>
                         </b-iconstack>
                         <span> {{ item.course.modules.length }} modules</span>
-                      </div>
+                      </div> -->
                       <div class="mt-3">
                         <div class="mb-2 fs12">Your progress</div>
                         <b-progress
@@ -330,17 +330,7 @@
                     </div>
 
                     <div :class="list ? 'pl-4' : ''">
-                      <div class="mb-2">
-                        <!-- <b-button
-                          block
-                          variant="danger"
-                          disabled
-                          class="cursor-disabled"
-                          size="sm"
-                          ><b-icon icon="download" class="mr-2"></b-icon>
-                          Download</b-button
-                        > -->
-                      </div>
+                      <div class="mb-2"></div>
                       <div>
                         <b-button
                           block
