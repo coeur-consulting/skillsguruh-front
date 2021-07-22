@@ -90,6 +90,7 @@
           v-if="feed.media && img_ext.includes(getextension(feed.media))"
           fluid-grow
           :src="feed.media"
+          style="object-fit: contain"
         ></b-img>
         <video
           controls
@@ -149,27 +150,25 @@
       size="md"
     >
       <div class="comments" v-if="allcomments">
-        <div class="mb-4">
+        <div class="mb-3">
           <div class="d-flex mb-3 pt-3">
             <div class="d-flex flex-1 text-left">
-              <div class="font-weight-bold mr-2 mb-1" v-if="allcomments.admin">
+              <div class="mr-2 mb-1" v-if="allcomments.admin">
                 <b-avatar
                   class="mr-2"
                   size="1.8rem"
                   :src="allcomments.admin.profile"
                 ></b-avatar>
-                {{ allcomments.admin.name }}
               </div>
-              <div class="font-weight-bold mr-2 mb-1" v-if="allcomments.user">
+              <div class="mr-2 mb-1" v-if="allcomments.user">
                 <b-avatar
                   class="mr-2"
                   size="1.8rem"
                   :src="allcomments.user.profile"
                 ></b-avatar>
-                {{ allcomments.user.name }}
               </div>
               <div
-                class="font-weight-bold mr-2 mb-1"
+                class="comment_name mr-2 mb-1"
                 v-if="allcomments.facilitator"
               >
                 <b-avatar
@@ -177,7 +176,6 @@
                   size="1.8rem"
                   :src="allcomments.facilitator.profile"
                 ></b-avatar>
-                {{ allcomments.facilitator.name }}
               </div>
               <div class="profile">
                 <span class="name" v-if="allcomments.admin">{{
@@ -206,41 +204,71 @@
             v-for="(item, index) in allcomments.comments"
             :key="index"
           >
-            <b-col cols="9">
+            <div class="flex-1">
               <div class="flex-1 pr-2">
-                <div class="font-weight-bold mr-2 mb-1" v-if="item.admin">
-                  <b-avatar
-                    class="mr-2"
-                    size="sm"
-                    :src="item.admin.profile"
-                  ></b-avatar>
-                  {{ item.admin.name }}
+                <div class="d-flex mb-1" v-if="item.admin">
+                  <div class="d-flex flex-1">
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.admin.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.admin.name }}
+                      </div>
+                      <div class="comment_text">{{ item.comment }}</div>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="comment_mins pl-2">{{
+                      $moment(item.created_at).fromNow()
+                    }}</span>
+                  </div>
                 </div>
-                <div class="font-weight-bold mr-2 mb-1" v-if="item.user">
-                  <b-avatar
-                    class="mr-2"
-                    size="sm"
-                    :src="item.user.profile"
-                  ></b-avatar>
-                  {{ item.user.name }}
+                <div class="d-flex mb-1" v-if="item.user">
+                  <div class="d-flex flex-1">
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.user.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.user.name }}
+                      </div>
+                      <div class="comment_text">{{ item.comment }}</div>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="comment_mins pl-2">{{
+                      $moment(item.created_at).fromNow()
+                    }}</span>
+                  </div>
                 </div>
-                <div class="font-weight-bold mr-2 mb-1" v-if="item.facilitator">
-                  <b-avatar
-                    class="mr-2"
-                    size="sm"
-                    :src="item.facilitator.profile"
-                  ></b-avatar>
-                  {{ item.facilitator.name }}
+                <div class="d-flex mb-1" v-if="item.facilitator">
+                  <div class="d-flex flex-1">
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.facilitator.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.facilitator.name }}
+                      </div>
+                      <div class="comment_text">{{ item.comment }}</div>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="comment_mins pl-2">{{
+                      $moment(item.created_at).fromNow()
+                    }}</span>
+                  </div>
                 </div>
-
-                <div>{{ item.comment }}</div>
               </div>
-            </b-col>
-            <b-col cols="3">
-              <div>
-                <span class="fs11">{{ item.created_at | moment("ll") }}</span>
-              </div></b-col
-            >
+            </div>
+            <div></div>
           </div>
         </div>
       </div>
@@ -301,10 +329,7 @@
                 >
                   <div class="d-flex mb-3 px-2 px-sm-3 pt-3">
                     <div class="d-flex flex-1 text-left">
-                      <div
-                        class="font-weight-bold mr-2 mb-1 feedname"
-                        v-if="feed.admin"
-                      >
+                      <div class="mr-2 mb-1 feedname" v-if="feed.admin">
                         <b-avatar
                           size="1.8rem"
                           class="mr-2"
@@ -312,10 +337,7 @@
                         ></b-avatar>
                         {{ feed.admin.name }}
                       </div>
-                      <div
-                        class="font-weight-bold mr-2 mb-1 feedname"
-                        v-if="feed.user"
-                      >
+                      <div class="mr-2 mb-1 feedname" v-if="feed.user">
                         <b-avatar
                           size="1.8rem"
                           class="mr-2"
@@ -331,10 +353,7 @@
                           {{ feed.user.name }}</span
                         >
                       </div>
-                      <div
-                        class="font-weight-bold mr-2 mb-1 feedname"
-                        v-if="feed.facilitator"
-                      >
+                      <div class="mr-2 mb-1 feedname" v-if="feed.facilitator">
                         <b-avatar
                           size="1.8rem"
                           class="mr-2"
@@ -350,22 +369,6 @@
                           {{ feed.facilitator.name }}</span
                         >
                       </div>
-                      <!--
-                    <div class="profile">
-                      <span class="name" v-if="feed.admin">{{
-                        feed.admin.name
-                      }}</span>
-                      <span class="name" v-if="feed.user">{{
-                        feed.user.name
-                      }}</span>
-                      <span class="name" v-if="feed.facilitator">{{
-                        feed.facilitator.name
-                      }}</span>
-                      <br />
-                      <span class="date">{{
-                        feed.created_at | moment("ll")
-                      }}</span>
-                    </div> -->
                     </div>
 
                     <b-dropdown
@@ -388,7 +391,7 @@
                       >
                     </b-dropdown>
                   </div>
-                  <div class="text-left feed_text px-3 pb-3">
+                  <div class="text-left feed_text px-3">
                     <div class="mb-2" v-html="feed.message"></div>
 
                     <div v-if="feed.url" class="text-dark-green">
@@ -403,7 +406,8 @@
                           :key="id"
                         >
                           <b-badge
-                            class="fs11 text-black-50"
+                            class="fs10 text-black-50"
+                            size="sm"
                             variant="lighter-green"
                             >#{{ tag.text }}</b-badge
                           >
@@ -461,7 +465,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="interactions text-left px-3 py-3 border-bottom">
+                  <div class="interactions text-left px-3 py-2 border-bottom">
                     <span
                       class="mr-3 cursor-pointer"
                       @click="toggleStar(feed.id, index)"
@@ -512,9 +516,6 @@
                       >
                       comments</span
                     >
-                    <span class="cursor-pointer">
-                      <b-icon icon="share"></b-icon>
-                    </span>
                   </div>
                   <div
                     class="comments px-3 pt-2 border-bottom text-left"
@@ -524,7 +525,10 @@
                       v-if="feed.comments.length"
                       class="comment_header mb-2 cursor-pointer"
                       @click="showcomments(feed)"
-                      >View all {{ feed.comments.length }} comments</span
+                      >View {{ feed.comments.length }}
+                      {{
+                        feed.comments.length > 1 ? "comments" : "comment"
+                      }}</span
                     >
                     <div class="all_comment">
                       <div
@@ -533,11 +537,11 @@
                         :key="item.id"
                       >
                         <div class="flex-1 pr-2">
-                          <span class="font-weight-bold mr-2" v-if="item.admin">
+                          <span class="comment_name mr-2" v-if="item.admin">
                             {{ item.admin.name }}</span
                           >
                           <span
-                            class="font-weight-bold mr-2"
+                            class="comment_name mr-2"
                             @click="
                               $router.push(
                                 `/facilitator/profile/u/${item.user.id}`
@@ -548,7 +552,7 @@
                             {{ item.user.name }}</span
                           >
                           <span
-                            class="font-weight-bold mr-2"
+                            class="comment_name mr-2"
                             @click="
                               $router.push(
                                 `/facilitator/profile/f/${item.facilitator.id}`
@@ -559,19 +563,17 @@
                             {{ item.facilitator.name }}</span
                           >
 
-                          <span>{{ item.comment }}</span>
+                          <span class="comment_text">{{ item.comment }}</span>
                         </div>
                         <div>
-                          <span class="fs11">{{
-                            item.created_at | moment("ll")
-                          }}</span>
+                          <span class="comment_mins"
+                            >{{ $moment(item.created_at).fromNow() }}
+                          </span>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <!-- <div class="px-3 py-1 comment_header mb-1 text-left">
-                  {{ feed.created_at | moment("ll") }}
-                </div> -->
+
                   <div class="interact text-left px-3 pb-1">
                     <b-input-group class="mt-1">
                       <template #append>
@@ -579,7 +581,7 @@
                           class="border-0 bg-transparent d-block"
                           ><span
                             @click="addcomment(feed.id, index)"
-                            class="text-dark-green cursor-pointer"
+                            class="text-dark-green cursor-pointer comment_post"
                             >Post</span
                           ></b-input-group-text
                         >
@@ -1124,7 +1126,7 @@ export default {
   margin: 0 auto;
 }
 .event div {
-  font-size: 14px;
+  font-size: 0.8rem;
 }
 .profile {
   line-height: 1.2;

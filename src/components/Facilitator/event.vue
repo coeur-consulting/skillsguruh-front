@@ -446,6 +446,7 @@
 export default {
   data() {
     return {
+      showEvent: false,
       event: {},
       facilitators: [],
       vid_ext: ["mp4", "3gp"],

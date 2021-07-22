@@ -25,12 +25,14 @@
                 class="d-flex align-items-end mb-4"
               >
                 <div class="d-flex align-items-center flex-1">
-                  <b-avatar class="mr-2" size="2.8rem"></b-avatar>
+                  <b-avatar class="mr-2" size="2rem"></b-avatar>
                   <div>
-                    <span>{{ item.user_follower.name }}</span> <br />
-                    <span class="fs14 text-muted">{{
-                      item.user_follower.email
-                    }}</span>
+                    <div class="connection_name">
+                      {{ item.user_follower.name }}
+                    </div>
+                    <div class="connection_email text-muted">
+                      {{ item.user_follower.email }}
+                    </div>
                   </div>
                 </div>
 
@@ -47,27 +49,28 @@
                         item.user_follower.profile
                       )
                     "
-                    >Message</b-button
+                    ><span class="connection_button">Message</span></b-button
                   >
-                  <b-icon icon="three-dots-vertical"></b-icon>
                 </div>
               </div>
               <div v-else class="d-flex align-items-end mb-4">
                 <div class="d-flex align-items-center flex-1">
-                  <b-avatar class="mr-2" size="2.8rem"></b-avatar>
+                  <b-avatar class="mr-2" size="2rem"></b-avatar>
                   <div>
-                    <span
+                    <div
                       @click="
                         $router.push(
                           `/facilitator/profile/${item.facilitator_follower.id}`
                         )
                       "
-                      >{{ item.facilitator_follower.name }}</span
+                      class="connection_name"
                     >
-                    <br />
-                    <span class="fs14 text-muted">{{
-                      item.facilitator_follower.email
-                    }}</span>
+                      {{ item.facilitator_follower.name }}
+                    </div>
+
+                    <div class="connection_email text-muted">
+                      {{ item.facilitator_follower.email }}
+                    </div>
                   </div>
                 </div>
 
@@ -84,9 +87,9 @@
                         item.facilitator_follower.profile
                       )
                     "
-                    >Message</b-button
                   >
-                  <b-icon icon="three-dots-vertical"></b-icon>
+                    <span class="connection_button">Message</span>
+                  </b-button>
                 </div>
               </div>
             </div>
@@ -106,8 +109,10 @@
               <div class="d-flex align-items-center flex-1">
                 <b-avatar class="mr-2" size="2rem"></b-avatar>
                 <div style="line-height: 1.2">
-                  <span class="fs14">{{ item.name }}</span> <br />
-                  <span class="fs12 text-muted">{{ item.email }}</span>
+                  <div class="connection_name">{{ item.name }}</div>
+                  <div class="fsconnection_email12 text-muted">
+                    {{ item.email }}
+                  </div>
                 </div>
               </div>
 
@@ -118,7 +123,7 @@
                   size="sm"
                   variant="outline-dark-green"
                   class="rounded-pill fs11"
-                  >Connect</b-button
+                  ><span class="connection_button">Connect</span></b-button
                 >
                 <b-button
                   v-else
@@ -157,7 +162,7 @@ export default {
         id: "",
         name: "",
         type: "",
-        profile: ""
+        profile: "",
       },
 
       search: "",
@@ -166,11 +171,11 @@ export default {
       learner_connections: [],
       facilitators_connections: [],
       open: false,
-      showAll: false
+      showAll: false,
     };
   },
   components: {
-    Minichat
+    Minichat,
   },
   mounted() {
     this.getconnections();
@@ -187,7 +192,7 @@ export default {
       if (!this.connections.length) {
         return [];
       }
-      return this.connections.filter(item => {
+      return this.connections.filter((item) => {
         if (item.user_follower) {
           return item.user_follower.name
             .toLowerCase()
@@ -205,10 +210,10 @@ export default {
         return this.learner_connections;
       }
       return this.learner_connections.filter(
-        item =>
+        (item) =>
           !this.connections
-            .filter(ite => ite.user_follower)
-            .map(val => val.user_follower.id)
+            .filter((ite) => ite.user_follower)
+            .map((val) => val.user_follower.id)
             .includes(item.id)
       );
     },
@@ -217,13 +222,13 @@ export default {
         return this.facilitators_connections;
       }
       return this.facilitators_connections.filter(
-        item =>
+        (item) =>
           !this.connections
-            .filter(ite => ite.facilitator_follower)
-            .map(val => val.facilitator_follower.id)
+            .filter((ite) => ite.facilitator_follower)
+            .map((val) => val.facilitator_follower.id)
             .includes(item.id)
       );
-    }
+    },
   },
   methods: {
     async addconnections(id, type) {
@@ -233,17 +238,17 @@ export default {
           { following_id: id, follow_type: type },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200 || res.status == 201) {
             this.$toast.success("Successful");
             this.getconnections();
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -252,7 +257,7 @@ export default {
         id: "",
         name: "",
         type: "",
-        profile: ""
+        profile: "",
       };
       this.open = false;
       this.showAll = false;
@@ -269,15 +274,15 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/connections`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.connections = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -288,11 +293,11 @@ export default {
 
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.learner_connections = res.data;
           }
@@ -305,17 +310,17 @@ export default {
 
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.facilitators_connections = res.data;
           }
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

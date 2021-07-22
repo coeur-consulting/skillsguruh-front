@@ -6,7 +6,7 @@
         <b-col class="px-0 px-sm-3" sm="8">
           <div class="bg-white py-4 rounded">
             <div class="main_content text-left">
-              <span @click="$router.go(-1)" class="pl-3 cursor-pointer">
+              <span @click="$router.go(-1)" class="pl-3 cursor-pointer back">
                 <span class="mr-2">
                   <b-icon icon="arrow-left" class=""></b-icon
                 ></span>
@@ -16,10 +16,12 @@
                 <div class="top_dis d-flex align-items-center mb-2">
                   <div class="side_dis">
                     <b-avatar
+                      class="starter"
                       :src="discussion.admin.profile"
                       v-if="discussion.admin"
                     ></b-avatar>
                     <b-avatar
+                      class="starter"
                       :src="discussion.user.profile"
                       v-if="discussion.user"
                       @click="
@@ -27,6 +29,7 @@
                       "
                     ></b-avatar>
                     <b-avatar
+                      class="starter"
                       :src="discussion.facilitator.profile"
                       v-if="discussion.facilitator"
                       @click="
@@ -269,19 +272,19 @@
                             size="sm"
                             :src="item.admin.profile"
                             v-if="item.admin"
-                            class="mr-2"
+                            class="mr-2 member"
                           ></b-avatar>
                           <b-avatar
                             size="sm"
                             :src="item.user.profile"
                             v-if="item.user"
-                            class="mr-2"
+                            class="mr-2 member"
                           ></b-avatar>
                           <b-avatar
                             size="sm"
                             :src="item.facilitator.profile"
                             v-if="item.facilitator"
-                            class="mr-2"
+                            class="mr-2 member"
                           ></b-avatar>
                         </span>
                         <span v-if="item.admin" class="fs13 cursor-pointer">{{
@@ -1277,10 +1280,6 @@ export default {
   margin: 10px auto;
 }
 @media (max-width: 600px) {
-  .b-avatar {
-    width: 1.8rem;
-    height: 1.8rem;
-  }
   .document {
     width: 100%;
     margin: 10px auto;

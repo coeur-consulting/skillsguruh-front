@@ -2,7 +2,7 @@
   <b-container class="p-3 p-sm-5 text-left">
     <b-row>
       <b-col sm="7">
-        <div class="box p-5 mb-5">
+        <div class="box p-3 p-sm-5 mb-5">
           <h5 class="mb-3">{{ filteredConnections.length }} Connections</h5>
           <div class="px-3 py-2 d-flex align-items-center search bg-light">
             <b-icon icon="search"></b-icon>
@@ -114,35 +114,35 @@ export default {
         id: "",
         name: "",
         type: "",
-        profile: ""
+        profile: "",
       },
       search: "",
       suggested_search: "",
       connections: [],
       suggestedConnections: [],
       open: false,
-      showAll: false
+      showAll: false,
     };
   },
   components: {
-    Minichat
+    Minichat,
   },
   mounted() {
     this.getconnections();
   },
   computed: {
     filteredConnections() {
-      return this.connections.filter(item =>
+      return this.connections.filter((item) =>
         item.user_follower.name
           .toLowerCase()
           .includes(this.search.toLowerCase())
       );
     },
     filteredSuggested() {
-      return this.suggestedConnections.filter(item =>
+      return this.suggestedConnections.filter((item) =>
         item.includes(this.suggested_search)
       );
-    }
+    },
   },
   methods: {
     togglechat() {
@@ -150,7 +150,7 @@ export default {
         id: "",
         name: "",
         type: "",
-        profile: ""
+        profile: "",
       };
       this.open = false;
       this.showAll = false;
@@ -167,19 +167,19 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/connections`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.connections = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

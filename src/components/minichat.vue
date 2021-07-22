@@ -65,7 +65,7 @@
         <div v-for="(item, index) in messages" :key="index">
           <div
             v-if="item.admin_id"
-            class="mb-1"
+            class="mb-2"
             :class="
               item.admin_id == $store.getters.admin.id
                 ? 'right_text'
@@ -106,7 +106,7 @@
           </div>
           <div
             v-if="item.user_id"
-            class="mb-1"
+            class="mb-2"
             :class="
               item.user_id == $store.getters.learner.id
                 ? 'right_text'
@@ -147,7 +147,7 @@
               <b-img
                 v-if="
                   item.attachment &&
-                    img_ext.includes(getextension(item.attachment))
+                  img_ext.includes(getextension(item.attachment))
                 "
                 class="cursor-pointer"
                 fluid-grow
@@ -156,7 +156,7 @@
               <div
                 v-if="
                   item.attachment &&
-                    vid_ext.includes(getextension(item.attachment))
+                  vid_ext.includes(getextension(item.attachment))
                 "
                 class="
                   p-1
@@ -192,7 +192,7 @@
               <div
                 v-if="
                   item.attachment &&
-                    aud_ext.includes(getextension(item.attachment))
+                  aud_ext.includes(getextension(item.attachment))
                 "
                 class="
                   p-1
@@ -234,7 +234,7 @@
               <div
                 v-if="
                   item.attachment &&
-                    doc_ext.includes(getextension(item.attachment))
+                  doc_ext.includes(getextension(item.attachment))
                 "
                 class="
                   p-1
@@ -270,7 +270,7 @@
           </div>
           <div
             v-if="item.facilitator_id"
-            class="mb-1"
+            class="mb-2"
             :class="
               item.facilitator_id == $store.getters.facilitator.id
                 ? 'right_text'
@@ -307,6 +307,129 @@
                 {{ item.created_at | moment("LT") }}</span
               >
             </div>
+            <a :href="item.attachment" target="_blank" download class="mb-1">
+              <b-img
+                v-if="
+                  item.attachment &&
+                  img_ext.includes(getextension(item.attachment))
+                "
+                class="cursor-pointer"
+                fluid-grow
+                :src="item.attachment"
+              ></b-img>
+              <div
+                v-if="
+                  item.attachment &&
+                  vid_ext.includes(getextension(item.attachment))
+                "
+                class="
+                  p-1
+                  bg-lighter-green
+                  d-flex
+                  align-items-center
+                  rounded
+                  cursor-pointer
+                "
+              >
+                <div class="bg-dark-green text-center rounded p-2 mr-3">
+                  <b-icon
+                    icon="camera-video-fill"
+                    variant="white"
+                    font-scale="2rem"
+                  ></b-icon>
+                </div>
+                <div
+                  class="
+                    d-flex
+                    w-100
+                    align-items-center
+                    p-2
+                    justify-content-center justify-content-center
+                    text-dark
+                    fs15
+                  "
+                >
+                  <!-- {{ getFileDetails(item.attachment).then((res) => res) }} -->
+                  Download Video
+                </div>
+              </div>
+              <div
+                v-if="
+                  item.attachment &&
+                  aud_ext.includes(getextension(item.attachment))
+                "
+                class="
+                  p-1
+                  bg-lighter-green
+                  d-flex
+                  align-items-center
+                  rounded
+                  cursor-pointer
+                "
+              >
+                <div class="bg-dark-green text-center rounded p-2 mr-3">
+                  <b-icon
+                    icon="music-note-beamed"
+                    variant="white"
+                    font-scale="2rem"
+                  ></b-icon>
+                </div>
+                <!-- <div class="d-flex align-items-center">
+                  <audio
+                    :src="item.attachment"
+                    controls
+                    class="bg-transparent"
+                  ></audio>
+                </div> -->
+                <div
+                  class="
+                    d-flex
+                    w-100
+                    align-items-center
+                    p-2
+                    justify-content-center justify-content-center
+                    text-dark
+                    fs15
+                  "
+                >
+                  Download Audio
+                </div>
+              </div>
+              <div
+                v-if="
+                  item.attachment &&
+                  doc_ext.includes(getextension(item.attachment))
+                "
+                class="
+                  p-1
+                  bg-lighter-green
+                  d-flex
+                  align-items-center
+                  rounded
+                  cursor-pointer
+                "
+              >
+                <div class="bg-dark-green text-center rounded p-2 mr-3">
+                  <b-icon
+                    icon="file"
+                    variant="white"
+                    font-scale="2rem"
+                  ></b-icon>
+                </div>
+                <div
+                  class="
+                    d-flex
+                    align-items-center
+                    p-2
+                    justify-content-center
+                    text-dark
+                    fs15
+                  "
+                >
+                  Download File
+                </div>
+              </div>
+            </a>
             <span>{{ item.message }}</span>
           </div>
         </div>
@@ -319,7 +442,7 @@
                 @click="addinbox"
                 font-scale="1"
                 icon="cursor-fill"
-                class="text-dark-green cursor-pointer"
+                class="text-dark cursor-pointer"
               ></b-icon>
             </b-input-group-text>
           </template>
@@ -329,7 +452,7 @@
               ><span class=""
                 ><b-icon
                   icon="emoji-smile-fill"
-                  class="text-dark-green cursor-pointer"
+                  class="text-dark cursor-pointer"
                   font-scale="1"
                 ></b-icon></span
             ></b-input-group-text>
@@ -353,7 +476,7 @@
         fluid-grow
         :src="inbox.attachment"
         blank-color="transparent"
-        style="width: 7rem; height: 7rem"
+        style="width: 7rem; height: 7rem; object-fit: contain"
         class="rounded mb-1"
       ></b-img>
       <video
@@ -451,8 +574,8 @@ export default {
         mesage: "",
         attachment: "",
         receiver: "",
-        receiver_id: ""
-      }
+        receiver_id: "",
+      },
     };
   },
 
@@ -460,12 +583,22 @@ export default {
     // this.getinbox();
   },
   components: {
-    Upload
+    Upload,
   },
   watch: {
-    $route: "closeChat"
+    $route: "closeChat",
+    mini_info: {
+      handler() {
+        this.markMessagesRead();
+      },
+      deep: true,
+    },
   },
+
   computed: {
+    unreadmesages() {
+      return this.messages.filter((item) => !item.status);
+    },
     inboxes() {
       return this.$store.getters.inboxes;
     },
@@ -483,7 +616,10 @@ export default {
       return token;
     },
     messages() {
-      return this.inboxes.filter(item => {
+      if (!this.$props.mini_info) {
+        return [];
+      }
+      return this.inboxes.filter((item) => {
         if (
           (item.admin_id == this.$props.mini_info.id &&
             this.$props.mini_info.type == "admin") ||
@@ -497,15 +633,76 @@ export default {
           return item;
         }
       });
-    }
+    },
   },
   methods: {
+    markMessagesRead() {
+      if (!this.unreadmesages.length) {
+        return;
+      }
+
+      if (this.$props.user == "learner") {
+        if (
+          !this.unreadmesages.some(
+            (item) =>
+              item.receiver == "learner" &&
+              item.receiver_id == this.$store.getters.learner.id
+          )
+        ) {
+          return;
+        }
+      }
+
+      if (this.$props.user == "facilitator") {
+        if (
+          !this.unreadmesages.some(
+            (item) =>
+              item.receiver == "facilitator" &&
+              item.receiver_id == this.$store.getters.facilitator.id
+          )
+        ) {
+          return;
+        }
+      }
+
+      if (this.$props.user == "admin") {
+        if (
+          !this.unreadmesages.some(
+            (item) =>
+              item.receiver == "admin" &&
+              item.receiver_id == this.$store.getters.admin.id
+          )
+        ) {
+          return;
+        }
+      }
+      let data = {
+        ids: this.unreadmesages.map((item) => item.id),
+      };
+      this.$http
+        .post(`${this.$store.getters.url}/inboxes/mark/read`, data)
+        .then((res) => {
+          if (res.status == 200) {
+            if (this.$props.user == "learner") {
+              this.$store.dispatch("getInbox", "learner");
+            }
+
+            if (this.$props.user == "facilitator") {
+              this.$store.dispatch("getInbox", "facilitator");
+            }
+
+            if (this.$props.user == "admin") {
+              this.$store.dispatch("getInbox", "admin");
+            }
+          }
+        });
+    },
     async getFileDetails(media) {
       window.URL = window.URL || window.webkitURL;
       var video = document.createElement("video");
       video.preload = "metadata";
 
-      video.onloadedmetadata = function() {
+      video.onloadedmetadata = function () {
         window.URL.revokeObjectURL(video.src);
         var duration = video.duration;
 
@@ -533,20 +730,20 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/inboxes`, {
           headers: {
-            Authorization: `Bearer ${this.useraccess.access_token}`
-          }
+            Authorization: `Bearer ${this.useraccess.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.inboxes = res.data.reverse();
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
     async sortmessages(arr) {
-      var inboxes = await arr.map(item => {
+      var inboxes = await arr.map((item) => {
         var info = {};
         if (this.$props.user == "admin") {
           if (item.admin_id && item.admin_id == this.useraccess.id) {
@@ -619,10 +816,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/inboxes`, this.inbox, {
           headers: {
-            Authorization: `Bearer ${this.useraccess.access_token}`
-          }
+            Authorization: `Bearer ${this.useraccess.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.$toast.success("Message sent ");
 
@@ -634,36 +831,36 @@ export default {
               attachment: "",
               message: "",
               receiver: "",
-              receiver_id: ""
+              receiver_id: "",
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
     dropinbox(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/inboxes/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.organization.access_token}`
-              }
+                Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+              },
             })
-            .then(res => {
+            .then((res) => {
               if (res.status == 200) {
                 this.$toast.success("Message deleted");
                 this.inboxes.splice(index, 1);
               }
             })
-            .catch(err => {
+            .catch((err) => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped lang="scss">
@@ -678,30 +875,62 @@ export default {
   left: 50%;
   border-radius: 10px 10px 0 0;
   z-index: 999;
-
   margin-left: -165px;
 }
 .reply {
   height: 360px;
   overflow-y: scroll;
 }
+.reply::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.reply {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
 .left_text {
   font-size: 12px;
   padding: 10px;
   background-color: #fbfbfb;
   border-radius: 0 10px 10px 0;
-  border-left: 3px solid var(--lighter-green);
-  width: 90%;
+  border-left: 3px solid var(--dark-green);
+  width: 80%;
   margin-right: auto;
+  position: relative;
+}
+.left_text::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 1px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 15px solid #fbfbfb;
+  position: absolute;
+  right: -12px;
+  top: 0;
 }
 .right_text {
   font-size: 12px;
   padding: 10px;
   border-radius: 10px 0 0 10px;
-  width: 90%;
+  width: 80%;
   margin-left: auto;
   background-color: #f7f8fa;
   border-right: 3px solid var(--red);
+  position: relative;
+}
+.right_text::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 1px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 15px solid #fbfbfb;
+  position: absolute;
+  left: -12px;
+  top: 0;
 }
 .chat_name {
   font-size: 13px;

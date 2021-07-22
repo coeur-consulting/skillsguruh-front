@@ -258,7 +258,7 @@
                 @click="
                   $store.dispatch('markNotification', {
                     id: item.id,
-                    user: $store.getters.facilitaator
+                    user: $store.getters.facilitaator,
                   })
                 "
               >
@@ -300,15 +300,22 @@
         </div>
       </b-popover>
 
-      <mail-icon
-        size="1.5x"
-        class="custom-class mr-4 text-muted cursor-pointer"
-        id="inbox"
-      ></mail-icon>
+      <div class="position-relative mr-4">
+        <mail-icon
+          size="1.5x"
+          class="custom-class text-muted"
+          id="inbox"
+        ></mail-icon>
+        <small class="unread">
+          <b-badge variant="danger" v-if="unreadmesages.length">{{
+            unreadmesages.length
+          }}</b-badge></small
+        >
+      </div>
 
       <b-popover id="inbox1" target="inbox" triggers="hover" placement="bottom">
         <template #title>Inbox</template>
-        <div class="inbox py-3" v-if="chatter.length">
+        <div class="inbox" v-if="chatter.length">
           <div
             class="inbox_message"
             v-for="(message, index) in chatter"
@@ -330,7 +337,16 @@
               >
                 <span class="message_name fs12">{{ message.name }}</span>
                 <br />
-                <div class="last_message fs11">
+                <div
+                  class="last_message fs11"
+                  :class="
+                    !lastMessage(message).status &&
+                    lastMessage(message).facilitator_id !=
+                      $store.getters.facilitator.id
+                      ? 'font-weight-bold'
+                      : ''
+                  "
+                >
                   {{ lastMessage(message).message }}
                 </div>
               </div>
@@ -393,7 +409,7 @@ export default {
     MailIcon,
     PushRotate,
     Minichat,
-    DatabaseIcon
+    DatabaseIcon,
   },
   data() {
     return {
@@ -402,16 +418,16 @@ export default {
       chatters: [],
       current: {
         id: "",
-        type: ""
+        type: "",
       },
       mini_info: {
         id: "",
         name: "",
         type: "",
-        profile: ""
+        profile: "",
       },
       open: false,
-      showAll: false
+      showAll: false,
     };
   },
   mounted() {},
@@ -421,7 +437,7 @@ export default {
         id: "",
         name: "",
         type: "",
-        profile: ""
+        profile: "",
       };
       this.open = false;
       this.showAll = false;
@@ -433,8 +449,8 @@ export default {
     markread() {
       this.$http.get(`${this.$store.getters.url}/mark-notifications`, {
         headers: {
-          Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-        }
+          Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+        },
       });
     },
     getmessage(id, name, type, profile) {
@@ -448,33 +464,45 @@ export default {
       this.showAll = true;
     },
     lastMessage(info) {
-      var mess = this.sortmessages.filter(item => {
-        if (info.type == "user" && item.user) {
+      var mess = this.sortmessages.filter((item) => {
+        if (info.type == "user" && item.user && item.user.id == info.id) {
           return item;
         }
-        if (info.type == "admin" && item.admin) {
+        if (info.type == "admin" && item.admin && item.admin.id == info.id) {
           return item;
         }
-        if (info.type == "facilitator" && item.facilitator) {
+        if (
+          info.type == "facilitator" &&
+          item.facilitator &&
+          item.facilitator.id == info.id
+        ) {
           return item;
         }
       });
 
       return mess.pop();
-    }
+    },
   },
   computed: {
+    unreadmesages() {
+      return this.inboxes.filter(
+        (item) =>
+          !item.status &&
+          item.receiver_id == this.$store.getters.facilitator.id &&
+          item.receiver == "facilitator"
+      );
+    },
     notifications() {
       return this.$store.getters.notifications;
     },
     unreadnotifications() {
-      return this.$store.getters.notifications.filter(item => !item.read_at);
+      return this.$store.getters.notifications.filter((item) => !item.read_at);
     },
     inboxes() {
       return this.$store.getters.inboxes;
     },
     sortmessages() {
-      return this.inboxes.map(item => {
+      return this.inboxes.map((item) => {
         var info = {};
 
         if (
@@ -486,6 +514,9 @@ export default {
           info.facilitator = item.facilitator_info || null;
           info.message = item.message || null;
           info.time = item.created_at || null;
+          info.status = item.status;
+          info.id = item.id;
+          info.facilitator_id = item.facilitator_id;
         }
         if (
           item.receiver == "facilitator" &&
@@ -496,13 +527,15 @@ export default {
           info.facilitator = item.facilitator || null;
           info.message = item.message || null;
           info.time = item.created_at || null;
+          info.status = item.status;
+          info.id = item.id;
         }
 
         return info;
       });
     },
     chatter() {
-      var allnames = this.sortmessages.map(item => {
+      var allnames = this.sortmessages.map((item) => {
         var checkers = {};
 
         if (item.user) {
@@ -542,19 +575,19 @@ export default {
       return [
         ...new Set(
           allnames
-            .filter(item => item)
-            .map(item => {
+            .filter((item) => item)
+            .map((item) => {
               return JSON.stringify({
                 name: item.name,
                 id: item.id,
                 type: item.type,
-                profile: item.profile
+                profile: item.profile,
               });
             })
-        )
-      ].map(item => JSON.parse(item));
-    }
-  }
+        ),
+      ].map((item) => JSON.parse(item));
+    },
+  },
 };
 </script>
 <style scoped>

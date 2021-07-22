@@ -3,9 +3,9 @@
     <b-icon
       v-b-tooltip.hover
       title="Play text"
-      icon="play-circle-fill"
+      icon="volume-up-fill"
       variant="gray"
-      font-scale="1"
+      font-scale="1.2"
       @click="togglePlay"
     ></b-icon>
     <vue-web-speech-synth
@@ -22,7 +22,7 @@ export default {
   props: ["text", "voice"],
   data() {
     return {
-      play: false
+      play: false,
     };
   },
   computed: {},
@@ -34,7 +34,7 @@ export default {
         return;
       }
       this.play = !this.play;
-    }
-  }
+    },
+  },
 };
 </script>

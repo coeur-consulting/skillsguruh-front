@@ -31,7 +31,7 @@
               <b-icon
                 icon="grid1x2-fill"
                 font-scale="1.25"
-                class="mr-3 text-lemon"
+                class="mr-3 text-dark-green"
               ></b-icon>
               <span class="side-link">Dashboard</span>
             </div>
@@ -41,7 +41,7 @@
               <b-icon
                 icon="shield-fill-check"
                 font-scale="1.25"
-                class="mr-3 text-lemon"
+                class="mr-3 text-dark-green"
               ></b-icon>
               <span class="side-link">Administrators</span>
             </div>
@@ -51,7 +51,7 @@
               <b-icon
                 icon="person-badge-fill"
                 font-scale="1.25"
-                class="mr-3 text-lemon"
+                class="mr-3 text-dark-green"
               ></b-icon>
               <span class="side-link">Facilitators</span>
             </div>
@@ -61,7 +61,7 @@
               <b-icon
                 icon="people-fill"
                 font-scale="1.25"
-                class="mr-3 text-lemon"
+                class="mr-3 text-dark-green"
               ></b-icon>
               <span class="side-link">Learners</span>
             </div>
@@ -71,21 +71,21 @@
               <b-icon
                 icon="calendar-event-fill"
                 font-scale="1.25"
-                class="mr-3 text-lemon"
+                class="mr-3 text-dark-green"
               ></b-icon>
               <span class="side-link">Schedule</span>
             </div>
           </router-link>
-          <router-link to="/organization/chat">
+          <!-- <router-link to="/organization/chat">
             <div class="side_item">
               <b-icon
                 icon="chat-square-text-fill"
                 font-scale="1.25"
-                class="mr-3 text-lemon"
+                class="mr-3 text-dark-green"
               ></b-icon>
               <span class="side-link">Chat</span>
             </div>
-          </router-link>
+          </router-link> -->
         </PushRotate>
       </div>
       <div class="org_name" @click="$router.push('/organization')">
@@ -183,7 +183,7 @@
 import { PushRotate } from "vue-burger-menu";
 export default {
   components: {
-    PushRotate
+    PushRotate,
   },
   methods: {
     logout() {
@@ -193,19 +193,19 @@ export default {
     markread() {
       this.$http.get(`${this.$store.getters.url}/mark-notifications`, {
         headers: {
-          Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-        }
+          Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+        },
       });
-    }
+    },
   },
   computed: {
     notifications() {
       return this.$store.getters.notifications;
     },
     unreadnotifications() {
-      return this.$store.getters.notifications.filter(item => !item.read_at);
-    }
-  }
+      return this.$store.getters.notifications.filter((item) => !item.read_at);
+    },
+  },
 };
 </script>
 <style scoped>
@@ -225,7 +225,7 @@ export default {
   line-height: 20px;
   letter-spacing: 0em;
   text-align: left;
-  color: #fff;
+  color: var(--dark-green);
   padding: 8px 0 8px 3px;
 
   cursor: pointer;

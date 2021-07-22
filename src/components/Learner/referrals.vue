@@ -106,18 +106,19 @@
                 </div>
               </b-col>
             </b-row>
-            <div class="p-3 text-center mb-4">
-              <div class="mb-3 border px-4 py-2 rounded d-flex text-muted">
+            <div class="py-3 text-center mb-4">
+              <div class="mb-3 px-sm-4 py-2 rounded d-flex text-muted">
                 <b-icon icon="link45deg" font-scale="1.5rem"></b-icon>
                 <b-form-input
                   v-model="message"
                   readonly
-                  class="text-align flex-1 rounded-pill no-focus fs13"
+                  class="text-align flex-1 rounded-pill no-focus fs12"
                 >
                 </b-form-input>
               </div>
               <div>
                 <b-button
+                  size="sm"
                   variant="lighter-green"
                   type="button"
                   v-clipboard:copy="message"
@@ -131,7 +132,7 @@
           </div>
         </div>
 
-        <div class="box border text-left" v-if="communities_link">
+        <div class="box border text-left mb-4" v-if="communities_link">
           <h6 class="mb-4 py-2 px-3">Course Referral Links</h6>
           <b-table-simple class="border-top-0" v-if="showCommunity">
             <b-thead class="border-0">
@@ -244,14 +245,14 @@ export default {
         code: "",
         users: [
           {
-            email: ""
-          }
-        ]
+            email: "",
+          },
+        ],
       },
       referrals: [],
       email: "",
       message: `https://skillsguruh.com/invite/${this.$store.getters.learner.referral}`,
-      communities_link: []
+      communities_link: [],
     };
   },
   mounted() {
@@ -262,24 +263,24 @@ export default {
   methods: {
     addinvite() {
       this.inviteUsers.users.push({
-        email: ""
+        email: "",
       });
     },
     getreferrals() {
       this.$http
         .get(`${this.$store.getters.url}/referrals`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.referrals = res.data;
             this.showReferral = true;
             this.showRef = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -287,48 +288,48 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/add-community`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.communities_link = res.data;
             this.showCommunity = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
     sendInvite() {
       var data = {
         emails: this.inviteUsers.users,
-        code: this.$store.getters.learner.referral
+        code: this.$store.getters.learner.referral,
       };
       this.$http
         .post(`${this.$store.getters.url}/send-referral`, data, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Invite sent");
             this.email = "";
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
-    onCopy: function(e) {
+    onCopy: function (e) {
       alert("You just copied the following text to the clipboard: " + e.text);
     },
-    onError: function(e) {
+    onError: function (e) {
       alert("Failed to copy the text to the clipboard");
       console.log(e);
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

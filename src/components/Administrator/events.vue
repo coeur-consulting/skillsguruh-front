@@ -98,13 +98,11 @@
                         align-items-center
                       "
                     >
-                      <h4 class="text-capitalize mb-0 flex-1">
+                      <h4 class="text-capitalize mb-0 flex-1 event_title">
                         {{ item.title }}
                       </h4>
-                      <span @click="view(item.id)">
-                        <span class="fs15 cursor-pointer viewevent pl-2">
-                          View Event
-                        </span>
+                      <span @click="view(item.id)" class="viewevent">
+                        <span class="cursor-pointer pl-2"> View Event </span>
                         <b-icon icon="chevron-double-right"></b-icon>
                       </span>
                     </div>
@@ -116,14 +114,14 @@
 
                     <div class="px-3 py-2 d-flex bg-white">
                       <div class="flex-1">
-                        <p class="mb-1 text-muted fs15">
+                        <p class="mb-1 text-muted">
                           <b-icon
                             icon="calendar2-check"
                             class="mr-2 text-muted"
                           ></b-icon>
                           {{ item.schedule }}
                         </p>
-                        <p class="mb-1 text-muted fs15">
+                        <p class="mb-1 text-muted">
                           <b-icon
                             icon="people"
                             class="mr-2 text-muted"
@@ -139,7 +137,7 @@
                       <b-dropdown
                         v-if="
                           item.admin_id &&
-                            item.admin_id == $store.getters.admin.id
+                          item.admin_id == $store.getters.admin.id
                         "
                         size="sm"
                         variant="transparent"
@@ -671,18 +669,18 @@ export default {
         start: "",
         end: "",
         resource: "",
-        facilitators: []
+        facilitators: [],
       },
-      showEvents: false
+      showEvents: false,
     };
   },
   components: {
-    Upload
+    Upload,
   },
   computed: {
     filter() {
       var event = this.events
-        .filter(item =>
+        .filter((item) =>
           item.title.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
@@ -691,13 +689,13 @@ export default {
         );
 
       if (this.showing == "upcoming") {
-        return event.filter(item => item.status == "pending");
+        return event.filter((item) => item.status == "pending");
       }
       if (this.showing == "ongoing") {
-        return event.filter(item => item.status == "ongoing");
+        return event.filter((item) => item.status == "ongoing");
       }
-      return event.filter(item => item.status == "expired");
-    }
+      return event.filter((item) => item.status == "expired");
+    },
   },
   mounted() {
     this.getevents();
@@ -716,15 +714,15 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/admin-get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -733,17 +731,17 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/events`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.events = res.data;
             this.rows = res.data.length;
             this.showEvents = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -752,10 +750,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/events`, this.event, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.$toast.success("Added successfully");
             this.$bvModal.hide("add");
@@ -770,11 +768,11 @@ export default {
               start: "",
               end: "",
               resource: "",
-              facilitators: []
+              facilitators: [],
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           if (err.response.data.errors.email[0]) {
             this.$toast.error(err.response.data.errors.email[0]);
           }
@@ -798,10 +796,10 @@ export default {
       this.$http
         .put(`${this.$store.getters.url}/events/${this.event.id}`, this.event, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Update successful");
             this.$bvModal.hide("edit");
@@ -815,11 +813,11 @@ export default {
               start: "",
               end: "",
               resource: "",
-              facilitators: []
+              facilitators: [],
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -827,27 +825,27 @@ export default {
       this.$router.push(`/administrator/event/${id}`);
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/events/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-              }
+                Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+              },
             })
-            .then(res => {
+            .then((res) => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.events.splice(index, 1);
               }
             })
-            .catch(err => {
+            .catch((err) => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped lang="scss">

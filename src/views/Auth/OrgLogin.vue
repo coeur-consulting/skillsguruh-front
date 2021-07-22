@@ -137,13 +137,13 @@
                 Login as a
                 <span
                   class="text-dark-green cursor-pointer"
-                  @click="$router.push('/login')"
+                  @click="$router.push('/login?auth=learner')"
                   >Learner</span
                 >
                 or
                 <span
                   class="text-dark-green cursor-pointer"
-                  @click="$router.push('/login')"
+                  @click="$router.push('/login?auth=facilitator')"
                 >
                   Facilitator</span
                 >
@@ -201,12 +201,16 @@ export default {
         email: "",
         phone: "",
         password: "",
-        profile: ""
+        profile: "",
       },
-      agree: false
+      agree: false,
     };
   },
-
+  mounted() {
+    this.$route.query.auth
+      ? (this.type = this.$route.query.auth)
+      : (this.type = "organization");
+  },
   methods: {
     getUpload(val) {
       this.user.profile = val;
@@ -215,8 +219,6 @@ export default {
       this.loading = true;
       var authOrg = {};
       var authAdmin = {};
-      var authFacilitator = {};
-      var authLearner = {};
 
       if (this.type == "organization") {
         let data = {
@@ -224,20 +226,20 @@ export default {
           client_id: 5,
           client_secret: "vi8gsfMR9yl4XOJG7tz0AIWN1uF06FpJ1kkxpEvn",
           username: this.user.email,
-          password: this.user.password
+          password: this.user.password,
         };
         this.$http
-          .post("http://localhost:8000/oauth/token", data)
-          .then(res => {
+          .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
+          .then((res) => {
             authOrg.access_token = res.data.access_token;
             authOrg.refresh_token = res.data.refresh_token;
             this.$http
               .get(`${this.$store.getters.url}/organization`, {
                 headers: {
-                  Authorization: `Bearer ${res.data.access_token}`
-                }
+                  Authorization: `Bearer ${res.data.access_token}`,
+                },
               })
-              .then(res => {
+              .then((res) => {
                 authOrg.id = res.data.id;
                 authOrg.name = res.data.name;
                 authOrg.email = res.data.email;
@@ -264,20 +266,20 @@ export default {
           client_id: 3,
           client_secret: "fjiWTis9MO1KfJhnR0uVG0UwVL6adxIpp4JbVXdT",
           username: this.user.email,
-          password: this.user.password
+          password: this.user.password,
         };
         this.$http
-          .post("http://localhost:8000/oauth/token", data)
-          .then(res => {
+          .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
+          .then((res) => {
             authAdmin.access_token = res.data.access_token;
             authAdmin.refresh_token = res.data.refresh_token;
             this.$http
               .get(`${this.$store.getters.url}/admin`, {
                 headers: {
-                  Authorization: `Bearer ${res.data.access_token}`
-                }
+                  Authorization: `Bearer ${res.data.access_token}`,
+                },
               })
-              .then(res => {
+              .then((res) => {
                 authAdmin.id = res.data.id;
                 authAdmin.name = res.data.name;
                 authAdmin.email = res.data.email;
@@ -301,102 +303,6 @@ export default {
             this.$toast.error("Invalid credentials");
           });
       }
-
-      if (this.type == "facilitator") {
-        let data = {
-          grant_type: "password",
-          client_id: 4,
-          client_secret: "NVXAR1hE3wGF6cz5lZKdo2rsaafzZ73sGGsBPH7h",
-          username: this.user.email,
-          password: this.user.password
-        };
-        this.$http
-          .post("http://localhost:8000/oauth/token", data)
-          .then(res => {
-            authFacilitator.access_token = res.data.access_token;
-            authFacilitator.refresh_token = res.data.refresh_token;
-            this.$http
-              .get(`${this.$store.getters.url}/facilitator`, {
-                headers: {
-                  Authorization: `Bearer ${res.data.access_token}`
-                }
-              })
-              .then(res => {
-                authFacilitator.id = res.data.id;
-                authFacilitator.name = res.data.name;
-                authFacilitator.email = res.data.email;
-                authFacilitator.profile = res.data.profile;
-                authFacilitator.facilitator_role = res.data.facilitator_role;
-                authFacilitator.interests = res.data.interests;
-                authFacilitator.org_profile = res.data.organization.logo;
-                authFacilitator.org_name = res.data.organization.name;
-                authFacilitator.referral = res.data.referral_code;
-
-                localStorage.setItem(
-                  "authFacilitator",
-                  JSON.stringify(authFacilitator)
-                );
-                this.$toast.success("Login successful");
-
-                window.location.href = "/facilitator";
-              })
-              .catch(() => {
-                this.$toast.error("Invalid credentials");
-              });
-          })
-          .catch(() => {
-            this.loading = false;
-            this.$toast.error("Invalid credentials");
-          });
-      }
-      if (this.type == "learner") {
-        let data = {
-          grant_type: "password",
-          client_id: 2,
-          client_secret: "OAniIlKCpBOv2oMpKVoRLBau55xLKbz1Qo5YNuee",
-          username: this.user.email,
-          password: this.user.password
-        };
-        this.$http
-          .post("http://localhost:8000/oauth/token", data)
-          .then(res => {
-            authLearner.access_token = res.data.access_token;
-            authLearner.refresh_token = res.data.refresh_token;
-            this.$http
-              .get(`${this.$store.getters.url}/user`, {
-                headers: {
-                  Authorization: `Bearer ${res.data.access_token}`
-                }
-              })
-              .then(res => {
-                if (res.status == 200) {
-                  authLearner.id = res.data.id;
-                  authLearner.name = res.data.name;
-                  authLearner.email = res.data.email;
-                  authLearner.profile = res.data.profile;
-                  authLearner.interests = res.data.interests;
-                  authLearner.org_profile = res.data.organization.logo;
-                  authLearner.org_name = res.data.organization.name;
-                  authLearner.referral = res.data.referral_code;
-
-                  localStorage.setItem(
-                    "authLearner",
-                    JSON.stringify(authLearner)
-                  );
-                  this.$toast.success("Login successful");
-
-                  window.location.href = "/learner";
-                }
-              })
-              .catch(() => {
-                this.$toast.error("Invalid credentials");
-              });
-          })
-          .catch(() => {
-            this.loading = false;
-            this.$toast.error("Invalid credentials");
-          });
-      }
     },
     socialregister(provider) {
       var url = `${this.$store.getters.url}/auth/${provider}/redirect`;
@@ -405,8 +311,8 @@ export default {
         "Social_Login",
         "toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=0,width=100,height=100,left = 490,top = 262"
       );
-    }
-  }
+    },
+  },
 };
 </script>
 

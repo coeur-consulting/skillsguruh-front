@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-container fluid class="py-5">
+    <b-container fluid class="py-3 py-sm-5">
       <h5 class="text-left mb-4">Your Library</h5>
       <b-row class="flex-column-reverse flex-sm-row">
         <b-col sm="4" class="text-left pr-4">
@@ -37,11 +37,11 @@
                         <b-card-body
                           v-if="
                             JSON.parse(mods.modules).filter(
-                              ite => ite.file_type == 'template'
+                              (ite) => ite.file_type == 'template'
                             ) &&
-                              JSON.parse(mods.modules).filter(
-                                ite => ite.file_type == 'template'
-                              ).length
+                            JSON.parse(mods.modules).filter(
+                              (ite) => ite.file_type == 'template'
+                            ).length
                           "
                           class="px-2 py-0 mb-2"
                         >
@@ -50,7 +50,7 @@
                             class="worksheet"
                             v-for="(mod, index) in JSON.parse(
                               mods.modules
-                            ).filter(item => item.file_type == 'template')"
+                            ).filter((item) => item.file_type == 'template')"
                             :key="index"
                           >
                             <b-card-text
@@ -72,17 +72,17 @@
                                 v-b-popover.hover.top="'Submitted'"
                                 v-if="
                                   myquestionnaire.find(
-                                    it =>
+                                    (it) =>
                                       it.question_template_id ==
                                         mod.template.id &&
                                       it.course_id == item.course.id
                                   ) &&
-                                    myquestionnaire.find(
-                                      it =>
-                                        it.question_template_id ==
-                                          mod.template.id &&
-                                        it.course_id == item.course.id
-                                    ).status == 'submitted'
+                                  myquestionnaire.find(
+                                    (it) =>
+                                      it.question_template_id ==
+                                        mod.template.id &&
+                                      it.course_id == item.course.id
+                                  ).status == 'submitted'
                                 "
                                 variant="dark-green"
                                 icon="check-circle-fill"
@@ -91,17 +91,17 @@
                                 v-b-popover.hover.top="'Draft'"
                                 v-if="
                                   myquestionnaire.find(
-                                    it =>
+                                    (it) =>
                                       it.question_template_id ==
                                         mod.template.id &&
                                       it.course_id == item.course.id
                                   ) &&
-                                    myquestionnaire.find(
-                                      it =>
-                                        it.question_template_id ==
-                                          mod.template.id &&
-                                        it.course_id == item.course.id
-                                    ).status == 'draft'
+                                  myquestionnaire.find(
+                                    (it) =>
+                                      it.question_template_id ==
+                                        mod.template.id &&
+                                      it.course_id == item.course.id
+                                  ).status == 'draft'
                                 "
                                 variant="warning"
                                 icon="stop-circle-fill"
@@ -110,7 +110,7 @@
                                 v-b-popover.hover.top="'Begin'"
                                 v-if="
                                   !myquestionnaire.find(
-                                    it =>
+                                    (it) =>
                                       it.question_template_id ==
                                         mod.template.id &&
                                       it.course_id == item.course.id
@@ -198,7 +198,7 @@
                   </b-input-group-append>
                 </b-input-group>
               </div>
-              <div>
+              <div class="d-flex">
                 <b-icon
                   class="mr-3"
                   :icon="alpha ? 'sort-alpha-up' : 'sort-alpha-down'"
@@ -249,10 +249,10 @@
                     bg-white
                     d-flex
                     justify-content-between
-                    p-2
+                    p-3
                     border
                     rounded
-                    mb-4
+                    mb-3
                     text-left
                   "
                   :class="list ? 'flex-row' : 'flex-column'"
@@ -289,11 +289,11 @@
 
                   <b-col
                     :sm="list ? 6 : 12"
-                    class="d-flex justify-content-between"
+                    class="d-flex justify-content-between px-0"
                     :class="list ? 'flex-row' : 'flex-column'"
                   >
                     <div class="">
-                      <div
+                      <!-- <div
                         class="fs14 text-muted d-flex align-items-center"
                         :class="!list ? 'mb-2' : ''"
                         v-if="item.course.modules"
@@ -312,7 +312,7 @@
                           ></b-icon>
                         </b-iconstack>
                         <span> {{ item.course.modules.length }} modules</span>
-                      </div>
+                      </div> -->
                       <div class="mt-3">
                         <div class="mb-2 fs12">Your progress</div>
                         <b-progress
@@ -330,17 +330,7 @@
                     </div>
 
                     <div :class="list ? 'pl-4' : ''">
-                      <div class="mb-2">
-                        <!-- <b-button
-                          block
-                          variant="danger"
-                          disabled
-                          class="cursor-disabled"
-                          size="sm"
-                          ><b-icon icon="download" class="mr-2"></b-icon>
-                          Download</b-button
-                        > -->
-                      </div>
+                      <div class="mb-2"></div>
                       <div>
                         <b-button
                           block
@@ -484,7 +474,7 @@ export default {
       showLibrary: false,
       showRecent: false,
       myquestionnaire: [],
-      media: {}
+      media: {},
     };
   },
   mounted() {
@@ -497,7 +487,7 @@ export default {
   computed: {
     filteredLibrary() {
       var title = this.library.filter(
-        item =>
+        (item) =>
           item.course.title.toLowerCase().includes(this.search.toLowerCase()) ||
           JSON.parse(item.course.courseoutline.knowledge_areas)
             .value.toLowerCase()
@@ -510,11 +500,11 @@ export default {
       }
       var courseType;
       if (this.course_type == "free") {
-        courseType = title.filter(item => item.course.type == "free");
+        courseType = title.filter((item) => item.course.type == "free");
       } else if (this.course_type == "paid") {
-        courseType = title.filter(item => item.course.type == "paid");
+        courseType = title.filter((item) => item.course.type == "paid");
       } else if (this.course_type == "group") {
-        courseType = title.filter(item => item.course.type == "group");
+        courseType = title.filter((item) => item.course.type == "group");
       } else {
         courseType = title;
       }
@@ -525,21 +515,18 @@ export default {
       return courseType;
     },
     recentlyAdded() {
-      return this.library
-        .slice()
-        .reverse()
-        .splice(0, 6);
-    }
+      return this.library.slice().reverse().splice(0, 6);
+    },
   },
   methods: {
     getQuestionnaire() {
       this.$http
         .get(`${this.$store.getters.url}/answer-questionnaires`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.myquestionnaire = res.data;
             this.getLibrary();
@@ -561,21 +548,21 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/libraries`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.library = res.data;
             this.showLibrary = true;
             this.showRecent = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

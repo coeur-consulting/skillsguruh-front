@@ -1291,6 +1291,7 @@
                   align-items-center
                   justify-content-center justify-content-sm-end
                   mr-sm-3
+                  px-3
                 "
               >
                 <b-icon
