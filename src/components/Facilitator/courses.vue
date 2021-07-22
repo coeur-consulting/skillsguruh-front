@@ -47,10 +47,13 @@
             >
           </b-container>
         </div>
+        <div class="px-4">
+          <b-alert show><span class="fs10">Fill all (*) fields</span></b-alert>
+        </div>
         <b-container v-show="type == 1">
           <b-form-row>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Course title">
+              <b-form-group label="Course title*">
                 <b-form-input
                   required
                   placeholder="Enter course title"
@@ -87,7 +90,7 @@
               class="mb-3 px-3"
               v-if="detail.general.type == 'paid'"
             >
-              <b-form-group label="Course amount">
+              <b-form-group label="Course amount*">
                 <b-form-input
                   size="sm"
                   type="number"
@@ -102,7 +105,7 @@
               class="mb-3 px-3"
               v-if="detail.general.type == 'group'"
             >
-              <b-form-group label="No of participants">
+              <b-form-group label="No of participants*">
                 <b-form-select
                   size="sm"
                   required
@@ -120,7 +123,7 @@
           </b-form-row>
           <b-form-row>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Course Description">
+              <b-form-group label="Course Description*">
                 <b-form-textarea
                   required
                   v-model="detail.general.description"
@@ -130,7 +133,7 @@
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Course Cover">
+              <b-form-group label="Course Cover*">
                 <Upload
                   @getUpload="getUpload"
                   :id="'image'"
@@ -152,7 +155,7 @@
         <b-container v-show="type == 2">
           <b-form-row class="px-1">
             <b-col class="mb-2 px-3">
-              <b-form-group label="Overview">
+              <b-form-group label="Overview*">
                 <editor
                   api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
                   v-model="detail.outline.overview"
@@ -160,7 +163,7 @@
                     height: 150,
                     menubar: false,
 
-                    toolbar: ' formatselect | bold italic '
+                    toolbar: ' formatselect | bold italic ',
                   }"
                 />
               </b-form-group>
@@ -168,7 +171,7 @@
           </b-form-row>
           <b-form-row class="px-1">
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Knowledge area">
+              <b-form-group label="Knowledge area*">
                 <b-form-select
                   required
                   class="text-capitalize"
@@ -184,7 +187,7 @@
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Duration">
+              <b-form-group label="Duration*">
                 <b-form-input
                   required
                   v-model="detail.outline.duration"
@@ -196,7 +199,7 @@
           <div>
             <div class="mb-3 px-3">
               <div class="border rounded p-2">
-                <b-form-group label="Modules">
+                <b-form-group label="Modules*">
                   <b-input-group class="addmodule mb-3">
                     <b-form-input v-model="newmodule"></b-form-input>
                     <b-input-group-append>
@@ -624,7 +627,7 @@
         <b-container v-show="type == 1">
           <b-form-row>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Course title">
+              <b-form-group label="Course title*">
                 <b-form-input
                   required
                   placeholder="Enter course title"
@@ -660,7 +663,7 @@
               class="mb-3 px-3"
               v-if="detail.general.type == 'paid'"
             >
-              <b-form-group label="Course amount">
+              <b-form-group label="Course amount*">
                 <b-form-input
                   size="sm"
                   type="number"
@@ -675,7 +678,7 @@
               class="mb-3 px-3"
               v-if="detail.general.type == 'group'"
             >
-              <b-form-group label="No of participants">
+              <b-form-group label="No of participants*">
                 <b-form-select
                   size="sm"
                   required
@@ -693,7 +696,7 @@
           </b-form-row>
           <b-form-row>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Course Description">
+              <b-form-group label="Course Description*">
                 <b-form-textarea
                   required
                   v-model="detail.general.description"
@@ -703,7 +706,7 @@
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Course Cover">
+              <b-form-group label="Course Cover*">
                 <Upload
                   @getUpload="getUpload"
                   :id="'image'"
@@ -726,7 +729,7 @@
         <b-container v-show="type == 2">
           <b-form-row class="px-1">
             <b-col class="mb-2 px-3">
-              <b-form-group label="Overview">
+              <b-form-group label="Overview*">
                 <editor
                   api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
                   v-model="detail.outline.overview"
@@ -734,7 +737,7 @@
                     height: 150,
                     menubar: false,
 
-                    toolbar: ' formatselect | bold italic  '
+                    toolbar: ' formatselect | bold italic  ',
                   }"
                 />
               </b-form-group>
@@ -742,7 +745,7 @@
           </b-form-row>
           <b-form-row class="px-1">
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Knowledge area">
+              <b-form-group label="Knowledge area*">
                 <b-form-select
                   class="text-capitalize"
                   v-model="detail.outline.knowledge_area"
@@ -758,7 +761,7 @@
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Duration">
+              <b-form-group label="Duration*">
                 <b-form-input
                   required
                   v-model="detail.outline.duration"
@@ -770,7 +773,7 @@
           <div>
             <div class="mb-3 px-3">
               <div class="border rounded p-2">
-                <b-form-group label="Modules">
+                <b-form-group label="Modules*">
                   <b-input-group class="addmodule mb-3">
                     <b-form-input v-model="newmodule"></b-form-input>
                     <b-input-group-append>
@@ -1197,9 +1200,7 @@
           network="facebook"
           :url="link"
           title="COURSE INVITATION"
-          :description="
-            `I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`
-          "
+          :description="`I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1212,9 +1213,7 @@
           network="twitter"
           :url="link"
           title="COURSE INVITATION"
-          :description="
-            `I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`
-          "
+          :description="`I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1227,9 +1226,7 @@
           network="whatsApp"
           :url="link"
           title="COURSE INVITATION"
-          :description="
-            `I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`
-          "
+          :description="`I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1251,9 +1248,7 @@
           network="Telegram"
           :url="link"
           title="COURSE INVITATION"
-          :description="
-            `I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`
-          "
+          :description="`I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1416,12 +1411,10 @@
                         <b-icon
                           stacked
                           icon="circle-fill"
-                          :style="
-                            `color:${
-                              JSON.parse(course.courseoutline.knowledge_areas)
-                                .color
-                            }`
-                          "
+                          :style="`color:${
+                            JSON.parse(course.courseoutline.knowledge_areas)
+                              .color
+                          }`"
                         ></b-icon>
                         <b-icon
                           stacked
@@ -1748,11 +1741,9 @@
                     <b-icon
                       stacked
                       icon="circle-fill"
-                      :style="
-                        `color:${
-                          JSON.parse(course.courseoutline.knowledge_areas).color
-                        }`
-                      "
+                      :style="`color:${
+                        JSON.parse(course.courseoutline.knowledge_areas).color
+                      }`"
                     ></b-icon>
                     <b-icon
                       stacked
@@ -2032,14 +2023,15 @@
                       <div
                         v-if="
                           course.modules.some(
-                            i => i.module.toLowerCase() == item.toLowerCase()
+                            (i) => i.module.toLowerCase() == item.toLowerCase()
                           )
                         "
                       >
                         <b-card-body
                           v-for="(mod, index) in JSON.parse(
                             course.modules.find(
-                              i => i.module.toLowerCase() == item.toLowerCase()
+                              (i) =>
+                                i.module.toLowerCase() == item.toLowerCase()
                             ).modules
                           )"
                           :key="index"
@@ -2183,7 +2175,7 @@
                           v-if="item.facilitator_id != null"
                           >{{
                             facilitators.find(
-                              val => val.id == item.facilitator_id
+                              (val) => val.id == item.facilitator_id
                             ).name
                           }}</span
                         >
@@ -2237,11 +2229,9 @@
                 <b-icon
                   stacked
                   icon="circle-fill"
-                  :style="
-                    `color:${
-                      JSON.parse(course.courseoutline.knowledge_areas).color
-                    }`
-                  "
+                  :style="`color:${
+                    JSON.parse(course.courseoutline.knowledge_areas).color
+                  }`"
                 ></b-icon>
                 <b-icon
                   stacked
@@ -2628,7 +2618,7 @@
                   <div>
                     <span class="fs14 mr-2">Facilitator: </span>
                     <span class="text-sm" v-if="item.facilitator_id != null">{{
-                      facilitators.find(val => val.id == item.facilitator_id)
+                      facilitators.find((val) => val.id == item.facilitator_id)
                         .name
                     }}</span>
                     <span v-else class="text-sm">Unavailable</span>
@@ -2668,9 +2658,9 @@ export default {
         url: "",
         users: [
           {
-            email: ""
-          }
-        ]
+            email: "",
+          },
+        ],
       },
       disable: false,
       message: "",
@@ -2685,7 +2675,7 @@ export default {
           description: "",
           cover: "",
           type: "group",
-          amount: null
+          amount: null,
         },
         outline: {
           overview: "",
@@ -2695,11 +2685,11 @@ export default {
           faqs: [
             {
               question: "",
-              answer: ""
-            }
+              answer: "",
+            },
           ],
           certification: null,
-          additional_info: ""
+          additional_info: "",
         },
         schedule: [
           {
@@ -2712,9 +2702,9 @@ export default {
             modules: [],
             start_time: new Date(),
             end_time: new Date(),
-            facilitator_id: null
-          }
-        ]
+            facilitator_id: null,
+          },
+        ],
       },
 
       course_type: "",
@@ -2723,13 +2713,13 @@ export default {
       alpha: false,
       currentPage: 1,
       rows: null,
-      perPage: 12
+      perPage: 12,
     };
   },
   components: {
     Upload,
     Editor,
-    draggable
+    draggable,
   },
   mounted() {
     this.getcourses();
@@ -2750,7 +2740,7 @@ export default {
       this.$nextTick(() => {
         this.delayedDragging = false;
       });
-    }
+    },
   },
   computed: {
     dragOptions() {
@@ -2758,7 +2748,7 @@ export default {
         animation: 0,
         group: "description",
         disabled: !this.editable,
-        ghostClass: "ghost"
+        ghostClass: "ghost",
       };
     },
     filteredCourse() {
@@ -2768,7 +2758,7 @@ export default {
           this.perPage * this.currentPage
         )
         .filter(
-          item =>
+          (item) =>
             item.title.toLowerCase().includes(this.search.toLowerCase()) ||
             JSON.parse(item.courseoutline.knowledge_areas)
               .value.toLowerCase()
@@ -2781,11 +2771,11 @@ export default {
       }
       var courseType;
       if (this.course_type == "free") {
-        courseType = title.filter(item => item.type == "free");
+        courseType = title.filter((item) => item.type == "free");
       } else if (this.course_type == "paid") {
-        courseType = title.filter(item => item.type == "paid");
+        courseType = title.filter((item) => item.type == "paid");
       } else if (this.course_type == "group") {
-        courseType = title.filter(item => item.type == "group");
+        courseType = title.filter((item) => item.type == "group");
       } else {
         courseType = title;
       }
@@ -2794,7 +2784,7 @@ export default {
         return courseType.slice().reverse();
       }
       return courseType;
-    }
+    },
   },
   methods: {
     onMove({ relatedContext, draggedContext }) {
@@ -2807,20 +2797,20 @@ export default {
 
     selectall(id, val, arr) {
       if (val) {
-        this.detail.schedule[id].modules = arr.map(item => item.module);
+        this.detail.schedule[id].modules = arr.map((item) => item.module);
       } else {
         this.detail.schedule[id].modules = [];
       }
     },
     addinvite() {
       this.inviteUsers.users.push({
-        email: ""
+        email: "",
       });
     },
-    onCopy: function(e) {
+    onCopy: function (e) {
       alert("You just copied the following text to the clipboard: " + e.text);
     },
-    onError: function(e) {
+    onError: function (e) {
       alert("Failed to copy the text to the clipboard");
       console.log(e);
     },
@@ -2830,10 +2820,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Invite Sent");
             this.$bvModal.hide("courselink");
@@ -2842,9 +2832,9 @@ export default {
               title: "",
               users: [
                 {
-                  email: ""
-                }
-              ]
+                  email: "",
+                },
+              ],
             };
           }
         })
@@ -2864,26 +2854,27 @@ export default {
           this.course.title.bold() +
           ", Check it out here",
         url:
-          "https://skillsguruh.com/learner/courses/?course_id=" + this.course.id
+          "https://skillsguruh.com/learner/courses/?course_id=" +
+          this.course.id,
       };
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Added to feeds ");
             this.$bvModal.hide("share");
 
             this.feed = {
               media: "",
-              message: ""
+              message: "",
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -2899,8 +2890,8 @@ export default {
 
       var resources = b;
 
-      modules.forEach(mod => {
-        var val = resources.filter(item => item.module == mod.module).length;
+      modules.forEach((mod) => {
+        var val = resources.filter((item) => item.module == mod.module).length;
 
         if (val) {
           count++;
@@ -2916,8 +2907,8 @@ export default {
         return 0;
       }
       if (media == "document") {
-        arr.forEach(val => {
-          JSON.parse(val.modules).forEach(item => {
+        arr.forEach((val) => {
+          JSON.parse(val.modules).forEach((item) => {
             if (
               item.file_type.toLowerCase() == media.toLowerCase() ||
               item.file_type.toLowerCase() == "worksheet"
@@ -2927,8 +2918,8 @@ export default {
           });
         });
       } else {
-        arr.forEach(val => {
-          JSON.parse(val.modules).forEach(item => {
+        arr.forEach((val) => {
+          JSON.parse(val.modules).forEach((item) => {
             if (item.file_type.toLowerCase() == media.toLowerCase()) {
               newarr.push(item);
             }
@@ -2956,10 +2947,10 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      var newArr = schedule.map(val => {
+      var newArr = schedule.map((val) => {
         if (val.facilitator_id) {
           var fac = this.facilitators.find(
-            item => item.id == val.facilitator_id
+            (item) => item.id == val.facilitator_id
           );
           if (fac) {
             return fac.name;
@@ -2974,7 +2965,7 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      return schedule.map(item => {
+      return schedule.map((item) => {
         var res = ` ${item.day} ${this.$moment(
           new Date("2021-05-18 " + item.start_time)
         ).format("LT")}`;
@@ -2995,7 +2986,7 @@ export default {
         modules: [],
         start_time: new Date(),
         end_time: new Date(),
-        facilitator_id: null
+        facilitator_id: null,
       });
       this.current_schedule = this.detail.schedule.length - 1;
     },
@@ -3006,7 +2997,7 @@ export default {
       }
       this.detail.outline.modules.push({
         fixed: false,
-        module: this.newmodule
+        module: this.newmodule,
       });
       this.newmodule = "";
     },
@@ -3014,7 +3005,7 @@ export default {
     addfaq() {
       this.detail.outline.faqs.push({
         question: "",
-        answer: ""
+        answer: "",
       });
     },
 
@@ -3022,15 +3013,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -3039,29 +3030,39 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/courses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.courses = res.data;
             this.showCourse = true;
             this.rows = res.data.length;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
     createcourse() {
       this.disable = true;
+      if (
+        !this.detail.general.title ||
+        !this.detail.general.description ||
+        !this.detail.general.amount ||
+        this.detail.outline.overview
+      ) {
+        this.$toast.info("Fill all (*) fields!");
+        this.disable = false;
+        return;
+      }
       this.$http
         .post(`${this.$store.getters.url}/courses`, this.detail, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.$toast.success("Course created");
             this.disable = false;
@@ -3074,7 +3075,7 @@ export default {
                 description: "",
                 cover: "",
                 type: "group",
-                amount: null
+                amount: null,
               },
               outline: {
                 overview: "",
@@ -3084,11 +3085,11 @@ export default {
                 faqs: [
                   {
                     question: "",
-                    answer: ""
-                  }
+                    answer: "",
+                  },
                 ],
                 certification: null,
-                additional_info: ""
+                additional_info: "",
               },
               schedule: [
                 {
@@ -3101,13 +3102,13 @@ export default {
                   modules: [],
                   start_time: new Date(),
                   end_time: new Date(),
-                  facilitator_id: null
-                }
-              ]
+                  facilitator_id: null,
+                },
+              ],
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.disable = false;
           this.$toast.error(err.response.data.message);
         });
@@ -3120,7 +3121,7 @@ export default {
           description: val.description,
           cover: val.cover,
           type: val.type,
-          amount: val.amount
+          amount: val.amount,
         },
         outline: {
           overview: val.courseoutline.overview,
@@ -3129,9 +3130,9 @@ export default {
           modules: JSON.parse(val.courseoutline.modules),
           faqs: JSON.parse(val.courseoutline.faqs),
           certification: val.courseoutline.certification,
-          additional_info: val.courseoutline.additional_info
+          additional_info: val.courseoutline.additional_info,
         },
-        schedule: val.courseschedule.map(item => {
+        schedule: val.courseschedule.map((item) => {
           return {
             id: item.id,
             all: item.all,
@@ -3143,26 +3144,36 @@ export default {
             modules: JSON.parse(item.modules),
             start_time: item.start_time,
             end_time: item.end_time,
-            facilitator_id: item.facilitator_id
+            facilitator_id: item.facilitator_id,
           };
-        })
+        }),
       };
 
       this.$bvModal.show("update");
     },
     updatecourse() {
       this.disable = true;
+      if (
+        !this.detail.general.title ||
+        !this.detail.general.description ||
+        !this.detail.general.amount ||
+        this.detail.outline.overview
+      ) {
+        this.$toast.info("Fill all (*) fields!");
+        this.disable = false;
+        return;
+      }
       this.$http
         .put(
           `${this.$store.getters.url}/courses/${this.course.id}`,
           this.detail,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Update successful");
             this.$bvModal.hide("update");
@@ -3176,7 +3187,7 @@ export default {
                 description: "",
                 cover: "",
                 type: "group",
-                cost: ""
+                cost: "",
               },
               outline: {
                 overview: "",
@@ -3186,11 +3197,11 @@ export default {
                 faqs: [
                   {
                     question: "",
-                    answer: ""
-                  }
+                    answer: "",
+                  },
                 ],
                 certification: null,
-                additional_info: ""
+                additional_info: "",
               },
               schedule: [
                 {
@@ -3203,40 +3214,40 @@ export default {
                   modules: [],
                   start_time: new Date(),
                   end_time: new Date(),
-                  facilitator_id: null
-                }
-              ]
+                  facilitator_id: null,
+                },
+              ],
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.disable = false;
           this.$toast.error(err.response.data.message);
         });
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/courses/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-              }
+                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+              },
             })
-            .then(res => {
+            .then((res) => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.courses.splice(index, 1);
               }
             })
-            .catch(err => {
+            .catch((err) => {
               this.disable = false;
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
