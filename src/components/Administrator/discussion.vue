@@ -1,7 +1,7 @@
 /* eslint-disable vue/no-unused-vars */
 <template>
   <div class="pt-sm-4">
-    <b-container v-if="discussion">
+    <b-container>
       <b-row v-if="showdiscussion">
         <b-col class="px-0 px-sm-3" sm="8">
           <div class="bg-white py-4 rounded">
@@ -479,6 +479,45 @@
           </div>
         </b-col>
       </b-row>
+      <div v-else class="p-5">
+        <div class="d-flex w-100 mb-3">
+          <div class="mr-2">
+            <b-skeleton type="avatar"></b-skeleton>
+          </div>
+          <div class="w-100">
+            <div class="mb-3">
+              <b-skeleton-img no-aspect height="150px"></b-skeleton-img>
+            </div>
+            <b-skeleton animation="wave" width="85%"></b-skeleton>
+            <b-skeleton animation="wave" width="35%"></b-skeleton>
+          </div>
+        </div>
+
+        <div class="d-flex w-100 mb-3">
+          <div class="mr-2 mb-3">
+            <b-skeleton type="avatar"></b-skeleton>
+          </div>
+          <div class="w-100">
+            <div class="mb-3">
+              <b-skeleton-img no-aspect height="150px"></b-skeleton-img>
+            </div>
+            <b-skeleton animation="wave" width="85%"></b-skeleton>
+            <b-skeleton animation="wave" width="35%"></b-skeleton>
+          </div>
+        </div>
+        <div class="d-flex w-100 mb-3">
+          <div class="mr-2 mb-3">
+            <b-skeleton type="avatar"></b-skeleton>
+          </div>
+          <div class="w-100">
+            <div class="mb-3">
+              <b-skeleton-img no-aspect height="150px"></b-skeleton-img>
+            </div>
+            <b-skeleton animation="wave" width="85%"></b-skeleton>
+            <b-skeleton animation="wave" width="35%"></b-skeleton>
+          </div>
+        </div>
+      </div>
     </b-container>
     <b-modal id="access" title="Request Access" hide-footer centered>
       <div class="text-center">
@@ -1243,13 +1282,7 @@ export default {
 .top_header div.active {
   color: var(--dark-green);
 }
-.main_content {
-  min-height: 80vh;
-  max-height: 80vh;
-  overflow-y: auto;
-}
-.content {
-}
+
 .side_dis {
   width: 15%;
   text-align: center;
