@@ -1,5 +1,5 @@
 <template>
-  <div class="main_content text-left">
+  <div class="main_c text-left">
     <div class="position-relative">
       <div class="stbg">
         <div class="bg_overlay">
@@ -583,7 +583,7 @@
                     </h4>
                     <span
                       class="cursor-pointer"
-                      @click="$router.push(`/learner/event/${item.id}`)"
+                      @click="$router.push(`/event/${item.id}`)"
                     >
                       <span class="viewevent"> View Event </span>
                       <b-icon icon="chevron-double-right"></b-icon>
@@ -770,7 +770,7 @@ export default {
   justify-content: center;
   background: rgba(56, 128, 135, 0.85);
 }
-.main_content {
+.main_c {
   background: #f7f7f7;
 }
 .course {

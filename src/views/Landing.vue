@@ -43,6 +43,7 @@
                 animate__animated animate__slideInUp animate__slow
                 img-fluid
               "
+              alt="skillsguruh"
               :src="require('../assets/images/banner-img.png')"
             ></b-img>
           </b-col>

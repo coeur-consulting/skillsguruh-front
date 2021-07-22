@@ -270,7 +270,7 @@ export default {
     },
 
     view(id) {
-      this.$router.push(`/learner/event/${id}`);
+      this.$router.push(`/event/${id}`);
     },
   },
 };
