@@ -65,7 +65,7 @@
                     :spacePadding="15"
                     :perPageCustom="[
                       [600, 1],
-                      [768, 3]
+                      [768, 3],
                     ]"
                     v-if="courses.length"
                   >
@@ -87,7 +87,7 @@
                               item.cover
                                 ? item.cover
                                 : require('@/assets/images/default.png')
-                            })`
+                            })`,
                           }"
                         ></div>
                         <div class="course_text">
@@ -97,7 +97,7 @@
                               :style="{
                                 backgroundColor: JSON.parse(
                                   item.courseoutline.knowledge_areas
-                                ).color
+                                ).color,
                               }"
                             >
                               <b-icon
@@ -126,10 +126,9 @@
                             >
                               {{ item.title }}
                             </h6>
-                            <div
-                              class="fs13 text-truncate text-truncate--2"
-                              v-html="item.courseoutline.overview"
-                            ></div>
+                            <div class="fs13 text-truncate text-truncate--2">
+                              {{ item.description }}
+                            </div>
                           </div>
                           <div class="info fs11">
                             <div class="d-flex">
@@ -179,7 +178,7 @@
                     :spacePadding="15"
                     :perPageCustom="[
                       [600, 1],
-                      [768, 3]
+                      [768, 3],
                     ]"
                     v-if="library.length"
                   >
@@ -432,18 +431,18 @@ export default {
       schedules: [],
       connections: [],
       masks: {
-        weekdays: "WWW"
+        weekdays: "WWW",
       },
       library: [],
       showEnrolled: false,
       showConnect: false,
-      showDiscussion: false
+      showDiscussion: false,
     };
   },
   components: {
     Todo,
     Discussions,
-    PopoverRow
+    PopoverRow,
   },
   watch: {},
   created() {
@@ -462,14 +461,14 @@ export default {
   computed: {
     newlyfacilitators() {
       return this.facilitators.filter(
-        item =>
+        (item) =>
           new Date(item.created_at).getMonth() == new Date().getMonth() &&
           new Date(item.created_at).getFullYear() == new Date().getFullYear()
       ).length;
     },
     newlyusers() {
       return this.users.filter(
-        item =>
+        (item) =>
           new Date(item.created_at).getMonth() == new Date().getMonth() &&
           new Date(item.created_at).getFullYear() == new Date().getFullYear()
       ).length;
@@ -482,7 +481,7 @@ export default {
           highlight: {
             start: { color: "teal", fillMode: "outline" },
             base: { color: "teal", fillMode: "light" },
-            end: { color: "teal", fillMode: "solid" }
+            end: { color: "teal", fillMode: "solid" },
           },
           dot: false,
           bar: false,
@@ -496,12 +495,12 @@ export default {
                 "weeks"
               ) + "weeks",
             type: "Course",
-            class: "bg-red-600 text-white"
+            class: "bg-red-600 text-white",
           },
           dates: {
             start: new Date(item.start_time),
-            end: new Date(item.end_time)
-          }
+            end: new Date(item.end_time),
+          },
         };
         return res;
       });
@@ -514,7 +513,7 @@ export default {
           highlight: {
             start: { color: "green", fillMode: "outline" },
             base: { color: "green", fillMode: "light" },
-            end: { color: "green", fillMode: "solid" }
+            end: { color: "green", fillMode: "solid" },
           },
           dot: false,
           bar: false,
@@ -524,9 +523,9 @@ export default {
             title: item.title,
             duration: item.schedule,
             type: item.type,
-            class: "bg-red-600 text-white"
+            class: "bg-red-600 text-white",
           },
-          dates: { start: new Date(item.start), end: new Date(item.end) }
+          dates: { start: new Date(item.start), end: new Date(item.end) },
         };
         return res;
       });
@@ -538,11 +537,11 @@ export default {
           highlight: item.highlight,
           popover: { visibility: "hover" },
           customData: item.customData,
-          dates: item.dates
+          dates: item.dates,
         };
         return res;
       });
-    }
+    },
   },
   methods: {
     sortmodules(data) {
@@ -556,10 +555,10 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      var newArr = schedule.map(val => {
+      var newArr = schedule.map((val) => {
         if (val.facilitator_id) {
           var fac = this.facilitators.find(
-            item => item.id == val.facilitator_id
+            (item) => item.id == val.facilitator_id
           );
           if (fac) {
             return fac.name;
@@ -576,11 +575,11 @@ export default {
 
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.connections = res.data;
             this.showConnect = true;
@@ -594,8 +593,8 @@ export default {
 
       var resources = b;
 
-      modules.forEach(mod => {
-        var val = resources.filter(item => item.module == mod).length;
+      modules.forEach((mod) => {
+        var val = resources.filter((item) => item.module == mod).length;
 
         if (val) {
           count++;
@@ -608,16 +607,16 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/libraries`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.library = res.data;
             this.showEnrolled = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -625,20 +624,20 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/courseschedules`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.schedules = res.data.filter(
-              item =>
+              (item) =>
                 this.$moment().isBefore(item.start_time) ||
                 this.$moment().isBefore(item.end_time)
             );
             this.rows = this.schedules.length;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -646,15 +645,15 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/events`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
-            this.events = res.data.filter(item => item.status !== "expired");
+            this.events = res.data.filter((item) => item.status !== "expired");
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -663,15 +662,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/todos`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.todos = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -679,15 +678,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/user-get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -695,15 +694,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/users`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.users = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -711,15 +710,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/interest-courses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.courses = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -730,21 +729,21 @@ export default {
           { following_id: id, follow_type: type },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.getUsersWithInterest();
             this.$toast.success("Successful");
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped lang="scss">
