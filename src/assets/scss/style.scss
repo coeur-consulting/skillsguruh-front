@@ -363,6 +363,9 @@ ol.subquest {
 .shadow {
   box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
 }
+.shadow-sm {
+  box-shadow: 0 0.125rem 0.25rem rgba(189, 231, 201, 0.35) !important;
+}
 .library .card-header {
   // background-color: rgba(56, 128, 135, 0.03);
 }

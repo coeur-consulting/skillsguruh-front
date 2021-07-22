@@ -10,29 +10,41 @@
 
           <div class="mb-3">
             <b-iconstack font-scale="2.2" class="mr-3">
-              <b-icon stacked icon="circle-fill" variant="dark-green"></b-icon>
+              <b-icon
+                stacked
+                icon="circle-fill"
+                variant="lighter-green"
+              ></b-icon>
               <b-icon
                 stacked
                 icon="facebook"
-                variant="light"
+                variant="dark"
                 scale="0.5"
               ></b-icon>
             </b-iconstack>
             <b-iconstack font-scale="2.2" class="mr-3">
-              <b-icon stacked icon="circle-fill" variant="dark-green"></b-icon>
+              <b-icon
+                stacked
+                icon="circle-fill"
+                variant="lighter-green"
+              ></b-icon>
               <b-icon
                 stacked
                 icon="twitter"
-                variant="light"
+                variant="dark"
                 scale="0.5"
               ></b-icon>
             </b-iconstack>
             <b-iconstack font-scale="2.2" class="">
-              <b-icon stacked icon="circle-fill" variant="dark-green"></b-icon>
+              <b-icon
+                stacked
+                icon="circle-fill"
+                variant="lighter-green"
+              ></b-icon>
               <b-icon
                 stacked
                 icon="instagram"
-                variant="light"
+                variant="dark"
                 scale="0.5"
               ></b-icon>
             </b-iconstack>

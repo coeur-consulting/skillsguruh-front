@@ -57,9 +57,9 @@
         <b-row class="mb-6">
           <b-col sm="6" class="d-flex align-items-center">
             <div class="onboard">
-              <h3 class="mb-4">
+              <h4 class="mb-4">
                 Join as an Organization and onboard your employees
-              </h3>
+              </h4>
               <p class="mb-4 pr-3">
                 No longer do your employees have to struggle to get on the same
                 page. Keep teams aligned and productive by signing them up to
@@ -96,7 +96,7 @@
           </b-col>
           <b-col sm="6" class="d-flex align-items-center">
             <div class="onboard">
-              <h3 class="mb-4">Share your skills and expertise</h3>
+              <h4 class="mb-4">Share your skills and expertise</h4>
               <p class="mb-4 pr-3">
                 Now you can put your knowledge to work. Convert what you know to
                 a course in minutes and enjoy teaching a more engaged group of
@@ -119,7 +119,7 @@
         <b-row class="">
           <b-col sm="6" class="d-flex align-items-center">
             <div class="onboard">
-              <h3 class="mb-4">Shared interest is all you need</h3>
+              <h4 class="mb-4">Shared interest is all you need</h4>
               <p class="mb-4 pr-3">
                 Connect with experts and learners with similar interests to gain
                 rich insight to your most pressing questions, then pay it
@@ -163,58 +163,67 @@
             </p>
 
             <b-row class="facilitators">
-              <b-col sm="4" class="mb-5 mb-sm-0">
-                <div class="facilitator shadow">
-                  <b-img
-                    class="rounded mb-4"
-                    fluid-grow
-                    src="/img/fac1.jpg"
-                  ></b-img>
-                  <div>Ada Okafor</div>
-                  <div class="text-muted"><small>Facilitator</small></div>
-                  <div>
-                    <b-icon class="text-gold" icon="star-fill"></b-icon>
-                    <b-icon class="text-gold" icon="star-fill"></b-icon>
-                    <b-icon class="text-gold" icon="star-fill"></b-icon>
-                    <b-icon class="text-gold" icon="star-fill"></b-icon>
-                    <b-icon class="text-gold" icon="star-fill"></b-icon>
+              <b-col sm="4" class="mb-5 mb-sm-0 py-3 px-4">
+                <div class="position-relative">
+                  <div class="facilitator shadow-sm position-relative">
+                    <b-img
+                      class="rounded mb-4"
+                      fluid-grow
+                      src="/img/fac1.jpg"
+                    ></b-img>
+                    <div>Ada Okafor</div>
+                    <div class="text-muted"><small>Facilitator</small></div>
+                    <div>
+                      <b-icon class="text-gold" icon="star-fill"></b-icon>
+                      <b-icon class="text-gold" icon="star-fill"></b-icon>
+                      <b-icon class="text-gold" icon="star-fill"></b-icon>
+                      <b-icon class="text-gold" icon="star-fill"></b-icon>
+                      <b-icon class="text-gold" icon="star-fill"></b-icon>
+                    </div>
                   </div>
+                  <span class="hover_box"></span>
                 </div>
               </b-col>
-              <b-col sm="4" class="mb-5 mb-sm-0">
-                <div class="facilitator shadow">
-                  <b-img
-                    class="rounded mb-4"
-                    fluid-grow
-                    src="/img/fac2.jpg"
-                  ></b-img>
-                  <div>John Obi Uchendu</div>
-                  <div class="text-muted"><small>Facilitator</small></div>
-                  <div>
-                    <b-icon class="text-gold" icon="star-fill"></b-icon>
-                    <b-icon class="text-gold" icon="star-fill"></b-icon>
-                    <b-icon class="text-gold" icon="star-fill"></b-icon>
-                    <b-icon class="text-gold" icon="star-fill"></b-icon>
-                    <b-icon class="text-gold" icon="star-fill"></b-icon>
+              <b-col sm="4" class="mb-5 mb-sm-0 py-3 px-4">
+                <div class="position-relative">
+                  <div class="facilitator shadow-sm position-relative">
+                    <b-img
+                      class="rounded mb-4"
+                      fluid-grow
+                      src="/img/fac2.jpg"
+                    ></b-img>
+                    <div>John Obi Uchendu</div>
+                    <div class="text-muted"><small>Facilitator</small></div>
+                    <div>
+                      <b-icon class="text-gold" icon="star-fill"></b-icon>
+                      <b-icon class="text-gold" icon="star-fill"></b-icon>
+                      <b-icon class="text-gold" icon="star-fill"></b-icon>
+                      <b-icon class="text-gold" icon="star-fill"></b-icon>
+                      <b-icon class="text-gold" icon="star-fill"></b-icon>
+                    </div>
                   </div>
+                  <span class="hover_box"></span>
                 </div>
               </b-col>
-              <b-col sm="4" class="mb-5 mb-sm-0">
-                <div class="facilitator shadow">
-                  <b-img
-                    class="rounded mb-4"
-                    fluid-grow
-                    src="/img/fac3.jpg"
-                  ></b-img>
-                  <div>Nkechi Ezeukwu</div>
-                  <div class="text-muted"><small>Facilitator</small></div>
-                  <div>
-                    <b-icon class="text-gold" icon="star-fill"></b-icon>
-                    <b-icon class="text-gold" icon="star-fill"></b-icon>
-                    <b-icon class="text-gold" icon="star-fill"></b-icon>
-                    <b-icon class="text-gold" icon="star-fill"></b-icon>
-                    <b-icon class="text-gold" icon="star-fill"></b-icon>
+              <b-col sm="4" class="mb-5 mb-sm-0 py-3 px-4">
+                <div class="position-relative">
+                  <div class="facilitator shadow-sm position-relative">
+                    <b-img
+                      class="rounded mb-4"
+                      fluid-grow
+                      src="/img/fac3.jpg"
+                    ></b-img>
+                    <div>Nkechi Ezeukwu</div>
+                    <div class="text-muted"><small>Facilitator</small></div>
+                    <div>
+                      <b-icon class="text-gold" icon="star-fill"></b-icon>
+                      <b-icon class="text-gold" icon="star-fill"></b-icon>
+                      <b-icon class="text-gold" icon="star-fill"></b-icon>
+                      <b-icon class="text-gold" icon="star-fill"></b-icon>
+                      <b-icon class="text-gold" icon="star-fill"></b-icon>
+                    </div>
                   </div>
+                  <span class="hover_box"></span>
                 </div>
               </b-col>
             </b-row>
@@ -532,6 +541,7 @@
 }
 .ex-facilitators {
 }
+
 .ex-facilitators h2 {
   font-size: 25px;
   font-style: normal;
@@ -554,11 +564,29 @@
   width: 100%;
   margin: 0 auto;
   justify-content: space-around;
+  background: #fff;
+}
+.hover_box {
+  width: 100%;
+  height: 100%;
+  background: var(--dark-green);
+  position: absolute;
+  right: 0px;
+  top: 0;
+  border-radius: 10px;
+  z-index: 0;
+  transition: 0.25s;
 }
 .facilitator {
   padding: 25px;
   text-align: left;
   border-radius: 10px;
+  z-index: 1;
+  background: white;
+}
+.facilitator:hover ~ .hover_box {
+  right: -5px;
+  transform: rotate(5deg);
 }
 .facilitator img {
   width: 100%;
