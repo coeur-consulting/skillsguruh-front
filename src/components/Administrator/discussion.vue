@@ -890,7 +890,7 @@ export default {
   },
   methods: {
     toText(HTML) {
-      if (!HTML) return "nullyy";
+      if (!HTML) return;
       var input = HTML;
 
       return input

@@ -5,7 +5,7 @@
         <b-col md="8">
           <b-row class="mb-5 mb-sm-5">
             <b-col sm="6">
-              <div class="box p-3 shadow">
+              <div class="box p-3 shadow-sm">
                 <div
                   class="
                     w-100
@@ -54,7 +54,7 @@
               </div>
             </b-col>
             <b-col sm="6">
-              <div class="box p-3 shadow">
+              <div class="box p-3 shadow-sm">
                 <div
                   class="
                     d-flex
