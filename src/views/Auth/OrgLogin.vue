@@ -248,6 +248,10 @@ export default {
 
                 localStorage.setItem("authOrg", JSON.stringify(authOrg));
                 this.$toast.success("Login successful");
+                if (this.$route.query.redirect) {
+                  window.location.href = this.$route.query.redirect;
+                  return;
+                }
                 window.location.href = "/organization";
               })
               .catch(() => {
@@ -291,7 +295,10 @@ export default {
 
                 localStorage.setItem("authAdmin", JSON.stringify(authAdmin));
                 this.$toast.success("Login successful");
-
+                if (this.$route.query.redirect) {
+                  window.location.href = this.$route.query.redirect;
+                  return;
+                }
                 window.location.href = "/administrator";
               })
               .catch(() => {

@@ -258,7 +258,10 @@ export default {
                   JSON.stringify(authFacilitator)
                 );
                 this.$toast.success("Login successful");
-
+                if (this.$route.query.redirect) {
+                  window.location.href = this.$route.query.redirect;
+                  return;
+                }
                 window.location.href = "/facilitator";
               })
               .catch(() => {
@@ -306,7 +309,10 @@ export default {
                     JSON.stringify(authLearner)
                   );
                   this.$toast.success("Login successful");
-
+                  if (this.$route.query.redirect) {
+                    window.location.href = this.$route.query.redirect;
+                    return;
+                  }
                   window.location.href = "/learner";
                 }
               })
