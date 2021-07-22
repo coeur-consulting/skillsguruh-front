@@ -47,7 +47,9 @@
             >
           </b-container>
         </div>
-        <div><b-alert show>Fill all (*) fields</b-alert></div>
+        <div class="px-4">
+          <b-alert show><span class="fs10">Fill all (*) fields</span></b-alert>
+        </div>
         <b-container v-show="type == 1">
           <b-form-row>
             <b-col sm="6" class="mb-3 px-3">
@@ -621,6 +623,9 @@
               >Course Schedule</span
             >
           </b-container>
+        </div>
+        <div class="px-4">
+          <b-alert show><span class="fs10">Fill all (*) fields</span></b-alert>
         </div>
         <b-container v-show="type == 1">
           <b-form-row>
