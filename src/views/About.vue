@@ -1,5 +1,5 @@
 <template>
-  <div class="main_content text-left py-5">
+  <div class="main_cont text-left py-5">
     <div class="position-relative">
       <div class="stbg">
         <div class="bg_overlay">
@@ -98,14 +98,14 @@
               size="sm"
               variant="dark-green"
               @click="$router.push('/register')"
-              class="m-0 mr-3"
+              class="m-0 mr-3 py-2"
             >
               Become a Facilitator</b-button
             >
             <b-button
               block
               size="sm"
-              class="m-0"
+              class="m-0 py-2"
               variant="outline-dark-green"
               @click="$router.push('/register')"
             >
@@ -119,7 +119,7 @@
 </template>
 
 <style scoped lang="scss">
-.main_content {
+.main_cont {
   background: #f7f7f7;
 }
 .container {
@@ -153,7 +153,9 @@ p {
 @media (max-width: 600px) {
   p {
     text-align: left;
-    font-size: 15px;
+  }
+  .container {
+    height: auto;
   }
 }
 </style>

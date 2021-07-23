@@ -371,14 +371,14 @@
       </section>
       <section class="py-3 py-sm-5 mb-2 mb-sm-5">
         <b-row>
-          <b-col sm="7">
+          <b-col sm="7" class="mb-3">
             <div class="d-flex justify-content-between">
               <div>
-                <h5 class="font-weight-bold">Trending Discussions</h5>
-                <span
+                <h6 class="font-weight-bold">Trending Discussions</h6>
+                <small
                   @click="$router.push('/discussions')"
                   class="cursor-pointer"
-                  >View all {{ discussions.length }} discussions</span
+                  >View all {{ discussions.length }} discussions</small
                 >
               </div>
               <div>
@@ -482,7 +482,7 @@
             </div>
           </b-col>
           <b-col sm="5">
-            <h6 class="font-weight-bold mb-4">Top Contributors</h6>
+            <h6 class="mb-2 font-weight-bold">Top Contributors</h6>
             <p class="">
               See our users who have been active contibutors to discussions
             </p>
@@ -544,9 +544,9 @@
       </section>
       <section class="py-3 py-sm-5">
         <div class="d-flex justify-content-between">
-          <h4 class="mb-5">Upcoming Events</h4>
+          <h6 class="mb-5 font-weight-bold">Upcoming Events</h6>
           <router-link to="/events" class="text-dark-green"
-            >View all events</router-link
+            ><small>View all events</small></router-link
           >
         </div>
 

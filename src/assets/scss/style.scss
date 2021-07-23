@@ -27,6 +27,9 @@ h4 {
   overflow-wrap: break-word;
   hyphens: auto;
 }
+p {
+  color: rgba($color: #000000, $alpha: 0.74);
+}
 .text-blue {
   color: #054a90;
 }
@@ -498,7 +501,7 @@ ol.subquest {
   border-left: 1px solid #388087 !important;
 }
 .discusion_text {
-  font-size: 15px;
+  font-size: 0.9rem;
 }
 .main_text {
   display: -webkit-box;
@@ -638,24 +641,7 @@ ol.subquest {
   .bottom_bar {
     width: 100% !important;
   }
-  h1 {
-    font-size: 16.5px !important;
-  }
-  h2 {
-    font-size: 16px !important;
-  }
-  h3 {
-    font-size: 15.5px !important;
-  }
-  h4 {
-    font-size: 15px !important;
-  }
-  h5 {
-    font-size: 14.5px !important;
-  }
-  h6 {
-    font-size: 14px !important;
-  }
+
   p,
   .main_text {
     font-size: 0.8rem;
@@ -670,9 +656,12 @@ ol.subquest {
   }
   .fs14,
   .col-form-label,
-  .custom-select,
-  .btn-sm {
+  .custom-select {
     font-size: 14px !important;
+  }
+
+  .btn-sm {
+    font-size: 0.75rem;
   }
   small,
   .small {
@@ -901,5 +890,25 @@ ol.subquest {
   }
   .connection_button {
     font-size: 0.6rem;
+  }
+  img.banner_image {
+    width: 78%;
+  }
+  .message_comment_avatar {
+    width: 16px;
+    height: 16px;
+  }
+  .message_comment_name {
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: rgba($color: #000000, $alpha: 0.74);
+  }
+  .message_comment_text {
+    font-size: 0.65rem;
+    color: rgba($color: #000000, $alpha: 0.54);
+  }
+  .message_comment_date {
+    font-size: 0.6rem;
+    color: rgba($color: #000000, $alpha: 0.54);
   }
 }

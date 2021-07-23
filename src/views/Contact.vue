@@ -1,5 +1,5 @@
 <template>
-  <div class="main_content">
+  <div class="main_cont">
     <div class="position-relative">
       <div class="stbg">
         <div class="bg_overlay">
@@ -11,29 +11,37 @@
       <b-row class="flex-column-reverse flex-md-row">
         <b-col sm="6" class="p-4 p-sm-5">
           <div class="d-flex align-items-center mb-3">
-            <b-iconstack font-scale="2.5" class="mr-2">
-              <b-icon stacked icon="circle-fill" variant="dark-green"></b-icon>
+            <b-iconstack font-scale="2" class="mr-2">
+              <b-icon
+                stacked
+                icon="circle-fill"
+                variant="lighter-green"
+              ></b-icon>
               <b-icon
                 stacked
                 scale=".5"
                 icon="telephone-fill"
-                variant="light"
+                variant="dark-green"
               ></b-icon>
             </b-iconstack>
-            <span class="font-weight-bold"> +234 900 900 5000</span>
+            <span class="font-weight-bold fs15"> +234 900 900 5000</span>
           </div>
 
           <div class="d-flex align-items-center mb-3">
-            <b-iconstack font-scale="2.5" class="mr-2">
-              <b-icon stacked icon="circle-fill" variant="dark-green"></b-icon>
+            <b-iconstack font-scale="2" class="mr-2">
+              <b-icon
+                stacked
+                icon="circle-fill"
+                variant="lighter-green"
+              ></b-icon>
               <b-icon
                 stacked
                 scale=".5"
                 icon="envelope-fill"
-                variant="light"
+                variant="dark-green"
               ></b-icon>
             </b-iconstack>
-            <span class="font-weight-bold"> info@skillsguruh.com</span>
+            <span class="font-weight-bold fs15"> info@skillsguruh.com</span>
           </div>
           <div>
             <div class="mapouter">
@@ -55,7 +63,7 @@
           </div>
         </b-col>
         <b-col sm="6" class="p-4 p-sm-5">
-          <div class="shadow bg-white px-4 py-5 rounded text-left">
+          <div class="bg-white px-4 py-5 rounded text-left">
             <b-form @submit.prevent="sendmessage">
               <b-form-row>
                 <b-col>
@@ -120,34 +128,34 @@ export default {
       contact: {
         name: "",
         email: "",
-        message: ""
-      }
+        message: "",
+      },
     };
   },
   methods: {
     sendmessage() {
       this.$http
         .post(`${this.$store.getters.url}/send/message`, this.contact)
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Your message has been sent ");
             this.contact = {
               name: "",
               email: "",
-              message: ""
+              message: "",
             };
           }
         })
         .catch(() => {
           this.$toast.error("Message not sent");
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped lang="scss">
-.main_content {
+.main_cont {
   background: #f7f7f7;
 }
 .container {

@@ -321,19 +321,19 @@
                             size="sm"
                             :src="item.admin.profile"
                             v-if="item.admin"
-                            class="mr-2 member"
+                            class="mr-1 member"
                           ></b-avatar>
                           <b-avatar
                             size="sm"
                             :src="item.user.profile"
                             v-if="item.user"
-                            class="mr-2 member"
+                            class="mr-1 member"
                           ></b-avatar>
                           <b-avatar
                             size="sm"
                             :src="item.facilitator.profile"
                             v-if="item.facilitator"
-                            class="mr-2 member"
+                            class="mr-1 member"
                           ></b-avatar>
                         </span>
                         <span v-if="item.admin" class="fs13 cursor-pointer">{{
@@ -417,19 +417,19 @@
                             v-if="reply.admin"
                             size="sm"
                             :src="reply.admin.profile"
-                            class="mr-2 message_comment_avatar"
+                            class="mr-1 message_comment_avatar"
                           ></b-avatar>
                           <b-avatar
                             v-if="reply.facilitator"
                             size="sm"
                             :src="reply.facilitator.profile"
-                            class="mr-2 message_comment_avatar"
+                            class="mr-1 message_comment_avatar"
                           ></b-avatar>
                           <b-avatar
                             v-if="reply.user"
                             size="sm"
                             :src="reply.user.profile"
-                            class="mr-2 message_comment_avatar"
+                            class="mr-1 message_comment_avatar"
                           ></b-avatar>
                           <span
                             ><span
@@ -650,7 +650,7 @@
         </div>
 
         <div class="d-flex w-100 mb-3">
-          <div class="mr-2 mb-3">
+          <div class="mr-1 mb-3">
             <b-skeleton type="avatar"></b-skeleton>
           </div>
           <div class="w-100">
@@ -662,7 +662,7 @@
           </div>
         </div>
         <div class="d-flex w-100 mb-3">
-          <div class="mr-2 mb-3">
+          <div class="mr-1 mb-3">
             <b-skeleton type="avatar"></b-skeleton>
           </div>
           <div class="w-100">
@@ -914,7 +914,7 @@
       </div>
     </b-modal>
     <b-modal id="addcomment" centered hide-footer>
-        <div v-html="comment_message"></div>
+      <div v-html="comment_message"></div>
       <b-form @submit.prevent="replyPost" class="">
         <b-form-group>
           <b-form-textarea
@@ -992,19 +992,19 @@
               size="sm"
               :src="comments.admin.profile"
               v-if="comments.admin"
-              class="mr-2 member"
+              class="mr-1 member"
             ></b-avatar>
             <b-avatar
               size="sm"
               :src="comments.user.profile"
               v-if="comments.user"
-              class="mr-2 member"
+              class="mr-1 member"
             ></b-avatar>
             <b-avatar
               size="sm"
               :src="comments.facilitator.profile"
               v-if="comments.facilitator"
-              class="mr-2 member"
+              class="mr-1 member"
             ></b-avatar>
           </span>
           <span v-if="comments.admin" class="fs12 cursor-pointer">{{
@@ -1036,19 +1036,19 @@
               v-if="reply.admin"
               size="sm"
               :src="reply.admin.profile"
-              class="mr-2 message_comment_avatar"
+              class="mr-1 message_comment_avatar"
             ></b-avatar>
             <b-avatar
               v-if="reply.facilitator"
               size="sm"
               :src="reply.facilitator.profile"
-              class="mr-2 message_comment_avatar"
+              class="mr-1 message_comment_avatar"
             ></b-avatar>
             <b-avatar
               v-if="reply.user"
               size="sm"
               :src="reply.user.profile"
-              class="mr-2 message_comment_avatar"
+              class="mr-1 message_comment_avatar"
             ></b-avatar>
             <span
               ><span v-if="reply.admin" class="message_comment_name mr-1">{{

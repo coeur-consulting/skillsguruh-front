@@ -42,6 +42,7 @@
               class="
                 animate__animated animate__slideInUp animate__slow
                 img-fluid
+                banner_image
               "
               alt="skillsguruh"
               :src="require('../assets/images/banner-img.png')"
@@ -57,7 +58,7 @@
         <b-row class="mb-6">
           <b-col sm="6" class="d-flex align-items-center">
             <div class="onboard">
-              <h4 class="mb-4">
+              <h4 class="mb-2">
                 Join as an Organization and onboard your employees
               </h4>
               <p class="mb-4 pr-3">
@@ -96,7 +97,7 @@
           </b-col>
           <b-col sm="6" class="d-flex align-items-center">
             <div class="onboard">
-              <h4 class="mb-4">Share your skills and expertise</h4>
+              <h4 class="mb-2">Share your skills and expertise</h4>
               <p class="mb-4 pr-3">
                 Now you can put your knowledge to work. Convert what you know to
                 a course in minutes and enjoy teaching a more engaged group of
@@ -119,7 +120,7 @@
         <b-row class="">
           <b-col sm="6" class="d-flex align-items-center">
             <div class="onboard">
-              <h4 class="mb-4">Shared interest is all you need</h4>
+              <h4 class="mb-2">Shared interest is all you need</h4>
               <p class="mb-4 pr-3">
                 Connect with experts and learners with similar interests to gain
                 rich insight to your most pressing questions, then pay it
@@ -155,10 +156,10 @@
           v-animate-onscroll="'animate__animated animate__zoomIn animate__slow'"
         >
           <b-col class="ex-facilitators text-center">
-            <h2 class="mb-4">Most Popular Facilitators</h2>
+            <h2 class="mb-2">Most Popular Facilitators</h2>
             <p class="mb-5">
               All our facilitators are awesome, but these ones really stand
-              <br />
+              <br class="d-none d-sm-block" />
               out in our community. Get to know them!
             </p>
 
@@ -236,7 +237,7 @@
       <b-container>
         <b-row>
           <b-col class="text-center learners">
-            <h2 class="mb-4">SKILLSGURUH STORIES</h2>
+            <h2 class="mb-2">SKILLSGURUH STORIES</h2>
             <p class="mb-5">
               Stories of people whose lives were changed through SkillsGuruh
             </p>
@@ -524,7 +525,6 @@
   text-align: left;
 }
 .onboard p {
-  font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 28px;
@@ -576,17 +576,19 @@
   border-radius: 10px;
   z-index: 0;
   transition: 0.25s;
+  opacity: 0;
 }
 .facilitator {
   padding: 25px;
   text-align: left;
   border-radius: 10px;
   z-index: 1;
-  background: white;
+  background: #f9fdfc;
 }
 .facilitator:hover ~ .hover_box {
   right: -5px;
   transform: rotate(5deg);
+  opacity: 1;
 }
 .facilitator img {
   width: 100%;
@@ -734,9 +736,7 @@ img {
   h2 {
     font-size: 20px !important;
   }
-  p {
-    font-size: 15px !important;
-  }
+
   .joinnow {
     padding: 5rem 10rem;
     border-radius: 10px;
