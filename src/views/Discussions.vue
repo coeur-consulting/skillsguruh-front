@@ -53,15 +53,18 @@
                   >
                     <div class="side_dis">
                       <b-avatar
+                        size="1.8rem"
                         v-if="item.creator == 'admin'"
                         :src="item.admin.profile"
                       ></b-avatar>
 
                       <b-avatar
+                        size="1.8rem"
                         v-if="item.creator == 'user'"
                         :src="item.user.profile"
                       ></b-avatar>
                       <b-avatar
+                        size="1.8rem"
                         v-if="item.creator == 'facilitator'"
                         :src="item.facilitator.profile"
                       ></b-avatar>
