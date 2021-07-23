@@ -1,37 +1,57 @@
 <template>
-  <div class="pt-4">
-    <b-container fluid>
-      <b-row>
-        <b-col sm="8" v-if="discussion">
-          <div class="shadow-sm bg-white py-4 rounded">
+  <div class="pt-sm-4 bg-light">
+    <b-container>
+      <b-row v-if="showdiscussion">
+        <b-col class="px-0 px-sm-3" sm="8">
+          <div class="py-4 bg-white rounded">
             <div class="main_content text-left">
-              <div @click="$router.go(-1)" class="d-flex w-100">
-                <b-icon icon="arrow-left" class="pl-4 cursor-pointer"></b-icon>
-              </div>
-              <div class="content p-3 pt-4 pb-3">
+              <span @click="$router.go(-1)" class="pl-3 cursor-pointer back">
+                <span class="mr-2">
+                  <b-icon icon="arrow-left" class=""></b-icon
+                ></span>
+                <span>Back</span>
+              </span>
+              <div class="content px-2 py-3 pt-4 pb-3">
                 <div class="top_dis d-flex align-items-center mb-2">
                   <div class="side_dis">
                     <b-avatar
+                      class="starter"
                       :src="discussion.admin.profile"
                       v-if="discussion.admin"
                     ></b-avatar>
                     <b-avatar
+                      class="starter"
                       :src="discussion.user.profile"
                       v-if="discussion.user"
+                      @click="
+                        $router.push(`/learner/profile/u/${discussion.user.id}`)
+                      "
                     ></b-avatar>
                     <b-avatar
+                      class="starter"
                       :src="discussion.facilitator.profile"
                       v-if="discussion.facilitator"
+                      @click="
+                        $router.push(
+                          `/learner/profile/f/${discussion.facilitator.id}`
+                        )
+                      "
                     ></b-avatar>
                   </div>
                   <div class="text-left next_dis">
-                    <span class="title h4 text-capitalize"
-                      >{{ discussion.name }} </span
-                    ><br />
-                    <span class="asked">
+                    <div class="title h4 mb-1 d-flex">
+                      <span class="mr-2 flex-1">{{ discussion.name }}</span
+                      ><span>
+                        <text-to-speech
+                          :text="thread"
+                          :voice="voices"
+                        ></text-to-speech
+                      ></span>
+                    </div>
+                    <div class="asked">
                       Created
-                      {{ discussion.created_at | moment("calendar") }}</span
-                    >
+                      {{ $moment(discussion.created_at).fromNow() }}
+                    </div>
                   </div>
                 </div>
                 <div class="top_dis d-flex align-items-start">
@@ -65,90 +85,129 @@
                     <div class="main_text">
                       {{ discussion.description }}
                     </div>
+                    <div class="mt-2">
+                      <b-row>
+                        <b-col
+                          cols="auto"
+                          v-for="(tag, id) in JSON.parse(discussion.tags)"
+                          :key="id"
+                        >
+                          <b-badge
+                            variant="lighter-green"
+                            class="text-dark-green"
+                            >{{ tag.value }}</b-badge
+                          ></b-col
+                        >
+                      </b-row>
+                    </div>
                   </div>
                 </div>
 
-                <div class="bottom_bar d-flex justify-content-between mb-4">
+                <div
+                  class="
+                    bottom_bar
+                    d-flex
+                    justify-content-between
+                    mb-4
+                    discussion_title
+                  "
+                >
                   <div>
-                    <span class="mr-3"
+                    <span class="mr-3 dis_set"
                       ><b-icon icon="chat" class="mr-1"></b-icon>
                       <span v-if="posts"> {{ posts.length }}</span>
-                      <span v-else>0</span> answers</span
+                      <span v-else>0</span> replies</span
                     >
-                    <span class="mr-3"
+                    <span class="mr-3 dis_set"
                       ><b-icon icon="eye-fill" class="mr-1"></b-icon>
                       <span v-if="views"> {{ views }}</span>
                       <span v-else>0</span> views</span
                     >
                   </div>
-                  <div class="fs12">
-                    Created by
+                  <div class="dis_set">
+                    <span> Created by </span>
                     <span
                       v-if="discussion.admin"
-                      class="fs12 font-weight-bold text-dark-green"
+                      class="cursor-pointer text-dark-green"
                       >{{ discussion.admin.name }}</span
                     >
                     <span
                       v-if="discussion.user"
-                      class="fs12 font-weight-bold text-dark-green"
+                      class="cursor-pointer text-dark-green"
+                      @click="
+                        $router.push(`/learner/profile/u/${discussion.user.id}`)
+                      "
                       >{{ discussion.user.name }}</span
                     >
                     <span
                       v-if="discussion.facilitator"
-                      class="fs12 font-weight-bold text-dark-green"
+                      class="cursor-pointer text-dark-green"
+                      @click="
+                        $router.push(
+                          `/learner/profile/f/${discussion.facilitator.id}`
+                        )
+                      "
                       >{{ discussion.facilitator.name }}</span
                     >
                   </div>
                 </div>
-
+                <div class="text-right">
+                  <b-button-group>
+                    <b-button
+                      @click="toggleview = 'recent'"
+                      :variant="
+                        toggleview == 'recent'
+                          ? 'secondary'
+                          : 'outline-secondary'
+                      "
+                      size="sm"
+                      >Newest</b-button
+                    >
+                    <b-button
+                      :variant="
+                        toggleview == 'oldest'
+                          ? 'secondary'
+                          : 'outline-secondary'
+                      "
+                      @click="toggleview = 'oldest'"
+                      size="sm"
+                      >Oldest</b-button
+                    >
+                    <b-button
+                      :variant="
+                        toggleview == 'comments'
+                          ? 'secondary'
+                          : 'outline-secondary'
+                      "
+                      @click="toggleview = 'comments'"
+                      size="sm"
+                      >Most Comments</b-button
+                    >
+                  </b-button-group>
+                </div>
                 <div v-if="posts" v-chat-scroll>
                   <div
-                    class="bottom_bar mb-3"
-                    v-for="(item, index) in posts"
+                    class="bottom_bar mb-3 position-relative"
+                    v-for="(item, index) in filteredDiscussion"
                     :key="index"
                   >
-                    <div class="d-flex align-items-center">
-                      <h6>
-                        <b-avatar
-                          size="sm"
-                          :src="item.admin.profile"
-                          v-if="item.admin"
-                          class="mr-2"
-                        ></b-avatar>
-                        <b-avatar
-                          size="sm"
-                          :src="item.user.profile"
-                          v-if="item.user"
-                          class="mr-2"
-                        ></b-avatar>
-                        <b-avatar
-                          size="sm"
-                          :src="item.facilitator.profile"
-                          v-if="item.facilitator"
-                          class="mr-2"
-                        ></b-avatar>
-                      </h6>
-                      <span v-if="item.admin" class="fs13 font-weight-bold">{{
-                        item.admin.name
-                      }}</span>
-                      <span v-if="item.user" class="fs13 font-weight-bold">{{
-                        item.user.name
-                      }}</span>
-                      <span
-                        v-if="item.facilitator"
-                        class="fs13 font-weight-bold"
-                        >{{ item.facilitator.name }}</span
-                      >
-                    </div>
+                    <span v-if="item.message" class="text2speech">
+                      <text-to-speech
+                        :text="toText(item.message)"
+                        :voice="voices"
+                      ></text-to-speech>
+                    </span>
                     <div>
-                      <p class="fs14" v-if="item.message">
-                        {{ item.message }}
-                      </p>
+                      <p
+                        class="discusion_text"
+                        v-if="item.message"
+                        v-html="item.message"
+                      ></p>
                       <div
                         class="text-center"
                         v-if="
                           item.attachment &&
-                            img_ext.includes(getextension(item.attachment))
+                          img_ext.includes(getextension(item.attachment))
                         "
                       >
                         <div class="image">
@@ -157,110 +216,297 @@
                             target="_blank"
                             :href="item.attachment"
                           >
-                            <b-img fluid-grow :src="item.attachment"></b-img
-                          ></a>
+                            <cld-image
+                              v-if="item.publicId"
+                              :publicId="item.publicId"
+                              width="250"
+                              crop="fill"
+                            >
+                              <cld-transformation radius="20" />
+                            </cld-image>
+                          </a>
                         </div>
                       </div>
 
                       <div class="document text-center mb-2" v-else>
                         <a download="" target="_blank" :href="item.attachment">
-                          <span
-                            class="d-flex justify-content-center"
+                          <div
                             v-if="
                               item.attachment &&
-                                vid_ext.includes(getextension(item.attachment))
+                              vid_ext.includes(getextension(item.attachment))
                             "
+                            class="p-1 rounded cursor-pointer"
                           >
-                            <span class="p-2 text-dark bg-white"
-                              >Download video</span
+                            <cld-video
+                              class="mx-auto"
+                              controls
+                              v-if="item.publicId"
+                              :publicId="item.publicId"
+                              width="250"
+                              crop="fill"
                             >
-                            <b-iconstack font-scale="3">
-                              <b-icon
-                                stacked
-                                icon="square-fill"
-                                variant="warning"
-                              ></b-icon>
-                              <b-icon
-                                stacked
-                                icon="camera-video"
-                                variant="white"
-                                scale="0.5"
-                              ></b-icon>
-                            </b-iconstack>
-                          </span>
-
-                          <span
-                            class="d-flex justify-content-center"
+                              <cld-transformation />
+                            </cld-video>
+                          </div>
+                          <div
                             v-if="
                               item.attachment &&
-                                aud_ext.includes(getextension(item.attachment))
+                              aud_ext.includes(getextension(item.attachment))
+                            "
+                            class="
+                              p-1
+                              bg-lighter-green
+                              d-flex
+                              align-items-center
+                              rounded
+                              cursor-pointer
                             "
                           >
-                            <span class="p-2 text-dark bg-white"
-                              >Download audio</span
+                            <cld-video
+                              controls
+                              v-if="item.publicId"
+                              :publicId="item.publicId"
+                              crop="fill"
                             >
-                            <b-iconstack font-scale="3">
-                              <b-icon
-                                stacked
-                                icon="square-fill"
-                                variant="warning"
-                              ></b-icon>
-                              <b-icon
-                                stacked
-                                icon="music-note-beamed"
-                                variant="white"
-                                scale="0.5"
-                              ></b-icon>
-                            </b-iconstack>
-                          </span>
-
-                          <span
-                            class="d-flex justify-content-center"
+                              <cld-transformation />
+                            </cld-video>
+                          </div>
+                          <div
                             v-if="
                               item.attachment &&
-                                doc_ext.includes(getextension(item.attachment))
+                              doc_ext.includes(getextension(item.attachment))
+                            "
+                            class="
+                              p-1
+                              bg-lighter-green
+                              d-flex
+                              align-items-center
+                              rounded
+                              cursor-pointer
                             "
                           >
-                            <span class="p-2 text-dark bg-white"
-                              >Download file</span
+                            <div
+                              class="bg-dark-green text-center rounded p-2 mr-3"
                             >
-                            <b-iconstack font-scale="3">
                               <b-icon
-                                stacked
-                                icon="square-fill"
-                                variant="warning"
-                              ></b-icon>
-                              <b-icon
-                                stacked
-                                icon="file-arrow-down"
-                                scale="0.5"
+                                icon="file-earmark-ruled-fill"
                                 variant="white"
+                                font-scale="2rem"
                               ></b-icon>
-                            </b-iconstack>
-                          </span>
+                            </div>
+                            <div
+                              class="
+                                d-flex
+                                align-items-center
+                                p-2
+                                justify-content-center
+                                text-dark
+                                fs15
+                              "
+                            >
+                              Download File
+                            </div>
+                          </div>
                         </a>
                       </div>
                     </div>
 
-                    <div class="d-flex justify-content-between">
-                      <span></span>
-                      <span>{{ item.created_at | moment("ll") }}</span>
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <div class="d-flex align-items-center">
+                        <span class="">
+                          <b-avatar
+                            size="sm"
+                            :src="item.admin.profile"
+                            v-if="item.admin"
+                            class="mr-2 member"
+                          ></b-avatar>
+                          <b-avatar
+                            size="sm"
+                            :src="item.user.profile"
+                            v-if="item.user"
+                            class="mr-2 member"
+                          ></b-avatar>
+                          <b-avatar
+                            size="sm"
+                            :src="item.facilitator.profile"
+                            v-if="item.facilitator"
+                            class="mr-2 member"
+                          ></b-avatar>
+                        </span>
+                        <span v-if="item.admin" class="fs13 cursor-pointer">{{
+                          item.admin.name
+                        }}</span>
+                        <span
+                          v-if="item.user"
+                          @click="
+                            $router.push(
+                              `/facilitator/profile/u/${item.user.id}`
+                            )
+                          "
+                          class="fs13 cursor-pointer"
+                          >{{ item.user.name }}</span
+                        >
+                        <span
+                          v-if="item.facilitator"
+                          @click="
+                            $router.push(
+                              `/facilitator/profile/f/${item.facilitator.id}`
+                            )
+                          "
+                          class="fs13 cursor-pointer"
+                          >{{ item.facilitator.name }}</span
+                        >
+                      </div>
+                      <span> {{ $moment(item.created_at).fromNow() }}</span>
                     </div>
+                    <div
+                      class="
+                        mt-3
+                        mb-2
+                        text-right
+                        d-flex
+                        justify-content-between
+                      "
+                    >
+                      <span>
+                        <small
+                          class="mr-2"
+                          v-if="item.discussionmessagecomment.length"
+                          >{{ item.discussionmessagecomment.length }}
+                          {{
+                            item.discussionmessagecomment.length > 1
+                              ? "comments"
+                              : "comment"
+                          }}</small
+                        >
+                      </span>
+                      <small
+                        class="cursor-pointer"
+                        @click="addmessagecomment(item, index)"
+                        >Add a comment
+                      </small>
+                    </div>
+                    <div
+                      class="
+                        bg-white
+                        rounded
+                        p-3
+                        message_comment
+                        position-relative
+                      "
+                      v-if="item.discussionmessagecomment.length"
+                    >
+                      <span class="mytext">
+                        <text-to-speech
+                          :text="replies(item.discussionmessagecomment)"
+                          :voice="voices"
+                        ></text-to-speech
+                      ></span>
+                      <div
+                        v-for="(reply, index) in item.discussionmessagecomment
+                          .slice(0, 2)
+                          .reverse()"
+                        :key="index"
+                        class="mb-2"
+                      >
+                        <div class="d-flex">
+                          <b-avatar
+                            v-if="reply.admin"
+                            size="sm"
+                            :src="reply.admin.profile"
+                            class="mr-2 message_comment_avatar"
+                          ></b-avatar>
+                          <b-avatar
+                            v-if="reply.facilitator"
+                            size="sm"
+                            :src="reply.facilitator.profile"
+                            class="mr-2 message_comment_avatar"
+                          ></b-avatar>
+                          <b-avatar
+                            v-if="reply.user"
+                            size="sm"
+                            :src="reply.user.profile"
+                            class="mr-2 message_comment_avatar"
+                          ></b-avatar>
+                          <span
+                            ><span
+                              v-if="reply.admin"
+                              class="message_comment_name mr-1"
+                              >{{ reply.admin.name }}</span
+                            >
+                            <span
+                              v-if="reply.facilitator"
+                              class="message_comment_name mr-1"
+                              >{{ reply.facilitator.name }}</span
+                            >
+                            <span
+                              v-if="reply.user"
+                              class="message_comment_name mr-1"
+                              >{{ reply.user.name }}</span
+                            >
+                            <span class="message_comment_text">
+                              {{ reply.message }}
+                            </span></span
+                          >
+                        </div>
+                        <div class="text-right">
+                          <span class="message_comment_date">{{
+                            $moment(reply.created_at).fromNow()
+                          }}</span>
+                        </div>
+                      </div>
+                      <small
+                        v-if="item.discussionmessagecomment.length > 3"
+                        class="cursor-pointer mr-2"
+                        @click="viewmessagecomment(item)"
+                        >View all comments
+                      </small>
+                    </div>
+                  </div>
+                  <div class="py-2 d-flex justify-content-end" v-if="rows > 10">
+                    <b-pagination
+                      pills
+                      size="sm"
+                      variant="dark-green"
+                      align="right"
+                      v-model="currentPage"
+                      :total-rows="rows"
+                      :per-page="perPage"
+                    ></b-pagination>
                   </div>
                 </div>
               </div>
-              <div class="py-4 px-3 text-post">
+              <div class="py-1 px-3 text-post">
                 <b-form @submit.prevent="post" class="wrapper">
-                  <b-textarea
-                    @keyup.enter="post"
-                    class="regular-input mb-2"
-                    v-model="info.message"
-                    rows="3"
-                    placeholder="Start typing here.."
-                  ></b-textarea>
+                  <b-form-group>
+                    <editor
+                      readonly
+                      api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
+                      @keyup.enter="post"
+                      class="regular-input mb-4"
+                      placeholder="Login to reply"
+                      disabled
+                      v-model="info.message"
+                      :init="{
+                        height: 150,
+                        menubar: false,
+                        plugins: [
+                          '  lists link  charmap   anchor',
+                          'searchreplace visualblocks code fullscreen',
+                          '  table paste code',
+                        ],
+                        toolbar:
+                          ' formatselect | bold italic | \
+           alignleft aligncenter alignright alignjustify | \
+           bullist numlist  ',
+                      }"
+                    />
+                  </b-form-group>
 
                   <div class="d-flex justify-content-between">
-                    <div>
+                    <div class="d-none d-md-block">
                       <emoji-picker @emoji="insert" :search="search">
                         <div
                           class="emoji-invoker"
@@ -310,9 +556,14 @@
                       </emoji-picker>
                     </div>
                     <div
-                      class="d-flex justify-content-between align-items-center"
+                      class="
+                        d-flex
+                        justify-content-between
+                        align-items-center
+                        w-100
+                      "
                     >
-                      <div class="share px-3 text-right">
+                      <div class="share text-left">
                         <span
                           class="mr-3 fs12 cursor-pointer"
                           @click="$bvModal.show('share')"
@@ -330,48 +581,30 @@
                         ></span>
                       </div>
                       <div class="d-flex align-items-center">
-                        <Attachment @getUpload="getUpload" class="mr-3" />
-                        <b-button
-                          variant="dark-green"
-                          font-scale="1.5"
-                          type="submit"
-                          >Post</b-button
+                        <speech-to-text
+                          class="mx-2"
+                          @getText="getText"
+                        ></speech-to-text>
+                        <b-button variant="dark-green" size="sm" type="submit"
+                          >Reply</b-button
                         >
                       </div>
                     </div>
                   </div>
                 </b-form>
-                <!-- <div class="share px-3 text-left">
-                  <span
-                    class="mr-3 fs12 cursor-pointer"
-                    @click="$bvModal.show('share')"
-                    >Share <b-icon icon="share-fill" font-scale=".9"></b-icon
-                  ></span>
-                  <span
-                    class="fs12 cursor-pointer"
-                    @click="$bvModal.show('invite')"
-                    >Invite
-                    <b-icon icon="person-plus-fill" font-scale=".9"></b-icon
-                  ></span>
-                </div> -->
               </div>
             </div>
           </div>
         </b-col>
         <b-col sm="4" class="d-none d-md-block">
-          <div class="shadow-sm bg-white p-4 rounded">
-            <div class="text-center mb-4">
-              <b-button variant="dark-green" size="lg" class="px-3"
-                >Start a discussion</b-button
-              >
-            </div>
+          <div class="bg-white p-4 rounded">
             <div class="py-3 text-left related_quest border" v-if="related">
               <h6 class="mb-3 px-3">Related Discussions</h6>
               <div v-for="item in related" :key="item.id">
                 <div
-                  class="d-flex p-2 px-3"
+                  class="d-flex p-2 px-3 cursor-pointer"
                   v-if="item.type == 'public'"
-                  @click="$router.push(`/administrator/discussion/${item.id}`)"
+                  @click="$router.push(`/discussion/${item.id}`)"
                 >
                   <div v-if="item.discussionmessage.length">
                     <div class="mr-3 related_count">
@@ -397,6 +630,45 @@
           </div>
         </b-col>
       </b-row>
+      <div v-else class="p-5">
+        <div class="d-flex w-100 mb-3">
+          <div class="mr-2">
+            <b-skeleton type="avatar"></b-skeleton>
+          </div>
+          <div class="w-100">
+            <div class="mb-3">
+              <b-skeleton-img no-aspect height="150px"></b-skeleton-img>
+            </div>
+            <b-skeleton animation="wave" width="85%"></b-skeleton>
+            <b-skeleton animation="wave" width="35%"></b-skeleton>
+          </div>
+        </div>
+
+        <div class="d-flex w-100 mb-3">
+          <div class="mr-2 mb-3">
+            <b-skeleton type="avatar"></b-skeleton>
+          </div>
+          <div class="w-100">
+            <div class="mb-3">
+              <b-skeleton-img no-aspect height="150px"></b-skeleton-img>
+            </div>
+            <b-skeleton animation="wave" width="85%"></b-skeleton>
+            <b-skeleton animation="wave" width="35%"></b-skeleton>
+          </div>
+        </div>
+        <div class="d-flex w-100 mb-3">
+          <div class="mr-2 mb-3">
+            <b-skeleton type="avatar"></b-skeleton>
+          </div>
+          <div class="w-100">
+            <div class="mb-3">
+              <b-skeleton-img no-aspect height="150px"></b-skeleton-img>
+            </div>
+            <b-skeleton animation="wave" width="85%"></b-skeleton>
+            <b-skeleton animation="wave" width="35%"></b-skeleton>
+          </div>
+        </div>
+      </div>
     </b-container>
     <b-modal id="access" title="Request Access" hide-footer centered>
       <div class="text-center">
@@ -425,9 +697,7 @@
           network="facebook"
           :url="link"
           title="DISCUSSION INVITATION"
-          :description="
-            `I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `
-          "
+          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -441,9 +711,7 @@
           network="twitter"
           :url="link"
           title="DISCUSSION INVITATION"
-          :description="
-            `I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `
-          "
+          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -457,9 +725,7 @@
           network="whatsApp"
           :url="link"
           title="DISCUSSION INVITATION"
-          :description="
-            `I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `
-          "
+          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -482,9 +748,7 @@
           network="Telegram"
           :url="link"
           title="DISCUSSION INVITATION"
-          :description="
-            `I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `
-          "
+          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -493,11 +757,6 @@
             Telegram</b-button
           >
         </ShareNetwork>
-        <b-button variant="outline-dark-green" @click="addToFeed">
-          <b-icon icon="rss-fill" variant="dark-green"></b-icon>
-
-          Feed</b-button
-        >
       </div>
     </b-modal>
 
@@ -541,17 +800,284 @@
             </b-button>
           </div>
         </div>
+
+        <div class="connections p-3 border rounded">
+          <h6 class="mb-3 fs13 text-left">Connections</h6>
+          <div class="px-2 py-1 d-flex align-items-center search bg-light mb-3">
+            <b-icon icon="search"></b-icon>
+            <b-form-input
+              autocomplete="off"
+              autocorrect="off"
+              size="sm"
+              v-model="search"
+              class="flex-1 border-0 no-focus search-bg"
+              type="search"
+              placeholder="Search name"
+            ></b-form-input>
+          </div>
+          <div v-for="(item, id) in filteredConnections" :key="id">
+            <div v-if="item.user_follower" class="d-flex align-items-end mb-4">
+              <b-form-checkbox
+                size="sm"
+                v-model="emails"
+                :value="item.user_follower.email"
+              >
+                <div class="d-flex align-items-center flex-1">
+                  <b-avatar class="mr-2" size="1.3rem"></b-avatar>
+                  <div class="text-left" style="line-height: 1.1">
+                    <span class="fs12">{{ item.user_follower.name }}</span>
+                  </div>
+                </div>
+              </b-form-checkbox>
+            </div>
+            <div v-else class="d-flex align-items-end mb-4">
+              <b-form-checkbox
+                size="sm"
+                :value="item.facilitator_follower.email"
+                v-model="emails"
+              >
+                <div class="d-flex align-items-center flex-1">
+                  <b-avatar class="mr-2" size="1.3rem"></b-avatar>
+                  <div>
+                    <span>{{ item.facilitator_follower.name }}</span>
+                  </div>
+                </div>
+              </b-form-checkbox>
+            </div>
+          </div>
+        </div>
+      </div>
+    </b-modal>
+    <b-modal id="media" centered hide-footer>
+      <div class="text-center">
+        <cld-image
+          v-if="
+            info.attachment && img_ext.includes(getextension(info.attachment))
+          "
+          :publicId="info.publicId"
+          width="250"
+          crop="fill"
+        >
+          <cld-transformation radius="20" />
+        </cld-image>
+
+        <cld-video
+          controls
+          v-if="
+            info.attachment && vid_ext.includes(getextension(info.attachment))
+          "
+          :publicId="info.publicId"
+        >
+          <cld-transformation height="200" width="300" crop="crop" />
+        </cld-video>
+        <b-input-group class="mt-1 bg-light">
+          <template #append>
+            <b-input-group-text class="border-0 bg-transparent">
+              <b-icon
+                @click="post"
+                font-scale="1"
+                icon="cursor-fill"
+                class="text-dark cursor-pointer"
+              ></b-icon>
+            </b-input-group-text>
+          </template>
+          <template #prepend>
+            <b-input-group-text
+              class="border-0 bg-transparent d-none d-md-block"
+              ><span class=""
+                ><b-icon
+                  icon="emoji-smile-fill"
+                  class="text-dark cursor-pointer"
+                  font-scale="1"
+                ></b-icon></span
+            ></b-input-group-text>
+          </template>
+          <b-form-input
+            @keyup.enter="post"
+            v-model="info.message"
+            autocomplete="off"
+            autocorrect="off"
+            placeholder="Enter caption"
+            class="border-0 no-focus rounded-pill fs13"
+          ></b-form-input>
+        </b-input-group>
+      </div>
+    </b-modal>
+    <b-modal id="addcomment" centered hide-footer>
+      <div v-html="comment_message"></div>
+      <b-form @submit.prevent="replyPost" class="">
+        <b-form-group>
+          <b-form-textarea
+            readonly
+            @keyup.enter="replyPost"
+            class="regular-input mb-4"
+            placeholder="Log in to comment"
+            v-model="reply.message"
+          ></b-form-textarea>
+        </b-form-group>
+
+        <div class="d-flex align-items-center justify-content-end">
+          <div class="mr-2">
+            <emoji-picker @emoji="insertReply" :search="search">
+              <div
+                class=""
+                slot="emoji-invoker"
+                slot-scope="{ events: { click: clickEvent } }"
+                @click.stop="clickEvent"
+              >
+                <svg
+                  height="24"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <path
+                    d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"
+                  />
+                </svg>
+              </div>
+              <div slot="emoji-picker" slot-scope="{ emojis, insert }">
+                <div class="emoji-picker">
+                  <div class="emoji-picker__search">
+                    <input type="text" v-model="search" v-focus />
+                  </div>
+                  <div>
+                    <div
+                      v-for="(emojiGroup, category) in emojis"
+                      :key="category"
+                    >
+                      <h5>{{ category }}</h5>
+                      <div class="emojis">
+                        <span
+                          v-for="(emoji, emojiName) in emojiGroup"
+                          :key="emojiName"
+                          @click="insert(emoji, 'reply')"
+                          :title="emojiName"
+                          >{{ emoji }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </emoji-picker>
+          </div>
+          <b-button variant="dark-green" size="sm" type="submit"
+            >Reply</b-button
+          >
+        </div>
+      </b-form>
+    </b-modal>
+    <b-modal
+      id="allcomment"
+      title="Comments"
+      centered
+      hide-footer
+      v-if="comments"
+    >
+      <div>
+        <div class="d-flex align-items-center">
+          <span class="">
+            <b-avatar
+              size="sm"
+              :src="comments.admin.profile"
+              v-if="comments.admin"
+              class="mr-2 member"
+            ></b-avatar>
+            <b-avatar
+              size="sm"
+              :src="comments.user.profile"
+              v-if="comments.user"
+              class="mr-2 member"
+            ></b-avatar>
+            <b-avatar
+              size="sm"
+              :src="comments.facilitator.profile"
+              v-if="comments.facilitator"
+              class="mr-2 member"
+            ></b-avatar>
+          </span>
+          <span v-if="comments.admin" class="fs12 cursor-pointer">{{
+            comments.admin.name
+          }}</span>
+          <span
+            v-if="comments.user"
+            @click="$router.push(`/facilitator/profile/u/${comments.user.id}`)"
+            class="fs12 cursor-pointer"
+            >{{ comments.user.name }}</span
+          >
+          <span
+            v-if="comments.facilitator"
+            @click="
+              $router.push(`/facilitator/profile/f/${comments.facilitator.id}`)
+            "
+            class="fs12 cursor-pointer"
+            >{{ comments.facilitator.name }}</span
+          >
+        </div>
+        <div v-html="comments.message"></div>
+        <div
+          v-for="(reply, index) in comments.discussionmessagecomment"
+          :key="index"
+          class="mb-2"
+        >
+          <div class="d-flex align-items-baseline">
+            <b-avatar
+              v-if="reply.admin"
+              size="sm"
+              :src="reply.admin.profile"
+              class="mr-2 message_comment_avatar"
+            ></b-avatar>
+            <b-avatar
+              v-if="reply.facilitator"
+              size="sm"
+              :src="reply.facilitator.profile"
+              class="mr-2 message_comment_avatar"
+            ></b-avatar>
+            <b-avatar
+              v-if="reply.user"
+              size="sm"
+              :src="reply.user.profile"
+              class="mr-2 message_comment_avatar"
+            ></b-avatar>
+            <span
+              ><span v-if="reply.admin" class="message_comment_name mr-1">{{
+                reply.admin.name
+              }}</span>
+              <span
+                v-if="reply.facilitator"
+                class="message_comment_name mr-1"
+                >{{ reply.facilitator.name }}</span
+              >
+              <span v-if="reply.user" class="message_comment_name mr-1">{{
+                reply.user.name
+              }}</span>
+              <span class="message_comment_text">
+                {{ reply.message }}
+              </span></span
+            >
+          </div>
+          <div class="text-right">
+            <span class="message_comment_date">{{
+              $moment(reply.created_at).fromNow()
+            }}</span>
+          </div>
+        </div>
       </div>
     </b-modal>
   </div>
 </template>
-
 <script>
 import EmojiPicker from "vue-emoji-picker";
-import Attachment from "@/components/miniupload";
+import Editor from "@tinymce/tinymce-vue";
+import SpeechToText from "@/components/speechToText";
+import TextToSpeech from "@/components/textToSpeech";
+
 export default {
   data() {
     return {
+      index: null,
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp"],
       aud_ext: ["mp3"],
@@ -561,44 +1087,112 @@ export default {
       info: {
         attachment: "",
         message: "",
-        discussion_id: null
+        discussion_id: null,
+        publicId: null,
       },
       myviews: null,
       search: "",
       feed: {},
       inviteUsers: {
         title: "",
-        users: []
+        users: [],
       },
       connections: [],
-      emails: []
+      emails: [],
+      play: "",
+      record: "",
+      showdiscussion: false,
+      comment_message: "",
+      reply: {
+        message: "",
+        message_id: null,
+        discussion_id: null,
+      },
+      currentPage: 1,
+      rows: null,
+      perPage: 10,
+      comments: {},
+      toggleview: "recent",
     };
   },
   components: {
     EmojiPicker,
-    Attachment
+    SpeechToText,
+    TextToSpeech,
+    Editor,
   },
   created() {
     this.getdiscussion();
     this.addview();
     this.getvote();
-
     this.link =
       "https://skillsguruh.com/learner/discussion/" + this.$route.params.id;
 
     var channel = this.$pusher.subscribe("adddiscussion");
 
-    channel.bind("adddiscussion", data => {
+    channel.bind("adddiscussion", (data) => {
       this.posts.push(data.message);
     });
   },
   computed: {
+    filteredDiscussion() {
+      var res = this.posts.slice(
+        this.perPage * this.currentPage - this.perPage,
+        this.perPage * this.currentPage
+      );
+      if (this.toggleview == "recent") {
+        return res.reverse();
+      }
+      if (this.toggleview == "oldest") {
+        return res;
+      }
+      return res.sort((a, b) => {
+        return (
+          Number(b.discussionmessagecomment.length) -
+          Number(a.discussionmessagecomment.length)
+        );
+      });
+    },
+    thread() {
+      var thread = this.discussion.discussionmessage.map((item) => {
+        if (item.admin) {
+          return `${item.admin.name}, ${this.toText(item.message)} ... `;
+        }
+        if (item.facilitator) {
+          return `${item.facilitator.name}, ${this.toText(item.message)} ... `;
+        }
+        if (item.user) {
+          return `${item.user.name}, ${this.toText(item.message)} ... `;
+        }
+      });
+      if (this.discussion.admin) {
+        thread.unshift(
+          `${this.discussion.name} by ${this.discussion.admin.name} . ${this.discussion.description} ... `
+        );
+      }
+      if (this.discussion.facilitator) {
+        thread.unshift(
+          `${this.discussion.name} by ${this.discussion.facilitator.name}. ${this.discussion.description} ... `
+        );
+      }
+      if (this.discussion.user) {
+        thread.unshift(
+          `${this.discussion.name} by ${this.discussion.user.name}. ${this.discussion.description} ... `
+        );
+      }
+      return thread.toString();
+    },
+    voices() {
+      return this.$store.getters.voices[
+        Number(this.$store.getters.learner.voice)
+      ];
+    },
     related() {
       if (!this.discussion.related) {
         return [];
       }
       return this.discussion.related.filter(
-        item => Number(item.id) != Number(this.$route.params.id)
+        (item) => Number(item.id) != Number(this.$route.params.id)
       );
     },
     posts() {
@@ -608,28 +1202,78 @@ export default {
       return this.myviews;
     },
     vote() {
-      var positive = this.discussion.discussionvote.filter(item => item.vote)
-        .length;
-      var negative = this.discussion.discussionvote.filter(item => !item.vote)
-        .length;
+      var positive = this.discussion.discussionvote.filter(
+        (item) => item.vote
+      ).length;
+      var negative = this.discussion.discussionvote.filter(
+        (item) => !item.vote
+      ).length;
       return Number(positive) - Number(negative);
-    }
-  },
-  methods: {
-    addToFeed() {
-      this.$toast.info("Login to join discussion!");
-      this.$router.push("/login");
     },
 
-    post() {
-      this.$toast.info("Login to join discussion!");
-      this.$router.push("/login");
+    filteredConnections() {
+      return this.connections.filter((item) => {
+        if (item.user_follower) {
+          return item.user_follower.name
+            .toLowerCase()
+            .includes(this.search.toLowerCase());
+        }
+        if (item.facilitator_follower) {
+          return item.facilitator_follower.name
+            .toLowerCase()
+            .includes(this.search.toLowerCase());
+        }
+      });
+    },
+  },
+  methods: {
+    addmessagecomment(val, index) {
+      this.index = index;
+      this.reply.message_id = val.id;
+      this.comment_message = val.message;
+      this.$bvModal.show("addcomment");
+    },
+    viewmessagecomment(val) {
+      this.comments = val;
+      this.$bvModal.show("allcomment");
+    },
+    replies(val) {
+      var thread = val.map((item) => {
+        if (item.admin) {
+          return `${item.admin.name}, ${item.message}...  `;
+        }
+        if (item.facilitator) {
+          return `${item.facilitator.name}, ${item.message}...  `;
+        }
+        if (item.user) {
+          return `${item.user.name}, ${item.message}...  `;
+        }
+      });
+
+      return thread.toString();
+    },
+    replyPost() {
+      this.$toast.info("Login to comment");
+    },
+    toText(HTML) {
+      if (!HTML) return;
+      var input = HTML;
+
+      return input
+        .replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi, "")
+        .replace(/<[^>]+?>/g, "")
+        .replace(/\s+/g, " ")
+        .replace(/ /g, " ")
+        .replace(/>/g, " ");
+    },
+    getText(res) {
+      this.info.message = `${this.info.message} ${res}`;
     },
 
     sendinvite() {
-      var emails = this.emails.map(item => {
+      var emails = this.emails.map((item) => {
         return {
-          email: item
+          email: item,
         };
       });
       this.inviteUsers.title = this.discussion.name;
@@ -637,10 +1281,15 @@ export default {
       this.inviteUsers.users = this.inviteUsers.users.concat(emails);
       this.$http
         .post(
-          `${this.$store.getters.url}/guest/send/discussion/invite`,
-          this.inviteUsers
+          `${this.$store.getters.url}/send/discussion/invite`,
+          this.inviteUsers,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Invite Sent");
             this.$bvModal.hide("share");
@@ -648,16 +1297,16 @@ export default {
               title: "",
               users: [
                 {
-                  email: ""
-                }
-              ]
+                  email: "",
+                },
+              ],
             };
           }
         });
     },
     addinvite() {
       this.inviteUsers.users.push({
-        email: ""
+        email: "",
       });
     },
     getextension(fileName) {
@@ -670,48 +1319,64 @@ export default {
     },
     getUpload(val) {
       if (
-        !this.img_ext.includes(this.getextension(val)) &&
-        !this.vid_ext.includes(this.getextension(val)) &&
-        !this.aud_ext.includes(this.getextension(val)) &&
-        !this.doc_ext.includes(this.getextension(val))
+        !this.img_ext.includes(this.getextension(val.secure_url)) &&
+        !this.vid_ext.includes(this.getextension(val.secure_url)) &&
+        !this.aud_ext.includes(this.getextension(val.secure_url)) &&
+        !this.doc_ext.includes(this.getextension(val.secure_url))
       ) {
         this.$toast.error("Unsupported content type !");
         return;
       }
 
-      this.info.attachment = val;
+      this.info.attachment = val.secure_url;
+      this.info.publicId = val.public_id;
+      this.$bvModal.show("media");
     },
     insert(emoji) {
-      this.info.message += emoji + "";
+      this.info.message += " " + emoji;
     },
+    insertReply(emoji) {
+      this.reply.message += " " + emoji;
+    },
+
     getdiscussion() {
       this.$http
         .get(
-          `${this.$store.getters.url}/guest/discussions/${this.$route.params.id}`
+          `${this.$store.getters.url}/guest/discussions/${this.$route.params.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.discussion = res.data;
+            this.rows = res.data.discussionmessage.length;
+            window.document.title = `${res.data.name} | SkillsGuruh`;
+            this.showdiscussion = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
-
+    post() {
+      this.$toast.info("Login to reply");
+    },
     addview() {
       this.$http
         .get(`${this.$store.getters.url}/add-view/${this.$route.params.id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200 || res.status == 201) {
             this.myviews = res.data.view;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -719,15 +1384,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/votes/${this.$route.params.id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.topvote = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -739,23 +1404,23 @@ export default {
           { id: this.$route.params.id, vote: 1 },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.discussion.discussionvote.push(res.data);
           }
           if (res.status == 200) {
-            this.discussion.discussionvote.map(item => {
+            this.discussion.discussionvote.map((item) => {
               if (item.learner_id == this.$store.getters.learner.id) {
                 return (item.vote = res.data.vote);
               }
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -767,40 +1432,40 @@ export default {
           { id: this.$route.params.id, vote: 0 },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.discussion.discussionvote.push(res.data);
           }
           if (res.status == 200) {
-            this.discussion.discussionvote.map(item => {
+            this.discussion.discussionvote.map((item) => {
               if (item.learner_id == this.$store.getters.learner.id) {
                 return (item.vote = res.data.vote);
               }
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
-    }
+    },
   },
   directives: {
     focus: {
       inserted(el) {
         el.focus();
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>
 <style scoped lang="scss">
 .image {
-  width: 100px;
-  height: 150px;
+  width: 80%;
+  height: auto;
   margin: 0 auto;
 }
 .wrapper {
@@ -831,6 +1496,7 @@ export default {
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.2s;
+  z-index: 9;
 }
 .emoji-invoker:hover {
   transform: scale(1.1);
@@ -916,13 +1582,7 @@ export default {
 .top_header div.active {
   color: var(--dark-green);
 }
-.main_content {
-  min-height: 80vh;
-  max-height: 80vh;
-  overflow-y: auto;
-}
-.content {
-}
+
 .side_dis {
   width: 15%;
   text-align: center;
@@ -937,17 +1597,7 @@ export default {
 .title {
   color: rgba($color: #000000, $alpha: 0.64);
 }
-.main_text {
-  display: -webkit-box;
-  font-size: 15px;
-  line-height: 1.6;
-  color: rgba($color: #000000, $alpha: 0.5);
-  text-overflow: ellipsis;
-  overflow: hidden;
-  line-clamp: 4;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-}
+
 .bottom_bar {
   width: 85%;
   margin-left: auto;
@@ -962,5 +1612,16 @@ export default {
 }
 .related {
   font-size: 12px;
+}
+
+.document {
+  width: 40%;
+  margin: 10px auto;
+}
+@media (max-width: 600px) {
+  .document {
+    width: 100%;
+    margin: 10px auto;
+  }
 }
 </style>

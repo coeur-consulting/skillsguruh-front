@@ -614,6 +614,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.event = res.data;
+            window.document.title = `${res.data.title} | SkillsGuruh`;
             this.showEvent = true;
           }
         })

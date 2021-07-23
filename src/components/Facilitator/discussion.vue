@@ -51,9 +51,10 @@
                         ></text-to-speech
                       ></span>
                     </div>
+
                     <div class="asked">
                       Created
-                      {{ discussion.created_at | moment("ll") }}
+                      {{ $moment(discussion.created_at).fromNow() }}
                     </div>
                   </div>
                 </div>
@@ -88,6 +89,21 @@
                     <div class="main_text">
                       {{ discussion.description }}
                     </div>
+                    <div class="mt-2">
+                      <b-row>
+                        <b-col
+                          cols="auto"
+                          v-for="(tag, id) in JSON.parse(discussion.tags)"
+                          :key="id"
+                        >
+                          <b-badge
+                            variant="lighter-green"
+                            class="text-dark-green"
+                            >{{ tag.value }}</b-badge
+                          ></b-col
+                        >
+                      </b-row>
+                    </div>
                   </div>
                 </div>
 
@@ -104,7 +120,7 @@
                     <span class="mr-3 dis_set"
                       ><b-icon icon="chat" class="mr-1"></b-icon>
                       <span v-if="posts"> {{ posts.length }}</span>
-                      <span v-else>0</span> answers</span
+                      <span v-else>0</span> replies</span
                     >
                     <span class="mr-3 dis_set"
                       ><b-icon icon="eye-fill" class="mr-1"></b-icon>
@@ -141,11 +157,45 @@
                     >
                   </div>
                 </div>
+                <div class="text-right">
+                  <b-button-group>
+                    <b-button
+                      @click="toggleview = 'recent'"
+                      :variant="
+                        toggleview == 'recent'
+                          ? 'secondary'
+                          : 'outline-secondary'
+                      "
+                      size="sm"
+                      >Newest</b-button
+                    >
+                    <b-button
+                      :variant="
+                        toggleview == 'oldest'
+                          ? 'secondary'
+                          : 'outline-secondary'
+                      "
+                      @click="toggleview = 'oldest'"
+                      size="sm"
+                      >Oldest</b-button
+                    >
+                    <b-button
+                      :variant="
+                        toggleview == 'comments'
+                          ? 'secondary'
+                          : 'outline-secondary'
+                      "
+                      @click="toggleview = 'comments'"
+                      size="sm"
+                      >Most Comments</b-button
+                    >
+                  </b-button-group>
+                </div>
 
                 <div v-if="posts" v-chat-scroll>
                   <div
                     class="bottom_bar mb-3 position-relative"
-                    v-for="(item, index) in posts"
+                    v-for="(item, index) in filteredDiscussion"
                     :key="index"
                   >
                     <span v-if="item.message" class="text2speech">
@@ -322,12 +372,127 @@
                           >{{ item.facilitator.name }}</span
                         >
                       </div>
-                      <span>{{ item.created_at | moment("ll") }}</span>
+                      <span> {{ $moment(item.created_at).fromNow() }}</span>
                     </div>
+
+                    <div
+                      class="
+                        mt-3
+                        mb-2
+                        text-right
+                        d-flex
+                        justify-content-between
+                      "
+                    >
+                      <span>
+                        <small
+                          class="mr-2"
+                          v-if="item.discussionmessagecomment.length"
+                          >{{ item.discussionmessagecomment.length }}
+                          {{
+                            item.discussionmessagecomment.length > 1
+                              ? "comments"
+                              : "comment"
+                          }}</small
+                        >
+                      </span>
+                      <small
+                        class="cursor-pointer"
+                        @click="addmessagecomment(item, index)"
+                        >Add a comment
+                      </small>
+                    </div>
+                    <div
+                      class="
+                        bg-white
+                        rounded
+                        p-3
+                        message_comment
+                        position-relative
+                      "
+                      v-if="item.discussionmessagecomment.length"
+                    >
+                      <span class="mytext">
+                        <text-to-speech
+                          :text="replies(item.discussionmessagecomment)"
+                          :voice="voices"
+                        ></text-to-speech
+                      ></span>
+                      <div
+                        v-for="(reply, index) in item.discussionmessagecomment
+                          .slice(0, 2)
+                          .reverse()"
+                        :key="index"
+                        class="mb-2"
+                      >
+                        <div class="d-flex">
+                          <b-avatar
+                            v-if="reply.admin"
+                            size="sm"
+                            :src="reply.admin.profile"
+                            class="mr-2 message_comment_avatar"
+                          ></b-avatar>
+                          <b-avatar
+                            v-if="reply.facilitator"
+                            size="sm"
+                            :src="reply.facilitator.profile"
+                            class="mr-2 message_comment_avatar"
+                          ></b-avatar>
+                          <b-avatar
+                            v-if="reply.user"
+                            size="sm"
+                            :src="reply.user.profile"
+                            class="mr-2 message_comment_avatar"
+                          ></b-avatar>
+                          <span
+                            ><span
+                              v-if="reply.admin"
+                              class="message_comment_name mr-1"
+                              >{{ reply.admin.name }}</span
+                            >
+                            <span
+                              v-if="reply.facilitator"
+                              class="message_comment_name mr-1"
+                              >{{ reply.facilitator.name }}</span
+                            >
+                            <span
+                              v-if="reply.user"
+                              class="message_comment_name mr-1"
+                              >{{ reply.user.name }}</span
+                            >
+                            <span class="message_comment_text">
+                              {{ reply.message }}
+                            </span></span
+                          >
+                        </div>
+                        <div class="text-right">
+                          <span class="message_comment_date">{{
+                            $moment(reply.created_at).fromNow()
+                          }}</span>
+                        </div>
+                      </div>
+                      <small
+                        v-if="item.discussionmessagecomment.length > 3"
+                        class="cursor-pointer mr-2"
+                        @click="viewmessagecomment(item)"
+                        >View all comments
+                      </small>
+                    </div>
+                  </div>
+                  <div class="py-2 d-flex justify-content-end" v-if="rows > 10">
+                    <b-pagination
+                      pills
+                      size="sm"
+                      variant="dark-green"
+                      align="right"
+                      v-model="currentPage"
+                      :total-rows="rows"
+                      :per-page="perPage"
+                    ></b-pagination>
                   </div>
                 </div>
               </div>
-              <div class="py-4 px-3 text-post">
+              <div class="py-1 px-3 text-post">
                 <b-form @submit.prevent="post" class="wrapper">
                   <b-form-group>
                     <editor
@@ -433,7 +598,7 @@
                           @getText="getText"
                         ></speech-to-text>
                         <b-button variant="dark-green" size="sm" type="submit"
-                          >Post</b-button
+                          >Reply</b-button
                         >
                       </div>
                     </div>
@@ -763,6 +928,168 @@
         </b-input-group>
       </div>
     </b-modal>
+    <b-modal id="addcomment" centered hide-footer>
+      <div v-html="comment_message"></div>
+      <b-form @submit.prevent="replyPost" class="">
+        <b-form-group :label="comment_message">
+          <b-form-textarea
+            @keyup.enter="replyPost"
+            class="regular-input mb-4"
+            placeholder="Start typing here.."
+            v-model="reply.message"
+          ></b-form-textarea>
+        </b-form-group>
+
+        <div class="d-flex align-items-center justify-content-end">
+          <div class="mr-2">
+            <emoji-picker @emoji="insertReply" :search="search">
+              <div
+                class=""
+                slot="emoji-invoker"
+                slot-scope="{ events: { click: clickEvent } }"
+                @click.stop="clickEvent"
+              >
+                <svg
+                  height="24"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <path
+                    d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"
+                  />
+                </svg>
+              </div>
+              <div slot="emoji-picker" slot-scope="{ emojis, insert }">
+                <div class="emoji-picker">
+                  <div class="emoji-picker__search">
+                    <input type="text" v-model="search" v-focus />
+                  </div>
+                  <div>
+                    <div
+                      v-for="(emojiGroup, category) in emojis"
+                      :key="category"
+                    >
+                      <h5>{{ category }}</h5>
+                      <div class="emojis">
+                        <span
+                          v-for="(emoji, emojiName) in emojiGroup"
+                          :key="emojiName"
+                          @click="insert(emoji, 'reply')"
+                          :title="emojiName"
+                          >{{ emoji }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </emoji-picker>
+          </div>
+          <b-button variant="dark-green" size="sm" type="submit"
+            >Add comment</b-button
+          >
+        </div>
+      </b-form>
+    </b-modal>
+    <b-modal
+      id="allcomment"
+      title="Comments"
+      centered
+      hide-footer
+      v-if="comments"
+    >
+      <div>
+        <div class="d-flex align-items-center">
+          <span class="">
+            <b-avatar
+              size="sm"
+              :src="comments.admin.profile"
+              v-if="comments.admin"
+              class="mr-2 member"
+            ></b-avatar>
+            <b-avatar
+              size="sm"
+              :src="comments.user.profile"
+              v-if="comments.user"
+              class="mr-2 member"
+            ></b-avatar>
+            <b-avatar
+              size="sm"
+              :src="comments.facilitator.profile"
+              v-if="comments.facilitator"
+              class="mr-2 member"
+            ></b-avatar>
+          </span>
+          <span v-if="comments.admin" class="fs12 cursor-pointer">{{
+            comments.admin.name
+          }}</span>
+          <span
+            v-if="comments.user"
+            @click="$router.push(`/facilitator/profile/u/${comments.user.id}`)"
+            class="fs12 cursor-pointer"
+            >{{ comments.user.name }}</span
+          >
+          <span
+            v-if="comments.facilitator"
+            @click="
+              $router.push(`/facilitator/profile/f/${comments.facilitator.id}`)
+            "
+            class="fs12 cursor-pointer"
+            >{{ comments.facilitator.name }}</span
+          >
+        </div>
+        <div v-html="comments.message"></div>
+        <div
+          v-for="(reply, index) in comments.discussionmessagecomment"
+          :key="index"
+          class="mb-2"
+        >
+          <div class="d-flex align-items-baseline">
+            <b-avatar
+              v-if="reply.admin"
+              size="sm"
+              :src="reply.admin.profile"
+              class="mr-2 message_comment_avatar"
+            ></b-avatar>
+            <b-avatar
+              v-if="reply.facilitator"
+              size="sm"
+              :src="reply.facilitator.profile"
+              class="mr-2 message_comment_avatar"
+            ></b-avatar>
+            <b-avatar
+              v-if="reply.user"
+              size="sm"
+              :src="reply.user.profile"
+              class="mr-2 message_comment_avatar"
+            ></b-avatar>
+            <span
+              ><span v-if="reply.admin" class="message_comment_name mr-1">{{
+                reply.admin.name
+              }}</span>
+              <span
+                v-if="reply.facilitator"
+                class="message_comment_name mr-1"
+                >{{ reply.facilitator.name }}</span
+              >
+              <span v-if="reply.user" class="message_comment_name mr-1">{{
+                reply.user.name
+              }}</span>
+              <span class="message_comment_text">
+                {{ reply.message }}
+              </span></span
+            >
+          </div>
+          <div class="text-right">
+            <span class="message_comment_date">{{
+              $moment(reply.created_at).fromNow()
+            }}</span>
+          </div>
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -772,9 +1099,11 @@ import Attachment from "../miniupload";
 import SpeechToText from "@/components/speechToText";
 import TextToSpeech from "@/components/textToSpeech";
 import Editor from "@tinymce/tinymce-vue";
+
 export default {
   data() {
     return {
+      index: null,
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp"],
       aud_ext: ["mp3"],
@@ -798,6 +1127,17 @@ export default {
       emails: [],
       link: "",
       allfeed: [],
+      comment_message: "",
+      comments: {},
+      reply: {
+        message: "",
+        message_id: null,
+        discussion_id: null,
+      },
+      currentPage: 1,
+      rows: null,
+      perPage: 10,
+      toggleview: "recent",
     };
   },
   components: {
@@ -821,6 +1161,24 @@ export default {
       "https://skillsguruh.com/learner/discussion/" + this.$route.params.id;
   },
   computed: {
+    filteredDiscussion() {
+      var res = this.posts.slice(
+        this.perPage * this.currentPage - this.perPage,
+        this.perPage * this.currentPage
+      );
+      if (this.toggleview == "recent") {
+        return res.reverse();
+      }
+      if (this.toggleview == "oldest") {
+        return res;
+      }
+      return res.sort((a, b) => {
+        return (
+          Number(b.discussionmessagecomment.length) -
+          Number(a.discussionmessagecomment.length)
+        );
+      });
+    },
     thread() {
       var thread = this.discussion.discussionmessage.map((item) => {
         if (item.admin) {
@@ -895,6 +1253,65 @@ export default {
     },
   },
   methods: {
+    replies(val) {
+      var thread = val.map((item) => {
+        if (item.admin) {
+          return `${item.admin.name}, ${item.message}...  `;
+        }
+        if (item.facilitator) {
+          return `${item.facilitator.name}, ${item.message}...  `;
+        }
+        if (item.user) {
+          return `${item.user.name}, ${item.message}...  `;
+        }
+      });
+
+      return thread.toString();
+    },
+    replyPost() {
+      if (!this.reply.message) {
+        this.$toast.info("Type a message!");
+        return;
+      }
+      this.reply.discussion_id = this.$route.params.id;
+      this.$http
+        .post(
+          `${this.$store.getters.url}/discussion/message/replies`,
+          this.reply,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 201) {
+            this.$bvModal.hide("addcomment");
+            this.filteredDiscussion[this.index].discussionmessagecomment.push(
+              res.data
+            );
+
+            this.reply = {
+              message_id: null,
+              message: "",
+              discussion_id: null,
+            };
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    addmessagecomment(val, index) {
+      this.index = index;
+      this.reply.message_id = val.id;
+      this.comment_message = val.message;
+      this.$bvModal.show("addcomment");
+    },
+    viewmessagecomment(val) {
+      this.comments = val;
+      this.$bvModal.show("allcomment");
+    },
     toText(HTML) {
       if (!HTML) return;
       var input = HTML;
@@ -1017,8 +1434,12 @@ export default {
       this.$bvModal.show("media");
     },
     insert(emoji) {
-      this.info.message += emoji + "";
+      this.info.message += " " + emoji;
     },
+    insertReply(emoji) {
+      this.reply.message += " " + emoji;
+    },
+
     getdiscussion() {
       this.$http
         .get(
@@ -1032,7 +1453,8 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.discussion = res.data;
-
+            this.rows = res.data.discussionmessage.length;
+            window.document.title = `${res.data.name} | SkillsGuruh`;
             this.showdiscussion = true;
           }
         })
@@ -1173,6 +1595,7 @@ export default {
   height: auto;
   margin: 0 auto;
 }
+
 .wrapper {
   position: relative;
 }

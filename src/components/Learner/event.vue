@@ -37,7 +37,7 @@
                 :class="{
                   'bg-success': event.status == 'ongoing',
                   'bg-danger': event.status == 'expired',
-                  'bg-primary': event.status == 'pending'
+                  'bg-primary': event.status == 'pending',
                 }"
                 >{{ event.status }}</b-badge
               >
@@ -203,7 +203,7 @@
                 :class="{
                   'bg-success': event.status == 'ongoing',
                   'bg-danger': event.status == 'expired',
-                  'bg-primary': event.status == 'pending'
+                  'bg-primary': event.status == 'pending',
                 }"
                 >{{ event.status }}</b-badge
               >
@@ -314,9 +314,7 @@
           network="facebook"
           :url="link"
           title="EVENT INVITATION"
-          :description="
-            `I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`
-          "
+          :description="`I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -330,9 +328,7 @@
           network="twitter"
           :url="link"
           title="EVENT INVITATION"
-          :description="
-            `I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`
-          "
+          :description="`I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -346,9 +342,7 @@
           network="whatsApp"
           :url="link"
           title="EVENT INVITATION"
-          :description="
-            `I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`
-          "
+          :description="`I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -371,9 +365,7 @@
           network="Telegram"
           :url="link"
           title="EVENT INVITATION"
-          :description="
-            `I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`
-          "
+          :description="`I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -492,12 +484,12 @@ export default {
       feed: {},
       inviteUsers: {
         title: "",
-        users: []
+        users: [],
       },
       connections: [],
       emails: [],
       link: "",
-      checkEvent: null
+      checkEvent: null,
     };
   },
   mounted() {
@@ -511,7 +503,7 @@ export default {
   },
   computed: {
     filteredConnections() {
-      return this.connections.filter(item => {
+      return this.connections.filter((item) => {
         if (item.user_follower) {
           return item.user_follower.name
             .toLowerCase()
@@ -528,10 +520,10 @@ export default {
       if (!this.event.facilitators) {
         return [];
       }
-      return this.facilitators.filter(val =>
+      return this.facilitators.filter((val) =>
         JSON.parse(this.event.facilitators).includes(val.id)
       );
-    }
+    },
   },
   methods: {
     myEvent() {
@@ -540,36 +532,36 @@ export default {
           `${this.$store.getters.url}/event/attendance/${this.$route.params.id}`,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.checkEvent = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
     attendEvent() {
       var data = {
-        event_id: this.$route.params.id
+        event_id: this.$route.params.id,
       };
       this.$http
         .post(`${this.$store.getters.url}/event/attendance`, data, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.checkEvent = res.data;
             this.$toast.success("Event scheduled");
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -577,15 +569,15 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/connections`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.connections = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -596,33 +588,33 @@ export default {
           "Let’s attend the event, " +
           this.event.title.toUpperCase() +
           " together",
-        url: "https://skillsguruh.com/learner/event/" + this.event.id
+        url: "https://skillsguruh.com/learner/event/" + this.event.id,
       };
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Added to feeds ");
             this.$bvModal.hide("share");
 
             this.feed = {
               media: "",
-              message: ""
+              message: "",
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
     sendinvite() {
-      var emails = this.emails.map(item => {
+      var emails = this.emails.map((item) => {
         return {
-          email: item
+          email: item,
         };
       });
       this.inviteUsers.title = this.event.title;
@@ -634,11 +626,11 @@ export default {
           this.inviteUsers,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Invite Sent");
             this.$bvModal.hide("invite");
@@ -646,16 +638,16 @@ export default {
               title: "",
               users: [
                 {
-                  email: ""
-                }
-              ]
+                  email: "",
+                },
+              ],
             };
           }
         });
     },
     addinvite() {
       this.inviteUsers.users.push({
-        email: ""
+        email: "",
       });
     },
     getextension(fileName) {
@@ -670,15 +662,15 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/user-get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -686,20 +678,21 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/events/${this.$route.params.id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.event = res.data;
+            window.document.title = `${res.data.title} | SkillsGuruh`;
             this.showEvent = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

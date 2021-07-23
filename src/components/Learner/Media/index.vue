@@ -12,11 +12,11 @@
                 <div
                   v-if="
                     myquestionnaire.find(
-                      item => item.question_template_id == media.template.id
+                      (item) => item.question_template_id == media.template.id
                     ) &&
-                      myquestionnaire.find(
-                        item => item.question_template_id == media.template.id
-                      ).status !== 'edit'
+                    myquestionnaire.find(
+                      (item) => item.question_template_id == media.template.id
+                    ).status !== 'edit'
                   "
                   style="height: 500px"
                   class="
@@ -29,11 +29,11 @@
                   <div
                     v-if="
                       myquestionnaire.find(
-                        item => item.question_template_id == media.template.id
+                        (item) => item.question_template_id == media.template.id
                       ) &&
-                        myquestionnaire.find(
-                          item => item.question_template_id == media.template.id
-                        ).status == 'draft'
+                      myquestionnaire.find(
+                        (item) => item.question_template_id == media.template.id
+                      ).status == 'draft'
                     "
                   >
                     <h3 class="mb-4">Saved for later</h3>
@@ -52,7 +52,7 @@
                       @click="
                         editresponse(
                           myquestionnaire.find(
-                            item =>
+                            (item) =>
                               item.question_template_id == media.template.id
                           ).id
                         )
@@ -64,11 +64,11 @@
                     class="text-center"
                     v-if="
                       myquestionnaire.find(
-                        item => item.question_template_id == media.template.id
+                        (item) => item.question_template_id == media.template.id
                       ) &&
-                        myquestionnaire.find(
-                          item => item.question_template_id == media.template.id
-                        ).status == 'submitted'
+                      myquestionnaire.find(
+                        (item) => item.question_template_id == media.template.id
+                      ).status == 'submitted'
                     "
                   >
                     <h3 class="mb-4">Submitted</h3>
@@ -97,7 +97,7 @@
                   v-else
                   :myquestionnaire="
                     myquestionnaire.find(
-                      item => item.question_template_id == media.template.id
+                      (item) => item.question_template_id == media.template.id
                     )
                   "
                   @handleCheck="handleCheck"
@@ -186,11 +186,13 @@
                                 class="py-1 mb-4"
                                 :class="{
                                   'border-bottom':
-                                    JSON.parse(item.modules).length > 1
+                                    JSON.parse(item.modules).length > 1,
                                 }"
                                 v-for="(mod, index) in JSON.parse(
                                   item.modules
-                                ).filter(item => item.file_type !== 'template')"
+                                ).filter(
+                                  (item) => item.file_type !== 'template'
+                                )"
                                 :key="index"
                               >
                                 <b-card-text
@@ -236,11 +238,11 @@
                                 class="py-1 pt-2"
                                 v-if="
                                   JSON.parse(item.modules).filter(
-                                    item => item.file_type == 'template'
+                                    (item) => item.file_type == 'template'
                                   ) &&
-                                    JSON.parse(item.modules).filter(
-                                      item => item.file_type == 'template'
-                                    ).length
+                                  JSON.parse(item.modules).filter(
+                                    (item) => item.file_type == 'template'
+                                  ).length
                                 "
                               >
                                 <h6 class="fs13 mb-1">Worksheet</h6>
@@ -249,7 +251,7 @@
                                   v-for="(mod, index) in JSON.parse(
                                     item.modules
                                   ).filter(
-                                    item => item.file_type == 'template'
+                                    (item) => item.file_type == 'template'
                                   )"
                                   :key="index"
                                 >
@@ -282,15 +284,15 @@
                                       v-b-popover.hover.top="'Submitted'"
                                       v-if="
                                         myquestionnaire.find(
-                                          item =>
+                                          (item) =>
                                             item.question_template_id ==
                                             mod.template.id
                                         ) &&
-                                          myquestionnaire.find(
-                                            item =>
-                                              item.question_template_id ==
-                                              mod.template.id
-                                          ).status == 'submitted'
+                                        myquestionnaire.find(
+                                          (item) =>
+                                            item.question_template_id ==
+                                            mod.template.id
+                                        ).status == 'submitted'
                                       "
                                       variant="dark-green"
                                       icon="check-circle-fill"
@@ -299,15 +301,15 @@
                                       v-b-popover.hover.top="'Draft'"
                                       v-if="
                                         myquestionnaire.find(
-                                          item =>
+                                          (item) =>
                                             item.question_template_id ==
                                             mod.template.id
                                         ) &&
-                                          myquestionnaire.find(
-                                            item =>
-                                              item.question_template_id ==
-                                              mod.template.id
-                                          ).status == 'draft'
+                                        myquestionnaire.find(
+                                          (item) =>
+                                            item.question_template_id ==
+                                            mod.template.id
+                                        ).status == 'draft'
                                       "
                                       variant="warning"
                                       icon="stop-circle-fill"
@@ -316,7 +318,7 @@
                                       v-b-popover.hover.top="'Begin'"
                                       v-if="
                                         !myquestionnaire.find(
-                                          item =>
+                                          (item) =>
                                             item.question_template_id ==
                                             mod.template.id
                                         )
@@ -507,10 +509,10 @@
                 <b-card-body
                   class="py-1 mb-4"
                   :class="{
-                    'border-bottom': JSON.parse(item.modules).length > 1
+                    'border-bottom': JSON.parse(item.modules).length > 1,
                   }"
                   v-for="(mod, index) in JSON.parse(item.modules).filter(
-                    item => item.file_type !== 'template'
+                    (item) => item.file_type !== 'template'
                   )"
                   :key="index"
                 >
@@ -550,18 +552,18 @@
                   class="py-1 pt-2"
                   v-if="
                     JSON.parse(item.modules).filter(
-                      item => item.file_type == 'template'
+                      (item) => item.file_type == 'template'
                     ) &&
-                      JSON.parse(item.modules).filter(
-                        item => item.file_type == 'template'
-                      ).length
+                    JSON.parse(item.modules).filter(
+                      (item) => item.file_type == 'template'
+                    ).length
                   "
                 >
                   <h6 class="fs11 mb-1">Worksheet</h6>
                   <b-card-body
                     class="py-1 px-0"
                     v-for="(mod, index) in JSON.parse(item.modules).filter(
-                      item => item.file_type == 'template'
+                      (item) => item.file_type == 'template'
                     )"
                     :key="index"
                   >
@@ -589,12 +591,13 @@
                         v-b-popover.hover.top="'Submitted'"
                         v-if="
                           myquestionnaire.find(
-                            item => item.question_template_id == mod.template.id
+                            (item) =>
+                              item.question_template_id == mod.template.id
                           ) &&
-                            myquestionnaire.find(
-                              item =>
-                                item.question_template_id == mod.template.id
-                            ).status == 'submitted'
+                          myquestionnaire.find(
+                            (item) =>
+                              item.question_template_id == mod.template.id
+                          ).status == 'submitted'
                         "
                         variant="dark-green"
                         icon="check-circle-fill"
@@ -603,12 +606,13 @@
                         v-b-popover.hover.top="'Draft'"
                         v-if="
                           myquestionnaire.find(
-                            item => item.question_template_id == mod.template.id
+                            (item) =>
+                              item.question_template_id == mod.template.id
                           ) &&
-                            myquestionnaire.find(
-                              item =>
-                                item.question_template_id == mod.template.id
-                            ).status == 'draft'
+                          myquestionnaire.find(
+                            (item) =>
+                              item.question_template_id == mod.template.id
+                          ).status == 'draft'
                         "
                         variant="warning"
                         icon="stop-circle-fill"
@@ -617,7 +621,8 @@
                         v-b-popover.hover.top="'Begin'"
                         v-if="
                           !myquestionnaire.find(
-                            item => item.question_template_id == mod.template.id
+                            (item) =>
+                              item.question_template_id == mod.template.id
                           )
                         "
                         icon="play-circle-fill"
@@ -694,7 +699,7 @@ export default {
       current: null,
       review: null,
       score: null,
-      reviews: []
+      reviews: [],
     };
   },
   components: {
@@ -702,7 +707,7 @@ export default {
     VideoMedia,
     PdfMedia,
     Questionnaire,
-    StarRating
+    StarRating,
   },
   mounted() {
     this.getQuestionnaire();
@@ -712,10 +717,10 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/edit/response/${id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.getQuestionnaire();
           }
@@ -728,15 +733,15 @@ export default {
       var data = {
         id: this.$route.params.id,
         review: this.review,
-        score: this.score
+        score: this.score,
       };
       this.$http
         .post(`${this.$store.getters.url}/reviews`, data, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.reviews.unshift(res.data);
           }
@@ -746,13 +751,13 @@ export default {
       var data = {
         id: this.$route.params.id,
         total_modules: total,
-        current_module: current
+        current_module: current,
       };
       this.$http
         .post(`${this.$store.getters.url}/update/progress`, data, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
         .then();
     },
@@ -762,11 +767,11 @@ export default {
           `${this.$store.getters.url}/answer-questionnaires/${this.$route.params.id}`,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.myquestionnaire = res.data;
             this.getLibrary();
@@ -777,11 +782,12 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/libraries/${this.$route.params.id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
+            window.document.title = `${res.data.course.title} | SkillsGuruh`;
             this.reviews = res.data.course.review;
             this.current = res.data.current_module;
             this.course = res.data.course;
@@ -800,7 +806,7 @@ export default {
             }
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -814,10 +820,10 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/answer-questionnaires/${id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             if (!res.data) {
               this.questionnaire_id = id;
@@ -828,8 +834,8 @@ export default {
             this.$toast.info("Already submitted");
           }
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
