@@ -355,6 +355,7 @@
                                 `/facilitator/profile/u/${feed.user.id}`
                               )
                             "
+                            class="hover_green"
                           >
                             {{ feed.user.name }}</span
                           >
@@ -366,6 +367,7 @@
                             :src="feed.facilitator.profile"
                           ></b-avatar>
                           <span
+                            class="hover_green"
                             @click="
                               $router.push(
                                 `/facilitator/profile/f/${feed.facilitator.id}`
@@ -548,7 +550,7 @@
                               {{ item.admin.name }}</span
                             >
                             <span
-                              class="comment_name mr-2"
+                              class="comment_name mr-2 hover_green"
                               @click="
                                 $router.push(
                                   `/facilitator/profile/u/${item.user.id}`
@@ -559,7 +561,7 @@
                               {{ item.user.name }}</span
                             >
                             <span
-                              class="comment_name mr-2"
+                              class="comment_name mr-2 hover_green"
                               @click="
                                 $router.push(
                                   `/facilitator/profile/f/${item.facilitator.id}`

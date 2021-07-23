@@ -33,6 +33,10 @@ p {
 .text-blue {
   color: #054a90;
 }
+.hover_green:hover {
+  color: rgba($color: #000000, $alpha: 0.4);
+  cursor: pointer;
+}
 .grab {
   cursor: grab;
 }

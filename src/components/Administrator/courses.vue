@@ -2038,14 +2038,14 @@
                       <div
                         v-if="
                           course.modules.some(
-                            i => i.module.toLowerCase() == item.toLowerCase()
+                            i => i.module.toLowerCase() == item.module.toLowerCase()
                           )
                         "
                       >
                         <b-card-body
                           v-for="(mod, index) in JSON.parse(
                             course.modules.find(
-                              i => i.module.toLowerCase() == item.toLowerCase()
+                              i => i.module.toLowerCase() == item.module.toLowerCase()
                             ).modules
                           )"
                           :key="index"
@@ -3172,7 +3172,7 @@ export default {
         !this.detail.general.title ||
         !this.detail.general.description ||
         !this.detail.general.amount ||
-        this.detail.outline.overview
+        !this.detail.outline.overview
       ) {
         this.$toast.info("Fill all (*) fields!");
         this.disable = false;

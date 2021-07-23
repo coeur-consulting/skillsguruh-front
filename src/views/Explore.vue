@@ -418,7 +418,7 @@
                   <div class="line-1">
                     <span
                       class="fs15 font-weight-bold cursor-pointer"
-                      @click="$router.push(`/learner/discussion/${item.id}`)"
+                      @click="$router.push(`/discussion/${item.id}`)"
                       >{{ item.name }}</span
                     >
                     <br />

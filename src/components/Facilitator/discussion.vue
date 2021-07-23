@@ -21,7 +21,7 @@
                       v-if="discussion.admin"
                     ></b-avatar>
                     <b-avatar
-                      class="starter"
+                      class="starter hover_green"
                       @click="
                         $router.push(
                           `/facilitator/profile/f/${discussion.user.id}`
@@ -31,7 +31,7 @@
                       v-if="discussion.user"
                     ></b-avatar>
                     <b-avatar
-                      class="starter"
+                      class="starter hover_green"
                       @click="
                         $router.push(
                           `/facilitator/profile/f/${discussion.facilitator.id}`
@@ -137,7 +137,7 @@
                     >
                     <span
                       v-if="discussion.user"
-                      class="cursor-pointer text-dark-green"
+                      class="cursor-pointer text-dark-green hover_green"
                       @click="
                         $router.push(
                           `/facilitator/profile/u/${discussion.user.id}`
@@ -152,7 +152,7 @@
                           `/facilitator/profile/f/${discussion.facilitator.id}`
                         )
                       "
-                      class="cursor-pointer text-dark-green"
+                      class="cursor-pointer text-dark-green hover_green"
                       >{{ discussion.facilitator.name }}</span
                     >
                   </div>
@@ -358,7 +358,7 @@
                               `/facilitator/profile/u/${item.user.id}`
                             )
                           "
-                          class="fs12 cursor-pointer"
+                          class="fs12 cursor-pointer hover_green"
                           >{{ item.user.name }}</span
                         >
                         <span
@@ -368,7 +368,7 @@
                               `/facilitator/profile/f/${item.facilitator.id}`
                             )
                           "
-                          class="fs12 cursor-pointer"
+                          class="fs12 cursor-pointer hover_green"
                           >{{ item.facilitator.name }}</span
                         >
                       </div>
@@ -1028,7 +1028,7 @@
           <span
             v-if="comments.user"
             @click="$router.push(`/facilitator/profile/u/${comments.user.id}`)"
-            class="fs12 cursor-pointer"
+            class="fs12 cursor-pointer hover_green"
             >{{ comments.user.name }}</span
           >
           <span
@@ -1036,7 +1036,7 @@
             @click="
               $router.push(`/facilitator/profile/f/${comments.facilitator.id}`)
             "
-            class="fs12 cursor-pointer"
+            class="fs12 cursor-pointer hover_green"
             >{{ comments.facilitator.name }}</span
           >
         </div>

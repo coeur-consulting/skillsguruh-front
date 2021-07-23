@@ -7,13 +7,13 @@
         <b-avatar size="2rem" :src="mini_info.profile" class="mr-2"></b-avatar>
         <span
           v-if="mini_info.type == 'user'"
-          class="chat_name"
+          class="chat_name hover_green"
           @click="$router.push(`/learner/profile/u/${mini_info.id}`)"
           >{{ mini_info.name }}</span
         >
         <span
           v-else-if="mini_info.type == 'facilitator'"
-          class="chat_name"
+          class="chat_name hover_green"
           @click="$router.push(`/learner/profile/u/${mini_info.id}`)"
           >{{ mini_info.name }}</span
         >

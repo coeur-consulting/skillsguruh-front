@@ -52,7 +52,9 @@
                     Recommended
                   </div>
                 </div>
-                <span class="fs13" @click="$router.push('/learner/courses')"
+                <span
+                  class="fs13 cursor-pointer"
+                  @click="$router.push('/learner/courses')"
                   >More <b-icon icon="arrow-right"></b-icon
                 ></span>
               </div>

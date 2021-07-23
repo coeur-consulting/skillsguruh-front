@@ -121,7 +121,9 @@
                   Most Enrolled
                 </div>
               </div>
-              <span class="fs14" @click="$router.push('/learner/courses')"
+              <span
+                class="fs13 cursor-pointer"
+                @click="$router.push('/facilitator/courses')"
                 >More <b-icon icon="arrow-right"></b-icon
               ></span>
             </div>

@@ -1,10 +1,25 @@
 <template>
   <div>
     <b-container class="py-3 px-0 text-left" v-if="questionnaire.sections">
+      <div class="mb-4 fs13">
+        <span @click="$router.go(-1)" class="cursor-pointer"
+          ><b-icon icon="arrow-left"></b-icon> Back</span
+        >
+      </div>
       <b-row class="justify-content-center">
         <b-col sm="10" class="ber">
           <div class="text-left">
-            <h5 class="mb-4 text-capitalize">{{ questionnaire.title }}</h5>
+            <h5 class="mb-4 text-capitalize">
+              <span class="mr-1">{{ questionnaire.title }} </span
+              ><b-icon
+                font-scale=".7rem"
+                class="cursor-pointer"
+                v-b-tooptip.hover
+                title="Edit template"
+                icon="pencil-square"
+                @click="edit"
+              ></b-icon>
+            </h5>
             <div>
               <em class="text-lighter-green fs11">{{ questionnaire.hint }}</em>
             </div>
@@ -64,7 +79,7 @@
                     <div
                       v-if="
                         (question.type == 'short' || question.type == 'long') &&
-                          !question.addSubQuestion
+                        !question.addSubQuestion
                       "
                     >
                       <div
@@ -153,7 +168,7 @@
                             <div
                               v-if="
                                 question.type == 'short' ||
-                                  question.type == 'long'
+                                question.type == 'long'
                               "
                             >
                               <div
@@ -274,17 +289,17 @@ export default {
       responses: [],
       score: 0,
       question_num: 0,
-      current_score: 0
+      current_score: 0,
     };
   },
   mounted() {
     this.getQuestionnaire();
   },
   methods: {
-    startCallBack: function(x) {
+    startCallBack: function (x) {
       console.log(x);
     },
-    endCallBack: function(x) {
+    endCallBack: function (x) {
       console.log(x);
     },
     warning() {
@@ -295,13 +310,17 @@ export default {
       this.question_num = 0;
       this.section++;
     },
-
+    edit() {
+      this.$router.push(
+        `/facilitator/question/template/edit/${this.$route.params.id}`
+      );
+    },
     handleResponse() {
       var arr = [];
       var answers = [];
       var responses = [];
       var correct = 0;
-      this.questionnaire.sections.forEach(item => {
+      this.questionnaire.sections.forEach((item) => {
         arr.push(item.questions);
       });
 
@@ -309,7 +328,7 @@ export default {
         return a.concat(b);
       });
 
-      var score = newarr.map(item => {
+      var score = newarr.map((item) => {
         if (item.asAnswer) {
           if (item.type !== "checkbox") {
             if (item.response == item.answer) {
@@ -318,13 +337,13 @@ export default {
             return 0;
           }
           if (item.type == "checkbox") {
-            answers = item.answers.map(item => item.title).sort();
+            answers = item.answers.map((item) => item.title).sort();
             responses = item.responses
-              .map(val => item.options[val])
-              .map(item => item.title)
+              .map((val) => item.options[val])
+              .map((item) => item.title)
               .sort();
 
-            correct = answers.filter(x => responses.indexOf(x) !== -1).length;
+            correct = answers.filter((x) => responses.indexOf(x) !== -1).length;
             let score = (correct / answers.length) * item.score;
             return Math.round(score);
           }
@@ -339,7 +358,7 @@ export default {
 
     addoption(index) {
       this.questionnaire.sections[this.section].questions[index].options.push({
-        title: null
+        title: null,
       });
     },
     getQuestionnaire() {
@@ -348,18 +367,18 @@ export default {
           `${this.$store.getters.url}/question/templates/${this.$route.params.id}`,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.questionnaire = res.data;
             this.questionnaire.sections = JSON.parse(res.data.sections);
           }
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -388,7 +407,5 @@ export default {
   overflow: hidden;
 }
 .ber {
-  overflow-y: auto;
-  max-height: 90vh;
 }
 </style>

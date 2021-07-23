@@ -63,7 +63,7 @@
                           `/facilitator/profile/${item.facilitator_follower.id}`
                         )
                       "
-                      class="connection_name"
+                      class="connection_name hover_green"
                     >
                       {{ item.facilitator_follower.name }}
                     </div>

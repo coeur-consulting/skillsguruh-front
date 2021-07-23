@@ -637,7 +637,7 @@
                   :key="index"
                 >
                   <b-icon icon="check2-circle" variant="light-green"></b-icon>
-                  {{ item }}
+                  {{ item.module }}
                 </div>
               </div>
             </div>
@@ -1417,7 +1417,9 @@ export default {
       if (!data.courseoutline) {
         return 0;
       }
-      return JSON.parse(data.courseoutline.modules).length;
+      return data.courseoutline.modules
+        ? JSON.parse(data.courseoutline.modules).length
+        : 0;
     },
     getcourses() {
       this.$http
