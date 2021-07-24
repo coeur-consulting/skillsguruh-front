@@ -540,7 +540,21 @@ ol.subquest {
 .comment_post:hover {
   opacity: 0.7;
 }
+.my_courses {
+  height: 85vh;
+  overflow-y: auto;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.my_courses::-webkit-scrollbar {
+  display: none;
+}
+
 @media (max-width: 600px) {
+  .my_courses {
+    height: 100%;
+    overflow: auto;
+  }
   .comment_name {
     font-size: 0.7rem;
   }

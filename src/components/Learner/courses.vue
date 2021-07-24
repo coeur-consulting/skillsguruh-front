@@ -2370,15 +2370,6 @@ p {
   font-size: 13px;
   color: rgba($color: #000000, $alpha: 0.5);
 }
-.my_courses {
-  height: 85vh;
-  overflow-y: auto;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-.my_courses::-webkit-scrollbar {
-  display: none;
-}
 
 .addmodule {
   width: 400px;

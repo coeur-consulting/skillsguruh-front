@@ -12,11 +12,11 @@
           class="
             justify-content-center
             align-items-center
-            h-100
+            banner_row
             overflow-hidden
           "
         >
-          <b-col md="6" sm="12" class="mb-3 mb-sm-0 top_b">
+          <b-col md="6" sm="12" class="mb-sm-0 top_b">
             <div class="banner-text">
               <h1 class="mb-4 mt-4 mt-sm-0">
                 Here you can truly have it all. A Social Learning Place!
@@ -787,9 +787,16 @@ img {
     background: var(--lighter-green);
   }
   .top_b {
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   .down_b {
-    height: 53%;
+    height: 50%;
+  }
+  .banner_row {
+    height: 100%;
   }
 }
 </style>
