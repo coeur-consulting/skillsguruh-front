@@ -8,15 +8,22 @@
       <span class="vector5"></span>
       <span class="vector6"></span>
       <b-container class="h-100 d-flex align-items-end">
-        <b-row class="justify-content-center align-items-center">
-          <b-col md="6" sm="12" class="mb-3 mb-sm-0">
+        <b-row
+          class="
+            justify-content-center
+            align-items-center
+            h-100
+            overflow-hidden
+          "
+        >
+          <b-col md="6" sm="12" class="mb-3 mb-sm-0 top_b">
             <div class="banner-text">
               <h1 class="mb-4 mt-4 mt-sm-0">
                 Here you can truly have it all. A Social Learning Place!
               </h1>
               <p>Enjoy a more engaging and organized virtual learning</p>
             </div>
-            <div class="banner-buttons d-sm-flex">
+            <div class="banner-buttons d-none d-sm-flex">
               <b-button
                 block
                 size="lg"
@@ -36,8 +43,28 @@
                 Connect & Learn</b-button
               >
             </div>
+            <div class="banner-buttons d-sm-none">
+              <b-button
+                block
+                size="sm"
+                variant="dark-green"
+                @click="$router.push('/explore')"
+                class="m-0 mr-3"
+              >
+                Explore Interest</b-button
+              >
+              <b-button
+                block
+                size="sm"
+                class="m-0"
+                variant="outline-dark-green"
+                @click="$router.push('/register')"
+              >
+                Connect & Learn</b-button
+              >
+            </div>
           </b-col>
-          <b-col md="6" class="position-relative">
+          <b-col md="6" class="position-relative down_b">
             <b-img
               class="
                 animate__animated animate__slideInUp animate__slow
@@ -399,6 +426,7 @@
 
 <style scoped lang="scss">
 #main {
+  max-width: 100vw;
   overflow-x: hidden;
 }
 #main ::-webkit-scrollbar {
@@ -757,6 +785,11 @@ img {
     height: 40px;
     font-size: 14px;
     background: var(--lighter-green);
+  }
+  .top_b {
+  }
+  .down_b {
+    height: 53%;
   }
 }
 </style>
