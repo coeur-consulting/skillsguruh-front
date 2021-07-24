@@ -212,10 +212,10 @@
                       </h6>
 
                       <div
-                        v-if="item.course.courseoutline"
+                        v-if="item.course"
                         class="fs13 text-truncate text-truncate--2"
                       >
-                        {{ item.description }}
+                        {{ item.course.description }}
                       </div>
                     </div>
                     <div class="info fs12">
