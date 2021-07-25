@@ -906,31 +906,31 @@
                     :key="index"
                   >
                     <div class="mb-1">
-                      <span class="fs14 mr-2">Time: </span>
+                      <span class="fs14 mr-2 text-muted">Time: </span>
                       <span class="text-sm font-weight-bold">
                         {{ item.start_time | moment("LT") }}</span
                       >
                     </div>
                     <div class="mb-1">
-                      <span class="fs14 mr-2">Date: </span>
+                      <span class="fs14 mr-2 text-muted">Date: </span>
                       <span class="text-sm font-weight-bold">
                         {{ item.start_time | moment("MMM DD, YYYY") }}</span
                       >
                     </div>
                     <div class="mb-1">
-                      <span class="fs14 mr-2">Venue: </span>
+                      <span class="fs14 mr-2 text-muted">Venue: </span>
                       <span class="text-sm font-weight-bold">
                         {{ item.venue ? item.venue : "None" }}</span
                       >
                     </div>
                     <div class="mb-1">
-                      <span class="fs14 mr-2">Url: </span>
+                      <span class="fs14 mr-2 text-muted">Url: </span>
                       <span class="text-sm font-weight-bold">
                         {{ item.url ? item.url : "None" }}</span
                       >
                     </div>
                     <div>
-                      <span class="fs14 mr-2">Facilitator: </span>
+                      <span class="fs14 mr-2 text-muted">Facilitator: </span>
                       <span
                         class="text-sm font-weight-bold"
                         v-if="item.facilitator_id != null"
@@ -1386,12 +1386,16 @@
                     class="p-1 bg-light"
                     role="tab"
                   >
-                    <div v-b-toggle="'file' + id" variant="info" class="fs13">
+                    <div
+                      v-b-toggle="'file' + id"
+                      variant="info"
+                      class="fs13 d-flex"
+                    >
                       <b-icon
                         icon="question-circle-fill"
                         class="mr-2 text-light-green"
                       ></b-icon>
-                      {{ item.question }}
+                      <span> {{ item.question }}</span>
                     </div>
                   </b-card-header>
                   <b-collapse
@@ -1400,13 +1404,13 @@
                     role="tabpanel"
                   >
                     <b-card-body>
-                      <b-card-text class="px-0 fs13">
+                      <b-card-text class="px-0 fs13 d-flex">
                         <b-icon
                           icon="check-circle-fill"
                           class="mr-2 text-light-green"
                         ></b-icon>
-                        {{ item.answer }}</b-card-text
-                      >
+                        <span>{{ item.answer }}</span>
+                      </b-card-text>
                     </b-card-body>
                   </b-collapse>
                 </b-card>
@@ -1424,31 +1428,31 @@
                   :key="index"
                 >
                   <div class="mb-1">
-                    <span class="fs14 mr-2">Time: </span>
+                    <span class="fs14 mr-2 text-muted">Time: </span>
                     <span class="text-sm font-weight-bold">
                       {{ item.start_time | moment("LT") }}</span
                     >
                   </div>
                   <div class="mb-1">
-                    <span class="fs14 mr-2">Date: </span>
+                    <span class="fs14 mr-2 text-muted">Date: </span>
                     <span class="text-sm font-weight-bold">
                       {{ item.start_time | moment("MMM DD, YYYY") }}</span
                     >
                   </div>
                   <div class="mb-1">
-                    <span class="fs14 mr-2">Venue: </span>
+                    <span class="fs14 mr-2 text-muted">Venue: </span>
                     <span class="text-sm font-weight-bold">
                       {{ item.venue ? item.venue : "None" }}</span
                     >
                   </div>
                   <div class="mb-1">
-                    <span class="fs14 mr-2">Url: </span>
+                    <span class="fs14 mr-2 text-muted">Url: </span>
                     <span class="text-sm font-weight-bold">
                       {{ item.url ? item.url : "None" }}</span
                     >
                   </div>
                   <div>
-                    <span class="fs14 mr-2">Facilitator: </span>
+                    <span class="fs14 mr-2 text-muted">Facilitator: </span>
                     <span
                       class="text-sm font-weight-bold"
                       v-if="item.facilitator_id != null"
@@ -1503,6 +1507,7 @@
               size="sm"
               variant="dark-green"
               @click="sendinvite(course.title)"
+              :disabled="sending"
             >
               Send Invite
             </b-button>
@@ -1632,6 +1637,7 @@ export default {
   data() {
     return {
       sideOpen: true,
+      sending: false,
       link: "",
       inviteUsers: {
         code: "",
@@ -1711,9 +1717,9 @@ export default {
   methods: {
     socialShare(course) {
       if (this.library.some((item) => item.id == course.id)) {
-        this.description = `I just enrolled for the course titled, ${course.title.toUpperCase()}. Check it out here!`;
+        this.description = `I just enrolled for the course titled, *${course.title}*. Check it out here!`;
       } else {
-        this.description = `Let's enroll for the course titled, ${course.title.toUpperCase()}. Check it out here!`;
+        this.description = `Let's enroll for the course titled, *${course.title}*. Check it out here!`;
       }
     },
     addcount(id) {
@@ -1804,9 +1810,9 @@ export default {
               )}&course_id=${course.id}`;
             }
             if (this.library.some((item) => item.course_id == course.id)) {
-              this.description = `I just enrolled for the course titled, ${course.title.toUpperCase()}. Check it out here!`;
+              this.description = `I just enrolled for the course titled, *${course.title}*. Check it out here!`;
             } else {
-              this.description = `Let's enroll for the course titled, ${course.title.toUpperCase()}. Check it out here!`;
+              this.description = `Let's enroll for the course titled, *${course.title}*. Check it out here!`;
             }
             this.$bvModal.show("share");
           }
@@ -1816,6 +1822,7 @@ export default {
         });
     },
     sendinvite(title) {
+      this.sending = true;
       this.inviteUsers.title = title;
       this.inviteUsers.url = this.message;
       this.$http
@@ -1827,6 +1834,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Invite Sent");
+            this.sending = false;
             this.$bvModal.hide("sharecourse");
             this.inviteUsers = {
               code: "",
@@ -1840,7 +1848,8 @@ export default {
           }
         })
         .catch(() => {
-          this.$toasted.error("Sending failed!");
+          this.sending = false;
+          this.$toast.error("Sending failed!");
         });
     },
     addinvite() {

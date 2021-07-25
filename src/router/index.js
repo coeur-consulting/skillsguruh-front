@@ -889,6 +889,21 @@ const routes = [
           title: "Home | Facilitator",
         },
       },
+      {
+        path: "interests",
+        name: "facilitator interests",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "facilitatorinterest" */ "@/components/InterestComponent.vue"
+            ),
+        },
+        props: { type: "facilitator" },
+        meta: {
+          typeFacilitator: true,
+          title: "Interest | Facilitator",
+        },
+      },
 
       {
         path: "modules/:id",

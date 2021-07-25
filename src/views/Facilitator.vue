@@ -30,24 +30,24 @@ export default {
   components: {
     SideBar,
     TopBar,
-    Insight
+    Insight,
   },
   beforeRouteEnter(to, from, next) {
-    next(vm => {
-      window.speechSynthesis.onvoiceschanged = function() {
+    next((vm) => {
+      window.speechSynthesis.onvoiceschanged = function () {
         var speech = window.speechSynthesis.getVoices();
         vm.$store.commit("SET_SPEECH", speech);
       };
     });
   },
   watch: {
-    $route: "getnotification"
+    $route: "getnotification",
   },
   created() {
     var channel = this.$pusher.subscribe("inbox");
     var notificationChannel = this.$pusher.subscribe("notifications");
 
-    channel.bind("inboxSent", data => {
+    channel.bind("inboxSent", (data) => {
       this.$store.commit("ADD_MESSAGE", data);
     });
     notificationChannel.bind("notificationSent", () => {
@@ -76,24 +76,24 @@ export default {
 
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             if (res.data.length == 1) {
-              if (!JSON.parse(this.$store.getters.facilitator)) {
+              if (!JSON.parse(this.$store.getters.facilitator.interests)) {
                 this.$bvModal.show("insight");
               }
             }
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

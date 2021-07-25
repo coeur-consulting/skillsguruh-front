@@ -51,7 +51,7 @@
               </div>
             </div>
 
-            <div class="">
+            <div class="" v-if="filter.length">
               <b-table-simple class="org_home_table text-left" responsive="sm">
                 <b-thead>
                   <b-tr class="text-left">
@@ -158,6 +158,22 @@
                 ></b-pagination>
               </div>
             </div>
+            <div v-else class="text-center admin_tab p-3 p-sm-5">
+              <div>
+                <b-img :src="require('@/assets/images/creator.svg')"></b-img>
+                <h6 class="text-muted my-3 fs14">
+                  It appears you havent added any template yet,
+                  <br class="d-none d-sm-block" />
+                  Create your first template now!
+                </h6>
+                <b-button
+                  @click="$bvModal.show('create')"
+                  variant="dark-green"
+                  size="lg"
+                  >Create Template</b-button
+                >
+              </div>
+            </div>
           </div>
         </b-col>
       </b-row>
@@ -208,17 +224,17 @@ export default {
       options: {
         grading: false,
         correct_answer: false,
-        time: false
-      }
+        time: false,
+      },
     };
   },
   components: {
-    CreateQuestion
+    CreateQuestion,
   },
   computed: {
     filter() {
       var questions = this.questionnaires
-        .filter(item =>
+        .filter((item) =>
           item.title.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
@@ -226,9 +242,9 @@ export default {
           this.perPage * this.currentPage
         );
       return this.team
-        ? questions.filter(item => item.status == "draft")
-        : questions.filter(item => item.status == "active");
-    }
+        ? questions.filter((item) => item.status == "draft")
+        : questions.filter((item) => item.status == "active");
+    },
   },
   mounted() {
     this.getquestionnaires();
@@ -252,16 +268,16 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/question/templates`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.questionnaires = res.data;
             this.rows = res.data.length;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -269,16 +285,16 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/question/drafts`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.drafts = res.data;
             this.rows = res.data.length;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -291,27 +307,27 @@ export default {
     },
 
     drop(id) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/question/templates/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-              }
+                Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+              },
             })
-            .then(res => {
+            .then((res) => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.getquestionnaires();
               }
             })
-            .catch(err => {
+            .catch((err) => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped lang="scss">
