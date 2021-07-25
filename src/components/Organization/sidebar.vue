@@ -75,7 +75,7 @@
         <b-icon
           icon="box-arrow-left"
           font-scale="1.1"
-          class="mr-3 text-dark-green"
+          class="mr-3 text-lemon"
         ></b-icon>
         <span class="side-link">Log out</span>
       </div>
@@ -139,14 +139,14 @@ export default {
   cursor: pointer;
 }
 .router-link-exact-active.router-link-active .side_item {
-  background: var(--lighter-green);
+  background: white;
   color: var(--dark-green);
 }
 
 .router-link-exact-active.router-link-active .side_item .b-icon.bi {
-  color: var(--dark-green) !important;
+  color: var(--dark-green);
 }
 .side_item:hover {
-  background: var(--lighter-green);
+  background: white;
 }
 </style>

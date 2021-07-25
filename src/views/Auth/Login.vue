@@ -133,7 +133,7 @@
               </b-form-group>
             </div>
             <div class="mb-2 d-flex">
-              <div class="fs14" @click="$router.push('/admin/login')">
+              <div class="fs14">
                 Login as an
                 <span
                   class="text-dark-green cursor-pointer"
