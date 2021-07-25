@@ -396,7 +396,7 @@
                     </b-dropdown>
                   </div>
                   <div class="text-left feed_text px-3">
-                    <div class="mb-2" v-html="feed.message"></div>
+                    <div class="mb-1" v-html="feed.message"></div>
 
                     <div v-if="feed.url" class="text-dark-green mb-1">
                       <a :href="feed.url" target="_blank">Click link</a>
