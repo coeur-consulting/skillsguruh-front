@@ -24,7 +24,7 @@
             </div>
           </div>
 
-          <div class="shadow bg-white">
+          <div class="shadow-sm bg-white">
             <div
               v-if="users.length"
               class="d-flex justify-content-between align-items-center p-3 e"

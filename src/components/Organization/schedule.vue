@@ -29,7 +29,7 @@
                       :class="{
                         'bg-success': item.status == 'ongoing',
                         'bg-danger': item.status == 'expired',
-                        'bg-primary': item.status == 'pending'
+                        'bg-primary': item.status == 'pending',
                       }"
                     >
                       {{ item.status }} event
@@ -65,7 +65,7 @@
                           <b-button
                             v-if="
                               $moment().isBefore(item.start) ||
-                                $moment().isAfter(item.end)
+                              $moment().isAfter(item.end)
                             "
                             pill
                             size="sm"
@@ -153,7 +153,7 @@
                               class="m_schedule p-2 rounded mr-3"
                               :style="{
                                 'background-color':
-                                  color[Math.floor(Math.random() * 5)]
+                                  color[Math.floor(Math.random() * 5)],
                               }"
                             >
                               <div
@@ -212,7 +212,7 @@
                               class="m_schedule p-2 rounded mr-3"
                               :style="{
                                 'background-color':
-                                  color[Math.floor(Math.random() * 5)]
+                                  color[Math.floor(Math.random() * 5)],
                               }"
                             >
                               <div
@@ -271,7 +271,7 @@
                               class="m_schedule p-2 rounded mr-3"
                               :style="{
                                 'background-color':
-                                  color[Math.floor(Math.random() * 5)]
+                                  color[Math.floor(Math.random() * 5)],
                               }"
                             >
                               <div
@@ -330,7 +330,7 @@
                               class="m_schedule p-2 rounded mr-3"
                               :style="{
                                 'background-color':
-                                  color[Math.floor(Math.random() * 5)]
+                                  color[Math.floor(Math.random() * 5)],
                               }"
                             >
                               <div
@@ -389,7 +389,7 @@
                               class="m_schedule p-2 rounded mr-3"
                               :style="{
                                 'background-color':
-                                  color[Math.floor(Math.random() * 5)]
+                                  color[Math.floor(Math.random() * 5)],
                               }"
                             >
                               <div
@@ -448,7 +448,7 @@
                               class="m_schedule p-2 rounded mr-3"
                               :style="{
                                 'background-color':
-                                  color[Math.floor(Math.random() * 5)]
+                                  color[Math.floor(Math.random() * 5)],
                               }"
                             >
                               <div
@@ -507,7 +507,7 @@
                               class="m_schedule p-2 rounded mr-3"
                               :style="{
                                 'background-color':
-                                  color[Math.floor(Math.random() * 5)]
+                                  color[Math.floor(Math.random() * 5)],
                               }"
                             >
                               <div
@@ -565,25 +565,6 @@
                   <b-img :src="require('@/assets/images/creator.svg')"></b-img>
                   <h6 class="text-muted my-3 fs14">
                     It appears you havent added any Schedule yet,
-                    <br class="d-none d-sm-block" />
-
-                    Have you set up your courses ?
-                    <span
-                      ><router-link
-                        class="text-dark-green"
-                        to="/facilitator/courses?action=setupcourse"
-                        >Set up Now</router-link
-                      ></span
-                    >
-                    <br />
-                    If You have <br />
-                    <b-button
-                      variant="dark-green"
-                      class="mt-4"
-                      size="sm"
-                      @click="$bvModal.show('add')"
-                      >Add a schedule now
-                    </b-button>
                   </h6>
                 </div>
               </div>
@@ -754,17 +735,17 @@ export default {
             url: "",
             start_time: new Date(),
             end_time: new Date(),
-            facilitator_id: null
-          }
-        ]
+            facilitator_id: null,
+          },
+        ],
       },
       masks: {
-        weekdays: "WWW"
-      }
+        weekdays: "WWW",
+      },
     };
   },
   components: {
-    PopoverRow
+    PopoverRow,
   },
   watch: {},
   created() {
@@ -787,7 +768,7 @@ export default {
           highlight: {
             start: { color: "teal", fillMode: "outline" },
             base: { color: "teal", fillMode: "light" },
-            end: { color: "teal", fillMode: "solid" }
+            end: { color: "teal", fillMode: "solid" },
           },
           dot: false,
           bar: false,
@@ -802,12 +783,12 @@ export default {
                 "weeks"
               ) + "weeks",
             type: "Course",
-            class: "bg-red-600 text-white"
+            class: "bg-red-600 text-white",
           },
           dates: {
             start: new Date(item.start_time),
-            end: new Date(item.end_time)
-          }
+            end: new Date(item.end_time),
+          },
         };
         return res;
       });
@@ -820,7 +801,7 @@ export default {
           highlight: {
             start: { color: "green", fillMode: "outline" },
             base: { color: "green", fillMode: "light" },
-            end: { color: "green", fillMode: "solid" }
+            end: { color: "green", fillMode: "solid" },
           },
           dot: false,
           bar: false,
@@ -831,9 +812,9 @@ export default {
             duration: item.schedule,
             type: item.type,
             url: item.url,
-            class: "bg-red-600 text-white"
+            class: "bg-red-600 text-white",
           },
-          dates: { start: new Date(item.start), end: new Date(item.end) }
+          dates: { start: new Date(item.start), end: new Date(item.end) },
         };
         return res;
       });
@@ -845,20 +826,22 @@ export default {
           highlight: item.highlight,
           popover: true,
           customData: item.customData,
-          dates: item.dates
+          dates: item.dates,
         };
         return res;
       });
     },
     comingevents() {
-      return this.events.filter(item => item.status !== "expired").slice(0, 5);
-    }
+      return this.events
+        .filter((item) => item.status !== "expired")
+        .slice(0, 5);
+    },
   },
   methods: {
     daySchedule(day) {
       if (this.joinedSchedule.length) {
         return this.joinedSchedule.filter(
-          item =>
+          (item) =>
             this.$moment(item.dates.start, "YYYY-MM-DD HH:mm:ss")
               .format("dddd")
               .toLowerCase() == day.toLowerCase() &&
@@ -871,7 +854,7 @@ export default {
     todaySchedule() {
       if (this.joinedSchedule.length) {
         return this.joinedSchedule.filter(
-          item =>
+          (item) =>
             this.$moment().isAfter(item.dates.start) &&
             this.$moment().isBefore(item.dates.end)
         );
@@ -885,7 +868,7 @@ export default {
         venue: "",
         start_time: new Date(),
         end_time: new Date(),
-        facilitator_id: null
+        facilitator_id: null,
       });
       this.current_schedule = this.detail.schedule.length - 1;
     },
@@ -903,13 +886,13 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/courseschedules`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.organization.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.schedules = res.data.filter(
-              item =>
+              (item) =>
                 this.$moment().isBefore(item.start_time) ||
                 this.$moment().isBefore(item.end_time)
             );
@@ -919,7 +902,7 @@ export default {
             this.showTable = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -927,15 +910,15 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.organization.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -944,15 +927,15 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/courses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.organization.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.courses = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -960,15 +943,15 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/events`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.organization.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
-            this.events = res.data.filter(item => item.status !== "expired");
+            this.events = res.data.filter((item) => item.status !== "expired");
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -977,10 +960,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/courseschedules`, this.detail, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.organization.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.$toast.success("Added successfully");
             this.$bvModal.hide("add");
@@ -991,11 +974,11 @@ export default {
               url: "",
               start_time: new Date(),
               end_time: new Date(),
-              facilitator_id: null
+              facilitator_id: null,
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           if (err.response.data.errors.email[0]) {
             this.$toast.error(err.response.data.errors.email[0]);
           }
@@ -1021,48 +1004,48 @@ export default {
           this.detail,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.organization.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Updated successfully");
             this.detail.schedule = {
               day: "",
               start_time: "",
               end_time: "",
-              facilitator_id: null
+              facilitator_id: null,
             };
             this.getschedules();
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
     drop(id) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/courseschedules/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.organization.access_token}`
-              }
+                Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+              },
             })
-            .then(res => {
+            .then((res) => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.getschedules();
               }
             })
-            .catch(err => {
+            .catch((err) => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped lang="scss">
@@ -1090,7 +1073,7 @@ td {
   justify-content: center;
   text-align: left;
 
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35);
+  box-shadow: 0 0.125rem 0.25rem rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;
   background: white;
 }

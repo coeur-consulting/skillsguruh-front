@@ -13,11 +13,11 @@ const routes = [
     components: {
       header: Header,
       default: Landing,
-      footer: Footer
+      footer: Footer,
     },
     meta: {
-      title: "Home | SkillsGuruh"
-    }
+      title: "Home | SkillsGuruh",
+    },
   },
 
   {
@@ -25,11 +25,11 @@ const routes = [
     name: "Register",
     components: {
       default: () =>
-        import(/* webpackChunkName: "Register" */ "../views/Auth/Register.vue")
+        import(/* webpackChunkName: "Register" */ "../views/Auth/Register.vue"),
     },
     meta: {
-      title: "Register | SkillsGuruh"
-    }
+      title: "Register | SkillsGuruh",
+    },
   },
   {
     path: "/auth/:provider/callback",
@@ -38,18 +38,18 @@ const routes = [
       default: () =>
         import(
           /* webpackChunkName: "Register" */ "../views/Auth/SocialLogin.vue"
-        )
-    }
+        ),
+    },
   },
   {
     path: "/login",
     name: "Login",
     components: {
       default: () =>
-        import(/* webpackChunkName: "Login" */ "../views/Auth/Login.vue")
+        import(/* webpackChunkName: "Login" */ "../views/Auth/Login.vue"),
     },
     meta: {
-      title: "Login | SkillsGuruh"
+      title: "Login | SkillsGuruh",
     },
     beforeEnter: (to, from, next) => {
       if (localStorage.getItem("authLearner")) {
@@ -83,17 +83,17 @@ const routes = [
       } else {
         next();
       }
-    }
+    },
   },
   {
     path: "/Admin/login",
     name: "Admin Login",
     components: {
       default: () =>
-        import(/* webpackChunkName: "Login" */ "../views/Auth/OrgLogin.vue")
+        import(/* webpackChunkName: "Login" */ "../views/Auth/OrgLogin.vue"),
     },
     meta: {
-      title: "Admin Login | SkillsGuruh"
+      title: "Admin Login | SkillsGuruh",
     },
     beforeEnter: (to, from, next) => {
       if (localStorage.getItem("authAdmin")) {
@@ -113,7 +113,7 @@ const routes = [
       } else {
         next();
       }
-    }
+    },
   },
   {
     path: "/transaction",
@@ -124,11 +124,11 @@ const routes = [
         import(
           /* webpackChunkName: "transaction" */ "@/components/transaction.vue"
         ),
-      footer: Footer
+      footer: Footer,
     },
     meta: {
-      title: "Transaction | SkillsGuruh"
-    }
+      title: "Transaction | SkillsGuruh",
+    },
   },
   {
     path: "/explore",
@@ -137,11 +137,11 @@ const routes = [
       header: Header,
       default: () =>
         import(/* webpackChunkName: "about" */ "../views/Explore.vue"),
-      footer: Footer
+      footer: Footer,
     },
     meta: {
-      title: "Explore | SkillsGuruh"
-    }
+      title: "Explore | SkillsGuruh",
+    },
   },
   {
     path: "/explore/courses",
@@ -150,11 +150,11 @@ const routes = [
       header: Header,
       default: () =>
         import(/* webpackChunkName: "ExploreCourses" */ "../views/Courses.vue"),
-      footer: Footer
+      footer: Footer,
     },
     meta: {
-      title: "Explore courses | SkillsGuruh"
-    }
+      title: "Explore courses | SkillsGuruh",
+    },
   },
   {
     path: "/about",
@@ -163,11 +163,11 @@ const routes = [
       header: Header,
       default: () =>
         import(/* webpackChunkName: "about" */ "../views/About.vue"),
-      footer: Footer
+      footer: Footer,
     },
     meta: {
-      title: "About | SkillsGuruh"
-    }
+      title: "About | SkillsGuruh",
+    },
   },
   {
     path: "/interests/:interest",
@@ -178,11 +178,11 @@ const routes = [
         import(
           /* webpackChunkName: "interests" */ "../views/InterestContent.vue"
         ),
-      footer: Footer
+      footer: Footer,
     },
     meta: {
-      title: "Interests | SkillsGuruh"
-    }
+      title: "Interests | SkillsGuruh",
+    },
   },
   {
     path: "/discussion/:id",
@@ -191,11 +191,11 @@ const routes = [
       header: Header,
       default: () =>
         import(/* webpackChunkName: "about" */ "../views/Discussion.vue"),
-      footer: Footer
+      footer: Footer,
     },
     meta: {
-      title: "Discussion | SkillsGuruh"
-    }
+      title: "Discussion | SkillsGuruh",
+    },
   },
   {
     path: "/event/:id",
@@ -204,11 +204,11 @@ const routes = [
       header: Header,
       default: () =>
         import(/* webpackChunkName: "about" */ "../views/Event.vue"),
-      footer: Footer
+      footer: Footer,
     },
     meta: {
-      title: "Event | SkillsGuruh"
-    }
+      title: "Event | SkillsGuruh",
+    },
   },
   {
     path: "/order",
@@ -217,11 +217,11 @@ const routes = [
       header: Header,
       default: () =>
         import(/* webpackChunkName: "about" */ "@/components/order"),
-      footer: Footer
+      footer: Footer,
     },
     meta: {
-      title: "Order | SkillsGuruh"
-    }
+      title: "Order | SkillsGuruh",
+    },
   },
   {
     path: "/feeds",
@@ -230,11 +230,11 @@ const routes = [
       header: Header,
       default: () =>
         import(/* webpackChunkName: "feeds" */ "../views/Feeds.vue"),
-      footer: Footer
+      footer: Footer,
     },
     meta: {
-      title: "Feeds | SkillsGuruh"
-    }
+      title: "Feeds | SkillsGuruh",
+    },
   },
   {
     path: "/events",
@@ -243,11 +243,11 @@ const routes = [
       header: Header,
       default: () =>
         import(/* webpackChunkName: "events" */ "../views/Events.vue"),
-      footer: Footer
+      footer: Footer,
     },
     meta: {
-      title: "Events | SkillsGuruh"
-    }
+      title: "Events | SkillsGuruh",
+    },
   },
   {
     path: "/discussions",
@@ -258,11 +258,11 @@ const routes = [
         import(
           /* webpackChunkName: "discussions" */ "../views/Discussions.vue"
         ),
-      footer: Footer
+      footer: Footer,
     },
     meta: {
-      title: "Discussion | SkillsGuruh"
-    }
+      title: "Discussion | SkillsGuruh",
+    },
   },
   {
     path: "/contact",
@@ -271,11 +271,11 @@ const routes = [
       header: Header,
       default: () =>
         import(/* webpackChunkName: "contact" */ "../views/Contact.vue"),
-      footer: Footer
+      footer: Footer,
     },
     meta: {
-      title: "Contact us | SkillsGuruh"
-    }
+      title: "Contact us | SkillsGuruh",
+    },
   },
   {
     path: "/quiz",
@@ -283,11 +283,11 @@ const routes = [
     components: {
       header: Header,
       default: () => import(/* webpackChunkName: "quiz" */ "../views/Quiz.vue"),
-      footer: Footer
+      footer: Footer,
     },
     meta: {
-      title: "Quiz | SkillsGuruh"
-    }
+      title: "Quiz | SkillsGuruh",
+    },
   },
   {
     path: "/assessment",
@@ -296,11 +296,11 @@ const routes = [
       header: Header,
       default: () =>
         import(/* webpackChunkName: "Assessment" */ "../views/Assessment.vue"),
-      footer: Footer
+      footer: Footer,
     },
     meta: {
-      title: "Asseeement | SkillsGuruh"
-    }
+      title: "Asseeement | SkillsGuruh",
+    },
   },
   {
     path: "/auth/:provider/callback",
@@ -309,11 +309,11 @@ const routes = [
       header: Header,
       default: () =>
         import(/* webpackChunkName: "callback" */ "../views/Auth.vue"),
-      footer: Footer
+      footer: Footer,
     },
     meta: {
-      title: "Loading | SkillsGuruh"
-    }
+      title: "Loading | SkillsGuruh",
+    },
   },
 
   {
@@ -323,7 +323,7 @@ const routes = [
       default: () =>
         import(
           /* webpackChunkName: "organization" */ "../views/Organization.vue"
-        )
+        ),
     },
 
     children: [
@@ -334,12 +334,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "organizationdashboard" */ "@/components/Organization/home.vue"
-            )
+            ),
         },
         meta: {
           typeOrg: true,
-          title: "Admins - Organization"
-        }
+          title: "Home - Organization",
+        },
       },
       {
         path: "admins",
@@ -348,12 +348,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "organizationadmins" */ "@/components/Organization/admins.vue"
-            )
+            ),
         },
         meta: {
           typeOrg: true,
-          title: "Admins - Organization"
-        }
+          title: "Admins - Organization",
+        },
       },
       {
         path: "admin",
@@ -362,12 +362,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "organizationadmin" */ "@/components/Organization/admin.vue"
-            )
+            ),
         },
         meta: {
           typeOrg: true,
-          title: "Admin - Organization"
-        }
+          title: "Admin - Organization",
+        },
       },
       {
         path: "facilitators",
@@ -376,12 +376,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "organizationfacilitators" */ "@/components/Organization/facilitators.vue"
-            )
+            ),
         },
         meta: {
           typeOrg: true,
-          title: "Facilitators - Organization"
-        }
+          title: "Facilitators - Organization",
+        },
       },
       {
         path: "facilitator",
@@ -390,12 +390,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "organizationfacilitator" */ "@/components/Organization/facilitator.vue"
-            )
+            ),
         },
         meta: {
           typeOrg: true,
-          title: "Facilitator - Organization"
-        }
+          title: "Facilitator - Organization",
+        },
       },
       {
         path: "learners",
@@ -404,12 +404,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "organizationlearners" */ "@/components/Organization/learners.vue"
-            )
+            ),
         },
         meta: {
           typeOrg: true,
-          title: "Learners - Organization"
-        }
+          title: "Learners - Organization",
+        },
       },
       {
         path: "learner",
@@ -418,12 +418,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "organizationlearner" */ "@/components/Organization/learner.vue"
-            )
+            ),
         },
         meta: {
           typeOrg: true,
-          title: "Learner - Organization"
-        }
+          title: "Learner - Organization",
+        },
       },
       {
         path: "schedule",
@@ -432,14 +432,14 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "organizationschedule" */ "@/components/Organization/schedule.vue"
-            )
+            ),
         },
         meta: {
           typeOrg: true,
-          title: "Schedule - Organization"
-        }
-      }
-    ]
+          title: "Schedule - Organization",
+        },
+      },
+    ],
   },
 
   {
@@ -449,7 +449,7 @@ const routes = [
       default: () =>
         import(
           /* webpackChunkName: "administrator" */ "../views/Administrator.vue"
-        )
+        ),
     },
 
     children: [
@@ -460,12 +460,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratordashboard" */ "@/components/Administrator/home.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Home | Administrator"
-        }
+          title: "Home | Administrator",
+        },
       },
 
       {
@@ -475,12 +475,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratorfacilitators" */ "@/components/Administrator/facilitators.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Facilitators | Administrator"
-        }
+          title: "Facilitators | Administrator",
+        },
       },
       {
         path: "team",
@@ -489,12 +489,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratorteam" */ "@/components/Administrator/team.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Team | Administrator"
-        }
+          title: "Team | Administrator",
+        },
       },
       {
         path: "question/templates",
@@ -503,12 +503,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratorquestions" */ "@/components/Administrator/templates.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Templates | Administrator"
-        }
+          title: "Templates | Administrator",
+        },
       },
       {
         path: "question/template/:id",
@@ -517,12 +517,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratorquestionnaireview" */ "@/components/Administrator/Templates/view.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Template | Administrator"
-        }
+          title: "Template | Administrator",
+        },
       },
       {
         path: "question/template/edit/:id",
@@ -531,12 +531,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratoreditt" */ "@/components/Administrator/Templates/edit.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Edit Template | Administrator"
-        }
+          title: "Edit Template | Administrator",
+        },
       },
       {
         path: "questionnaire",
@@ -545,12 +545,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratorquestionnaire" */ "@/components/Administrator/Questionnaire/create.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Questionnaire | Administrator"
-        }
+          title: "Questionnaire | Administrator",
+        },
       },
       {
         path: "questionnaires",
@@ -559,12 +559,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratorquestionnaires" */ "@/components/Administrator/Questionnaire/index.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Questionnaires | Administrator"
-        }
+          title: "Questionnaires | Administrator",
+        },
       },
       {
         path: "questionnaire/edit/:id",
@@ -573,12 +573,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratorquestionnaireedit" */ "@/components/Administrator/Questionnaire/edit.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Edit Questionnaire | Administrator"
-        }
+          title: "Edit Questionnaire | Administrator",
+        },
       },
       {
         path: "questionnaire/view/:id",
@@ -587,12 +587,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratorquestionnaireview" */ "@/components/Administrator/Questionnaire/view.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "View Questionnaire | Administrator"
-        }
+          title: "View Questionnaire | Administrator",
+        },
       },
       {
         path: "facilitator",
@@ -601,12 +601,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratorfacilitator" */ "@/components/Administrator/facilitator.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Facilitator | Administrator"
-        }
+          title: "Facilitator | Administrator",
+        },
       },
 
       {
@@ -616,12 +616,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratormodules" */ "@/components/Administrator/modules.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Modules | Administrator"
-        }
+          title: "Modules | Administrator",
+        },
       },
       {
         path: "learners",
@@ -630,12 +630,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratorlearners" */ "@/components/Administrator/learners.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Learners | Administrator"
-        }
+          title: "Learners | Administrator",
+        },
       },
       {
         path: "learner",
@@ -644,12 +644,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratorlearner" */ "@/components/Administrator/learner.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Learner | Administrator"
-        }
+          title: "Learner | Administrator",
+        },
       },
       {
         path: "schedule",
@@ -658,12 +658,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratorschedule" */ "@/components/Administrator/schedule.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Schedule | Administrator"
-        }
+          title: "Schedule | Administrator",
+        },
       },
       {
         path: "discussions",
@@ -672,12 +672,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratordiscussions" */ "@/components/Administrator/discussions.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Discussions | Administrator"
-        }
+          title: "Discussions | Administrator",
+        },
       },
       {
         path: "discussion/:id",
@@ -686,12 +686,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratordiscussion" */ "@/components/Administrator/discussion.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Discussion | Administrator"
-        }
+          title: "Discussion | Administrator",
+        },
       },
       {
         path: "feeds",
@@ -700,12 +700,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratorfeeds" */ "@/components/Administrator/feeds.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Feeds | Administrator"
-        }
+          title: "Feeds | Administrator",
+        },
       },
       {
         path: "courses",
@@ -714,12 +714,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratorcourses" */ "@/components/Administrator/courses.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Courses | Administrator"
-        }
+          title: "Courses | Administrator",
+        },
       },
       {
         path: "outlines",
@@ -728,12 +728,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratoroutlines" */ "@/components/Administrator/outlines.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Modules | Administrator"
-        }
+          title: "Modules | Administrator",
+        },
       },
       {
         path: "outline/:id",
@@ -742,12 +742,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratoroutline" */ "@/components/Administrator/outline.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Module | Administrator"
-        }
+          title: "Module | Administrator",
+        },
       },
       {
         path: "events",
@@ -756,12 +756,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratorevents" */ "@/components/Administrator/events.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Events | Administrator"
-        }
+          title: "Events | Administrator",
+        },
       },
       {
         path: "event/:id",
@@ -770,12 +770,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratorevent" */ "@/components/Administrator/event.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Event | Administrator"
-        }
+          title: "Event | Administrator",
+        },
       },
       {
         path: "connections",
@@ -784,12 +784,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratorconnections" */ "@/components/Administrator/connections.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Connections | Administrator"
-        }
+          title: "Connections | Administrator",
+        },
       },
       {
         path: "referrals",
@@ -798,12 +798,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratorreferrals" */ "@/components/Administrator/referrals.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Refferals | Administrator"
-        }
+          title: "Refferals | Administrator",
+        },
       },
       {
         path: "insights",
@@ -812,12 +812,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratorinsights" */ "@/components/Administrator/insights.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Insight | Administrator"
-        }
+          title: "Insight | Administrator",
+        },
       },
       {
         path: "bonuses",
@@ -826,12 +826,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratorbonuses" */ "@/components/Administrator/bonuses.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Bonuses | Administrator"
-        }
+          title: "Bonuses | Administrator",
+        },
       },
       {
         path: "profile",
@@ -840,12 +840,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratorprofile" */ "@/components/Administrator/profile.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "Profile | Administrator"
-        }
+          title: "Profile | Administrator",
+        },
       },
       {
         path: "view/:type/:id",
@@ -854,14 +854,14 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Administratorview" */ "@/components/Administrator/viewProfile.vue"
-            )
+            ),
         },
         meta: {
           typeAdmin: true,
-          title: "View profile | Administrator"
-        }
-      }
-    ]
+          title: "View profile | Administrator",
+        },
+      },
+    ],
   },
 
   {
@@ -869,7 +869,9 @@ const routes = [
 
     components: {
       default: () =>
-        import(/* webpackChunkName: "facilitator" */ "../views/Facilitator.vue")
+        import(
+          /* webpackChunkName: "facilitator" */ "../views/Facilitator.vue"
+        ),
     },
 
     children: [
@@ -880,12 +882,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "facilitatordashboard" */ "@/components/Facilitator/home.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Home | Facilitator"
-        }
+          title: "Home | Facilitator",
+        },
       },
 
       {
@@ -895,12 +897,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "facilitatorsmodules" */ "@/components/Facilitator/modules.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Modules | Facilitator"
-        }
+          title: "Modules | Facilitator",
+        },
       },
       {
         path: "questionnaire",
@@ -909,12 +911,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatorquestionnaire" */ "@/components/Facilitator/Questionnaire/create.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Questionnaire | Facilitator"
-        }
+          title: "Questionnaire | Facilitator",
+        },
       },
       {
         path: "question/templates",
@@ -923,12 +925,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatorquestions" */ "@/components/Facilitator/templates.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Templates | Facilitator"
-        }
+          title: "Templates | Facilitator",
+        },
       },
       {
         path: "question/template/:id",
@@ -937,12 +939,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatorquestionnaireview" */ "@/components/Facilitator/Templates/view.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Template | Facilitator"
-        }
+          title: "Template | Facilitator",
+        },
       },
       {
         path: "question/template/edit/:id",
@@ -951,12 +953,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatoreditt" */ "@/components/Facilitator/Templates/edit.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Edit template | Facilitator"
-        }
+          title: "Edit template | Facilitator",
+        },
       },
       {
         path: "assessments",
@@ -965,12 +967,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatorassessments" */ "@/components/Facilitator/assessments.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Assessments | Facilitator"
-        }
+          title: "Assessments | Facilitator",
+        },
       },
       {
         path: "assessment/:type",
@@ -979,12 +981,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatorassessment" */ "@/components/Facilitator/assessment.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Assessment | Facilitator"
-        }
+          title: "Assessment | Facilitator",
+        },
       },
       {
         path: "assessment/list/:id",
@@ -993,12 +995,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatorassessmentlist" */ "@/components/Facilitator/assessmentList.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Assessment List | Facilitator"
-        }
+          title: "Assessment List | Facilitator",
+        },
       },
       {
         path: "questionnaires",
@@ -1007,12 +1009,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatorquestionnaires" */ "@/components/Facilitator/Questionnaire/index.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Questionnaire | Facilitator"
-        }
+          title: "Questionnaire | Facilitator",
+        },
       },
       {
         path: "questionnaire/edit/:id",
@@ -1021,12 +1023,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatorquestionnaireedit" */ "@/components/Facilitator/Questionnaire/edit.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Edit questionnaire | Facilitator"
-        }
+          title: "Edit questionnaire | Facilitator",
+        },
       },
       {
         path: "questionnaire/view/:id",
@@ -1035,12 +1037,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "facilitatorsquestionnaireview" */ "@/components/Facilitator/Questionnaire/view.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "View Questionnaire | Facilitator"
-        }
+          title: "View Questionnaire | Facilitator",
+        },
       },
       {
         path: "attendances",
@@ -1049,12 +1051,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "facilitatorsattendances" */ "@/components/Facilitator/attendances.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Attendance | Facilitator"
-        }
+          title: "Attendance | Facilitator",
+        },
       },
       {
         path: "team",
@@ -1063,12 +1065,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "facilitatorlearners" */ "@/components/Facilitator/team.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Team | Facilitator"
-        }
+          title: "Team | Facilitator",
+        },
       },
       {
         path: "facilitator",
@@ -1077,12 +1079,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "facilitator" */ "@/components/Facilitator/facilitator.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Facilitator| Facilitator"
-        }
+          title: "Facilitator| Facilitator",
+        },
       },
       {
         path: "profile/:user/:id",
@@ -1091,12 +1093,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "facilitator" */ "@/components/Facilitator/facilitator.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "View profile | Facilitator"
-        }
+          title: "View profile | Facilitator",
+        },
       },
       {
         path: "learners",
@@ -1105,12 +1107,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "facilitatorlearners" */ "@/components/Facilitator/learners.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "View Learners | Facilitator"
-        }
+          title: "View Learners | Facilitator",
+        },
       },
       {
         path: "learner",
@@ -1119,12 +1121,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatorlearner" */ "@/components/Facilitator/learner.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "View Learner | Facilitator"
-        }
+          title: "View Learner | Facilitator",
+        },
       },
       {
         path: "schedule",
@@ -1133,12 +1135,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatorschedule" */ "@/components/Facilitator/schedule.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Schedule | Facilitator"
-        }
+          title: "Schedule | Facilitator",
+        },
       },
       {
         path: "discussions",
@@ -1147,12 +1149,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatordiscussions" */ "@/components/Facilitator/discussions.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Discussion | Facilitator"
-        }
+          title: "Discussion | Facilitator",
+        },
       },
       {
         path: "discussion/:id",
@@ -1161,12 +1163,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatordiscussion" */ "@/components/Facilitator/discussion.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Discussion | Facilitator"
-        }
+          title: "Discussion | Facilitator",
+        },
       },
       {
         path: "feeds",
@@ -1175,12 +1177,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatorfeeds" */ "@/components/Facilitator/feeds.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Feeds | Facilitator"
-        }
+          title: "Feeds | Facilitator",
+        },
       },
       {
         path: "courses",
@@ -1189,12 +1191,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatorcourses" */ "@/components/Facilitator/courses.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Courses | Facilitator"
-        }
+          title: "Courses | Facilitator",
+        },
       },
       {
         path: "course/:id",
@@ -1203,12 +1205,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatorcourse" */ "@/components/Facilitator/course.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "View Course | Facilitator"
-        }
+          title: "View Course | Facilitator",
+        },
       },
 
       {
@@ -1218,12 +1220,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatoroutlines" */ "@/components/Facilitator/outlines.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Modules | Facilitator"
-        }
+          title: "Modules | Facilitator",
+        },
       },
       {
         path: "outline/:id",
@@ -1232,12 +1234,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatoroutline" */ "@/components/Facilitator/outline.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "View module | Facilitator"
-        }
+          title: "View module | Facilitator",
+        },
       },
       {
         path: "events",
@@ -1246,12 +1248,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatorevents" */ "@/components/Facilitator/events.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "View Events | Facilitator"
-        }
+          title: "View Events | Facilitator",
+        },
       },
       {
         path: "event/:id",
@@ -1260,12 +1262,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatorevent" */ "@/components/Facilitator/event.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "View Event | Facilitator"
-        }
+          title: "View Event | Facilitator",
+        },
       },
       {
         path: "connections",
@@ -1274,12 +1276,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatorconnections" */ "@/components/Facilitator/connections.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Connections | Facilitator"
-        }
+          title: "Connections | Facilitator",
+        },
       },
       {
         path: "referrals",
@@ -1288,12 +1290,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatorreferrals" */ "@/components/Facilitator/referrals.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Referrals| Facilitator"
-        }
+          title: "Referrals| Facilitator",
+        },
       },
       {
         path: "insights",
@@ -1302,12 +1304,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatorinsights" */ "@/components/Facilitator/insights.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Insight| Facilitator"
-        }
+          title: "Insight| Facilitator",
+        },
       },
       {
         path: "bonuses",
@@ -1316,12 +1318,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatorbonuses" */ "@/components/Facilitator/bonuses.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "Bonuses | Facilitator"
-        }
+          title: "Bonuses | Facilitator",
+        },
       },
       {
         path: "profile",
@@ -1330,12 +1332,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatorprofile" */ "@/components/Facilitator/profile.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "View Profile | Facilitator"
-        }
+          title: "View Profile | Facilitator",
+        },
       },
       {
         path: "view/:type/:id",
@@ -1344,14 +1346,14 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Facilitatorview" */ "@/components/Facilitator/viewProfile.vue"
-            )
+            ),
         },
         meta: {
           typeFacilitator: true,
-          title: "View Profile | Facilitator"
-        }
-      }
-    ]
+          title: "View Profile | Facilitator",
+        },
+      },
+    ],
   },
 
   {
@@ -1359,7 +1361,7 @@ const routes = [
 
     components: {
       default: () =>
-        import(/* webpackChunkName: "Learner" */ "../views/Learner.vue")
+        import(/* webpackChunkName: "Learner" */ "../views/Learner.vue"),
     },
 
     children: [
@@ -1370,12 +1372,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerdashboard" */ "@/components/Learner/home.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Home | Learner"
-        }
+          title: "Home | Learner",
+        },
       },
 
       {
@@ -1385,12 +1387,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerfacilitators" */ "@/components/Learner/facilitators.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "View Facilitators | Learner"
-        }
+          title: "View Facilitators | Learner",
+        },
       },
       {
         path: "profile/:user/:id",
@@ -1399,12 +1401,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerfacilitators" */ "@/components/Learner/facilitator.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "View Profile | Learner"
-        }
+          title: "View Profile | Learner",
+        },
       },
       {
         path: "assessments",
@@ -1413,12 +1415,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerassessments" */ "@/components/Learner/assessments.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Assessments | Learner"
-        }
+          title: "Assessments | Learner",
+        },
       },
       {
         path: "assessment/:type",
@@ -1427,12 +1429,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerassessment" */ "@/components/Learner/learnerassessment.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Assessment | Learner"
-        }
+          title: "Assessment | Learner",
+        },
       },
       {
         path: "solve/assessment/quiz/:id",
@@ -1441,12 +1443,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnersolvequiz" */ "@/components/Learner/AnswerTemplates/quiz.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Solve Quiz | Learner"
-        }
+          title: "Solve Quiz | Learner",
+        },
       },
       {
         path: "solve/assessment/:id",
@@ -1455,12 +1457,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnersolveassessment " */ "@/components/Learner/AnswerTemplates/others.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Solve Assessment | Learner"
-        }
+          title: "Solve Assessment | Learner",
+        },
       },
       {
         path: "facilitator",
@@ -1469,12 +1471,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerfacilitator" */ "@/components/Learner/facilitator.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "View Facilitator | Learner"
-        }
+          title: "View Facilitator | Learner",
+        },
       },
       {
         path: "order",
@@ -1483,12 +1485,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerfacilitator" */ "@/components/Learner/order.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Order | Learner"
-        }
+          title: "Order | Learner",
+        },
       },
       {
         path: "transaction",
@@ -1497,12 +1499,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnertransaction" */ "@/components/Learner/transaction.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Transaction | Learner"
-        }
+          title: "Transaction | Learner",
+        },
       },
       {
         path: "questionnaire/:id/:module_id/:course_id",
@@ -1511,12 +1513,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerfacilitator" */ "@/components/Learner/viewQuestionnaire.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Questionnaire | Learner"
-        }
+          title: "Questionnaire | Learner",
+        },
       },
       {
         path: "solve/template/:id/:module_id/:course_id",
@@ -1525,12 +1527,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerfacilitator" */ "@/components/Learner/viewQuestionnaire.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Solve | Learner"
-        }
+          title: "Solve | Learner",
+        },
       },
       {
         path: "learners",
@@ -1539,12 +1541,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "learners" */ "@/components/Learner/learners.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "View Learners | Learner"
-        }
+          title: "View Learners | Learner",
+        },
       },
       {
         path: "learner",
@@ -1553,12 +1555,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "learner" */ "@/components/Learner/learner.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "View Learner | Learner"
-        }
+          title: "View Learner | Learner",
+        },
       },
       {
         path: "schedule",
@@ -1567,12 +1569,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerschedule" */ "@/components/Learner/schedule.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Schedule | Learner"
-        }
+          title: "Schedule | Learner",
+        },
       },
       {
         path: "library",
@@ -1581,12 +1583,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerlibrary" */ "@/components/Learner/library.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Library | Learner"
-        }
+          title: "Library | Learner",
+        },
       },
       {
         path: "discussions",
@@ -1595,12 +1597,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerdiscussions" */ "@/components/Learner/discussions.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Discussions | Learner"
-        }
+          title: "Discussions | Learner",
+        },
       },
       {
         path: "discussion/:id",
@@ -1609,12 +1611,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerdiscussion" */ "@/components/Learner/discussion.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Discussion | Learner"
-        }
+          title: "Discussion | Learner",
+        },
       },
       {
         path: "feeds",
@@ -1623,12 +1625,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerfeeds" */ "@/components/Learner/feeds.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Feeds | Learner"
-        }
+          title: "Feeds | Learner",
+        },
       },
       {
         path: "courses",
@@ -1637,12 +1639,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnercourses" */ "@/components/Learner/courses.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Courses | Learner"
-        }
+          title: "Courses | Learner",
+        },
       },
       {
         path: "course/:id",
@@ -1651,12 +1653,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnercourse" */ "@/components/Learner/course.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Course | Learner"
-        }
+          title: "Course | Learner",
+        },
       },
 
       {
@@ -1666,12 +1668,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learneroutlines" */ "@/components/Learner/outlines.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Modules | Learner"
-        }
+          title: "Modules | Learner",
+        },
       },
       {
         path: "outline/:id",
@@ -1680,12 +1682,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learneroutline" */ "@/components/Learner/outline.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Module | Learner"
-        }
+          title: "Module | Learner",
+        },
       },
       {
         path: "events",
@@ -1694,12 +1696,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerevents" */ "@/components/Learner/events.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Events | Learner"
-        }
+          title: "Events | Learner",
+        },
       },
       {
         path: "event/:id",
@@ -1708,12 +1710,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerevent" */ "@/components/Learner/event.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Event | Learner"
-        }
+          title: "Event | Learner",
+        },
       },
       {
         path: "connections",
@@ -1722,12 +1724,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerconnections" */ "@/components/Learner/connections.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Connections | Learner"
-        }
+          title: "Connections | Learner",
+        },
       },
       {
         path: "referrals",
@@ -1736,12 +1738,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerreferrals" */ "@/components/Learner/referrals.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Referrals | Learner"
-        }
+          title: "Referrals | Learner",
+        },
       },
       {
         path: "insights",
@@ -1750,12 +1752,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerinsights" */ "@/components/Learner/insights.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Insight | Learner"
-        }
+          title: "Insight | Learner",
+        },
       },
       {
         path: "bonuses",
@@ -1764,12 +1766,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerbonuses" */ "@/components/Learner/bonuses.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Bonuses | Learner"
-        }
+          title: "Bonuses | Learner",
+        },
       },
       {
         path: "profile",
@@ -1778,12 +1780,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerprofile" */ "@/components/Learner/profile.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Profile | Learner"
-        }
+          title: "Profile | Learner",
+        },
       },
       {
         path: "media/:id",
@@ -1792,12 +1794,12 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnermedia" */ "@/components/Learner/Media/index.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "Media | Learner"
-        }
+          title: "Media | Learner",
+        },
       },
       {
         path: "view/:type/:id",
@@ -1806,25 +1808,25 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Learnerview" */ "@/components/Learner/viewProfile.vue"
-            )
+            ),
         },
         meta: {
           typeLearner: true,
-          title: "View Profile | Learner"
-        }
-      }
-    ]
+          title: "View Profile | Learner",
+        },
+      },
+    ],
   },
   {
     path: "/course/:id",
     name: "course",
     components: {
       default: () =>
-        import(/* webpackChunkName: "course" */ "@/components/course.vue")
+        import(/* webpackChunkName: "course" */ "@/components/course.vue"),
     },
     meta: {
-      title: "Course | Learner"
-    }
+      title: "Course | Learner",
+    },
   },
   {
     path: "/question",
@@ -1833,11 +1835,11 @@ const routes = [
       default: () =>
         import(
           /* webpackChunkName: "question" */ "@/components/Questionnaire/index.vue"
-        )
+        ),
     },
     meta: {
-      title: "Questionnaire | Learner"
-    }
+      title: "Questionnaire | Learner",
+    },
   },
 
   {
@@ -1847,11 +1849,11 @@ const routes = [
       header: Header,
       default: () =>
         import(/* webpackChunkName: "Invite" */ "../views/Invite.vue"),
-      footer: Footer
+      footer: Footer,
     },
     meta: {
-      title: "Event | SkillsGuruh"
-    }
+      title: "Event | SkillsGuruh",
+    },
   },
 
   {
@@ -1861,18 +1863,18 @@ const routes = [
       header: Header,
       default: () =>
         import(/* webpackChunkName: "404pages" */ "../views/NotFound.vue"),
-      footer: Footer
+      footer: Footer,
     },
     meta: {
-      title: "Not Found | SkillsGuruh"
-    }
-  }
+      title: "Not Found | SkillsGuruh",
+    },
+  },
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
 });
 
 router.beforeEach((to, from, next) => {

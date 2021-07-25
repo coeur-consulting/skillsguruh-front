@@ -549,7 +549,10 @@ ol.subquest {
 .my_courses::-webkit-scrollbar {
   display: none;
 }
-
+.wrapper {
+  position: relative;
+  width: 95%;
+}
 @media (max-width: 600px) {
   .my_courses {
     height: 100%;

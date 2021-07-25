@@ -207,9 +207,9 @@ export default {
     };
   },
   mounted() {
-    this.$route.query.auth
-      ? (this.type = this.$route.query.auth)
-      : (this.type = "organization");
+    // if (this.$route.query.auth) {
+    //   this.type = this.$route.query.auth;
+    // }
   },
   methods: {
     getUpload(val) {

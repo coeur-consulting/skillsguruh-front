@@ -9,17 +9,22 @@
       title="Create feed"
       size="md"
     >
-      <div class="wrapper mb-2">
-        <b-form-input
-          class="rounded-pill stat border-0"
-          size="lg"
-          v-model="feed.message"
-          :placeholder="'Whats on your mind ' + $store.getters.admin.name + '?'"
-        ></b-form-input>
+      <div class="mb-4">
+        <div class="wrapper mb-2">
+          <b-form-textarea
+            rows="3"
+            class="rounded stat border-0"
+            size="lg"
+            v-model="feed.message"
+            :placeholder="
+              'Whats on your mind ' + $store.getters.admin.name + '?'
+            "
+          ></b-form-textarea>
+        </div>
         <emoji-picker
+          class="d-none d-md-block"
           @emoji="insertfeed"
           :search="search"
-          class="d-none d-md-block"
         >
           <div
             class="emoji-invoker"
@@ -408,10 +413,10 @@
                   <div class="text-left feed_text px-3">
                     <div class="mb-2" v-html="feed.message"></div>
 
-                    <div v-if="feed.url" class="text-dark-green">
+                    <div v-if="feed.url" class="text-dark-green mb-1">
                       <a :href="feed.url" target="_blank">Click link</a>
                     </div>
-                    <div v-if="feed.tags" class="px-1">
+                    <div v-if="feed.tags" class="px-2 mb-1">
                       <b-row class="justify-content-start">
                         <b-col
                           cols="auto"
@@ -420,10 +425,10 @@
                           :key="id"
                         >
                           <b-badge
-                            class="fs10 text-black-50"
+                            class="fs10 text-dark-green"
                             size="sm"
                             variant="lighter-green"
-                            >#{{ tag.text }}</b-badge
+                            >{{ tag.text }}</b-badge
                           >
                         </b-col>
                       </b-row>
@@ -438,11 +443,7 @@
                         "
                         :publicId="feed.publicId"
                       >
-                        <cld-transformation
-                          aspectRatio="4:3"
-                          crop="fill"
-                          quality="auto"
-                        />
+                        <cld-transformation crop="fill" quality="auto" />
                         <cld-transformation width="auto" crop="scale" />
                         <cld-transformation dpr="auto" />
                       </cld-image>
@@ -1004,10 +1005,7 @@ export default {
 .stat {
   height: 50px;
 }
-.wrapper {
-  position: relative;
-  width: 100%;
-}
+
 .text-post {
   width: 85%;
   margin-left: auto;

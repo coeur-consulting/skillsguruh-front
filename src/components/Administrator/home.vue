@@ -5,7 +5,7 @@
         <b-col md="8">
           <b-row class="mb-5 mb-sm-5">
             <b-col sm="6">
-              <div class="box p-3 shadow">
+              <div class="box p-3 shadow-sm">
                 <div
                   class="
                     w-100
@@ -54,7 +54,7 @@
               </div>
             </b-col>
             <b-col sm="6">
-              <div class="box p-3 shadow">
+              <div class="box p-3 shadow-sm">
                 <div
                   class="
                     d-flex
@@ -167,17 +167,17 @@ export default {
       events: [],
       schedules: [],
       masks: {
-        weekdays: "WWW"
+        weekdays: "WWW",
       },
       showLearner: false,
       showFacilitator: false,
-      showTable: false
+      showTable: false,
     };
   },
   components: {
     FacilitatorTab,
     Todo,
-    ActivityIcon
+    ActivityIcon,
   },
   watch: {},
   created() {
@@ -191,14 +191,14 @@ export default {
   computed: {
     newlyfacilitators() {
       return this.facilitators.filter(
-        item =>
+        (item) =>
           new Date(item.created_at).getMonth() == new Date().getMonth() &&
           new Date(item.created_at).getFullYear() == new Date().getFullYear()
       ).length;
     },
     newlyusers() {
       return this.users.filter(
-        item =>
+        (item) =>
           new Date(item.created_at).getMonth() == new Date().getMonth() &&
           new Date(item.created_at).getFullYear() == new Date().getFullYear()
       ).length;
@@ -211,7 +211,7 @@ export default {
           highlight: {
             start: { color: "teal", fillMode: "outline" },
             base: { color: "teal", fillMode: "light" },
-            end: { color: "teal", fillMode: "solid" }
+            end: { color: "teal", fillMode: "solid" },
           },
           dot: false,
           bar: false,
@@ -225,12 +225,12 @@ export default {
                 "weeks"
               ) + "weeks",
             type: "Course",
-            class: "bg-red-600 text-white"
+            class: "bg-red-600 text-white",
           },
           dates: {
             start: new Date(item.start_time),
-            end: new Date(item.end_time)
-          }
+            end: new Date(item.end_time),
+          },
         };
         return res;
       });
@@ -243,7 +243,7 @@ export default {
           highlight: {
             start: { color: "green", fillMode: "outline" },
             base: { color: "green", fillMode: "light" },
-            end: { color: "green", fillMode: "solid" }
+            end: { color: "green", fillMode: "solid" },
           },
           dot: false,
           bar: false,
@@ -253,9 +253,9 @@ export default {
             title: item.title,
             duration: item.schedule,
             type: item.type,
-            class: "bg-red-600 text-white"
+            class: "bg-red-600 text-white",
           },
-          dates: { start: new Date(item.start), end: new Date(item.end) }
+          dates: { start: new Date(item.start), end: new Date(item.end) },
         };
         return res;
       });
@@ -267,26 +267,26 @@ export default {
           highlight: item.highlight,
           popover: true,
           customData: item.customData,
-          dates: item.dates
+          dates: item.dates,
         };
         return res;
       });
-    }
+    },
   },
   methods: {
     async getevents() {
       return this.$http
         .get(`${this.$store.getters.url}/events`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
-            this.events = res.data.filter(item => item.status !== "expired");
+            this.events = res.data.filter((item) => item.status !== "expired");
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -294,16 +294,16 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/courseschedules`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.schedules = res.data;
             this.rows = res.data.length;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -311,15 +311,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/todos`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.todos = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -327,16 +327,16 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/admin-get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.facilitators = res.data;
             this.showFacilitator = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -344,20 +344,20 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/admin-get-users`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.users = res.data;
             this.showLearner = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped lang="scss">

@@ -138,7 +138,7 @@ export default {
       series: [33, 33, 33],
       chartOptions: {
         chart: {
-          type: "pie"
+          type: "pie",
         },
         colors: ["#377f87", "#3d96a5", "#6beed1"],
         labels: ["Learners", "Facilitators", "Administrators"],
@@ -148,54 +148,54 @@ export default {
             options: {
               chart: {},
               legend: {
-                position: "bottom"
-              }
-            }
-          }
-        ]
+                position: "bottom",
+              },
+            },
+          },
+        ],
       },
 
       series1: [
         {
           name: "Inflation",
-          data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2]
-        }
+          data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2],
+        },
       ],
       chartOptions1: {
         chart: {
           height: 350,
           type: "bar",
-          toolbar: false
+          toolbar: false,
         },
         colors: ["#377f87"],
         plotOptions: {
           bar: {
             borderRadius: 10,
             dataLabels: {
-              position: "top" // top, center, bottom
-            }
-          }
+              position: "top", // top, center, bottom
+            },
+          },
         },
         dataLabels: {
           enabled: true,
-          formatter: function(val) {
+          formatter: function (val) {
             return val + "%";
           },
           offsetY: -20,
           style: {
             fontSize: "12px",
-            colors: ["#304758"]
-          }
+            colors: ["#304758"],
+          },
         },
 
         xaxis: {
           categories: ["Learners", "Facilitators", "Administrators"],
           position: "top",
           axisBorder: {
-            show: false
+            show: false,
           },
           axisTicks: {
-            show: false
+            show: false,
           },
           crosshairs: {
             fill: {
@@ -205,27 +205,27 @@ export default {
                 colorTo: "#BED1E6",
                 stops: [0, 100],
                 opacityFrom: 0.4,
-                opacityTo: 0.5
-              }
-            }
+                opacityTo: 0.5,
+              },
+            },
           },
           tooltip: {
-            enabled: true
-          }
+            enabled: true,
+          },
         },
         yaxis: {
           axisBorder: {
-            show: false
+            show: false,
           },
           axisTicks: {
-            show: false
+            show: false,
           },
           labels: {
             show: false,
-            formatter: function(val) {
+            formatter: function (val) {
               return val + "%";
-            }
-          }
+            },
+          },
         },
         title: {
           text: "Monthly Inflation in Argentina, 2002",
@@ -233,19 +233,19 @@ export default {
           offsetY: 330,
           align: "center",
           style: {
-            color: "#444"
-          }
-        }
-      }
+            color: "#444",
+          },
+        },
+      },
     };
   },
   components: {
-    AdminTab
+    AdminTab,
   },
   watch: {
     users: "initPie",
     admins: "initPie",
-    facilitators: "initPie"
+    facilitators: "initPie",
   },
   mounted() {
     this.getadmins();
@@ -255,40 +255,40 @@ export default {
   computed: {
     newlyadmins() {
       return this.admins.filter(
-        item =>
+        (item) =>
           new Date(item.created_at).getMonth() == new Date().getMonth() &&
           new Date(item.created_at).getFullYear() == new Date().getFullYear()
       ).length;
     },
     newlyfacilitators() {
       return this.facilitators.filter(
-        item =>
+        (item) =>
           new Date(item.created_at).getMonth() == new Date().getMonth() &&
           new Date(item.created_at).getFullYear() == new Date().getFullYear()
       ).length;
     },
     newlyusers() {
       return this.users.filter(
-        item =>
+        (item) =>
           new Date(item.created_at).getMonth() == new Date().getMonth() &&
           new Date(item.created_at).getFullYear() == new Date().getFullYear()
       ).length;
-    }
+    },
   },
   methods: {
     getadmins() {
       this.$http
         .get(`${this.$store.getters.url}/get-admins`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.organization.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.admins = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -296,15 +296,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.organization.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -312,15 +312,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/get-users`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.organization.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.users = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -328,11 +328,11 @@ export default {
       this.series = [
         this.users.length,
         this.facilitators.length,
-        this.admins.length
+        this.admins.length,
       ];
       this.chartOptions = {
         chart: {
-          type: "pie"
+          type: "pie",
         },
         colors: ["#377f87", "#3d96a5", "#6beed1"],
         labels: ["Learners", "Facilitators", "Administrators"],
@@ -342,11 +342,11 @@ export default {
             options: {
               chart: {},
               legend: {
-                position: "bottom"
-              }
-            }
-          }
-        ]
+                position: "bottom",
+              },
+            },
+          },
+        ],
       };
       this.initLine();
     },
@@ -357,12 +357,12 @@ export default {
           data: [
             this.users.length,
             this.facilitators.length,
-            this.admins.length
-          ]
-        }
+            this.admins.length,
+          ],
+        },
       ];
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped lang="scss">
@@ -401,7 +401,7 @@ export default {
 //   color: white !important;
 // }
 .shadow {
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
+  box-shadow: 0 0.125rem 0.25rem rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;
 }
 .search.form-control {
@@ -416,14 +416,14 @@ export default {
 }
 .tob_1 {
   min-height: 200px;
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
+  box-shadow: 0 0.125rem 0.25rem rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;
   padding: 20px;
   background: white;
 }
 .tob_2 {
   min-height: 200px;
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
+  box-shadow: 0 0.125rem 0.25rem rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;
   padding: 20px;
   background: white;
