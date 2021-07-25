@@ -172,18 +172,12 @@
           <b-form-row class="px-1">
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Knowledge area*">
-                <b-form-select
-                  required
-                  class="text-capitalize"
+                <model-select
+                  :options="options"
                   v-model="detail.outline.knowledge_area"
+                  placeholder="select area"
                 >
-                  <b-form-select-option
-                    :value="ins"
-                    v-for="(ins, id) in insight"
-                    :key="id"
-                    >{{ ins.value }}</b-form-select-option
-                  >
-                </b-form-select>
+                </model-select>
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
@@ -749,18 +743,12 @@
           <b-form-row class="px-1">
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Knowledge area*">
-                <b-form-select
-                  class="text-capitalize"
+                <model-select
+                  :options="options"
                   v-model="detail.outline.knowledge_area"
-                  required
+                  placeholder="select area"
                 >
-                  <b-form-select-option
-                    :value="ins"
-                    v-for="(ins, id) in insight"
-                    :key="id"
-                    >{{ ins.value }}</b-form-select-option
-                  >
-                </b-form-select>
+                </model-select>
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
@@ -2643,6 +2631,7 @@ import Upload from "@/components/fileupload.vue";
 import Insight from "../insight.js";
 import Editor from "@tinymce/tinymce-vue";
 import draggable from "vuedraggable";
+import { ModelSelect } from "vue-search-select";
 export default {
   data() {
     return {
@@ -2720,17 +2709,30 @@ export default {
       currentPage: 1,
       rows: null,
       perPage: 12,
+      options: [],
+      searchText: "", // If value is falsy, reset searchText & searchItem
+      items: [],
+      lastSelectItem: {},
     };
   },
   components: {
     Upload,
     Editor,
     draggable,
+    ModelSelect,
   },
   mounted() {
     this.getcourses();
     this.getfacilitators();
     this.insight = Insight;
+    this.options = Insight.map((item) => {
+      var res = {};
+      res.text = item.value;
+      res.value = item.value;
+      res.color = item.color;
+      res.icon = item.icon;
+      return res;
+    });
     this.$root.$on("bv::modal::hide", (bvEvent, modalId) => {
       if (modalId == "addcourse" || modalId == "update") {
         this.type = 1;
