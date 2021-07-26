@@ -583,8 +583,8 @@
               >
                 <b-card
                   no-body
-                  class="mb-4"
-                  v-for="(item, id) in course.modules"
+                  class="mb-1"
+                  v-for="(item, id) in JSON.parse(course.courseoutline.modules)"
                   :key="id"
                 >
                   <b-card-header
@@ -605,26 +605,51 @@
                     accordion="my-accordion"
                     role="tabpanel"
                   >
-                    <b-card-body
-                      v-for="(mod, index) in JSON.parse(item.modules)"
-                      :key="index"
+                    <div
+                      v-if="
+                        course.modules.some(
+                          (i) =>
+                            i.module.toLowerCase() == item.module.toLowerCase()
+                        )
+                      "
                     >
-                      <b-card-text class="d-flex text-capitalize"
-                        ><span class="flex-1">{{ mod.title }}</span>
-                        <span v-if="mod.file_type == 'video'"
-                          ><b-icon icon="camera-video-fill"></b-icon
-                        ></span>
-                        <span v-else-if="mod.file_type == 'audio'"
-                          ><b-icon icon="music-note-beamed"></b-icon
-                        ></span>
-                        <span v-else
-                          ><b-icon
-                            icon="file-earmark-richtext-fill"
-                          ></b-icon> </span
-                      ></b-card-text>
-                      <h6 class="fs12 font-weight-bold mb-2">Overview</h6>
-                      <b-card-text class="fs12">{{ mod.overview }}</b-card-text>
-                    </b-card-body>
+                      <b-card-body>
+                        <div
+                          v-for="(mod, index) in JSON.parse(
+                            course.modules.find(
+                              (i) =>
+                                i.module.toLowerCase() ==
+                                item.module.toLowerCase()
+                            ).modules
+                          )"
+                          :key="index"
+                          class="mb-2"
+                        >
+                          <b-card-text class="d-flex text-capitalize mb-1"
+                            ><span class="flex-1">{{ mod.title }}</span>
+                            <span v-if="mod.file_type == 'video'"
+                              ><b-icon icon="camera-video-fill"></b-icon
+                            ></span>
+                            <span v-else-if="mod.file_type == 'audio'"
+                              ><b-icon icon="music-note-beamed"></b-icon
+                            ></span>
+                            <span v-else
+                              ><b-icon
+                                icon="file-earmark-richtext-fill"
+                              ></b-icon> </span
+                          ></b-card-text>
+                          <h6 class="fs12 font-weight-bold mb-2">Overview</h6>
+                          <b-card-text class="fs12">{{
+                            mod.overview
+                          }}</b-card-text>
+                        </div>
+                      </b-card-body>
+                    </div>
+                    <div v-else>
+                      <b-card-body>
+                        <b-card-text>N/A</b-card-text>
+                      </b-card-body>
+                    </div>
                   </b-collapse>
                 </b-card>
               </div>
@@ -701,33 +726,33 @@
                     :key="index"
                   >
                     <div class="mb-1">
-                      <span class="fs14 mr-2">Time: </span>
-                      <span class="text-sm font-weight-bold">
+                      <span class="fs14 mr-2 text-muted">Time: </span>
+                      <span class="text-sm">
                         {{ item.start_time | moment("LT") }}</span
                       >
                     </div>
                     <div class="mb-1">
-                      <span class="fs14 mr-2">Date: </span>
-                      <span class="text-sm font-weight-bold">
+                      <span class="fs14 mr-2 text-muted">Date: </span>
+                      <span class="text-sm">
                         {{ item.start_time | moment("MMM DD, YYYY") }}</span
                       >
                     </div>
                     <div class="mb-1">
-                      <span class="fs14 mr-2">Venue: </span>
-                      <span class="text-sm font-weight-bold">
+                      <span class="fs14 mr-2 text-muted">Venue: </span>
+                      <span class="text-sm">
                         {{ item.venue ? item.venue : "None" }}</span
                       >
                     </div>
                     <div class="mb-1">
-                      <span class="fs14 mr-2">Url: </span>
-                      <span class="text-sm font-weight-bold">
+                      <span class="fs14 mr-2 text-muted">Url: </span>
+                      <span class="text-sm">
                         {{ item.url ? item.url : "None" }}</span
                       >
                     </div>
                     <div>
-                      <span class="fs14 mr-2">Facilitator: </span>
+                      <span class="fs14 mr-2 text-muted">Facilitator: </span>
                       <span
-                        class="text-sm font-weight-bold"
+                        class="text-sm"
                         v-if="item.facilitator_id != null"
                         >{{
                           facilitators.find(
@@ -1069,8 +1094,8 @@
           <div class="accordion" role="tablist" v-if="course.modules.length">
             <b-card
               no-body
-              class="mb-4"
-              v-for="(item, id) in course.modules"
+              class="mb-1"
+              v-for="(item, id) in JSON.parse(course.courseoutline.modules)"
               :key="id"
             >
               <b-card-header
@@ -1088,26 +1113,47 @@
                 accordion="my-accordion"
                 role="tabpanel"
               >
-                <b-card-body
-                  v-for="(mod, index) in JSON.parse(item.modules)"
-                  :key="index"
+                <div
+                  v-if="
+                    course.modules.some(
+                      (i) => i.module.toLowerCase() == item.module.toLowerCase()
+                    )
+                  "
                 >
-                  <b-card-text class="d-flex text-capitalize"
-                    ><span class="flex-1">{{ mod.title }}</span>
-                    <span v-if="mod.file_type == 'video'"
-                      ><b-icon icon="camera-video-fill"></b-icon
-                    ></span>
-                    <span v-else-if="mod.file_type == 'audio'"
-                      ><b-icon icon="music-note-beamed"></b-icon
-                    ></span>
-                    <span v-else
-                      ><b-icon
-                        icon="file-earmark-richtext-fill"
-                      ></b-icon> </span
-                  ></b-card-text>
-                  <h6 class="fs12 font-weight-bold mb-2">Overview</h6>
-                  <b-card-text class="fs12">{{ mod.overview }}</b-card-text>
-                </b-card-body>
+                  <b-card-body>
+                    <div
+                      v-for="(mod, index) in JSON.parse(
+                        course.modules.find(
+                          (i) =>
+                            i.module.toLowerCase() == item.module.toLowerCase()
+                        ).modules
+                      )"
+                      :key="index"
+                      class="mb-2"
+                    >
+                      <b-card-text class="d-flex text-capitalize mb-1"
+                        ><span class="flex-1">{{ mod.title }}</span>
+                        <span v-if="mod.file_type == 'video'"
+                          ><b-icon icon="camera-video-fill"></b-icon
+                        ></span>
+                        <span v-else-if="mod.file_type == 'audio'"
+                          ><b-icon icon="music-note-beamed"></b-icon
+                        ></span>
+                        <span v-else
+                          ><b-icon
+                            icon="file-earmark-richtext-fill"
+                          ></b-icon> </span
+                      ></b-card-text>
+                      <h6 class="fs12 font-weight-bold mb-2">Overview</h6>
+                      <b-card-text class="fs12">{{ mod.overview }}</b-card-text>
+                    </div>
+                  </b-card-body>
+                </div>
+                <div v-else>
+                  <b-card-body>
+                    <b-card-text>N/A</b-card-text>
+                  </b-card-body>
+                </div>
               </b-collapse>
             </b-card>
           </div>
@@ -1118,7 +1164,7 @@
               :key="index"
             >
               <b-icon icon="check2-circle" variant="light-green"></b-icon>
-              {{ item }}
+              {{ item.module }}
             </div>
           </div>
         </div>
@@ -1144,7 +1190,11 @@
                   class="p-1 bg-light"
                   role="tab"
                 >
-                  <div v-b-toggle="'file' + id" variant="info" class="fs13">
+                  <div
+                    v-b-toggle="'file' + id"
+                    variant="info"
+                    class="fs13 d-flex"
+                  >
                     <b-icon
                       icon="question-circle-fill"
                       class="mr-2 text-light-green"
@@ -1158,7 +1208,7 @@
                   role="tabpanel"
                 >
                   <b-card-body>
-                    <b-card-text class="px-0 fs13">
+                    <b-card-text class="px-0 fs13 d-flex">
                       <b-icon
                         icon="check-circle-fill"
                         class="mr-2 text-light-green"
@@ -1182,39 +1232,35 @@
                 :key="index"
               >
                 <div class="mb-1">
-                  <span class="fs14 mr-2">Time: </span>
-                  <span class="text-sm font-weight-bold">
+                  <span class="fs14 mr-2 text-muted">Time: </span>
+                  <span class="text-sm">
                     {{ item.start_time | moment("LT") }}</span
                   >
                 </div>
                 <div class="mb-1">
-                  <span class="fs14 mr-2">Date: </span>
-                  <span class="text-sm font-weight-bold">
+                  <span class="fs14 mr-2 text-muted">Date: </span>
+                  <span class="text-sm">
                     {{ item.start_time | moment("MMM DD, YYYY") }}</span
                   >
                 </div>
                 <div class="mb-1">
-                  <span class="fs14 mr-2">Venue: </span>
-                  <span class="text-sm font-weight-bold">
+                  <span class="fs14 mr-2 text-muted">Venue: </span>
+                  <span class="text-sm">
                     {{ item.venue ? item.venue : "None" }}</span
                   >
                 </div>
                 <div class="mb-1">
-                  <span class="fs14 mr-2">Url: </span>
-                  <span class="text-sm font-weight-bold">
+                  <span class="fs14 mr-2 text-muted">Url: </span>
+                  <span class="text-sm">
                     {{ item.url ? item.url : "None" }}</span
                   >
                 </div>
                 <div>
-                  <span class="fs14 mr-2">Facilitator: </span>
-                  <span
-                    class="text-sm font-weight-bold"
-                    v-if="item.facilitator_id != null"
-                    >{{
-                      facilitators.find((val) => val.id == item.facilitator_id)
-                        .name
-                    }}</span
-                  >
+                  <span class="fs14 mr-2 text-muted">Facilitator: </span>
+                  <span class="text-sm" v-if="item.facilitator_id != null">{{
+                    facilitators.find((val) => val.id == item.facilitator_id)
+                      .name
+                  }}</span>
                   <span v-else class="text-sm">Unavailable</span>
                 </div>
               </b-col>

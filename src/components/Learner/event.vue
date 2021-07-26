@@ -558,6 +558,7 @@ export default {
         .then((res) => {
           if (res.status == 201) {
             this.checkEvent = res.data;
+            this.getevent();
             this.$toast.success("Event scheduled");
           }
         })
