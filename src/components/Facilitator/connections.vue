@@ -111,7 +111,7 @@
                 <b-avatar class="mr-2" size="2rem"></b-avatar>
                 <div style="line-height: 1.2">
                   <div class="connection_name">{{ item.name }}</div>
-                  <div class="fsconnection_email12 text-muted">
+                  <div class="connection_email text-muted">
                     {{ item.email }}
                   </div>
                 </div>
