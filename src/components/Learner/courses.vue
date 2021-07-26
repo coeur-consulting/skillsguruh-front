@@ -2409,10 +2409,6 @@ p {
   font-size: 13px;
 }
 
-.addmodule {
-  width: 400px;
-}
-
 .overview {
   font-size: 13px;
   color: rgba($color: #000000, $alpha: 0.54);
