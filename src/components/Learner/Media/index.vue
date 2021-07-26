@@ -8,7 +8,7 @@
               <AudioMedia v-if="type == 'audio'" :media="media" />
               <VideoMedia v-if="type == 'video'" :media="media" />
               <PdfMedia v-if="type == 'document'" :media="media" />
-              <div v-if="type == 'template'" class="pr-sm-3">
+              <div v-if="type == 'worksheet'" class="pr-sm-3">
                 <div
                   v-if="
                     myquestionnaire.find(
@@ -183,7 +183,7 @@
                               role="tabpanel"
                             >
                               <b-card-body
-                                class="py-1 mb-4"
+                                class="py-1 mb-2"
                                 :class="{
                                   'border-bottom':
                                     JSON.parse(item.modules).length > 1,
@@ -226,7 +226,7 @@
                                     ><b-icon icon="play-fill"></b-icon>
                                     {{
                                       mod.file_type == "document" ||
-                                      mod.file_type == "template"
+                                      mod.file_type == "worksheet"
                                         ? "View"
                                         : "Play"
                                     }}</b-button
@@ -238,10 +238,10 @@
                                 class="py-1 pt-2"
                                 v-if="
                                   JSON.parse(item.modules).filter(
-                                    (item) => item.file_type == 'template'
+                                    (item) => item.file_type == 'worksheet'
                                   ) &&
                                   JSON.parse(item.modules).filter(
-                                    (item) => item.file_type == 'template'
+                                    (item) => item.file_type == 'worksheet'
                                   ).length
                                 "
                               >
@@ -251,7 +251,7 @@
                                   v-for="(mod, index) in JSON.parse(
                                     item.modules
                                   ).filter(
-                                    (item) => item.file_type == 'template'
+                                    (item) => item.file_type == 'worksheet'
                                   )"
                                   :key="index"
                                 >
@@ -491,7 +491,7 @@
                   :disabled="id + 1 <= Number(current)"
                   :checked="id + 1 <= Number(current)"
                 >
-                  <div variant="info">
+                  <div class="w-100">
                     <b-icon
                       icon="check2-circle"
                       class="mr-2"
