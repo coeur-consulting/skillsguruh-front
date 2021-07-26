@@ -1319,8 +1319,8 @@
             <div class="accordion" role="tablist" v-if="course.modules.length">
               <b-card
                 no-body
-                class="mb-4"
-                v-for="(item, id) in course.modules"
+                class="mb-1"
+                v-for="(item, id) in JSON.parse(course.courseoutline.modules)"
                 :key="id"
               >
                 <b-card-header
@@ -1338,26 +1338,51 @@
                   accordion="my-accordion"
                   role="tabpanel"
                 >
-                  <b-card-body
-                    v-for="(mod, index) in JSON.parse(item.modules)"
-                    :key="index"
+                  <div
+                    v-if="
+                      course.modules.some(
+                        (i) =>
+                          i.module.toLowerCase() == item.module.toLowerCase()
+                      )
+                    "
                   >
-                    <b-card-text class="d-flex text-capitalize"
-                      ><span class="flex-1">{{ mod.title }}</span>
-                      <span v-if="mod.file_type == 'video'"
-                        ><b-icon icon="camera-video-fill"></b-icon
-                      ></span>
-                      <span v-else-if="mod.file_type == 'audio'"
-                        ><b-icon icon="music-note-beamed"></b-icon
-                      ></span>
-                      <span v-else
-                        ><b-icon
-                          icon="file-earmark-richtext-fill"
-                        ></b-icon> </span
-                    ></b-card-text>
-                    <h6 class="fs12 font-weight-bold mb-2">Overview</h6>
-                    <b-card-text class="fs12">{{ mod.overview }}</b-card-text>
-                  </b-card-body>
+                    <b-card-body>
+                      <div
+                        v-for="(mod, index) in JSON.parse(
+                          course.modules.find(
+                            (i) =>
+                              i.module.toLowerCase() ==
+                              item.module.toLowerCase()
+                          ).modules
+                        )"
+                        :key="index"
+                        class="mb-2"
+                      >
+                        <b-card-text class="d-flex text-capitalize mb-1"
+                          ><span class="flex-1">{{ mod.title }}</span>
+                          <span v-if="mod.file_type == 'video'"
+                            ><b-icon icon="camera-video-fill"></b-icon
+                          ></span>
+                          <span v-else-if="mod.file_type == 'audio'"
+                            ><b-icon icon="music-note-beamed"></b-icon
+                          ></span>
+                          <span v-else
+                            ><b-icon
+                              icon="file-earmark-richtext-fill"
+                            ></b-icon> </span
+                        ></b-card-text>
+                        <h6 class="fs12 font-weight-bold mb-2">Overview</h6>
+                        <b-card-text class="fs12">{{
+                          mod.overview
+                        }}</b-card-text>
+                      </div>
+                    </b-card-body>
+                  </div>
+                  <div v-else>
+                    <b-card-body>
+                      <b-card-text>N/A</b-card-text>
+                    </b-card-body>
+                  </div>
                 </b-collapse>
               </b-card>
             </div>
