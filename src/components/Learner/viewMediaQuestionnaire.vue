@@ -60,226 +60,258 @@
                   </div>
                   <div
                     v-if="
-                      question.type == 'short' &&
-                        !question.asPlaceholders &&
-                        !question.addSubQuestion
+                      (question.type == 'short' || question.type == 'long') &&
+                      !question.addSubQuestion
                     "
                   >
-                    <b-form-input
-                      @change="handleResponse"
-                      v-model="question.response"
-                      :placeholder="question.placeholder"
-                    ></b-form-input>
-                  </div>
-                  <div
-                    v-if="
-                      question.type == 'long' &&
-                        !question.asPlaceholders &&
-                        !question.addSubQuestion
-                    "
-                  >
-                    <b-form-textarea
-                      @change="handleResponse"
-                      v-model="question.response"
-                      :placeholder="question.placeholder"
-                    ></b-form-textarea>
-                  </div>
-                  <!-- <div v-if="question.type == 'multiple'">
-                      <div
-                        v-for="(item, id) in question.options"
-                        :key="id"
-                        class="d-flex align-items-center mb-1"
-                      >
-                        <b-form-input
-                          v-model="item.title"
-                          :placeholder="question.placeholder"
-                        ></b-form-input>
-                        <b-button-group>
-                          <b-button
-                            v-if="
-                              questionnaire.sections[section].questions[index]
-                                .options.length > 1
-                            "
-                            @click="
-                              questionnaire.sections[section].questions[
-                                index
-                              ].options.splice(id, 1)
-                            "
-                          >
-                            <b-icon icon="x"></b-icon
-                          ></b-button>
-                          <b-button
-                            variant="lighter-green"
-                            @click="addoption(index)"
-                          >
-                            <b-icon icon="plus"></b-icon
-                          ></b-button>
-                        </b-button-group>
-                      </div>
-                    </div> -->
-
-                  <div v-if="question.type == 'multiple'">
                     <div
                       v-for="(place, idp) in question.placeholders"
                       :key="idp"
                     >
                       <b-form-input
-                        class="mb-1"
+                        v-if="question.type == 'short'"
                         @change="handleResponse"
-                        size="sm"
                         v-model="place.response"
+                        class="mb-1"
+                        size="sm"
                         :placeholder="place.placeholder"
                       ></b-form-input>
-                      <!-- <b-form-textarea
-                          v-if="question.type == 'long'"
-                          class="mb-1"
-                          @change="handleResponse"
-                          v-model="place.response"
-                          :placeholder="place.placeholder"
-                        ></b-form-textarea> -->
-                    </div>
-                  </div>
-
-                  <div v-if="question.addSubQuestion">
-                    <div
-                      v-for="(subquest, subId) in question.subQuestion"
-                      :key="subId"
-                    >
-                      <b-form-group :label="subquest.question">
-                        <div
-                          v-for="(res, resId) in subquest.responses"
-                          :key="resId"
-                        >
-                          <b-form-input
-                            class="mb-1"
-                            v-if="question.type == 'short'"
-                            @change="handleResponse"
-                            size="sm"
-                            v-model="res.response"
-                            :placeholder="subquest.placeholder"
-                          ></b-form-input>
-                          <b-form-textarea
-                            v-if="question.type == 'long'"
-                            class="mb-1"
-                            @change="handleResponse"
-                            v-model="res.response"
-                            :placeholder="subquest.placeholder"
-                          ></b-form-textarea>
-                        </div>
-                      </b-form-group>
+                      <b-form-textarea
+                        @change="handleResponse"
+                        v-model="place.response"
+                        v-if="question.type == 'long'"
+                        class="mb-1"
+                        :placeholder="place.placeholder"
+                      ></b-form-textarea>
                     </div>
                   </div>
 
                   <div v-if="question.type == 'single'">
                     <b-form-radio-group
-                      size="sm"
-                      @change="handleResponse"
                       v-model="question.response"
+                      @change="handleResponse"
+                      size="sm"
+                      v-if="question.options[0].value"
                       :options="question.options"
-                      value-field="title"
-                      text-field="title"
+                      value-field="value"
+                      text-field="value"
                     ></b-form-radio-group>
                   </div>
 
                   <div v-if="question.type == 'checkbox'">
-                    <div>
+                    <div v-if="question.options[0].value">
                       <b-form-checkbox
-                        size="sm"
                         @change="handleResponse"
+                        v-model="question.responses"
+                        size="sm"
                         v-for="(item, index) in question.options"
                         :key="index"
                         :value="index"
-                        v-model="question.responses"
                         :disabled="
                           question.responses.length > question.limit - 1 &&
-                            question.responses.indexOf(index) === -1
+                          question.responses.indexOf(index) === -1
                         "
                         inline
                       >
-                        {{ item.title }}
+                        {{ item.value }}
                       </b-form-checkbox>
                     </div>
                   </div>
 
-                  <div v-if="question.type == 'boolean'">
-                    <b-form-radio
-                      size="sm"
-                      @change="handleResponse"
-                      v-model="question.response"
-                      value="true"
-                      >True</b-form-radio
-                    >
-                    <b-form-radio
-                      size="sm"
-                      @change="handleResponse"
-                      v-model="question.response"
-                      value="false"
-                      >False</b-form-radio
-                    >
-                  </div>
-
                   <div v-if="question.type == 'dropdown'">
                     <b-form-select
-                      @change="handleResponse"
                       v-model="question.response"
+                      @change="handleResponse"
+                      v-if="question.options[0].value"
                     >
                       <b-form-select-option
                         v-for="option in question.options"
-                        :key="option.title"
-                        :value="option.title"
-                        >{{ option.title }}</b-form-select-option
+                        :key="option.value"
+                        :value="option.value"
+                        >{{ option.value }}</b-form-select-option
                       >
                     </b-form-select>
                   </div>
 
                   <div v-if="question.type == 'range'">
                     <b-form-input
+                      v-model="question.response"
                       @change="handleResponse"
                       type="range"
-                      v-model="question.response"
                       min="0"
                       max="10"
                     ></b-form-input>
                   </div>
                   <div v-if="question.type == 'email'">
                     <b-form-input
-                      @change="handleResponse"
                       v-model="question.response"
+                      @change="handleResponse"
                       type="email"
                     ></b-form-input>
                   </div>
                   <div v-if="question.type == 'number'">
                     <b-form-input
-                      @change="handleResponse"
                       v-model="question.response"
+                      @change="handleResponse"
                       type="number"
                     ></b-form-input>
                   </div>
                   <div v-if="question.type == 'time'">
                     <b-form-input
-                      @change="handleResponse"
                       v-model="question.response"
+                      @change="handleResponse"
                       type="time"
                     ></b-form-input>
                   </div>
                   <div v-if="question.type == 'date'">
                     <b-form-input
-                      @change="handleResponse"
                       v-model="question.response"
+                      @change="handleResponse"
                       type="date"
                     ></b-form-input>
                   </div>
                   <div v-if="question.type == 'color'">
                     <b-form-input
-                      @change="handleResponse"
                       v-model="question.response"
+                      @change="handleResponse"
                       type="color"
                     ></b-form-input>
+                  </div>
+
+                  <div v-if="question.addSubQuestion" class="mt-2">
+                    <ol class="subquest">
+                      <li
+                        v-for="(subquest, subId) in question.subQuestion"
+                        :key="subId"
+                      >
+                        <b-form-group :label="subquest.question">
+                          <div
+                            v-if="
+                              question.type == 'short' ||
+                              question.type == 'long'
+                            "
+                          >
+                            <div
+                              v-for="(place, idp) in subquest.placeholders"
+                              :key="idp"
+                            >
+                              <b-form-input
+                                v-model="place.response"
+                                @change="handleResponse"
+                                v-if="question.type == 'short'"
+                                class="mb-1"
+                                size="sm"
+                                :placeholder="place.placeholder"
+                              ></b-form-input>
+                              <b-form-textarea
+                                v-model="place.responses"
+                                @change="handleResponse"
+                                v-if="question.type == 'long'"
+                                class="mb-1"
+                                :placeholder="place.placeholder"
+                              ></b-form-textarea>
+                            </div>
+                          </div>
+
+                          <div v-if="question.type == 'single'">
+                            <b-form-radio-group
+                              @change="handleResponse"
+                              v-if="subquest.options[0].value"
+                              size="sm"
+                              v-model="subquest.response"
+                              :options="subquest.options"
+                              value-field="value"
+                              text-field="value"
+                            ></b-form-radio-group>
+                          </div>
+
+                          <div v-if="question.type == 'checkbox'">
+                            <div v-if="subquest.options[0].value">
+                              <b-form-checkbox
+                                @change="handleResponse"
+                                v-model="subquest.responses"
+                                size="sm"
+                                v-for="(item, index) in subquest.options"
+                                :key="index"
+                                :value="index"
+                                :disabled="
+                                  subquest.responses.length >
+                                    subquest.limit - 1 &&
+                                  subquest.responses.indexOf(index) === -1
+                                "
+                                inline
+                              >
+                                {{ item.value }}
+                              </b-form-checkbox>
+                            </div>
+                          </div>
+
+                          <div v-if="question.type == 'dropdown'">
+                            <b-form-select
+                              v-model="subquest.response"
+                              @change="handleResponse"
+                              v-if="subquest.options[0].value"
+                            >
+                              <b-form-select-option
+                                v-for="option in subquest.options"
+                                :key="option.value"
+                                :value="option.value"
+                                >{{ option.value }}</b-form-select-option
+                              >
+                            </b-form-select>
+                          </div>
+
+                          <div v-if="question.type == 'range'">
+                            <b-form-input
+                              v-model="subquest.response"
+                              @change="handleResponse"
+                              type="range"
+                              min="0"
+                              max="10"
+                            ></b-form-input>
+                          </div>
+                          <div v-if="question.type == 'email'">
+                            <b-form-input
+                              v-model="subquest.response"
+                              @change="handleResponse"
+                              type="email"
+                            ></b-form-input>
+                          </div>
+                          <div v-if="question.type == 'number'">
+                            <b-form-input
+                              v-model="subquest.response"
+                              @change="handleResponse"
+                              type="number"
+                            ></b-form-input>
+                          </div>
+                          <div v-if="question.type == 'time'">
+                            <b-form-input
+                              v-model="subquest.response"
+                              @change="handleResponse"
+                              type="time"
+                            ></b-form-input>
+                          </div>
+                          <div v-if="question.type == 'date'">
+                            <b-form-input
+                              v-model="subquest.response"
+                              @change="handleResponse"
+                              type="date"
+                            ></b-form-input>
+                          </div>
+                          <div v-if="question.type == 'color'">
+                            <b-form-input
+                              v-model="subquest.response"
+                              @change="handleResponse"
+                              type="color"
+                            ></b-form-input>
+                          </div>
+                        </b-form-group>
+                      </li>
+                    </ol>
                   </div>
                 </b-form-group>
               </div>
             </div>
-
             <div class="d-flex justify-content-between mt-5 my-4">
               <b-button
                 size="sm"
@@ -363,11 +395,11 @@ export default {
                     placeholder: "",
                     responses: [
                       {
-                        response: ""
-                      }
+                        response: "",
+                      },
                     ],
-                    response_count: ""
-                  }
+                    response_count: "",
+                  },
                 ],
                 response: "",
                 responses: [],
@@ -376,45 +408,45 @@ export default {
                 limit: 2,
                 options: [
                   {
-                    title: ""
-                  }
+                    title: "",
+                  },
                 ],
                 showAnswer: false,
                 answer: "",
                 answers: [
                   {
-                    title: ""
-                  }
+                    title: "",
+                  },
                 ],
                 asPlaceholders: false,
                 placeholders: [
                   {
                     placeholder: "",
-                    response: ""
-                  }
+                    response: "",
+                  },
                 ],
                 placeholder: "",
                 hint: "",
                 asScore: false,
-                score: 0
-              }
-            ]
-          }
-        ]
+                score: 0,
+              },
+            ],
+          },
+        ],
       },
       section: 0,
       responses: [],
-      score: 0
+      score: 0,
     };
   },
   components: {
-    Preview
+    Preview,
   },
   mounted() {
     this.getQuestionnaire();
   },
   watch: {
-    id: "getQuestionnaire"
+    id: "getQuestionnaire",
   },
   computed: {
     myquest() {
@@ -422,7 +454,7 @@ export default {
     },
     totalscore() {
       var arr = [];
-      this.questionnaire.sections.forEach(item => {
+      this.questionnaire.sections.forEach((item) => {
         arr.push(item.questions);
       });
 
@@ -430,7 +462,7 @@ export default {
         return a.concat(b);
       });
 
-      var score = newarr.map(item => {
+      var score = newarr.map((item) => {
         if (item.asAnswer) {
           return item.score;
         }
@@ -439,7 +471,7 @@ export default {
       return score.reduce((a, b) => {
         return a + b;
       }, 0);
-    }
+    },
   },
   methods: {
     getQuestionnaire() {
@@ -462,11 +494,11 @@ export default {
             `${this.$store.getters.url}/question/templates/${this.$props.id}`,
             {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-              }
+                Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+              },
             }
           )
-          .then(res => {
+          .then((res) => {
             if (res.status == 200) {
               this.questionnaire.id = res.data.id;
               this.questionnaire.module_id = res.data.module_id;
@@ -487,7 +519,7 @@ export default {
       var answers = [];
       var responses = [];
       var correct = 0;
-      this.questionnaire.sections.forEach(item => {
+      this.questionnaire.sections.forEach((item) => {
         arr.push(item.questions);
       });
 
@@ -495,29 +527,30 @@ export default {
         return a.concat(b);
       });
 
-      var score = newarr.map(item => {
-        if (item.asAnswer) {
-          if (item.type !== "checkbox" && item.type !== "multiple") {
-            if (item.response == item.answer) {
-              return item.score;
-            }
-            return 0;
+      var score = newarr.map((item) => {
+        if (item.type == "single") {
+          if (item.response == item.answer) {
+            item.result = item.score;
+            return item.score;
           }
-          if (item.type == "checkbox" || item.type == "multiple") {
-            answers = item.answers.map(item => item.title).sort();
-            responses = item.responses
-              .map(val => item.options[val])
-              .map(item => item.title)
-              .sort();
-
-            correct = answers.filter(x => responses.indexOf(x) !== -1).length;
-            let score = (correct / answers.length) * item.score;
-            return Math.round(score);
-          }
+          item.result = 0;
           return 0;
         }
-      });
+        if (item.type == "checkbox") {
+          answers = item.answers.map((item) => item).sort();
+          responses = item.responses
+            .map((val) => item.options[val])
+            .map((item) => item.value)
+            .sort();
 
+          correct = answers.filter((x) => responses.indexOf(x) !== -1).length;
+          let score = (correct / answers.length) * item.score;
+          item.result = Math.round(score);
+          return item.result;
+        }
+        return 0;
+      });
+      console.log(score);
       this.current_score = score.reduce((a, b) => {
         return a + b;
       }, 0);
@@ -525,11 +558,11 @@ export default {
 
     addoption(index) {
       this.questionnaire.sections[this.section].questions[index].options.push({
-        title: null
+        title: null,
       });
     },
     submit() {
-      this.$bvModal.msgBoxConfirm("Are you sure?").then(response => {
+      this.$bvModal.msgBoxConfirm("Are you sure?").then((response) => {
         if (response) {
           var data = {
             module_id: this.$props.module_id,
@@ -540,15 +573,15 @@ export default {
             template_id: this.$props.id,
             your_score: this.current_score,
             total_score: this.totalscore,
-            status: "submitted"
+            status: "submitted",
           };
           this.$http
             .post(`${this.$store.getters.url}/answer-questionnaires`, data, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-              }
+                Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+              },
             })
-            .then(res => {
+            .then((res) => {
               if (res.status == 201 || res.status == 200) {
                 this.$emit("handleCheck");
               }
@@ -557,7 +590,7 @@ export default {
       });
     },
     saveforlater() {
-      this.$bvModal.msgBoxConfirm("Are you sure?").then(response => {
+      this.$bvModal.msgBoxConfirm("Are you sure?").then((response) => {
         if (response) {
           var data = {
             module_id: this.$props.module_id,
@@ -568,23 +601,23 @@ export default {
             template_id: this.$props.id,
             your_score: this.current_score,
             total_score: this.totalscore,
-            status: "draft"
+            status: "draft",
           };
           this.$http
             .post(`${this.$store.getters.url}/answer-questionnaires`, data, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-              }
+                Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+              },
             })
-            .then(res => {
+            .then((res) => {
               if (res.status == 201 || res.status == 200) {
                 this.$emit("handleCheck");
               }
             });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
