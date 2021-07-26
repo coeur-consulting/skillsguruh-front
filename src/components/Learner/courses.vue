@@ -799,33 +799,36 @@
                         )
                       "
                     >
-                      <b-card-body
-                        v-for="(mod, index) in JSON.parse(
-                          course.modules.find(
-                            (i) =>
-                              i.module.toLowerCase() ==
-                              item.module.toLowerCase()
-                          ).modules
-                        )"
-                        :key="index"
-                      >
-                        <b-card-text class="d-flex text-capitalize mb-1"
-                          ><span class="flex-1">{{ mod.title }}</span>
-                          <span v-if="mod.file_type == 'video'"
-                            ><b-icon icon="camera-video-fill"></b-icon
-                          ></span>
-                          <span v-else-if="mod.file_type == 'audio'"
-                            ><b-icon icon="music-note-beamed"></b-icon
-                          ></span>
-                          <span v-else
-                            ><b-icon
-                              icon="file-earmark-richtext-fill"
-                            ></b-icon> </span
-                        ></b-card-text>
-                        <h6 class="fs12 font-weight-bold mb-2">Overview</h6>
-                        <b-card-text class="fs12">{{
-                          mod.overview
-                        }}</b-card-text>
+                      <b-card-body>
+                        <div
+                          v-for="(mod, index) in JSON.parse(
+                            course.modules.find(
+                              (i) =>
+                                i.module.toLowerCase() ==
+                                item.module.toLowerCase()
+                            ).modules
+                          )"
+                          :key="index"
+                          class="mb-2"
+                        >
+                          <b-card-text class="d-flex text-capitalize mb-1"
+                            ><span class="flex-1">{{ mod.title }}</span>
+                            <span v-if="mod.file_type == 'video'"
+                              ><b-icon icon="camera-video-fill"></b-icon
+                            ></span>
+                            <span v-else-if="mod.file_type == 'audio'"
+                              ><b-icon icon="music-note-beamed"></b-icon
+                            ></span>
+                            <span v-else
+                              ><b-icon
+                                icon="file-earmark-richtext-fill"
+                              ></b-icon> </span
+                          ></b-card-text>
+                          <h6 class="fs12 font-weight-bold mb-2">Overview</h6>
+                          <b-card-text class="fs12">{{
+                            mod.overview
+                          }}</b-card-text>
+                        </div>
                       </b-card-body>
                     </div>
                     <div v-else>
@@ -914,32 +917,32 @@
                   >
                     <div class="mb-1">
                       <span class="fs14 mr-2 text-muted">Time: </span>
-                      <span class="text-sm font-weight-bold">
+                      <span class="text-sm">
                         {{ item.start_time | moment("LT") }}</span
                       >
                     </div>
                     <div class="mb-1">
                       <span class="fs14 mr-2 text-muted">Date: </span>
-                      <span class="text-sm font-weight-bold">
+                      <span class="text-sm">
                         {{ item.start_time | moment("MMM DD, YYYY") }}</span
                       >
                     </div>
                     <div class="mb-1">
                       <span class="fs14 mr-2 text-muted">Venue: </span>
-                      <span class="text-sm font-weight-bold">
+                      <span class="text-sm">
                         {{ item.venue ? item.venue : "None" }}</span
                       >
                     </div>
                     <div class="mb-1">
                       <span class="fs14 mr-2 text-muted">Url: </span>
-                      <span class="text-sm font-weight-bold">
+                      <span class="text-sm">
                         {{ item.url ? item.url : "None" }}</span
                       >
                     </div>
                     <div>
                       <span class="fs14 mr-2 text-muted">Facilitator: </span>
                       <span
-                        class="text-sm font-weight-bold"
+                        class="text-sm"
                         v-if="item.facilitator_id != null"
                         >{{
                           facilitators.find(
@@ -2379,15 +2382,6 @@ p {
 }
 .text-sm {
   font-size: 13px;
-}
-.my_courses {
-  height: 85vh;
-  overflow-y: auto;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-.my_courses::-webkit-scrollbar {
-  display: none;
 }
 
 .addmodule {
