@@ -359,7 +359,7 @@
                       <b-img
                         v-if="
                           feed.media &&
-                            img_ext.includes(getextension(feed.media))
+                          img_ext.includes(getextension(feed.media))
                         "
                         fluid-grow
                         :src="feed.media"
@@ -369,7 +369,7 @@
                         controls
                         v-if="
                           feed.media &&
-                            vid_ext.includes(getextension(feed.media))
+                          vid_ext.includes(getextension(feed.media))
                         "
                         :src="feed.media"
                         class="fluid-grow"
@@ -377,7 +377,7 @@
                       <div
                         v-if="
                           feed.media &&
-                            doc_ext.includes(getextension(feed.media))
+                          doc_ext.includes(getextension(feed.media))
                         "
                         class="text-center p-4 bg-skills-grey"
                       >
@@ -393,7 +393,7 @@
                       <b-icon
                         :icon="
                           feed.stars.find(
-                            item =>
+                            (item) =>
                               item.star &&
                               item.user_id == $store.getters.learner.id
                           )
@@ -403,7 +403,7 @@
                         class="text-blue mr-1"
                       ></b-icon>
                       <span>{{
-                        feed.stars.filter(item => item.star).length
+                        feed.stars.filter((item) => item.star).length
                       }}</span>
                       stars</span
                     >
@@ -413,7 +413,7 @@
                       ><b-icon
                         :icon="
                           feed.likes.find(
-                            item =>
+                            (item) =>
                               item.like &&
                               item.user_id == $store.getters.learner.id
                           )
@@ -423,7 +423,7 @@
                         class="text-danger mr-1"
                       ></b-icon>
                       <span>{{
-                        feed.likes.filter(item => item.like).length
+                        feed.likes.filter((item) => item.like).length
                       }}</span>
                       likes</span
                     >
@@ -630,7 +630,7 @@ export default {
       allcomments: [],
       feed: {
         media: "",
-        message: ""
+        message: "",
       },
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp", "flv", "mov"],
@@ -638,24 +638,24 @@ export default {
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       comment: {
         comment: "",
-        id: ""
+        id: "",
       },
       mini_info: {
         id: "",
         name: "",
         type: "",
-        profile: ""
+        profile: "",
       },
       showFeeds: false,
 
       currentPage: 1,
       rows: null,
-      perPage: 10
+      perPage: 10,
     };
   },
   components: {
     EmojiPicker,
-    FeedUpload
+    FeedUpload,
   },
   mounted() {
     this.getfeeds();
@@ -663,14 +663,14 @@ export default {
   computed: {
     filterFeeds() {
       return this.feeds
-        .filter(item =>
+        .filter((item) =>
           item.message.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
           this.perPage * this.currentPage - this.perPage,
           this.perPage * this.currentPage
         );
-    }
+    },
   },
   methods: {
     showcomments(feed) {
@@ -709,17 +709,17 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/guest/feeds`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.feeds = res.data;
             this.showFeeds = true;
             this.rows = res.data.length;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -739,8 +739,8 @@ export default {
       this.$router.push("/login");
       this.$toast.info("Login to continue");
     },
-    drop() {}
-  }
+    drop() {},
+  },
 };
 </script>
 <style scoped lang="scss">
@@ -888,10 +888,7 @@ export default {
   font-size: 12px;
   color: rgba($color: #000000, $alpha: 0.44);
 }
-.feed_text {
-  font-size: 14px;
-  color: rgba($color: #000000, $alpha: 0.54);
-}
+
 .interactions {
   font-size: 12px;
 }

@@ -1143,10 +1143,7 @@ export default {
   font-size: 12px;
   color: rgba($color: #000000, $alpha: 0.44);
 }
-.feed_text {
-  font-size: 14px;
-  color: rgba($color: #000000, $alpha: 0.54);
-}
+
 .interactions {
   font-size: 12px;
 }

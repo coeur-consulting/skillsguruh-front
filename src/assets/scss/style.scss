@@ -89,6 +89,10 @@ p {
   border-radius: 0 3rem 0 6rem;
   overflow: hidden;
 }
+.feed_text {
+  font-size: 1rem;
+  color: rgba($color: #000000, $alpha: 0.54);
+}
 .text-truncate.text-truncate--2 {
   display: -webkit-box !important;
   -webkit-line-clamp: 2;
@@ -525,6 +529,7 @@ ol.subquest {
   font-size: 1rem;
   font-weight: 500;
 }
+
 .comment_name {
   font-size: 0.8rem;
   font-weight: 500;
@@ -685,6 +690,10 @@ ol.subquest {
 
   .btn-sm {
     // font-size: 0.75rem;
+  }
+  .feed_text {
+    font-size: 0.9rem;
+    color: rgba($color: #000000, $alpha: 0.54);
   }
   small,
   .small {
