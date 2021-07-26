@@ -149,7 +149,7 @@
               </b-table-simple>
               <div class="p-3 d-flex justify-content-between" v-if="rows > 10">
                 <div class="fs12 text-muted">
-                  Showing 1-10 of {{ filter.length }} items
+                  Showing 1-{{ perPage }} of {{ filter.length }} items
                 </div>
                 <b-pagination
                   pills
@@ -157,7 +157,7 @@
                   variant="dark-green"
                   align="right"
                   v-model="currentPage"
-                  :total-rows="filter"
+                  :total-rows="team ? draft.length : active.length"
                   :per-page="perPage"
                 ></b-pagination>
               </div>
@@ -237,17 +237,33 @@ export default {
   },
   computed: {
     filter() {
-      var questions = this.questionnaires
-        .filter((item) =>
-          item.title.toLowerCase().includes(this.search.toLowerCase())
-        )
-        .slice(
-          this.perPage * this.currentPage - this.perPage,
-          this.perPage * this.currentPage
-        );
-      return this.team
+      var questions = this.questionnaires.filter((item) =>
+        item.title.toLowerCase().includes(this.search.toLowerCase())
+      );
+
+      var team = this.team
         ? questions.filter((item) => item.status == "draft")
         : questions.filter((item) => item.status == "active");
+      return team.slice(
+        this.perPage * this.currentPage - this.perPage,
+        this.perPage * this.currentPage
+      );
+    },
+    active() {
+      var questions = this.questionnaires.filter((item) =>
+        item.title.toLowerCase().includes(this.search.toLowerCase())
+      );
+
+      var team = questions.filter((item) => item.status == "active");
+      return team;
+    },
+    draft() {
+      var questions = this.questionnaires.filter((item) =>
+        item.title.toLowerCase().includes(this.search.toLowerCase())
+      );
+
+      var team = questions.filter((item) => item.status == "draft");
+      return team;
     },
   },
   mounted() {
