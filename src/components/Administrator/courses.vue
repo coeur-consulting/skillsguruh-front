@@ -172,12 +172,14 @@
           <b-form-row class="px-1">
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Knowledge area*">
-                <model-select
-                  :options="options"
+                <model-list-select
+                  :list="options"
                   v-model="detail.outline.knowledge_area"
+                  option-value="value"
+                  option-text="value"
                   placeholder="select area"
                 >
-                </model-select>
+                </model-list-select>
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
@@ -743,12 +745,14 @@
           <b-form-row class="px-1">
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Knowledge area*">
-                <model-select
-                  :options="options"
+                <model-list-select
+                  :list="options"
                   v-model="detail.outline.knowledge_area"
+                  option-value="value"
+                  option-text="value"
                   placeholder="select area"
                 >
-                </model-select>
+                </model-list-select>
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
@@ -1157,6 +1161,7 @@
             <b-button
               size="sm"
               variant="dark-green"
+              :disabled="sending"
               @click="sendinvite(course.title)"
             >
               Send Invite
@@ -1191,7 +1196,7 @@
           network="facebook"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`"
+          :description="`I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1204,7 +1209,7 @@
           network="twitter"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`"
+          :description="`I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1217,7 +1222,7 @@
           network="whatsApp"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`"
+          :description="`I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1239,7 +1244,7 @@
           network="Telegram"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I created a course titled,  ${course.title.bold()}, on SkillsGuruh. Check it out here`"
+          :description="`I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1761,7 +1766,7 @@
                 </div>
 
                 <b-img
-                  style="width: 60px; height: 70px; object-fit: cover"
+                  style="width: 40px; height: 50px; object-fit: cover"
                   fluid
                   :src="course.cover"
                 ></b-img>
@@ -2100,13 +2105,13 @@
                         <div
                           v-b-toggle="'file' + id"
                           variant="info"
-                          class="fs13"
+                          class="fs13 d-flex"
                         >
                           <b-icon
                             icon="question-circle-fill"
                             class="mr-2 text-light-green"
                           ></b-icon>
-                          {{ item.question }}
+                          <span> {{ item.question }}</span>
                         </div>
                       </b-card-header>
                       <b-collapse
@@ -2115,13 +2120,13 @@
                         role="tabpanel"
                       >
                         <b-card-body>
-                          <b-card-text class="px-0 fs13">
+                          <b-card-text class="px-0 fs13 d-flex">
                             <b-icon
                               icon="check-circle-fill"
                               class="mr-2 text-light-green"
                             ></b-icon>
-                            {{ item.answer }}</b-card-text
-                          >
+                            <span>{{ item.answer }}</span>
+                          </b-card-text>
                         </b-card-body>
                       </b-collapse>
                     </b-card>
@@ -2139,31 +2144,31 @@
                       :key="index"
                     >
                       <div class="mb-1">
-                        <span class="fs14 mr-2">Time: </span>
+                        <span class="fs14 mr-2 text-muted">Time: </span>
                         <span class="text-sm">
                           {{ item.start_time | moment("LT") }}</span
                         >
                       </div>
                       <div class="mb-1">
-                        <span class="fs14 mr-2">Date: </span>
+                        <span class="fs14 mr-2 text-muted">Date: </span>
                         <span class="text-sm">
                           {{ item.start_time | moment("MMM DD, YYYY") }}</span
                         >
                       </div>
                       <div class="mb-1">
-                        <span class="fs14 mr-2">Venue: </span>
+                        <span class="fs14 mr-2 text-muted">Venue: </span>
                         <span class="text-sm">
                           {{ item.venue ? item.venue : "None" }}</span
                         >
                       </div>
                       <div class="mb-1">
-                        <span class="fs14 mr-2">Url: </span>
+                        <span class="fs14 mr-2 text-muted">Url: </span>
                         <span class="text-sm">
                           {{ item.url ? item.url : "None" }}</span
                         >
                       </div>
                       <div>
-                        <span class="fs14 mr-2">Facilitator: </span>
+                        <span class="fs14 mr-2 text-muted">Facilitator: </span>
                         <span
                           class="text-sm"
                           v-if="item.facilitator_id != null"
@@ -2250,7 +2255,7 @@
             </div>
 
             <b-img
-              style="width: 60px; height: 70px; object-fit: cover"
+              style="width: 40px; height: 50px; object-fit: cover"
               fluid
               :src="course.cover"
             ></b-img>
@@ -2586,31 +2591,31 @@
                   :key="index"
                 >
                   <div class="mb-1">
-                    <span class="fs14 mr-2">Time: </span>
+                    <span class="fs14 mr-2 text-muted">Time: </span>
                     <span class="text-sm">
                       {{ item.start_time | moment("LT") }}</span
                     >
                   </div>
                   <div class="mb-1">
-                    <span class="fs14 mr-2">Date: </span>
+                    <span class="fs14 mr-2 text-muted">Date: </span>
                     <span class="text-sm">
                       {{ item.start_time | moment("MMM DD, YYYY") }}</span
                     >
                   </div>
                   <div class="mb-1">
-                    <span class="fs14 mr-2">Venue: </span>
+                    <span class="fs14 mr-2 text-muted">Venue: </span>
                     <span class="text-sm">
                       {{ item.venue ? item.venue : "None" }}</span
                     >
                   </div>
                   <div class="mb-1">
-                    <span class="fs14 mr-2">Url: </span>
+                    <span class="fs14 mr-2 text-muted">Url: </span>
                     <span class="text-sm">
                       {{ item.url ? item.url : "None" }}</span
                     >
                   </div>
                   <div>
-                    <span class="fs14 mr-2">Facilitator: </span>
+                    <span class="fs14 mr-2 text-muted">Facilitator: </span>
                     <span class="text-sm" v-if="item.facilitator_id != null">{{
                       facilitators.find((val) => val.id == item.facilitator_id)
                         .name
@@ -2631,7 +2636,7 @@ import Upload from "@/components/fileupload.vue";
 import Insight from "../insight.js";
 import Editor from "@tinymce/tinymce-vue";
 import draggable from "vuedraggable";
-import { ModelSelect } from "vue-search-select";
+import { ModelListSelect } from "vue-search-select";
 export default {
   data() {
     return {
@@ -2674,7 +2679,7 @@ export default {
         },
         outline: {
           overview: "",
-          knowledge_area: "",
+          knowledge_area: {},
           duration: "",
           modules: [],
           faqs: [
@@ -2713,13 +2718,14 @@ export default {
       searchText: "", // If value is falsy, reset searchText & searchItem
       items: [],
       lastSelectItem: {},
+      sending: false,
     };
   },
   components: {
     Upload,
     Editor,
     draggable,
-    ModelSelect,
+    ModelListSelect,
   },
   mounted() {
     this.getcourses();
@@ -2727,7 +2733,7 @@ export default {
     this.insight = Insight;
     this.options = Insight.map((item) => {
       var res = {};
-      res.text = item.value;
+
       res.value = item.value;
       res.color = item.color;
       res.icon = item.icon;
@@ -2823,6 +2829,7 @@ export default {
       console.log(e);
     },
     sendinvite(title) {
+      this.sending = true;
       this.inviteUsers.title = title;
       this.inviteUsers.url = this.message;
       this.$http
@@ -2835,6 +2842,7 @@ export default {
           if (res.status == 200) {
             this.$toast.success("Invite Sent");
             this.$bvModal.hide("courselink");
+            this.sending = false;
             this.inviteUsers = {
               code: "",
               title: "",
@@ -2847,7 +2855,8 @@ export default {
           }
         })
         .catch(() => {
-          this.$toasted.error("Sending failed!");
+          this.sending = false;
+          this.$toast.error("Sending failed!");
         });
     },
     sharecourse(id) {
@@ -3087,7 +3096,7 @@ export default {
               },
               outline: {
                 overview: "",
-                knowledge_area: "",
+                knowledge_area: {},
                 duration: "",
                 modules: [],
                 faqs: [
@@ -3199,7 +3208,7 @@ export default {
               },
               outline: {
                 overview: "",
-                knowledge_area: "",
+                knowledge_area: {},
                 duration: "",
                 modules: [],
                 faqs: [
@@ -3298,7 +3307,6 @@ p {
 }
 .text-sm {
   font-size: 13px;
-  color: rgba($color: #000000, $alpha: 0.5);
 }
 
 .addmodule {

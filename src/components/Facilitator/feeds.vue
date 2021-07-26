@@ -432,6 +432,14 @@
                         <cld-transformation width="auto" crop="scale" />
                         <cld-transformation dpr="auto" />
                       </cld-image>
+                      <b-img
+                        v-if="
+                          !feed.publicId &&
+                          feed.media &&
+                          img_ext.includes(getextension(feed.media))
+                        "
+                        :src="feed.media"
+                      ></b-img>
 
                       <cld-video
                         controls

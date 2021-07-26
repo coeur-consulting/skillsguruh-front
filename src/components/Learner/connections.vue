@@ -18,7 +18,7 @@
             <b-icon icon="sliders"></b-icon>
           </div>
 
-          <div class="py-4 connection_box">
+          <div class="py-4 connection_box" v-if="filteredConnections.length">
             <div v-for="(item, id) in filteredConnections" :key="id">
               <div
                 v-if="item.user_follower"
@@ -98,6 +98,7 @@
               </div>
             </div>
           </div>
+          <div v-else class="text-center p-4">No connection available</div>
         </div>
       </b-col>
       <b-col sm="5">

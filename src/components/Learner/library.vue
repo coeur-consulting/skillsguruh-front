@@ -238,62 +238,64 @@
             </div>
           </div>
           <div>
-            <b-row v-if="showLibrary">
-              <b-col
-                :sm="list ? 12 : 4"
-                v-for="(item, id) in filteredLibrary"
-                :key="id"
-              >
-                <div
-                  class="
-                    bg-white
-                    d-flex
-                    justify-content-between
-                    p-3
-                    border
-                    rounded
-                    mb-3
-                    text-left
-                  "
-                  :class="list ? 'flex-row' : 'flex-column'"
+            <div v-if="showLibrary">
+              <b-row v-if="filteredLibrary.length">
+                <b-col
+                  :sm="list ? 12 : 4"
+                  v-for="(item, id) in filteredLibrary"
+                  :key="id"
                 >
-                  <b-col
-                    :sm="list ? 6 : 12"
-                    class="d-flex"
-                    :class="list ? 'flex-row' : 'flex-column  px-0'"
-                  >
-                    <div
-                      class="mr-2"
-                      :class="!list ? 'mb-4 course_img2' : 'course_img'"
-                    >
-                      <b-img :src="item.course.cover"></b-img>
-                    </div>
-                    <div
-                      class="text-left course_desc"
-                      :class="!list ? 'mb-2' : ''"
-                    >
-                      <div class="fs14 font-weight-bold mb-1">
-                        {{ item.course.title }}
-                      </div>
-                      <div class="fs14 overview mb-2">
-                        {{ item.course.description }}
-                      </div>
-                      <div class="fs14 text-muted text-capitalize">
-                        {{
-                          JSON.parse(item.course.courseoutline.knowledge_areas)
-                            .value
-                        }}
-                      </div>
-                    </div>
-                  </b-col>
-
-                  <b-col
-                    :sm="list ? 6 : 12"
-                    class="d-flex justify-content-between px-0"
+                  <div
+                    class="
+                      bg-white
+                      d-flex
+                      justify-content-between
+                      p-3
+                      border
+                      rounded
+                      mb-3
+                      text-left
+                    "
                     :class="list ? 'flex-row' : 'flex-column'"
                   >
-                    <div class="">
-                      <!-- <div
+                    <b-col
+                      :sm="list ? 6 : 12"
+                      class="d-flex"
+                      :class="list ? 'flex-row' : 'flex-column  px-0'"
+                    >
+                      <div
+                        class="mr-2"
+                        :class="!list ? 'mb-4 course_img2' : 'course_img'"
+                      >
+                        <b-img :src="item.course.cover"></b-img>
+                      </div>
+                      <div
+                        class="text-left course_desc"
+                        :class="!list ? 'mb-2' : ''"
+                      >
+                        <div class="fs14 font-weight-bold mb-1">
+                          {{ item.course.title }}
+                        </div>
+                        <div class="fs14 overview mb-2">
+                          {{ item.course.description }}
+                        </div>
+                        <div class="fs14 text-muted text-capitalize">
+                          {{
+                            JSON.parse(
+                              item.course.courseoutline.knowledge_areas
+                            ).value
+                          }}
+                        </div>
+                      </div>
+                    </b-col>
+
+                    <b-col
+                      :sm="list ? 6 : 12"
+                      class="d-flex justify-content-between px-0"
+                      :class="list ? 'flex-row' : 'flex-column'"
+                    >
+                      <div class="">
+                        <!-- <div
                         class="fs14 text-muted d-flex align-items-center"
                         :class="!list ? 'mb-2' : ''"
                         v-if="item.course.modules"
@@ -313,41 +315,45 @@
                         </b-iconstack>
                         <span> {{ item.course.modules.length }} modules</span>
                       </div> -->
-                      <div class="mt-3">
-                        <div class="mb-2 fs12">Your progress</div>
-                        <b-progress
-                          :max="100"
-                          height=".8rem"
-                          class="mb-3"
-                          variant="light-green"
-                        >
-                          <b-progress-bar
-                            :value="item.progress"
-                            :label="`${Math.round(item.progress)}%`"
-                          ></b-progress-bar>
-                        </b-progress>
+                        <div class="mt-3">
+                          <div class="mb-2 fs12">Your progress</div>
+                          <b-progress
+                            :max="100"
+                            height=".8rem"
+                            class="mb-3"
+                            variant="light-green"
+                          >
+                            <b-progress-bar
+                              :value="item.progress"
+                              :label="`${Math.round(item.progress)}%`"
+                            ></b-progress-bar>
+                          </b-progress>
+                        </div>
                       </div>
-                    </div>
 
-                    <div :class="list ? 'pl-4' : ''">
-                      <div class="mb-2"></div>
-                      <div>
-                        <b-button
-                          block
-                          variant="dark-green"
-                          size="sm"
-                          @click="
-                            $router.push(`/learner/media/${item.course.id}`)
-                          "
-                          ><b-icon icon="book" class="mr-2"></b-icon> View
-                          course</b-button
-                        >
+                      <div :class="list ? 'pl-4' : ''">
+                        <div class="mb-2"></div>
+                        <div>
+                          <b-button
+                            block
+                            variant="dark-green"
+                            size="sm"
+                            @click="
+                              $router.push(`/learner/media/${item.course.id}`)
+                            "
+                            ><b-icon icon="book" class="mr-2"></b-icon> View
+                            course</b-button
+                          >
+                        </div>
                       </div>
-                    </div>
-                  </b-col>
-                </div>
-              </b-col>
-            </b-row>
+                    </b-col>
+                  </div>
+                </b-col>
+              </b-row>
+              <div v-else class="text-center p-4">
+                You have no course in your library
+              </div>
+            </div>
             <b-row v-else>
               <b-col sm="4" class="mb-4">
                 <div class="mb-3"><b-skeleton-img></b-skeleton-img></div>
