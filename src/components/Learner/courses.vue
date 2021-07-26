@@ -809,7 +809,7 @@
                         )"
                         :key="index"
                       >
-                        <b-card-text class="d-flex text-capitalize"
+                        <b-card-text class="d-flex text-capitalize mb-1"
                           ><span class="flex-1">{{ mod.title }}</span>
                           <span v-if="mod.file_type == 'video'"
                             ><b-icon icon="camera-video-fill"></b-icon
