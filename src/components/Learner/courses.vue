@@ -794,14 +794,17 @@
                     <div
                       v-if="
                         course.modules.some(
-                          (i) => i.module.toLowerCase() == item.toLowerCase()
+                          (i) =>
+                            i.module.toLowerCase() == item.module.toLowerCase()
                         )
                       "
                     >
                       <b-card-body
                         v-for="(mod, index) in JSON.parse(
                           course.modules.find(
-                            (i) => i.module.toLowerCase() == item.toLowerCase()
+                            (i) =>
+                              i.module.toLowerCase() ==
+                              item.module.toLowerCase()
                           ).modules
                         )"
                         :key="index"
@@ -868,7 +871,11 @@
                       class="p-1 bg-light"
                       role="tab"
                     >
-                      <div v-b-toggle="'file' + id" variant="info" class="fs13">
+                      <div
+                        v-b-toggle="'file' + id"
+                        variant="info"
+                        class="fs13 d-flex"
+                      >
                         <b-icon
                           icon="question-circle-fill"
                           class="mr-2 text-light-green"
@@ -882,7 +889,7 @@
                       role="tabpanel"
                     >
                       <b-card-body>
-                        <b-card-text class="px-0 fs13">
+                        <b-card-text class="px-0 fs13 d-flex">
                           <b-icon
                             icon="check-circle-fill"
                             class="mr-2 text-light-green"
@@ -1429,39 +1436,34 @@
                 >
                   <div class="mb-1">
                     <span class="fs14 mr-2 text-muted">Time: </span>
-                    <span class="text-sm font-weight-bold">
+                    <span class="text-sm f">
                       {{ item.start_time | moment("LT") }}</span
                     >
                   </div>
                   <div class="mb-1">
                     <span class="fs14 mr-2 text-muted">Date: </span>
-                    <span class="text-sm font-weight-bold">
+                    <span class="text-sm">
                       {{ item.start_time | moment("MMM DD, YYYY") }}</span
                     >
                   </div>
                   <div class="mb-1">
                     <span class="fs14 mr-2 text-muted">Venue: </span>
-                    <span class="text-sm font-weight-bold">
+                    <span class="text-sm">
                       {{ item.venue ? item.venue : "None" }}</span
                     >
                   </div>
                   <div class="mb-1">
                     <span class="fs14 mr-2 text-muted">Url: </span>
-                    <span class="text-sm font-weight-bold">
+                    <span class="text-sm">
                       {{ item.url ? item.url : "None" }}</span
                     >
                   </div>
                   <div>
                     <span class="fs14 mr-2 text-muted">Facilitator: </span>
-                    <span
-                      class="text-sm font-weight-bold"
-                      v-if="item.facilitator_id != null"
-                      >{{
-                        facilitators.find(
-                          (val) => val.id == item.facilitator_id
-                        ).name
-                      }}</span
-                    >
+                    <span class="text-sm" v-if="item.facilitator_id != null">{{
+                      facilitators.find((val) => val.id == item.facilitator_id)
+                        .name
+                    }}</span>
                     <span v-else class="text-sm">Unavailable</span>
                   </div>
                 </b-col>
@@ -2377,7 +2379,6 @@ p {
 }
 .text-sm {
   font-size: 13px;
-  color: rgba($color: #000000, $alpha: 0.5);
 }
 .my_courses {
   height: 85vh;

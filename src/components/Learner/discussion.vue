@@ -613,8 +613,10 @@
                   @click="$router.push(`/administrator/discussion/${item.id}`)"
                 >
                   <div v-if="item.discussionmessage.length">
-                    <div class="mr-3 related_count">
-                      {{ item.discussionmessage.length }}
+                    <div>
+                      <span class="mr-3 related_count">
+                        {{ item.discussionmessage.length }}
+                      </span>
                     </div>
                   </div>
                   <div class="related text-left">{{ item.name }}</div>

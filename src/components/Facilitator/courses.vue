@@ -3314,7 +3314,6 @@ p {
 }
 .text-sm {
   font-size: 13px;
-  color: rgba($color: #000000, $alpha: 0.5);
 }
 .my_courses {
   height: 85vh;
