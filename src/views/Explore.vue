@@ -54,16 +54,14 @@
           >
             <div
               class="course shadow-sm"
-              @click="
-                $router.push(`/explore/courses?course_id=${item.course.id}`)
-              "
+              @click="$router.push(`/explore/courses?course_id=${item.id}`)"
             >
               <div
                 class="course_img"
                 :style="{
                   backgroundImage: `url(${
-                    item.course.cover
-                      ? item.course.cover
+                    item.cover
+                      ? item.cover
                       : require('@/assets/images/default.png')
                   })`,
                 }"
@@ -71,29 +69,25 @@
               <div class="course_text">
                 <div class="d-flex justify-content-between">
                   <span
-                    v-if="item.course.courseoutline"
+                    v-if="item.courseoutline"
                     class="p-2 rounded-pill text-white fs11"
                     :style="{
                       backgroundColor: JSON.parse(
-                        item.course.courseoutline.knowledge_areas
+                        item.courseoutline.knowledge_areas
                       ).color,
                     }"
                   >
                     <b-icon
                       class="mr-2"
                       :icon="
-                        JSON.parse(item.course.courseoutline.knowledge_areas)
-                          .icon
+                        JSON.parse(item.courseoutline.knowledge_areas).icon
                       "
                     ></b-icon>
                     <span>{{
-                      JSON.parse(item.course.courseoutline.knowledge_areas)
-                        .value
+                      JSON.parse(item.courseoutline.knowledge_areas).value
                     }}</span></span
                   >
-                  <span class="text-capitalize fs13">{{
-                    item.course.type
-                  }}</span>
+                  <span class="text-capitalize fs13">{{ item.type }}</span>
                 </div>
                 <div class="border-bottom pt-2 pb-1">
                   <h6
@@ -105,45 +99,38 @@
                       overview-title
                     "
                   >
-                    {{ item.course.title }}
+                    {{ item.title }}
                   </h6>
 
-                  <div
-                    v-if="item.course.courseoutline"
-                    class="fs13 text-truncate text-truncate--2"
-                    v-html="item.course.courseoutline.overview"
-                  ></div>
+                  <div class="fs13 text-truncate text-truncate--2">
+                    {{ item.description }}
+                  </div>
                 </div>
                 <div class="info fs12">
                   <div class="d-flex">
                     <div class="mr-3">
                       <b-icon icon="people" class="mr-1"></b-icon>
-                      <span>{{ item.count }}+</span>
+                      <span>{{ item.enroll ? item.enroll.count : 0 }}+</span>
                     </div>
                     <div class="mr-3">
                       <b-icon icon="eye" class="mr-1"></b-icon>
                       <span
-                        >{{
-                          item.course.viewcount
-                            ? item.course.viewcount.count
-                            : 0
-                        }}
-                        +</span
+                        >{{ item.viewcount ? item.viewcount.count : 0 }} +</span
                       >
                     </div>
                     <div>
                       <b-icon icon="star-fill" class="mr-1"></b-icon>
-                      <span>{{ item.course.review.length }} reviews</span>
+                      <span>{{ item.review.length }} reviews</span>
                     </div>
                   </div>
 
-                  <b-avatar size="sm" variant="light" :src="item.course.cover">
+                  <b-avatar size="sm" variant="light" :src="item.cover">
                   </b-avatar>
                 </div>
               </div>
             </div>
           </b-col>
-          <b-col cols="12" class="mb-4 px-sm-4 d-sm-none">
+          <!-- <b-col cols="12" class="mb-4 px-sm-4 d-sm-none">
             <carousel
               :scrollPerPage="true"
               :perPage="1"
@@ -252,7 +239,7 @@
                 </div>
               </slide>
             </carousel>
-          </b-col>
+          </b-col> -->
         </b-row>
 
         <div class="text-center text-dark-green">
@@ -392,8 +379,8 @@
             </div>
             <div class="py-5" v-if="trending.length">
               <div
-                class="d-flex mb-5"
-                v-for="(item, id) in trending.slice(0, 4)"
+                class="d-flex mb-2"
+                v-for="(item, id) in trending.slice(0, 5)"
                 :key="id"
               >
                 <div class="d-flex w-75 pr-4">
@@ -455,7 +442,7 @@
                 <div class="w-25" v-if="item.discussionmessage.length">
                   <b-avatar-group size="30px">
                     <span
-                      v-for="(item, idx) in item.discussionmessage.slice(0, 3)"
+                      v-for="(item, idx) in item.discussionmessage.slice(0, 5)"
                       :key="idx"
                       style="
                         width: 30px;
