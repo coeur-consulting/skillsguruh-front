@@ -392,8 +392,8 @@
             </div>
             <div class="py-5" v-if="trending.length">
               <div
-                class="d-flex mb-5"
-                v-for="(item, id) in trending.slice(0, 4)"
+                class="d-flex mb-2"
+                v-for="(item, id) in trending.slice(0, 5)"
                 :key="id"
               >
                 <div class="d-flex w-75 pr-4">
