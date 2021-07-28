@@ -5,14 +5,18 @@
       <b-row class="flex-column-reverse flex-sm-row">
         <b-col sm="4" class="text-left pr-4">
           <div class="bg-white w-100 h-100 p-3 border rounded">
-            <h6 class="px-0 mb-3 text-muted">Course Worksheets</h6>
+            <h6 class="px-0 mb-3 text-muted">Worksheets</h6>
             <div v-if="showRecent">
               <div>
-                <div class="accordion" role="tablist" v-if="library.length">
+                <div
+                  class="accordion"
+                  role="tablist"
+                  v-if="sortWorksheet.length"
+                >
                   <b-card
                     no-body
                     class="mb-1"
-                    v-for="(item, id) in library"
+                    v-for="(item, id) in sortWorksheet"
                     :key="id"
                   >
                     <b-card-header
@@ -37,10 +41,10 @@
                         <b-card-body
                           v-if="
                             JSON.parse(mods.modules).filter(
-                              (ite) => ite.file_type == 'template'
+                              (ite) => ite.file_type == 'worksheet'
                             ) &&
                             JSON.parse(mods.modules).filter(
-                              (ite) => ite.file_type == 'template'
+                              (ite) => ite.file_type == 'worksheet'
                             ).length
                           "
                           class="px-2 py-0 mb-2"
@@ -50,7 +54,7 @@
                             class="worksheet"
                             v-for="(mod, index) in JSON.parse(
                               mods.modules
-                            ).filter((item) => item.file_type == 'template')"
+                            ).filter((item) => item.file_type == 'worksheet')"
                             :key="index"
                           >
                             <b-card-text
@@ -125,6 +129,10 @@
                     </b-collapse>
                   </b-card>
                 </div>
+                <b-alert class="fs13" show v-else>
+                  <b-icon icon="info-circle"></b-icon> No worksheet
+                  available</b-alert
+                >
               </div>
             </div>
             <div v-else>
@@ -491,6 +499,11 @@ export default {
     }
   },
   computed: {
+    sortWorksheet() {
+      return this.library.filter((item) => {
+        return this.getWorksheet(item);
+      });
+    },
     filteredLibrary() {
       var title = this.library.filter(
         (item) =>
@@ -525,6 +538,17 @@ export default {
     },
   },
   methods: {
+    getWorksheet(course) {
+      var modules = course.course.modules;
+      var mappedModules = modules.map((element) => {
+        return JSON.parse(element.modules).map((item) => item.file_type);
+      });
+      var result = mappedModules.some((item) => {
+        return item.includes("worksheet");
+      });
+      console.log(result);
+      return result;
+    },
     getQuestionnaire() {
       this.$http
         .get(`${this.$store.getters.url}/answer-questionnaires`, {
