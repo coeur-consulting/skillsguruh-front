@@ -2440,6 +2440,9 @@ p {
   font-size: 11px;
   cursor: pointer;
 }
+span.title {
+  font-size: 0.9rem;
+}
 @media (max-width: 600px) {
   .container-fluid {
     overflow: unset;
