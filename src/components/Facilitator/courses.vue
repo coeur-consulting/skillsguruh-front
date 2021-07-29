@@ -163,7 +163,7 @@
                     height: 150,
                     menubar: false,
 
-                    toolbar: ' formatselect | bold italic ',
+                    toolbar: ' formatselect | bold italic '
                   }"
                 />
               </b-form-group>
@@ -736,7 +736,7 @@
                     height: 150,
                     menubar: false,
 
-                    toolbar: ' formatselect | bold italic  ',
+                    toolbar: ' formatselect | bold italic  '
                   }"
                 />
               </b-form-group>
@@ -1196,7 +1196,9 @@
           network="facebook"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`"
+          :description="
+            `I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1209,7 +1211,9 @@
           network="twitter"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`"
+          :description="
+            `I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1222,7 +1226,9 @@
           network="whatsApp"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`"
+          :description="
+            `I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1244,7 +1250,9 @@
           network="Telegram"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`"
+          :description="
+            `I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1407,10 +1415,12 @@
                         <b-icon
                           stacked
                           icon="circle-fill"
-                          :style="`color:${
-                            JSON.parse(course.courseoutline.knowledge_areas)
-                              .color
-                          }`"
+                          :style="
+                            `color:${
+                              JSON.parse(course.courseoutline.knowledge_areas)
+                                .color
+                            }`
+                          "
                         ></b-icon>
                         <b-icon
                           stacked
@@ -1737,9 +1747,11 @@
                     <b-icon
                       stacked
                       icon="circle-fill"
-                      :style="`color:${
-                        JSON.parse(course.courseoutline.knowledge_areas).color
-                      }`"
+                      :style="
+                        `color:${
+                          JSON.parse(course.courseoutline.knowledge_areas).color
+                        }`
+                      "
                     ></b-icon>
                     <b-icon
                       stacked
@@ -2019,7 +2031,7 @@
                       <div
                         v-if="
                           course.modules.some(
-                            (i) =>
+                            i =>
                               i.module.toLowerCase() ==
                               item.module.toLowerCase()
                           )
@@ -2029,7 +2041,7 @@
                           <div
                             v-for="(mod, index) in JSON.parse(
                               course.modules.find(
-                                (i) =>
+                                i =>
                                   i.module.toLowerCase() ==
                                   item.module.toLowerCase()
                               ).modules
@@ -2177,10 +2189,10 @@
                           v-if="item.facilitator_id != null"
                           >{{
                             facilitators.some(
-                              (val) => val.id == item.facilitator_id
+                              val => val.id == item.facilitator_id
                             )
                               ? facilitators.find(
-                                  (val) => val.id == item.facilitator_id
+                                  val => val.id == item.facilitator_id
                                 ).name
                               : "N/A"
                           }}</span
@@ -2235,9 +2247,11 @@
                 <b-icon
                   stacked
                   icon="circle-fill"
-                  :style="`color:${
-                    JSON.parse(course.courseoutline.knowledge_areas).color
-                  }`"
+                  :style="
+                    `color:${
+                      JSON.parse(course.courseoutline.knowledge_areas).color
+                    }`
+                  "
                 ></b-icon>
                 <b-icon
                   stacked
@@ -2628,9 +2642,9 @@
                   <div>
                     <span class="fs14 mr-2 text-muted">Facilitator: </span>
                     <span class="text-sm" v-if="item.facilitator_id != null">{{
-                      facilitators.some((val) => val.id == item.facilitator_id)
+                      facilitators.some(val => val.id == item.facilitator_id)
                         ? facilitators.find(
-                            (val) => val.id == item.facilitator_id
+                            val => val.id == item.facilitator_id
                           ).name
                         : "N/A"
                     }}</span>
@@ -2676,9 +2690,9 @@ export default {
         url: "",
         users: [
           {
-            email: "",
-          },
-        ],
+            email: ""
+          }
+        ]
       },
       sending: false,
       disable: false,
@@ -2694,7 +2708,7 @@ export default {
           description: "",
           cover: "",
           type: "group",
-          amount: null,
+          amount: null
         },
         outline: {
           overview: "",
@@ -2704,11 +2718,11 @@ export default {
           faqs: [
             {
               question: "",
-              answer: "",
-            },
+              answer: ""
+            }
           ],
           certification: null,
-          additional_info: "",
+          additional_info: ""
         },
         schedule: [
           {
@@ -2721,9 +2735,9 @@ export default {
             modules: [],
             start_time: new Date(),
             end_time: new Date(),
-            facilitator_id: null,
-          },
-        ],
+            facilitator_id: null
+          }
+        ]
       },
 
       course_type: "",
@@ -2732,20 +2746,20 @@ export default {
       alpha: false,
       currentPage: 1,
       rows: null,
-      perPage: 12,
+      perPage: 12
     };
   },
   components: {
     Upload,
     Editor,
     draggable,
-    ModelListSelect,
+    ModelListSelect
   },
   mounted() {
     this.getcourses();
     this.getfacilitators();
     this.insight = Insight;
-    this.options = Insight.map((item) => {
+    this.options = Insight.map(item => {
       var res = {};
 
       res.value = item.value;
@@ -2768,7 +2782,7 @@ export default {
       this.$nextTick(() => {
         this.delayedDragging = false;
       });
-    },
+    }
   },
   computed: {
     dragOptions() {
@@ -2776,7 +2790,7 @@ export default {
         animation: 0,
         group: "description",
         disabled: !this.editable,
-        ghostClass: "ghost",
+        ghostClass: "ghost"
       };
     },
     filteredCourse() {
@@ -2786,7 +2800,7 @@ export default {
           this.perPage * this.currentPage
         )
         .filter(
-          (item) =>
+          item =>
             item.title.toLowerCase().includes(this.search.toLowerCase()) ||
             JSON.parse(item.courseoutline.knowledge_areas)
               .value.toLowerCase()
@@ -2799,11 +2813,11 @@ export default {
       }
       var courseType;
       if (this.course_type == "free") {
-        courseType = title.filter((item) => item.type == "free");
+        courseType = title.filter(item => item.type == "free");
       } else if (this.course_type == "paid") {
-        courseType = title.filter((item) => item.type == "paid");
+        courseType = title.filter(item => item.type == "paid");
       } else if (this.course_type == "group") {
-        courseType = title.filter((item) => item.type == "group");
+        courseType = title.filter(item => item.type == "group");
       } else {
         courseType = title;
       }
@@ -2812,7 +2826,7 @@ export default {
         return courseType.slice().reverse();
       }
       return courseType;
-    },
+    }
   },
   methods: {
     onMove({ relatedContext, draggedContext }) {
@@ -2825,20 +2839,20 @@ export default {
 
     selectall(id, val, arr) {
       if (val) {
-        this.detail.schedule[id].modules = arr.map((item) => item.module);
+        this.detail.schedule[id].modules = arr.map(item => item.module);
       } else {
         this.detail.schedule[id].modules = [];
       }
     },
     addinvite() {
       this.inviteUsers.users.push({
-        email: "",
+        email: ""
       });
     },
-    onCopy: function (e) {
+    onCopy: function(e) {
       alert("You just copied the following text to the clipboard: " + e.text);
     },
-    onError: function (e) {
+    onError: function(e) {
       alert("Failed to copy the text to the clipboard");
       console.log(e);
     },
@@ -2849,10 +2863,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Invite Sent");
             this.$bvModal.hide("courselink");
@@ -2862,9 +2876,9 @@ export default {
               title: "",
               users: [
                 {
-                  email: "",
-                },
-              ],
+                  email: ""
+                }
+              ]
             };
           }
         })
@@ -2885,27 +2899,26 @@ export default {
           this.course.title.bold() +
           ", Check it out here",
         url:
-          "https://skillsguruh.com/learner/courses/?course_id=" +
-          this.course.id,
+          "https://skillsguruh.com/learner/courses/?course_id=" + this.course.id
       };
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Added to feeds ");
             this.$bvModal.hide("share");
 
             this.feed = {
               media: "",
-              message: "",
+              message: ""
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -2921,8 +2934,8 @@ export default {
 
       var resources = b;
 
-      modules.forEach((mod) => {
-        var val = resources.filter((item) => item.module == mod.module).length;
+      modules.forEach(mod => {
+        var val = resources.filter(item => item.module == mod.module).length;
 
         if (val) {
           count++;
@@ -2938,8 +2951,8 @@ export default {
         return 0;
       }
       if (media == "document") {
-        arr.forEach((val) => {
-          JSON.parse(val.modules).forEach((item) => {
+        arr.forEach(val => {
+          JSON.parse(val.modules).forEach(item => {
             if (
               item.file_type.toLowerCase() == media.toLowerCase() ||
               item.file_type.toLowerCase() == "worksheet"
@@ -2949,8 +2962,8 @@ export default {
           });
         });
       } else {
-        arr.forEach((val) => {
-          JSON.parse(val.modules).forEach((item) => {
+        arr.forEach(val => {
+          JSON.parse(val.modules).forEach(item => {
             if (item.file_type.toLowerCase() == media.toLowerCase()) {
               newarr.push(item);
             }
@@ -2981,10 +2994,10 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      var newArr = schedule.map((val) => {
+      var newArr = schedule.map(val => {
         if (val.facilitator_id) {
           var fac = this.facilitators.find(
-            (item) => item.id == val.facilitator_id
+            item => item.id == val.facilitator_id
           );
           if (fac) {
             return fac.name;
@@ -2999,7 +3012,7 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      return schedule.map((item) => {
+      return schedule.map(item => {
         var res = ` ${item.day} ${this.$moment(
           new Date("2021-05-18 " + item.start_time)
         ).format("LT")}`;
@@ -3020,7 +3033,7 @@ export default {
         modules: [],
         start_time: new Date(),
         end_time: new Date(),
-        facilitator_id: null,
+        facilitator_id: null
       });
       this.current_schedule = this.detail.schedule.length - 1;
     },
@@ -3031,7 +3044,7 @@ export default {
       }
       this.detail.outline.modules.push({
         fixed: false,
-        module: this.newmodule,
+        module: this.newmodule
       });
       this.newmodule = "";
     },
@@ -3039,7 +3052,7 @@ export default {
     addfaq() {
       this.detail.outline.faqs.push({
         question: "",
-        answer: "",
+        answer: ""
       });
     },
 
@@ -3047,15 +3060,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -3064,17 +3077,17 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/courses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.courses = res.data;
             this.showCourse = true;
             this.rows = res.data.length;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -3093,10 +3106,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/courses`, this.detail, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.$toast.success("Course created");
             this.disable = false;
@@ -3109,7 +3122,7 @@ export default {
                 description: "",
                 cover: "",
                 type: "group",
-                amount: null,
+                amount: null
               },
               outline: {
                 overview: "",
@@ -3119,11 +3132,11 @@ export default {
                 faqs: [
                   {
                     question: "",
-                    answer: "",
-                  },
+                    answer: ""
+                  }
                 ],
                 certification: null,
-                additional_info: "",
+                additional_info: ""
               },
               schedule: [
                 {
@@ -3136,13 +3149,13 @@ export default {
                   modules: [],
                   start_time: new Date(),
                   end_time: new Date(),
-                  facilitator_id: null,
-                },
-              ],
+                  facilitator_id: null
+                }
+              ]
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.disable = false;
           this.$toast.error(err.response.data.message);
         });
@@ -3151,11 +3164,11 @@ export default {
       this.detail = {
         general: {
           title: val.title,
-          code: val.code,
+          code: val.course_code,
           description: val.description,
           cover: val.cover,
           type: val.type,
-          amount: val.amount,
+          amount: val.amount
         },
         outline: {
           overview: val.courseoutline.overview,
@@ -3164,9 +3177,9 @@ export default {
           modules: JSON.parse(val.courseoutline.modules),
           faqs: JSON.parse(val.courseoutline.faqs),
           certification: val.courseoutline.certification,
-          additional_info: val.courseoutline.additional_info,
+          additional_info: val.courseoutline.additional_info
         },
-        schedule: val.courseschedule.map((item) => {
+        schedule: val.courseschedule.map(item => {
           return {
             id: item.id,
             all: item.all,
@@ -3178,9 +3191,9 @@ export default {
             modules: JSON.parse(item.modules),
             start_time: item.start_time,
             end_time: item.end_time,
-            facilitator_id: item.facilitator_id,
+            facilitator_id: item.facilitator_id
           };
-        }),
+        })
       };
 
       this.$bvModal.show("update");
@@ -3203,11 +3216,11 @@ export default {
           this.detail,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Update successful");
             this.$bvModal.hide("update");
@@ -3221,7 +3234,7 @@ export default {
                 description: "",
                 cover: "",
                 type: "group",
-                cost: "",
+                cost: ""
               },
               outline: {
                 overview: "",
@@ -3231,11 +3244,11 @@ export default {
                 faqs: [
                   {
                     question: "",
-                    answer: "",
-                  },
+                    answer: ""
+                  }
                 ],
                 certification: null,
-                additional_info: "",
+                additional_info: ""
               },
               schedule: [
                 {
@@ -3248,40 +3261,40 @@ export default {
                   modules: [],
                   start_time: new Date(),
                   end_time: new Date(),
-                  facilitator_id: null,
-                },
-              ],
+                  facilitator_id: null
+                }
+              ]
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.disable = false;
           this.$toast.error(err.response.data.message);
         });
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/courses/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.courses.splice(index, 1);
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.disable = false;
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -3351,6 +3364,9 @@ p {
   color: #333;
   font-size: 13px;
   cursor: pointer;
+}
+span.title {
+  font-size: 0.9rem;
 }
 @media (max-width: 600px) {
   .search {

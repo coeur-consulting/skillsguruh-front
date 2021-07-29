@@ -1701,6 +1701,9 @@ export default {
 .text-sm {
   font-size: 13px;
 }
+span.title {
+  font-size: 0.9rem;
+}
 @media (max-width: 600px) {
   h4,
   h5 {
