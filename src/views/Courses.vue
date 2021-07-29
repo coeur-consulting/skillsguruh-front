@@ -740,13 +740,13 @@
                     <div class="mb-1">
                       <span class="fs14 mr-2 text-muted">Venue: </span>
                       <span class="text-sm">
-                        {{ item.venue ? item.venue : "None" }}</span
+                        {{ item.venue ? item.venue : "N/A" }}</span
                       >
                     </div>
                     <div class="mb-1">
                       <span class="fs14 mr-2 text-muted">Url: </span>
                       <span class="text-sm">
-                        {{ item.url ? item.url : "None" }}</span
+                        {{ item.url ? item.url : "N/A" }}</span
                       >
                     </div>
                     <div>
@@ -755,9 +755,13 @@
                         class="text-sm"
                         v-if="item.facilitator_id != null"
                         >{{
-                          facilitators.find(
+                          facilitators.some(
                             (val) => val.id == item.facilitator_id
-                          ).name
+                          )
+                            ? facilitators.find(
+                                (val) => val.id == item.facilitator_id
+                              ).name
+                            : "N/A"
                         }}</span
                       >
                       <span v-else class="text-sm">Unavailable</span>
@@ -1258,8 +1262,11 @@
                 <div>
                   <span class="fs14 mr-2 text-muted">Facilitator: </span>
                   <span class="text-sm" v-if="item.facilitator_id != null">{{
-                    facilitators.find((val) => val.id == item.facilitator_id)
-                      .name
+                    facilitators.some((val) => val.id == item.facilitator_id)
+                      ? facilitators.find(
+                          (val) => val.id == item.facilitator_id
+                        ).name
+                      : "N/A"
                   }}</span>
                   <span v-else class="text-sm">Unavailable</span>
                 </div>
@@ -1690,6 +1697,9 @@ export default {
   color: #333;
   font-size: 11px;
   cursor: pointer;
+}
+.text-sm {
+  font-size: 13px;
 }
 @media (max-width: 600px) {
   h4,

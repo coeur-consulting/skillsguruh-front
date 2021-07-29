@@ -945,9 +945,13 @@
                         class="text-sm"
                         v-if="item.facilitator_id != null"
                         >{{
-                          facilitators.find(
+                          facilitators.some(
                             (val) => val.id == item.facilitator_id
-                          ).name
+                          )
+                            ? facilitators.find(
+                                (val) => val.id == item.facilitator_id
+                              ).name
+                            : "N/A"
                         }}</span
                       >
                       <span v-else class="text-sm">Unavailable</span>
@@ -1489,8 +1493,11 @@
                   <div>
                     <span class="fs14 mr-2 text-muted">Facilitator: </span>
                     <span class="text-sm" v-if="item.facilitator_id != null">{{
-                      facilitators.find((val) => val.id == item.facilitator_id)
-                        .name
+                      facilitators.some((val) => val.id == item.facilitator_id)
+                        ? facilitators.find(
+                            (val) => val.id == item.facilitator_id
+                          ).name
+                        : "N/A"
                     }}</span>
                     <span v-else class="text-sm">Unavailable</span>
                   </div>

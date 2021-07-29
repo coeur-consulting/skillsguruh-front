@@ -1384,7 +1384,7 @@
                       >View outline</b-dropdown-item
                     > -->
                         <b-dropdown-item
-                          class="fs12"
+                          class="fs12 mb-2"
                           @click="
                             $router.push(
                               `/facilitator/modules/${course.id}?showing=${course.title}`
@@ -1393,7 +1393,7 @@
                           >Add resources</b-dropdown-item
                         >
 
-                        <b-dropdown-item class="fs12" @click="edit(course)"
+                        <b-dropdown-item class="fs12 mb-2" @click="edit(course)"
                           >Edit course info</b-dropdown-item
                         >
                         <b-dropdown-item
@@ -2176,9 +2176,13 @@
                           class="text-sm"
                           v-if="item.facilitator_id != null"
                           >{{
-                            facilitators.find(
+                            facilitators.some(
                               (val) => val.id == item.facilitator_id
-                            ).name
+                            )
+                              ? facilitators.find(
+                                  (val) => val.id == item.facilitator_id
+                                ).name
+                              : "N/A"
                           }}</span
                         >
                         <span v-else class="text-sm">Unavailable</span>
@@ -2624,8 +2628,11 @@
                   <div>
                     <span class="fs14 mr-2 text-muted">Facilitator: </span>
                     <span class="text-sm" v-if="item.facilitator_id != null">{{
-                      facilitators.find((val) => val.id == item.facilitator_id)
-                        .name
+                      facilitators.some((val) => val.id == item.facilitator_id)
+                        ? facilitators.find(
+                            (val) => val.id == item.facilitator_id
+                          ).name
+                        : "N/A"
                     }}</span>
                     <span v-else class="text-sm">Unavailable</span>
                   </div>
