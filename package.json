@@ -10,6 +10,9 @@
   "dependencies": {
     "@tinymce/tinymce-vue": "^3.2.8",
     "@voerro/vue-tagsinput": "^2.7.1",
+    "@vue/composition-api": "^1.0.4",
+    "@vuelidate/core": "*",
+    "@vuelidate/validators": "*",
     "animate.css": "^4.1.1",
     "apexcharts": "^3.26.1",
     "axios": "^0.21.1",
@@ -47,6 +50,7 @@
     "vue-web-speech": "^0.2.3",
     "vuedraggable": "^2.24.3",
     "vuejs-countdown-timer": "^2.1.3",
+    "vuelidate": "^0.7.6",
     "vuex": "^3.4.0"
   },
   "devDependencies": {

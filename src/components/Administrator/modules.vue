@@ -184,21 +184,14 @@
               </b-col>
               <b-col sm="6" class="px-3">
                 <b-form-group label="Modules">
-                  <b-form-select
+                  <model-list-select
+                    :list="getmodules"
                     v-model="detail.module"
-                    class="text-capitalize"
-                    required
+                    option-value="value"
+                    option-text="name"
+                    placeholder="select module"
                   >
-                    <b-form-select-option disabled value=""
-                      >Choose Module</b-form-select-option
-                    >
-                    <b-form-select-option
-                      :value="item"
-                      v-for="(item, id) in getmodules"
-                      :key="id"
-                      >{{ item }}</b-form-select-option
-                    ></b-form-select
-                  >
+                  </model-list-select>
                 </b-form-group>
               </b-col>
             </b-form-row>
@@ -492,21 +485,14 @@
               </b-col>
               <b-col sm="6" class="px-3">
                 <b-form-group label="Modules">
-                  <b-form-select
+                  <model-list-select
+                    :list="getmodules"
                     v-model="detail.module"
-                    class="text-capitalize"
-                    required
+                    option-value="value"
+                    option-text="name"
+                    placeholder="select module"
                   >
-                    <b-form-select-option disabled value=""
-                      >Choose Module</b-form-select-option
-                    >
-                    <b-form-select-option
-                      :value="item"
-                      v-for="(item, id) in getmodules"
-                      :key="id"
-                      >{{ item }}</b-form-select-option
-                    ></b-form-select
-                  >
+                  </model-list-select>
                 </b-form-group>
               </b-col>
             </b-form-row>
@@ -842,11 +828,20 @@ export default {
       if (!this.detail.course_id) {
         return [];
       }
-      if (!this.courses) {
+      if (!this.modules) {
         return [];
       }
-      var first = this.courses.find((item) => item.id == this.detail.course_id);
-      return first ? JSON.parse(first.courseoutline.modules) : [];
+      var first = this.modules.find(
+        (item) => item.course_id == this.detail.course_id
+      );
+      return first
+        ? JSON.parse(first.modules).map((item) => {
+            var obj = {};
+            obj.name = item;
+            obj.value = item;
+            return obj;
+          })
+        : [];
     },
   },
   mounted() {

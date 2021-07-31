@@ -53,12 +53,17 @@
         <b-container v-show="type == 1">
           <b-form-row>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Course title*">
+              <b-form-group label="Course title*" label-for="title" id="title">
                 <b-form-input
-                  required
                   placeholder="Enter course title"
                   v-model="detail.general.title"
+                  :state="validateState('general', 'title')"
+                  name="title"
+                  aria-describedby="title-feedback"
                 ></b-form-input>
+                <b-form-invalid-feedback id="title-feedback">
+                  Title is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
@@ -92,11 +97,17 @@
             >
               <b-form-group label="Course amount*">
                 <b-form-input
+                  :state="validateState('general', 'amount')"
+                  name="amount"
                   size="sm"
                   type="number"
                   v-model="detail.general.amount"
                   placeholder=""
+                  aria-describedby="amount-feedback"
                 ></b-form-input>
+                <b-form-invalid-feedback id="title-feedback">
+                  Field is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
 
@@ -108,8 +119,9 @@
               <b-form-group label="No of participants*">
                 <b-form-select
                   size="sm"
-                  required
+                  :state="validateState('general', 'amount')"
                   v-model="detail.general.amount"
+                  aria-describedby="amount-feedback"
                 >
                   <b-form-select-option :value="null"
                     >Select a number</b-form-select-option
@@ -118,6 +130,9 @@
                     n
                   }}</b-form-select-option>
                 </b-form-select>
+                <b-form-invalid-feedback id="amount-feedback">
+                  Field is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
           </b-form-row>
@@ -125,11 +140,16 @@
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Course Description*">
                 <b-form-textarea
-                  required
                   v-model="detail.general.description"
+                  name="desc"
+                  :state="validateState('general', 'description')"
                   rows="5"
                   placeholder="Enter Description"
+                  aria-describedby="desc-feedback"
                 ></b-form-textarea>
+                <b-form-invalid-feedback id="desc-feedback">
+                  Description is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
@@ -164,11 +184,19 @@
                     height: 150,
                     menubar: false,
                     font_formats: 'Poppins',
-                    toolbar:
-                      ' styleselect  |fontselect | fontsizeselect | bold italic ',
+                    toolbar: ' styleselect   | fontsizeselect | bold italic ',
                     content_style: font,
                   }"
+                  aria-describedby="overview-feedback"
                 />
+                <b-form-textarea
+                  class="d-none"
+                  aria-describedby="overview-feedback"
+                  :state="validateState('outline', 'overview')"
+                ></b-form-textarea>
+                <b-form-invalid-feedback id="overview-feedback">
+                  Overview is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
           </b-form-row>
@@ -183,12 +211,20 @@
                   placeholder="select area"
                 >
                 </model-list-select>
+                <b-form-select
+                  class="d-none"
+                  aria-describedby="area-feedback"
+                  :state="validateState('outline', 'knowledge_area')"
+                ></b-form-select>
+                <b-form-invalid-feedback id="area-feedback">
+                  Knowledge area is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Duration*">
                 <b-form-input
-                  required
+                  :state="validateState('outline', 'duration')"
                   v-model="detail.outline.duration"
                   placeholder="Enter course duration"
                 ></b-form-input>
@@ -200,14 +236,20 @@
               <div class="border rounded p-2">
                 <b-form-group label="Modules*">
                   <b-input-group class="addmodule mb-3">
-                    <b-form-input v-model="newmodule"></b-form-input>
+                    <b-form-input
+                      aria-describedby="modules-feedback"
+                      v-model="newmodule"
+                      :state="validateState('outline', 'modules')"
+                    ></b-form-input>
                     <b-input-group-append>
                       <b-button variant="dark-green" @click="addmodule"
                         >Add</b-button
                       >
                     </b-input-group-append>
                   </b-input-group>
-
+                  <b-form-invalid-feedback id="modules-feedback">
+                    Modules are required
+                  </b-form-invalid-feedback>
                   <div>
                     <b-row>
                       <draggable
@@ -404,7 +446,7 @@
               <b-form-row>
                 <b-col sm="6" class="mb-3 px-3">
                   <b-form-group label="Choose Facilitator">
-                    <b-form-select v-model="item.facilitator_id">
+                    <!-- <b-form-select v-model="item.facilitator_id">
                       <b-form-select-option :value="null"
                         >None</b-form-select-option
                       >
@@ -414,7 +456,15 @@
                         :key="id"
                         >{{ item.name }}</b-form-select-option
                       ></b-form-select
+                    > -->
+                    <model-list-select
+                      :list="facilitators"
+                      v-model="item.facilitator_id"
+                      option-value="id"
+                      option-text="name"
+                      placeholder="select facilitator"
                     >
+                    </model-list-select>
                   </b-form-group>
                 </b-col>
               </b-form-row>
@@ -540,7 +590,7 @@
             size="lg"
             class="px-5"
             type="button"
-            @click="type++"
+            @click="toggleView"
             v-show="type <= 2"
             variant="secondary"
             >Next</b-button
@@ -629,12 +679,17 @@
         <b-container v-show="type == 1">
           <b-form-row>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Course title*">
+              <b-form-group label="Course title*" label-for="title" id="title">
                 <b-form-input
-                  required
                   placeholder="Enter course title"
                   v-model="detail.general.title"
+                  :state="validateState('general', 'title')"
+                  name="title"
+                  aria-describedby="title-feedback"
                 ></b-form-input>
+                <b-form-invalid-feedback id="title-feedback">
+                  Title is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
@@ -646,6 +701,7 @@
               </b-form-group>
             </b-col>
           </b-form-row>
+
           <b-form-row>
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Course Type">
@@ -667,11 +723,17 @@
             >
               <b-form-group label="Course amount*">
                 <b-form-input
+                  :state="validateState('general', 'amount')"
+                  name="amount"
                   size="sm"
                   type="number"
                   v-model="detail.general.amount"
                   placeholder=""
+                  aria-describedby="amount-feedback"
                 ></b-form-input>
+                <b-form-invalid-feedback id="title-feedback">
+                  Field is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
 
@@ -683,8 +745,9 @@
               <b-form-group label="No of participants*">
                 <b-form-select
                   size="sm"
-                  required
+                  :state="validateState('general', 'amount')"
                   v-model="detail.general.amount"
+                  aria-describedby="amount-feedback"
                 >
                   <b-form-select-option :value="null"
                     >Select a number</b-form-select-option
@@ -693,6 +756,9 @@
                     n
                   }}</b-form-select-option>
                 </b-form-select>
+                <b-form-invalid-feedback id="amount-feedback">
+                  Field is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
           </b-form-row>
@@ -700,11 +766,16 @@
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Course Description*">
                 <b-form-textarea
-                  required
                   v-model="detail.general.description"
+                  name="desc"
+                  :state="validateState('general', 'description')"
                   rows="5"
                   placeholder="Enter Description"
+                  aria-describedby="desc-feedback"
                 ></b-form-textarea>
+                <b-form-invalid-feedback id="desc-feedback">
+                  Description is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
@@ -714,7 +785,6 @@
                   :id="'image'"
                   :type="'image'"
                   :file_type="'image'"
-                  :image="detail.general.cover"
                 >
                   <div class="text-center">
                     <b-icon
@@ -740,11 +810,19 @@
                     height: 150,
                     menubar: false,
                     font_formats: 'Poppins',
-                    toolbar:
-                      ' styleselect  |fontselect | fontsizeselect | bold italic ',
+                    toolbar: ' styleselect   | fontsizeselect | bold italic ',
                     content_style: font,
                   }"
+                  aria-describedby="overview-feedback"
                 />
+                <b-form-textarea
+                  class="d-none"
+                  aria-describedby="overview-feedback"
+                  :state="validateState('outline', 'overview')"
+                ></b-form-textarea>
+                <b-form-invalid-feedback id="overview-feedback">
+                  Overview is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
           </b-form-row>
@@ -759,12 +837,20 @@
                   placeholder="select area"
                 >
                 </model-list-select>
+                <b-form-input
+                  class="d-none"
+                  aria-describedby="area-feedback"
+                  :state="validateState('outline', 'knowledge_area')"
+                ></b-form-input>
+                <b-form-invalid-feedback id="area-feedback">
+                  Knowledge area is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Course Duration*">
+              <b-form-group label="Duration*">
                 <b-form-input
-                  required
+                  :state="validateState('outline', 'duration')"
                   v-model="detail.outline.duration"
                   placeholder="Enter course duration"
                 ></b-form-input>
@@ -776,14 +862,20 @@
               <div class="border rounded p-2">
                 <b-form-group label="Modules*">
                   <b-input-group class="addmodule mb-3">
-                    <b-form-input v-model="newmodule"></b-form-input>
+                    <b-form-input
+                      aria-describedby="modules-feedback"
+                      v-model="newmodule"
+                      :state="validateState('outline', 'modules')"
+                    ></b-form-input>
                     <b-input-group-append>
                       <b-button variant="dark-green" @click="addmodule"
                         >Add</b-button
                       >
                     </b-input-group-append>
                   </b-input-group>
-
+                  <b-form-invalid-feedback id="modules-feedback">
+                    Modules are required
+                  </b-form-invalid-feedback>
                   <div>
                     <b-row>
                       <draggable
@@ -840,9 +932,9 @@
             <div class="p-2 border rounded">
               <label class="d-flex justify-content-between">
                 <span>Faqs</span>
-                <div>
+                <span>
                   <b-button size="sm" @click="addfaq">Add</b-button>
-                </div>
+                </span>
               </label>
               <b-form-row>
                 <b-col
@@ -980,17 +1072,14 @@
               <b-form-row>
                 <b-col sm="6" class="mb-3 px-3">
                   <b-form-group label="Choose Facilitator">
-                    <b-form-select v-model="item.facilitator_id">
-                      <b-form-select-option :value="null"
-                        >None</b-form-select-option
-                      >
-                      <b-form-select-option
-                        :value="item.id"
-                        v-for="(item, id) in facilitators"
-                        :key="id"
-                        >{{ item.name }}</b-form-select-option
-                      ></b-form-select
+                    <model-list-select
+                      :list="facilitators"
+                      v-model="item.facilitator_id"
+                      option-value="id"
+                      option-text="name"
+                      placeholder="select facilitator"
                     >
+                    </model-list-select>
                   </b-form-group>
                 </b-col>
               </b-form-row>
@@ -1116,7 +1205,7 @@
             size="lg"
             class="px-5"
             type="button"
-            @click="type++"
+            @click="toggleView"
             v-show="type <= 2"
             variant="secondary"
             >Next</b-button
@@ -2653,7 +2742,11 @@ import Insight from "../insight.js";
 import Editor from "@tinymce/tinymce-vue";
 import draggable from "vuedraggable";
 import { ModelListSelect } from "vue-search-select";
+import { validationMixin } from "vuelidate";
+import { required } from "vuelidate/lib/validators";
+
 export default {
+  mixins: [validationMixin],
   data() {
     return {
       editable: true,
@@ -2762,6 +2855,21 @@ export default {
       }
     });
   },
+  validations: {
+    detail: {
+      general: {
+        title: { required },
+        description: { required },
+        amount: { required },
+      },
+      outline: {
+        overview: { required },
+        knowledge_area: { required },
+        duration: { required },
+        modules: { required },
+      },
+    },
+  },
   computed: {
     dragOptions() {
       return {
@@ -2818,6 +2926,28 @@ export default {
     },
   },
   methods: {
+    toggleView() {
+      if (this.type == 1) {
+        this.$v.detail.general.$touch();
+        if (this.$v.detail.general.$anyError) {
+          return;
+        }
+      }
+
+      if (this.type == 2) {
+        this.$v.detail.outline.$touch();
+        if (this.$v.detail.outline.$anyError) {
+          return;
+        }
+      }
+      this.type++;
+    },
+
+    validateState(type, name) {
+      const { $dirty, $error } = this.$v.detail[type][name];
+
+      return $dirty ? !$error : null;
+    },
     onMove({ relatedContext, draggedContext }) {
       const relatedElement = relatedContext.element;
       const draggedElement = draggedContext.element;

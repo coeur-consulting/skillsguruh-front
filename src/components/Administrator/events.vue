@@ -81,7 +81,7 @@
                 ></b-button>
               </div>
               <div v-if="showEvents">
-                <div class="events" v-if="filter.length">
+                <div class="events p-2" v-if="filter.length">
                   <div
                     class="border rounded text-left mb-5 position-relative"
                     v-for="(item, index) in filter"
@@ -166,10 +166,7 @@
                     v-if="rows > 10"
                   >
                     <div class="fs12 text-muted">
-                      Showing {{ perPage * currentPage - perPage + 1 }}-{{
-                        perPage * currentPage
-                      }}
-                      of {{ filter.length }} items
+                      Showing 1-10 of {{ filter.length }} items
                     </div>
                     <b-pagination
                       pills
@@ -390,9 +387,20 @@
             <b-form-row class="mb-2">
               <b-col sm="12" class="pr-sm-3">
                 <b-form-group label="Add Facilitators to event (optional)">
-                  <b-button size="sm" @click="$bvModal.show('addfac')"
-                    >Click to add Facilitators to event</b-button
+                  <multi-select
+                    :options="
+                      facilitators.map((item) => {
+                        var val = {};
+                        val.value = item.id;
+                        val.text = item.name;
+                        return val;
+                      })
+                    "
+                    :selected-options="event.facilitators"
+                    placeholder="select facilitators"
+                    @select="onSelect"
                   >
+                  </multi-select>
                 </b-form-group>
               </b-col>
             </b-form-row>
@@ -430,7 +438,7 @@
         <b-form @submit.prevent="update" class="event">
           <div>
             <b-form-row class="mb-2">
-              <b-col sm="6" class="pr-sm-3">
+              <b-col sm="12" class="pr-sm-3">
                 <b-form-group label="Event name">
                   <b-form-input
                     size="lg"
@@ -441,7 +449,6 @@
                 </b-form-group>
               </b-col>
             </b-form-row>
-
             <b-form-row class="mb-2">
               <b-col sm="6" class="pr-sm-3">
                 <b-form-group label="Event Duration">
@@ -482,10 +489,9 @@
               <b-col cols="6" class="pr-sm-3">
                 <b-form-group label="Event Start">
                   <vc-date-picker
-                    placeholder="Choose end time"
+                    placeholder="Choose start time"
                     v-model="event.start"
                     mode="dateTime"
-                    :is24hr="false"
                   >
                     <template v-slot="{ inputValue, inputEvents }">
                       <input
@@ -510,7 +516,6 @@
                     placeholder="Choose end time"
                     v-model="event.end"
                     mode="dateTime"
-                    :is24hr="false"
                   >
                     <template v-slot="{ inputValue, inputEvents }">
                       <input
@@ -534,7 +539,6 @@
               <b-col sm="6" class="pr-sm-3">
                 <b-form-group label="Event type">
                   <b-form-select
-                    size="lg"
                     v-model="event.type"
                     required
                     placeholder="Choose type of event"
@@ -594,21 +598,32 @@
             <b-form-row class="mb-2">
               <b-col sm="12" class="pr-sm-3">
                 <b-form-group label="Add Facilitators to event (optional)">
-                  <b-button size="sm" @click="$bvModal.show('addfac')"
-                    >Click to add Facilitators to event</b-button
+                  <multi-select
+                    :options="
+                      facilitators.map((item) => {
+                        var val = {};
+                        val.value = item.id;
+                        val.text = item.name;
+                        return val;
+                      })
+                    "
+                    :selected-options="event.facilitators"
+                    placeholder="select facilitators"
+                    @select="onSelect"
                   >
+                  </multi-select>
                 </b-form-group>
               </b-col>
             </b-form-row>
 
             <b-form-group class="mt-4">
-              <div class="mb-3 text-center w-100">
+              <div class="mb-3 text-center">
                 <b-button
                   type="submit"
                   variant="dark-green"
                   size="lg"
                   class="px-5 d-none d-sm-block mx-auto"
-                  >Update</b-button
+                  >Update event</b-button
                 >
                 <b-button
                   type="submit"
@@ -616,7 +631,7 @@
                   size="lg"
                   block
                   class="px-5 d-sm-none mx-auto"
-                  >Update</b-button
+                  >Update event</b-button
                 >
               </div>
             </b-form-group>
@@ -648,6 +663,7 @@
 </template>
 <script>
 import Upload from "../fileupload";
+import { MultiSelect } from "vue-search-select";
 export default {
   data() {
     return {
@@ -672,10 +688,15 @@ export default {
         facilitators: [],
       },
       showEvents: false,
+      options: [],
+      searchText: "", // If value is falsy, reset searchText & searchItem
+      items: [],
+      lastSelectItem: {},
     };
   },
   components: {
     Upload,
+    MultiSelect,
   },
   computed: {
     filter() {
@@ -702,6 +723,10 @@ export default {
     this.getfacilitators();
   },
   methods: {
+    onSelect(items, lastSelectItem) {
+      this.event.facilitators = items;
+      this.lastSelectItem = lastSelectItem;
+    },
     getUpload(val, id) {
       if (id == "cover") {
         this.event.cover = val;
@@ -747,6 +772,9 @@ export default {
     },
 
     register() {
+      this.event.facilitators = this.event.facilitators.map(
+        (item) => item.value
+      );
       this.$http
         .post(`${this.$store.getters.url}/events`, this.event, {
           headers: {
@@ -772,25 +800,20 @@ export default {
             };
           }
         })
-        .catch((err) => {
-          if (err.response.data.errors.email[0]) {
-            this.$toast.error(err.response.data.errors.email[0]);
-          }
-          if (err.response.data.errors.phone[0]) {
-            this.$toast.error(err.response.data.errors.phone[0]);
-          }
-          if (err.response.data.errors.name[0]) {
-            this.$toast.error(err.response.data.errors.name[0]);
-          }
-          if (err.response.data.errors.password[0]) {
-            this.$toast.error(err.response.data.errors.password[0]);
-          }
+        .catch(() => {
+          this.$toast.error("Fill all fields");
         });
     },
     edit(data) {
       this.$bvModal.show("edit");
       this.event = data;
       this.event.duration = data.schedule;
+      this.event.facilitators = JSON.parse(data.facilitators).map((item) => {
+        var obj = {};
+        obj.value = item;
+        obj.text = this.facilitators.find((val) => val.id == item).name;
+        return obj;
+      });
     },
     update() {
       this.$http
@@ -817,8 +840,8 @@ export default {
             };
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Fill all fields");
         });
     },
     view(id) {
@@ -856,12 +879,8 @@ export default {
   width: 85%;
   margin: 0 auto;
 }
-// .events {
-//   max-height: 70vh;
-//   overflow-y: auto;
-//   -ms-overflow-style: none; /* IE and Edge */
-//   scrollbar-width: none; /* Firefox */
-// }
+.events {
+}
 
 .events::-webkit-scrollbar {
   display: none;

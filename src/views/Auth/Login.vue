@@ -36,10 +36,10 @@
               src="/img/logo.svg"
             ></b-img>
           </div>
-          <b-form @submit.prevent="register" class="user">
+          <b-form @submit.stop.prevent="register" class="user mt-sm-5">
             <legend>Login as</legend>
             <b-form-row class="mb-4 my_type">
-              <b-col cols="6" sm="4" class="text-left">
+              <b-col cols="6" sm="6" class="text-left">
                 <div
                   class="type"
                   :class="{ selected_type: type == 'facilitator' }"
@@ -53,7 +53,7 @@
                   >
                 </div>
               </b-col>
-              <b-col cols="6" sm="4" class="text-left">
+              <b-col cols="6" sm="6" class="text-left">
                 <div class="type" :class="{ selected_type: type == 'learner' }">
                   <b-form-radio
                     class="reg"
@@ -69,26 +69,34 @@
             <div>
               <b-form-row class="mb-2">
                 <b-col class="pr-sm-3">
-                  <b-form-group label="Email">
+                  <b-form-group label="Email" id="email" label-for="email">
                     <b-form-input
                       size="lg"
-                      required
                       v-model="user.email"
+                      name="email"
+                      :state="validation"
                       type="email"
                       placeholder="Enter email address"
+                      aria-describedby="email-feedback"
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
               </b-form-row>
               <b-form-row class="mb-2">
                 <b-col cols="12" class="pr-sm-3">
-                  <b-form-group label="Password">
+                  <b-form-group
+                    label="Password"
+                    id="password"
+                    label-for="password"
+                  >
                     <b-form-input
                       size="lg"
-                      required
                       v-model="user.password"
                       type="password"
+                      name="password"
+                      :state="validation"
                       placeholder="Enter password"
+                      aria-describedby="password-feedback"
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
@@ -143,7 +151,7 @@
                 or
                 <span
                   class="text-dark-green cursor-pointer"
-                  @click="$router.push('/admin/login?auth=facilitator')"
+                  @click="$router.push('/admin/login?auth=administrator')"
                   >Administrator</span
                 >
               </div>
@@ -192,20 +200,21 @@
 <script>
 export default {
   name: "register-component",
+
   data() {
     return {
       type: "facilitator",
       loading: false,
+      validation: null,
       user: {
-        name: "",
         email: "",
-        phone: "",
+
         password: "",
-        profile: "",
       },
       agree: false,
     };
   },
+
   mounted() {
     this.$route.query.auth
       ? (this.type = this.$route.query.auth)
@@ -271,6 +280,10 @@ export default {
           .catch(() => {
             this.loading = false;
             this.$toast.error("Invalid credentials");
+            this.validation = false;
+            setTimeout(() => {
+              this.validation = null;
+            }, 5000);
           });
       }
       if (this.type == "learner") {
@@ -323,6 +336,10 @@ export default {
           .catch(() => {
             this.loading = false;
             this.$toast.error("Invalid credentials");
+            this.validation = false;
+            setTimeout(() => {
+              this.validation = null;
+            }, 5000);
           });
       }
     },
@@ -390,7 +407,7 @@ p {
   z-index: 1;
 }
 .user {
-  width: 80%;
+  width: 50%;
   padding: 10px 30px;
   margin: 0 auto;
 }
