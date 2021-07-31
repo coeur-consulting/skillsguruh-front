@@ -53,12 +53,17 @@
         <b-container v-show="type == 1">
           <b-form-row>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Course title*">
+              <b-form-group label="Course title*" label-for="title" id="title">
                 <b-form-input
-                  required
                   placeholder="Enter course title"
                   v-model="detail.general.title"
+                  :state="validateState('general', 'title')"
+                  name="title"
+                  aria-describedby="title-feedback"
                 ></b-form-input>
+                <b-form-invalid-feedback id="title-feedback">
+                  Title is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
@@ -92,11 +97,17 @@
             >
               <b-form-group label="Course amount*">
                 <b-form-input
+                  :state="validateState('general', 'amount')"
+                  name="amount"
                   size="sm"
                   type="number"
                   v-model="detail.general.amount"
                   placeholder=""
+                  aria-describedby="amount-feedback"
                 ></b-form-input>
+                <b-form-invalid-feedback id="title-feedback">
+                  Field is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
 
@@ -108,8 +119,9 @@
               <b-form-group label="No of participants*">
                 <b-form-select
                   size="sm"
-                  required
+                  :state="validateState('general', 'amount')"
                   v-model="detail.general.amount"
+                  aria-describedby="amount-feedback"
                 >
                   <b-form-select-option :value="null"
                     >Select a number</b-form-select-option
@@ -118,6 +130,9 @@
                     n
                   }}</b-form-select-option>
                 </b-form-select>
+                <b-form-invalid-feedback id="amount-feedback">
+                  Field is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
           </b-form-row>
@@ -125,11 +140,16 @@
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Course Description*">
                 <b-form-textarea
-                  required
                   v-model="detail.general.description"
+                  name="desc"
+                  :state="validateState('general', 'description')"
                   rows="5"
                   placeholder="Enter Description"
+                  aria-describedby="desc-feedback"
                 ></b-form-textarea>
+                <b-form-invalid-feedback id="desc-feedback">
+                  Description is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
@@ -160,12 +180,24 @@
                   api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
                   v-model="detail.outline.overview"
                   :init="{
+                    selector: 'textarea',
                     height: 150,
                     menubar: false,
-
-                    toolbar: ' formatselect | bold italic '
+                    font_formats: 'Poppins',
+                    toolbar: ' styleselect   | fontsizeselect | bold italic ',
+                    content_style: font,
                   }"
+                  aria-describedby="overview-feedback"
                 />
+                <b-form-textarea
+                  class="d-none"
+                  v-model="detail.outline.overview"
+                  aria-describedby="overview-feedback"
+                  :state="validateState('outline', 'overview')"
+                ></b-form-textarea>
+                <b-form-invalid-feedback id="overview-feedback">
+                  Overview is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
           </b-form-row>
@@ -180,12 +212,21 @@
                   placeholder="select area"
                 >
                 </model-list-select>
+                <b-form-select
+                  v-model="detail.outline.knowledge_area"
+                  class="d-none"
+                  aria-describedby="area-feedback"
+                  :state="validateState('outline', 'knowledge_area')"
+                ></b-form-select>
+                <b-form-invalid-feedback id="area-feedback">
+                  Knowledge area is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Duration*">
                 <b-form-input
-                  required
+                  :state="validateState('outline', 'duration')"
                   v-model="detail.outline.duration"
                   placeholder="Enter course duration"
                 ></b-form-input>
@@ -197,14 +238,20 @@
               <div class="border rounded p-2">
                 <b-form-group label="Modules*">
                   <b-input-group class="addmodule mb-3">
-                    <b-form-input v-model="newmodule"></b-form-input>
+                    <b-form-input
+                      aria-describedby="modules-feedback"
+                      v-model="newmodule"
+                      :state="validateState('outline', 'modules')"
+                    ></b-form-input>
                     <b-input-group-append>
                       <b-button variant="dark-green" @click="addmodule"
                         >Add</b-button
                       >
                     </b-input-group-append>
                   </b-input-group>
-
+                  <b-form-invalid-feedback id="modules-feedback">
+                    Modules are required
+                  </b-form-invalid-feedback>
                   <div>
                     <b-row>
                       <draggable
@@ -401,7 +448,7 @@
               <b-form-row>
                 <b-col sm="6" class="mb-3 px-3">
                   <b-form-group label="Choose Facilitator">
-                    <b-form-select v-model="item.facilitator_id">
+                    <!-- <b-form-select v-model="item.facilitator_id">
                       <b-form-select-option :value="null"
                         >None</b-form-select-option
                       >
@@ -411,7 +458,15 @@
                         :key="id"
                         >{{ item.name }}</b-form-select-option
                       ></b-form-select
+                    > -->
+                    <model-list-select
+                      :list="facilitators"
+                      v-model="item.facilitator_id"
+                      option-value="id"
+                      option-text="name"
+                      placeholder="select facilitator"
                     >
+                    </model-list-select>
                   </b-form-group>
                 </b-col>
               </b-form-row>
@@ -537,7 +592,7 @@
             size="lg"
             class="px-5"
             type="button"
-            @click="type++"
+            @click="toggleView"
             v-show="type <= 2"
             variant="secondary"
             >Next</b-button
@@ -626,12 +681,17 @@
         <b-container v-show="type == 1">
           <b-form-row>
             <b-col sm="6" class="mb-3 px-3">
-              <b-form-group label="Course title*">
+              <b-form-group label="Course title*" label-for="title" id="title">
                 <b-form-input
-                  required
                   placeholder="Enter course title"
                   v-model="detail.general.title"
+                  :state="validateState('general', 'title')"
+                  name="title"
+                  aria-describedby="title-feedback"
                 ></b-form-input>
+                <b-form-invalid-feedback id="title-feedback">
+                  Title is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
@@ -643,6 +703,7 @@
               </b-form-group>
             </b-col>
           </b-form-row>
+
           <b-form-row>
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Course Type">
@@ -664,11 +725,17 @@
             >
               <b-form-group label="Course amount*">
                 <b-form-input
+                  :state="validateState('general', 'amount')"
+                  name="amount"
                   size="sm"
                   type="number"
                   v-model="detail.general.amount"
                   placeholder=""
+                  aria-describedby="amount-feedback"
                 ></b-form-input>
+                <b-form-invalid-feedback id="title-feedback">
+                  Field is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
 
@@ -680,8 +747,9 @@
               <b-form-group label="No of participants*">
                 <b-form-select
                   size="sm"
-                  required
+                  :state="validateState('general', 'amount')"
                   v-model="detail.general.amount"
+                  aria-describedby="amount-feedback"
                 >
                   <b-form-select-option :value="null"
                     >Select a number</b-form-select-option
@@ -690,6 +758,9 @@
                     n
                   }}</b-form-select-option>
                 </b-form-select>
+                <b-form-invalid-feedback id="amount-feedback">
+                  Field is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
           </b-form-row>
@@ -697,11 +768,16 @@
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Course Description*">
                 <b-form-textarea
-                  required
                   v-model="detail.general.description"
+                  name="desc"
+                  :state="validateState('general', 'description')"
                   rows="5"
                   placeholder="Enter Description"
+                  aria-describedby="desc-feedback"
                 ></b-form-textarea>
+                <b-form-invalid-feedback id="desc-feedback">
+                  Description is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
@@ -711,7 +787,6 @@
                   :id="'image'"
                   :type="'image'"
                   :file_type="'image'"
-                  :image="detail.general.cover"
                 >
                   <div class="text-center">
                     <b-icon
@@ -733,12 +808,23 @@
                   api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
                   v-model="detail.outline.overview"
                   :init="{
+                    selector: 'textarea',
                     height: 150,
                     menubar: false,
-
-                    toolbar: ' formatselect | bold italic  '
+                    font_formats: 'Poppins',
+                    toolbar: ' styleselect   | fontsizeselect | bold italic ',
+                    content_style: font,
                   }"
+                  aria-describedby="overview-feedback"
                 />
+                <b-form-textarea
+                  class="d-none"
+                  aria-describedby="overview-feedback"
+                  :state="validateState('outline', 'overview')"
+                ></b-form-textarea>
+                <b-form-invalid-feedback id="overview-feedback">
+                  Overview is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
           </b-form-row>
@@ -753,12 +839,20 @@
                   placeholder="select area"
                 >
                 </model-list-select>
+                <b-form-input
+                  class="d-none"
+                  aria-describedby="area-feedback"
+                  :state="validateState('outline', 'knowledge_area')"
+                ></b-form-input>
+                <b-form-invalid-feedback id="area-feedback">
+                  Knowledge area is required
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
             <b-col sm="6" class="mb-3 px-3">
               <b-form-group label="Duration*">
                 <b-form-input
-                  required
+                  :state="validateState('outline', 'duration')"
                   v-model="detail.outline.duration"
                   placeholder="Enter course duration"
                 ></b-form-input>
@@ -770,14 +864,20 @@
               <div class="border rounded p-2">
                 <b-form-group label="Modules*">
                   <b-input-group class="addmodule mb-3">
-                    <b-form-input v-model="newmodule"></b-form-input>
+                    <b-form-input
+                      aria-describedby="modules-feedback"
+                      v-model="newmodule"
+                      :state="validateState('outline', 'modules')"
+                    ></b-form-input>
                     <b-input-group-append>
                       <b-button variant="dark-green" @click="addmodule"
-                        >Add
-                      </b-button>
+                        >Add</b-button
+                      >
                     </b-input-group-append>
                   </b-input-group>
-
+                  <b-form-invalid-feedback id="modules-feedback">
+                    Modules are required
+                  </b-form-invalid-feedback>
                   <div>
                     <b-row>
                       <draggable
@@ -834,9 +934,9 @@
             <div class="p-2 border rounded">
               <label class="d-flex justify-content-between">
                 <span>Faqs</span>
-                <div>
+                <span>
                   <b-button size="sm" @click="addfaq">Add</b-button>
-                </div>
+                </span>
               </label>
               <b-form-row>
                 <b-col
@@ -974,17 +1074,14 @@
               <b-form-row>
                 <b-col sm="6" class="mb-3 px-3">
                   <b-form-group label="Choose Facilitator">
-                    <b-form-select v-model="item.facilitator_id">
-                      <b-form-select-option :value="null"
-                        >None</b-form-select-option
-                      >
-                      <b-form-select-option
-                        :value="item.id"
-                        v-for="(item, id) in facilitators"
-                        :key="id"
-                        >{{ item.name }}</b-form-select-option
-                      ></b-form-select
+                    <model-list-select
+                      :list="facilitators"
+                      v-model="item.facilitator_id"
+                      option-value="id"
+                      option-text="name"
+                      placeholder="select facilitator"
                     >
+                    </model-list-select>
                   </b-form-group>
                 </b-col>
               </b-form-row>
@@ -1110,7 +1207,7 @@
             size="lg"
             class="px-5"
             type="button"
-            @click="type++"
+            @click="toggleView"
             v-show="type <= 2"
             variant="secondary"
             >Next</b-button
@@ -1196,9 +1293,7 @@
           network="facebook"
           :url="link"
           title="COURSE INVITATION"
-          :description="
-            `I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`
-          "
+          :description="`I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1211,9 +1306,7 @@
           network="twitter"
           :url="link"
           title="COURSE INVITATION"
-          :description="
-            `I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`
-          "
+          :description="`I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1226,9 +1319,7 @@
           network="whatsApp"
           :url="link"
           title="COURSE INVITATION"
-          :description="
-            `I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`
-          "
+          :description="`I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1250,9 +1341,7 @@
           network="Telegram"
           :url="link"
           title="COURSE INVITATION"
-          :description="
-            `I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`
-          "
+          :description="`I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1415,12 +1504,10 @@
                         <b-icon
                           stacked
                           icon="circle-fill"
-                          :style="
-                            `color:${
-                              JSON.parse(course.courseoutline.knowledge_areas)
-                                .color
-                            }`
-                          "
+                          :style="`color:${
+                            JSON.parse(course.courseoutline.knowledge_areas)
+                              .color
+                          }`"
                         ></b-icon>
                         <b-icon
                           stacked
@@ -1747,11 +1834,9 @@
                     <b-icon
                       stacked
                       icon="circle-fill"
-                      :style="
-                        `color:${
-                          JSON.parse(course.courseoutline.knowledge_areas).color
-                        }`
-                      "
+                      :style="`color:${
+                        JSON.parse(course.courseoutline.knowledge_areas).color
+                      }`"
                     ></b-icon>
                     <b-icon
                       stacked
@@ -2031,7 +2116,7 @@
                       <div
                         v-if="
                           course.modules.some(
-                            i =>
+                            (i) =>
                               i.module.toLowerCase() ==
                               item.module.toLowerCase()
                           )
@@ -2041,7 +2126,7 @@
                           <div
                             v-for="(mod, index) in JSON.parse(
                               course.modules.find(
-                                i =>
+                                (i) =>
                                   i.module.toLowerCase() ==
                                   item.module.toLowerCase()
                               ).modules
@@ -2189,10 +2274,10 @@
                           v-if="item.facilitator_id != null"
                           >{{
                             facilitators.some(
-                              val => val.id == item.facilitator_id
+                              (val) => val.id == item.facilitator_id
                             )
                               ? facilitators.find(
-                                  val => val.id == item.facilitator_id
+                                  (val) => val.id == item.facilitator_id
                                 ).name
                               : "N/A"
                           }}</span
@@ -2247,11 +2332,9 @@
                 <b-icon
                   stacked
                   icon="circle-fill"
-                  :style="
-                    `color:${
-                      JSON.parse(course.courseoutline.knowledge_areas).color
-                    }`
-                  "
+                  :style="`color:${
+                    JSON.parse(course.courseoutline.knowledge_areas).color
+                  }`"
                 ></b-icon>
                 <b-icon
                   stacked
@@ -2642,9 +2725,9 @@
                   <div>
                     <span class="fs14 mr-2 text-muted">Facilitator: </span>
                     <span class="text-sm" v-if="item.facilitator_id != null">{{
-                      facilitators.some(val => val.id == item.facilitator_id)
+                      facilitators.some((val) => val.id == item.facilitator_id)
                         ? facilitators.find(
-                            val => val.id == item.facilitator_id
+                            (val) => val.id == item.facilitator_id
                           ).name
                         : "N/A"
                     }}</span>
@@ -2665,7 +2748,11 @@ import Insight from "../insight.js";
 import Editor from "@tinymce/tinymce-vue";
 import draggable from "vuedraggable";
 import { ModelListSelect } from "vue-search-select";
+import { validationMixin } from "vuelidate";
+import { required } from "vuelidate/lib/validators";
+
 export default {
+  mixins: [validationMixin],
   data() {
     return {
       options: [],
@@ -2690,9 +2777,9 @@ export default {
         url: "",
         users: [
           {
-            email: ""
-          }
-        ]
+            email: "",
+          },
+        ],
       },
       sending: false,
       disable: false,
@@ -2708,7 +2795,7 @@ export default {
           description: "",
           cover: "",
           type: "group",
-          amount: null
+          amount: null,
         },
         outline: {
           overview: "",
@@ -2718,11 +2805,11 @@ export default {
           faqs: [
             {
               question: "",
-              answer: ""
-            }
+              answer: "",
+            },
           ],
-          certification: null,
-          additional_info: ""
+          certification: false,
+          additional_info: "",
         },
         schedule: [
           {
@@ -2735,9 +2822,9 @@ export default {
             modules: [],
             start_time: new Date(),
             end_time: new Date(),
-            facilitator_id: null
-          }
-        ]
+            facilitator_id: null,
+          },
+        ],
       },
 
       course_type: "",
@@ -2746,20 +2833,36 @@ export default {
       alpha: false,
       currentPage: 1,
       rows: null,
-      perPage: 12
+      perPage: 12,
+      font: "@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap');body{font-family:Poppins;font-size:13px}",
     };
   },
   components: {
     Upload,
     Editor,
     draggable,
-    ModelListSelect
+    ModelListSelect,
+  },
+  validations: {
+    detail: {
+      general: {
+        title: { required },
+        description: { required },
+        amount: { required },
+      },
+      outline: {
+        overview: { required },
+        knowledge_area: { required },
+        duration: { required },
+        modules: { required },
+      },
+    },
   },
   mounted() {
     this.getcourses();
     this.getfacilitators();
     this.insight = Insight;
-    this.options = Insight.map(item => {
+    this.options = Insight.map((item) => {
       var res = {};
 
       res.value = item.value;
@@ -2782,7 +2885,7 @@ export default {
       this.$nextTick(() => {
         this.delayedDragging = false;
       });
-    }
+    },
   },
   computed: {
     dragOptions() {
@@ -2790,7 +2893,7 @@ export default {
         animation: 0,
         group: "description",
         disabled: !this.editable,
-        ghostClass: "ghost"
+        ghostClass: "ghost",
       };
     },
     filteredCourse() {
@@ -2800,7 +2903,7 @@ export default {
           this.perPage * this.currentPage
         )
         .filter(
-          item =>
+          (item) =>
             item.title.toLowerCase().includes(this.search.toLowerCase()) ||
             JSON.parse(item.courseoutline.knowledge_areas)
               .value.toLowerCase()
@@ -2813,11 +2916,11 @@ export default {
       }
       var courseType;
       if (this.course_type == "free") {
-        courseType = title.filter(item => item.type == "free");
+        courseType = title.filter((item) => item.type == "free");
       } else if (this.course_type == "paid") {
-        courseType = title.filter(item => item.type == "paid");
+        courseType = title.filter((item) => item.type == "paid");
       } else if (this.course_type == "group") {
-        courseType = title.filter(item => item.type == "group");
+        courseType = title.filter((item) => item.type == "group");
       } else {
         courseType = title;
       }
@@ -2826,9 +2929,31 @@ export default {
         return courseType.slice().reverse();
       }
       return courseType;
-    }
+    },
   },
   methods: {
+    toggleView() {
+      if (this.type == 1) {
+        this.$v.detail.general.$touch();
+        if (this.$v.detail.general.$anyError) {
+          return;
+        }
+      }
+
+      if (this.type == 2) {
+        this.$v.detail.outline.$touch();
+        if (this.$v.detail.outline.$anyError) {
+          return;
+        }
+      }
+      this.type++;
+    },
+
+    validateState(type, name) {
+      const { $dirty, $error } = this.$v.detail[type][name];
+
+      return $dirty ? !$error : null;
+    },
     onMove({ relatedContext, draggedContext }) {
       const relatedElement = relatedContext.element;
       const draggedElement = draggedContext.element;
@@ -2839,20 +2964,20 @@ export default {
 
     selectall(id, val, arr) {
       if (val) {
-        this.detail.schedule[id].modules = arr.map(item => item.module);
+        this.detail.schedule[id].modules = arr.map((item) => item.module);
       } else {
         this.detail.schedule[id].modules = [];
       }
     },
     addinvite() {
       this.inviteUsers.users.push({
-        email: ""
+        email: "",
       });
     },
-    onCopy: function(e) {
+    onCopy: function (e) {
       alert("You just copied the following text to the clipboard: " + e.text);
     },
-    onError: function(e) {
+    onError: function (e) {
       alert("Failed to copy the text to the clipboard");
       console.log(e);
     },
@@ -2863,10 +2988,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Invite Sent");
             this.$bvModal.hide("courselink");
@@ -2876,9 +3001,9 @@ export default {
               title: "",
               users: [
                 {
-                  email: ""
-                }
-              ]
+                  email: "",
+                },
+              ],
             };
           }
         })
@@ -2899,26 +3024,27 @@ export default {
           this.course.title.bold() +
           ", Check it out here",
         url:
-          "https://skillsguruh.com/learner/courses/?course_id=" + this.course.id
+          "https://skillsguruh.com/learner/courses/?course_id=" +
+          this.course.id,
       };
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Added to feeds ");
             this.$bvModal.hide("share");
 
             this.feed = {
               media: "",
-              message: ""
+              message: "",
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -2934,8 +3060,8 @@ export default {
 
       var resources = b;
 
-      modules.forEach(mod => {
-        var val = resources.filter(item => item.module == mod.module).length;
+      modules.forEach((mod) => {
+        var val = resources.filter((item) => item.module == mod.module).length;
 
         if (val) {
           count++;
@@ -2951,8 +3077,8 @@ export default {
         return 0;
       }
       if (media == "document") {
-        arr.forEach(val => {
-          JSON.parse(val.modules).forEach(item => {
+        arr.forEach((val) => {
+          JSON.parse(val.modules).forEach((item) => {
             if (
               item.file_type.toLowerCase() == media.toLowerCase() ||
               item.file_type.toLowerCase() == "worksheet"
@@ -2962,8 +3088,8 @@ export default {
           });
         });
       } else {
-        arr.forEach(val => {
-          JSON.parse(val.modules).forEach(item => {
+        arr.forEach((val) => {
+          JSON.parse(val.modules).forEach((item) => {
             if (item.file_type.toLowerCase() == media.toLowerCase()) {
               newarr.push(item);
             }
@@ -2994,10 +3120,10 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      var newArr = schedule.map(val => {
+      var newArr = schedule.map((val) => {
         if (val.facilitator_id) {
           var fac = this.facilitators.find(
-            item => item.id == val.facilitator_id
+            (item) => item.id == val.facilitator_id
           );
           if (fac) {
             return fac.name;
@@ -3012,7 +3138,7 @@ export default {
         return "Unavailable";
       }
       var schedule = data.courseschedule;
-      return schedule.map(item => {
+      return schedule.map((item) => {
         var res = ` ${item.day} ${this.$moment(
           new Date("2021-05-18 " + item.start_time)
         ).format("LT")}`;
@@ -3033,7 +3159,7 @@ export default {
         modules: [],
         start_time: new Date(),
         end_time: new Date(),
-        facilitator_id: null
+        facilitator_id: null,
       });
       this.current_schedule = this.detail.schedule.length - 1;
     },
@@ -3044,7 +3170,7 @@ export default {
       }
       this.detail.outline.modules.push({
         fixed: false,
-        module: this.newmodule
+        module: this.newmodule,
       });
       this.newmodule = "";
     },
@@ -3052,7 +3178,7 @@ export default {
     addfaq() {
       this.detail.outline.faqs.push({
         question: "",
-        answer: ""
+        answer: "",
       });
     },
 
@@ -3060,15 +3186,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -3077,17 +3203,17 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/courses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.courses = res.data;
             this.showCourse = true;
             this.rows = res.data.length;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -3106,10 +3232,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/courses`, this.detail, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.$toast.success("Course created");
             this.disable = false;
@@ -3122,7 +3248,7 @@ export default {
                 description: "",
                 cover: "",
                 type: "group",
-                amount: null
+                amount: null,
               },
               outline: {
                 overview: "",
@@ -3132,11 +3258,11 @@ export default {
                 faqs: [
                   {
                     question: "",
-                    answer: ""
-                  }
+                    answer: "",
+                  },
                 ],
                 certification: null,
-                additional_info: ""
+                additional_info: "",
               },
               schedule: [
                 {
@@ -3149,13 +3275,13 @@ export default {
                   modules: [],
                   start_time: new Date(),
                   end_time: new Date(),
-                  facilitator_id: null
-                }
-              ]
+                  facilitator_id: null,
+                },
+              ],
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.disable = false;
           this.$toast.error(err.response.data.message);
         });
@@ -3168,7 +3294,7 @@ export default {
           description: val.description,
           cover: val.cover,
           type: val.type,
-          amount: val.amount
+          amount: val.amount,
         },
         outline: {
           overview: val.courseoutline.overview,
@@ -3177,9 +3303,9 @@ export default {
           modules: JSON.parse(val.courseoutline.modules),
           faqs: JSON.parse(val.courseoutline.faqs),
           certification: val.courseoutline.certification,
-          additional_info: val.courseoutline.additional_info
+          additional_info: val.courseoutline.additional_info,
         },
-        schedule: val.courseschedule.map(item => {
+        schedule: val.courseschedule.map((item) => {
           return {
             id: item.id,
             all: item.all,
@@ -3191,9 +3317,9 @@ export default {
             modules: JSON.parse(item.modules),
             start_time: item.start_time,
             end_time: item.end_time,
-            facilitator_id: item.facilitator_id
+            facilitator_id: item.facilitator_id,
           };
-        })
+        }),
       };
 
       this.$bvModal.show("update");
@@ -3216,11 +3342,11 @@ export default {
           this.detail,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Update successful");
             this.$bvModal.hide("update");
@@ -3234,7 +3360,7 @@ export default {
                 description: "",
                 cover: "",
                 type: "group",
-                cost: ""
+                cost: "",
               },
               outline: {
                 overview: "",
@@ -3244,11 +3370,11 @@ export default {
                 faqs: [
                   {
                     question: "",
-                    answer: ""
-                  }
+                    answer: "",
+                  },
                 ],
                 certification: null,
-                additional_info: ""
+                additional_info: "",
               },
               schedule: [
                 {
@@ -3261,40 +3387,40 @@ export default {
                   modules: [],
                   start_time: new Date(),
                   end_time: new Date(),
-                  facilitator_id: null
-                }
-              ]
+                  facilitator_id: null,
+                },
+              ],
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.disable = false;
           this.$toast.error(err.response.data.message);
         });
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/courses/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-              }
+                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+              },
             })
-            .then(res => {
+            .then((res) => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.courses.splice(index, 1);
               }
             })
-            .catch(err => {
+            .catch((err) => {
               this.disable = false;
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

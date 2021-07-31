@@ -73,7 +73,7 @@
           <multi-select
             :options="options"
             :selected-options="feed.tags"
-            placeholder="select item"
+            placeholder="Choose tag"
             @select="onSelect"
           >
           </multi-select>

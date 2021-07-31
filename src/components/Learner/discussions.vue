@@ -325,9 +325,9 @@
       <b-form @submit.prevent="creatediscussion">
         <b-form-group label="Title">
           <b-form-input
-            required
             placeholder="Give a title"
             v-model="discussion.name"
+            required
           ></b-form-input>
         </b-form-group>
 
@@ -354,26 +354,26 @@
           </b-col>
           <b-col sm="6" v-if="discussion.type == 'private'">
             <b-form-group label="Select course">
-              <b-form-select v-model="discussion.course_id">
-                <b-form-select-option
-                  :value="item.id"
-                  v-for="item in courses"
-                  :key="item.id"
-                  >{{ item.title }}</b-form-select-option
-                >
-              </b-form-select>
+              <model-list-select
+                :list="courses"
+                v-model="discussion.course_id"
+                option-value="id"
+                option-text="title"
+                placeholder="Select course"
+              >
+              </model-list-select>
             </b-form-group>
           </b-col>
         </b-form-row>
 
         <b-form-group label="Tags">
-          <tags-input
-            discard-search-text="Select"
-            element-id="tags"
-            v-model="discussion.tags"
-            :existing-tags="mytags"
-            :typeahead="true"
-          ></tags-input>
+          <multi-select
+            :options="mytags"
+            :selected-options="discussion.tags"
+            placeholder="select tags"
+            @select="onSelect"
+          >
+          </multi-select>
         </b-form-group>
 
         <b-button
@@ -413,7 +413,8 @@
 </template>
 
 <script>
-import VoerroTagsInput from "@voerro/vue-tagsinput";
+import { MultiSelect } from "vue-search-select";
+import { ModelListSelect } from "vue-search-select";
 import Insight from "../insight.js";
 export default {
   data() {
@@ -437,15 +438,27 @@ export default {
       mytags: [],
       otherdiscussion: [],
       discussion_id: null,
+      options: [],
+      searchText: "", // If value is falsy, reset searchText & searchItem
+      items: [],
+      lastSelectItem: {},
     };
   },
   components: {
-    "tags-input": VoerroTagsInput,
+    MultiSelect,
+    ModelListSelect,
   },
 
   mounted() {
     this.getdiscussions();
-    this.mytags = Insight;
+    this.mytags = Insight.map((item) => {
+      var obj = {};
+      obj.value = item.value;
+      obj.color = item.color;
+      obj.text = item.value;
+      obj.icon = item.icon;
+      return obj;
+    });
     this.getcourses();
     this.getothers();
   },
@@ -489,6 +502,10 @@ export default {
     },
   },
   methods: {
+    onSelect(items, lastSelectItem) {
+      this.discussion.tags = items;
+      this.lastSelectItem = lastSelectItem;
+    },
     requestAccess() {
       var data = {
         discussion_id: this.discussion_id,

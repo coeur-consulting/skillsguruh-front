@@ -137,7 +137,7 @@
                       <b-dropdown
                         v-if="
                           item.facilitator_id &&
-                          item.facilitator_id == $store.getters.facilitator.id
+                            item.facilitator_id == $store.getters.facilitator.id
                         "
                         size="sm"
                         variant="transparent"
@@ -227,7 +227,7 @@
         <b-form @submit.prevent="register" class="event">
           <div>
             <b-form-row class="mb-2">
-              <b-col sm="6" class="pr-sm-3">
+              <b-col sm="12" class="pr-sm-3">
                 <b-form-group label="Event name">
                   <b-form-input
                     size="lg"
@@ -387,9 +387,20 @@
             <b-form-row class="mb-2">
               <b-col sm="12" class="pr-sm-3">
                 <b-form-group label="Add Facilitators to event (optional)">
-                  <b-button size="sm" @click="$bvModal.show('addfac')"
-                    >Click to add Facilitators to event</b-button
+                  <multi-select
+                    :options="
+                      facilitators.map(item => {
+                        var val = {};
+                        val.value = item.id;
+                        val.text = item.name;
+                        return val;
+                      })
+                    "
+                    :selected-options="event.facilitators"
+                    placeholder="select facilitators"
+                    @select="onSelect"
                   >
+                  </multi-select>
                 </b-form-group>
               </b-col>
             </b-form-row>
@@ -427,7 +438,7 @@
         <b-form @submit.prevent="update" class="event">
           <div>
             <b-form-row class="mb-2">
-              <b-col sm="6" class="pr-sm-3">
+              <b-col sm="12" class="pr-sm-3">
                 <b-form-group label="Event name">
                   <b-form-input
                     size="lg"
@@ -478,10 +489,9 @@
               <b-col cols="6" class="pr-sm-3">
                 <b-form-group label="Event Start">
                   <vc-date-picker
-                    placeholder="Choose end time"
+                    placeholder="Choose start time"
                     v-model="event.start"
                     mode="dateTime"
-                    :is24hr="false"
                   >
                     <template v-slot="{ inputValue, inputEvents }">
                       <input
@@ -506,7 +516,6 @@
                     placeholder="Choose end time"
                     v-model="event.end"
                     mode="dateTime"
-                    :is24hr="false"
                   >
                     <template v-slot="{ inputValue, inputEvents }">
                       <input
@@ -530,7 +539,6 @@
               <b-col sm="6" class="pr-sm-3">
                 <b-form-group label="Event type">
                   <b-form-select
-                    size="lg"
                     v-model="event.type"
                     required
                     placeholder="Choose type of event"
@@ -590,21 +598,32 @@
             <b-form-row class="mb-2">
               <b-col sm="12" class="pr-sm-3">
                 <b-form-group label="Add Facilitators to event (optional)">
-                  <b-button size="sm" @click="$bvModal.show('addfac')"
-                    >Click to add Facilitators to event</b-button
+                  <multi-select
+                    :options="
+                      facilitators.map(item => {
+                        var val = {};
+                        val.value = item.id;
+                        val.text = item.name;
+                        return val;
+                      })
+                    "
+                    :selected-options="event.facilitators"
+                    placeholder="select facilitators"
+                    @select="onSelect"
                   >
+                  </multi-select>
                 </b-form-group>
               </b-col>
             </b-form-row>
 
             <b-form-group class="mt-4">
-              <div class="mb-3 text-center w-100">
+              <div class="mb-3 text-center">
                 <b-button
                   type="submit"
                   variant="dark-green"
                   size="lg"
                   class="px-5 d-none d-sm-block mx-auto"
-                  >Update</b-button
+                  >Update event</b-button
                 >
                 <b-button
                   type="submit"
@@ -612,7 +631,7 @@
                   size="lg"
                   block
                   class="px-5 d-sm-none mx-auto"
-                  >Update</b-button
+                  >Update event</b-button
                 >
               </div>
             </b-form-group>
@@ -644,6 +663,7 @@
 </template>
 <script>
 import Upload from "../fileupload";
+import { MultiSelect } from "vue-search-select";
 export default {
   data() {
     return {
@@ -665,18 +685,23 @@ export default {
         start: "",
         end: "",
         resource: "",
-        facilitators: [],
+        facilitators: []
       },
       showEvents: false,
+      options: [],
+      searchText: "", // If value is falsy, reset searchText & searchItem
+      items: [],
+      lastSelectItem: {}
     };
   },
   components: {
     Upload,
+    MultiSelect
   },
   computed: {
     filter() {
       var event = this.events
-        .filter((item) =>
+        .filter(item =>
           item.title.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
@@ -685,19 +710,23 @@ export default {
         );
 
       if (this.showing == "upcoming") {
-        return event.filter((item) => item.status == "pending");
+        return event.filter(item => item.status == "pending");
       }
       if (this.showing == "ongoing") {
-        return event.filter((item) => item.status == "ongoing");
+        return event.filter(item => item.status == "ongoing");
       }
-      return event.filter((item) => item.status == "expired");
-    },
+      return event.filter(item => item.status == "expired");
+    }
   },
   mounted() {
     this.getevents();
     this.getfacilitators();
   },
   methods: {
+    onSelect(items, lastSelectItem) {
+      this.event.facilitators = items;
+      this.lastSelectItem = lastSelectItem;
+    },
     getUpload(val, id) {
       if (id == "cover") {
         this.event.cover = val;
@@ -710,15 +739,15 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -727,29 +756,30 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/events`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.events = res.data;
             this.rows = res.data.length;
             this.showEvents = true;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
 
     register() {
+      this.event.facilitators = this.event.facilitators.map(item => item.value);
       this.$http
         .post(`${this.$store.getters.url}/events`, this.event, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.$toast.success("Added successfully");
             this.$bvModal.hide("add");
@@ -764,7 +794,7 @@ export default {
               start: "",
               end: "",
               resource: "",
-              facilitators: [],
+              facilitators: []
             };
           }
         })
@@ -776,15 +806,21 @@ export default {
       this.$bvModal.show("edit");
       this.event = data;
       this.event.duration = data.schedule;
+      this.event.facilitators = JSON.parse(data.facilitators).map(item => {
+        var obj = {};
+        obj.value = item;
+        obj.text = this.facilitators.find(val => val.id == item).name;
+        return obj;
+      });
     },
     update() {
       this.$http
         .put(`${this.$store.getters.url}/events/${this.event.id}`, this.event, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Update successful");
             this.$bvModal.hide("edit");
@@ -798,7 +834,7 @@ export default {
               start: "",
               end: "",
               resource: "",
-              facilitators: [],
+              facilitators: []
             };
           }
         })
@@ -810,27 +846,27 @@ export default {
       this.$router.push(`/facilitator/event/${id}`);
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/events/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.events.splice(index, 1);
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

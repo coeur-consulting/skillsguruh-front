@@ -36,10 +36,10 @@
               src="/img/logo.svg"
             ></b-img>
           </div>
-          <b-form @submit.prevent="register" class="user">
+          <b-form @submit.stop.prevent="register" class="user mt-sm-5">
             <legend>Login as</legend>
             <b-form-row class="mb-4 my_type">
-              <b-col cols="5">
+              <b-col cols="6">
                 <div
                   class="type"
                   :class="{ selected_type: type == 'organization' }"
@@ -53,13 +53,16 @@
                   >
                 </div>
               </b-col>
-              <b-col cols="5">
-                <div class="type" :class="{ selected_type: type == 'admin' }">
+              <b-col cols="6">
+                <div
+                  class="type"
+                  :class="{ selected_type: type == 'administrator' }"
+                >
                   <b-form-radio
                     class="reg"
                     size="sm"
                     v-model="type"
-                    value="admin"
+                    value="administrator"
                     >Administrator</b-form-radio
                   >
                 </div>
@@ -69,26 +72,34 @@
             <div>
               <b-form-row class="mb-2">
                 <b-col class="pr-sm-3">
-                  <b-form-group label="Email">
+                  <b-form-group label="Email" id="email" label-for="email">
                     <b-form-input
                       size="lg"
-                      required
                       v-model="user.email"
+                      name="email"
+                      :state="validation"
                       type="email"
                       placeholder="Enter email address"
+                      aria-describedby="email-feedback"
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
               </b-form-row>
               <b-form-row class="mb-2">
                 <b-col cols="12" class="pr-sm-3">
-                  <b-form-group label="Password">
+                  <b-form-group
+                    label="Password"
+                    id="password"
+                    label-for="password"
+                  >
                     <b-form-input
                       size="lg"
-                      required
                       v-model="user.password"
                       type="password"
+                      name="password"
+                      :state="validation"
                       placeholder="Enter password"
+                      aria-describedby="password-feedback"
                     ></b-form-input>
                   </b-form-group>
                 </b-col>
@@ -192,6 +203,7 @@
 <script>
 export default {
   name: "register-component",
+
   data() {
     return {
       type: "organization",
@@ -204,12 +216,14 @@ export default {
         profile: "",
       },
       agree: false,
+      validation: null,
     };
   },
+
   mounted() {
-    // if (this.$route.query.auth) {
-    //   this.type = this.$route.query.auth;
-    // }
+    if (this.$route.query.auth) {
+      this.type = this.$route.query.auth;
+    }
   },
   methods: {
     getUpload(val) {
@@ -262,9 +276,13 @@ export default {
           .catch(() => {
             this.loading = false;
             this.$toast.error("Invalid credentials");
+            this.validation = false;
+            setTimeout(() => {
+              this.validation = null;
+            }, 5000);
           });
       }
-      if (this.type == "admin") {
+      if (this.type == "administrator") {
         let data = {
           grant_type: "password",
           client_id: 3,
@@ -308,6 +326,10 @@ export default {
           .catch(() => {
             this.loading = false;
             this.$toast.error("Invalid credentials");
+            this.validation = false;
+            setTimeout(() => {
+              this.validation = null;
+            }, 5000);
           });
       }
     },
@@ -375,7 +397,7 @@ p {
   z-index: 1;
 }
 .user {
-  width: 80%;
+  width: 50%;
   padding: 10px 30px;
   margin: 0 auto;
 }

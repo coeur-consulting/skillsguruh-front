@@ -40,7 +40,7 @@
               src="/img/logo.svg"
             ></b-img>
           </div>
-          <b-form @submit.prevent="register" class="user">
+          <b-form @submit.stop.prevent="register" class="user">
             <legend>Register as</legend>
             <b-form-row class="mb-4 my_type">
               <b-col cols="4">
@@ -87,48 +87,84 @@
             <div>
               <b-form-row class="mb-2">
                 <b-col sm="6" class="pr-sm-3">
-                  <b-form-group label="Full name">
+                  <b-form-group label="Full name" id="name" label-for="name">
                     <b-form-input
                       size="lg"
                       v-model="user.name"
-                      required
                       placeholder="Enter full name"
+                      :state="validateState('name')"
+                      name="name"
+                      aria-describedby="name-feedback"
                     ></b-form-input>
+                    <b-form-invalid-feedback id="name-feedback"
+                      >Full name is required
+                    </b-form-invalid-feedback>
+                    <b-form-valid-feedback id="name-feedback"
+                      >Looks good
+                    </b-form-valid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col sm="6" class="pr-sm-3">
-                  <b-form-group label="Email">
+                  <b-form-group label="Email" id="email" label-for="email">
                     <b-form-input
                       size="lg"
-                      required
                       v-model="user.email"
                       type="email"
+                      name="email"
+                      :state="validateState('email')"
                       placeholder="Enter email address"
+                      aria-describedby="email-feedback"
                     ></b-form-input>
+                    <b-form-invalid-feedback id="email-feedback"
+                      >Valid email is required
+                    </b-form-invalid-feedback>
+                    <b-form-valid-feedback id="email-feedback"
+                      >Looks good
+                    </b-form-valid-feedback>
                   </b-form-group>
                 </b-col>
               </b-form-row>
               <b-form-row class="mb-2">
                 <b-col cols="6" class="pr-sm-3">
-                  <b-form-group label="Phone">
+                  <b-form-group label="Phone" id="phone" label-for="phone">
                     <b-form-input
                       size="lg"
-                      required
                       v-model="user.phone"
                       type="tel"
+                      name="phone"
+                      :state="validateState('phone')"
+                      aria-describedby="phone-feedback"
                       placeholder="Enter phone number"
                     ></b-form-input>
+                    <b-form-invalid-feedback id="phone-feedback"
+                      >Valid phone is required and length must be 11 or more
+                    </b-form-invalid-feedback>
+                    <b-form-valid-feedback id="phone-feedback"
+                      >Looks good
+                    </b-form-valid-feedback>
                   </b-form-group>
                 </b-col>
                 <b-col cols="6" class="pr-sm-3">
-                  <b-form-group label="Password">
+                  <b-form-group
+                    label="Password"
+                    id="password"
+                    label-for="password"
+                  >
                     <b-form-input
                       size="lg"
-                      required
                       v-model="user.password"
                       type="password"
+                      name="password"
+                      :state="validateState('password')"
                       placeholder="Enter password"
+                      aria-describedby="password-feedback"
                     ></b-form-input>
+                    <b-form-invalid-feedback id="password-feedback"
+                      >Password is required and length must be more than 3
+                    </b-form-invalid-feedback>
+                    <b-form-valid-feedback id="password-feedback"
+                      >Looks good
+                    </b-form-valid-feedback>
                   </b-form-group>
                 </b-col>
               </b-form-row>
@@ -159,13 +195,24 @@
               <b-form-group>
                 <div class="mb-3 mt-4">
                   <span
-                    ><b-form-checkbox required v-model="agree" size="sm"
+                    ><b-form-checkbox
+                      :state="validateState('agree')"
+                      v-model="user.agree"
+                      size="sm"
+                      name="agree"
+                      aria-describedby="agree-feedback"
                       >I agree to the <router-link to="">Terms</router-link> and
                       <router-link to=""
                         >Privacy Policy</router-link
                       ></b-form-checkbox
-                    ></span
-                  >
+                    >
+                  </span>
+                  <b-form-invalid-feedback id="agree-feedback"
+                    >Agreement is required
+                  </b-form-invalid-feedback>
+                  <b-form-valid-feedback id="agree-feedback"
+                    >Looks good
+                  </b-form-valid-feedback>
                 </div>
                 <div class="mb-3">
                   <b-button
@@ -241,9 +288,14 @@
 </template>
 
 <script>
+import { validationMixin } from "vuelidate";
+import { integer, email, required, minLength } from "vuelidate/lib/validators";
+
 import Upload from "@/components/UploadComponent";
+
 export default {
   name: "register-component",
+  mixins: [validationMixin],
   data() {
     return {
       type: "organization",
@@ -256,8 +308,8 @@ export default {
         profile: "",
         referral: "",
         referral_type: "",
+        agree: null,
       },
-      agree: false,
     };
   },
   mounted() {
@@ -269,12 +321,36 @@ export default {
   components: {
     Upload,
   },
+  validations: {
+    user: {
+      agree: { required },
+      name: { required, minLength: minLength(3) },
+      phone: { required, minLength: minLength(11), integer },
+      email: {
+        required,
+        email,
+      },
+      password: {
+        required,
+        minLength: minLength(3),
+      },
+    },
+  },
   methods: {
+    validateState(name) {
+      const { $dirty, $error } = this.$v.user[name];
+      return $dirty ? !$error : null;
+    },
     getUpload(val) {
       this.user.profile = val;
     },
     register() {
-      if (this.agree) {
+      this.$v.user.$touch();
+      if (this.$v.user.$anyError) {
+        return;
+      }
+
+      if (this.user.agree) {
         this.loading = true;
         if (this.type == "organization") {
           this.$http

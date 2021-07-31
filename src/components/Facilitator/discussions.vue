@@ -342,26 +342,26 @@
           </b-col>
           <b-col sm="6" v-if="discussion.type == 'private'">
             <b-form-group label="Select course">
-              <b-form-select v-model="discussion.course_id">
-                <b-form-select-option
-                  :value="item.id"
-                  v-for="item in courses"
-                  :key="item.id"
-                  >{{ item.title }}</b-form-select-option
-                >
-              </b-form-select>
+              <model-list-select
+                :list="courses"
+                v-model="discussion.course_id"
+                option-value="id"
+                option-text="title"
+                placeholder="Select course"
+              >
+              </model-list-select>
             </b-form-group>
           </b-col>
         </b-form-row>
 
         <b-form-group label="Tags">
-          <tags-input
-            discard-search-text="Select"
-            element-id="tags"
-            v-model="discussion.tags"
-            :existing-tags="mytags"
-            :typeahead="true"
-          ></tags-input>
+          <multi-select
+            :options="mytags"
+            :selected-options="discussion.tags"
+            placeholder="select tags"
+            @select="onSelect"
+          >
+          </multi-select>
         </b-form-group>
 
         <b-button
@@ -400,8 +400,9 @@
 </template>
 
 <script>
-import VoerroTagsInput from "@voerro/vue-tagsinput";
 import Insight from "../insight.js";
+import { MultiSelect } from "vue-search-select";
+import { ModelListSelect } from "vue-search-select";
 export default {
   data() {
     return {
@@ -416,41 +417,53 @@ export default {
         description: "",
         type: "public",
         course: null,
-        tags: []
+        tags: [],
       },
       tag: "",
       tags: [],
       mytags: [],
       showDiscussions: false,
       showOther: false,
-      rows: null
+      rows: null,
+      options: [],
+      searchText: "", // If value is falsy, reset searchText & searchItem
+      items: [],
+      lastSelectItem: {},
     };
   },
   components: {
-    "tags-input": VoerroTagsInput
+    ModelListSelect,
+    MultiSelect,
   },
 
   mounted() {
     this.getdiscussions();
-    this.mytags = Insight;
+    this.mytags = Insight.map((item) => {
+      var obj = {};
+      obj.value = item.value;
+      obj.color = item.color;
+      obj.text = item.value;
+      obj.icon = item.icon;
+      return obj;
+    });
     this.getcourses();
     this.getothers();
   },
   computed: {
     filteredDiscussions() {
       if (this.show == "recent") {
-        return this.discussions.filter(item => item.type == "public");
+        return this.discussions.filter((item) => item.type == "public");
       }
       if (this.show == "mostanswers") {
         return this.discussions
-          .filter(item => item.type == "public")
+          .filter((item) => item.type == "public")
           .sort((a, b) => {
             return b.discussionmessage.length - a.discussionmessage.length;
           });
       }
       if (this.show == "trending") {
         return this.discussions
-          .filter(item => item.type == "public")
+          .filter((item) => item.type == "public")
           .sort((a, b) => {
             return (
               (b.discussionview ? b.discussionview.view : 0) -
@@ -459,12 +472,16 @@ export default {
           });
       }
       if (this.show == "private") {
-        return this.discussions.filter(item => item.type == "private");
+        return this.discussions.filter((item) => item.type == "private");
       }
       return [];
-    }
+    },
   },
   methods: {
+    onSelect(items, lastSelectItem) {
+      this.discussion.tags = items;
+      this.lastSelectItem = lastSelectItem;
+    },
     joindiscussion(item) {
       if (
         item.facilitator &&
@@ -475,13 +492,13 @@ export default {
         this.$http
           .get(`${this.$store.getters.url}/discussion/private/${item.id}`, {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
           })
-          .then(res => {
+          .then((res) => {
             if (res.status == 200) {
               var result = res.data
-                .map(item => item.facilitator_id)
+                .map((item) => item.facilitator_id)
                 .includes(this.$store.getters.facilitator.id);
 
               if (result) {
@@ -496,22 +513,22 @@ export default {
     },
     requestAccess() {
       var data = {
-        discussion_id: this.discussion_id
+        discussion_id: this.discussion_id,
       };
 
       this.$http
         .post(`${this.$store.getters.url}/join-discussion`, data, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.$toast.info("Your request has been sent");
             this.$bvModal.hide("access");
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -519,16 +536,16 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/other-discussions`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.otherdiscussion = res.data;
             this.showOther = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -536,42 +553,42 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/courses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.courses = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
 
     vote(val) {
-      var positive = val.filter(item => item.vote).length;
-      var negative = val.filter(item => !item.vote).length;
+      var positive = val.filter((item) => item.vote).length;
+      var negative = val.filter((item) => !item.vote).length;
       return Number(positive) - Number(negative);
     },
     gettags() {
       this.$http
         .get(`${this.$store.getters.url}/tags`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
-            this.mytags = res.data.map(item => {
+            this.mytags = res.data.map((item) => {
               var dat = {
-                value: item.tag
+                value: item.tag,
               };
               return dat;
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -579,16 +596,16 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/events`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.events = res.data;
             this.rows = res.data.length;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -597,17 +614,17 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/discussions`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.discussions = res.data;
 
             this.showDiscussions = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -615,10 +632,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/discussions`, this.discussion, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Discussion created");
             this.discussions.unshift(res.data);
@@ -627,12 +644,12 @@ export default {
               description: "",
               type: "public",
               course: null,
-              tags: []
+              tags: [],
             };
             this.$bvModal.hide("start");
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -646,27 +663,27 @@ export default {
       this.discussion.tags.splice(index, 1);
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/discussions/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-              }
+                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+              },
             })
-            .then(res => {
+            .then((res) => {
               if (res.status == 200) {
                 this.$toast.success("Discussion deleted");
                 this.discussions.splice(index, 1);
               }
             })
-            .catch(err => {
+            .catch((err) => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

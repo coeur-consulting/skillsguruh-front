@@ -2,7 +2,7 @@
   <div>
     <b-container class="px-3 px-sm-0">
       <b-row>
-        <b-col sm="8">
+        <b-col sm="9">
           <b-row class="mb-4 mb-sm-5">
             <b-col class="position-relative" v-if="showEvent">
               <carousel
@@ -27,9 +27,9 @@
                     <div
                       class="upcoming text-capitalize"
                       :class="{
-                        'bg-success': item.status == 'ongoing',
+                        'bg-dark': item.status == 'ongoing',
                         'bg-danger': item.status == 'expired',
-                        'bg-primary': item.status == 'pending',
+                        'bg-info': item.status == 'pending',
                       }"
                     >
                       {{ item.status }} event
@@ -140,419 +140,108 @@
           <b-row v-if="showTable">
             <b-col>
               <div class="box" v-if="schedules.length">
+                <div
+                  class="
+                    d-flex
+                    justify-content-between
+                    align-items-center
+                    p-3
+                    w-100
+                    border-bottom
+                  "
+                >
+                  <span>{{ new Date() | moment("LL") }}</span>
+                </div>
+
                 <div class="w-100 p-3">
                   <b-table-simple responsive borderless>
                     <b-tbody>
-                      <b-tr v-if="daySchedule('monday').length">
-                        <b-th sticky-column class="">Monday</b-th>
-                        <b-td>
+                      <b-tr v-for="day in days" :key="day">
+                        <b-th
+                          sticky-column
+                          class="text-capitalize"
+                          v-if="daySchedule(day).length"
+                          >{{ day }}</b-th
+                        >
+                        <b-td v-if="daySchedule(day).length">
                           <div class="d-flex tabl">
-                            <div
-                              v-for="(item, id) in daySchedule('monday')"
+                            <b-card
+                              no-body
+                              v-for="(item, id) in daySchedule(day)"
                               :key="id"
-                              class="m_schedule p-2 rounded mr-3"
+                              class="mr-3 text-white"
+                              style="width: 250px"
                               :style="{
-                                'background-color':
-                                  color[Math.floor(Math.random() * 5)],
+                                'background-color': item.customData.color,
                               }"
                             >
-                              <div
+                              <b-card-header
                                 class="
                                   d-flex
                                   justify-content-between
                                   w-100
                                   align-items-center
+                                  px-3
                                 "
                               >
                                 <span
-                                  class="fs12 text-capitalize font-weight-bold"
+                                  class="
+                                    text-capitalize
+                                    font-weight-bold
+                                    schedule_type
+                                  "
                                   >{{ item.customData.type }}</span
                                 >
-                                <span
+                                <div
                                   class="
-                                    border
                                     rounded-pill
-                                    px-3
+                                    px-2
                                     py-1
                                     bg-light
-                                    fs11
+                                    schedule_dates
                                   "
                                 >
-                                  <span>
-                                    {{
-                                      duration(item.dates.start, item.dates.end)
-                                    }}
-                                  </span>
-                                </span>
-                              </div>
-                              <div class="fs14" v-if="item.customData.title">
-                                {{ item.customData.title }}
-                              </div>
-
-                              <div class="fs12 mb-1" v-if="item.dates.start">
-                                {{ item.dates.start | moment(" MMMM Do YYYY") }}
-                                - {{ item.dates.end | moment(" MMMM Do YYYY") }}
-                              </div>
-                              <div class="d-flex justify-content-between">
-                                <div class="fs12">
-                                  {{ item.dates.start | moment("LT") }}
+                                  {{
+                                    duration(item.dates.start, item.dates.end)
+                                  }}
                                 </div>
-                              </div>
-                            </div>
-                          </div>
-                        </b-td>
-                      </b-tr>
-                      <b-tr v-if="daySchedule('tuesday').length">
-                        <b-th sticky-column class="">Tuesday</b-th>
-                        <b-td>
-                          <div class="d-flex tabl">
-                            <div
-                              v-for="(item, id) in daySchedule('tuesday')"
-                              :key="id"
-                              class="m_schedule p-2 rounded mr-3"
-                              :style="{
-                                'background-color':
-                                  color[Math.floor(Math.random() * 5)],
-                              }"
-                            >
-                              <div
+                              </b-card-header>
+                              <b-card-text
+                                class="text-white schedule_title mb-1 px-3"
+                                v-if="item.customData.title"
+                              >
+                                {{ item.customData.title }}
+                              </b-card-text>
+                              <b-card-text
+                                class="text-white schedule_date mb-1 px-3"
+                              >
+                                {{
+                                  item.customData.facilitator
+                                    ? item.customData.facilitator
+                                    : "N/A"
+                                }}
+                              </b-card-text>
+                              <b-card-text
+                                class="text-white schedule_date mb-1 px-3"
+                              >
+                                {{ item.dates.start | moment("LT") }}
+                              </b-card-text>
+                              <b-card-footer
                                 class="
+                                  schedule_date
                                   d-flex
+                                  text-white
                                   justify-content-between
-                                  w-100
-                                  align-items-center
+                                  py-1
+                                  px-3
                                 "
+                                v-if="item.dates.start"
                               >
-                                <span
-                                  class="fs12 text-capitalize font-weight-bold"
-                                  >{{ item.customData.type }}</span
-                                >
-                                <span
-                                  class="
-                                    border
-                                    rounded-pill
-                                    px-3
-                                    py-1
-                                    bg-light
-                                    fs11
-                                  "
-                                >
-                                  <span>
-                                    {{
-                                      duration(item.dates.start, item.dates.end)
-                                    }}
-                                  </span>
-                                </span>
-                              </div>
-                              <div class="fs14" v-if="item.customData.title">
-                                {{ item.customData.title }}
-                              </div>
-
-                              <div class="fs12 mb-1" v-if="item.dates.start">
-                                {{ item.dates.start | moment(" MMMM Do YYYY") }}
-                                - {{ item.dates.end | moment(" MMMM Do YYYY") }}
-                              </div>
-                              <div class="d-flex justify-content-between">
-                                <div class="fs12">
-                                  {{ item.dates.start | moment("LT") }}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </b-td>
-                      </b-tr>
-                      <b-tr v-if="daySchedule('wednesday').length">
-                        <b-th sticky-column class="">Wednesday</b-th>
-                        <b-td>
-                          <div class="d-flex tabl">
-                            <div
-                              v-for="(item, id) in daySchedule('wednesday')"
-                              :key="id"
-                              class="m_schedule p-2 rounded mr-3"
-                              :style="{
-                                'background-color':
-                                  color[Math.floor(Math.random() * 5)],
-                              }"
-                            >
-                              <div
-                                class="
-                                  d-flex
-                                  justify-content-between
-                                  w-100
-                                  align-items-center
-                                "
-                              >
-                                <span
-                                  class="fs12 text-capitalize font-weight-bold"
-                                  >{{ item.customData.type }}</span
-                                >
-                                <span
-                                  class="
-                                    border
-                                    rounded-pill
-                                    px-3
-                                    py-1
-                                    bg-light
-                                    fs11
-                                  "
-                                >
-                                  <span>
-                                    {{
-                                      duration(item.dates.start, item.dates.end)
-                                    }}
-                                  </span>
-                                </span>
-                              </div>
-                              <div class="fs14" v-if="item.customData.title">
-                                {{ item.customData.title }}
-                              </div>
-
-                              <div class="fs12 mb-1" v-if="item.dates.start">
-                                {{ item.dates.start | moment(" MMMM Do YYYY") }}
-                                - {{ item.dates.end | moment(" MMMM Do YYYY") }}
-                              </div>
-                              <div class="d-flex justify-content-between">
-                                <div class="fs12">
-                                  {{ item.dates.start | moment("LT") }}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </b-td>
-                      </b-tr>
-                      <b-tr v-if="daySchedule('thursday').length">
-                        <b-th sticky-column class="">Thursday</b-th>
-                        <b-td>
-                          <div class="d-flex tabl">
-                            <div
-                              v-for="(item, id) in daySchedule('thursday')"
-                              :key="id"
-                              class="m_schedule p-2 rounded mr-3"
-                              :style="{
-                                'background-color':
-                                  color[Math.floor(Math.random() * 5)],
-                              }"
-                            >
-                              <div
-                                class="
-                                  d-flex
-                                  justify-content-between
-                                  w-100
-                                  align-items-center
-                                "
-                              >
-                                <span
-                                  class="fs12 text-capitalize font-weight-bold"
-                                  >{{ item.customData.type }}</span
-                                >
-                                <span
-                                  class="
-                                    border
-                                    rounded-pill
-                                    px-3
-                                    py-1
-                                    bg-light
-                                    fs11
-                                  "
-                                >
-                                  <span>
-                                    {{
-                                      duration(item.dates.start, item.dates.end)
-                                    }}
-                                  </span>
-                                </span>
-                              </div>
-                              <div class="fs14" v-if="item.customData.title">
-                                {{ item.customData.title }}
-                              </div>
-
-                              <div class="fs12 mb-1" v-if="item.dates.start">
-                                {{ item.dates.start | moment(" MMMM Do YYYY") }}
-                                - {{ item.dates.end | moment(" MMMM Do YYYY") }}
-                              </div>
-                              <div class="d-flex justify-content-between">
-                                <div class="fs12">
-                                  {{ item.dates.start | moment("LT") }}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </b-td>
-                      </b-tr>
-                      <b-tr v-if="daySchedule('friday').length">
-                        <b-th sticky-column class="">Friday</b-th>
-                        <b-td>
-                          <div class="d-flex tabl">
-                            <div
-                              v-for="(item, id) in daySchedule('friday')"
-                              :key="id"
-                              class="m_schedule p-2 rounded mr-3"
-                              :style="{
-                                'background-color':
-                                  color[Math.floor(Math.random() * 5)],
-                              }"
-                            >
-                              <div
-                                class="
-                                  d-flex
-                                  justify-content-between
-                                  w-100
-                                  align-items-center
-                                "
-                              >
-                                <span
-                                  class="fs12 text-capitalize font-weight-bold"
-                                  >{{ item.customData.type }}</span
-                                >
-                                <span
-                                  class="
-                                    border
-                                    rounded-pill
-                                    px-3
-                                    py-1
-                                    bg-light
-                                    fs11
-                                  "
-                                >
-                                  <span>
-                                    {{
-                                      duration(item.dates.start, item.dates.end)
-                                    }}
-                                  </span>
-                                </span>
-                              </div>
-                              <div class="fs14" v-if="item.customData.title">
-                                {{ item.customData.title }}
-                              </div>
-
-                              <div class="fs12 mb-1" v-if="item.dates.start">
-                                {{ item.dates.start | moment(" MMMM Do YYYY") }}
-                                - {{ item.dates.end | moment(" MMMM Do YYYY") }}
-                              </div>
-                              <div class="d-flex justify-content-between">
-                                <div class="fs12">
-                                  {{ item.dates.start | moment("LT") }}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </b-td>
-                      </b-tr>
-                      <b-tr v-if="daySchedule('saturday').length">
-                        <b-th sticky-column class="">Saturday</b-th>
-                        <b-td>
-                          <div class="d-flex tabl">
-                            <div
-                              v-for="(item, id) in daySchedule('saturday')"
-                              :key="id"
-                              class="m_schedule p-2 rounded mr-3"
-                              :style="{
-                                'background-color':
-                                  color[Math.floor(Math.random() * 5)],
-                              }"
-                            >
-                              <div
-                                class="
-                                  d-flex
-                                  justify-content-between
-                                  w-100
-                                  align-items-center
-                                "
-                              >
-                                <span
-                                  class="fs12 text-capitalize font-weight-bold"
-                                  >{{ item.customData.type }}</span
-                                >
-                                <span
-                                  class="
-                                    border
-                                    rounded-pill
-                                    px-3
-                                    py-1
-                                    bg-light
-                                    fs11
-                                  "
-                                >
-                                  <span>
-                                    {{
-                                      duration(item.dates.start, item.dates.end)
-                                    }}
-                                  </span>
-                                </span>
-                              </div>
-                              <div class="fs14" v-if="item.customData.title">
-                                {{ item.customData.title }}
-                              </div>
-
-                              <div class="fs12 mb-1" v-if="item.dates.start">
-                                {{ item.dates.start | moment(" MMMM Do YYYY") }}
-                                - {{ item.dates.end | moment(" MMMM Do YYYY") }}
-                              </div>
-                              <div class="d-flex justify-content-between">
-                                <div class="fs12">
-                                  {{ item.dates.start | moment("LT") }}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </b-td>
-                      </b-tr>
-                      <b-tr v-if="daySchedule('sunday').length">
-                        <b-th sticky-column class="">Sunday</b-th>
-                        <b-td>
-                          <div class="d-flex tabl">
-                            <div
-                              v-for="(item, id) in daySchedule('sunday')"
-                              :key="id"
-                              class="m_schedule p-2 rounded mr-3"
-                              :style="{
-                                'background-color':
-                                  color[Math.floor(Math.random() * 5)],
-                              }"
-                            >
-                              <div
-                                class="
-                                  d-flex
-                                  justify-content-between
-                                  w-100
-                                  align-items-center
-                                "
-                              >
-                                <span
-                                  class="fs12 text-capitalize font-weight-bold"
-                                  >{{ item.customData.type }}</span
-                                >
-                                <span
-                                  class="
-                                    border
-                                    rounded-pill
-                                    px-3
-                                    py-1
-                                    bg-light
-                                    fs11
-                                  "
-                                >
-                                  <span>
-                                    {{
-                                      duration(item.dates.start, item.dates.end)
-                                    }}
-                                  </span>
-                                </span>
-                              </div>
-                              <div class="fs14" v-if="item.customData.title">
-                                {{ item.customData.title }}
-                              </div>
-
-                              <div class="fs12 mb-1" v-if="item.dates.start">
-                                {{ item.dates.start | moment(" MMMM Do YYYY") }}
-                                - {{ item.dates.end | moment(" MMMM Do YYYY") }}
-                              </div>
-                              <div class="d-flex justify-content-between">
-                                <div class="fs12">
-                                  {{ item.dates.start | moment("LT") }}
-                                </div>
-                              </div>
-                            </div>
+                                {{ item.dates.start | moment(" MMMM Do") }}
+                                <span class="mx-3">-</span>
+                                {{ item.dates.end | moment(" MMMM Do") }}
+                              </b-card-footer>
+                            </b-card>
                           </div>
                         </b-td>
                       </b-tr>
@@ -565,6 +254,25 @@
                   <b-img :src="require('@/assets/images/creator.svg')"></b-img>
                   <h6 class="text-muted my-3 fs14">
                     It appears you havent added any Schedule yet,
+                    <br class="d-none d-sm-block" />
+
+                    Have you set up your courses ?
+                    <span
+                      ><router-link
+                        class="text-dark-green"
+                        to="/organization/courses?action=setupcourse"
+                        >Set up Now</router-link
+                      ></span
+                    >
+                    <br />
+                    If You have <br />
+                    <b-button
+                      variant="dark-green"
+                      class="mt-4"
+                      size="sm"
+                      @click="$bvModal.show('addopen')"
+                      >Add a schedule now
+                    </b-button>
                   </h6>
                 </div>
               </div>
@@ -579,7 +287,8 @@
             ></b-skeleton-table>
           </div>
         </b-col>
-        <b-col sm="4" class="text-left">
+
+        <b-col sm="3" class="text-left">
           <div class="turn_over_box">
             <div class="tob_1 mb-4">
               <vc-calendar
@@ -672,8 +381,8 @@
                       >
                     </div>
 
-                    <!-- <div class="text-right" v-if="item.custoData.url">
-                      <a :href="item.custoData.url" target="_blank">
+                    <div class="text-right">
+                      <a :href="item.customData.url" target="_blank">
                         <b-button
                           block
                           variant="lighter-green"
@@ -681,7 +390,7 @@
                           >Attend
                         </b-button></a
                       >
-                    </div> -->
+                    </div>
                   </div>
                 </div>
                 <div v-else class="p-4 text-center">
@@ -710,7 +419,6 @@
     </b-container>
   </div>
 </template>
-
 <script>
 import PopoverRow from "v-calendar/lib/components/popover-row.umd.min";
 
@@ -718,14 +426,33 @@ export default {
   data() {
     return {
       color: ["red", "blue", "green", "brown", "purple", "teal"],
+      days: [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday",
+        "sunday",
+      ],
       events: [],
       facilitators: [],
       schedules: [],
       courses: [],
       current_schedule: 0,
-      showTable: false,
-      showEvent: false,
-      showschedule: false,
+      schedule_num: 1,
+      event: {
+        title: "",
+        duration: "",
+        description: "",
+        type: "",
+        url: "",
+        cover: "",
+        start: "",
+        end: "",
+        resource: "",
+        facilitators: [],
+      },
       detail: {
         course_id: null,
         schedule: [
@@ -742,6 +469,13 @@ export default {
       masks: {
         weekdays: "WWW",
       },
+      showTable: false,
+      showEvent: false,
+      showschedule: false,
+      options: [],
+      searchText: "", // If value is falsy, reset searchText & searchItem
+      items: [],
+      lastSelectItem: {},
     };
   },
   components: {
@@ -754,6 +488,12 @@ export default {
         this.getschedules();
         this.getevents();
       });
+    });
+  },
+  mounted() {
+    this.$root.$on("bv::modal::hide", () => {
+      this.schedule_num = 1;
+      this.$bvModal.hide("addopen");
     });
   },
   computed: {
@@ -777,6 +517,8 @@ export default {
           customData: {
             title: item.course.title,
             url: item.url,
+            facilitator: item.facilitator ? item.facilitator.name : "",
+            color: JSON.parse(item.course.courseoutline.knowledge_areas).color,
             duration:
               this.$moment(item.start_time).diff(
                 this.$moment(item.end_time),
@@ -809,9 +551,11 @@ export default {
           popover: true,
           customData: {
             title: item.title,
+            url: item.url,
+            color: "#276749",
+            facilitator: item.facilitator ? item.facilitator.name : "",
             duration: item.schedule,
             type: item.type,
-            url: item.url,
             class: "bg-red-600 text-white",
           },
           dates: { start: new Date(item.start), end: new Date(item.end) },
@@ -845,8 +589,10 @@ export default {
             this.$moment(item.dates.start, "YYYY-MM-DD HH:mm:ss")
               .format("dddd")
               .toLowerCase() == day.toLowerCase() &&
-            this.$moment().isBefore(item.dates.start) &&
-            this.$moment().isBefore(item.dates.end)
+            this.$moment().isBetween(
+              this.$moment(item.dates.start),
+              this.$moment(item.dates.end)
+            )
         );
       }
       return [];
@@ -862,15 +608,12 @@ export default {
       return [];
     },
     addschedule() {
-      this.detail.schedule.push({
-        day: "monday",
-        url: "",
-        venue: "",
-        start_time: new Date(),
-        end_time: new Date(),
+      this.detail.push({
+        day: "",
+        start_time: "",
+        end_time: "",
         facilitator_id: null,
       });
-      this.current_schedule = this.detail.schedule.length - 1;
     },
     duration(a, b) {
       if (this.$moment(b).diff(this.$moment(a), "weeks") > 0) {
@@ -897,9 +640,8 @@ export default {
                 this.$moment().isBefore(item.end_time)
             );
             this.rows = this.schedules.length;
-            this.showschedule = true;
-            this.showEvent = true;
             this.showTable = true;
+            this.showschedule = true;
           }
         })
         .catch((err) => {
@@ -908,7 +650,7 @@ export default {
     },
     async getfacilitators() {
       return this.$http
-        .get(`${this.$store.getters.url}/get-facilitators`, {
+        .get(`${this.$store.getters.url}/user-get-facilitators`, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
           },
@@ -948,7 +690,8 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
-            this.events = res.data.filter((item) => item.status !== "expired");
+            this.events = res.data;
+            this.showEvent = true;
           }
         })
         .catch((err) => {
@@ -967,13 +710,11 @@ export default {
           if (res.status == 201) {
             this.$toast.success("Added successfully");
             this.$bvModal.hide("add");
-            this.getschedules();
+            this.schedules.unshift(res.data);
             this.detail.schedule = {
               day: "",
-              venue: "",
-              url: "",
-              start_time: new Date(),
-              end_time: new Date(),
+              start_time: "",
+              end_time: "",
               facilitator_id: null,
             };
           }
@@ -1073,7 +814,7 @@ td {
   justify-content: center;
   text-align: left;
 
-  box-shadow: 0 0.125rem 0.25rem rgba(189, 231, 201, 0.35) !important;
+  // box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35);
   border-radius: 8px;
   background: white;
 }
@@ -1100,7 +841,7 @@ td {
 //   color: white !important;
 // }
 .shadow {
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
+  // box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;
 }
 .search.form-control {
@@ -1115,19 +856,19 @@ td {
 }
 .tob_1 {
   min-height: 200px;
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
+  // box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;
   text-align: center;
   background: white;
 }
 .tob_2 {
   min-height: 200px;
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
+  // box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;
   padding: 0;
   background: white;
 }
-.organization_tab {
+.admin_tab {
   min-height: 400px;
 }
 .todos {
@@ -1143,7 +884,7 @@ td {
   font-size: 0.7rem;
 }
 .schedule {
-  max-height: 400px;
+  height: 300px;
   overflow: auto;
 }
 .m_schedule {
@@ -1172,7 +913,7 @@ td {
   .box {
     margin-bottom: 24px;
   }
-  .organization_tab {
+  .admin_tab {
     min-height: 200px;
   }
   .top_box {

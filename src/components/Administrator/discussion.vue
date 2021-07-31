@@ -495,13 +495,15 @@
                       :init="{
                         height: 150,
                         menubar: false,
+                        content_style: font,
+                        font_formats: 'Poppins',
                         plugins: [
                           '  lists link  charmap   anchor',
                           'searchreplace visualblocks code fullscreen',
                           '  table paste code',
                         ],
                         toolbar:
-                          ' formatselect | bold italic | \
+                          ' styleselect | bold italic | \
            alignleft aligncenter alignright alignjustify | \
            bullist numlist  ',
                       }"
@@ -1128,6 +1130,7 @@ export default {
       perPage: 10,
       comments: {},
       toggleview: "recent",
+      font: "@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap');body{font-family:Poppins;font-size:13px}",
     };
   },
   components: {
