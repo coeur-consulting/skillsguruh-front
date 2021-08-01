@@ -75,6 +75,7 @@
                   <b-form-group label="Email" id="email" label-for="email">
                     <b-form-input
                       size="lg"
+                      required
                       v-model="user.email"
                       name="email"
                       :state="validation"
@@ -93,6 +94,7 @@
                     label-for="password"
                   >
                     <b-form-input
+                      required
                       size="lg"
                       v-model="user.password"
                       type="password"

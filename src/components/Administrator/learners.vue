@@ -70,8 +70,8 @@
                     <b-td>
                       <div class="text-left" v-if="item.loginhistory.length">
                         <span v-if="item.loginhistory.length">{{
-                          item.loginhistory[item.loginhistory.length - 1]
-                            .record | moment("ll")
+                          item.loginhistory[item.loginhistory.length - 1].record
+                            | moment("ll")
                         }}</span>
                         <br />
                         <span
@@ -92,7 +92,7 @@
                       class="text-left"
                       :class="{
                         'text-success': item.verification,
-                        'text-danger': !item.verification
+                        'text-danger': !item.verification,
                       }"
                       >{{ item.verification ? "Active" : "Inactive" }}</b-td
                     >
@@ -269,6 +269,7 @@
                 variant="dark-green"
                 size="lg"
                 class="px-5 d-none d-sm-block"
+                :disabled="disabled"
                 >Register</b-button
               >
               <b-button
@@ -276,6 +277,7 @@
                 variant="dark-green"
                 size="lg"
                 block
+                :disabled="disabled"
                 class="px-5 d-sm-none"
                 >Register</b-button
               >
@@ -371,6 +373,7 @@
 export default {
   data() {
     return {
+      disabled: false,
       id: null,
       search: "",
       currentPage: 1,
@@ -381,22 +384,22 @@ export default {
         name: "",
         email: "",
         phone: "",
-        password: ""
+        password: "",
       },
-      showTable: false
+      showTable: false,
     };
   },
   computed: {
     filter() {
       return this.users
-        .filter(item =>
+        .filter((item) =>
           item.name.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
           this.perPage * this.currentPage - this.perPage,
           this.perPage * this.currentPage
         );
-    }
+    },
   },
   mounted() {
     this.getusers();
@@ -406,29 +409,30 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/admin-get-users`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.users = res.data;
             this.rows = res.data.length;
             this.showTable = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
 
     register() {
+      this.disabled = true;
       this.$http
         .post(`${this.$store.getters.url}/admin-register-user`, this.user, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.$toast.success("Added successfully");
             this.$bvModal.hide("add");
@@ -437,11 +441,13 @@ export default {
               name: "",
               email: "",
               phone: "",
-              password: ""
+              password: "",
             };
+            this.disabled = false;
           }
         })
-        .catch(err => {
+        .catch((err) => {
+          this.disabled = false;
           if (err.response.data.errors.email[0]) {
             this.$toast.error(err.response.data.errors.email[0]);
           }
@@ -467,11 +473,11 @@ export default {
           this.user,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Update successful");
             this.$bvModal.hide("edit");
@@ -479,36 +485,36 @@ export default {
               name: "",
               email: "",
               phone: "",
-              password: ""
+              password: "",
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/admin-delete-user/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.admin.access_token}`
-              }
+                Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+              },
             })
-            .then(res => {
+            .then((res) => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.users.splice(index, 1);
               }
             })
-            .catch(err => {
+            .catch((err) => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped lang="scss">
