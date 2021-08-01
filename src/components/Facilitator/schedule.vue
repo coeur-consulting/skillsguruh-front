@@ -625,6 +625,7 @@
                       type="submit"
                       variant="dark-green"
                       size="lg"
+                      :disabled="disabled"
                       class="px-5 d-none d-sm-block mx-auto"
                       >Create event</b-button
                     >
@@ -632,6 +633,7 @@
                       type="submit"
                       variant="dark-green"
                       size="lg"
+                      :disabled="disabled"
                       block
                       class="px-5 d-sm-none mx-auto"
                       >Create event</b-button
@@ -851,7 +853,11 @@
                 </div>
               </div>
               <div class="text-center my-3">
-                <b-button size="lg" variant="dark-green" type="submit"
+                <b-button
+                  size="lg"
+                  variant="dark-green"
+                  :disabled="disabled"
+                  type="submit"
                   >Create schedule</b-button
                 >
               </div>
@@ -1188,6 +1194,7 @@ export default {
     },
 
     register() {
+      this.disabled = true;
       this.$http
         .post(`${this.$store.getters.url}/courseschedules`, this.detail, {
           headers: {
@@ -1196,6 +1203,7 @@ export default {
         })
         .then((res) => {
           if (res.status == 201) {
+            this.disabled = false;
             this.$toast.success("Added successfully");
             this.$bvModal.hide("add");
             this.getschedules();
@@ -1211,6 +1219,7 @@ export default {
           }
         })
         .catch((err) => {
+          this.disabled = false;
           if (err.response.data.errors.email[0]) {
             this.$toast.error(err.response.data.errors.email[0]);
           }
@@ -1226,6 +1235,7 @@ export default {
         });
     },
     addevent() {
+      this.disabled = true;
       this.event.facilitators = this.event.facilitators.map(
         (item) => item.value
       );
@@ -1237,6 +1247,7 @@ export default {
         })
         .then((res) => {
           if (res.status == 201) {
+            this.disabled = false;
             this.$toast.success("Added successfully");
             this.$bvModal.hide("add");
             this.events.unshift(res.data);
@@ -1256,6 +1267,7 @@ export default {
           }
         })
         .catch((err) => {
+          this.disabled = false;
           if (err.response.data.errors.email[0]) {
             this.$toast.error(err.response.data.errors.email[0]);
           }
