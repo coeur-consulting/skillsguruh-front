@@ -87,25 +87,6 @@
                     v-for="(item, index) in filter"
                     :key="item.id"
                   >
-                    <div
-                      class="
-                        bg-lighter-green
-                        px-3
-                        py-3
-                        text-left text-dark-green
-                        d-flex
-                        justify-content-between
-                        align-items-center
-                      "
-                    >
-                      <h4 class="text-capitalize mb-0 flex-1 event_title">
-                        {{ item.title }}
-                      </h4>
-                      <span @click="view(item.id)" class="viewevent">
-                        <span class="cursor-pointer pl-2"> View Event </span>
-                        <b-icon icon="chevron-double-right"></b-icon>
-                      </span>
-                    </div>
                     <b-img
                       class="event_image"
                       fluid-grow
@@ -159,6 +140,25 @@
                           >Delete</b-dropdown-item
                         >
                       </b-dropdown>
+                    </div>
+                    <div
+                      class="
+                        bg-lighter
+                        px-3
+                        py-3
+                        text-left text-dark
+                        d-flex
+                        justify-content-between
+                        align-items-center
+                      "
+                    >
+                      <h4 class="text-capitalize mb-0 flex-1 event_title">
+                        {{ item.title }}
+                      </h4>
+                      <span @click="view(item.id)" class="viewevent">
+                        <span class="cursor-pointer pl-2"> View Event </span>
+                        <b-icon icon="chevron-double-right"></b-icon>
+                      </span>
                     </div>
                   </div>
                   <div

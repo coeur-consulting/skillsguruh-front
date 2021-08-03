@@ -112,7 +112,7 @@
         <div>
           <FeedUpload @getUpload="getUpload" :id="'image'">
             <b-img
-              :src="require('@/assets/images/advert.svg')"
+              :src="require('@/assets/images/event.svg')"
               width="18px"
               class="mr-1 cursor-pointer"
             ></b-img>
@@ -132,7 +132,7 @@
         <div>
           <FeedUpload @getUpload="getUpload" :id="'event'">
             <b-img
-              :src="require('@/assets/images/event.svg')"
+              :src="require('@/assets/images/advert.svg')"
               width="18px"
               class="mr-1 cursor-pointer"
             ></b-img>
@@ -296,7 +296,7 @@
             <div class="d-flex justify-content-around event">
               <div @click="$bvModal.show('feed')">
                 <b-img
-                  :src="require('@/assets/images/advert.svg')"
+                  :src="require('@/assets/images/event.svg')"
                   width="18px"
                   class="mr-1 cursor-pointer"
                 ></b-img>
@@ -312,7 +312,7 @@
               </div>
               <div @click="$bvModal.show('feed')">
                 <b-img
-                  :src="require('@/assets/images/event.svg')"
+                  :src="require('@/assets/images/advert.svg')"
                   width="18px"
                   class="mr-1 cursor-pointer"
                 ></b-img>
@@ -329,14 +329,23 @@
                   class="border bg-white rounded-8 mb-2"
                 >
                   <div class="d-flex mb-3 px-2 px-sm-3 pt-3">
-                    <div class="d-flex flex-1 text-left">
+                    <div class="flex-1 text-left">
                       <div class="mr-2 mb-1 feedname" v-if="feed.admin">
                         <b-avatar
                           size="1.8rem"
                           class="mr-2"
                           :src="feed.admin.profile"
                         ></b-avatar>
-                        {{ feed.admin.name }}
+                        <div>
+                          <div style="line-height: 1.2">
+                            {{ feed.admin.name }} <br />
+                          </div>
+                          <small
+                            v-if="feed.admin.state"
+                            class="text-muted font-weight-normal"
+                            >{{ feed.admin.state }}</small
+                          >
+                        </div>
                       </div>
                       <div class="mr-2 mb-1 feedname" v-if="feed.user">
                         <b-avatar
@@ -352,8 +361,15 @@
                           "
                           class="hover_green"
                         >
-                          {{ feed.user.name }}</span
-                        >
+                          <div style="line-height: 1.2">
+                            {{ feed.user.name }}
+                          </div>
+                          <small
+                            v-if="feed.user.state"
+                            class="text-muted font-weight-normal"
+                            >{{ feed.user.state }}</small
+                          >
+                        </span>
                       </div>
                       <div class="mr-2 mb-1 feedname" v-if="feed.facilitator">
                         <b-avatar
@@ -362,15 +378,22 @@
                           :src="feed.facilitator.profile"
                         ></b-avatar>
                         <span
+                          class="hover_green"
                           @click="
                             $router.push(
                               `/facilitator/profile/f/${feed.facilitator.id}`
                             )
                           "
-                          class="hover_green"
                         >
-                          {{ feed.facilitator.name }}</span
-                        >
+                          <div style="line-height: 1.2">
+                            {{ feed.facilitator.name }}
+                          </div>
+                          <small
+                            v-if="feed.facilitator.state"
+                            class="text-muted font-weight-normal"
+                            >{{ feed.facilitator.state }}</small
+                          >
+                        </span>
                       </div>
                     </div>
 
@@ -410,31 +433,8 @@
                       >
                     </b-dropdown>
                   </div>
-                  <div class="text-left feed_text px-3">
-                    <div class="mb-1" v-html="feed.message"></div>
 
-                    <div v-if="feed.url" class="text-dark-green mb-1">
-                      <a :href="feed.url" target="_blank">Click link</a>
-                    </div>
-                    <div v-if="feed.tags" class="px-2 mb-1">
-                      <b-row class="justify-content-start">
-                        <b-col
-                          cols="auto"
-                          class="px-1"
-                          v-for="(tag, id) in JSON.parse(feed.tags)"
-                          :key="id"
-                        >
-                          <b-badge
-                            class="fs10 text-dark-green"
-                            size="sm"
-                            variant="lighter-green"
-                            >{{ tag.text }}</b-badge
-                          >
-                        </b-col>
-                      </b-row>
-                    </div>
-                  </div>
-                  <div>
+                  <div v-if="feed.media || feed.publicId">
                     <div class="mb-4 position-relative w-100 media">
                       <cld-image
                         v-if="
@@ -488,6 +488,30 @@
                       </div>
                     </div>
                   </div>
+                  <div class="text-left feed_text px-3">
+                    <div class="mb-1" v-html="feed.message"></div>
+
+                    <div v-if="feed.url" class="text-dark-green mb-1">
+                      <a :href="feed.url" target="_blank">Click link</a>
+                    </div>
+                    <div v-if="feed.tags" class="px-2 mb-1">
+                      <b-row class="justify-content-start">
+                        <b-col
+                          cols="auto"
+                          class="px-1"
+                          v-for="(tag, id) in JSON.parse(feed.tags)"
+                          :key="id"
+                        >
+                          <b-badge
+                            class="fs10 text-dark-green"
+                            size="sm"
+                            variant="lighter-green"
+                            >{{ tag.text }}</b-badge
+                          >
+                        </b-col>
+                      </b-row>
+                    </div>
+                  </div>
                   <div class="interactions text-left px-3 py-2 border-bottom">
                     <span
                       class="mr-3 cursor-pointer"
@@ -508,8 +532,7 @@
                       <span>{{
                         feed.stars.filter((item) => item.star).length
                       }}</span>
-                      stars</span
-                    >
+                    </span>
                     <span
                       class="mr-3 cursor-pointer"
                       @click="toggleLike(feed.id, index)"
@@ -528,8 +551,7 @@
                       <span>{{
                         feed.likes.filter((item) => item.like).length
                       }}</span>
-                      likes</span
-                    >
+                    </span>
                     <span class="mr-3">
                       <b-icon icon="chat-fill" class="mr-1"></b-icon>
                       <span
@@ -672,6 +694,9 @@
                     </b-input-group>
                   </div>
                 </div>
+                <infinite-loading
+                  @infinite="infiniteHandler"
+                ></infinite-loading>
               </div>
             </div>
 
@@ -768,6 +793,7 @@ export default {
         type: "",
         profile: "",
       },
+      page: 1,
     };
   },
   components: {
@@ -796,6 +822,23 @@ export default {
     this.getfeeds();
   },
   methods: {
+    infiniteHandler($state) {
+      this.$http
+        .get(`${this.$store.getters.url}/feeds?page=${this.page}`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.data.data.length) {
+            this.page += 1;
+            this.feeds.push(...res.data.data);
+            $state.loaded();
+          } else {
+            $state.complete();
+          }
+        });
+    },
     onSelect(items, lastSelectItem) {
       this.feed.tags = items;
       this.lastSelectItem = lastSelectItem;
@@ -868,7 +911,7 @@ export default {
         })
         .then((res) => {
           if (res.status == 201 || res.status == 200) {
-            this.feeds = res.data;
+            this.feeds = res.data.data;
             this.showFeeds = true;
           }
         })
@@ -1153,7 +1196,7 @@ export default {
 }
 
 .interactions {
-  font-size: 12px;
+  font-size: 14px;
 }
 .form-control.no-focus:focus {
   outline: none !important;

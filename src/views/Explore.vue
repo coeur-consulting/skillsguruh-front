@@ -543,6 +543,405 @@
         </b-row>
       </section>
       <section class="py-3 py-sm-5">
+        <b-row>
+          <b-col sm="8">
+            <div class="d-flex justify-content-between">
+              <h6 class="mb-5 font-weight-bold">Feeds</h6>
+              <router-link to="/feeds" class="text-dark-green"
+                ><small>View all feeds</small></router-link
+              >
+            </div>
+
+            <div v-if="showFeeds">
+              <div v-if="feeds.length">
+                <div
+                  v-for="(feed, index) in feeds.slice(0, 4)"
+                  :key="index"
+                  class="border bg-white rounded-8 mb-2"
+                >
+                  <div class="d-flex mb-3 px-2 px-sm-3 pt-3">
+                    <div class="flex-1 text-left">
+                      <div class="mr-2 mb-1 feedname" v-if="feed.admin">
+                        <b-avatar
+                          size="1.8rem"
+                          class="mr-2"
+                          :src="feed.admin.profile"
+                        ></b-avatar>
+                        <div>
+                          <div style="line-height: 1.2">
+                            {{ feed.admin.name }} <br />
+                          </div>
+                          <small
+                            v-if="feed.admin.state"
+                            class="text-muted font-weight-normal"
+                            >{{ feed.admin.state }}</small
+                          >
+                        </div>
+                      </div>
+                      <div class="mr-2 mb-1 feedname" v-if="feed.user">
+                        <b-avatar
+                          size="1.8rem"
+                          class="mr-2"
+                          :src="feed.user.profile"
+                        ></b-avatar>
+                        <span
+                          @click="
+                            $router.push(
+                              `/facilitator/profile/u/${feed.user.id}`
+                            )
+                          "
+                          class="hover_green"
+                        >
+                          <div style="line-height: 1.2">
+                            {{ feed.user.name }}
+                          </div>
+                          <small
+                            v-if="feed.user.state"
+                            class="text-muted font-weight-normal"
+                            >{{ feed.user.state }}</small
+                          >
+                        </span>
+                      </div>
+                      <div class="mr-2 mb-1 feedname" v-if="feed.facilitator">
+                        <b-avatar
+                          size="1.8rem"
+                          class="mr-2"
+                          :src="feed.facilitator.profile"
+                        ></b-avatar>
+                        <span
+                          class="hover_green"
+                          @click="
+                            $router.push(
+                              `/facilitator/profile/f/${feed.facilitator.id}`
+                            )
+                          "
+                        >
+                          <div style="line-height: 1.2">
+                            {{ feed.facilitator.name }}
+                          </div>
+                          <small
+                            v-if="feed.facilitator.state"
+                            class="text-muted font-weight-normal"
+                            >{{ feed.facilitator.state }}</small
+                          >
+                        </span>
+                      </div>
+                    </div>
+                    <b-dropdown
+                      v-if="
+                        feed.user && feed.user.id == $store.getters.learner.id
+                      "
+                      size="sm"
+                      variant="transparent"
+                      no-caret
+                      class="no-focus"
+                    >
+                      <template #button-content>
+                        <b-icon icon="three-dots" font-scale="1.4"></b-icon>
+                      </template>
+
+                      <b-dropdown-item
+                        class="fs12"
+                        @click="drop(feed.id, index)"
+                        v-if="
+                          feed.user && feed.user.id == $store.getters.learner.id
+                        "
+                        >Delete</b-dropdown-item
+                      >
+                    </b-dropdown>
+                  </div>
+
+                  <div v-if="feed.media || feed.publicId">
+                    <div class="mb-4 position-relative w-100 media">
+                      <cld-image
+                        v-if="
+                          feed.publicId &&
+                          img_ext.includes(getextension(feed.media))
+                        "
+                        :publicId="feed.publicId"
+                      >
+                        <cld-transformation crop="fill" quality="auto" />
+                        <cld-transformation
+                          width="auto"
+                          height="500"
+                          aspect_ratio="16:9"
+                          crop="fill"
+                        />
+                        <cld-transformation dpr="auto" />
+                      </cld-image>
+                      <b-img
+                        v-if="
+                          !feed.publicId &&
+                          feed.media &&
+                          img_ext.includes(getextension(feed.media))
+                        "
+                        :src="feed.media"
+                      ></b-img>
+
+                      <cld-video
+                        controls
+                        v-if="
+                          feed.publicId &&
+                          vid_ext.includes(getextension(feed.media))
+                        "
+                        :publicId="feed.publicId"
+                      >
+                        <cld-transformation crop="fill" height="500" />
+                      </cld-video>
+
+                      <audio
+                        width="100%"
+                        controls
+                        v-if="
+                          feed.media &&
+                          aud_ext.includes(getextension(feed.media))
+                        "
+                        :src="feed.media"
+                        class="fluid-grow"
+                      ></audio>
+                      <div
+                        v-if="
+                          feed.media &&
+                          doc_ext.includes(getextension(feed.media))
+                        "
+                        class="text-center p-3 p-sm-4 bg-skills-grey"
+                      >
+                        <b-icon icon="image" font-scale="3rem"></b-icon>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-left feed_text px-3">
+                    <div class="mb-1" v-html="feed.message"></div>
+
+                    <div v-if="feed.url" class="text-dark-green mb-1">
+                      <a :href="feed.url" target="_blank">Click link</a>
+                    </div>
+                    <div v-if="feed.tags" class="px-2 mb-1">
+                      <b-row class="justify-content-start">
+                        <b-col
+                          cols="auto"
+                          class="px-1"
+                          v-for="(tag, id) in JSON.parse(feed.tags)"
+                          :key="id"
+                        >
+                          <b-badge
+                            class="fs10 text-dark-green"
+                            size="sm"
+                            variant="lighter-green"
+                            >{{ tag.text }}</b-badge
+                          >
+                        </b-col>
+                      </b-row>
+                    </div>
+                  </div>
+                  <div class="interactions text-left px-3 py-2 border-bottom">
+                    <span class="mr-3 cursor-pointer">
+                      <b-icon
+                        :icon="
+                          feed.stars.find(
+                            (item) =>
+                              item.star &&
+                              item.user_id == $store.getters.learner.id
+                          )
+                            ? 'star-fill'
+                            : 'star'
+                        "
+                        class="text-blue mr-1"
+                      ></b-icon>
+                      <span>{{
+                        feed.stars.filter((item) => item.star).length
+                      }}</span>
+                    </span>
+                    <span class="mr-3 cursor-pointer"
+                      ><b-icon
+                        :icon="
+                          feed.likes.find(
+                            (item) =>
+                              item.like &&
+                              item.user_id == $store.getters.learner.id
+                          )
+                            ? 'heart-fill'
+                            : 'heart'
+                        "
+                        class="text-danger mr-1"
+                      ></b-icon>
+                      <span>{{
+                        feed.likes.filter((item) => item.like).length
+                      }}</span>
+                    </span>
+                    <span class="mr-3">
+                      <b-icon icon="chat-fill" class="mr-1"></b-icon>
+                      <span
+                        ><span>{{ feed.comments.length }}</span></span
+                      >
+                      comments</span
+                    >
+                  </div>
+                  <div
+                    class="comments px-3 pt-2 border-bottom text-left"
+                    v-if="feed.comments.length"
+                  >
+                    <span
+                      v-if="feed.comments.length"
+                      class="comment_header mb-2 cursor-pointer"
+                      >View {{ feed.comments.length }}
+                      {{
+                        feed.comments.length > 1 ? "comments" : "comment"
+                      }}</span
+                    >
+                    <div class="all_comment">
+                      <div
+                        class="comment d-flex text-left mb-1"
+                        v-for="item in feed.comments.slice(0, 2)"
+                        :key="item.id"
+                      >
+                        <div class="flex-1 pr-2">
+                          <span class="comment_name mr-2" v-if="item.admin">
+                            {{ item.admin.name }}</span
+                          >
+                          <span
+                            class="comment_name mr-2 hover_green"
+                            @click="
+                              $router.push(
+                                `/facilitator/profile/u/${item.user.id}`
+                              )
+                            "
+                            v-if="item.user"
+                          >
+                            {{ item.user.name }}</span
+                          >
+                          <span
+                            class="comment_name mr-2 hover_green"
+                            @click="
+                              $router.push(
+                                `/facilitator/profile/f/${item.facilitator.id}`
+                              )
+                            "
+                            v-if="item.facilitator"
+                          >
+                            {{ item.facilitator.name }}</span
+                          >
+
+                          <span class="comment_text">{{ item.comment }}</span>
+                        </div>
+                        <div>
+                          <span class="comment_mins"
+                            >{{ $moment(item.created_at).fromNow() }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="interact text-left px-3 pb-1">
+                    <b-input-group class="mt-1">
+                      <template #append>
+                        <b-input-group-text
+                          class="border-0 bg-transparent d-block"
+                          ><span
+                            @click="addcomment(feed.id, index)"
+                            class="text-dark-green cursor-pointer comment_post"
+                            >Post</span
+                          ></b-input-group-text
+                        >
+                      </template>
+                      <template #prepend class="d-none d-md-block">
+                        <b-input-group-text
+                          class="border-0 bg-transparent d-none d-md-block"
+                        >
+                          <emoji-picker @emoji="insertcomment" :search="search">
+                            <div
+                              class="emoji-invoker2"
+                              slot="emoji-invoker"
+                              slot-scope="{ events: { click: clickEvent } }"
+                              @click.stop="clickEvent"
+                            >
+                              <svg
+                                height="24"
+                                viewBox="0 0 24 24"
+                                width="24"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M0 0h24v24H0z" fill="none" />
+                                <path
+                                  d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"
+                                />
+                              </svg>
+                            </div>
+                            <div
+                              slot="emoji-picker"
+                              slot-scope="{ emojis, insert }"
+                            >
+                              <div class="emoji-picker picker">
+                                <div class="emoji-picker__search">
+                                  <input type="text" v-model="search" v-focus />
+                                </div>
+                                <div>
+                                  <div
+                                    v-for="(emojiGroup, category) in emojis"
+                                    :key="category"
+                                  >
+                                    <h5>{{ category }}</h5>
+                                    <div class="emojis">
+                                      <span
+                                        v-for="(emoji, emojiName) in emojiGroup"
+                                        :key="emojiName"
+                                        @click="insert(emoji)"
+                                        :title="emojiName"
+                                        >{{ emoji }}</span
+                                      >
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </emoji-picker>
+                        </b-input-group-text>
+                      </template>
+                      <b-form-input
+                        size="sm"
+                        autocomplete="off"
+                        autocorrect="off"
+                        rows="1"
+                        v-model="comment.comment"
+                        placeholder="Add comment"
+                        class="border-0 no-focus"
+                      ></b-form-input>
+                    </b-input-group>
+                  </div>
+                </div>
+                <div class="text-center mt-2">
+                  <router-link to="/feeds" class="text-dark-green"
+                    ><small>View all feeds</small></router-link
+                  >
+                </div>
+              </div>
+              <div v-else class="text-center admin_tab p-3 p-sm-5">
+                <div>
+                  <b-img :src="require('@/assets/images/creator.svg')"></b-img>
+                  <h6 class="text-muted my-3 fs14">
+                    It appears you have no event,
+                    <br class="d-none d-sm-block" />
+                  </h6>
+                </div>
+              </div>
+            </div>
+            <div v-else class="p-3">
+              <div class="w-100 mb-3">
+                <div class="w-100">
+                  <div class="mb-3">
+                    <b-skeleton-img no-aspect height="250px"></b-skeleton-img>
+                  </div>
+                  <b-skeleton animation="wave" width="85%"></b-skeleton>
+                  <b-skeleton animation="wave" width="35%"></b-skeleton>
+                </div>
+              </div>
+            </div>
+          </b-col>
+          <b-col sm="4"> </b-col>
+        </b-row>
+      </section>
+      <section class="py-3 py-sm-5">
         <div class="d-flex justify-content-between">
           <h6 class="mb-5 font-weight-bold">Upcoming Events</h6>
           <router-link to="/events" class="text-dark-green"
@@ -559,36 +958,16 @@
               :speed="1000"
               :autoplayTimeout="5000"
               :loop="true"
-              class="shadow bg-white"
+              class=""
             >
               <slide
                 v-for="item in events
                   .filter((item) => item.status == 'pending')
                   .slice(0, 5)"
                 :key="item.id"
+                class="shadow bg-white"
               >
                 <div class="border rounded text-left position-relative">
-                  <div
-                    class="
-                      bg-lighter-green
-                      px-3
-                      py-3
-                      text-left text-dark-green
-                      d-flex
-                      justify-content-between
-                    "
-                  >
-                    <h4 class="text-capitalize text-dark-green mb-0 text-left">
-                      {{ item.title }}
-                    </h4>
-                    <span
-                      class="cursor-pointer"
-                      @click="$router.push(`/event/${item.id}`)"
-                    >
-                      <span class="viewevent"> View Event </span>
-                      <b-icon icon="chevron-double-right"></b-icon>
-                    </span>
-                  </div>
                   <b-img fluid-grow :src="item.cover" class="event_img"></b-img>
                   <div class="px-3 py-3">
                     <p class="mb-2">
@@ -604,6 +983,27 @@
                         {{ item.description }}
                       </p>
                     </div>
+                  </div>
+                  <div
+                    class="
+                      bg-light
+                      px-3
+                      py-3
+                      text-left text-dark
+                      d-flex
+                      justify-content-between
+                    "
+                  >
+                    <h4 class="text-capitalize text-dark mb-0 text-left">
+                      {{ item.title }}
+                    </h4>
+                    <span
+                      class="cursor-pointer"
+                      @click="$router.push(`/event/${item.id}`)"
+                    >
+                      <span class="viewevent"> View Event </span>
+                      <b-icon icon="chevron-double-right"></b-icon>
+                    </span>
                   </div>
                 </div>
               </slide>
@@ -636,9 +1036,19 @@
 </template>
 <script>
 import interest from "@/components/insight.js";
+import EmojiPicker from "vue-emoji-picker";
 export default {
   data() {
     return {
+      img_ext: ["jpg", "png", "jpeg", "gif"],
+      vid_ext: ["mp4", "3gp", "flv", "mov"],
+      aud_ext: ["mp3", "aac"],
+      doc_ext: ["docx", "pdf", "ppt", "zip"],
+      comment: {
+        comment: "",
+        id: "",
+      },
+      search: "",
       showEnrolled: false,
       courses: [],
       showConnect: false,
@@ -652,9 +1062,11 @@ export default {
       showEvents: false,
       interest: [],
       contributors: [],
+      showFeeds: false,
     };
   },
   mounted() {
+    this.getfeeds();
     this.mostenrolled();
     this.getprograms();
     this.getlearners();
@@ -663,6 +1075,9 @@ export default {
     this.getdiscussions();
     this.getcontributors();
     this.interest = interest;
+  },
+  components: {
+    EmojiPicker,
   },
   computed: {
     trending() {
@@ -713,6 +1128,19 @@ export default {
         }
       });
     },
+    getfeeds() {
+      this.$http
+        .get(`${this.$store.getters.url}/guest/feeds?page=${this.page}`)
+        .then((res) => {
+          if (res.status == 201 || res.status == 200) {
+            this.feeds = res.data.data;
+            this.showFeeds = true;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     getlearners() {
       this.$http
         .get(`${this.$store.getters.url}/guest/learners`)
@@ -730,6 +1158,55 @@ export default {
             this.facilitators = res.data;
           }
         });
+    },
+    showcomments(feed) {
+      this.allcomments = feed;
+      this.$bvModal.show("allcomments");
+    },
+    getextension(fileName) {
+      if (fileName) {
+        var regex = new RegExp("[^.]+$");
+        var extension = fileName.match(regex);
+
+        return extension[0];
+      }
+    },
+    getUpload(val) {
+      if (
+        !this.img_ext.includes(this.getextension(val.secure_url)) &&
+        !this.vid_ext.includes(this.getextension(val.secure_url)) &&
+        !this.aud_ext.includes(this.getextension(val.secure_url)) &&
+        !this.doc_ext.includes(this.getextension(val.secure_url))
+      ) {
+        this.$toast.error("Unsupported content type !");
+        return;
+      }
+
+      this.feed.media = val.secure_url;
+      this.feed.publicId = val.public_id;
+      this.$bvModal.show("media");
+    },
+    insertfeed(emoji) {
+      this.feed.message += emoji + "";
+    },
+    insertcomment(emoji) {
+      this.comment.comment += emoji + "";
+    },
+    post() {
+      // this.$router.push("/login");
+      this.$toast.info("Login to continue");
+    },
+    addcomment() {
+      // this.$router.push("/login");
+      this.$toast.info("Login to continue");
+    },
+    toggleLike() {
+      // this.$router.push("/login");
+      this.$toast.info("Login to continue");
+    },
+    toggleStar() {
+      // this.$router.push("/login");
+      this.$toast.info("Login to continue");
     },
     getevents() {
       this.$http.get(`${this.$store.getters.url}/guest/events`).then((res) => {
