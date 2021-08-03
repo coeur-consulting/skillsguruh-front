@@ -17,9 +17,9 @@
           "
         >
           <b-col md="6" sm="12" class="mb-sm-0 top_b">
-            <div class="banner-text">
-              <h1 class="mb-4 mt-4 mt-sm-0">
-                Here you can truly have it all. A Social Learning Place!
+            <div class="banner-text mb-3 mb-sm-5">
+              <h1 class="mb-3 mt-4 mt-sm-0">
+                Discover People, Knowledge, and Opportunities for Growth!
               </h1>
               <p>Enjoy a more engaging and organized virtual learning</p>
             </div>
@@ -34,13 +34,25 @@
                 Explore Interest</b-button
               >
               <b-button
+                v-if="!auth"
                 block
                 size="lg"
                 class="m-0"
                 variant="outline-dark-green"
                 @click="$router.push('/register')"
               >
-                Connect & Learn</b-button
+                Get Connected</b-button
+              >
+              <b-button
+                v-if="auth"
+                block
+                size="sm"
+                class="m-0"
+                variant="outline-dark-green"
+                v-b-tooltip.hover
+                title="You are already connected"
+              >
+                Connected</b-button
               >
             </div>
             <div class="banner-buttons d-sm-none">
@@ -54,13 +66,25 @@
                 Explore Interest</b-button
               >
               <b-button
+                v-if="auth"
                 block
                 size="sm"
                 class="m-0"
                 variant="outline-dark-green"
-                @click="$router.push('/register')"
+                v-b-tooltip.hover
+                title="You are already connected"
               >
-                Connect & Learn</b-button
+                Connected</b-button
+              >
+              <b-button
+                v-if="!auth"
+                block
+                size="sm"
+                class="m-0"
+                variant="outline-dark-green"
+                @click="$toast.info('Already connected')"
+              >
+                Get Connected</b-button
               >
             </div>
           </b-col>
@@ -423,7 +447,28 @@
     </section>
   </div>
 </template>
-
+<script>
+export default {
+  data() {
+    return {
+      auth: null,
+    };
+  },
+  mounted() {
+    if (localStorage.getItem("authLearner")) {
+      this.auth = true;
+    } else if (localStorage.getItem("authFacilitator")) {
+      this.auth = true;
+    } else if (localStorage.getItem("authAdmin")) {
+      this.auth = true;
+    } else if (localStorage.getItem("authOrg")) {
+      this.auth = true;
+    } else {
+      return;
+    }
+  },
+};
+</script>
 <style scoped lang="scss">
 #main {
   max-width: 100vw;

@@ -20,6 +20,7 @@ import VueSocialauth from "vue-social-auth";
 import VueWebSpeech from "vue-web-speech";
 import Cloudinary from "cloudinary-vue";
 import VueCompositionAPI from "@vue/composition-api";
+import InfiniteLoading from "vue-infinite-loading";
 
 import "vue-toast-notification/dist/theme-sugar.css";
 import "animate.css";
@@ -76,6 +77,11 @@ Vue.use(require("vue-pusher"), {
   options: {
     cluster: "eu",
     encrypted: true,
+  },
+});
+Vue.use(InfiniteLoading, {
+  slots: {
+    noMore: "No more message", // you can pass a string value
   },
 });
 

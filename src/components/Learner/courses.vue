@@ -1778,7 +1778,7 @@ export default {
             this.course.title.bold() +
             ". Check it out here!",
           url:
-            "https://skillsguruh.com/learner/courses/?course_id=" +
+            "https://skillsguruh.com/explore/courses/?course_id=" +
             this.course.id,
         };
       } else {
