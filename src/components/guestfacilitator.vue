@@ -2,14 +2,14 @@
   <div class="bg-light">
     <b-container fluid>
       <b-row class="justify-content-center">
-        <b-col sm="8">
+        <b-col sm="7">
           <b-row>
             <b-col cols="12" class="mb-0 rounded pt-sm-2 px-1 px-sm-4 pb-2">
               <b-card no-body class="overflow-hidden border-0" style="">
                 <b-row no-gutters>
                   <div class="prof_img">
                     <b-card-img
-                      width="20%"
+                      width="15%"
                       :src="
                         detail.profile
                           ? detail.profile
