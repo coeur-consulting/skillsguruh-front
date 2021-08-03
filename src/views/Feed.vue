@@ -415,7 +415,7 @@
                           @click="drop(feed.id, index)"
                           v-if="
                             feed.user &&
-                            feed.user.id == $store.getters.learner.id
+                              feed.user.id == $store.getters.learner.id
                           "
                           >Delete</b-dropdown-item
                         >
@@ -427,7 +427,7 @@
                         <cld-image
                           v-if="
                             feed.publicId &&
-                            img_ext.includes(getextension(feed.media))
+                              img_ext.includes(getextension(feed.media))
                           "
                           :publicId="feed.publicId"
                         >
@@ -438,8 +438,8 @@
                         <b-img
                           v-if="
                             !feed.publicId &&
-                            feed.media &&
-                            img_ext.includes(getextension(feed.media))
+                              feed.media &&
+                              img_ext.includes(getextension(feed.media))
                           "
                           :src="feed.media"
                         ></b-img>
@@ -448,7 +448,7 @@
                           controls
                           v-if="
                             feed.publicId &&
-                            vid_ext.includes(getextension(feed.media))
+                              vid_ext.includes(getextension(feed.media))
                           "
                           :publicId="feed.publicId"
                         >
@@ -460,7 +460,7 @@
                           controls
                           v-if="
                             feed.media &&
-                            aud_ext.includes(getextension(feed.media))
+                              aud_ext.includes(getextension(feed.media))
                           "
                           :src="feed.media"
                           class="fluid-grow"
@@ -468,7 +468,7 @@
                         <div
                           v-if="
                             feed.media &&
-                            doc_ext.includes(getextension(feed.media))
+                              doc_ext.includes(getextension(feed.media))
                           "
                           class="text-center p-3 p-sm-4 bg-skills-grey"
                         >
@@ -487,14 +487,14 @@
                           <b-col
                             cols="auto"
                             class="px-1"
-                            v-for="(tag, id) in JSON.parse(feed.tags)"
+                            v-for="(tag, id) in feed.tags"
                             :key="id"
                           >
                             <b-badge
                               class="fs10 text-dark-green"
                               size="sm"
                               variant="lighter-green"
-                              >{{ tag.text }}</b-badge
+                              >{{ tag }}</b-badge
                             >
                           </b-col>
                         </b-row>
@@ -508,7 +508,7 @@
                         <b-icon
                           :icon="
                             feed.stars.find(
-                              (item) =>
+                              item =>
                                 item.star &&
                                 item.user_id == $store.getters.learner.id
                             )
@@ -518,7 +518,7 @@
                           class="text-blue mr-1"
                         ></b-icon>
                         <span>{{
-                          feed.stars.filter((item) => item.star).length
+                          feed.stars.filter(item => item.star).length
                         }}</span>
                       </span>
                       <span
@@ -527,7 +527,7 @@
                         ><b-icon
                           :icon="
                             feed.likes.find(
-                              (item) =>
+                              item =>
                                 item.like &&
                                 item.user_id == $store.getters.learner.id
                             )
@@ -537,7 +537,7 @@
                           class="text-danger mr-1"
                         ></b-icon>
                         <span>{{
-                          feed.likes.filter((item) => item.like).length
+                          feed.likes.filter(item => item.like).length
                         }}</span>
                       </span>
                       <span class="mr-3">
@@ -665,9 +665,8 @@
                                       <h5>{{ category }}</h5>
                                       <div class="emojis">
                                         <span
-                                          v-for="(
-                                            emoji, emojiName
-                                          ) in emojiGroup"
+                                          v-for="(emoji,
+                                          emojiName) in emojiGroup"
                                           :key="emojiName"
                                           @click="insert(emoji)"
                                           :title="emojiName"
@@ -739,8 +738,8 @@
               </div>
             </div>
           </b-col>
-          <b-col sm="4" class="py-sm-5">
-            <div>
+          <b-col sm="4" class="px-3 px-sm-4">
+            <div class="text-left">
               <h6 class="mb-3 fs12">Trending in Last 24hrs</h6>
               <div v-if="trendingFeed.length" class="py-3">
                 <div
@@ -748,7 +747,12 @@
                   :key="id"
                   class="mb-3"
                 >
-                  <div class="trending_name">{{ item.name }}</div>
+                  <div
+                    class="trending_name"
+                    @click="$router.push(`/feed/${item.name}`)"
+                  >
+                    {{ item.name }}
+                  </div>
                   <div class="trending_count text-muted">
                     {{ item.count }} posts about this
                   </div>
@@ -781,7 +785,7 @@ export default {
       allcomments: [],
       feed: {
         media: "",
-        message: "",
+        message: ""
       },
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp", "flv", "mov"],
@@ -789,13 +793,13 @@ export default {
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       comment: {
         comment: "",
-        id: "",
+        id: ""
       },
       mini_info: {
         id: "",
         name: "",
         type: "",
-        profile: "",
+        profile: ""
       },
       showFeeds: false,
 
@@ -803,18 +807,21 @@ export default {
       rows: null,
       perPage: 10,
       page: 1,
-      trendingFeed: [],
+      trendingFeed: []
     };
   },
   components: {
     EmojiPicker,
     FeedUpload,
-    MultiSelect,
+    MultiSelect
+  },
+  watch: {
+    $route: "getSpecificFeeds"
   },
   mounted() {
-    this.getfeeds();
+    this.getSpecificFeeds();
     this.getTrendingFeeds();
-    this.options = Interest.map((item) => {
+    this.options = Interest.map(item => {
       var res = {};
       res.text = item.value;
       res.value = item.value;
@@ -823,32 +830,36 @@ export default {
       return res;
     });
   },
-  computed: {
-    filterFeeds() {
-      return this.feeds
-        .filter((item) =>
-          item.message.toLowerCase().includes(this.search.toLowerCase())
-        )
-        .slice(
-          this.perPage * this.currentPage - this.perPage,
-          this.perPage * this.currentPage
-        );
-    },
-  },
+
   methods: {
     getTrendingFeeds() {
       this.$http
         .get(`${this.$store.getters.url}/guest/trending/feeds`)
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.trendingFeed = res.data;
           }
         });
     },
+    getSpecificFeeds() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/guest/trending/feed/${this.$route.params.interest}`
+        )
+        .then(res => {
+          if (res.status == 200) {
+            this.feeds = res.data.data;
+            this.showFeeds = true;
+          }
+        });
+    },
+
     infiniteHandler($state) {
       this.$http
-        .get(`${this.$store.getters.url}/guest/feeds?page=${this.page}`)
-        .then((res) => {
+        .get(
+          `${this.$store.getters.url}/guest/trending/feed/${this.$route.params.interest}?page=${this.page}`
+        )
+        .then(res => {
           if (res.data.data.length) {
             this.page += 1;
             this.feeds.push(...res.data.data);
@@ -899,20 +910,6 @@ export default {
       this.comment.comment += emoji + "";
     },
 
-    getfeeds() {
-      this.$http
-        .get(`${this.$store.getters.url}/guest/feeds?page=${this.page}`)
-        .then((res) => {
-          if (res.status == 201 || res.status == 200) {
-            this.feeds = res.data.data;
-            this.showFeeds = true;
-            this.rows = res.data.data.length;
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
-    },
     post() {
       // this.$router.push("/login");
       this.$toast.info("Login to continue");
@@ -929,8 +926,8 @@ export default {
       // this.$router.push("/login");
       this.$toast.info("Login to continue");
     },
-    drop() {},
-  },
+    drop() {}
+  }
 };
 </script>
 <style scoped lang="scss">

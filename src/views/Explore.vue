@@ -510,7 +510,7 @@
                   class="mr-3"
                   size="2.3rem"
                 ></b-avatar>
-                <div v-if="item.admin">
+                <div v-if="item.admin" class="line-height-1_2">
                   <span class="fs14 font-weight-bold">{{
                     item.admin.name
                   }}</span>
@@ -519,7 +519,7 @@
                     >{{ item.count }} contributions</span
                   >
                 </div>
-                <div v-if="item.facilitator">
+                <div v-if="item.facilitator" class="line-height-1_2">
                   <span
                     class="fs14 font-weight-bold"
                     @click="$router.push(`/profile/f/${item.facilitator.id}`)"
@@ -530,7 +530,7 @@
                     >{{ item.count }} contributions</span
                   >
                 </div>
-                <div v-if="item.user">
+                <div v-if="item.user" class="line-height-1_2">
                   <span
                     class="fs14 font-weight-bold"
                     @click="$router.push(`/profile/u/${item.user.id}`)"
@@ -548,7 +548,7 @@
       </section>
       <section class="py-3 py-sm-5">
         <b-row>
-          <b-col sm="8">
+          <b-col sm="8" class="mb-4 mb-sm-0">
             <div class="d-flex justify-content-between">
               <h6 class="mb-5 font-weight-bold">Feeds</h6>
               <router-link to="/feeds" class="text-dark-green"
@@ -611,9 +611,7 @@
                         <span
                           class="hover_green"
                           @click="
-                            $router.push(
-                              `/facilitator/profile/f/${feed.facilitator.id}`
-                            )
+                            $router.push(`/profile/f/${feed.facilitator.id}`)
                           "
                         >
                           <div style="line-height: 1.2">
@@ -932,10 +930,27 @@
               </div>
             </div>
           </b-col>
-          <b-col sm="4">
-            <div>
-              <h6>Trending in Last 24hrs</h6>
-              <div class="text-center text-muted">Unavailable</div>
+          <b-col sm="4" class="p-3">
+            <div class="text-left">
+              <h6 class="mb-3 fs12">Trending in Last 24hrs</h6>
+              <div v-if="trendingFeed.length" class="py-3">
+                <div
+                  v-for="(item, id) in trendingFeed.slice(0, 20)"
+                  :key="id"
+                  class="mb-3"
+                >
+                  <div
+                    class="trending_name"
+                    @click="$router.push(`/feed/${item.name}`)"
+                  >
+                    {{ item.name }}
+                  </div>
+                  <div class="trending_count text-muted">
+                    {{ item.count }} posts about this
+                  </div>
+                </div>
+              </div>
+              <div v-else class="text-center text-muted">Unavailable</div>
             </div>
           </b-col>
         </b-row>
@@ -957,7 +972,7 @@
               :speed="1000"
               :autoplayTimeout="5000"
               :loop="true"
-              class=""
+              class="p-3"
             >
               <slide
                 v-for="item in events
@@ -1064,6 +1079,8 @@ export default {
       interest: [],
       contributors: [],
       showFeeds: false,
+      trendingFeed: [],
+      feeds: [],
     };
   },
   mounted() {
@@ -1075,6 +1092,7 @@ export default {
     this.getfacilitators();
     this.getdiscussions();
     this.getcontributors();
+    this.getTrendingFeeds();
     this.interest = interest;
   },
   components: {
@@ -1128,6 +1146,15 @@ export default {
           this.courses = res.data;
         }
       });
+    },
+    getTrendingFeeds() {
+      this.$http
+        .get(`${this.$store.getters.url}/guest/trending/feeds`)
+        .then((res) => {
+          if (res.status == 200) {
+            this.trendingFeed = res.data;
+          }
+        });
     },
     getfeeds() {
       this.$http

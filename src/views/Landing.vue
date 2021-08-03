@@ -50,7 +50,7 @@
                 class="m-0"
                 variant="outline-dark-green"
                 v-b-tooltip.hover
-                title="You are already connected"
+                title="You are  connected"
               >
                 Connected</b-button
               >
@@ -72,7 +72,7 @@
                 class="m-0"
                 variant="outline-dark-green"
                 v-b-tooltip.hover
-                title="You are already connected"
+                title="You are  connected"
               >
                 Connected</b-button
               >
@@ -82,7 +82,7 @@
                 size="sm"
                 class="m-0"
                 variant="outline-dark-green"
-                @click="$toast.info('Already connected')"
+                @click="$router.push('/register')"
               >
                 Get Connected</b-button
               >
@@ -500,6 +500,7 @@ export default {
   line-height: 41px;
   letter-spacing: 0.06em;
   text-align: left;
+  word-wrap: break-word;
 }
 .banner-text p {
   font-size: 18px;

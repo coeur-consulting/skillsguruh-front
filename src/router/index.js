@@ -237,6 +237,18 @@ const routes = [
     },
   },
   {
+    path: "/feed/:interest",
+    name: "Feed",
+    components: {
+      header: Header,
+      default: () => import(/* webpackChunkName: "feed" */ "../views/Feed.vue"),
+      footer: Footer,
+    },
+    meta: {
+      title: "Feed | SkillsGuruh",
+    },
+  },
+  {
     path: "/events",
     name: "Events",
     components: {

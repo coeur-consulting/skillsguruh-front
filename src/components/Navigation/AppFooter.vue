@@ -2,7 +2,7 @@
   <footer>
     <b-container>
       <b-row>
-        <b-col cols="12" md="3" class="d-none d-sm-inline-flex text-sm-left">
+        <b-col cols="12" md="3" class="d-none d-sm-block text-sm-left">
           <b-img src="/img/logo.svg" class="mb-2 logo"></b-img>
           <p class="fs14 text-muted">
             A platform for business owners and entreprenuer to upskill

@@ -26,9 +26,13 @@ h3,
 h4 {
   overflow-wrap: break-word;
   hyphens: auto;
+  word-wrap: break-word;
 }
 p {
   color: rgba($color: #000000, $alpha: 0.74);
+}
+.line-height-1_2 {
+  line-height: 1.2;
 }
 .text-blue {
   color: #054a90;
@@ -591,7 +595,22 @@ ol.subquest {
   height: 100%;
   object-fit: cover;
 }
+.trending_name {
+  font-size: 0.9em;
+}
+.trending_count {
+  font-size: 0.8em;
+}
+.line-1 {
+  line-height: 1;
+}
 @media (max-width: 600px) {
+  .trending_name {
+    font: size 0.8em;
+  }
+  .trending_count {
+    font: size 0.7em;
+  }
   .prof_img {
     width: 35%;
   }
@@ -626,7 +645,7 @@ ol.subquest {
     font-size: x-small;
   }
   .reg .custom-control-label {
-    font-size: 14.5px;
+    font-size: 0.7rem;
     margin-top: 3px;
   }
   .bm-burger-button {
@@ -721,9 +740,6 @@ ol.subquest {
     line-height: 1.3;
   }
 
-  .line-1 {
-    line-height: 1;
-  }
   .fs14,
   .col-form-label,
   .custom-select {

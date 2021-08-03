@@ -43,7 +43,7 @@
           <b-form @submit.stop.prevent="register" class="user">
             <legend>Register as</legend>
             <b-form-row class="mb-4 my_type">
-              <b-col cols="4">
+              <b-col cols="4" class="pr-0 pr-sm-2">
                 <div
                   class="type"
                   :class="{ selected_type: type == 'organization' }"
@@ -57,7 +57,7 @@
                   >
                 </div>
               </b-col>
-              <b-col cols="4">
+              <b-col cols="4" class="pr-0 pr-sm-2">
                 <div
                   class="type"
                   :class="{ selected_type: type == 'facilitator' }"
@@ -71,7 +71,7 @@
                   >
                 </div>
               </b-col>
-              <b-col cols="4">
+              <b-col cols="4" class="pr-0 pr-sm-2">
                 <div class="type" :class="{ selected_type: type == 'learner' }">
                   <b-form-radio
                     class="reg"
@@ -597,6 +597,7 @@ a {
   }
   .type {
     padding: 5px 5px;
+    font-size: 0.8rem;
   }
 }
 </style>
