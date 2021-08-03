@@ -1191,9 +1191,6 @@ export default {
   color: rgba($color: #000000, $alpha: 0.44);
 }
 
-.interactions {
-  font-size: 14px;
-}
 .form-control.no-focus:focus {
   outline: none !important;
   box-shadow: unset;
