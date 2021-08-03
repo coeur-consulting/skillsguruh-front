@@ -361,11 +361,7 @@
                             :src="feed.user.profile"
                           ></b-avatar>
                           <span
-                            @click="
-                              $router.push(
-                                `/facilitator/profile/u/${feed.user.id}`
-                              )
-                            "
+                            @click="$router.push(`/profile/u/${feed.user.id}`)"
                             class="hover_green"
                           >
                             <div style="line-height: 1.2">
@@ -387,9 +383,7 @@
                           <span
                             class="hover_green"
                             @click="
-                              $router.push(
-                                `/facilitator/profile/f/${feed.facilitator.id}`
-                              )
+                              $router.push(`/profile/f/${feed.facilitator.id}`)
                             "
                           >
                             <div style="line-height: 1.2">
@@ -580,9 +574,7 @@
                             <span
                               class="comment_name mr-2 hover_green"
                               @click="
-                                $router.push(
-                                  `/facilitator/profile/u/${item.user.id}`
-                                )
+                                $router.push(`/profile/u/${item.user.id}`)
                               "
                               v-if="item.user"
                             >
@@ -592,7 +584,7 @@
                               class="comment_name mr-2 hover_green"
                               @click="
                                 $router.push(
-                                  `/facilitator/profile/f/${item.facilitator.id}`
+                                  `/profile/f/${item.facilitator.id}`
                                 )
                               "
                               v-if="item.facilitator"

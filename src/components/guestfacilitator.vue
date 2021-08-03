@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="bg-light">
     <b-container fluid>
-      <b-row>
+      <b-row class="justify-content-center">
         <b-col sm="8">
           <b-row>
             <b-col cols="12" class="mb-0 rounded pt-sm-2 px-1 px-sm-4 pb-2">
@@ -9,7 +9,7 @@
                 <b-row no-gutters>
                   <div class="prof_img">
                     <b-card-img
-                      width="15%"
+                      width="20%"
                       :src="
                         detail.profile
                           ? detail.profile
@@ -833,13 +833,6 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col class="d-none d-sm-block" cols="3">
-          <Message
-            class="d-none d-md-block"
-            @getmessage="getmessage"
-            :user="'facilitator'"
-          />
-        </b-col>
       </b-row>
     </b-container>
     <b-modal
@@ -972,14 +965,7 @@
         <b-button size="sm" variant="dark-green" @click="ok()"> OK </b-button>
       </template>
     </b-modal>
-    <Minichat
-      class="minichats"
-      :user="'facilitator'"
-      :mini_info="mini_info"
-      :open="open"
-      :showAll="showAll"
-      @togglechat="togglechat"
-    />
+
     <b-modal id="access" title="Request Access" hide-footer centered>
       <div class="text-center">
         <p class="mb-4 fs16">Do you wish to join this discussion?</p>
@@ -998,8 +984,6 @@
   </div>
 </template>
 <script>
-import Message from "../messagecomponent";
-import Minichat from "../minichat";
 export default {
   data() {
     return {
@@ -1036,10 +1020,7 @@ export default {
       showCourse: false,
     };
   },
-  components: {
-    Message,
-    Minichat,
-  },
+  components: {},
   computed: {
     filteredCourse() {
       var title = this.courses

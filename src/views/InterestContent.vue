@@ -1585,14 +1585,7 @@ export default {
 h4.card-title {
   font-size: 1.1rem;
 }
-.prof_img {
-  width: 20%;
-}
-.prof_img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+
 .search.form-control {
   width: 250px;
   border: 1px solid rgba($color: #000000, $alpha: 0.07) !important;

@@ -417,7 +417,7 @@
                   ></b-avatar>
                   <div class="line-1">
                     <span
-                      class="fs15 font-weight-bold cursor-pointer"
+                      class="fs14 font-weight-bold cursor-pointer"
                       @click="$router.push(`/discussion/${item.id}`)"
                       >{{ item.name }}</span
                     >
@@ -511,7 +511,7 @@
                   size="2.3rem"
                 ></b-avatar>
                 <div v-if="item.admin">
-                  <span class="fs15 font-weight-bold">{{
+                  <span class="fs14 font-weight-bold">{{
                     item.admin.name
                   }}</span>
                   <br />
@@ -520,18 +520,22 @@
                   >
                 </div>
                 <div v-if="item.facilitator">
-                  <span class="fs15 font-weight-bold">{{
-                    item.facilitator.name
-                  }}</span>
+                  <span
+                    class="fs14 font-weight-bold"
+                    @click="$router.push(`/profile/f/${item.facilitator.id}`)"
+                    >{{ item.facilitator.name }}</span
+                  >
                   <br />
                   <span class="text-muted fs11"
                     >{{ item.count }} contributions</span
                   >
                 </div>
                 <div v-if="item.user">
-                  <span class="fs15 font-weight-bold">{{
-                    item.user.name
-                  }}</span>
+                  <span
+                    class="fs14 font-weight-bold"
+                    @click="$router.push(`/profile/u/${item.user.id}`)"
+                    >{{ item.user.name }}</span
+                  >
                   <br />
                   <span class="text-muted fs11"
                     >{{ item.count }} contributions</span
@@ -585,11 +589,7 @@
                           :src="feed.user.profile"
                         ></b-avatar>
                         <span
-                          @click="
-                            $router.push(
-                              `/facilitator/profile/u/${feed.user.id}`
-                            )
-                          "
+                          @click="$router.push(`/profile/u/${feed.user.id}`)"
                           class="hover_green"
                         >
                           <div style="line-height: 1.2">
@@ -801,11 +801,7 @@
                           >
                           <span
                             class="comment_name mr-2 hover_green"
-                            @click="
-                              $router.push(
-                                `/facilitator/profile/u/${item.user.id}`
-                              )
-                            "
+                            @click="$router.push(`/profile/u/${item.user.id}`)"
                             v-if="item.user"
                           >
                             {{ item.user.name }}</span
@@ -813,9 +809,7 @@
                           <span
                             class="comment_name mr-2 hover_green"
                             @click="
-                              $router.push(
-                                `/facilitator/profile/f/${item.facilitator.id}`
-                              )
+                              $router.push(`/profile/f/${item.facilitator.id}`)
                             "
                             v-if="item.facilitator"
                           >
@@ -938,7 +932,12 @@
               </div>
             </div>
           </b-col>
-          <b-col sm="4"> </b-col>
+          <b-col sm="4">
+            <div>
+              <h6>Trending in Last 24hrs</h6>
+              <div class="text-center text-muted">Unavailable</div>
+            </div>
+          </b-col>
         </b-row>
       </section>
       <section class="py-3 py-sm-5">
@@ -965,9 +964,9 @@
                   .filter((item) => item.status == 'pending')
                   .slice(0, 5)"
                 :key="item.id"
-                class="shadow bg-white"
+                class="bg-white"
               >
-                <div class="border rounded text-left position-relative">
+                <div class="border rounded text-left position-relative shadow">
                   <b-img fluid-grow :src="item.cover" class="event_img"></b-img>
                   <div class="px-3 py-3">
                     <p class="mb-2">
@@ -1001,7 +1000,9 @@
                       class="cursor-pointer"
                       @click="$router.push(`/event/${item.id}`)"
                     >
-                      <span class="viewevent"> View Event </span>
+                      <span class="viewevent d-none d-sm-inline">
+                        View Event
+                      </span>
                       <b-icon icon="chevron-double-right"></b-icon>
                     </span>
                   </div>

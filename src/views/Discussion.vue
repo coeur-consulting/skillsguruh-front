@@ -23,18 +23,14 @@
                       class="starter"
                       :src="discussion.user.profile"
                       v-if="discussion.user"
-                      @click="
-                        $router.push(`/learner/profile/u/${discussion.user.id}`)
-                      "
+                      @click="$router.push(`/profile/u/${discussion.user.id}`)"
                     ></b-avatar>
                     <b-avatar
                       class="starter"
                       :src="discussion.facilitator.profile"
                       v-if="discussion.facilitator"
                       @click="
-                        $router.push(
-                          `/learner/profile/f/${discussion.facilitator.id}`
-                        )
+                        $router.push(`/profile/f/${discussion.facilitator.id}`)
                       "
                     ></b-avatar>
                   </div>
@@ -134,18 +130,14 @@
                     <span
                       v-if="discussion.user"
                       class="cursor-pointer text-dark-green hover_green"
-                      @click="
-                        $router.push(`/learner/profile/u/${discussion.user.id}`)
-                      "
+                      @click="$router.push(`/profile/u/${discussion.user.id}`)"
                       >{{ discussion.user.name }}</span
                     >
                     <span
                       v-if="discussion.facilitator"
                       class="cursor-pointer text-dark-green hover_green"
                       @click="
-                        $router.push(
-                          `/learner/profile/f/${discussion.facilitator.id}`
-                        )
+                        $router.push(`/profile/f/${discussion.facilitator.id}`)
                       "
                       >{{ discussion.facilitator.name }}</span
                     >
@@ -340,20 +332,14 @@
                         }}</span>
                         <span
                           v-if="item.user"
-                          @click="
-                            $router.push(
-                              `/facilitator/profile/u/${item.user.id}`
-                            )
-                          "
+                          @click="$router.push(`/profile/u/${item.user.id}`)"
                           class="fs13 cursor-pointer hover_green"
                           >{{ item.user.name }}</span
                         >
                         <span
                           v-if="item.facilitator"
                           @click="
-                            $router.push(
-                              `/facilitator/profile/f/${item.facilitator.id}`
-                            )
+                            $router.push(`/profile/f/${item.facilitator.id}`)
                           "
                           class="fs13 cursor-pointer hover_green"
                           >{{ item.facilitator.name }}</span
@@ -1003,15 +989,13 @@
           }}</span>
           <span
             v-if="comments.user"
-            @click="$router.push(`/facilitator/profile/u/${comments.user.id}`)"
+            @click="$router.push(`/profile/u/${comments.user.id}`)"
             class="fs12 cursor-pointer hover_green"
             >{{ comments.user.name }}</span
           >
           <span
             v-if="comments.facilitator"
-            @click="
-              $router.push(`/facilitator/profile/f/${comments.facilitator.id}`)
-            "
+            @click="$router.push(`/profile/f/${comments.facilitator.id}`)"
             class="fs12 cursor-pointer hover_green"
             >{{ comments.facilitator.name }}</span
           >

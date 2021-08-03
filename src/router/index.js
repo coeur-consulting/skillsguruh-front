@@ -315,7 +315,18 @@ const routes = [
       title: "Loading | SkillsGuruh",
     },
   },
-
+  {
+    path: "/profile/:user/:id",
+    name: " User profiles",
+    components: {
+      header: Header,
+      default: () =>
+        import(
+          /* webpackChunkName: "userprof" */ "@/components/guestfacilitator.vue"
+        ),
+      footer: Footer,
+    },
+  },
   {
     path: "/organization",
 
