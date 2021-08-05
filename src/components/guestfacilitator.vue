@@ -1,6 +1,16 @@
 <template>
   <div class="bg-light">
     <b-container fluid>
+      <b-row class="p-1 justify-content-between">
+        <b-col cols="2">
+          <span @click="$router.go(-1)" class="cursor-pointer back fs13">
+            <span class="mr-2">
+              <b-icon icon="arrow-left" class=""></b-icon
+            ></span>
+            <span class="d-none d-sm-inline">Back</span>
+          </span>
+        </b-col>
+      </b-row>
       <b-row class="justify-content-center">
         <b-col sm="7">
           <b-row>
@@ -13,7 +23,7 @@
                       :src="
                         detail.profile
                           ? detail.profile
-                          : require('@/assets/images/default.png')
+                          : require('@/assets/images/default.jpeg')
                       "
                       alt="Image"
                       class="rounded-0"
@@ -84,6 +94,41 @@
                           }}
                         </span>
                       </b-card-text>
+                      <div
+                        v-if="
+                          $route.params.user != 'u' ||
+                          ($route.params.user == 'u' &&
+                            $store.getters.learner.id != $route.params.id)
+                        "
+                      >
+                        <b-button
+                          size="sm"
+                          v-if="
+                            $route.params.user == 'f' &&
+                            !checkconnection(detail)
+                          "
+                          variant="outline-dark-green"
+                          @click="addconnections(detail.id, 'facilitator')"
+                          >Follow</b-button
+                        >
+                        <b-button
+                          size="sm"
+                          v-if="
+                            $route.params.user == 'u' &&
+                            !checkconnection(detail)
+                          "
+                          variant="outline-dark-green"
+                          @click="addconnections(detail.id, 'user')"
+                          >Follow</b-button
+                        >
+                        <b-button
+                          size="sm"
+                          v-if="checkconnection(detail)"
+                          @click="removeconnections(detail)"
+                          variant="dark-green"
+                          >Following</b-button
+                        >
+                      </div>
                     </b-card-body>
                   </div>
                 </b-row>
@@ -989,6 +1034,7 @@ export default {
     return {
       id: this.$route.params.id,
       detail: [],
+      myconnections: [],
       discussion_id: null,
       active: 1,
       search: "",
@@ -1018,6 +1064,7 @@ export default {
       open: false,
       showAll: false,
       showCourse: false,
+      auth: false,
     };
   },
   components: {},
@@ -1085,6 +1132,12 @@ export default {
         );
     },
   },
+  created() {
+    if (localStorage.getItem("authLearner")) {
+      this.auth = true;
+    }
+    this.getmyconnections();
+  },
   mounted() {
     this.getdiscussions();
     this.getinfo();
@@ -1093,6 +1146,97 @@ export default {
     this.getEvents();
   },
   methods: {
+    async addconnections(id, type) {
+      if (!this.auth) {
+        this.$toast.error("Login to complete action");
+        return;
+      }
+      return this.$http
+        .post(
+          `${this.$store.getters.url}/connections`,
+          { following_id: id, follow_type: type },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200 || res.status == 201) {
+            this.$toast.success("Connected");
+            this.getmyconnections();
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    async getmyconnections() {
+      if (!this.auth) {
+        return;
+      }
+      return this.$http
+        .get(`${this.$store.getters.url}/connections`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.myconnections = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    async removeconnections(user) {
+      if (!this.auth) {
+        this.$toast.error("Login to complete action");
+        return;
+      }
+      var res = this.myconnections.find((item) => {
+        if (this.$route.params.user == "f") {
+          return item.facilitator_follower.id == user.id;
+        }
+
+        if (this.$route.params.user == "u") {
+          return item.user_follower.id == user.id;
+        }
+      });
+
+      this.$http
+        .delete(`${this.$store.getters.url}/connections/${res.id}`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.myconnections = res.data;
+            this.$toast.success("Unfollowed");
+            this.getmyconnections();
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    checkconnection(user) {
+      if (!this.auth) {
+        return;
+      }
+      var res = this.myconnections.some((item) => {
+        if (this.$route.params.user == "f" && item.facilitator_follower) {
+          return item.facilitator_follower.id == user.id;
+        }
+
+        if (this.$route.params.user == "u" && item.user_follower) {
+          return item.user_follower.id == user.id;
+        }
+      });
+      return res;
+    },
     showcomments(feed) {
       this.allcomments = feed;
       this.$bvModal.show("allcomments");

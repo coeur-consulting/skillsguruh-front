@@ -13,7 +13,7 @@
                       :src="
                         detail.profile
                           ? detail.profile
-                          : require('@/assets/images/default.png')
+                          : require('@/assets/images/default.jpeg')
                       "
                       alt="Image"
                       class="rounded-0"

@@ -87,7 +87,7 @@
                       {{ discussion.description }}
                     </div>
                     <div class="mt-2">
-                      <b-row>
+                      <b-row class="justify-content-start">
                         <b-col
                           cols="auto"
                           v-for="(tag, id) in JSON.parse(discussion.tags)"
