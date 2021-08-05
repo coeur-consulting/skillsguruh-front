@@ -242,7 +242,7 @@ export default {
           password: this.user.password,
         };
         this.$http
-          .post("http://localhost:8000/oauth/token", data)
+          .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
           .then((res) => {
             authFacilitator.access_token = res.data.access_token;
             authFacilitator.refresh_token = res.data.refresh_token;
@@ -297,7 +297,7 @@ export default {
           password: this.user.password,
         };
         this.$http
-          .post("http://localhost:8000/oauth/token", data)
+          .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
           .then((res) => {
             authLearner.access_token = res.data.access_token;
             authLearner.refresh_token = res.data.refresh_token;
@@ -309,7 +309,6 @@ export default {
               })
               .then((res) => {
                 if (res.status == 200) {
-
                   authLearner.id = res.data.id;
                   authLearner.name = res.data.name;
                   authLearner.email = res.data.email;
