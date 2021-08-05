@@ -309,10 +309,7 @@ export default {
               })
               .then((res) => {
                 if (res.status == 200) {
-                  console.log(
-                    "🚀 ~ file: Login.vue ~ line 312 ~ .then ~ res",
-                    res
-                  );
+
                   authLearner.id = res.data.id;
                   authLearner.name = res.data.name;
                   authLearner.email = res.data.email;
