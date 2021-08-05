@@ -8,9 +8,12 @@
       </div>
     </div>
     <b-container class="pb-5">
-      <b-row class="justify-content-around p-2 p-sm-5 my-5">
+      <b-row class="justify-content-around p-2 py-sm-5 my-5">
         <b-col cols="4">
-          <span class="d-flex align-items-center tpp">
+          <span
+            class="d-flex align-items-center justify-content-start tpp"
+            @click="$router.push('/explore/learners')"
+          >
             <b-img class="mr-2 tp" size="2.5rem" src="/img/learner.png"></b-img>
             <span>
               <span class="font-weight-bold">{{ users.length }}+</span> <br />
@@ -19,7 +22,10 @@
           </span>
         </b-col>
         <b-col cols="4">
-          <span class="d-flex align-items-center tpp">
+          <span
+            class="d-flex align-items-center tpp"
+            @click="$router.push('/explore/courses')"
+          >
             <b-img class="mr-2 tp" size="2.5rem" src="/img/program.png"></b-img>
             <span>
               <span class="font-weight-bold">{{ courses.length }}+</span> <br />
@@ -28,7 +34,10 @@
           </span>
         </b-col>
         <b-col cols="4">
-          <span class="d-flex align-items-center tpp">
+          <span
+            class="d-flex align-items-center justify-content-end tpp"
+            @click="$router.push('/explore/facilitators')"
+          >
             <b-img class="mr-2 tp" size="2.5rem" src="/img/grp.png"></b-img>
             <span>
               <span class="font-weight-bold">{{ facilitators.length }}+</span>
@@ -38,357 +47,26 @@
           </span>
         </b-col>
       </b-row>
-      <section class="py-5">
-        <h4 class="mb-3 font-weight-bold text-center text-sm-left">
-          Most Popular Courses
-        </h4>
-        <b-row
-          class="justify-content-start pt-5 pb-1"
-          v-if="mostenrolledcourse.length"
-        >
-          <b-col
-            sm="4"
-            class="mb-4 px-4 d-none d-sm-block"
-            v-for="item in mostenrolledcourse.slice(0, 6)"
-            :key="item.id"
-          >
-            <div
-              class="course shadow-sm"
-              @click="
-                $router.push(`/explore/courses?course_id=${item.course.id}`)
-              "
-            >
-              <div
-                class="course_img"
-                :style="{
-                  backgroundImage: `url(${
-                    item.course.cover
-                      ? item.course.cover
-                      : require('@/assets/images/default.png')
-                  })`,
-                }"
-              ></div>
-              <div class="course_text">
-                <div class="d-flex justify-content-between">
-                  <span
-                    v-if="item.course.courseoutline"
-                    class="p-2 rounded-pill text-white fs11"
-                    :style="{
-                      backgroundColor: JSON.parse(
-                        item.course.courseoutline.knowledge_areas
-                      ).color,
-                    }"
-                  >
-                    <b-icon
-                      class="mr-2"
-                      :icon="
-                        JSON.parse(item.course.courseoutline.knowledge_areas)
-                          .icon
-                      "
-                    ></b-icon>
-                    <span>{{
-                      JSON.parse(item.course.courseoutline.knowledge_areas)
-                        .value
-                    }}</span></span
-                  >
-                  <span class="text-capitalize fs13">{{
-                    item.course.type
-                  }}</span>
-                </div>
-                <div class="border-bottom pt-2 pb-1">
-                  <h6
-                    class="
-                      text-truncate text-truncate--2
-                      mb-0
-                      font-weight-bold
-                      text-capitalize
-                      overview-title
-                    "
-                  >
-                    {{ item.course.title }}
-                  </h6>
 
-                  <div
-                    v-if="item.course.courseoutline"
-                    class="fs13 text-truncate text-truncate--2"
-                    v-html="item.course.courseoutline.overview"
-                  ></div>
-                </div>
-                <div class="info fs12">
-                  <div class="d-flex">
-                    <div class="mr-3">
-                      <b-icon icon="people" class="mr-1"></b-icon>
-                      <span>{{ item.count }}+</span>
-                    </div>
-                    <div class="mr-3">
-                      <b-icon icon="eye" class="mr-1"></b-icon>
-                      <span
-                        >{{
-                          item.course.viewcount
-                            ? item.course.viewcount.count
-                            : 0
-                        }}
-                        +</span
-                      >
-                    </div>
-                    <div>
-                      <b-icon icon="star-fill" class="mr-1"></b-icon>
-                      <span>{{ item.course.review.length }} reviews</span>
-                    </div>
-                  </div>
-
-                  <b-avatar size="sm" variant="light" :src="item.course.cover">
-                  </b-avatar>
-                </div>
-              </div>
-            </div>
-          </b-col>
-          <b-col cols="12" class="mb-4 px-sm-4 d-sm-none">
-            <carousel
-              :scrollPerPage="true"
-              :perPage="1"
-              :paginationEnabled="true"
-            >
-              <slide
-                class="mb-4 px-4"
-                v-for="item in mostenrolledcourse.slice(0, 6)"
-                :key="item.id"
-              >
-                <div
-                  class="course shadow-sm"
-                  @click="
-                    $router.push(`/explore/courses?course_id=${item.course.id}`)
-                  "
-                >
-                  <div
-                    class="course_img"
-                    :style="{
-                      backgroundImage: `url(${
-                        item.course.cover
-                          ? item.course.cover
-                          : require('@/assets/images/default.png')
-                      })`,
-                    }"
-                  ></div>
-                  <div class="course_text">
-                    <div class="d-flex justify-content-between">
-                      <span
-                        v-if="item.course.courseoutline"
-                        class="p-2 rounded-pill text-white fs11"
-                        :style="{
-                          backgroundColor: JSON.parse(
-                            item.course.courseoutline.knowledge_areas
-                          ).color,
-                        }"
-                      >
-                        <b-icon
-                          class="mr-2"
-                          :icon="
-                            JSON.parse(
-                              item.course.courseoutline.knowledge_areas
-                            ).icon
-                          "
-                        ></b-icon>
-                        <span>{{
-                          JSON.parse(item.course.courseoutline.knowledge_areas)
-                            .value
-                        }}</span></span
-                      >
-                      <span class="text-capitalize fs13">{{
-                        item.course.type
-                      }}</span>
-                    </div>
-                    <div class="border-bottom pt-2 pb-1">
-                      <h6
-                        class="
-                          text-truncate text-truncate--2
-                          mb-0
-                          font-weight-bold
-                          text-capitalize
-                          overview-title
-                        "
-                      >
-                        {{ item.course.title }}
-                      </h6>
-
-                      <div
-                        v-if="item.course"
-                        class="fs13 text-truncate text-truncate--2"
-                      >
-                        {{ item.course.description }}
-                      </div>
-                    </div>
-                    <div class="info fs12">
-                      <div class="d-flex">
-                        <div class="mr-3">
-                          <b-icon icon="people" class="mr-1"></b-icon>
-                          <span>{{ item.count }}+</span>
-                        </div>
-                        <div class="mr-3">
-                          <b-icon icon="eye" class="mr-1"></b-icon>
-                          <span
-                            >{{
-                              item.course.viewcount
-                                ? item.course.viewcount.count
-                                : 0
-                            }}
-                            +</span
-                          >
-                        </div>
-                        <div>
-                          <b-icon icon="star-fill" class="mr-1"></b-icon>
-                          <span>{{ item.course.review.length }} reviews</span>
-                        </div>
-                      </div>
-
-                      <b-avatar
-                        size="sm"
-                        variant="light"
-                        :src="item.course.cover"
-                      >
-                      </b-avatar>
-                    </div>
-                  </div>
-                </div>
-              </slide>
-            </carousel>
-          </b-col>
-        </b-row>
-
-        <div class="text-center text-dark-green">
-          <span @click="$router.push('/explore/courses')" class="cursor-pointer"
-            >Load more...</span
-          >
-        </div>
-      </section>
-      <section class="text-center mb-5 py-5">
-        <h4 class="mb-4">Explore Interest</h4>
-
-        <p class="px-2 px-sm--5">
-          There are several interest to be explored from health,
-          entreprenuership, lifestyle , connection explore different areas of
-          interest that can help improve your business skills
-        </p>
-
-        <b-row class="py-4">
-          <b-col
-            class="mb-5 cursor-pointer"
-            cols="4"
-            sm="2"
-            @click="$router.push('/interests/Literature')"
-            ><b-img src="/img/one.png" class="mb-2 interest"></b-img>
-            <h6 class="font-weight-bold">Literature</h6></b-col
-          >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
-            ><b-img
-              src="/img/two.png"
-              @click="$router.push('/interests/Politics')"
-              class="mb-2 interest"
-            ></b-img>
-            <h6 class="font-weight-bold">Politics</h6>
-          </b-col>
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
-            ><b-img
-              src="/img/three.png"
-              @click="$router.push('/interests/Sports')"
-              class="mb-2 interest"
-            ></b-img>
-            <h6 class="font-weight-bold">Sports</h6></b-col
-          >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
-            ><b-img
-              src="/img/four.png"
-              @click="$router.push('/interests/Marketing')"
-              class="mb-2 interest"
-            ></b-img>
-            <h6 class="font-weight-bold">Marketing</h6></b-col
-          >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
-            ><b-img
-              src="/img/five.png"
-              @click="$router.push('/interests/Health')"
-              class="mb-2 interest"
-            ></b-img>
-            <h6 class="font-weight-bold">Health</h6></b-col
-          >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
-            ><b-img
-              src="/img/six.png"
-              @click="$router.push('/interests/Tech')"
-              class="mb-2 interest"
-            ></b-img>
-            <h6 class="font-weight-bold">Tech</h6></b-col
-          >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
-            ><b-img
-              src="/img/seven.png"
-              @click="$router.push('/interests/Gaming')"
-              class="mb-2 interest"
-            ></b-img>
-            <h6 class="font-weight-bold">Gaming</h6></b-col
-          >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
-            ><b-img
-              src="/img/eight.png"
-              @click="$router.push('/interests/Entrepreneurship')"
-              class="mb-2 interest"
-            ></b-img>
-            <h6 class="font-weight-bold">Entrepreneurship</h6></b-col
-          >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
-            ><b-img
-              src="/img/nine.png"
-              @click="$router.push('/interests/News')"
-              class="mb-2 interest"
-            ></b-img>
-            <h6 class="font-weight-bold">News</h6></b-col
-          >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
-            ><b-img
-              src="/img/ten.png"
-              @click="$router.push('/interests/Community')"
-              class="mb-2 interest"
-            ></b-img>
-            <h6 class="font-weight-bold">Community</h6></b-col
-          >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
-            ><b-img
-              src="/img/eleven.png"
-              @click="$router.push('/interests/Art')"
-              class="mb-2 interest"
-            ></b-img>
-            <h6 class="font-weight-bold">Art</h6>
-          </b-col>
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
-            ><b-img
-              src="/img/twelve.png"
-              @click="$router.push('/interests/Law')"
-              class="mb-2 interest"
-            ></b-img>
-            <h6 class="font-weight-bold">Law</h6></b-col
-          >
-        </b-row>
-      </section>
       <section class="py-3 py-sm-5 mb-2 mb-sm-5">
         <b-row>
           <b-col sm="7" class="mb-3">
             <div class="d-flex justify-content-between">
               <div>
-                <h6 class="font-weight-bold">Trending Discussions</h6>
+                <h4 class="font-weight-bold trending">Trending Discussions</h4>
                 <small
                   @click="$router.push('/discussions')"
                   class="cursor-pointer"
-                  >View all {{ discussions.length }} discussions</small
-                >
+                  >View all {{ discussions.length }} discussions
+                  <b-icon font-scale=".85" icon="chevron-right"></b-icon
+                ></small>
               </div>
-              <div>
-                <b-button
-                  size="sm"
-                  @click="$router.push('/discussions')"
-                  variant="dark-green"
-                  >View discussions</b-button
-                >
-              </div>
+              <!-- <div>
+                <small @click="$router.push('/discussions')"
+                  ><span class="mr-2">View</span>
+                  <b-icon font-scale=".85" icon="chevron-right"></b-icon
+                ></small>
+              </div> -->
             </div>
             <div class="py-5" v-if="trending.length">
               <div
@@ -550,10 +228,12 @@
         <b-row>
           <b-col sm="8" class="mb-4 mb-sm-0">
             <div class="d-flex justify-content-between">
-              <h6 class="mb-5 font-weight-bold">Feeds</h6>
+              <h4 class="mb-5 font-weight-bold trending">Most Popular Feed</h4>
               <router-link to="/feeds" class="text-dark-green"
-                ><small>View all feeds</small></router-link
-              >
+                ><small
+                  >View all feeds
+                  <b-icon font-scale=".85" icon="chevron-right"></b-icon></small
+              ></router-link>
             </div>
 
             <div v-if="showFeeds">
@@ -904,8 +584,13 @@
                 </div>
                 <div class="text-center mt-2">
                   <router-link to="/feeds" class="text-dark-green"
-                    ><small>View all feeds</small></router-link
-                  >
+                    ><small
+                      >View all feeds
+                      <b-icon
+                        font-scale=".85"
+                        icon="chevron-right"
+                      ></b-icon></small
+                  ></router-link>
                 </div>
               </div>
               <div v-else class="text-center admin_tab p-3 p-sm-5">
@@ -935,12 +620,12 @@
               <h6 class="mb-3 fs12">Trending in Last 24hrs</h6>
               <div v-if="trendingFeed.length" class="py-3">
                 <div
-                  v-for="(item, id) in trendingFeed.slice(0, 20)"
+                  v-for="(item, id) in trendingFeed.slice(0, 10)"
                   :key="id"
                   class="mb-3"
                 >
                   <div
-                    class="trending_name"
+                    class="trending_name cursor-pointer"
                     @click="$router.push(`/feed/${item.name}`)"
                   >
                     {{ item.name }}
@@ -955,12 +640,346 @@
           </b-col>
         </b-row>
       </section>
+
+      <section class="text-center mb-5 py-5">
+        <h4 class="mb-4">Explore Interest</h4>
+
+        <p class="px-2 px-sm--5">
+          There are several interest to be explored from health,
+          entreprenuership, lifestyle , connection explore different areas of
+          interest that can help improve your business skills
+        </p>
+
+        <b-row class="py-4">
+          <b-col
+            class="mb-5 cursor-pointer"
+            cols="4"
+            sm="2"
+            @click="$router.push('/interests/Literature')"
+            ><b-img src="/img/one.png" class="mb-2 interest"></b-img>
+            <h6 class="font-weight-bold">Literature</h6></b-col
+          >
+          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            ><b-img
+              src="/img/two.png"
+              @click="$router.push('/interests/Politics')"
+              class="mb-2 interest"
+            ></b-img>
+            <h6 class="font-weight-bold">Politics</h6>
+          </b-col>
+          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            ><b-img
+              src="/img/three.png"
+              @click="$router.push('/interests/Sports')"
+              class="mb-2 interest"
+            ></b-img>
+            <h6 class="font-weight-bold">Sports</h6></b-col
+          >
+          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            ><b-img
+              src="/img/four.png"
+              @click="$router.push('/interests/Marketing')"
+              class="mb-2 interest"
+            ></b-img>
+            <h6 class="font-weight-bold">Marketing</h6></b-col
+          >
+          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            ><b-img
+              src="/img/five.png"
+              @click="$router.push('/interests/Health')"
+              class="mb-2 interest"
+            ></b-img>
+            <h6 class="font-weight-bold">Health</h6></b-col
+          >
+          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            ><b-img
+              src="/img/six.png"
+              @click="$router.push('/interests/Tech')"
+              class="mb-2 interest"
+            ></b-img>
+            <h6 class="font-weight-bold">Tech</h6></b-col
+          >
+          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            ><b-img
+              src="/img/seven.png"
+              @click="$router.push('/interests/Gaming')"
+              class="mb-2 interest"
+            ></b-img>
+            <h6 class="font-weight-bold">Gaming</h6></b-col
+          >
+          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            ><b-img
+              src="/img/eight.png"
+              @click="$router.push('/interests/Entrepreneurship')"
+              class="mb-2 interest"
+            ></b-img>
+            <h6 class="font-weight-bold">Entrepreneurship</h6></b-col
+          >
+          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            ><b-img
+              src="/img/nine.png"
+              @click="$router.push('/interests/News')"
+              class="mb-2 interest"
+            ></b-img>
+            <h6 class="font-weight-bold">News</h6></b-col
+          >
+          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            ><b-img
+              src="/img/ten.png"
+              @click="$router.push('/interests/Community')"
+              class="mb-2 interest"
+            ></b-img>
+            <h6 class="font-weight-bold">Community</h6></b-col
+          >
+          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            ><b-img
+              src="/img/eleven.png"
+              @click="$router.push('/interests/Art')"
+              class="mb-2 interest"
+            ></b-img>
+            <h6 class="font-weight-bold">Art</h6>
+          </b-col>
+          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            ><b-img
+              src="/img/twelve.png"
+              @click="$router.push('/interests/Law')"
+              class="mb-2 interest"
+            ></b-img>
+            <h6 class="font-weight-bold">Law</h6></b-col
+          >
+        </b-row>
+      </section>
+      <section class="py-5">
+        <h4 class="mb-3 font-weight-bold text-center text-sm-left">
+          Most Popular Courses
+        </h4>
+        <b-row
+          class="justify-content-start pt-5 pb-1"
+          v-if="mostenrolledcourse.length"
+        >
+          <b-col
+            sm="4"
+            class="mb-4 px-4 d-none d-sm-block"
+            v-for="item in mostenrolledcourse.slice(0, 6)"
+            :key="item.id"
+          >
+            <div
+              class="course shadow-sm"
+              @click="
+                $router.push(`/explore/courses?course_id=${item.course.id}`)
+              "
+            >
+              <div
+                class="course_img"
+                :style="{
+                  backgroundImage: `url(${
+                    item.course.cover
+                      ? item.course.cover
+                      : require('@/assets/images/default.png')
+                  })`,
+                }"
+              ></div>
+              <div class="course_text">
+                <div class="d-flex justify-content-between">
+                  <span
+                    v-if="item.course.courseoutline"
+                    class="p-2 rounded-pill text-white fs11"
+                    :style="{
+                      backgroundColor: JSON.parse(
+                        item.course.courseoutline.knowledge_areas
+                      ).color,
+                    }"
+                  >
+                    <b-icon
+                      class="mr-2"
+                      :icon="
+                        JSON.parse(item.course.courseoutline.knowledge_areas)
+                          .icon
+                      "
+                    ></b-icon>
+                    <span>{{
+                      JSON.parse(item.course.courseoutline.knowledge_areas)
+                        .value
+                    }}</span></span
+                  >
+                  <span class="text-capitalize fs13">{{
+                    item.course.type
+                  }}</span>
+                </div>
+                <div class="border-bottom pt-2 pb-1">
+                  <h6
+                    class="
+                      text-truncate text-truncate--2
+                      mb-0
+                      font-weight-bold
+                      text-capitalize
+                      overview-title
+                    "
+                  >
+                    {{ item.course.title }}
+                  </h6>
+
+                  <div
+                    v-if="item.course.courseoutline"
+                    class="fs13 text-truncate text-truncate--2"
+                    v-html="item.course.courseoutline.overview"
+                  ></div>
+                </div>
+                <div class="info fs12">
+                  <div class="d-flex">
+                    <div class="mr-3">
+                      <b-icon icon="people" class="mr-1"></b-icon>
+                      <span>{{ item.count }}+</span>
+                    </div>
+                    <div class="mr-3">
+                      <b-icon icon="eye" class="mr-1"></b-icon>
+                      <span
+                        >{{
+                          item.course.viewcount
+                            ? item.course.viewcount.count
+                            : 0
+                        }}
+                        +</span
+                      >
+                    </div>
+                    <div>
+                      <b-icon icon="star-fill" class="mr-1"></b-icon>
+                      <span>{{ item.course.review.length }} reviews</span>
+                    </div>
+                  </div>
+
+                  <b-avatar size="sm" variant="light" :src="item.course.cover">
+                  </b-avatar>
+                </div>
+              </div>
+            </div>
+          </b-col>
+          <b-col cols="12" class="mb-4 px-sm-4 d-sm-none">
+            <carousel
+              :scrollPerPage="true"
+              :perPage="1"
+              :paginationEnabled="true"
+            >
+              <slide
+                class="mb-4 px-4"
+                v-for="item in mostenrolledcourse.slice(0, 6)"
+                :key="item.id"
+              >
+                <div
+                  class="course shadow-sm"
+                  @click="
+                    $router.push(`/explore/courses?course_id=${item.course.id}`)
+                  "
+                >
+                  <div
+                    class="course_img"
+                    :style="{
+                      backgroundImage: `url(${
+                        item.course.cover
+                          ? item.course.cover
+                          : require('@/assets/images/default.png')
+                      })`,
+                    }"
+                  ></div>
+                  <div class="course_text">
+                    <div class="d-flex justify-content-between">
+                      <span
+                        v-if="item.course.courseoutline"
+                        class="p-2 rounded-pill text-white fs11"
+                        :style="{
+                          backgroundColor: JSON.parse(
+                            item.course.courseoutline.knowledge_areas
+                          ).color,
+                        }"
+                      >
+                        <b-icon
+                          class="mr-2"
+                          :icon="
+                            JSON.parse(
+                              item.course.courseoutline.knowledge_areas
+                            ).icon
+                          "
+                        ></b-icon>
+                        <span>{{
+                          JSON.parse(item.course.courseoutline.knowledge_areas)
+                            .value
+                        }}</span></span
+                      >
+                      <span class="text-capitalize fs13">{{
+                        item.course.type
+                      }}</span>
+                    </div>
+                    <div class="border-bottom pt-2 pb-1">
+                      <h6
+                        class="
+                          text-truncate text-truncate--2
+                          mb-0
+                          font-weight-bold
+                          text-capitalize
+                          overview-title
+                        "
+                      >
+                        {{ item.course.title }}
+                      </h6>
+
+                      <div
+                        v-if="item.course"
+                        class="fs13 text-truncate text-truncate--2"
+                      >
+                        {{ item.course.description }}
+                      </div>
+                    </div>
+                    <div class="info fs12">
+                      <div class="d-flex">
+                        <div class="mr-3">
+                          <b-icon icon="people" class="mr-1"></b-icon>
+                          <span>{{ item.count }}+</span>
+                        </div>
+                        <div class="mr-3">
+                          <b-icon icon="eye" class="mr-1"></b-icon>
+                          <span
+                            >{{
+                              item.course.viewcount
+                                ? item.course.viewcount.count
+                                : 0
+                            }}
+                            +</span
+                          >
+                        </div>
+                        <div>
+                          <b-icon icon="star-fill" class="mr-1"></b-icon>
+                          <span>{{ item.course.review.length }} reviews</span>
+                        </div>
+                      </div>
+
+                      <b-avatar
+                        size="sm"
+                        variant="light"
+                        :src="item.course.cover"
+                      >
+                      </b-avatar>
+                    </div>
+                  </div>
+                </div>
+              </slide>
+            </carousel>
+          </b-col>
+        </b-row>
+
+        <div class="text-center text-dark-green">
+          <span @click="$router.push('/explore/courses')" class="cursor-pointer"
+            >Load more...</span
+          >
+        </div>
+      </section>
       <section class="py-3 py-sm-5">
         <div class="d-flex justify-content-between">
           <h6 class="mb-5 font-weight-bold">Upcoming Events</h6>
           <router-link to="/events" class="text-dark-green"
-            ><small>View all events</small></router-link
-          >
+            ><small
+              >View all events
+              <b-icon font-scale=".85" icon="chevron-right"></b-icon></small
+          ></router-link>
         </div>
 
         <div v-if="showEvents">
@@ -1018,7 +1037,7 @@
                       <span class="viewevent d-none d-sm-inline">
                         View Event
                       </span>
-                      <b-icon icon="chevron-double-right"></b-icon>
+                      <b-icon font-scale=".85" icon="chevron-right"></b-icon>
                     </span>
                   </div>
                 </div>
@@ -1084,7 +1103,7 @@ export default {
     };
   },
   mounted() {
-    this.getfeeds();
+    this.gettrendingfeeds();
     this.mostenrolled();
     this.getprograms();
     this.getlearners();
@@ -1156,9 +1175,9 @@ export default {
           }
         });
     },
-    getfeeds() {
+    gettrendingfeeds() {
       this.$http
-        .get(`${this.$store.getters.url}/guest/feeds?page=${this.page}`)
+        .get(`${this.$store.getters.url}/trending/feeds`)
         .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.feeds = res.data.data;
@@ -1325,6 +1344,9 @@ export default {
   }
   .tp {
     width: 30px;
+  }
+  .trending {
+    font-size: 1rem;
   }
 }
 </style>

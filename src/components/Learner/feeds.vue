@@ -128,7 +128,7 @@
                 width="18px"
                 class="mr-1 cursor-pointer"
               ></b-img
-              >Media
+              >Video
             </FeedUpload>
           </div>
           <div>
@@ -284,7 +284,7 @@
               <div class="d-flex align-items-center mb-3">
                 <b-avatar
                   class="mr-2"
-                  size="3rem"
+                  size="2.4rem"
                   :src="$store.getters.learner.profile"
                 ></b-avatar>
 
@@ -314,7 +314,7 @@
                     width="18px"
                     class="mr-1 cursor-pointer"
                   ></b-img
-                  >Media
+                  >Video
                 </div>
                 <div @click="$bvModal.show('feed')">
                   <b-img
@@ -326,12 +326,39 @@
                 </div>
               </div>
             </div>
+            <div class="d-flex justify-content-end">
+              <div class="d-flex align-items-center pl-3 mb-3">
+                <div
+                  class="pr-2 fs12 font-weight-bold cursor-pointer"
+                  :class="feedShown == 'recent' ? '' : 'text-muted'"
+                  @click="feedShown = 'recent'"
+                >
+                  Recent
+                </div>
+                <span class="text-muted"> |</span>
+                <div
+                  class="pl-2 pr-2 fs12 font-weight-bold cursor-pointer"
+                  :class="feedShown == 'trending' ? '' : 'text-muted'"
+                  @click="feedShown = 'trending'"
+                >
+                  Trending
+                </div>
+                <span class="text-muted"> |</span>
+                <div
+                  class="pl-2 fs12 font-weight-bold cursor-pointer"
+                  :class="feedShown == 'custom' ? '' : 'text-muted'"
+                  @click="feedShown = 'custom'"
+                >
+                  Custom
+                </div>
+              </div>
+            </div>
 
             <div v-if="showFeeds">
-              <div v-if="feeds.length">
+              <div v-if="filteredFeeds.length">
                 <div class="feed-content">
                   <div
-                    v-for="(feed, index) in feeds"
+                    v-for="(feed, index) in filteredFeeds"
                     :key="index"
                     class="border bg-white rounded-8 mb-2"
                   >
@@ -362,9 +389,7 @@
                           ></b-avatar>
                           <span
                             @click="
-                              $router.push(
-                                `/facilitator/profile/u/${feed.user.id}`
-                              )
+                              $router.push(`/learner/profile/u/${feed.user.id}`)
                             "
                             class="hover_green"
                           >
@@ -388,7 +413,7 @@
                             class="hover_green"
                             @click="
                               $router.push(
-                                `/facilitator/profile/f/${feed.facilitator.id}`
+                                `/learner/profile/f/${feed.facilitator.id}`
                               )
                             "
                           >
@@ -421,7 +446,7 @@
                           @click="drop(feed.id, index)"
                           v-if="
                             feed.user &&
-                            feed.user.id == $store.getters.learner.id
+                              feed.user.id == $store.getters.learner.id
                           "
                           >Delete</b-dropdown-item
                         >
@@ -433,7 +458,7 @@
                         <cld-image
                           v-if="
                             feed.publicId &&
-                            img_ext.includes(getextension(feed.media))
+                              img_ext.includes(getextension(feed.media))
                           "
                           :publicId="feed.publicId"
                         >
@@ -444,8 +469,8 @@
                         <b-img
                           v-if="
                             !feed.publicId &&
-                            feed.media &&
-                            img_ext.includes(getextension(feed.media))
+                              feed.media &&
+                              img_ext.includes(getextension(feed.media))
                           "
                           :src="feed.media"
                         ></b-img>
@@ -454,7 +479,7 @@
                           controls
                           v-if="
                             feed.publicId &&
-                            vid_ext.includes(getextension(feed.media))
+                              vid_ext.includes(getextension(feed.media))
                           "
                           :publicId="feed.publicId"
                         >
@@ -466,7 +491,7 @@
                           controls
                           v-if="
                             feed.media &&
-                            aud_ext.includes(getextension(feed.media))
+                              aud_ext.includes(getextension(feed.media))
                           "
                           :src="feed.media"
                           class="fluid-grow"
@@ -474,7 +499,7 @@
                         <div
                           v-if="
                             feed.media &&
-                            doc_ext.includes(getextension(feed.media))
+                              doc_ext.includes(getextension(feed.media))
                           "
                           class="text-center p-3 p-sm-4 bg-skills-grey"
                         >
@@ -514,7 +539,7 @@
                         <b-icon
                           :icon="
                             feed.stars.find(
-                              (item) =>
+                              item =>
                                 item.star &&
                                 item.user_id == $store.getters.learner.id
                             )
@@ -524,7 +549,7 @@
                           class="text-blue mr-1"
                         ></b-icon>
                         <span>{{
-                          feed.stars.filter((item) => item.star).length
+                          feed.stars.filter(item => item.star).length
                         }}</span>
                       </span>
                       <span
@@ -533,7 +558,7 @@
                         ><b-icon
                           :icon="
                             feed.likes.find(
-                              (item) =>
+                              item =>
                                 item.like &&
                                 item.user_id == $store.getters.learner.id
                             )
@@ -543,7 +568,7 @@
                           class="text-danger mr-1"
                         ></b-icon>
                         <span>{{
-                          feed.likes.filter((item) => item.like).length
+                          feed.likes.filter(item => item.like).length
                         }}</span>
                       </span>
                       <span class="mr-3">
@@ -581,7 +606,7 @@
                               class="comment_name mr-2 hover_green"
                               @click="
                                 $router.push(
-                                  `/facilitator/profile/u/${item.user.id}`
+                                  `/learner/profile/u/${item.user.id}`
                                 )
                               "
                               v-if="item.user"
@@ -592,7 +617,7 @@
                               class="comment_name mr-2 hover_green"
                               @click="
                                 $router.push(
-                                  `/facilitator/profile/f/${item.facilitator.id}`
+                                  `/learner/profile/f/${item.facilitator.id}`
                                 )
                               "
                               v-if="item.facilitator"
@@ -673,9 +698,8 @@
                                       <h5>{{ category }}</h5>
                                       <div class="emojis">
                                         <span
-                                          v-for="(
-                                            emoji, emojiName
-                                          ) in emojiGroup"
+                                          v-for="(emoji,
+                                          emojiName) in emojiGroup"
                                           :key="emojiName"
                                           @click="insert(emoji)"
                                           :title="emojiName"
@@ -759,10 +783,14 @@ import EmojiPicker from "vue-emoji-picker";
 import FeedUpload from "../feedupload";
 import Message from "../messagecomponent";
 import { MultiSelect } from "vue-search-select";
-import Interest from "../insight.js";
+import Interest from "../helpers/subcategory.js";
 export default {
   data() {
     return {
+      recentfeeds: [],
+      trendingfeeds: [],
+      customfeeds: [],
+      feedShown: "recent",
       options: [],
       searchText: "", // If value is falsy, reset searchText & searchItem
       items: [],
@@ -775,7 +803,7 @@ export default {
         media: "",
         message: "",
         publicId: "",
-        tags: [],
+        tags: []
       },
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp", "flv", "mov"],
@@ -783,31 +811,31 @@ export default {
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       comment: {
         comment: "",
-        id: "",
+        id: ""
       },
       mini_info: {
         id: "",
         name: "",
         type: "",
-        profile: "",
+        profile: ""
       },
       showFeeds: false,
-      page: 1,
+      page: 1
     };
   },
   components: {
     Message,
     EmojiPicker,
     FeedUpload,
-    MultiSelect,
+    MultiSelect
   },
   created() {
     var channel = this.$pusher.subscribe("addfeed");
 
-    channel.bind("addfeed", (data) => {
+    channel.bind("addfeed", data => {
       this.feeds.unshift(data.message);
     });
-    this.options = Interest.map((item) => {
+    this.options = Interest.map(item => {
       var res = {};
       res.text = item.value;
       res.value = item.value;
@@ -816,19 +844,38 @@ export default {
       return res;
     });
   },
+  computed: {
+    filteredFeeds() {
+      var feeds = [];
+      if (this.feedShown == "recent") {
+        feeds = this.recentfeeds;
+      }
+      if (this.feedShown == "trending") {
+        feeds = this.trendingfeeds;
+      }
+      if (this.feedShown == "custom") {
+        feeds = this.customfeeds;
+      }
+
+      return feeds;
+    }
+  },
   mounted() {
-    this.getfeeds();
-    this.getmyfeeds();
+    // this.getfeeds();
+    // this.getmyfeeds();
+    this.getcustomfeeds();
+    this.gettrendingfeeds();
+    this.getrecentfeeds();
   },
   methods: {
     infiniteHandler($state) {
       this.$http
         .get(`${this.$store.getters.url}/feeds?page=${this.page}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.data.data.length) {
             this.page += 1;
             this.feeds.push(...res.data.data);
@@ -883,32 +930,81 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/get/feeds/tags`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201 || res.status == 200) {
             this.feedTags = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
-    getfeeds() {
+    // getfeeds() {
+    //   this.$http
+    //     .get(`${this.$store.getters.url}/feeds`, {
+    //       headers: {
+    //         Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+    //       },
+    //     })
+    //     .then((res) => {
+    //       if (res.status == 201 || res.status == 200) {
+    //         this.feeds = res.data.data;
+    //         this.showFeeds = true;
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       this.$toast.error(err.response.data.message);
+    //     });
+    // },
+    gettrendingfeeds() {
       this.$http
-        .get(`${this.$store.getters.url}/feeds`, {
+        .get(`${this.$store.getters.url}/trending/feeds`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201 || res.status == 200) {
-            this.feeds = res.data.data;
+            this.trendingfeeds = res.data.data;
+          }
+        })
+        .catch(err => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    getcustomfeeds() {
+      this.$http
+        .get(`${this.$store.getters.url}/custom/feeds`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
+        })
+        .then(res => {
+          if (res.status == 201 || res.status == 200) {
+            this.customfeeds = res.data.data;
+          }
+        })
+        .catch(err => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    getrecentfeeds() {
+      this.$http
+        .get(`${this.$store.getters.url}/recent/feeds`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
+        })
+        .then(res => {
+          if (res.status == 201 || res.status == 200) {
+            this.recentfeeds = res.data.data;
             this.showFeeds = true;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -919,10 +1015,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Feed Updated ");
             this.$bvModal.hide("feed");
@@ -932,11 +1028,11 @@ export default {
               media: "",
               message: "",
               publicId: "",
-              tags: [],
+              tags: []
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -950,10 +1046,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/feed-comments`, this.comment, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.$toast.success("Comment updated ");
             // this.$bvModal.hide("feed");
@@ -962,11 +1058,11 @@ export default {
 
             this.comment = {
               comment: "",
-              id: "",
+              id: ""
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -977,23 +1073,23 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.feeds[index].likes.push(res.data);
           }
           if (res.status == 200) {
-            this.feeds[index].likes.map((item) => {
+            this.feeds[index].likes.map(item => {
               if (item.user_id == this.$store.getters.learner.id) {
                 return (item.like = res.data.like);
               }
             });
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1004,48 +1100,48 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.feeds[index].stars.push(res.data);
           }
           if (res.status == 200) {
-            this.feeds[index].stars.map((item) => {
+            this.feeds[index].stars.map(item => {
               if (item.user_id == this.$store.getters.learner.id) {
                 return (item.star = res.data.star);
               }
             });
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/feeds/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 200) {
                 this.$toast.success("Feed deleted");
                 this.feeds.splice(index, 1);
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

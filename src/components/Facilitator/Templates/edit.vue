@@ -32,12 +32,7 @@
                       <b-form-select-option value="quiz"
                         >Quiz</b-form-select-option
                       >
-                      <b-form-select-option value="questionnaire"
-                        >Questionnaire</b-form-select-option
-                      >
-                      <b-form-select-option value="assignment"
-                        >Assignment</b-form-select-option
-                      >
+
                       <b-form-select-option value="test"
                         >Test</b-form-select-option
                       >

@@ -278,13 +278,21 @@
         </div>
       </b-modal>
       <b-container>
+        <div class="mb-3 d-none d-sm-block">
+          <span @click="$router.go(-1)" class="pl-3 cursor-pointer back">
+            <span class="mr-2">
+              <b-icon icon="arrow-left" class=""></b-icon
+            ></span>
+            <span>Back</span>
+          </span>
+        </div>
         <b-row class="justify-content-center">
-          <b-col sm="8" class="px-0">
+          <b-col sm="8" class="px-0 text-left">
             <div class="border bg-white py-3 px-2 p-sm-4 rounded-8 mb-4">
               <div class="d-flex align-items-center mb-3">
                 <b-avatar
                   class="mr-2"
-                  size="3rem"
+                  size="2.4rem"
                   :src="$store.getters.learner.profile"
                 ></b-avatar>
 
@@ -415,7 +423,7 @@
                           @click="drop(feed.id, index)"
                           v-if="
                             feed.user &&
-                              feed.user.id == $store.getters.learner.id
+                            feed.user.id == $store.getters.learner.id
                           "
                           >Delete</b-dropdown-item
                         >
@@ -427,7 +435,7 @@
                         <cld-image
                           v-if="
                             feed.publicId &&
-                              img_ext.includes(getextension(feed.media))
+                            img_ext.includes(getextension(feed.media))
                           "
                           :publicId="feed.publicId"
                         >
@@ -438,8 +446,8 @@
                         <b-img
                           v-if="
                             !feed.publicId &&
-                              feed.media &&
-                              img_ext.includes(getextension(feed.media))
+                            feed.media &&
+                            img_ext.includes(getextension(feed.media))
                           "
                           :src="feed.media"
                         ></b-img>
@@ -448,7 +456,7 @@
                           controls
                           v-if="
                             feed.publicId &&
-                              vid_ext.includes(getextension(feed.media))
+                            vid_ext.includes(getextension(feed.media))
                           "
                           :publicId="feed.publicId"
                         >
@@ -460,7 +468,7 @@
                           controls
                           v-if="
                             feed.media &&
-                              aud_ext.includes(getextension(feed.media))
+                            aud_ext.includes(getextension(feed.media))
                           "
                           :src="feed.media"
                           class="fluid-grow"
@@ -468,7 +476,7 @@
                         <div
                           v-if="
                             feed.media &&
-                              doc_ext.includes(getextension(feed.media))
+                            doc_ext.includes(getextension(feed.media))
                           "
                           class="text-center p-3 p-sm-4 bg-skills-grey"
                         >
@@ -508,7 +516,7 @@
                         <b-icon
                           :icon="
                             feed.stars.find(
-                              item =>
+                              (item) =>
                                 item.star &&
                                 item.user_id == $store.getters.learner.id
                             )
@@ -518,7 +526,7 @@
                           class="text-blue mr-1"
                         ></b-icon>
                         <span>{{
-                          feed.stars.filter(item => item.star).length
+                          feed.stars.filter((item) => item.star).length
                         }}</span>
                       </span>
                       <span
@@ -527,7 +535,7 @@
                         ><b-icon
                           :icon="
                             feed.likes.find(
-                              item =>
+                              (item) =>
                                 item.like &&
                                 item.user_id == $store.getters.learner.id
                             )
@@ -537,7 +545,7 @@
                           class="text-danger mr-1"
                         ></b-icon>
                         <span>{{
-                          feed.likes.filter(item => item.like).length
+                          feed.likes.filter((item) => item.like).length
                         }}</span>
                       </span>
                       <span class="mr-3">
@@ -665,8 +673,9 @@
                                       <h5>{{ category }}</h5>
                                       <div class="emojis">
                                         <span
-                                          v-for="(emoji,
-                                          emojiName) in emojiGroup"
+                                          v-for="(
+                                            emoji, emojiName
+                                          ) in emojiGroup"
                                           :key="emojiName"
                                           @click="insert(emoji)"
                                           :title="emojiName"
@@ -738,7 +747,7 @@
               </div>
             </div>
           </b-col>
-          <b-col sm="4" class="px-3 px-sm-4">
+          <b-col sm="4" class="px-0 p-sm-4">
             <div class="text-left">
               <h6 class="mb-3 fs12">Trending in Last 24hrs</h6>
               <div v-if="trendingFeed.length" class="py-3">
@@ -785,7 +794,7 @@ export default {
       allcomments: [],
       feed: {
         media: "",
-        message: ""
+        message: "",
       },
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp", "flv", "mov"],
@@ -793,13 +802,13 @@ export default {
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       comment: {
         comment: "",
-        id: ""
+        id: "",
       },
       mini_info: {
         id: "",
         name: "",
         type: "",
-        profile: ""
+        profile: "",
       },
       showFeeds: false,
 
@@ -807,21 +816,21 @@ export default {
       rows: null,
       perPage: 10,
       page: 1,
-      trendingFeed: []
+      trendingFeed: [],
     };
   },
   components: {
     EmojiPicker,
     FeedUpload,
-    MultiSelect
+    MultiSelect,
   },
   watch: {
-    $route: "getSpecificFeeds"
+    $route: "getSpecificFeeds",
   },
   mounted() {
     this.getSpecificFeeds();
     this.getTrendingFeeds();
-    this.options = Interest.map(item => {
+    this.options = Interest.map((item) => {
       var res = {};
       res.text = item.value;
       res.value = item.value;
@@ -835,7 +844,7 @@ export default {
     getTrendingFeeds() {
       this.$http
         .get(`${this.$store.getters.url}/guest/trending/feeds`)
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.trendingFeed = res.data;
           }
@@ -846,7 +855,7 @@ export default {
         .get(
           `${this.$store.getters.url}/guest/trending/feed/${this.$route.params.interest}`
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.feeds = res.data.data;
             this.showFeeds = true;
@@ -859,7 +868,7 @@ export default {
         .get(
           `${this.$store.getters.url}/guest/trending/feed/${this.$route.params.interest}?page=${this.page}`
         )
-        .then(res => {
+        .then((res) => {
           if (res.data.data.length) {
             this.page += 1;
             this.feeds.push(...res.data.data);
@@ -926,8 +935,8 @@ export default {
       // this.$router.push("/login");
       this.$toast.info("Login to continue");
     },
-    drop() {}
-  }
+    drop() {},
+  },
 };
 </script>
 <style scoped lang="scss">

@@ -2,7 +2,7 @@
   <div>
     <b-container fluid class="">
       <b-row v-if="courses.length" class="h-100">
-        <b-col :md="sideOpen ? 8 : 12" class="my_courses main_box bg-light">
+        <b-col :md="sideOpen ? 8 : 12" class="main_box bg-light">
           <div
             class="d-flex flex-column flex-sm-row justify-content-between py-4"
           >
@@ -303,7 +303,12 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col md="4" v-show="sideOpen" class="sidebar toggleSide h-100">
+        <b-col
+          md="4"
+          v-show="sideOpen"
+          class="sidebar toggleSide"
+          style="height: 100vh"
+        >
           <span @click="sideOpen = !sideOpen" class="sideopen">
             <b-icon :icon="sideOpen ? 'arrow-right' : 'arrow-left'"></b-icon>
           </span>
@@ -353,14 +358,6 @@
                     ><b-icon icon="clock" class="mr-1"></b-icon>
                     {{ course.courseoutline.duration }}</span
                   >
-                  <br />
-                  <b-button
-                    size="sm"
-                    class="mt-2"
-                    variant="lighter-green"
-                    @click="addcourse"
-                    >Enroll</b-button
-                  >
                 </div>
               </div>
 
@@ -370,7 +367,71 @@
                 :src="course.cover"
               ></b-img>
             </div>
+            <span class="mr-2" v-if="course.type == 'free'">
+              <b-button
+                v-if="!checkLibrary()"
+                class="mx-auto"
+                size="sm"
+                @click="addtolibrary(course.id)"
+                variant="dark-green"
+                >Add to library</b-button
+              >
+              <b-button
+                size="sm"
+                v-else
+                disabled
+                class="mx-auto"
+                variant="dark-green"
+                >Added to library</b-button
+              ></span
+            >
+            <span class="mr-2" v-if="course.type == 'paid'">
+              <b-button
+                v-if="!checkLibrary()"
+                class="mx-auto"
+                size="sm"
+                @click="purchase(course)"
+                variant="dark-green"
+                >Purchase Course</b-button
+              >
+              <b-button
+                size="sm"
+                v-else
+                disabled
+                class="mx-auto"
+                variant="dark-green"
+                >Purchased</b-button
+              ></span
+            >
 
+            <span class="mr-2" v-if="course.type == 'group'">
+              <b-button
+                v-if="checkLibrary()"
+                class="mx-auto"
+                size="sm"
+                disabled
+                variant="dark-green"
+                >Added to library</b-button
+              >
+              <span v-else>
+                <b-button
+                  v-if="!checkCommunity(course.id)"
+                  size="sm"
+                  class="mx-auto"
+                  @click="apply(course.id, course.amount)"
+                  variant="dark-green"
+                  >Apply for course</b-button
+                >
+                <b-button
+                  size="sm"
+                  v-else
+                  disabled
+                  class="mx-auto"
+                  variant="dark-green"
+                  >Applied</b-button
+                >
+              </span>
+            </span>
             <div
               class="
                 d-flex
@@ -439,11 +500,33 @@
                     {{ course.type }}
                   </p>
                   <p class="fs13" v-if="course.type !== 'free'">
-                    {{ course.amount }}
-                    {{ course.type == "group" ? "Participants" : "Naira" }}
+                    <span v-if="course.type == 'paid'">
+                      {{ course.amount | currencyFormat }}</span
+                    >
+                    <span v-if="course.type == 'group'">
+                      {{ course.amount }}</span
+                    >
+                    {{ course.type == "group" ? "Participants" : "" }}
                   </p>
                 </div>
-                <div class="text-right">
+                <div class="text-right" v-if="checkCommunity(course.id)">
+                  <div class="d-flex align-items-center">
+                    <b-icon
+                      font-scale=".9"
+                      class="ml-auto mr-3 cursor-pointer"
+                      @click="getcode(course.id)"
+                      icon="person-plus-fill"
+                    ></b-icon>
+
+                    <b-icon
+                      class="cursor-pointer"
+                      font-scale=".9"
+                      @click="sharelink(course)"
+                      icon="share"
+                    ></b-icon>
+                  </div>
+                </div>
+                <div class="text-right" v-else>
                   <div class="d-flex align-items-center">
                     <b-icon
                       font-scale="1.15"
@@ -454,7 +537,7 @@
                     <b-icon
                       class="cursor-pointer"
                       font-scale="1.15"
-                      @click="sharelink(course.id)"
+                      @click="sharelink(course)"
                       icon="share"
                     ></b-icon>
                   </div>
@@ -688,7 +771,11 @@
                       class="p-1 bg-light"
                       role="tab"
                     >
-                      <div v-b-toggle="'file' + id" variant="info" class="fs13">
+                      <div
+                        v-b-toggle="'file' + id"
+                        variant="info"
+                        class="fs13 d-flex"
+                      >
                         <b-icon
                           icon="question-circle-fill"
                           class="mr-2 text-light-green"
@@ -702,7 +789,7 @@
                       role="tabpanel"
                     >
                       <b-card-body>
-                        <b-card-text class="px-0 fs13">
+                        <b-card-text class="px-0 fs13 d-flex">
                           <b-icon
                             icon="check-circle-fill"
                             class="mr-2 text-light-green"
@@ -740,13 +827,13 @@
                     <div class="mb-1">
                       <span class="fs14 mr-2 text-muted">Venue: </span>
                       <span class="text-sm">
-                        {{ item.venue ? item.venue : "N/A" }}</span
+                        {{ item.venue ? item.venue : "None" }}</span
                       >
                     </div>
                     <div class="mb-1">
                       <span class="fs14 mr-2 text-muted">Url: </span>
                       <span class="text-sm">
-                        {{ item.url ? item.url : "N/A" }}</span
+                        {{ item.url ? item.url : "None" }}</span
                       >
                     </div>
                     <div>
@@ -905,10 +992,19 @@
               >
               <br />
               <b-button
+                v-if="course.type == 'paid'"
                 size="sm"
                 class="mt-2"
                 variant="lighter-green"
-                @click="addcourse"
+                @click="purchase(course)"
+                >Enroll</b-button
+              >
+              <b-button
+                v-if="course.type == 'group'"
+                size="sm"
+                class="mt-2"
+                variant="lighter-green"
+                @click="apply(course.id, course.amount)"
                 >Enroll</b-button
               >
             </div>
@@ -1337,11 +1433,8 @@ export default {
   data() {
     return {
       sideOpen: true,
-      facilitators: [],
-      courses: [],
-      search: "",
+      sending: false,
       link: "",
-      message: "",
       inviteUsers: {
         code: "",
         title: "",
@@ -1352,24 +1445,39 @@ export default {
           },
         ],
       },
+      courses: [],
+      search: "",
       course: null,
       type: 1,
       newmodule: "",
+      facilitators: [],
       toggleCourse: 1,
-      alpha: false,
-      showCourse: false,
+      library: [],
+      communitylink: [],
+      course_link: "",
+      message: "",
       course_type: "",
       recent: false,
       trending: false,
+      alpha: false,
+      showCourse: false,
       currentPage: 1,
       rows: null,
       perPage: 12,
-      sending: false,
+      description: "",
+
+      auth: false,
     };
   },
   mounted() {
+    if (localStorage.getItem("authLearner")) {
+      this.auth = true;
+    }
+
     this.getcourses();
     this.getfacilitators();
+    this.getLibrary();
+    this.getCommunity();
   },
   computed: {
     filter() {
@@ -1409,14 +1517,139 @@ export default {
     },
   },
   methods: {
+    getCommunity() {
+      if (!this.$store.getters.learner) {
+        return;
+      }
+      this.$http
+        .get(`${this.$store.getters.url}/apply-community`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.communitylink = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    getcode(id) {
+      if (!this.$store.getters.learner) {
+        return;
+      }
+      this.$http
+        .get(
+          `${this.$store.getters.url}/apply-community/${id}`,
+
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.message = `https://skillsguruh.com/explore/courses/?course_id=${this.course.id}&invite=${res.data.code}`;
+            this.inviteUsers.code = res.data.code;
+            this.$bvModal.show("sharecourse");
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    purchase(course) {
+      if (!this.auth) {
+        this.$toast.info("Login to add course");
+        return;
+      }
+      this.$router.push(`/learner/order?id=${course.id}`);
+    },
     addcount(id) {
       this.$http.get(`${this.$store.getters.url}/course/view/${id}`);
     },
-    addcourse() {
-      this.$toast.info("Register to enroll");
-      this.$router.push(
-        `/register/?invite=${this.$route.query.invite}&course_id=${this.$route.query.course_id}`
+
+    getLibrary() {
+      if (!this.auth) {
+        return;
+      }
+
+      this.$http
+        .get(`${this.$store.getters.url}/libraries`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.library = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    checkCommunity() {
+      if (!this.auth) {
+        return;
+      }
+
+      var check = this.communitylink.find(
+        (item) => item.course_id == this.course.id
       );
+
+      return check;
+    },
+
+    checkLibrary() {
+      if (!this.auth) {
+        return;
+      }
+      if (!this.library.length) {
+        return false;
+      }
+
+      var check = this.library.find(
+        (item) =>
+          item.user_id == this.$store.getters.learner.id &&
+          item.course_id == this.course.id
+      );
+
+      return check;
+    },
+    apply(id, amount) {
+      if (!this.auth) {
+        this.$toast.info("Login to add course");
+        return;
+      }
+      this.$http
+        .post(
+          `${this.$store.getters.url}/apply-community`,
+          {
+            amount: amount,
+            course_id: id,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 201) {
+            this.communitylink.push(res.data);
+            this.message = `https://skillsguruh.com/explore/courses/?course_id=${this.course.id}&invite=${res.data.code}`;
+            this.$toast.info("Course link created");
+            this.inviteUsers.code = res.data.code;
+            this.$bvModal.show("courselink");
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
     },
     sharelink(id) {
       this.link = `https://skillsguruh.com/explore/courses/?course=${encodeURIComponent(
@@ -1613,11 +1846,9 @@ export default {
 </script>
 <style scoped lang="scss">
 .container-fluid {
-  height: 100vh;
+  height: 100%;
 }
 .my_courses {
-  max-height: 100%;
-  overflow-y: scroll;
 }
 .my_courses::-webkit-scrollbar {
   display: none;

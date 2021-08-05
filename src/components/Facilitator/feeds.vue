@@ -126,7 +126,7 @@
               width="18px"
               class="mr-1 cursor-pointer"
             ></b-img
-            >Media
+            >Video
           </FeedUpload>
         </div>
         <div>
@@ -308,7 +308,7 @@
                   width="18px"
                   class="mr-1 cursor-pointer"
                 ></b-img
-                >Media
+                >Video
               </div>
               <div @click="$bvModal.show('feed')">
                 <b-img
@@ -320,12 +320,39 @@
               </div>
             </div>
           </div>
+          <div class="d-flex justify-content-end">
+            <div class="d-flex align-items-center pl-3 mb-3">
+              <div
+                class="pr-2 fs12 font-weight-bold cursor-pointer"
+                :class="feedShown == 'recent' ? '' : 'text-muted'"
+                @click="feedShown = 'recent'"
+              >
+                Recent
+              </div>
+              <span class="text-muted"> |</span>
+              <div
+                class="pl-2 pr-2 fs12 font-weight-bold cursor-pointer"
+                :class="feedShown == 'trending' ? '' : 'text-muted'"
+                @click="feedShown = 'trending'"
+              >
+                Trending
+              </div>
+              <span class="text-muted"> |</span>
+              <div
+                class="pl-2 fs12 font-weight-bold cursor-pointer"
+                :class="feedShown == 'custom' ? '' : 'text-muted'"
+                @click="feedShown = 'custom'"
+              >
+                Custom
+              </div>
+            </div>
+          </div>
 
           <div v-if="showFeeds">
-            <div v-if="feeds.length">
+            <div v-if="filteredFeeds.length">
               <div class="feed-content">
                 <div
-                  v-for="(feed, index) in feeds"
+                  v-for="(feed, index) in filteredFeeds"
                   :key="index"
                   class="border bg-white rounded mb-2"
                 >
@@ -746,10 +773,14 @@ import FeedUpload from "../feedupload";
 import Minichat from "../minichat";
 import Message from "../messagecomponent";
 import { MultiSelect } from "vue-search-select";
-import Interest from "../insight.js";
+import Interest from "../helpers/subcategory.js";
 export default {
   data() {
     return {
+      feedShown: "recent",
+      recentfeeds: [],
+      trendingfeeds: [],
+      customfeeds: [],
       options: [],
       searchText: "", // If value is falsy, reset searchText & searchItem
       items: [],
@@ -804,11 +835,79 @@ export default {
       return res;
     });
   },
+  computed: {
+    filteredFeeds() {
+      var feeds = [];
+      if (this.feedShown == "recent") {
+        feeds = this.recentfeeds;
+      }
+      if (this.feedShown == "trending") {
+        feeds = this.trendingfeeds;
+      }
+      if (this.feedShown == "custom") {
+        feeds = this.customfeeds;
+      }
+
+      return feeds;
+    },
+  },
   mounted() {
-    this.getfeeds();
-    this.getmyfeeds();
+    // this.getfeeds();
+    // this.getmyfeeds();
+    this.getcustomfeeds();
+    this.gettrendingfeeds();
+    this.getrecentfeeds();
   },
   methods: {
+    gettrendingfeeds() {
+      this.$http
+        .get(`${this.$store.getters.url}/trending/feeds`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 201 || res.status == 200) {
+            this.trendingfeeds = res.data.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    getcustomfeeds() {
+      this.$http
+        .get(`${this.$store.getters.url}/custom/feeds`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 201 || res.status == 200) {
+            this.customfeeds = res.data.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    getrecentfeeds() {
+      this.$http
+        .get(`${this.$store.getters.url}/recent/feeds`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 201 || res.status == 200) {
+            this.recentfeeds = res.data.data;
+            this.showFeeds = true;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     infiniteHandler($state) {
       this.$http
         .get(`${this.$store.getters.url}/feeds?page=${this.page}`, {

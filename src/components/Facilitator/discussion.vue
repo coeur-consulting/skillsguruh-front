@@ -702,10 +702,7 @@
           @click="$bvModal.hide('access')"
           >Cancel</b-button
         >
-        <b-button
-          variant="secondary"
-          size="sm"
-          @click="$toast.success('Request sent succesfully')"
+        <b-button variant="secondary" size="sm" @click="requestAccess"
           >Send a request</b-button
         >
       </div>
@@ -1256,6 +1253,27 @@ export default {
     },
   },
   methods: {
+    requestAccess() {
+      var data = {
+        discussion_id: this.discussion_id,
+      };
+
+      this.$http
+        .post(`${this.$store.getters.url}/join-discussion`, data, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.$toast.info("Your request has been sent");
+            this.$bvModal.hide("access");
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     replies(val) {
       var thread = val.map((item) => {
         if (item.admin) {

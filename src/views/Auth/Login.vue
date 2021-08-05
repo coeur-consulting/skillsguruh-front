@@ -242,7 +242,7 @@ export default {
           password: this.user.password,
         };
         this.$http
-          .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
+          .post("http://localhost:8000/oauth/token", data)
           .then((res) => {
             authFacilitator.access_token = res.data.access_token;
             authFacilitator.refresh_token = res.data.refresh_token;
@@ -297,7 +297,7 @@ export default {
           password: this.user.password,
         };
         this.$http
-          .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
+          .post("http://localhost:8000/oauth/token", data)
           .then((res) => {
             authLearner.access_token = res.data.access_token;
             authLearner.refresh_token = res.data.refresh_token;
@@ -309,14 +309,24 @@ export default {
               })
               .then((res) => {
                 if (res.status == 200) {
+                  console.log(
+                    "🚀 ~ file: Login.vue ~ line 312 ~ .then ~ res",
+                    res
+                  );
                   authLearner.id = res.data.id;
                   authLearner.name = res.data.name;
                   authLearner.email = res.data.email;
                   authLearner.profile = res.data.profile;
                   authLearner.voice = res.data.voice;
                   authLearner.interests = res.data.interests;
-                  authLearner.org_profile = res.data.organization.logo;
-                  authLearner.org_name = res.data.organization.name;
+                  if (!res.data.organization) {
+                    authLearner.org_profile = require("@/assets/images/logo.png");
+                    authLearner.org_name = "SkillsGuruh";
+                  } else {
+                    authLearner.org_profile = res.data.organization.logo;
+                    authLearner.org_name = res.data.organization.name;
+                  }
+
                   authLearner.referral = res.data.referral_code;
 
                   localStorage.setItem(

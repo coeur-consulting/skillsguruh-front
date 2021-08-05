@@ -19,13 +19,13 @@
           </div>
         </router-link>
         <router-link to="/learner/courses">
-          <div class="side_item py-2">
+          <div class="side_item py-3">
             <folder-icon size="1.2x" class="custom-class"></folder-icon>
             <span class="side-link p-3">Courses</span>
           </div>
         </router-link>
         <router-link to="/learner/assessments">
-          <div class="side_item py-2">
+          <div class="side_item py-3">
             <database-icon size="1x" class="custom-class"></database-icon>
             <span class="side-link p-3">Assessments</span>
           </div>
@@ -37,7 +37,7 @@
           </div>
         </router-link>
         <router-link to="/learner/schedule">
-          <div class="side_item py-2">
+          <div class="side_item py-3">
             <calendar-icon size="1.2x" class="custom-class"></calendar-icon>
             <span class="side-link p-3">Schedule</span>
           </div>
@@ -45,7 +45,7 @@
         <router-link to="/learner/feeds">
           <div class="side_item py-3">
             <rss-icon size="1.2x" class="custom-class"></rss-icon>
-            <span class="side-link p-3"><span class="mr-5">Feeds</span> </span>
+            <span class="side-link p-3"><span class="mr-5">Feed</span> </span>
           </div>
         </router-link>
         <router-link to="/learner/discussions">
@@ -126,7 +126,7 @@ import {
   BookmarkIcon,
   DatabaseIcon,
   CreditCardIcon,
-  LogOutIcon
+  LogOutIcon,
 } from "vue-feather-icons";
 export default {
   components: {
@@ -140,17 +140,17 @@ export default {
     LinkIcon,
     BookmarkIcon,
     CreditCardIcon,
-    LogOutIcon
+    LogOutIcon,
   },
   data() {
     return {
-      events: []
+      events: [],
     };
   },
   computed: {
     activeaccount() {
-      return this.events.filter(item => item.status == "active").length;
-    }
+      return this.events.filter((item) => item.status == "active").length;
+    },
   },
   methods: {
     logout() {
@@ -161,19 +161,19 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/events`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.events = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

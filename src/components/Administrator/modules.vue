@@ -341,9 +341,6 @@
                           <b-form-select-option value="quiz">
                             Quiz</b-form-select-option
                           >
-                          <b-form-select-option value="assignment">
-                            Assignment</b-form-select-option
-                          >
                         </b-form-select>
                       </b-form-group>
 
@@ -641,9 +638,6 @@
                           >
                           <b-form-select-option value="quiz">
                             Quiz</b-form-select-option
-                          >
-                          <b-form-select-option value="assignment">
-                            Assignment</b-form-select-option
                           >
                         </b-form-select>
                       </b-form-group>

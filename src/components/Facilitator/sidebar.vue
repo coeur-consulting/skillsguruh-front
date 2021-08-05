@@ -62,7 +62,7 @@
         <router-link to="/facilitator/feeds">
           <div class="side_item">
             <rss-icon size="1x" class="custom-class"></rss-icon>
-            <span class="side-link p-2">Feeds </span>
+            <span class="side-link p-2">Feed </span>
           </div>
         </router-link>
         <router-link to="/facilitator/events">
@@ -156,7 +156,7 @@ import {
   LayoutIcon,
   CreditCardIcon,
   ArrowUpRightIcon,
-  LogOutIcon
+  LogOutIcon,
 } from "vue-feather-icons";
 export default {
   components: {
@@ -172,17 +172,17 @@ export default {
     LayoutIcon,
     ArrowUpRightIcon,
     CreditCardIcon,
-    LogOutIcon
+    LogOutIcon,
   },
   data() {
     return {
-      events: []
+      events: [],
     };
   },
   computed: {
     activeaccount() {
-      return this.events.filter(item => item.status == "active").length;
-    }
+      return this.events.filter((item) => item.status == "active").length;
+    },
   },
   methods: {
     logout() {
@@ -193,19 +193,19 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/events`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.events = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

@@ -2738,7 +2738,7 @@
 </template>
 <script>
 import Upload from "@/components/fileupload.vue";
-import Insight from "../insight.js";
+import Interest from "../helpers/subcategory.js";
 import Editor from "@tinymce/tinymce-vue";
 import draggable from "vuedraggable";
 import { ModelListSelect } from "vue-search-select";
@@ -2755,7 +2755,7 @@ export default {
       sideOpen: true,
       current_schedule: 0,
       search: "",
-      insight: [],
+      interest: [],
       courses: [],
       course: null,
       type: 1,
@@ -2840,8 +2840,8 @@ export default {
   mounted() {
     this.getcourses();
     this.getfacilitators();
-    this.insight = Insight;
-    this.options = Insight.map((item) => {
+    this.interest = Interest;
+    this.options = Interest.map((item) => {
       var res = {};
 
       res.value = item.value;

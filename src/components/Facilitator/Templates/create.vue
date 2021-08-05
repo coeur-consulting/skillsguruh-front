@@ -27,12 +27,7 @@
                       <b-form-select-option value="quiz"
                         >Quiz</b-form-select-option
                       >
-                      <b-form-select-option value="questionnaire"
-                        >Questionnaire</b-form-select-option
-                      >
-                      <b-form-select-option value="assignment"
-                        >Assignment</b-form-select-option
-                      >
+
                       <b-form-select-option value="test"
                         >Test</b-form-select-option
                       >
@@ -116,12 +111,12 @@
                             plugins: [
                               'advlist autolink lists link image charmap print preview anchor',
                               'searchreplace visualblocks code fullscreen',
-                              'insertdatetime media table paste code help wordcount'
+                              'insertdatetime media table paste code help wordcount',
                             ],
                             toolbar:
                               'undo redo | formatselect | bold italic backcolor | \
            alignleft aligncenter alignright alignjustify | \
-           bullist numlist outdent indent | removeformat | help'
+           bullist numlist outdent indent | removeformat | help',
                           }"
                         />
                       </b-form-group>
@@ -317,16 +312,16 @@
                                       <b-form-textarea
                                         size="sm"
                                         v-model="val.question"
-                                        :placeholder="
-                                          `Provide question ${subId + 1}`
-                                        "
+                                        :placeholder="`Provide question ${
+                                          subId + 1
+                                        }`"
                                       >
                                       </b-form-textarea>
                                     </b-form-group>
                                     <b-form-row
                                       v-if="
                                         question.type == 'short' ||
-                                          question.type == 'long'
+                                        question.type == 'long'
                                       "
                                     >
                                       <b-col>
@@ -361,7 +356,7 @@
                                                 <b-button
                                                   v-if="
                                                     val.placeholders.length ==
-                                                      idp + 1
+                                                    idp + 1
                                                   "
                                                   size="sm"
                                                   @click="
@@ -387,9 +382,9 @@
                                       class=""
                                       v-if="
                                         question.type !== 'short' &&
-                                          question.type !== 'long' &&
-                                          question.type !== 'multiple' &&
-                                          question.type !== 'boolean'
+                                        question.type !== 'long' &&
+                                        question.type !== 'multiple' &&
+                                        question.type !== 'boolean'
                                       "
                                     >
                                       <b-col sm="12">
@@ -444,8 +439,8 @@
                                       class=""
                                       v-if="
                                         question.type == 'single' ||
-                                          question.type == 'boolean' ||
-                                          question.type == 'checkbox'
+                                        question.type == 'boolean' ||
+                                        question.type == 'checkbox'
                                       "
                                     >
                                       <b-col sm="12">
@@ -455,8 +450,9 @@
                                           >
                                             <b-col
                                               cols="5"
-                                              v-for="(option,
-                                              id) in val.options"
+                                              v-for="(
+                                                option, id
+                                              ) in val.options"
                                               :key="id"
                                             >
                                               <b-form-radio
@@ -475,8 +471,9 @@
                                           >
                                             <b-col
                                               cols="5"
-                                              v-for="(option,
-                                              id) in val.options"
+                                              v-for="(
+                                                option, id
+                                              ) in val.options"
                                               :key="id"
                                             >
                                               <b-form-checkbox
@@ -560,9 +557,9 @@
                             class=""
                             v-if="
                               question.type !== 'short' &&
-                                question.type !== 'long' &&
-                                question.type !== 'multiple' &&
-                                question.type !== 'boolean'
+                              question.type !== 'long' &&
+                              question.type !== 'multiple' &&
+                              question.type !== 'boolean'
                             "
                           >
                             <b-col sm="12">
@@ -603,7 +600,7 @@
                                           questionnaire.sections[idx].questions[
                                             index
                                           ].options.length ==
-                                            id + 1
+                                          id + 1
                                         "
                                         ><b-icon
                                           icon="plus-circle-fill"
@@ -620,8 +617,8 @@
                             class=""
                             v-if="
                               question.type == 'single' ||
-                                question.type == 'boolean' ||
-                                question.type == 'checkbox'
+                              question.type == 'boolean' ||
+                              question.type == 'checkbox'
                             "
                           >
                             <b-col sm="12">
@@ -662,10 +659,10 @@
                             class=""
                             v-if="
                               question.type == 'short' ||
-                                question.type == 'long' ||
-                                question.type == 'email' ||
-                                question.type == 'multiple' ||
-                                question.type == 'number'
+                              question.type == 'long' ||
+                              question.type == 'email' ||
+                              question.type == 'multiple' ||
+                              question.type == 'number'
                             "
                           >
                             <b-col sm="12">
@@ -706,7 +703,7 @@
                                           questionnaire.sections[idx].questions[
                                             index
                                           ].placeholders.length ==
-                                            idp + 1
+                                          idp + 1
                                         "
                                         ><b-icon
                                           icon="plus-circle-fill"
@@ -863,7 +860,7 @@ export default {
   components: {
     draggable,
     Preview,
-    editor: Editor
+    editor: Editor,
   },
   props: ["options"],
   data() {
@@ -904,21 +901,21 @@ export default {
                     placeholders: [
                       {
                         placeholder: "",
-                        response: ""
-                      }
+                        response: "",
+                      },
                     ],
                     limit: 2,
                     options: [
                       {
-                        value: ""
-                      }
+                        value: "",
+                      },
                     ],
                     answer: "",
                     answers: [],
                     response: "",
                     responses: [],
-                    response_count: ""
-                  }
+                    response_count: "",
+                  },
                 ],
                 response: "",
                 responses: [],
@@ -927,8 +924,8 @@ export default {
                 limit: 2,
                 options: [
                   {
-                    value: ""
-                  }
+                    value: "",
+                  },
                 ],
                 showAnswer: false,
                 answer: "",
@@ -937,21 +934,21 @@ export default {
                 placeholders: [
                   {
                     placeholder: "",
-                    response: ""
-                  }
+                    response: "",
+                  },
                 ],
                 placeholder: "",
                 hint: "",
 
-                score: 0
-              }
-            ]
-          }
-        ]
+                score: 0,
+              },
+            ],
+          },
+        ],
       },
       editable: true,
       isDragging: false,
-      delayedDragging: false
+      delayedDragging: false,
     };
   },
   mounted() {
@@ -972,12 +969,12 @@ export default {
         animation: 0,
         group: "description",
         disabled: !this.editable,
-        ghostClass: "ghost"
+        ghostClass: "ghost",
       };
     },
     totalscore() {
       var arr = [];
-      this.questionnaire.sections.forEach(item => {
+      this.questionnaire.sections.forEach((item) => {
         arr.push(item.questions);
       });
 
@@ -985,7 +982,7 @@ export default {
         return a.concat(b);
       });
 
-      var score = newarr.map(item => {
+      var score = newarr.map((item) => {
         if (this.$props.options.grading) {
           return item.score;
         }
@@ -994,7 +991,7 @@ export default {
       return score.reduce((a, b) => {
         return a + b;
       }, 0);
-    }
+    },
   },
   watch: {
     isDragging(newValue) {
@@ -1005,7 +1002,7 @@ export default {
       this.$nextTick(() => {
         this.delayedDragging = false;
       });
-    }
+    },
   },
   methods: {
     onMove({ relatedContext, draggedContext }) {
@@ -1037,21 +1034,21 @@ export default {
                 placeholders: [
                   {
                     placeholder: "",
-                    response: ""
-                  }
+                    response: "",
+                  },
                 ],
                 limit: 2,
                 options: [
                   {
-                    value: ""
-                  }
+                    value: "",
+                  },
                 ],
                 answer: "",
                 answers: [],
                 response: "",
                 responses: [],
-                response_count: ""
-              }
+                response_count: "",
+              },
             ],
             response: "",
             responses: [],
@@ -1060,8 +1057,8 @@ export default {
             limit: 2,
             options: [
               {
-                value: ""
-              }
+                value: "",
+              },
             ],
             showAnswer: false,
             answer: "",
@@ -1070,15 +1067,15 @@ export default {
             placeholders: [
               {
                 placeholder: "",
-                response: ""
-              }
+                response: "",
+              },
             ],
             placeholder: "",
             hint: "",
 
-            score: 0
-          }
-        ]
+            score: 0,
+          },
+        ],
       });
     },
     addquestion(idx) {
@@ -1097,21 +1094,21 @@ export default {
             placeholders: [
               {
                 placeholder: "",
-                response: ""
-              }
+                response: "",
+              },
             ],
             limit: 2,
             options: [
               {
-                value: ""
-              }
+                value: "",
+              },
             ],
             answer: "",
             answers: [],
             response: "",
             responses: [],
-            response_count: ""
-          }
+            response_count: "",
+          },
         ],
         response: "",
         responses: [],
@@ -1120,8 +1117,8 @@ export default {
         limit: 2,
         options: [
           {
-            value: ""
-          }
+            value: "",
+          },
         ],
         showAnswer: false,
         answer: "",
@@ -1130,24 +1127,24 @@ export default {
         placeholders: [
           {
             placeholder: "",
-            response: ""
-          }
+            response: "",
+          },
         ],
         placeholder: "",
         hint: "",
 
-        score: 0
+        score: 0,
       });
     },
     addoption(idx, index) {
       this.questionnaire.sections[idx].questions[index].options.push({
-        value: ""
+        value: "",
       });
     },
     addplaceholder(idx, index) {
       this.questionnaire.sections[idx].questions[index].placeholders.push({
         placeholder: "",
-        response: ""
+        response: "",
       });
     },
     addSubQuest(idx, index) {
@@ -1160,34 +1157,34 @@ export default {
         placeholders: [
           {
             placeholder: "",
-            response: ""
-          }
+            response: "",
+          },
         ],
         limit: 2,
         options: [
           {
-            value: ""
-          }
+            value: "",
+          },
         ],
         answer: "",
         answers: [],
         response: "",
         responses: [],
-        response_count: ""
+        response_count: "",
       });
     },
     addSubOption(idx, index, sub) {
       this.questionnaire.sections[idx].questions[index].subQuestion[
         sub
       ].options.push({
-        value: ""
+        value: "",
       });
     },
     addSubAnswer(idx, index, sub) {
       this.questionnaire.sections[idx].questions[index].subQuestion[
         sub
       ].answers.push({
-        value: ""
+        value: "",
       });
     },
     addSubPlaceholder(idx, index, sub) {
@@ -1195,12 +1192,12 @@ export default {
         sub
       ].placeholders.push({
         placeholder: "",
-        response: ""
+        response: "",
       });
     },
     addanswer(idx, index) {
       this.questionnaire.sections[idx].questions[index].answers.push({
-        value: ""
+        value: "",
       });
     },
     save() {
@@ -1211,17 +1208,17 @@ export default {
           this.questionnaire,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Created successfully");
             this.$emit("close", res.data);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           err.response.data.errors.title[0]
             ? this.$toast.error(err.response.data.errors.title[0])
             : "";
@@ -1237,11 +1234,11 @@ export default {
           this.questionnaire,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Saved to drafts");
 
@@ -1251,7 +1248,7 @@ export default {
             res.status == 201 ? this.$emit("addtemplate", res.data) : "";
           }
         })
-        .catch(err => {
+        .catch((err) => {
           err.response.data.errors.title[0]
             ? this.$toast.error(err.response.data.errors.title[0])
             : "";
@@ -1262,8 +1259,8 @@ export default {
     },
     preview() {
       this.$bvModal.show("preview");
-    }
-  }
+    },
+  },
 };
 </script>
 

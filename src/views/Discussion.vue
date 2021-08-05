@@ -1,9 +1,10 @@
+/* eslint-disable vue/no-unused-vars */
 <template>
-  <div class="pt-sm-4 bg-light">
-    <b-container>
+  <div class="bg-light">
+    <b-container fluid class="pt-sm-4">
       <b-row v-if="showdiscussion">
         <b-col class="px-0 px-sm-3" sm="8">
-          <div class="py-4 bg-white rounded">
+          <div class="bg-white py-4 rounded">
             <div class="main_content text-left">
               <span @click="$router.go(-1)" class="pl-3 cursor-pointer back">
                 <span class="mr-2">
@@ -23,14 +24,18 @@
                       class="starter"
                       :src="discussion.user.profile"
                       v-if="discussion.user"
-                      @click="$router.push(`/profile/u/${discussion.user.id}`)"
+                      @click="
+                        $router.push(`/learner/profile/u/${discussion.user.id}`)
+                      "
                     ></b-avatar>
                     <b-avatar
                       class="starter"
                       :src="discussion.facilitator.profile"
                       v-if="discussion.facilitator"
                       @click="
-                        $router.push(`/profile/f/${discussion.facilitator.id}`)
+                        $router.push(
+                          `/learner/profile/f/${discussion.facilitator.id}`
+                        )
                       "
                     ></b-avatar>
                   </div>
@@ -130,14 +135,18 @@
                     <span
                       v-if="discussion.user"
                       class="cursor-pointer text-dark-green hover_green"
-                      @click="$router.push(`/profile/u/${discussion.user.id}`)"
+                      @click="
+                        $router.push(`/learner/profile/u/${discussion.user.id}`)
+                      "
                       >{{ discussion.user.name }}</span
                     >
                     <span
                       v-if="discussion.facilitator"
                       class="cursor-pointer text-dark-green hover_green"
                       @click="
-                        $router.push(`/profile/f/${discussion.facilitator.id}`)
+                        $router.push(
+                          `/learner/profile/f/${discussion.facilitator.id}`
+                        )
                       "
                       >{{ discussion.facilitator.name }}</span
                     >
@@ -199,7 +208,7 @@
                         class="text-center"
                         v-if="
                           item.attachment &&
-                          img_ext.includes(getextension(item.attachment))
+                            img_ext.includes(getextension(item.attachment))
                         "
                       >
                         <div class="image">
@@ -225,7 +234,7 @@
                           <div
                             v-if="
                               item.attachment &&
-                              vid_ext.includes(getextension(item.attachment))
+                                vid_ext.includes(getextension(item.attachment))
                             "
                             class="p-1 rounded cursor-pointer"
                           >
@@ -243,7 +252,7 @@
                           <div
                             v-if="
                               item.attachment &&
-                              aud_ext.includes(getextension(item.attachment))
+                                aud_ext.includes(getextension(item.attachment))
                             "
                             class="
                               p-1
@@ -266,7 +275,7 @@
                           <div
                             v-if="
                               item.attachment &&
-                              doc_ext.includes(getextension(item.attachment))
+                                doc_ext.includes(getextension(item.attachment))
                             "
                             class="
                               p-1
@@ -312,34 +321,41 @@
                             size="sm"
                             :src="item.admin.profile"
                             v-if="item.admin"
-                            class="mr-2 member"
+                            class="mr-1 member"
                           ></b-avatar>
                           <b-avatar
                             size="sm"
                             :src="item.user.profile"
                             v-if="item.user"
-                            class="mr-2 member"
+                            class="mr-1 member"
                           ></b-avatar>
                           <b-avatar
                             size="sm"
                             :src="item.facilitator.profile"
                             v-if="item.facilitator"
-                            class="mr-2 member"
+                            class="mr-1 member"
                           ></b-avatar>
                         </span>
                         <span v-if="item.admin" class="fs13 cursor-pointer">{{
                           item.admin.name
                         }}</span>
                         <span
+                          c
                           v-if="item.user"
-                          @click="$router.push(`/profile/u/${item.user.id}`)"
+                          @click="
+                            $router.push(
+                              `/facilitator/profile/u/${item.user.id}`
+                            )
+                          "
                           class="fs13 cursor-pointer hover_green"
                           >{{ item.user.name }}</span
                         >
                         <span
                           v-if="item.facilitator"
                           @click="
-                            $router.push(`/profile/f/${item.facilitator.id}`)
+                            $router.push(
+                              `/facilitator/profile/f/${item.facilitator.id}`
+                            )
                           "
                           class="fs13 cursor-pointer hover_green"
                           >{{ item.facilitator.name }}</span
@@ -391,7 +407,8 @@
                         ></text-to-speech
                       ></span>
                       <div
-                        v-for="(reply, index) in item.discussionmessagecomment
+                        v-for="(reply,
+                        index) in item.discussionmessagecomment
                           .slice(0, 2)
                           .reverse()"
                         :key="index"
@@ -402,19 +419,19 @@
                             v-if="reply.admin"
                             size="sm"
                             :src="reply.admin.profile"
-                            class="mr-2 message_comment_avatar"
+                            class="mr-1 message_comment_avatar"
                           ></b-avatar>
                           <b-avatar
                             v-if="reply.facilitator"
                             size="sm"
                             :src="reply.facilitator.profile"
-                            class="mr-2 message_comment_avatar"
+                            class="mr-1 message_comment_avatar"
                           ></b-avatar>
                           <b-avatar
                             v-if="reply.user"
                             size="sm"
                             :src="reply.user.profile"
-                            class="mr-2 message_comment_avatar"
+                            class="mr-1 message_comment_avatar"
                           ></b-avatar>
                           <span
                             ><span
@@ -468,25 +485,25 @@
                 <b-form @submit.prevent="post" class="wrapper">
                   <b-form-group>
                     <editor
-                      readonly
                       api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
                       @keyup.enter="post"
                       class="regular-input mb-4"
-                      placeholder="Login to reply"
-                      disabled
+                      placeholder="Start typing here.."
                       v-model="info.message"
                       :init="{
                         height: 150,
                         menubar: false,
+                        content_style: font,
+                        font_formats: 'Poppins',
                         plugins: [
                           '  lists link  charmap   anchor',
                           'searchreplace visualblocks code fullscreen',
-                          '  table paste code',
+                          '  table paste code'
                         ],
                         toolbar:
-                          ' formatselect | bold italic | \
+                          ' styleselect | bold italic | \
            alignleft aligncenter alignright alignjustify | \
-           bullist numlist  ',
+           bullist numlist  '
                       }"
                     />
                   </b-form-group>
@@ -567,6 +584,7 @@
                         ></span>
                       </div>
                       <div class="d-flex align-items-center">
+                        <Attachment @getUpload="getUpload" class="" />
                         <speech-to-text
                           class="mx-2"
                           @getText="getText"
@@ -584,17 +602,24 @@
         </b-col>
         <b-col sm="4" class="d-none d-md-block">
           <div class="bg-white p-4 rounded">
+            <div class="text-center mb-4">
+              <b-button variant="dark-green" size="lg" class="px-3"
+                >Start a discussion</b-button
+              >
+            </div>
             <div class="py-3 text-left related_quest border" v-if="related">
               <h6 class="mb-3 px-3">Related Discussions</h6>
               <div v-for="item in related" :key="item.id">
                 <div
                   class="d-flex p-2 px-3 cursor-pointer"
                   v-if="item.type == 'public'"
-                  @click="$router.push(`/discussion/${item.id}`)"
+                  @click="$router.push(`/learner/discussion/${item.id}`)"
                 >
                   <div v-if="item.discussionmessage.length">
-                    <div class="mr-3 related_count">
-                      {{ item.discussionmessage.length }}
+                    <div>
+                      <span class="mr-3 related_count">
+                        {{ item.discussionmessage.length }}
+                      </span>
                     </div>
                   </div>
                   <div class="related text-left">{{ item.name }}</div>
@@ -631,7 +656,7 @@
         </div>
 
         <div class="d-flex w-100 mb-3">
-          <div class="mr-2 mb-3">
+          <div class="mr-1 mb-3">
             <b-skeleton type="avatar"></b-skeleton>
           </div>
           <div class="w-100">
@@ -643,7 +668,7 @@
           </div>
         </div>
         <div class="d-flex w-100 mb-3">
-          <div class="mr-2 mb-3">
+          <div class="mr-1 mb-3">
             <b-skeleton type="avatar"></b-skeleton>
           </div>
           <div class="w-100">
@@ -683,7 +708,9 @@
           network="facebook"
           :url="link"
           title="DISCUSSION INVITATION"
-          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `"
+          :description="
+            `I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -697,7 +724,9 @@
           network="twitter"
           :url="link"
           title="DISCUSSION INVITATION"
-          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `"
+          :description="
+            `I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -711,7 +740,9 @@
           network="whatsApp"
           :url="link"
           title="DISCUSSION INVITATION"
-          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `"
+          :description="
+            `I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -734,7 +765,9 @@
           network="Telegram"
           :url="link"
           title="DISCUSSION INVITATION"
-          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `"
+          :description="
+            `I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -743,6 +776,11 @@
             Telegram</b-button
           >
         </ShareNetwork>
+        <b-button variant="outline-dark-green" @click="addToFeed">
+          <b-icon icon="rss-fill" variant="dark-green"></b-icon>
+
+          Feeds</b-button
+        >
       </div>
     </b-modal>
 
@@ -894,10 +932,9 @@
       <b-form @submit.prevent="replyPost" class="">
         <b-form-group>
           <b-form-textarea
-            readonly
             @keyup.enter="replyPost"
             class="regular-input mb-4"
-            placeholder="Log in to comment"
+            placeholder="Start typing here.."
             v-model="reply.message"
           ></b-form-textarea>
         </b-form-group>
@@ -969,19 +1006,19 @@
               size="sm"
               :src="comments.admin.profile"
               v-if="comments.admin"
-              class="mr-2 member"
+              class="mr-1 member"
             ></b-avatar>
             <b-avatar
               size="sm"
               :src="comments.user.profile"
               v-if="comments.user"
-              class="mr-2 member"
+              class="mr-1 member"
             ></b-avatar>
             <b-avatar
               size="sm"
               :src="comments.facilitator.profile"
               v-if="comments.facilitator"
-              class="mr-2 member"
+              class="mr-1 member"
             ></b-avatar>
           </span>
           <span v-if="comments.admin" class="fs12 cursor-pointer">{{
@@ -989,13 +1026,15 @@
           }}</span>
           <span
             v-if="comments.user"
-            @click="$router.push(`/profile/u/${comments.user.id}`)"
+            @click="$router.push(`/facilitator/profile/u/${comments.user.id}`)"
             class="fs12 cursor-pointer hover_green"
             >{{ comments.user.name }}</span
           >
           <span
             v-if="comments.facilitator"
-            @click="$router.push(`/profile/f/${comments.facilitator.id}`)"
+            @click="
+              $router.push(`/facilitator/profile/f/${comments.facilitator.id}`)
+            "
             class="fs12 cursor-pointer hover_green"
             >{{ comments.facilitator.name }}</span
           >
@@ -1011,19 +1050,19 @@
               v-if="reply.admin"
               size="sm"
               :src="reply.admin.profile"
-              class="mr-2 message_comment_avatar"
+              class="mr-1 message_comment_avatar"
             ></b-avatar>
             <b-avatar
               v-if="reply.facilitator"
               size="sm"
               :src="reply.facilitator.profile"
-              class="mr-2 message_comment_avatar"
+              class="mr-1 message_comment_avatar"
             ></b-avatar>
             <b-avatar
               v-if="reply.user"
               size="sm"
               :src="reply.user.profile"
-              class="mr-2 message_comment_avatar"
+              class="mr-1 message_comment_avatar"
             ></b-avatar>
             <span
               ><span v-if="reply.admin" class="message_comment_name mr-1">{{
@@ -1052,8 +1091,10 @@
     </b-modal>
   </div>
 </template>
+
 <script>
 import EmojiPicker from "vue-emoji-picker";
+import Attachment from "@/components/miniupload";
 import Editor from "@tinymce/tinymce-vue";
 import SpeechToText from "@/components/speechToText";
 import TextToSpeech from "@/components/textToSpeech";
@@ -1061,6 +1102,7 @@ import TextToSpeech from "@/components/textToSpeech";
 export default {
   data() {
     return {
+      auth: false,
       index: null,
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp"],
@@ -1072,14 +1114,14 @@ export default {
         attachment: "",
         message: "",
         discussion_id: null,
-        publicId: null,
+        publicId: null
       },
       myviews: null,
       search: "",
       feed: {},
       inviteUsers: {
         title: "",
-        users: [],
+        users: []
       },
       connections: [],
       emails: [],
@@ -1090,33 +1132,42 @@ export default {
       reply: {
         message: "",
         message_id: null,
-        discussion_id: null,
+        discussion_id: null
       },
       currentPage: 1,
       rows: null,
       perPage: 10,
       comments: {},
       toggleview: "recent",
+      font:
+        "@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap');body{font-family:Poppins;font-size:13px}"
     };
   },
   components: {
     EmojiPicker,
+    Attachment,
     SpeechToText,
     TextToSpeech,
-    Editor,
+    Editor
   },
   created() {
     this.getdiscussion();
     this.addview();
     this.getvote();
+    this.getconnections();
     this.link =
       "https://skillsguruh.com/learner/discussion/" + this.$route.params.id;
 
     var channel = this.$pusher.subscribe("adddiscussion");
 
-    channel.bind("adddiscussion", (data) => {
+    channel.bind("adddiscussion", data => {
       this.posts.push(data.message);
     });
+  },
+  mounted() {
+    if (localStorage.getItem("authLearner")) {
+      this.auth = true;
+    }
   },
   computed: {
     filteredDiscussion() {
@@ -1138,7 +1189,7 @@ export default {
       });
     },
     thread() {
-      var thread = this.discussion.discussionmessage.map((item) => {
+      var thread = this.discussion.discussionmessage.map(item => {
         if (item.admin) {
           return `${item.admin.name}, ${this.toText(item.message)} ... `;
         }
@@ -1176,7 +1227,7 @@ export default {
         return [];
       }
       return this.discussion.related.filter(
-        (item) => Number(item.id) != Number(this.$route.params.id)
+        item => Number(item.id) != Number(this.$route.params.id)
       );
     },
     posts() {
@@ -1186,17 +1237,15 @@ export default {
       return this.myviews;
     },
     vote() {
-      var positive = this.discussion.discussionvote.filter(
-        (item) => item.vote
-      ).length;
-      var negative = this.discussion.discussionvote.filter(
-        (item) => !item.vote
-      ).length;
+      var positive = this.discussion.discussionvote.filter(item => item.vote)
+        .length;
+      var negative = this.discussion.discussionvote.filter(item => !item.vote)
+        .length;
       return Number(positive) - Number(negative);
     },
 
     filteredConnections() {
-      return this.connections.filter((item) => {
+      return this.connections.filter(item => {
         if (item.user_follower) {
           return item.user_follower.name
             .toLowerCase()
@@ -1208,7 +1257,7 @@ export default {
             .includes(this.search.toLowerCase());
         }
       });
-    },
+    }
   },
   methods: {
     addmessagecomment(val, index) {
@@ -1222,7 +1271,7 @@ export default {
       this.$bvModal.show("allcomment");
     },
     replies(val) {
-      var thread = val.map((item) => {
+      var thread = val.map(item => {
         if (item.admin) {
           return `${item.admin.name}, ${item.message}...  `;
         }
@@ -1237,7 +1286,42 @@ export default {
       return thread.toString();
     },
     replyPost() {
-      this.$toast.info("Login to comment");
+      if (!this.auth) {
+        this.$toast.info("Login to complete action");
+        return;
+      }
+      if (!this.reply.message) {
+        this.$toast.info("Type a message!");
+        return;
+      }
+      this.reply.discussion_id = this.$route.params.id;
+      this.$http
+        .post(
+          `${this.$store.getters.url}/discussion/message/replies`,
+          this.reply,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
+          }
+        )
+        .then(res => {
+          if (res.status == 201) {
+            this.$bvModal.hide("addcomment");
+            this.filteredDiscussion[this.index].discussionmessagecomment.push(
+              res.data
+            );
+
+            this.reply = {
+              message_id: null,
+              message: "",
+              discussion_id: null
+            };
+          }
+        })
+        .catch(err => {
+          this.$toast.error(err.response.data.message);
+        });
     },
     toText(HTML) {
       if (!HTML) return;
@@ -1253,11 +1337,62 @@ export default {
     getText(res) {
       this.info.message = `${this.info.message} ${res}`;
     },
+    async getconnections() {
+      if (!this.auth) {
+        return;
+      }
+      return this.$http
+        .get(`${this.$store.getters.url}/connections`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
+        })
+        .then(res => {
+          if (res.status == 200) {
+            this.connections = res.data;
+          }
+        })
+        .catch(err => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    addToFeed() {
+      if (!this.auth) {
+        this.$toast.info("Login to post");
+        return;
+      }
+      this.feed = {
+        message:
+          "I just started a discussion, " +
+          this.discussion.name.toUpperCase() +
+          " and I’d like to hear your thoughts",
+        url: "https://skillsguruh.com/learner/discussion/" + this.discussion.id
+      };
+      this.$http
+        .post(`${this.$store.getters.url}/feeds`, this.feed, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
+        })
+        .then(res => {
+          if (res.status == 201 || res.status == 200) {
+            this.$toast.success("Added to feeds ");
+            this.$bvModal.hide("share");
 
+            this.feed = {
+              media: "",
+              message: ""
+            };
+          }
+        })
+        .catch(err => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     sendinvite() {
-      var emails = this.emails.map((item) => {
+      var emails = this.emails.map(item => {
         return {
-          email: item,
+          email: item
         };
       });
       this.inviteUsers.title = this.discussion.name;
@@ -1269,11 +1404,11 @@ export default {
           this.inviteUsers,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Invite Sent");
             this.$bvModal.hide("share");
@@ -1281,16 +1416,16 @@ export default {
               title: "",
               users: [
                 {
-                  email: "",
-                },
-              ],
+                  email: ""
+                }
+              ]
             };
           }
         });
     },
     addinvite() {
       this.inviteUsers.users.push({
-        email: "",
+        email: ""
       });
     },
     getextension(fileName) {
@@ -1326,14 +1461,9 @@ export default {
     getdiscussion() {
       this.$http
         .get(
-          `${this.$store.getters.url}/guest/discussions/${this.$route.params.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
-          }
+          `${this.$store.getters.url}/guest/discussions/${this.$route.params.id}`
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.discussion = res.data;
             this.rows = res.data.discussionmessage.length;
@@ -1341,109 +1471,153 @@ export default {
             this.showdiscussion = true;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     post() {
-      this.$toast.info("Login to reply");
+      if (!this.auth) {
+        this.$toast.info("Login to complete action");
+        return;
+      }
+      if (!this.info.message && !this.info.attachment) {
+        this.$toast.info("Type a message!");
+        return;
+      }
+      this.info.discussion_id = this.$route.params.id;
+      this.$http
+        .post(`${this.$store.getters.url}/discussion-messages`, this.info, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
+        })
+        .then(res => {
+          if (res.status == 201 || res.status == 200) {
+            if (this.info.publicId) {
+              this.$bvModal.hide("media");
+            }
+            this.info = {
+              attachment: "",
+              message: "",
+              discussion_id: null,
+              publicId: null
+            };
+          }
+        })
+        .catch(err => {
+          this.$toast.error(err.response.data.message);
+        });
     },
     addview() {
+      if (!this.auth) {
+        return;
+      }
       this.$http
         .get(`${this.$store.getters.url}/add-view/${this.$route.params.id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200 || res.status == 201) {
             this.myviews = res.data.view;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     getvote() {
+      if (!this.auth) {
+        return;
+      }
       this.$http
         .get(`${this.$store.getters.url}/votes/${this.$route.params.id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.topvote = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
 
     addvote() {
+      if (!this.auth) {
+        this.$toast.info("Login to complete action");
+        return;
+      }
       this.$http
         .post(
           `${this.$store.getters.url}/votes`,
           { id: this.$route.params.id, vote: 1 },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.discussion.discussionvote.push(res.data);
           }
           if (res.status == 200) {
-            this.discussion.discussionvote.map((item) => {
+            this.discussion.discussionvote.map(item => {
               if (item.learner_id == this.$store.getters.learner.id) {
                 return (item.vote = res.data.vote);
               }
             });
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
 
     dropvote() {
+      if (!this.auth) {
+        this.$toast.info("Login to complete action");
+        return;
+      }
       this.$http
         .post(
           `${this.$store.getters.url}/votes`,
           { id: this.$route.params.id, vote: 0 },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.discussion.discussionvote.push(res.data);
           }
           if (res.status == 200) {
-            this.discussion.discussionvote.map((item) => {
+            this.discussion.discussionvote.map(item => {
               if (item.learner_id == this.$store.getters.learner.id) {
                 return (item.vote = res.data.vote);
               }
             });
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
-    },
+    }
   },
   directives: {
     focus: {
       inserted(el) {
         el.focus();
-      },
-    },
-  },
+      }
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

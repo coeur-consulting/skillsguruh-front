@@ -84,6 +84,42 @@
                           }}
                         </span>
                       </b-card-text>
+
+                      <div
+                        v-if="
+                          $route.params.user != 'u' ||
+                          ($route.params.user == 'u' &&
+                            $store.getters.learner.id != $route.params.id)
+                        "
+                      >
+                        <b-button
+                          size="sm"
+                          v-if="
+                            $route.params.user == 'f' &&
+                            !checkconnection(detail)
+                          "
+                          variant="outline-dark-green"
+                          @click="addconnections(detail.id, 'facilitator')"
+                          >Follow</b-button
+                        >
+                        <b-button
+                          size="sm"
+                          v-if="
+                            $route.params.user == 'u' &&
+                            !checkconnection(detail)
+                          "
+                          variant="outline-dark-green"
+                          @click="addconnections(detail.id, 'user')"
+                          >Follow</b-button
+                        >
+                        <b-button
+                          size="sm"
+                          v-if="checkconnection(detail)"
+                          @click="removeconnections(detail)"
+                          variant="dark-green"
+                          >Following</b-button
+                        >
+                      </div>
                     </b-card-body>
                   </div>
                 </b-row>
@@ -1004,6 +1040,7 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
+      myconnections: [],
       detail: [],
       active: 1,
       search: "",
@@ -1102,12 +1139,15 @@ export default {
         );
     },
   },
+  created() {
+    this.getmyconnections();
+  },
   mounted() {
     this.getdiscussions();
     this.getinfo();
     this.getFeeds();
-    this.getConnections();
     this.getEvents();
+    this.getConnections();
   },
   methods: {
     showcomments(feed) {
@@ -1353,13 +1393,69 @@ export default {
         )
         .then((res) => {
           if (res.status == 200 || res.status == 201) {
-            this.$toast.success("Successful");
-            this.getconnections();
+            this.$toast.success("Connected");
+            this.getmyconnections();
           }
         })
         .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
+    },
+    async getmyconnections() {
+      return this.$http
+        .get(`${this.$store.getters.url}/connections`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.myconnections = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    async removeconnections(user) {
+      var res = this.myconnections.find((item) => {
+        if (this.$route.params.user == "f") {
+          return item.facilitator_follower.id == user.id;
+        }
+
+        if (this.$route.params.user == "u") {
+          return item.user_follower.id == user.id;
+        }
+      });
+
+      this.$http
+        .delete(`${this.$store.getters.url}/connections/${res.id}`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.myconnections = res.data;
+            this.$toast.success("Unfollowed");
+            this.getmyconnections();
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    checkconnection(user) {
+      var res = this.myconnections.some((item) => {
+        if (this.$route.params.user == "f" && item.facilitator_follower) {
+          return item.facilitator_follower.id == user.id;
+        }
+
+        if (this.$route.params.user == "u" && item.user_follower) {
+          return item.user_follower.id == user.id;
+        }
+      });
+      return res;
     },
     vote(val) {
       var positive = val.filter((item) => item.vote).length;

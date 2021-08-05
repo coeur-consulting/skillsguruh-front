@@ -444,9 +444,87 @@
           </div>
         </b-col>
       </b-row>
-      <div class="discussions">
-        <Discussions></Discussions>
-      </div>
+      <b-row>
+        <b-col sm="9">
+          <div class="discussions">
+            <Discussions></Discussions>
+          </div>
+        </b-col>
+        <b-col sm="3">
+          <div class="bg-light rounded p-3">
+            <h6 class="mb-3 text-center">Connect with others</h6>
+
+            <div v-if="showConnect">
+              <div v-if="connections.length">
+                <div
+                  class="d-flex mb-3"
+                  v-for="user in connections.slice(0, 5)"
+                  :key="user.id"
+                >
+                  <div class="d-flex flex-1">
+                    <b-avatar
+                      size="sm"
+                      :src="user.profile"
+                      class="mr-2"
+                    ></b-avatar>
+                    <div class="text-left">
+                      <div
+                        class="fs12 font-weight-bold text-capitalize text-left"
+                      >
+                        {{ user.name }}
+                      </div>
+                      <div style="line-height: 1">
+                        <span class="fs11"
+                          >{{ user.state ? user.state : "Lagos " }},
+                          {{ user.country ? user.country : " NG" }}</span
+                        >
+                        <br /><span class="fs11"
+                          >{{ user.similar }} similar interests</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <small
+                      class="connect"
+                      v-if="user.qualifications"
+                      @click="addconnections(user.id, 'facilitator')"
+                      >Connect</small
+                    >
+                    <small v-else @click="addconnections(user.id, 'user')"
+                      >Connect</small
+                    >
+                  </div>
+                </div>
+              </div>
+              <div v-else class="text-muted text-center p-3 fs13">
+                Unavailable
+              </div>
+            </div>
+
+            <div v-else>
+              <div class="d-flex w-100 mb-3">
+                <div class="mr-2">
+                  <b-skeleton type="avatar"></b-skeleton>
+                </div>
+                <div class="w-100">
+                  <b-skeleton animation="wave" width="85%"></b-skeleton>
+                  <b-skeleton animation="wave" width="35%"></b-skeleton>
+                </div>
+              </div>
+              <div class="d-flex w-100">
+                <div class="mr-2">
+                  <b-skeleton type="avatar"></b-skeleton>
+                </div>
+                <div class="w-100">
+                  <b-skeleton animation="wave" width="85%"></b-skeleton>
+                  <b-skeleton animation="wave" width="35%"></b-skeleton>
+                </div>
+              </div>
+            </div>
+          </div>
+        </b-col>
+      </b-row>
     </b-container>
   </div>
 </template>
@@ -471,7 +549,9 @@ export default {
       showDiscussion: false,
       courseShown: "toprated",
       mostenrolledcourse: [],
+
       topratedcourse: [],
+      connections: [],
       masks: {
         weekdays: "WWW",
       },
@@ -494,6 +574,7 @@ export default {
     this.getschedules();
     this.mostenrolled();
     this.toprated();
+    this.getsimilarusers();
   },
 
   computed: {
@@ -594,6 +675,45 @@ export default {
     },
   },
   methods: {
+    async addconnections(id, type) {
+      return this.$http
+        .post(
+          `${this.$store.getters.url}/connections`,
+          { following_id: id, follow_type: type },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 201) {
+            this.getsimilarusers();
+            this.$toast.success("Connected");
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    async getsimilarusers() {
+      return this.$http
+        .get(`${this.$store.getters.url}/similar/users`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.connections = res.data;
+            this.showConnect = true;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+
     getstar(val) {
       console.log("🚀 ~ file: home.vue ~ line 639 ~ getstar ~ val", val);
       return Number(val) / 5;
@@ -708,27 +828,7 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
-    async addconnections(id, type) {
-      return this.$http
-        .post(
-          `${this.$store.getters.url}/connections`,
-          { following_id: id, follow_type: type },
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-            },
-          }
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.getUsersWithInterest();
-            this.$toast.success("Successful");
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
-    },
+
     async getevents() {
       return this.$http
         .get(`${this.$store.getters.url}/events`, {

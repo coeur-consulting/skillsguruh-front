@@ -32,8 +32,15 @@
               <div class="d-flex align-items-center mb-3 w-100">
                 <div class="d-flex flex-1">
                   <div
+                    class="pr-3 fs12 font-weight-bold cursor-pointer"
+                    :class="courseShown == 'recommended' ? '' : 'text-muted'"
+                    @click="courseShown = 'recommended'"
+                  >
+                    Recommended
+                  </div>
+                  <div
                     class="
-                      pr-3
+                      pl-3
                       fs12
                       font-weight-bold
                       border-right
@@ -43,13 +50,6 @@
                     @click="courseShown = 'enrolled'"
                   >
                     Enrolled Courses
-                  </div>
-                  <div
-                    class="pl-3 fs12 font-weight-bold cursor-pointer"
-                    :class="courseShown == 'recommended' ? '' : 'text-muted'"
-                    @click="courseShown = 'recommended'"
-                  >
-                    Recommended
                   </div>
                 </div>
                 <span
@@ -329,7 +329,7 @@
             </div>
 
             <div class="bg-light rounded p-3">
-              <h6 class="mb-3 text-center">Connect with people</h6>
+              <h6 class="mb-3 text-center">Connect with others</h6>
 
               <div v-if="showConnect">
                 <div v-if="connections.length">
@@ -355,31 +355,27 @@
                           {{ user.name }}
                         </div>
                         <div style="line-height: 1">
-                          <span class="fs11">Lagos,Nigeria</span> <br /><span
-                            class="fs11"
-                            >{{ user.similar }} similar insights</span
+                          <span class="fs11"
+                            >{{ user.state ? user.state : "Lagos " }},
+                            {{ user.country ? user.country : " NG" }}</span
+                          >
+                          <br /><span class="fs11"
+                            >{{ user.similar }} similar interests</span
                           >
                         </div>
                       </div>
                     </div>
-                    <b-dropdown
-                      size="sm"
-                      variant="transparent"
-                      no-caret
-                      class="no-focus drop"
-                    >
-                      <template #button-content>
-                        <b-icon
-                          icon="three-dots-vertical"
-                          font-scale="1.4"
-                        ></b-icon>
-                      </template>
-                      <b-dropdown-item
-                        class="fs12"
-                        @click="addconnections(user.id, 'user')"
-                        >Connect</b-dropdown-item
+                    <div>
+                      <small
+                        class="connect"
+                        v-if="user.qualifications"
+                        @click="addconnections(user.id, 'facilitator')"
+                        >Connect</small
                       >
-                    </b-dropdown>
+                      <small v-else @click="addconnections(user.id, 'user')"
+                        >Connect</small
+                      >
+                    </div>
                   </div>
                 </div>
                 <div v-else class="text-muted text-center p-3 fs13">
@@ -424,7 +420,7 @@ export default {
   data() {
     return {
       showSide: false,
-      courseShown: "enrolled",
+      courseShown: "recommended",
       facilitators: [],
       users: [],
       todos: [],
@@ -457,7 +453,7 @@ export default {
     this.getLibrary();
   },
   mounted() {
-    this.getUsersWithInterest();
+    this.getsimilarusers();
   },
 
   computed: {
@@ -570,24 +566,25 @@ export default {
 
       return [...new Set(newArr)];
     },
-    getUsersWithInterest() {
-      this.$http
-        .get(
-          `${this.$store.getters.url}/identical-learners`,
 
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
-          }
-        )
+    async getsimilarusers() {
+      return this.$http
+        .get(`${this.$store.getters.url}/similar/users`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
         .then((res) => {
           if (res.status == 200) {
             this.connections = res.data;
             this.showConnect = true;
           }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
         });
     },
+
     getProgress(a, b) {
       var count = 0;
 
@@ -736,9 +733,9 @@ export default {
           }
         )
         .then((res) => {
-          if (res.status == 200) {
-            this.getUsersWithInterest();
-            this.$toast.success("Successful");
+          if (res.status == 201) {
+            this.getsimilarusers();
+            this.$toast.success("Connected");
           }
         })
         .catch((err) => {
@@ -889,7 +886,10 @@ export default {
   width: 100%;
   transition: 0.5s;
 }
-
+.connect {
+  font-size: 11px;
+  cursor: pointer;
+}
 @media (max-width: 600px) {
   .box {
     margin-bottom: 24px;

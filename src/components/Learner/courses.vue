@@ -3,9 +3,41 @@
     <b-container fluid class="pr-sm-0">
       <b-row class="" v-if="courses.length">
         <b-col :md="sideOpen ? 8 : 12" class="my_courses main_box">
-          <div class="d-block d-sm-flex justify-content-between py-4">
-            <div class="">
-              <h4>Courses</h4>
+          <div class="text-left pt-3 pl-3">
+            <h4>Courses</h4>
+          </div>
+          <div
+            class="
+              d-block d-sm-flex
+              justify-content-between
+              align-items-center
+              py-4
+            "
+          >
+            <div class="d-flex flex-1 align-items-center pl-3">
+              <div
+                class="pr-2 fs12 font-weight-bold cursor-pointer"
+                :class="courseShown == 'recent' ? '' : 'text-muted'"
+                @click="courseShown = 'recent'"
+              >
+                Recent
+              </div>
+              <span class="text-muted"> |</span>
+              <div
+                class="pl-2 pr-2 fs12 font-weight-bold cursor-pointer"
+                :class="courseShown == 'trending' ? '' : 'text-muted'"
+                @click="courseShown = 'trending'"
+              >
+                Trending
+              </div>
+              <span class="text-muted"> |</span>
+              <div
+                class="pl-2 fs12 font-weight-bold cursor-pointer"
+                :class="courseShown == 'enrolled' ? '' : 'text-muted'"
+                @click="courseShown = 'enrolled'"
+              >
+                Enrolled
+              </div>
             </div>
             <div
               class="
@@ -1673,6 +1705,9 @@
 export default {
   data() {
     return {
+      allcourses: [],
+      mostenrolledcourse: [],
+      courseShown: "recent",
       sideOpen: true,
       sending: false,
       link: "",
@@ -1711,13 +1746,24 @@ export default {
   components: {},
   mounted() {
     this.getcourses();
+    this.getmostenrolled();
     this.getfacilitators();
     this.getLibrary();
     this.getCommunity();
   },
   computed: {
     filteredCourse() {
-      var title = this.courses
+      var courses = [];
+      if (this.courseShown == "recent") {
+        courses = this.courses;
+      }
+      if (this.courseShown == "trending") {
+        courses = this.mostenrolledcourse.map((item) => item.course);
+      }
+      if (this.courseShown == "enrolled" && this.library.length) {
+        courses = this.library.map((item) => item.course);
+      }
+      var title = courses
         .slice(
           this.perPage * this.currentPage - this.perPage,
           this.perPage * this.currentPage
@@ -1815,7 +1861,7 @@ export default {
         });
     },
     loadCourse() {
-      this.course = this.courses.find(
+      this.course = this.filteredCourse.find(
         (item) => item.id == this.$route.query.course_id
       );
       if (window.innerWidth < 600) {
@@ -2199,16 +2245,29 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.courses = res.data;
-
             this.showCourse = true;
             this.rows = res.data.length;
             if (this.$route.query.course_id) {
-              this.loadCourse();
+              // this.loadCourse();
             }
           }
         })
         .catch((err) => {
           this.$toast.error(err.response.data.message);
+        });
+    },
+
+    getmostenrolled() {
+      this.$http
+        .get(`${this.$store.getters.url}/learner/mostenrolled`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.mostenrolledcourse = res.data;
+          }
         });
     },
     createcourse() {

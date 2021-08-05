@@ -101,10 +101,10 @@
         <div class="box p-4 mb-5">
           <h6 class="mb-3">Suggested</h6>
 
-          <div class="py-1 suggestion_box" v-if="joinedUsers.length">
+          <div class="py-1 suggestion_box" v-if="similarconnections.length">
             <div
               class="d-flex align-items-end mb-4"
-              v-for="(item, id) in joinedUsers.slice(0, 9)"
+              v-for="(item, id) in similarconnections.slice(0, 9)"
               :key="id"
             >
               <div class="d-flex align-items-center flex-1">
@@ -173,6 +173,7 @@ export default {
       facilitators_connections: [],
       open: false,
       showAll: false,
+      similarconnections: [],
     };
   },
   components: {
@@ -180,15 +181,9 @@ export default {
   },
   mounted() {
     this.getconnections();
-    this.getUsersWithInterest();
-    this.getFacilitatorsWithInterest();
+    this.getsimilarusers();
   },
   computed: {
-    joinedUsers() {
-      return this.filteredLearnerSuggested.concat(
-        this.filteredFacilitatorSuggested
-      );
-    },
     filteredConnections() {
       if (!this.connections.length) {
         return [];
@@ -232,6 +227,23 @@ export default {
     },
   },
   methods: {
+    async getsimilarusers() {
+      return this.$http
+        .get(`${this.$store.getters.url}/similar/users`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.similarconnections = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+
     async addconnections(id, type) {
       return this.$http
         .post(

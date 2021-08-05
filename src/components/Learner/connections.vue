@@ -105,10 +105,10 @@
         <div class="box p-2 p-sm-4 mb-5">
           <h6 class="mb-3">Suggested</h6>
 
-          <div class="py-1 suggestion_box" v-if="joinedUsers.length">
+          <div class="py-1 suggestion_box" v-if="similarconnections.length">
             <div
               class="d-flex align-items-end mb-4"
-              v-for="(item, id) in joinedUsers.slice(0, 9)"
+              v-for="(item, id) in similarconnections.slice(0, 9)"
               :key="id"
             >
               <div class="d-flex align-items-center flex-1">
@@ -176,6 +176,7 @@ export default {
       facilitators_connections: [],
       open: false,
       showAll: false,
+      similarconnections: [],
     };
   },
   components: {
@@ -183,15 +184,9 @@ export default {
   },
   mounted() {
     this.getconnections();
-    this.getUsersWithInterest();
-    this.getFacilitatorsWithInterest();
+    this.getsimilarusers();
   },
   computed: {
-    joinedUsers() {
-      return this.filteredLearnerSuggested.concat(
-        this.filteredFacilitatorSuggested
-      );
-    },
     filteredConnections() {
       return this.connections.filter((item) => {
         if (item.user_follower) {
@@ -236,40 +231,7 @@ export default {
       this.open = false;
       this.showAll = false;
     },
-    getUsersWithInterest() {
-      this.$http
-        .get(
-          `${this.$store.getters.url}/identical-learners`,
 
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
-          }
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.learner_connections = res.data;
-          }
-        });
-    },
-    getFacilitatorsWithInterest() {
-      this.$http
-        .get(
-          `${this.$store.getters.url}/identical-facilitators`,
-
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
-          }
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.facilitators_connections = res.data;
-          }
-        });
-    },
     getmessage(id, name, type, profile) {
       this.mini_info.id = id;
       this.mini_info.name = name;
@@ -295,6 +257,23 @@ export default {
         });
     },
 
+    async getsimilarusers() {
+      return this.$http
+        .get(`${this.$store.getters.url}/similar/users`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.similarconnections = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+
     async addconnections(id, type) {
       return this.$http
         .post(
@@ -308,7 +287,8 @@ export default {
         )
         .then((res) => {
           if (res.status == 200 || res.status == 201) {
-            this.$toast.success("Successful");
+            this.$toast.success("Connected");
+            this.getsimilarusers();
             this.getconnections();
           }
         })

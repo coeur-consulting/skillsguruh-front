@@ -401,7 +401,7 @@
 <script>
 import { MultiSelect } from "vue-search-select";
 import { ModelListSelect } from "vue-search-select";
-import Insight from "../insight.js";
+import Interest from "../helpers/subcategory.js";
 export default {
   data() {
     return {
@@ -435,7 +435,7 @@ export default {
 
   mounted() {
     this.getdiscussions();
-    this.mytags = Insight.map((item) => {
+    this.mytags = Interest.map((item) => {
       var obj = {};
       obj.value = item.value;
       obj.color = item.color;

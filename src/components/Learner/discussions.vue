@@ -3,6 +3,27 @@
     <b-container class="px-0 px-sm-3">
       <b-row>
         <b-col sm="8">
+          <div
+            class="
+              d-flex
+              flex-column flex-sm-row
+              align-items-center
+              mb-3
+              w-100
+              text-left
+            "
+          >
+            <h6 class="flex-1 font-weight-bold mb-3 mb-sm-0">Discussions</h6>
+            <span class="fs14 search">
+              <b-form-input
+                class="rounded"
+                placeholder="Find a discussion"
+                type="search"
+                v-model="search"
+                size="sm"
+              ></b-form-input
+            ></span>
+          </div>
           <div class="border bg-white py-4 rounded">
             <div
               class="
@@ -20,12 +41,7 @@
               >
                 Recent
               </div>
-              <div
-                :class="{ active: show == 'mostanswers' }"
-                @click="show = 'mostanswers'"
-              >
-                Most Answers
-              </div>
+
               <div
                 :class="{ active: show == 'trending' }"
                 @click="show = 'trending'"
@@ -36,7 +52,7 @@
                 :class="{ active: show == 'private' }"
                 @click="show = 'private'"
               >
-                Private
+                Custom
               </div>
             </div>
             <div v-if="showDiscussion">
@@ -257,7 +273,7 @@
             <div class="py-3 text-left related_quest border">
               <h6 class="mb-3 px-3">Other Discussions</h6>
               <div v-if="showOther">
-                <div v-if="otherdiscussion.length">
+                <div v-if="otherdiscussion">
                   <div
                     class="d-flex p-2 px-3"
                     v-for="(dis, id) in otherdiscussion.slice(0, 6)"
@@ -415,12 +431,15 @@
 <script>
 import { MultiSelect } from "vue-search-select";
 import { ModelListSelect } from "vue-search-select";
-import Insight from "../insight.js";
+import Interest from "../helpers/subcategory.js";
 export default {
   data() {
     return {
       show: "recent",
       discussions: [],
+      trenddiscussions: [],
+      interestdiscussions: [],
+      customdiscussions: [],
       search: "",
       showDiscussion: false,
       showOther: false,
@@ -451,7 +470,10 @@ export default {
 
   mounted() {
     this.getdiscussions();
-    this.mytags = Insight.map((item) => {
+    this.getcustomdiscussions();
+    this.getdiscussionsbyinterest();
+    this.getdiscussionsbytrend();
+    this.mytags = Interest.map((item) => {
       var obj = {};
       obj.value = item.value;
       obj.color = item.color;
@@ -465,38 +487,45 @@ export default {
   computed: {
     filteredData() {
       if (this.show == "recent") {
-        return this.discussions
-          .filter((item) => item.type == "public")
-          .filter((item) =>
-            item.name.toLowerCase().includes(this.search.toLowerCase())
-          );
+        return (
+          this.interestdiscussions
+            .slice()
+            // .filter((item) => item.type == "public")
+            .filter((item) =>
+              item.name.toLowerCase().includes(this.search.toLowerCase())
+            )
+        );
       }
       if (this.show == "mostanswers") {
-        return this.discussions
-          .filter((item) => item.type == "public")
-          .sort((a, b) => {
-            return b.discussionmessage.length - a.discussionmessage.length;
-          });
+        return (
+          this.discussions
+            .slice()
+            // .filter((item) => item.type == "public")
+            .sort((a, b) => {
+              return b.discussionmessage.length - a.discussionmessage.length;
+            })
+        );
       }
       if (this.show == "trending") {
-        return this.discussions
-          .filter((item) => item.type == "public")
-          .sort((a, b) => {
-            return (
-              (b.discussionview ? b.discussionview.view : 0) -
-              (a.discussionview ? a.discussionview.view : 0)
-            );
-          })
-          .filter((item) =>
-            item.name.toLowerCase().includes(this.search.toLowerCase())
-          );
+        return (
+          this.trenddiscussions
+            .slice()
+            // .filter((item) => item.type == "public")
+            .sort((a, b) => {
+              return (
+                (b.discussionview ? b.discussionview.view : 0) -
+                (a.discussionview ? a.discussionview.view : 0)
+              );
+            })
+            .filter((item) =>
+              item.name.toLowerCase().includes(this.search.toLowerCase())
+            )
+        );
       }
       if (this.show == "private") {
-        return this.discussions
-          .filter((item) => item.type == "private")
-          .filter((item) =>
-            item.name.toLowerCase().includes(this.search.toLowerCase())
-          );
+        return this.customdiscussions.filter((item) =>
+          item.name.toLowerCase().includes(this.search.toLowerCase())
+        );
       }
       return [];
     },
@@ -602,6 +631,53 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.discussions = res.data;
+            this.showDiscussion = true;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    getcustomdiscussions() {
+      this.$http
+        .get(`${this.$store.getters.url}/custom/discussions`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.customdiscussions = res.data;
+            this.showDiscussion = true;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    getdiscussionsbyinterest() {
+      this.$http
+        .get(`${this.$store.getters.url}/interest/discussions`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.interestdiscussions = res.data;
+            this.showDiscussion = true;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    getdiscussionsbytrend() {
+      this.$http
+        .get(`${this.$store.getters.url}/trending/discussions`)
+        .then((res) => {
+          if (res.status == 200) {
+            this.trenddiscussions = res.data;
             this.showDiscussion = true;
           }
         })

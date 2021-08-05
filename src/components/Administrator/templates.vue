@@ -185,7 +185,7 @@
         :options="options"
       />
     </b-modal>
-    <b-modal id="options" size="sm" hide-header centered hide-footer>
+    <b-modal id="options" size="sm" centered hide-footer>
       <div class="">
         <h5 class="mb-4">Choose options</h5>
 

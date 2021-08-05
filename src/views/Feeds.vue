@@ -278,13 +278,21 @@
         </div>
       </b-modal>
       <b-container>
+        <div class="mb-3 d-none d-sm-block">
+          <span @click="$router.go(-1)" class="pl-3 cursor-pointer back">
+            <span class="mr-2">
+              <b-icon icon="arrow-left" class=""></b-icon
+            ></span>
+            <span>Back</span>
+          </span>
+        </div>
         <b-row class="justify-content-center">
           <b-col sm="8" class="px-0">
             <div class="border bg-white py-3 px-2 p-sm-4 rounded-8 mb-4">
               <div class="d-flex align-items-center mb-3">
                 <b-avatar
                   class="mr-2"
-                  size="3rem"
+                  size="2.4rem"
                   :src="$store.getters.learner.profile"
                 ></b-avatar>
 
@@ -314,7 +322,7 @@
                     width="18px"
                     class="mr-1 cursor-pointer"
                   ></b-img
-                  >Media
+                  >Video
                 </div>
                 <div @click="$bvModal.show('feed')">
                   <b-img
@@ -326,12 +334,31 @@
                 </div>
               </div>
             </div>
+            <div class="d-flex justify-content-end">
+              <div class="d-flex align-items-center pl-3 mb-3">
+                <div
+                  class="pr-2 fs12 font-weight-bold cursor-pointer"
+                  :class="feedShown == 'recent' ? '' : 'text-muted'"
+                  @click="feedShown = 'recent'"
+                >
+                  Recent
+                </div>
+                <span class="text-muted"> |</span>
+                <div
+                  class="pl-2 pr-2 fs12 font-weight-bold cursor-pointer"
+                  :class="feedShown == 'trending' ? '' : 'text-muted'"
+                  @click="feedShown = 'trending'"
+                >
+                  Trending
+                </div>
+              </div>
+            </div>
 
             <div v-if="showFeeds">
-              <div>
+              <div v-if="filteredFeeds.length">
                 <div class="feed-content">
                   <div
-                    v-for="(feed, index) in feeds"
+                    v-for="(feed, index) in filteredFeeds"
                     :key="index"
                     class="border bg-white rounded-8 mb-2"
                   >
@@ -361,7 +388,9 @@
                             :src="feed.user.profile"
                           ></b-avatar>
                           <span
-                            @click="$router.push(`/profile/u/${feed.user.id}`)"
+                            @click="
+                              $router.push(`/learner/profile/u/${feed.user.id}`)
+                            "
                             class="hover_green"
                           >
                             <div style="line-height: 1.2">
@@ -383,7 +412,9 @@
                           <span
                             class="hover_green"
                             @click="
-                              $router.push(`/profile/f/${feed.facilitator.id}`)
+                              $router.push(
+                                `/learner/profile/f/${feed.facilitator.id}`
+                              )
                             "
                           >
                             <div style="line-height: 1.2">
@@ -574,7 +605,9 @@
                             <span
                               class="comment_name mr-2 hover_green"
                               @click="
-                                $router.push(`/profile/u/${item.user.id}`)
+                                $router.push(
+                                  `/learner/profile/u/${item.user.id}`
+                                )
                               "
                               v-if="item.user"
                             >
@@ -584,7 +617,7 @@
                               class="comment_name mr-2 hover_green"
                               @click="
                                 $router.push(
-                                  `/profile/f/${item.facilitator.id}`
+                                  `/learner/profile/f/${item.facilitator.id}`
                                 )
                               "
                               v-if="item.facilitator"
@@ -698,7 +731,7 @@
                   ></infinite-loading>
                 </div>
               </div>
-              <!-- <div v-else class="text-center p-3 p-sm-4">No feed Available</div> -->
+              <div v-else class="text-center p-3 p-sm-4">No feed Available</div>
             </div>
             <div v-else class="p-3 p-sm-4">
               <div class="d-flex w-100 mb-3 box">
@@ -739,16 +772,21 @@
               </div>
             </div>
           </b-col>
-          <b-col sm="4" class="py-sm-5">
+          <b-col sm="4" class="p-sm-5 text-left">
             <div>
-              <h6 class="mb-3 fs12">Trending in Last 24hrs</h6>
+              <h6 class="mb-3 fs12 text-left">Trending in Last 24hrs</h6>
               <div v-if="trendingFeed.length" class="py-3">
                 <div
                   v-for="(item, id) in trendingFeed.slice(0, 20)"
                   :key="id"
-                  class="mb-3"
+                  class="mb-3 text-left"
                 >
-                  <div class="trending_name">{{ item.name }}</div>
+                  <div
+                    class="trending_name"
+                    @click="$router.push(`/feed/${item.name}`)"
+                  >
+                    {{ item.name }}
+                  </div>
                   <div class="trending_count text-muted">
                     {{ item.count }} posts about this
                   </div>
@@ -771,6 +809,8 @@ import Interest from "@/components/insight.js";
 export default {
   data() {
     return {
+      feedShown: "recent",
+      trendingfeeds: [],
       options: [],
       searchText: "", // If value is falsy, reset searchText & searchItem
       items: [],
@@ -811,9 +851,11 @@ export default {
     FeedUpload,
     MultiSelect,
   },
+
   mounted() {
     this.getfeeds();
     this.getTrendingFeeds();
+    this.gettrendingfeeds();
     this.options = Interest.map((item) => {
       var res = {};
       res.text = item.value;
@@ -824,18 +866,34 @@ export default {
     });
   },
   computed: {
-    filterFeeds() {
-      return this.feeds
-        .filter((item) =>
-          item.message.toLowerCase().includes(this.search.toLowerCase())
-        )
-        .slice(
-          this.perPage * this.currentPage - this.perPage,
-          this.perPage * this.currentPage
-        );
+    filteredFeeds() {
+      var feeds = [];
+      if (this.feedShown == "recent") {
+        feeds = this.feeds;
+      }
+      if (this.feedShown == "trending") {
+        feeds = this.trendingfeeds;
+      }
+      if (this.feedShown == "custom") {
+        feeds = this.customfeeds;
+      }
+
+      return feeds;
     },
   },
   methods: {
+    gettrendingfeeds() {
+      this.$http
+        .get(`${this.$store.getters.url}/trending/feeds`)
+        .then((res) => {
+          if (res.status == 201 || res.status == 200) {
+            this.trendingfeeds = res.data.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     getTrendingFeeds() {
       this.$http
         .get(`${this.$store.getters.url}/guest/trending/feeds`)

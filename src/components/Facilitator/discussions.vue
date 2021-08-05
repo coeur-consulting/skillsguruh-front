@@ -3,6 +3,27 @@
     <b-container class="px-0 px-sm-3">
       <b-row>
         <b-col sm="8">
+          <div
+            class="
+              d-flex
+              flex-column flex-sm-row
+              align-items-center
+              mb-3
+              w-100
+              text-left
+            "
+          >
+            <h6 class="flex-1 font-weight-bold mb-3 mb-sm-0">Discussions</h6>
+            <span class="fs14 search">
+              <b-form-input
+                class="rounded"
+                placeholder="Find a discussion"
+                type="search"
+                v-model="search"
+                size="sm"
+              ></b-form-input
+            ></span>
+          </div>
           <div class="border bg-white py-4 rounded">
             <div
               class="
@@ -20,12 +41,7 @@
               >
                 Recent
               </div>
-              <div
-                :class="{ active: show == 'mostanswers' }"
-                @click="show = 'mostanswers'"
-              >
-                Most Answers
-              </div>
+
               <div
                 :class="{ active: show == 'trending' }"
                 @click="show = 'trending'"
@@ -36,14 +52,21 @@
                 :class="{ active: show == 'private' }"
                 @click="show = 'private'"
               >
-                Private
+                Custom
               </div>
             </div>
-            <div v-if="showDiscussions">
-              <div class="main_content" v-if="discussions.length">
+            <div v-if="showDiscussion">
+              <div class="main_content" v-if="filteredData.length">
                 <div
-                  class="content border-bottom p-3 pt-4 pb-5 cursor-pointer"
-                  v-for="(item, index) in filteredDiscussions"
+                  class="
+                    content
+                    border-bottom
+                    p-2 p-sm-3
+                    pt-4
+                    pb-5
+                    cursor-pointer
+                  "
+                  v-for="(item, index) in filteredData"
                   :key="index"
                 >
                   <div
@@ -56,6 +79,9 @@
                     "
                   >
                     <b-dropdown
+                      v-if="
+                        item.user && item.user.id == $store.getters.learner.id
+                      "
                       size="sm"
                       variant="transparent"
                       no-caret
@@ -76,6 +102,7 @@
                         v-if="item.creator == 'admin'"
                         :src="item.admin.profile"
                       ></b-avatar>
+
                       <b-avatar
                         size="1.8rem"
                         v-if="item.creator == 'user'"
@@ -91,7 +118,7 @@
                       <div>
                         <span class="asked mr-2">
                           Started
-                          {{ item.created_at | moment("ll") }}</span
+                          {{ item.created_at | moment("calendar") }}</span
                         >
                         <span class="mr-2 fs13"
                           ><b-badge
@@ -119,7 +146,7 @@
                     >
                       <b-icon
                         icon="caret-up-fill"
-                        font-scale="1.2"
+                        ont-scale="1.2"
                         class="cursor-pointer"
                       ></b-icon>
                       <span v-if="item.discussionvote">
@@ -132,7 +159,7 @@
                       <b-icon
                         icon="caret-down-fill"
                         font-scale="1.2"
-                        class="cursor-pointer"
+                        class="cursor-ponte"
                       ></b-icon>
                     </div>
                     <div class="text-left next_dis">
@@ -187,7 +214,7 @@
                 </div>
               </div>
 
-              <div v-else class="text-center admin_tab p-3 p-sm-5">
+              <div v-else class="text-center admin_tab p-2 p-sm-5">
                 <div>
                   <b-img :src="require('@/assets/images/creator.svg')"></b-img>
                   <h6 class="text-muted my-3 fs14">
@@ -204,6 +231,7 @@
                 </div>
               </div>
             </div>
+
             <div v-else class="p-5">
               <div class="d-flex w-100 mb-3">
                 <div class="mr-2">
@@ -234,7 +262,7 @@
           </div>
         </b-col>
         <b-col sm="4" class="d-none d-md-block">
-          <div class="bg-white p-4 rounded">
+          <div class="shadow-sm bg-white p-4 rounded">
             <div class="text-center mb-4">
               <b-button
                 variant="dark-green"
@@ -247,14 +275,16 @@
             <div class="py-3 text-left related_quest border">
               <h6 class="mb-3 px-3">Other Discussions</h6>
               <div v-if="showOther">
-                <div v-if="otherdiscussion.length">
+                <div v-if="otherdiscussion">
                   <div
                     class="d-flex p-2 px-3"
                     v-for="(dis, id) in otherdiscussion.slice(0, 6)"
                     :key="id"
                   >
-                    <div class="mr-3 related_count">
-                      {{ dis.discussionmessage.length }}
+                    <div>
+                      <div class="mr-3 related_count">
+                        {{ dis.discussionmessage.length }}
+                      </div>
                     </div>
                     <span
                       class="related text-left text-capitalize font-weight-bold"
@@ -263,7 +293,7 @@
                   </div>
                 </div>
               </div>
-              <div v-else class="p-3 w-100">
+              <div v-else class="p-2 p-sm-3 w-100">
                 <div class="d-flex w-100 mb-3">
                   <div class="mr-2 w-25">
                     <b-skeleton animation="wave" width="100%"></b-skeleton>
@@ -381,6 +411,7 @@
         >
       </b-form>
     </b-modal>
+
     <b-modal id="access" title="Request Access" hide-footer centered>
       <div class="text-center">
         <p class="mb-4 fs16">Do you wish to join this discussion?</p>
@@ -400,7 +431,7 @@
 </template>
 
 <script>
-import Insight from "../insight.js";
+import Interest from "../helpers/subcategory.js";
 import { MultiSelect } from "vue-search-select";
 import { ModelListSelect } from "vue-search-select";
 export default {
@@ -408,7 +439,11 @@ export default {
     return {
       show: "recent",
       discussion_id: null,
+
       discussions: [],
+      trenddiscussions: [],
+      interestdiscussions: [],
+      customdiscussions: [],
       recentdiscussions: [],
       courses: [],
       otherdiscussion: [],
@@ -422,9 +457,10 @@ export default {
       tag: "",
       tags: [],
       mytags: [],
-      showDiscussions: false,
+      showDiscussion: false,
       showOther: false,
       rows: null,
+      search: "",
       options: [],
       searchText: "", // If value is falsy, reset searchText & searchItem
       items: [],
@@ -438,7 +474,7 @@ export default {
 
   mounted() {
     this.getdiscussions();
-    this.mytags = Insight.map((item) => {
+    this.mytags = Interest.map((item) => {
       var obj = {};
       obj.value = item.value;
       obj.color = item.color;
@@ -448,36 +484,104 @@ export default {
     });
     this.getcourses();
     this.getothers();
+    this.getcustomdiscussions();
+    this.getdiscussionsbyinterest();
+    this.getdiscussionsbytrend();
   },
   computed: {
-    filteredDiscussions() {
+    filteredData() {
       if (this.show == "recent") {
-        return this.discussions.filter((item) => item.type == "public");
+        return (
+          this.interestdiscussions
+            .slice()
+            // .filter((item) => item.type == "public")
+            .filter((item) =>
+              item.name.toLowerCase().includes(this.search.toLowerCase())
+            )
+        );
       }
       if (this.show == "mostanswers") {
-        return this.discussions
-          .filter((item) => item.type == "public")
-          .sort((a, b) => {
-            return b.discussionmessage.length - a.discussionmessage.length;
-          });
+        return (
+          this.discussions
+            .slice()
+            // .filter((item) => item.type == "public")
+            .sort((a, b) => {
+              return b.discussionmessage.length - a.discussionmessage.length;
+            })
+        );
       }
       if (this.show == "trending") {
-        return this.discussions
-          .filter((item) => item.type == "public")
-          .sort((a, b) => {
-            return (
-              (b.discussionview ? b.discussionview.view : 0) -
-              (a.discussionview ? a.discussionview.view : 0)
-            );
-          });
+        return (
+          this.trenddiscussions
+            .slice()
+            // .filter((item) => item.type == "public")
+            .sort((a, b) => {
+              return (
+                (b.discussionview ? b.discussionview.view : 0) -
+                (a.discussionview ? a.discussionview.view : 0)
+              );
+            })
+            .filter((item) =>
+              item.name.toLowerCase().includes(this.search.toLowerCase())
+            )
+        );
       }
       if (this.show == "private") {
-        return this.discussions.filter((item) => item.type == "private");
+        return this.customdiscussions.filter((item) =>
+          item.name.toLowerCase().includes(this.search.toLowerCase())
+        );
       }
       return [];
     },
   },
   methods: {
+    getcustomdiscussions() {
+      this.$http
+        .get(`${this.$store.getters.url}/custom/discussions`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.customdiscussions = res.data;
+            this.showDiscussion = true;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    getdiscussionsbyinterest() {
+      this.$http
+        .get(`${this.$store.getters.url}/interest/discussions`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.interestdiscussions = res.data;
+            this.showDiscussion = true;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    getdiscussionsbytrend() {
+      this.$http
+        .get(`${this.$store.getters.url}/trending/discussions`)
+        .then((res) => {
+          if (res.status == 200) {
+            this.trenddiscussions = res.data;
+            this.showDiscussion = true;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     onSelect(items, lastSelectItem) {
       this.discussion.tags = items;
       this.lastSelectItem = lastSelectItem;
@@ -621,7 +725,7 @@ export default {
           if (res.status == 200) {
             this.discussions = res.data;
 
-            this.showDiscussions = true;
+            this.showDiscussion = true;
           }
         })
         .catch((err) => {

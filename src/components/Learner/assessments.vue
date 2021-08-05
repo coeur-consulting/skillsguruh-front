@@ -18,45 +18,6 @@
               text-left
               cursor-pointer
             "
-            @click="$router.push('/learner/assessment/assignment')"
-          >
-            <b-badge class="mybadge" variant="danger">{{
-              assignment.length
-            }}</b-badge>
-            <b-img
-              :src="require('@/assets/images/ass3.png')"
-              fluid-grow
-              alt="assignments"
-              class="mb-3"
-            ></b-img>
-            <div class="font-weight-bold fs15">Assignment</div>
-            <p class="fs15 text-muted">View all assignments here</p>
-
-            <div class="d-flex justify-content-end">
-              <!-- <b-badge variant="success" class="mr-2"
-                >New {{ drafttemplate }}
-              </b-badge> -->
-
-              <b-badge variant="warning" class="mr-2"
-                >Pending {{ activeAssignment.length - submittedAssignment }}
-              </b-badge>
-              <b-badge variant="dark-green"
-                >Submitted {{ submittedAssignment }}
-              </b-badge>
-            </div>
-          </div>
-        </b-col>
-        <b-col sm="4" class="mb-4">
-          <div
-            class="
-              shadow
-              bg-white
-              rounded
-              p-3
-              position-relative
-              text-left
-              cursor-pointer
-            "
             @click="$router.push('/learner/assessment/quiz')"
           >
             <b-badge class="mybadge" variant="danger">{{
@@ -101,7 +62,7 @@
               test.length
             }}</b-badge>
             <b-img
-              :src="require('@/assets/images/ass1.png')"
+              :src="require('@/assets/images/ass3.png')"
               alt="test"
               fluid-grow
               class="mb-3"
@@ -152,44 +113,6 @@
               </b-badge>
               <b-badge variant="dark-green"
                 >Submitted {{ submittedtemplate }}
-              </b-badge>
-            </div>
-          </div>
-        </b-col>
-        <b-col sm="4" class="mb-4">
-          <div
-            class="
-              shadow
-              bg-white
-              rounded
-              p-3
-              position-relative
-              text-left
-              cursor-pointer
-            "
-            @click="$router.push('/learner/assessment/questionnaire')"
-          >
-            <b-badge class="mybadge" variant="danger">{{
-              questionnaire.length
-            }}</b-badge>
-            <b-img
-              :src="require('@/assets/images/ass2.png')"
-              alt="quiz"
-              fluid-grow
-              class="mb-3"
-            ></b-img>
-            <div class="font-weight-bold fs15">Questionnaire</div>
-            <p class="fs15 text-muted">View all questionnaire here</p>
-            <div class="d-flex justify-content-end">
-              <!-- <b-badge variant="success" class="mr-2"
-                >New {{ drafttemplate }}
-              </b-badge> -->
-
-              <b-badge variant="warning" class="mr-2"
-                >Pending {{ activeQuestionnaire.length - submittedQuest }}
-              </b-badge>
-              <b-badge variant="dark-green"
-                >Submitted {{ submittedQuest }}
               </b-badge>
             </div>
           </div>
