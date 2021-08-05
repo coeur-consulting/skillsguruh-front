@@ -602,6 +602,11 @@ ol.subquest {
 .trending_count {
   font-size: 0.8em;
 }
+.form-control:disabled,
+.form-control[readonly] {
+  background-color: #fff;
+  opacity: 1;
+}
 .line-1 {
   line-height: 1;
 }

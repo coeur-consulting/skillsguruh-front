@@ -511,7 +511,7 @@
                         <b-input-group-text
                           class="border-0 bg-transparent d-block"
                           ><span
-                            @click="addcomment(feed.id, index)"
+                            @click="addcomment(feed.id, index, feed.comment)"
                             class="text-dark-green cursor-pointer comment_post"
                             >Post</span
                           ></b-input-group-text
@@ -575,7 +575,7 @@
                         autocomplete="off"
                         autocorrect="off"
                         rows="1"
-                        v-model="comment.comment"
+                        v-model="feed.comment"
                         placeholder="Add comment"
                         class="border-0 no-focus"
                       ></b-form-input>
@@ -1100,9 +1100,13 @@ export default {
       showFeeds: false,
       trendingFeed: [],
       feeds: [],
+      auth: false,
     };
   },
   mounted() {
+    if (localStorage.getItem("authLearner")) {
+      this.auth = true;
+    }
     this.gettrendingfeeds();
     this.mostenrolled();
     this.getprograms();
@@ -1239,21 +1243,103 @@ export default {
     insertcomment(emoji) {
       this.comment.comment += emoji + "";
     },
-    post() {
-      // this.$router.push("/login");
-      this.$toast.info("Login to continue");
+    addcomment(id, index, comment) {
+      if (!comment) {
+        this.$toast.info("Cannot be empty");
+        return;
+      }
+
+      if (!this.auth) {
+        this.$toast.info("Login to complete action");
+        return;
+      }
+      this.comment.id = id;
+      this.comment.comment = comment;
+
+      this.$http
+        .post(`${this.$store.getters.url}/feed-comments`, this.comment, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 201) {
+            this.$toast.success("Comment updated ");
+
+            this.filteredFeeds[index].comments.unshift(res.data);
+            this.filteredFeeds[index].comment = "";
+
+            this.comment = {
+              comment: "",
+              id: "",
+            };
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
     },
-    addcomment() {
-      // this.$router.push("/login");
-      this.$toast.info("Login to continue");
+    toggleLike(id, index) {
+      if (!this.auth) {
+        this.$toast.info("Login to complete action");
+        return;
+      }
+      this.$http
+        .post(
+          `${this.$store.getters.url}/feed-likes`,
+          { id },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 201) {
+            this.feeds[index].likes.push(res.data);
+          }
+          if (res.status == 200) {
+            this.feeds[index].likes.map((item) => {
+              if (item.user_id == this.$store.getters.learner.id) {
+                return (item.like = res.data.like);
+              }
+            });
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
     },
-    toggleLike() {
-      // this.$router.push("/login");
-      this.$toast.info("Login to continue");
-    },
-    toggleStar() {
-      // this.$router.push("/login");
-      this.$toast.info("Login to continue");
+    toggleStar(id, index) {
+      if (!this.auth) {
+        this.$toast.info("Login to complete action");
+        return;
+      }
+      this.$http
+        .post(
+          `${this.$store.getters.url}/feed-stars`,
+          { id },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 201) {
+            this.feeds[index].stars.push(res.data);
+          }
+          if (res.status == 200) {
+            this.feeds[index].stars.map((item) => {
+              if (item.user_id == this.$store.getters.learner.id) {
+                return (item.star = res.data.star);
+              }
+            });
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
     },
     getevents() {
       this.$http.get(`${this.$store.getters.url}/guest/events`).then((res) => {

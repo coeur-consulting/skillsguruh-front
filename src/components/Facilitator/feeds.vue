@@ -637,7 +637,7 @@
                         <b-input-group-text
                           class="border-0 bg-transparent d-block"
                           ><span
-                            @click="addcomment(feed.id, index)"
+                            @click="addcomment(feed.id, index, feed.comment)"
                             class="text-dark-green cursor-pointer comment_post"
                             >Post</span
                           ></b-input-group-text
@@ -701,7 +701,7 @@
                         autocomplete="off"
                         autocorrect="off"
                         rows="1"
-                        v-model="comment.comment"
+                        v-model="feed.comment"
                         placeholder="Add comment"
                         class="border-0 no-focus"
                       ></b-form-input>
@@ -1035,12 +1035,13 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
-    addcomment(id, index) {
-      if (!this.comment.comment) {
-        this.$toast.info("Type a comment ");
+    addcomment(id, index, comment) {
+      if (!comment) {
+        this.$toast.info("Cannot be empty");
         return;
       }
       this.comment.id = id;
+      this.comment.comment = comment;
 
       this.$http
         .post(`${this.$store.getters.url}/feed-comments`, this.comment, {
@@ -1051,9 +1052,9 @@ export default {
         .then((res) => {
           if (res.status == 201) {
             this.$toast.success("Comment updated ");
-            // this.$bvModal.hide("feed");
 
-            this.feeds[index].comments.unshift(res.data);
+            this.filteredFeeds[index].comments.unshift(res.data);
+            this.filteredFeeds[index].comment = "";
 
             this.comment = {
               comment: "",
@@ -1178,7 +1179,7 @@ export default {
   transform: scale(1.1);
 }
 .emoji-invoker > svg {
-  fill: #b1c6d0;
+  // fill: #b1c6d0;
 }
 .emoji-invoker2 {
   width: 1.5rem;
@@ -1191,7 +1192,7 @@ export default {
   transform: scale(1.1);
 }
 .emoji-invoker2 > svg {
-  fill: #b1c6d0;
+  // fill: #b1c6d0;
 }
 
 .emoji-picker {

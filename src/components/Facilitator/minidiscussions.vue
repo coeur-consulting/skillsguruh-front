@@ -2,7 +2,7 @@
   <div class="pt-sm-4">
     <b-container class="px-0 px-sm-3">
       <b-row>
-        <b-col sm="8">
+        <b-col>
           <div
             class="
               d-flex
@@ -256,75 +256,6 @@
                   </div>
                   <b-skeleton animation="wave" width="85%"></b-skeleton>
                   <b-skeleton animation="wave" width="35%"></b-skeleton>
-                </div>
-              </div>
-            </div>
-          </div>
-        </b-col>
-        <b-col sm="4" class="d-none d-md-block">
-          <div class="shadow-sm bg-white p-4 rounded">
-            <div class="text-center mb-4">
-              <b-button
-                variant="dark-green"
-                size="lg"
-                class="px-3"
-                @click="$bvModal.show('start')"
-                >Start a discussion</b-button
-              >
-            </div>
-            <div class="py-3 text-left related_quest border">
-              <h6 class="mb-3 px-3">Other Discussions</h6>
-              <div v-if="showOther">
-                <div v-if="otherdiscussion">
-                  <div
-                    class="d-flex p-2 px-3"
-                    v-for="(dis, id) in otherdiscussion.slice(0, 6)"
-                    :key="id"
-                  >
-                    <div>
-                      <div class="mr-3 related_count">
-                        {{ dis.discussionmessage.length }}
-                      </div>
-                    </div>
-                    <span
-                      class="related text-left text-capitalize font-weight-bold"
-                      >{{ dis.name }}</span
-                    >
-                  </div>
-                </div>
-              </div>
-              <div v-else class="p-2 p-sm-3 w-100">
-                <div class="d-flex w-100 mb-3">
-                  <div class="mr-2 w-25">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                  <div class="w-75">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                </div>
-                <div class="d-flex w-100 mb-3">
-                  <div class="mr-2 w-25">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                  <div class="w-75">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                </div>
-                <div class="d-flex w-100 mb-3">
-                  <div class="mr-2 w-25">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                  <div class="w-75">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                </div>
-                <div class="d-flex w-100 mb-3">
-                  <div class="mr-2 w-25">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                  <div class="w-75">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
                 </div>
               </div>
             </div>

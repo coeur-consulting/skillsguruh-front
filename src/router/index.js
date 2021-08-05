@@ -136,11 +136,41 @@ const routes = [
     components: {
       header: Header,
       default: () =>
-        import(/* webpackChunkName: "about" */ "../views/Explore.vue"),
+        import(/* webpackChunkName: "explore" */ "../views/Explore.vue"),
       footer: Footer,
     },
     meta: {
       title: "Explore | SkillsGuruh",
+    },
+  },
+  {
+    path: "/explore/facilitators",
+    name: "Explore facilitators",
+    components: {
+      header: Header,
+      default: () =>
+        import(
+          /* webpackChunkName: "explorefacilitators" */ "../views/Facilitators.vue"
+        ),
+      footer: Footer,
+    },
+    meta: {
+      title: "Explore Facilitators| SkillsGuruh",
+    },
+  },
+  {
+    path: "/explore/learners",
+    name: "Explore Learners",
+    components: {
+      header: Header,
+      default: () =>
+        import(
+          /* webpackChunkName: "exploreLearners" */ "../views/Learners.vue"
+        ),
+      footer: Footer,
+    },
+    meta: {
+      title: "Explore Learners| SkillsGuruh",
     },
   },
   {
@@ -1871,9 +1901,7 @@ const routes = [
     name: "question",
     components: {
       default: () =>
-        import(
-          /* webpackChunkName: "question" */ "@/components/Questionnaire/index.vue"
-        ),
+        import(/* webpackChunkName: "question" */ "@/components/uploader.vue"),
     },
     meta: {
       title: "Questionnaire | Learner",
