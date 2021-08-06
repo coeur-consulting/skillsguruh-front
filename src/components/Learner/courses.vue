@@ -14,7 +14,7 @@
               py-4
             "
           >
-            <div class="d-flex flex-1 align-items-center pl-3">
+            <div class="d-flex flex-1 align-items-center pl-3 mb-3 mb-sm-0">
               <div
                 class="pr-2 fs12 font-weight-bold cursor-pointer"
                 :class="courseShown == 'recent' ? '' : 'text-muted'"

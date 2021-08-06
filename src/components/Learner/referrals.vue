@@ -134,7 +134,7 @@
 
         <div class="box border text-left mb-4" v-if="communities_link">
           <h6 class="mb-4 py-2 px-3">Course Referral Links</h6>
-          <b-table-simple class="border-top-0" v-if="showCommunity">
+          <b-table-simple class="border-top-0" responsive v-if="showCommunity">
             <b-thead class="border-0">
               <b-tr>
                 <b-th class="fs14">Course</b-th>
@@ -351,5 +351,27 @@ export default {
 .suggestion_box {
   max-height: 40vh;
   overflow: auto;
+}
+@media (max-width: 600px) {
+  h4.card-title {
+    font-size: 0.9rem;
+  }
+  p {
+    font-size: 0.8rem;
+    text-align: center;
+  }
+  nav ul li {
+    font-size: 12px !important;
+  }
+  .btn-sm,
+  .btn-group-sm > .btn {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.5rem !important;
+    line-height: 1.3;
+    border-radius: 0.2rem;
+  }
+  p {
+    margin-bottom: 1px;
+  }
 }
 </style>

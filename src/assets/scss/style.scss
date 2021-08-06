@@ -61,18 +61,18 @@ p {
 .media audio {
   width: 100%;
 }
-.VueCarousel-navigation-next {
-  right: 24px !important;
-  transform: translateY(-50%) translateX(100%);
-  font-family: "system";
-  padding: 24px !important;
-}
-.VueCarousel-navigation-prev {
-  left: 22px !important;
-  transform: translateY(-50%) translateX(-100%);
-  font-family: "system";
-  padding: 24px !important;
-}
+// .VueCarousel-navigation-next {
+//   right: 24px !important;
+//   transform: translateY(-50%) translateX(100%);
+//   font-family: "system";
+//   padding: 24px !important;
+// }
+// .VueCarousel-navigation-prev {
+//   left: 22px !important;
+//   transform: translateY(-50%) translateX(-100%);
+//   font-family: "system";
+//   padding: 24px !important;
+// }
 
 .custom-control-input:checked ~ .custom-control-label::before {
   color: #fff;
@@ -149,7 +149,9 @@ p {
   width: 60%;
   margin: 0 auto;
 }
-
+.event_video {
+  font-size: 0.8rem;
+}
 .notif {
   width: 80%;
   margin: 0 auto;
@@ -509,6 +511,18 @@ ol.subquest {
 .course_img {
   background: #f7f8fa;
 }
+.course_img {
+  height: 150px;
+  width: 100%;
+  border-radius: 8px;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.info {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0 0;
+}
 .related_count {
   width: 50px;
   padding: 2px 3.5px;
@@ -750,9 +764,17 @@ ol.subquest {
   .custom-select {
     font-size: 14px !important;
   }
-
+  .info {
+    font-size: 0.6rem !important;
+  }
+  .event_image {
+    height: 200px;
+  }
   .btn-sm {
     // font-size: 0.75rem;
+  }
+  .b-avatar-badge .badge-dark-green {
+    font-size: 1rem !important;
   }
   .feed_text {
     font-size: 0.87rem;
@@ -861,10 +883,13 @@ ol.subquest {
     display: block;
   }
   .course {
-    height: 310px !important;
+    height: auto;
   }
   .course_img {
-    height: 42% !important;
+    height: 100px;
+  }
+  .course_badge {
+    font-size: 0.6rem !important;
   }
   .course_text {
     height: 58% !important;
@@ -887,8 +912,15 @@ ol.subquest {
     height: 36px;
   }
   .overview-title {
-    font-size: 14px;
-    height: 38px;
+    font-size: 0.7rem;
+    height: 24px;
+  }
+  .course_desc {
+    font-size: 0.6rem !important;
+  }
+  .course_avatar {
+    width: 15px;
+    height: 15px;
   }
   .one-title {
     font-size: 14px;
@@ -1007,5 +1039,16 @@ ol.subquest {
   .message_comment_date {
     font-size: 0.6rem;
     color: rgba($color: #000000, $alpha: 0.54);
+  }
+  .search {
+    width: 100%;
+  }
+  .event_video {
+    font-size: 0.6rem;
+  }
+  .img-s {
+    width: 80px;
+    margin: 0 auto;
+    height: auto;
   }
 }

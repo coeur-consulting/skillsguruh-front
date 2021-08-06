@@ -8,21 +8,32 @@
               d-flex
               flex-column flex-sm-row
               align-items-center
+              mt-2
               mb-3
               w-100
               text-left
             "
           >
             <h6 class="flex-1 font-weight-bold mb-3 mb-sm-0">Discussions</h6>
-            <span class="fs14 search">
-              <b-form-input
-                class="rounded"
-                placeholder="Find a discussion"
-                type="search"
-                v-model="search"
-                size="sm"
-              ></b-form-input
-            ></span>
+            <div class="d-flex search px-2 px-sm-0">
+              <span
+                @click="$router.go(-1)"
+                class="cursor-pointer back fs13 px-2 pt-2 d-sm-none"
+              >
+                <span class="">
+                  <b-icon icon="arrow-left" class=""></b-icon
+                ></span>
+              </span>
+              <span class="fs14 search">
+                <b-form-input
+                  class=""
+                  placeholder="Find a discussion"
+                  type="search"
+                  v-model="search"
+                  size="sm"
+                ></b-form-input
+              ></span>
+            </div>
           </div>
           <div class="border bg-white py-4 rounded">
             <div

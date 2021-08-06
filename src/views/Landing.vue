@@ -109,9 +109,9 @@
         <b-row class="mb-6">
           <b-col sm="6" class="d-flex align-items-center">
             <div class="onboard">
-              <h4 class="mb-2">
+              <h5 class="mb-2">
                 Join as an Organization and onboard your employees
-              </h4>
+              </h5>
               <p class="mb-4 pr-3">
                 No longer do your employees have to struggle to get on the same
                 page. Keep teams aligned and productive by signing them up to
@@ -148,7 +148,7 @@
           </b-col>
           <b-col sm="6" class="d-flex align-items-center">
             <div class="onboard">
-              <h4 class="mb-2">Share your skills and expertise</h4>
+              <h5 class="mb-2">Share your skills and expertise</h5>
               <p class="mb-4 pr-3">
                 Now you can put your knowledge to work. Convert what you know to
                 a course in minutes and enjoy teaching a more engaged group of
@@ -171,7 +171,7 @@
         <b-row class="">
           <b-col sm="6" class="d-flex align-items-center">
             <div class="onboard">
-              <h4 class="mb-2">Shared interest is all you need</h4>
+              <h5 class="mb-2">Shared interest is all you need</h5>
               <p class="mb-4 pr-3">
                 Connect with experts and learners with similar interests to gain
                 rich insight to your most pressing questions, then pay it
@@ -179,7 +179,7 @@
                 the group access feature and make learning a party with your
                 friends.
               </p>
-              <p>Yes, you can be social even while learning.</p>
+              <p class="mb-3">Yes, you can be social even while learning.</p>
               <b-button
                 size="lg"
                 variant="dark-green"
@@ -214,7 +214,7 @@
               out in our community. Get to know them!
             </p>
 
-            <b-row class="facilitators">
+            <b-row class="facilitators d-none d-sm-flex">
               <b-col sm="4" class="mb-5 mb-sm-0 py-3 px-4">
                 <div class="position-relative">
                   <div class="facilitator shadow-sm position-relative">
@@ -279,6 +279,84 @@
                 </div>
               </b-col>
             </b-row>
+            <b-row class="d-sm-none">
+              <b-col>
+                <carousel
+                  :perPage="1"
+                  :paginationEnabled="true"
+                  navigationNextLabel=""
+                  navigationPrevLabel=""
+                  :autoplay="true"
+                  :speed="1000"
+                  :autoplayTimeout="5000"
+                  :loop="true"
+                >
+                  <slide class="mb-sm-0 py-3 px-4">
+                    <div class="position-relative">
+                      <div class="facilitator shadow-sm position-relative">
+                        <b-img
+                          class="rounded mb-4"
+                          fluid-grow
+                          src="/img/fac1.jpg"
+                        ></b-img>
+                        <div>Ada Okafor</div>
+                        <div class="text-muted"><small>Facilitator</small></div>
+                        <div>
+                          <b-icon class="text-gold" icon="star-fill"></b-icon>
+                          <b-icon class="text-gold" icon="star-fill"></b-icon>
+                          <b-icon class="text-gold" icon="star-fill"></b-icon>
+                          <b-icon class="text-gold" icon="star-fill"></b-icon>
+                          <b-icon class="text-gold" icon="star-fill"></b-icon>
+                        </div>
+                      </div>
+                      <span class="hover_box"></span>
+                    </div>
+                  </slide>
+                  <slide class="mb-sm-0 py-3 px-4">
+                    <div class="position-relative">
+                      <div class="facilitator shadow-sm position-relative">
+                        <b-img
+                          class="rounded mb-4"
+                          fluid-grow
+                          src="/img/fac2.jpg"
+                        ></b-img>
+                        <div>John Obi Uchendu</div>
+                        <div class="text-muted"><small>Facilitator</small></div>
+                        <div>
+                          <b-icon class="text-gold" icon="star-fill"></b-icon>
+                          <b-icon class="text-gold" icon="star-fill"></b-icon>
+                          <b-icon class="text-gold" icon="star-fill"></b-icon>
+                          <b-icon class="text-gold" icon="star-fill"></b-icon>
+                          <b-icon class="text-gold" icon="star-fill"></b-icon>
+                        </div>
+                      </div>
+                      <span class="hover_box"></span>
+                    </div>
+                  </slide>
+                  <slide class="mb-sm-0 py-3 px-4">
+                    <div class="position-relative">
+                      <div class="facilitator shadow-sm position-relative">
+                        <b-img
+                          class="rounded mb-4"
+                          fluid-grow
+                          src="/img/fac3.jpg"
+                        ></b-img>
+                        <div>Nkechi Ezeukwu</div>
+                        <div class="text-muted"><small>Facilitator</small></div>
+                        <div>
+                          <b-icon class="text-gold" icon="star-fill"></b-icon>
+                          <b-icon class="text-gold" icon="star-fill"></b-icon>
+                          <b-icon class="text-gold" icon="star-fill"></b-icon>
+                          <b-icon class="text-gold" icon="star-fill"></b-icon>
+                          <b-icon class="text-gold" icon="star-fill"></b-icon>
+                        </div>
+                      </div>
+                      <span class="hover_box"></span>
+                    </div>
+                  </slide>
+                </carousel>
+              </b-col>
+            </b-row>
           </b-col>
         </b-row>
       </b-container>
@@ -320,9 +398,6 @@
               <carousel
                 :perPage="1"
                 :paginationEnabled="false"
-                :navigationEnabled="true"
-                navigationNextLabel=""
-                navigationPrevLabel=""
                 :autoplay="true"
                 :speed="1000"
                 :autoplayTimeout="5000"
@@ -336,7 +411,7 @@
                       </div>
                     </b-col>
                     <b-col sm="8" class="d-flex align-items-center">
-                      <div class="text-center p-4 py-5">
+                      <div class="text-center p-2 p-sm-4 py-sm-5">
                         <b-icon
                           icon="chat-quote-fill"
                           class="text-dark-green mb-4"
@@ -361,7 +436,7 @@
                       </div>
                     </b-col>
                     <b-col sm="8" class="d-flex align-items-center">
-                      <div class="text-center p-4 py-5">
+                      <div class="text-center p-2 p-sm-4 py-sm-5">
                         <b-icon
                           icon="chat-quote-fill"
                           class="text-dark-green mb-4"
@@ -389,7 +464,7 @@
                       </div>
                     </b-col>
                     <b-col sm="8" class="d-flex align-items-center">
-                      <div class="text-center p-4 py-5">
+                      <div class="text-center p-2 p-sm-4 py-sm-5">
                         <b-icon
                           icon="chat-quote-fill"
                           class="text-dark-green mb-4"
@@ -482,6 +557,9 @@ export default {
 .notification_container {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+.testimonial {
+  width: 100%;
 }
 #banner {
   position: relative;
@@ -781,6 +859,9 @@ img {
 }
 
 @media (max-width: 1024px) {
+  .test-1 {
+    font-size: 0.9rem;
+  }
   .joinnow {
     padding: 4rem 6rem;
     border-radius: 10px;
@@ -808,9 +889,19 @@ img {
     text-align: left;
   }
   h2 {
-    font-size: 20px !important;
+    font-size: 17px !important;
   }
-
+  .mb-6 {
+    margin-bottom: 4.5rem;
+  }
+  .ex-facilitators p {
+    line-height: 24px;
+  }
+  #facilitators {
+    position: relative;
+    padding-top: 4rem;
+    padding-bottom: 3rem;
+  }
   .joinnow {
     padding: 5rem 10rem;
     border-radius: 10px;
@@ -843,6 +934,31 @@ img {
   }
   .banner_row {
     height: 100%;
+  }
+  .onboard p {
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.06em;
+    text-align: left;
+  }
+  h5 {
+    font-size: 1rem;
+  }
+  #how-it-works {
+    padding-top: 5rem;
+    padding-bottom: 0rem;
+  }
+  .learners p {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .learner-img {
+    height: 200px;
+  }
+  #joinnow {
+    padding-top: 0rem;
+    padding-bottom: 0rem;
   }
 }
 </style>

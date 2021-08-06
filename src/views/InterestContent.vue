@@ -1,6 +1,9 @@
 <template>
-  <div class="bg-light pb-5 pt-0 pt-sm-5" v-if="currentinterests">
-    <b-container class="p-0">
+  <div
+    class="bg-light pb-5 pt-0 pt-sm-5 position-relative"
+    v-if="currentinterests"
+  >
+    <b-container class="">
       <div class="text-left mb-2 d-none d-sm-block">
         <span @click="$router.go(-1)" class="cursor-pointer back fs13">
           <span class="mr-2">
@@ -9,29 +12,40 @@
           <span class="d-none d-sm-inline">Back</span>
         </span>
       </div>
-      <b-row class="px-3 px-sm-0">
+      <b-row class="px-3 px-sm-0" no-gutters>
         <b-col sm="9" class="">
           <b-row>
-            <b-col cols="12" class="mb-0 rounded px-1 px-sm-4 pb-2">
+            <b-col cols="12" class="mb-0 rounded-sm px-0 px-sm-4 pb-2">
               <b-card
                 no-body
-                class="overflow-hidden border-0 bg-white rounded"
+                class="overflow-hidden border-0 bg-white rounded-sm"
                 style=""
               >
                 <b-card-body class="p-0">
                   <div class="d-flex align-items-center">
-                    <div class="prof_img position-relative">
+                    <div class="prof_img position-relative d-none d-sm-block">
                       <div class="discussion_overlay"></div>
                       <b-card-img
                         :style="{
-                          backgroundColor: ''
+                          backgroundColor: '',
                         }"
                         :src="currentinterests.image"
                         alt="Image"
                         class="rounded-0"
                       ></b-card-img>
                     </div>
-                    <div class="flex-1 p-3">
+                    <div class="text-left d-inline d-sm-none border-right p-2">
+                      <span
+                        @click="$router.go(-1)"
+                        class="cursor-pointer back fs13"
+                      >
+                        <span class="mr-2">
+                          <b-icon icon="arrow-left" class=""></b-icon
+                        ></span>
+                        <span class="d-none d-sm-inline">Back</span>
+                      </span>
+                    </div>
+                    <div class="flex-1 p-2">
                       <div
                         class="
                           text-left text-capitalize
@@ -40,8 +54,8 @@
                         "
                       >
                         <h6 class="mb-0">{{ currentinterests.value }}</h6>
-                        <span class="px-1">|</span>
-                        <h6 class="text-muted mb-0">{{ subId }}</h6>
+                        <span class="px-1 text-muted">/</span>
+                        <h6 class="text-muted mb-0 fs14">{{ subId }}</h6>
                       </div>
                     </div>
                   </div>
@@ -95,23 +109,23 @@
                 <b-card-body class="px-0">
                   <div v-if="active == 4">
                     <div v-if="users.length">
-                      <b-row class="facilitators justify-content-sm-start">
+                      <b-row class="facilitators justify-content-start">
                         <b-col
-                          sm="4"
-                          class="mb-3 mb-sm-0 py-3"
+                          cols="4"
+                          class="mb-3 mb-sm-0 px-0 px-sm-3 py-sm-3"
                           v-for="(item, id) in users"
                           :key="id"
                         >
                           <div
                             v-if="item.qualifications"
-                            class="position-relative cursor-pointer"
+                            class="position-relative cursor-pointer bg-white"
                             @click="$router.push(`/profile/f/${item.id}`)"
                           >
                             <div
                               class="facilitator shadow-sm position-relative"
                             >
                               <b-img
-                                class="rounded mb-4"
+                                class="rounded-sm mb-4"
                                 fluid-grow
                                 :src="
                                   item.profile
@@ -120,40 +134,46 @@
                                 "
                                 style="object-fit: cover"
                               ></b-img>
-                              <div class="p-3">
-                                <div>{{ item.name }}</div>
-                                <div class="text-muted fs13 text-capitalize">
-                                  <span>
-                                    {{
-                                      item.age ? item.age + " years" : "N/a"
-                                    }}</span
-                                  >
-                                  <span v-if="item.gender"
-                                    >,
-                                    {{
-                                      item.gender ? item.gender : "N/a"
-                                    }}</span
-                                  >
-                                </div>
+                              <div
+                                class="f_name text-truncate text-truncate--1"
+                              >
+                                {{ item.name }}
+                              </div>
+                              <div
+                                class="text-muted fs13 text-capitalize f_detail"
+                              >
+                                <span>
+                                  {{
+                                    item.age ? item.age + " years" : "N/a"
+                                  }}</span
+                                >
+                                <span v-if="item.gender"
+                                  >,
+                                  {{ item.gender ? item.gender : "N/a" }}</span
+                                >
+                              </div>
 
-                                <div class="text-muted fs13 text-capitalize">
-                                  {{ item.state ? item.state : "Lagos" }},
-                                  {{ item.country ? item.country : "NG" }}
-                                </div>
-                                <!-- <div class="text-muted fs12 text-capitalize">
+                              <div
+                                class="text-muted fs13 text-capitalize f_detail"
+                              >
+                                {{ item.state ? item.state : "Lagos" }},
+                                {{ item.country ? item.country : "NG" }}
+                              </div>
+                              <div
+                                class="text-muted fs12 text-capitalize f_detail"
+                              >
                                 {{
                                   item.interests
                                     ? JSON.parse(item.interests).length +
                                       " interests"
                                     : "0 intersts"
                                 }},
-                              </div> -->
                               </div>
                             </div>
                             <span class="hover_box"></span>
                           </div>
                           <div
-                            class="position-relative cursor-pointer"
+                            class="position-relative cursor-pointer bg-white"
                             v-else
                             @click="$router.push(`/profile/u/${item.id}`)"
                           >
@@ -161,7 +181,7 @@
                               class="facilitator shadow-sm position-relative"
                             >
                               <b-img
-                                class="rounded mb-4"
+                                class="rounded-sm mb-4"
                                 fluid-grow
                                 :src="
                                   item.profile
@@ -170,38 +190,40 @@
                                 "
                                 style="object-fit: cover"
                               ></b-img>
-                              <div class="p-3">
-                                <div>{{ item.name }}</div>
-                                <div class="text-muted fs13 text-capitalize">
-                                  <span>
-                                    {{
-                                      item.age ? item.age + " years" : "N/a"
-                                    }}</span
-                                  >
-                                  <span v-if="item.gender"
-                                    >,
-                                    {{
-                                      item.gender ? item.gender : "N/a"
-                                    }}</span
-                                  >
-                                </div>
+                              <div
+                                class="f_name text-truncate text-truncate--1"
+                              >
+                                {{ item.name }}
+                              </div>
+                              <div
+                                class="text-muted fs13 text-capitalize f_detail"
+                              >
+                                <span>
+                                  {{
+                                    item.age ? item.age + " years" : "N/a"
+                                  }}</span
+                                >
+                                <span v-if="item.gender"
+                                  >,
+                                  {{ item.gender ? item.gender : "N/a" }}</span
+                                >
+                              </div>
 
-                                <div class="text-muted fs13 text-capitalize">
-                                  {{ item.state ? item.state : "Lagos" }},
-                                  {{ item.country ? item.country : "NG" }}
-                                </div>
-                                <!-- <div class="text-muted fs12 text-capitalize">
+                              <div
+                                class="text-muted fs13 text-capitalize f_detail"
+                              >
+                                {{ item.state ? item.state : "Lagos" }},
+                                {{ item.country ? item.country : "NG" }}
+                              </div>
+                              <div
+                                class="text-muted fs12 text-capitalize f_detail"
+                              >
                                 {{
                                   item.interests
                                     ? JSON.parse(item.interests).length +
                                       " interests"
                                     : "0 intersts"
                                 }},
-                              </div> -->
-                                <!--
-                              <div class="text-muted">
-                                <small>Learner</small>
-                              </div> -->
                               </div>
                             </div>
                             <span class="hover_box"></span>
@@ -295,7 +317,7 @@
                                 <b-img
                                   v-if="
                                     feed.media &&
-                                      img_ext.includes(getextension(feed.media))
+                                    img_ext.includes(getextension(feed.media))
                                   "
                                   fluid-grow
                                   :src="feed.media"
@@ -305,7 +327,7 @@
                                   width="100%"
                                   v-if="
                                     feed.media &&
-                                      vid_ext.includes(getextension(feed.media))
+                                    vid_ext.includes(getextension(feed.media))
                                   "
                                   :src="feed.media"
                                   class="fluid-grow"
@@ -313,7 +335,7 @@
                                 <div
                                   v-if="
                                     feed.media &&
-                                      doc_ext.includes(getextension(feed.media))
+                                    doc_ext.includes(getextension(feed.media))
                                   "
                                   class="text-center p-3 bg-skills-grey"
                                 >
@@ -338,7 +360,7 @@
                                 <b-icon
                                   :icon="
                                     feed.stars.find(
-                                      item =>
+                                      (item) =>
                                         item.star &&
                                         item.facilitator_id ==
                                           $store.getters.facilitator.id
@@ -349,7 +371,7 @@
                                   class="text-blue mr-1"
                                 ></b-icon>
                                 <span>{{
-                                  feed.stars.filter(item => item.star).length
+                                  feed.stars.filter((item) => item.star).length
                                 }}</span>
                                 stars</span
                               >
@@ -357,7 +379,7 @@
                                 ><b-icon
                                   :icon="
                                     feed.likes.find(
-                                      item =>
+                                      (item) =>
                                         item.like &&
                                         item.facilitator_id ==
                                           $store.getters.facilitator.id
@@ -368,7 +390,7 @@
                                   class="text-danger mr-1"
                                 ></b-icon>
                                 <span>{{
-                                  feed.likes.filter(item => item.like).length
+                                  feed.likes.filter((item) => item.like).length
                                 }}</span>
                                 likes</span
                               >
@@ -640,7 +662,7 @@
                                       item.cover
                                         ? item.cover
                                         : require('@/assets/images/default.png')
-                                    })`
+                                    })`,
                                   }"
                                 ></div>
                                 <div class="course_text">
@@ -656,7 +678,7 @@
                                       :style="{
                                         backgroundColor: JSON.parse(
                                           item.courseoutline.knowledge_areas
-                                        ).color
+                                        ).color,
                                       }"
                                     >
                                       <b-icon
@@ -823,9 +845,7 @@
           network="facebook"
           :url="link"
           title="COURSE INVITATION"
-          :description="
-            `I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`
-          "
+          :description="`I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -838,9 +858,7 @@
           network="twitter"
           :url="link"
           title="COURSE INVITATION"
-          :description="
-            `I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`
-          "
+          :description="`I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -853,9 +871,7 @@
           network="whatsApp"
           :url="link"
           title="COURSE INVITATION"
-          :description="
-            `I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`
-          "
+          :description="`I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -877,9 +893,7 @@
           network="Telegram"
           :url="link"
           title="COURSE INVITATION"
-          :description="
-            `I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`
-          "
+          :description="`I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -912,11 +926,9 @@
               <b-icon
                 stacked
                 icon="circle-fill"
-                :style="
-                  `color:${
-                    JSON.parse(course.courseoutline.knowledge_areas).color
-                  }`
-                "
+                :style="`color:${
+                  JSON.parse(course.courseoutline.knowledge_areas).color
+                }`"
               ></b-icon>
               <b-icon
                 stacked
@@ -1274,7 +1286,7 @@
                     class="text-sm font-weight-bold"
                     v-if="item.facilitator_id != null"
                     >{{
-                      facilitators.find(val => val.id == item.facilitator_id)
+                      facilitators.find((val) => val.id == item.facilitator_id)
                         .name
                     }}</span
                   >
@@ -1340,6 +1352,34 @@
         </div>
       </div>
     </b-modal>
+
+    <div class="mobile-nav mobile_nav d-flex align-items-end">
+      <nav
+        class="rounded p-2 mr-2 mb-3 bg-white shadow rounded"
+        v-show="toggleNav"
+      >
+        <ul class="mb-0">
+          <li
+            v-for="(sub, id) in filteredinterests"
+            :key="id"
+            @click="subId = sub.value.trim()"
+            :class="subId == sub.value ? 'activesub' : ''"
+            class="d-flex align-items-center"
+          >
+            <span>{{ sub.value.trim() }}</span>
+          </li>
+        </ul>
+      </nav>
+      <span>
+        <b-icon
+          icon="plus-circle-fill"
+          class="shadow-lg"
+          variant="dark-green"
+          @click="toggleNav = !toggleNav"
+          font-scale="2"
+        ></b-icon
+      ></span>
+    </div>
   </div>
 </template>
 <script>
@@ -1349,6 +1389,7 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
+      toggleNav: true,
       subId: null,
       detail: [],
       active: 4,
@@ -1369,7 +1410,7 @@ export default {
         id: "",
         name: "",
         type: "",
-        profile: ""
+        profile: "",
       },
       open: false,
       showAll: false,
@@ -1384,9 +1425,9 @@ export default {
         url: "",
         users: [
           {
-            email: ""
-          }
-        ]
+            email: "",
+          },
+        ],
       },
       course: null,
       courses: [],
@@ -1398,7 +1439,7 @@ export default {
       course_type: "",
       recent: false,
       trending: false,
-      sending: false
+      sending: false,
     };
   },
   created() {
@@ -1408,23 +1449,23 @@ export default {
   watch: {
     $route: "getcontent",
     filteredinterests: "setSubInterest",
-    subId: "getcontent"
+    subId: "getcontent",
   },
   computed: {
     filteredinterests() {
       return this.subinterests.filter(
-        item => item.category_id == this.$route.params.id
+        (item) => item.category_id == this.$route.params.id
       );
     },
     currentinterests() {
       var result = this.interests.filter(
-        item => item.id == this.$route.params.id
+        (item) => item.id == this.$route.params.id
       );
       return result.slice().shift();
     },
     filterFeeds() {
       return this.feeds
-        .filter(item =>
+        .filter((item) =>
           item.name.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
@@ -1440,7 +1481,7 @@ export default {
     },
     filteredCourse() {
       var title = this.filter.filter(
-        item =>
+        (item) =>
           item.title.toLowerCase().includes(this.search.toLowerCase()) ||
           JSON.parse(item.courseoutline.knowledge_areas)
             .value.toLowerCase()
@@ -1453,11 +1494,11 @@ export default {
       }
       var courseType;
       if (this.course_type == "free") {
-        courseType = title.filter(item => item.type == "free");
+        courseType = title.filter((item) => item.type == "free");
       } else if (this.course_type == "paid") {
-        courseType = title.filter(item => item.type == "paid");
+        courseType = title.filter((item) => item.type == "paid");
       } else if (this.course_type == "group") {
-        courseType = title.filter(item => item.type == "group");
+        courseType = title.filter((item) => item.type == "group");
       } else {
         courseType = title;
       }
@@ -1466,15 +1507,12 @@ export default {
         return courseType.slice().reverse();
       }
       return courseType;
-    }
+    },
   },
 
   methods: {
     setSubInterest() {
-      this.subId = this.filteredinterests
-        .slice()
-        .shift()
-        .value.trim();
+      this.subId = this.filteredinterests.slice().shift().value.trim();
     },
     sharelink(id) {
       this.link = `https://skillsguruh.com/explore/courses/?course=${encodeURIComponent(
@@ -1484,7 +1522,7 @@ export default {
     },
     loadCourse() {
       this.course = this.courses.find(
-        item => item.id == this.$route.query.course_id
+        (item) => item.id == this.$route.query.course_id
       );
     },
     getmediacount(arr, media) {
@@ -1493,8 +1531,8 @@ export default {
         return 0;
       }
       if (media == "document") {
-        arr.forEach(val => {
-          JSON.parse(val.modules).forEach(item => {
+        arr.forEach((val) => {
+          JSON.parse(val.modules).forEach((item) => {
             if (
               item.file_type.toLowerCase() == media.toLowerCase() ||
               item.file_type.toLowerCase() == "worksheet"
@@ -1504,8 +1542,8 @@ export default {
           });
         });
       } else {
-        arr.forEach(val => {
-          JSON.parse(val.modules).forEach(item => {
+        arr.forEach((val) => {
+          JSON.parse(val.modules).forEach((item) => {
             if (item.file_type.toLowerCase() == media.toLowerCase()) {
               newarr.push(item);
             }
@@ -1550,7 +1588,7 @@ export default {
     getcontent() {
       this.$http
         .get(`${this.$store.getters.url}/get/interests/${this.subId}`)
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.getUsers();
             this.feeds = Object.values(res.data.feeds);
@@ -1567,7 +1605,7 @@ export default {
     getUsers() {
       this.$http
         .get(`${this.$store.getters.url}/guest/users/${this.subId}`)
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.users = res.data;
             this.rows = res.data.length;
@@ -1577,12 +1615,12 @@ export default {
     getfacilitators() {
       this.$http
         .get(`${this.$store.getters.url}/guest/facilitators`)
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1591,8 +1629,8 @@ export default {
       this.$bvModal.show("sharecourse");
     },
     vote(val) {
-      var positive = val.filter(item => item.vote).length;
-      var negative = val.filter(item => !item.vote).length;
+      var positive = val.filter((item) => item.vote).length;
+      var negative = val.filter((item) => !item.vote).length;
       return Number(positive) - Number(negative);
     },
     sendinvite(title) {
@@ -1604,10 +1642,10 @@ export default {
         this.$http
           .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
           })
-          .then(res => {
+          .then((res) => {
             if (res.status == 200) {
               this.$toast.success("Invite Sent");
               this.$bvModal.hide("sharecourse");
@@ -1617,9 +1655,9 @@ export default {
                 title: "",
                 users: [
                   {
-                    email: ""
-                  }
-                ]
+                    email: "",
+                  },
+                ],
               };
             }
           })
@@ -1631,10 +1669,10 @@ export default {
         this.$http
           .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
           })
-          .then(res => {
+          .then((res) => {
             if (res.status == 200) {
               this.$toast.success("Invite Sent");
               this.$bvModal.hide("sharecourse");
@@ -1644,9 +1682,9 @@ export default {
                 title: "",
                 users: [
                   {
-                    email: ""
-                  }
-                ]
+                    email: "",
+                  },
+                ],
               };
             }
           })
@@ -1660,7 +1698,7 @@ export default {
             `${this.$store.getters.url}/guest/send/invite`,
             this.inviteUsers
           )
-          .then(res => {
+          .then((res) => {
             if (res.status == 200) {
               this.$toast.success("Invite Sent");
               this.$bvModal.hide("sharecourse");
@@ -1670,9 +1708,9 @@ export default {
                 title: "",
                 users: [
                   {
-                    email: ""
-                  }
-                ]
+                    email: "",
+                  },
+                ],
               };
             }
           })
@@ -1684,17 +1722,17 @@ export default {
     },
     addinvite() {
       this.inviteUsers.users.push({
-        email: ""
+        email: "",
       });
     },
-    onCopy: function(e) {
+    onCopy: function (e) {
       alert("You just copied the following text to the clipboard: " + e.text);
     },
-    onError: function(e) {
+    onError: function (e) {
       alert("Failed to copy the text to the clipboard");
       console.log(e);
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped lang="scss">
@@ -1966,9 +2004,8 @@ h4.card-title {
 .facilitator {
   padding: 0;
   text-align: left;
-  border-radius: 10px;
+  border-radius: 0;
   z-index: 1;
-  background: white;
 }
 .facilitator:hover ~ .hover_box {
   right: -5px;
@@ -1977,7 +2014,58 @@ h4.card-title {
 }
 .facilitator img {
   width: 100%;
-  height: 140px;
+}
+.facilitator > div {
+}
+.text-gold {
+  color: gold;
+}
+.facilitator img {
+  height: 150px;
+  margin-bottom: 0 !important;
+  border-radius: 0 0 5px 5px !important;
+}
+.f_detail,
+.f_name {
+  font-size: 0.8rem !important;
+  padding: 0 5px 1px;
+  line-height: 1.4;
+}
+@media (max-width: 600px) {
+  .facilitator {
+    border-radius: 0;
+    padding: 0;
+  }
+  .facilitator img {
+    height: 100px;
+    margin-bottom: 0 !important;
+  }
+  .f_detail,
+  .f_name {
+    font-size: 0.6rem !important;
+    padding: 0 5px 1px;
+  }
+}
+
+@media (max-width: 375px) {
+  .facilitator {
+    border-radius: 0;
+    padding: 0;
+  }
+  .facilitator img {
+    height: 100px;
+    margin-bottom: 0 !important;
+  }
+  .f_detail,
+  .f_name {
+    font-size: 0.55rem !important;
+    padding: 0 5px 1px;
+  }
+}
+
+.mobile_nav {
+  display: none;
+  z-index: 99;
 }
 @media (max-width: 600px) {
   h6 {
@@ -1991,6 +2079,19 @@ h4.card-title {
     height: 3rem;
     width: 5rem;
     object-fit: contain;
+  }
+  .container {
+    min-height: 80vh;
+    padding: 0px 0px 30px;
+  }
+  .mobile_nav {
+    display: block;
+    position: fixed;
+    bottom: 40px;
+    right: 30px;
+  }
+  h6.fs14 {
+    font-size: 12.5px;
   }
 }
 </style>

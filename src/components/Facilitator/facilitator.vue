@@ -99,7 +99,7 @@
                           "
                           variant="outline-dark-green"
                           @click="addconnections(detail.id, 'facilitator')"
-                          >Follow</b-button
+                          >Connect</b-button
                         >
                         <b-button
                           size="sm"
@@ -109,14 +109,14 @@
                           "
                           variant="outline-dark-green"
                           @click="addconnections(detail.id, 'user')"
-                          >Follow</b-button
+                          >Connect</b-button
                         >
                         <b-button
                           size="sm"
                           v-if="checkconnection(detail)"
                           @click="removeconnections(detail)"
                           variant="dark-green"
-                          >Following</b-button
+                          >Connected</b-button
                         >
                       </div>
                     </b-card-body>
@@ -1618,5 +1618,30 @@ h4.card-title {
   position: absolute;
   right: 15px;
   top: 15px;
+}
+.btn-sm,
+.btn-group-sm > .btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.7rem !important;
+  line-height: 1.4;
+  border-radius: 0.2rem;
+}
+@media (max-width: 600px) {
+  h4.card-title {
+    font-size: 0.9rem;
+  }
+  nav ul li {
+    font-size: 12px !important;
+  }
+  .btn-sm,
+  .btn-group-sm > .btn {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.5rem !important;
+    line-height: 1.3;
+    border-radius: 0.2rem;
+  }
+  p {
+    margin-bottom: 1px;
+  }
 }
 </style>

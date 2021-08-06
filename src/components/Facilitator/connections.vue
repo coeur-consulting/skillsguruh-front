@@ -1,9 +1,9 @@
 <template>
   <b-container class="p-3 p-sm-5 text-left">
     <b-row>
-      <b-col sm="7">
-        <div class="box py-3 px-2 p-sm-5 mb-5">
-          <h5 class="mb-3">{{ filteredConnections.length }} Connections</h5>
+      <b-col sm="7" class="mb-5">
+        <div class="box px-2 py-4 p-sm-5">
+          <h6 class="mb-3">{{ filteredConnections.length }} Connections</h6>
           <div class="px-3 py-2 d-flex align-items-center search bg-light">
             <b-icon icon="search"></b-icon>
             <b-form-input
@@ -27,9 +27,17 @@
                 <div class="d-flex align-items-center flex-1">
                   <b-avatar class="mr-2" size="2rem"></b-avatar>
                   <div>
-                    <div class="connection_name">
+                    <div
+                      class="connection_name cursor-pointer"
+                      @click="
+                        $router.push(
+                          `/facilitator/profile/u/${item.facilitator_follower.id}`
+                        )
+                      "
+                    >
                       {{ item.user_follower.name }}
                     </div>
+
                     <div class="connection_email text-muted">
                       {{ item.user_follower.email }}
                     </div>
@@ -37,19 +45,21 @@
                 </div>
 
                 <div>
-                  <b-button
-                    variant="lighter-green"
-                    size="sm"
-                    class="mr-3 rounded-pill"
-                    @click="
-                      getmessage(
-                        item.user_follower.id,
-                        item.user_follower.name,
-                        'user',
-                        item.user_follower.profile
-                      )
-                    "
-                    ><span class="connection_button">Message</span></b-button
+                  <span>
+                    <b-button
+                      variant="lighter-green"
+                      size="sm"
+                      class="mr-3 rounded-pill connection_button"
+                      @click="
+                        getmessage(
+                          item.user_follower.id,
+                          item.user_follower.name,
+                          'user',
+                          item.user_follower.profile
+                        )
+                      "
+                      ><span class="connection_button">Message</span></b-button
+                    ></span
                   >
                 </div>
               </div>
@@ -60,10 +70,10 @@
                     <div
                       @click="
                         $router.push(
-                          `/facilitator/profile/${item.facilitator_follower.id}`
+                          `/facilitator/profile/f/${item.facilitator_follower.id}`
                         )
                       "
-                      class="connection_name hover_green"
+                      class="connection_name cursor-pointer"
                     >
                       {{ item.facilitator_follower.name }}
                     </div>
@@ -75,21 +85,22 @@
                 </div>
 
                 <div>
-                  <b-button
-                    variant="lighter-green"
-                    size="sm"
-                    class="mr-3 rounded-pill"
-                    @click="
-                      getmessage(
-                        item.facilitator_follower.id,
-                        item.facilitator_follower.name,
-                        'facilitator',
-                        item.facilitator_follower.profile
-                      )
-                    "
-                  >
-                    <span class="connection_button">Message</span>
-                  </b-button>
+                  <span>
+                    <b-button
+                      variant="lighter-green"
+                      size="sm"
+                      class="mr-3 rounded-pill"
+                      @click="
+                        getmessage(
+                          item.facilitator_follower.id,
+                          item.facilitator_follower.name,
+                          'facilitator',
+                          item.facilitator_follower.profile
+                        )
+                      "
+                      ><span class="connection_button">Message</span></b-button
+                    >
+                  </span>
                 </div>
               </div>
             </div>
@@ -98,7 +109,7 @@
         </div>
       </b-col>
       <b-col sm="5">
-        <div class="box p-4 mb-5">
+        <div class="box p-2 p-sm-4 mb-5">
           <h6 class="mb-3">Suggested</h6>
 
           <div class="py-1 suggestion_box" v-if="similarconnections.length">
@@ -110,10 +121,24 @@
               <div class="d-flex align-items-center flex-1">
                 <b-avatar class="mr-2" size="2rem"></b-avatar>
                 <div style="line-height: 1.2">
-                  <div class="connection_name">{{ item.name }}</div>
-                  <div class="connection_email text-muted">
-                    {{ item.email }}
-                  </div>
+                  <span
+                    v-if="item.qualifications"
+                    @click="$router.push(`/facilitator/profile/f/${item.id}`)"
+                    class="connection_name cursor-pointer"
+                    >{{ item.name }}</span
+                  >
+
+                  <span
+                    v-else
+                    @click="$router.push(`/facilitator/profile/u/${item.id}`)"
+                    class="connection_name cursor-pointer"
+                    >{{ item.name }}</span
+                  >
+
+                  <br />
+                  <span class="connection_email text-muted">{{
+                    item.email
+                  }}</span>
                 </div>
               </div>
 
@@ -350,5 +375,13 @@ export default {
 .suggestion_box {
   max-height: 40vh;
   overflow: auto;
+}
+h6 {
+  font-size: 0.95rem;
+}
+@media (max-width: 600px) {
+  h6 {
+    font-size: 0.9rem;
+  }
 }
 </style>

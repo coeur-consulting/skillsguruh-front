@@ -166,7 +166,13 @@
                       <div class="course_text">
                         <div class="d-flex justify-content-between">
                           <span
-                            class="p-2 rounded-pill text-white fs11"
+                            class="
+                              p-2
+                              rounded-pill
+                              text-white
+                              fs11
+                              course_badge
+                            "
                             :style="{
                               backgroundColor: JSON.parse(
                                 item.course.courseoutline.knowledge_areas
@@ -274,7 +280,13 @@
                       <div class="course_text">
                         <div class="d-flex justify-content-between">
                           <span
-                            class="p-2 rounded-pill text-white fs11"
+                            class="
+                              p-2
+                              rounded-pill
+                              text-white
+                              fs11
+                              course_badge
+                            "
                             :style="{
                               backgroundColor: JSON.parse(
                                 item[1].course.courseoutline.knowledge_areas
@@ -994,11 +1006,7 @@ export default {
   height: 55%;
   padding: 10px;
 }
-.info {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-}
+
 .todos {
   padding: 10px;
   height: 200px;

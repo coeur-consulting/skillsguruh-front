@@ -1,6 +1,6 @@
 <template>
   <div class="bg-light">
-    <b-container fluid class="pt-0 pt-5">
+    <b-container fluid class="pt-0 pt-sm-5">
       <b-row class="p-1 justify-content-between d-none d-sm-flex">
         <b-col cols="2">
           <span @click="$router.go(-1)" class="cursor-pointer back fs13">
@@ -17,7 +17,7 @@
             <b-col cols="12" class="mb-0 rounded pt-sm-2 px-1 px-sm-4 pb-2">
               <b-card no-body class="overflow-hidden border-0" style="">
                 <b-row no-gutters>
-                  <b-col cols="4" sm="3" class="prof_img">
+                  <b-col cols="3" sm="3" class="prof_img">
                     <b-card-img
                       width="15%"
                       :src="
@@ -29,14 +29,14 @@
                       class="rounded-0"
                     ></b-card-img>
                   </b-col>
-                  <b-col cols="8" sm="9" class="flex-1">
+                  <b-col cols="9" sm="9" class="flex-1">
                     <b-card-body
                       :title="detail.name"
                       class="text-left text-capitalize"
                     >
-                      <b-card-text class="mb-1">
-                        <span class="fs15 text-muted">
-                          {{ detail.bio ? detail.bio : "N/A" }}</span
+                      <b-card-text class="mb-1" v-if="detail.bio">
+                        <span class="fs14 text-muted">
+                          {{ detail.bio ? detail.bio : "N/a" }}</span
                         >
                       </b-card-text>
                       <b-card-text
@@ -94,94 +94,137 @@
                           }}
                         </span>
                       </b-card-text>
-                      <div
-                        v-if="
-                          $route.params.user != 'u' ||
-                          ($route.params.user == 'u' &&
-                            $store.getters.learner.id != $route.params.id)
-                        "
-                      >
-                        <b-button
-                          size="sm"
+                      <div class="d-flex align-items-center">
+                        <div
                           v-if="
-                            $route.params.user == 'f' &&
-                            !checkconnection(detail)
+                            $route.params.user != 'u' ||
+                            ($route.params.user == 'u' &&
+                              $store.getters.learner.id != $route.params.id)
                           "
-                          variant="outline-dark-green"
-                          @click="addconnections(detail.id, 'facilitator')"
-                          >Follow</b-button
+                          class="mr-3"
                         >
-                        <b-button
-                          size="sm"
-                          v-if="
-                            $route.params.user == 'u' &&
-                            !checkconnection(detail)
+                          <b-button
+                            size="sm"
+                            v-if="
+                              $route.params.user == 'f' &&
+                              !checkconnection(detail)
+                            "
+                            variant="outline-dark-green"
+                            @click="addconnections(detail.id, 'facilitator')"
+                            >Connect</b-button
+                          >
+                          <b-button
+                            size="sm"
+                            v-if="
+                              $route.params.user == 'u' &&
+                              !checkconnection(detail)
+                            "
+                            variant="outline-dark-green"
+                            @click="addconnections(detail.id, 'user')"
+                            >Connect</b-button
+                          >
+                          <b-button
+                            size="sm"
+                            v-if="checkconnection(detail)"
+                            @click="removeconnections(detail)"
+                            variant="dark-green"
+                            >Connected</b-button
+                          >
+                        </div>
+                        <b-icon
+                          v-if="$route.params.user == 'u'"
+                          @click="
+                            getmessage(
+                              detail.id,
+                              detail.name,
+                              'user',
+                              detail.profile
+                            )
                           "
-                          variant="outline-dark-green"
-                          @click="addconnections(detail.id, 'user')"
-                          >Follow</b-button
-                        >
-                        <b-button
-                          size="sm"
-                          v-if="checkconnection(detail)"
-                          @click="removeconnections(detail)"
-                          variant="dark-green"
-                          >Following</b-button
-                        >
+                          icon="envelope"
+                          font-scale="1"
+                          class="text-muted"
+                        ></b-icon>
+                        <b-icon
+                          v-if="$route.params.user == 'f'"
+                          @click="
+                            getmessage(
+                              detail.id,
+                              detail.name,
+                              'facilitator',
+                              detail.profile
+                            )
+                          "
+                          icon="envelope"
+                          font-scale="1"
+                          class="text-muted"
+                        ></b-icon>
                       </div>
                     </b-card-body>
                   </b-col>
                 </b-row>
-              </b-card>
-            </b-col>
-            <b-col cols="12" class="px-1 px-sm-4 mb-3">
-              <b-card no-body class="border-0" style="">
-                <b-row>
-                  <b-card-body class="text-left w-100 pb-0">
-                    <nav class="w-100">
-                      <ul
-                        id="navbar"
-                        class="
-                          d-flex
-                          justify-content-around
-                          text-decoration-none
-                          list-unstyled
-                        "
+                <hr class="my-0" />
+                <div class="d-flex">
+                  <span
+                    @click="$router.go(-1)"
+                    class="
+                      cursor-pointer
+                      back
+                      fs13
+                      px-2
+                      border-right
+                      pt-2
+                      d-sm-none
+                    "
+                  >
+                    <span class="">
+                      <b-icon icon="arrow-left" class=""></b-icon
+                    ></span>
+                  </span>
+                  <nav class="w-100 flex-1 pt-2">
+                    <ul
+                      id="navbar"
+                      class="
+                        d-flex
+                        justify-content-around
+                        text-decoration-none
+                        list-unstyled
+                      "
+                    >
+                      <li
+                        class="h6 fs14 cursor-pointer mb-0"
+                        :class="active == 1 ? 'active' : 'text-muted'"
+                        @click="active = 1"
                       >
-                        <li
-                          class="h6 fs14 cursor-pointer mb-0"
-                          :class="active == 1 ? 'active' : ''"
-                          @click="active = 1"
-                        >
-                          Feed
-                        </li>
-                        <li
-                          class="h6 fs14 cursor-pointer mb-0"
-                          :class="active == 2 ? 'active' : ''"
-                          @click="active = 2"
-                        >
-                          Discussions
-                        </li>
-                        <li
-                          class="h6 fs14 cursor-pointer mb-0"
-                          :class="active == 3 ? 'active' : ''"
-                          @click="active = 3"
-                        >
-                          Events
-                        </li>
-                        <li
-                          class="h6 fs14 cursor-pointer mb-0"
-                          :class="active == 4 ? 'active' : ''"
-                          @click="active = 4"
-                        >
-                          Courses
-                        </li>
-                      </ul>
-                    </nav>
-                  </b-card-body>
-                </b-row>
+                        Feed
+                      </li>
+                      <li
+                        class="h6 fs14 cursor-pointer mb-0"
+                        :class="active == 2 ? 'active' : 'text-muted'"
+                        @click="active = 2"
+                      >
+                        Discussions
+                      </li>
+                      <li
+                        class="h6 fs14 cursor-pointer mb-0"
+                        :class="active == 3 ? 'active' : 'text-muted'"
+                        @click="active = 3"
+                      >
+                        Events
+                      </li>
+                      <li
+                        class="h6 fs14 cursor-pointer mb-0"
+                        :class="active == 4 ? 'active' : 'text-muted'"
+                        @click="active = 4"
+                      >
+                        Courses
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
               </b-card>
             </b-col>
+
             <b-col cols="12" class="px-1 px-sm-4">
               <b-card no-body class="border-0 bg-transparent" style="">
                 <b-row>
@@ -629,7 +672,7 @@
                                 $router.push(`/facilitator/event/${item.id}`)
                               "
                             >
-                              <span class="fs15 cursor-pointer viewevent pl-2">
+                              <span class="fs14 cursor-pointer viewevent pl-2">
                                 View Event
                               </span>
                               <b-icon icon="chevron-double-right"></b-icon>
@@ -643,14 +686,14 @@
 
                           <div class="px-3 py-2 d-flex bg-white">
                             <div class="flex-1">
-                              <p class="mb-1 text-muted fs15">
+                              <p class="mb-1 text-muted fs14">
                                 <b-icon
                                   icon="calendar2-check"
                                   class="mr-2 text-muted"
                                 ></b-icon>
                                 {{ item.schedule }}
                               </p>
-                              <p class="mb-1 text-muted fs15">
+                              <p class="mb-1 text-muted fs14">
                                 <b-icon
                                   icon="people"
                                   class="mr-2 text-muted"
@@ -1026,13 +1069,31 @@
         >
       </div>
     </b-modal>
+    <Minichat
+      class="minichats"
+      :user="'learner'"
+      :mini_info="mini_info"
+      :open="open"
+      :showAll="showAll"
+      @togglechat="togglechat"
+    />
   </div>
 </template>
 <script>
+import Minichat from "@/components/minichat";
 export default {
   data() {
     return {
       id: this.$route.params.id,
+      mini_info: {
+        id: "",
+        name: "",
+        type: "",
+        profile: "",
+      },
+      open: false,
+      showAll: false,
+      toggleMessage: false,
       detail: [],
       myconnections: [],
       discussion_id: null,
@@ -1055,19 +1116,14 @@ export default {
       vid_ext: ["mp4", "3gp"],
       aud_ext: ["mp3"],
       doc_ext: ["docx", "pdf", "ppt", "zip"],
-      mini_info: {
-        id: "",
-        name: "",
-        type: "",
-        profile: "",
-      },
-      open: false,
-      showAll: false,
+
       showCourse: false,
       auth: false,
     };
   },
-  components: {},
+  components: {
+    Minichat,
+  },
   computed: {
     filteredCourse() {
       var title = this.courses
@@ -1620,5 +1676,30 @@ h4.card-title {
   position: absolute;
   right: 15px;
   top: 15px;
+}
+.btn-sm,
+.btn-group-sm > .btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.7rem !important;
+  line-height: 1.4;
+  border-radius: 0.2rem;
+}
+@media (max-width: 600px) {
+  h4.card-title {
+    font-size: 0.9rem;
+  }
+  nav ul li {
+    font-size: 12px !important;
+  }
+  .btn-sm,
+  .btn-group-sm > .btn {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.5rem !important;
+    line-height: 1.3;
+    border-radius: 0.2rem;
+  }
+  p {
+    margin-bottom: 1px;
+  }
 }
 </style>

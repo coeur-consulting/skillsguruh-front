@@ -766,4 +766,7 @@ export default {
   top: 0;
   right: 15px;
 }
+.search {
+  min-width: 230px;
+}
 </style>

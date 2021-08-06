@@ -96,7 +96,14 @@
                         <div class="course_text">
                           <div class="d-flex justify-content-between">
                             <span
-                              class="px-2 py-1 rounded-pill text-white fs11"
+                              class="
+                                px-2
+                                py-1
+                                rounded-pill
+                                text-white
+                                fs11
+                                course_badge
+                              "
                               :style="{
                                 backgroundColor: JSON.parse(
                                   item.courseoutline.knowledge_areas
@@ -859,28 +866,15 @@ export default {
   line-height: 1.3;
 }
 .course {
-  height: 350px;
   position: relative;
   background: white;
   border-radius: 8px;
   overflow: hidden;
 }
-.course_img {
-  height: 45%;
-  width: 100%;
 
-  border-radius: 8px;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
 .course_text {
   height: 55%;
   padding: 10px;
-}
-.info {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
 }
 
 .main_box {

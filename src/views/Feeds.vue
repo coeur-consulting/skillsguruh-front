@@ -307,7 +307,7 @@
                 ></b-form-input>
               </div>
 
-              <div class="d-flex justify-content-around event">
+              <div class="d-flex justify-content-around event_video">
                 <div @click="$bvModal.show('feed')">
                   <b-img
                     :src="require('@/assets/images/event.svg')"
@@ -854,7 +854,7 @@ export default {
   },
 
   mounted() {
-   if (localStorage.getItem('authLearner')) {
+    if (localStorage.getItem("authLearner")) {
       this.auth = true;
     }
     this.getfeeds();

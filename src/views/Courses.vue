@@ -13,6 +13,7 @@
               class="
                 text-sm-right
                 d-flex
+                flex-row-reverse flex-sm-row
                 align-items-center
                 justify-content-center
                 px-3 px-sm-0
@@ -25,7 +26,7 @@
               ></b-icon>
 
               <b-icon
-                class="mr-3"
+                class="ml-2 mr-2 mr-sm-3"
                 icon="funnel"
                 @click="$bvModal.show('filter')"
               ></b-icon>
@@ -55,14 +56,23 @@
                   </b-input-group-append>
                 </b-input-group>
               </div>
+              <div class="d-sm-none">
+                <span @click="$router.go(-1)" class="cursor-pointer back fs13">
+                  <span class="mr-2">
+                    <b-icon icon="arrow-left" class=""></b-icon
+                  ></span>
+                  <span class="d-none d-sm-inline">Back</span>
+                </span>
+              </div>
             </div>
           </div>
           <div v-if="showCourse">
             <b-container fluid class="main-course">
               <b-row>
                 <b-col
+                  cols="6"
                   :sm="sideOpen ? 4 : 3"
-                  class="mb-3 side_box"
+                  class="mb-3 side_box px-2 px-sm-3"
                   v-for="(item, index) in filteredCourse"
                   :key="index"
                 >
@@ -83,7 +93,14 @@
                     <div class="course_text">
                       <div class="d-flex justify-content-between">
                         <span
-                          class="px-2 py-1 rounded-pill text-white fs11"
+                          class="
+                            px-2
+                            py-1
+                            rounded-pill
+                            text-white
+                            fs11
+                            course_badge
+                          "
                           :style="{
                             backgroundColor: JSON.parse(
                               item.courseoutline.knowledge_areas
@@ -117,7 +134,13 @@
                         >
                           {{ item.title }}
                         </h6>
-                        <div class="fs13 text-truncate text-truncate--2">
+                        <div
+                          class="
+                            fs13
+                            text-truncate text-truncate--2
+                            course_desc
+                          "
+                        >
                           {{ item.description }}
                         </div>
                       </div>
@@ -144,11 +167,21 @@
                               style="color: gold"
                               class="mr-1"
                             ></b-icon>
-                            <span>{{ item.review.length }} reviews</span>
+                            <span
+                              >{{ item.review.length }}
+                              <span class="d-none d-sm-inline"
+                                >reviews</span
+                              ></span
+                            >
                           </div>
                         </div>
 
-                        <b-avatar size="sm" variant="light" :src="item.cover">
+                        <b-avatar
+                          size="sm"
+                          class="course_avatar"
+                          variant="light"
+                          :src="item.cover"
+                        >
                         </b-avatar>
                       </div>
                     </div>
@@ -1896,29 +1929,17 @@ export default {
   line-height: 1.3;
 }
 .course {
-  height: 350px;
   position: relative;
   background: white;
   border-radius: 8px;
   overflow: hidden;
 }
-.course_img {
-  height: 45%;
-  width: 100%;
 
-  border-radius: 8px;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
 .course_text {
   height: 55%;
   padding: 10px;
 }
-.info {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-}
+
 .sideopen {
   position: absolute;
   top: 0;

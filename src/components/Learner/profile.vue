@@ -75,7 +75,9 @@
                 size="7rem"
                 :src="user.profile"
               >
-                <template #badge><b-icon icon="pencil"></b-icon></template>
+                <template #badge
+                  ><b-icon icon="pencil" font-scale="1.1"></b-icon
+                ></template>
               </b-avatar>
             </Upload>
           </div>

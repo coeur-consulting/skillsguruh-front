@@ -16,8 +16,8 @@
           >
             <b-img class="mr-2 tp" size="2.5rem" src="/img/learner.png"></b-img>
             <span>
-              <span class="font-weight-bold">{{ users.length }}+</span> <br />
-              <span class="font-weight-bold">Happy Learner</span>
+              <span class="">{{ users.length }}+</span> <br />
+              <span class="">Happy Members</span>
             </span>
           </span>
         </b-col>
@@ -28,8 +28,8 @@
           >
             <b-img class="mr-2 tp" size="2.5rem" src="/img/program.png"></b-img>
             <span>
-              <span class="font-weight-bold">{{ courses.length }}+</span> <br />
-              <span class="font-weight-bold">Online Programs</span>
+              <span class="">{{ courses.length }}+</span> <br />
+              <span class="">Online Programs</span>
             </span>
           </span>
         </b-col>
@@ -40,9 +40,9 @@
           >
             <b-img class="mr-2 tp" size="2.5rem" src="/img/grp.png"></b-img>
             <span>
-              <span class="font-weight-bold">{{ facilitators.length }}+</span>
+              <span class="">{{ facilitators.length }}+</span>
               <br />
-              <span class="font-weight-bold">Facilitators Onboard</span>
+              <span class="">Facilitators Onboard</span>
             </span>
           </span>
         </b-col>
@@ -767,11 +767,12 @@
           entreprenuership, lifestyle , connection explore different areas of
           interest that can help improve your business skills
         </p>
-        <b-row class="py-2 justify-content-sm-around">
+        <b-row class="py-2 justify-content-center justify-content-sm-around">
           <b-col
             v-for="(item, id) in interests"
             :key="id"
             class="mb-5 cursor-pointer"
+            cols="4"
             sm="2"
             md="3"
             ><b-img
@@ -779,7 +780,7 @@
               @click="$router.push(`/interests/${item.id}`)"
               class="mb-2 interest"
             ></b-img>
-            <h6 class="font-weight-bold">{{ item.value }}</h6></b-col
+            <h6 class="interest text-center w-100">{{ item.value }}</h6></b-col
           >
         </b-row>
       </section>
@@ -1025,7 +1026,7 @@
               :speed="1000"
               :autoplayTimeout="5000"
               :loop="true"
-              class="p-3"
+              class="p-sm-3"
             >
               <slide
                 v-for="item in events
@@ -1046,11 +1047,12 @@
                 >
                   <b-img fluid-grow :src="item.cover" class="event_img"></b-img>
                   <div class="px-3 py-3">
-                    <p class="mb-2">
+                    <p class="mb-1 schedule">
                       <b-icon icon="calendar2-check" class="mr-2"></b-icon>
+
                       {{ item.schedule }}
                     </p>
-                    <p class="mb-1">
+                    <p class="mb-1 attending">
                       <b-icon icon="people" class="mr-2"></b-icon>
                       {{ item.eventattendance.length }} Attending
                     </p>
@@ -1477,6 +1479,7 @@ export default {
 }
 .tpp {
   cursor: pointer;
+  font-weight: 500;
 }
 .discussion_container {
   height: 265px;
@@ -1586,6 +1589,15 @@ export default {
   .event_img {
     height: 200px;
     object-fit: cover;
+  }
+  p.description,
+  p.attending,
+  p.schedule {
+    font-size: 13px;
+    color: rgba($color: #000000, $alpha: 0.54);
+  }
+  h6.interest {
+    font-size: 0.74rem;
   }
 }
 </style>

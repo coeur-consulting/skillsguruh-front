@@ -3,7 +3,7 @@
     <b-row>
       <b-col sm="7" class="mb-5">
         <div class="box px-2 py-4 p-sm-5">
-          <h5 class="mb-3">{{ filteredConnections.length }} Connections</h5>
+          <h6 class="mb-3">{{ filteredConnections.length }} Connections</h6>
           <div class="px-3 py-2 d-flex align-items-center search bg-light">
             <b-icon icon="search"></b-icon>
             <b-form-input
@@ -27,7 +27,14 @@
                 <div class="d-flex align-items-center flex-1">
                   <b-avatar class="mr-2" size="2rem"></b-avatar>
                   <div>
-                    <div class="connection_name">
+                    <div
+                      class="connection_name cursor-pointer"
+                      @click="
+                        $router.push(
+                          `/learner/profile/u/${item.facilitator_follower.id}`
+                        )
+                      "
+                    >
                       {{ item.user_follower.name }}
                     </div>
 
@@ -63,10 +70,10 @@
                     <div
                       @click="
                         $router.push(
-                          `/learner/facilitator/${item.facilitator_follower.id}`
+                          `/learner/profile/f/${item.facilitator_follower.id}`
                         )
                       "
-                      class="connection_name"
+                      class="connection_name cursor-pointer"
                     >
                       {{ item.facilitator_follower.name }}
                     </div>
@@ -114,7 +121,21 @@
               <div class="d-flex align-items-center flex-1">
                 <b-avatar class="mr-2" size="2rem"></b-avatar>
                 <div style="line-height: 1.2">
-                  <span class="connection_name">{{ item.name }}</span> <br />
+                  <span
+                    v-if="item.qualifications"
+                    @click="$router.push(`/learner/profile/f/${item.id}`)"
+                    class="connection_name cursor-pointer"
+                    >{{ item.name }}</span
+                  >
+
+                  <span
+                    v-else
+                    @click="$router.push(`/learner/profile/u/${item.id}`)"
+                    class="connection_name cursor-pointer"
+                    >{{ item.name }}</span
+                  >
+
+                  <br />
                   <span class="connection_email text-muted">{{
                     item.email
                   }}</span>
@@ -313,5 +334,38 @@ export default {
 .suggestion_box {
   max-height: 40vh;
   overflow: auto;
+}
+.btn-sm,
+.btn-group-sm > .btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.7rem !important;
+  line-height: 1.4;
+  border-radius: 0.2rem;
+}
+h6 {
+  font-size: 0.95rem;
+}
+@media (max-width: 600px) {
+  h6 {
+    font-size: 0.9rem;
+  }
+}
+@media (max-width: 600px) {
+  h4.card-title {
+    font-size: 0.9rem;
+  }
+  nav ul li {
+    font-size: 12px !important;
+  }
+  .btn-sm,
+  .btn-group-sm > .btn {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.5rem !important;
+    line-height: 1.3;
+    border-radius: 0.2rem;
+  }
+  p {
+    margin-bottom: 1px;
+  }
 }
 </style>

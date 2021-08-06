@@ -1,8 +1,10 @@
 <template>
   <div class="bg-light">
     <b-container class="text-left">
-      <b-row class="p-3 p-sm-4 justify-content-between">
-        <b-col cols="2">
+      <b-row
+        class="py-3 px-0 p-sm-4 align-items-center justify-content-between"
+      >
+        <b-col cols="1" sm="2">
           <span @click="$router.go(-1)" class="cursor-pointer back fs13">
             <span class="mr-2">
               <b-icon icon="arrow-left" class=""></b-icon
@@ -11,7 +13,7 @@
           </span>
         </b-col>
 
-        <b-col cols="9" sm="4">
+        <b-col cols="11" sm="4">
           <b-form-input
             type="search"
             v-model="search"
@@ -21,8 +23,9 @@
       </b-row>
       <b-row class="learners">
         <b-col
+          cols="4"
           sm="4"
-          class="mb-5 mb-sm-0 py-3 px-4"
+          class="mb-0 mb-sm-0 p-0 py-sm-3 px-sm-4"
           v-for="(item, id) in filteredName"
           :key="id"
         >
@@ -32,7 +35,7 @@
           >
             <div class="facilitator shadow-sm position-relative bg-white">
               <b-img
-                class="rounded mb-4"
+                class="rounded-sm mb-4"
                 fluid-grow
                 :src="
                   item.profile
@@ -41,19 +44,21 @@
                 "
                 style="object-fit: cover"
               ></b-img>
-              <div>{{ item.name }}</div>
-              <div class="text-muted fs13 text-capitalize">
+              <div class="f_name text-truncate text-truncate--1">
+                {{ item.name }}
+              </div>
+              <div class="text-muted fs13 text-capitalize f_detail">
                 <span> {{ item.age ? item.age + " years" : "N/a" }}</span>
                 <span v-if="item.gender"
                   >, {{ item.gender ? item.gender : "N/a" }}</span
                 >
               </div>
 
-              <div class="text-muted fs13 text-capitalize">
+              <div class="text-muted fs13 text-capitalize f_detail">
                 {{ item.state ? item.state : "Lagos" }},
                 {{ item.country ? item.country : "NG" }}
               </div>
-              <div class="text-muted fs12 text-capitalize">
+              <div class="text-muted fs12 text-capitalize f_detail">
                 {{
                   item.interests
                     ? JSON.parse(item.interests).length + " interests"
@@ -61,7 +66,9 @@
                 }},
               </div>
 
-              <div class="text-muted"><small>Learner</small></div>
+              <div class="text-muted">
+                <small class="f_detail">Member</small>
+              </div>
               <!-- <div>
               <b-icon class="text-gold" icon="star-fill"></b-icon>
               <b-icon class="text-gold" icon="star-fill"></b-icon>
@@ -180,9 +187,9 @@ export default {
   opacity: 0;
 }
 .facilitator {
-  padding: 25px;
+  padding: 0;
   text-align: left;
-  border-radius: 10px;
+  border-radius: 0;
   z-index: 1;
 }
 .facilitator:hover ~ .hover_box {
@@ -192,11 +199,52 @@ export default {
 }
 .facilitator img {
   width: 100%;
-  height: 200px;
 }
 .facilitator > div {
 }
 .text-gold {
   color: gold;
+}
+.facilitator img {
+  height: 150px;
+  margin-bottom: 0 !important;
+  border-radius: 0 0 5px 5px !important;
+}
+.f_detail,
+.f_name {
+  font-size: 0.8rem !important;
+  padding: 0 15px 1px;
+  line-height: 1.4;
+}
+@media (max-width: 600px) {
+  .facilitator {
+    border-radius: 0;
+    padding: 0;
+  }
+  .facilitator img {
+    height: 100px;
+    margin-bottom: 0 !important;
+  }
+  .f_detail,
+  .f_name {
+    font-size: 0.6rem !important;
+    padding: 0 5px 1px;
+  }
+}
+
+@media (max-width: 375px) {
+  .facilitator {
+    border-radius: 0;
+    padding: 0;
+  }
+  .facilitator img {
+    height: 100px;
+    margin-bottom: 0 !important;
+  }
+  .f_detail,
+  .f_name {
+    font-size: 0.55rem !important;
+    padding: 0 5px 1px;
+  }
 }
 </style>
