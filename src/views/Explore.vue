@@ -663,7 +663,7 @@
           <b-col sm="4" class="px-3">
             <div class="text-left">
               <h6 class="mb-3 fs12 text-dark-green">Trending in Last 24hrs</h6>
-              <div v-if="trendingFeed.length" class="py-3">
+              <div v-if="trendingFeed.length" class="pb-3">
                 <div
                   v-for="(item, id) in trendingFeed.slice(0, 10)"
                   :key="id"
