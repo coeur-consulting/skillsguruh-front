@@ -3,7 +3,7 @@ var category = [
     value: "Entrepreneurship",
     icon: "card-heading",
     id: 1,
-    color: "#3C565B",
+    color: "##117530",
     image: "/img/nine.png",
   },
   {

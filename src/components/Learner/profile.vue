@@ -145,6 +145,11 @@
             </b-form-row>
             <b-form-row>
               <b-col sm="6">
+                <b-form-group label="Username">
+                  <b-form-input v-model="user.username"></b-form-input
+                ></b-form-group>
+              </b-col>
+              <b-col sm="6">
                 <b-form-group label="Change Speech Voice">
                   <b-form-select v-model="user.voice">
                     <b-form-select-option

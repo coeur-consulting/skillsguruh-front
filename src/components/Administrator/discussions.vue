@@ -363,7 +363,7 @@
 
         <b-form-group label="Interests">
           <multi-select
-            :options="mytags"
+            :options="filteredinterests"
             :selected-options="discussion.tags"
             placeholder="select interests"
             @select="onSelect"
@@ -459,6 +459,11 @@ export default {
     this.getothers();
   },
   computed: {
+    filteredinterests() {
+      return this.mytags.filter(
+        (item) => item.category_id == this.discussion.category.id
+      );
+    },
     filteredDiscussions() {
       if (this.show == "recent") {
         return this.discussions.filter((item) => item.type == "public");

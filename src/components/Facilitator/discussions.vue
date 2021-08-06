@@ -397,7 +397,7 @@
 
         <b-form-group label="Interests">
           <multi-select
-            :options="mytags"
+            :options="filteredinterests"
             :selected-options="discussion.tags"
             placeholder="select interests"
             @select="onSelect"
@@ -501,6 +501,11 @@ export default {
     this.getdiscussionsbytrend();
   },
   computed: {
+    filteredinterests() {
+      return this.mytags.filter(
+        (item) => item.category_id == this.discussion.category.id
+      );
+    },
     filteredData() {
       if (this.show == "recent") {
         return (

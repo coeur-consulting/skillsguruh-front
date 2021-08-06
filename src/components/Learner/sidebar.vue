@@ -13,68 +13,116 @@
     <div class="side_items">
       <div>
         <router-link to="/learner">
-          <div class="side_item py-3">
+          <div class="side_item py-2">
             <home-icon size="1.2x" class="custom-class"></home-icon>
             <span class="side-link p-3">Dashboard</span>
           </div>
         </router-link>
-        <router-link to="/learner/courses">
-          <div class="side_item py-3">
-            <folder-icon size="1.2x" class="custom-class"></folder-icon>
-            <span class="side-link p-3">Courses</span>
-          </div>
-        </router-link>
-        <router-link to="/learner/assessments">
-          <div class="side_item py-3">
-            <database-icon size="1x" class="custom-class"></database-icon>
-            <span class="side-link p-3">Assessments</span>
-          </div>
-        </router-link>
-        <router-link to="/learner/library">
-          <div class="side_item py-3">
-            <book-icon size="1.2x" class="custom-class"></book-icon>
-            <span class="side-link p-3">Library</span>
-          </div>
-        </router-link>
-        <router-link to="/learner/schedule">
-          <div class="side_item py-3">
-            <calendar-icon size="1.2x" class="custom-class"></calendar-icon>
-            <span class="side-link p-3">Schedule</span>
-          </div>
-        </router-link>
-        <router-link to="/learner/feeds">
-          <div class="side_item py-3">
-            <rss-icon size="1.2x" class="custom-class"></rss-icon>
-            <span class="side-link p-3"><span class="mr-5">Feed</span> </span>
-          </div>
-        </router-link>
-        <router-link to="/learner/discussions">
-          <div class="side_item py-2">
-            <twitch-icon size="1.2x" class="custom-class"></twitch-icon>
-            <span class="side-link p-3">Discussions</span>
-          </div>
-        </router-link>
         <router-link to="/learner/connections">
-          <div class="side_item py-3">
+          <div class="side_item py-2">
             <link-icon size="1.2x" class="custom-class"></link-icon>
             <span class="side-link p-3">Connections</span>
           </div>
         </router-link>
-        <router-link to="/learner/events">
-          <div class="side_item py-2">
-            <bookmark-icon size="1.2x" class="custom-class"></bookmark-icon>
-            <span class="side-link p-3">
-              <span class="mr-5">Events</span>
-              <span v-if="activeaccount"
-                ><b-badge variant="danger" size="sm">{{
-                  activeaccount
-                }}</b-badge></span
-              ></span
-            >
+
+        <div>
+          <div
+            class="side_item py-2"
+            @click="toggleCommunity = !toggleCommunity"
+          >
+            <folder-icon size="1.2x" class="custom-class"></folder-icon>
+            <span class="side-link p-3">Community</span>
           </div>
-        </router-link>
+          <div
+            class="px-3 py-1 animate__slideInDown animate__slideInUp"
+            v-if="toggleCommunity"
+          >
+            <router-link to="/learner/feeds">
+              <div class="side_item py-1">
+                <rss-icon size="1.2x" class="custom-class"></rss-icon>
+                <span class="side-link p-3"
+                  ><span class="mr-5">Feed</span>
+                </span>
+              </div>
+            </router-link>
+            <router-link to="/learner/discussions">
+              <div class="side_item py-1">
+                <twitch-icon size="1.2x" class="custom-class"></twitch-icon>
+                <span class="side-link p-3">Discussions</span>
+              </div>
+            </router-link>
+
+            <router-link to="/learner/events">
+              <div class="side_item py-1">
+                <bookmark-icon size="1.2x" class="custom-class"></bookmark-icon>
+                <span class="side-link p-3">
+                  <span class="mr-5">Events</span>
+                  <span v-if="activeaccount"
+                    ><b-badge variant="danger" size="sm">{{
+                      activeaccount
+                    }}</b-badge></span
+                  ></span
+                >
+              </div>
+            </router-link>
+          </div>
+        </div>
+
+        <div>
+          <div class="side_item py-2" @click="toggleCourse = !toggleCourse">
+            <calendar-icon size="1.2x" class="custom-class"></calendar-icon>
+            <span class="side-link p-3">Course</span>
+          </div>
+
+          <div
+            class="
+              px-3
+              py-1
+              animate__slideInDown animate__slideInUp animate__slow
+            "
+            v-if="toggleCourse"
+          >
+            <router-link to="/learner/courses">
+              <div class="side_item py-1">
+                <folder-icon size="1.2x" class="custom-class"></folder-icon>
+                <span class="side-link p-3">Courses</span>
+              </div>
+            </router-link>
+            <router-link to="/learner/assessments">
+              <div class="side_item py-1">
+                <database-icon size="1x" class="custom-class"></database-icon>
+                <span class="side-link p-3">Assessments</span>
+              </div>
+            </router-link>
+            <router-link to="/learner/library">
+              <div class="side_item py-1">
+                <book-icon size="1.2x" class="custom-class"></book-icon>
+                <span class="side-link p-3">Library</span>
+              </div>
+            </router-link>
+          </div>
+        </div>
+
+        <div>
+          <div class="side_item py-2" @click="toggleSchedule = !toggleSchedule">
+            <b-icon icon="tools"></b-icon>
+            <span class="side-link p-3">Tools</span>
+          </div>
+          <div
+            class="px-3 py-1 animate__slideInDown animate__slideInUp"
+            v-if="toggleSchedule"
+          >
+            <router-link to="/learner/schedule">
+              <div class="side_item py-1">
+                <calendar-icon size="1.2x" class="custom-class"></calendar-icon>
+                <span class="side-link p-3">Schedule</span>
+              </div>
+            </router-link>
+          </div>
+        </div>
+
         <router-link to="/learner/referrals">
-          <div class="side_item py-3">
+          <div class="side_item py-2">
             <credit-card-icon
               size="1.2x"
               class="custom-class"
@@ -145,6 +193,9 @@ export default {
   data() {
     return {
       events: [],
+      toggleCourse: false,
+      toggleCommunity: false,
+      toggleSchedule: false,
     };
   },
   computed: {

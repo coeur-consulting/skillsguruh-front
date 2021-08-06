@@ -1,7 +1,7 @@
 <template>
   <div class="bg-light">
-    <b-container fluid>
-      <b-row class="p-1 justify-content-between">
+    <b-container fluid class="pt-0 pt-5">
+      <b-row class="p-1 justify-content-between d-none d-sm-flex">
         <b-col cols="2">
           <span @click="$router.go(-1)" class="cursor-pointer back fs13">
             <span class="mr-2">
@@ -17,7 +17,7 @@
             <b-col cols="12" class="mb-0 rounded pt-sm-2 px-1 px-sm-4 pb-2">
               <b-card no-body class="overflow-hidden border-0" style="">
                 <b-row no-gutters>
-                  <div class="prof_img">
+                  <b-col cols="4" sm="3" class="prof_img">
                     <b-card-img
                       width="15%"
                       :src="
@@ -28,8 +28,8 @@
                       alt="Image"
                       class="rounded-0"
                     ></b-card-img>
-                  </div>
-                  <div class="flex-1">
+                  </b-col>
+                  <b-col cols="8" sm="9" class="flex-1">
                     <b-card-body
                       :title="detail.name"
                       class="text-left text-capitalize"
@@ -130,7 +130,7 @@
                         >
                       </div>
                     </b-card-body>
-                  </div>
+                  </b-col>
                 </b-row>
               </b-card>
             </b-col>
@@ -1485,9 +1485,6 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.container-fluid {
-  padding-top: 30px;
-}
 .shadow {
   box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;

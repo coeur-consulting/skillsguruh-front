@@ -3,7 +3,7 @@
     <div class="position-relative">
       <div class="stbg">
         <div class="bg_overlay">
-          <h1 class="text-white font-weight-bold">Explore Interest</h1>
+          <h2 class="text-white font-weight-bold">Explore Interest</h2>
         </div>
       </div>
     </div>
@@ -48,72 +48,7 @@
         </b-col>
       </b-row>
 
-      <section class="py-3 py-sm-5 mb-2 mb-sm-5">
-        <b-row>
-          <!-- <b-col sm="5">
-            <h6 class="mb-2 font-weight-bold">Top Contributors</h6>
-            <p class="">
-              See our users who have been active contibutors to discussions
-            </p>
-            <div v-if="filterContributors.length">
-              <div
-                class="d-flex w-75 pr-4 mb-3"
-                v-for="(item, id) in filterContributors"
-                :key="id"
-              >
-                <b-avatar
-                  v-if="item.admin"
-                  :src="item.admin.profile"
-                  class="mr-3"
-                  size="2.3rem"
-                ></b-avatar>
-                <b-avatar
-                  v-if="item.user"
-                  :src="item.user.profile"
-                  class="mr-3"
-                  size="2.3rem"
-                ></b-avatar>
-                <b-avatar
-                  v-if="item.facilitator"
-                  :src="item.facilitator.profile"
-                  class="mr-3"
-                  size="2.3rem"
-                ></b-avatar>
-                <div v-if="item.admin" class="line-height-1_2">
-                  <span class="fs14 font-weight-bold">{{
-                    item.admin.name
-                  }}</span>
-                  <br />
-                  <span class="text-muted fs11"
-                    >{{ item.count }} contributions</span
-                  >
-                </div>
-                <div v-if="item.facilitator" class="line-height-1_2">
-                  <span
-                    class="fs14 font-weight-bold"
-                    @click="$router.push(`/profile/f/${item.facilitator.id}`)"
-                    >{{ item.facilitator.name }}</span
-                  >
-                  <br />
-                  <span class="text-muted fs11"
-                    >{{ item.count }} contributions</span
-                  >
-                </div>
-                <div v-if="item.user" class="line-height-1_2">
-                  <span
-                    class="fs14 font-weight-bold"
-                    @click="$router.push(`/profile/u/${item.user.id}`)"
-                    >{{ item.user.name }}</span
-                  >
-                  <br />
-                  <span class="text-muted fs11"
-                    >{{ item.count }} contributions</span
-                  >
-                </div>
-              </div>
-            </div>
-          </b-col> -->
-        </b-row>
+      <section class="py-3 py-sm-4 mb-2 mb-sm-5">
         <b-row>
           <b-col class="mb-3">
             <div>
@@ -129,7 +64,7 @@
             </div>
           </b-col>
         </b-row>
-        <b-row class="py-5" v-if="trending.length">
+        <b-row class="py-4 d-none d-sm-flex" v-if="trending.length">
           <b-col
             sm="4"
             class="mb-2"
@@ -138,11 +73,7 @@
           >
             <div
               class="discussion_container position-relative"
-              :style="{
-                backgroundImage: `url(
-                  ${JSON.parse(item.category).image}
-                )`,
-              }"
+              @click="$router.push(`/discussion/${item.id}`)"
             >
               <div class="p-4 dicussion_overlay position-relative">
                 <b-avatar
@@ -178,105 +109,245 @@
                 </div>
 
                 <span class="position-absolute discussion_badge">
-                  <b-badge variant="dark-green">
-                    <b-icon icon="circle-fill" font-scale=".7"></b-icon>
+                  <b-badge
+                    class="text-white d-flex align-items-center"
+                    :style="{
+                      backgroundColor: JSON.parse(item.category).color,
+                    }"
+                  >
+                    <b-icon
+                      icon="circle-fill"
+                      class="mr-1"
+                      font-scale=".5"
+                    ></b-icon>
                     {{ JSON.parse(item.category).value }}</b-badge
                   >
                 </span>
 
-                <!-- <b-row class="justify-content-start mb-2">
-                  <b-col
-                    cols="auto"
-                    v-for="(tag, id) in JSON.parse(item.tags)"
-                    :key="id"
-                  >
-                    <b-badge
-                      :style="{ backgroundColor: tag.color }"
-                      class="text-white tag_badge"
-                      >{{ tag.value }}</b-badge
-                    ></b-col
-                  >
-                </b-row> -->
                 <div
-                  class="
-                    rounded
-                    d-flex
-                    comment_container
-                    shadow
-                    mb-3
-                    overflow-hidden
-                  "
-                  v-for="(message, idx) in item.discussionmessage.slice(0, 2)"
-                  :key="idx"
+                  class="comment_carousel"
+                  v-if="item.discussionmessage.length"
                 >
-                  <div class="comment_image">
-                    <b-img
-                      v-if="item.admin"
-                      :src="
-                        item.admin.proflle
-                          ? item.admin.profile
-                          : require('@/assets/images/default.jpeg')
+                  <VueSlickCarousel
+                    :arrows="false"
+                    :vertical="true"
+                    :slidesToShow="2"
+                    :slidesToScroll="2"
+                    :autoplay="true"
+                    :autoplaySpeed="5000"
+                  >
+                    <div
+                      v-for="(message, idx) in item.discussionmessage"
+                      :key="idx"
+                      class="
+                        rounded
+                        d-flex
+                        comment_container
+                        mb-3
+                        overflow-hidden
                       "
-                    ></b-img>
-                    <b-img
-                      v-if="item.facilitator"
-                      :src="
-                        item.facilitator.proflle
-                          ? item.facilitator.profile
-                          : require('@/assets/images/default.jpeg')
-                      "
-                    ></b-img>
-                    <b-img
-                      v-if="item.user"
-                      :src="
-                        item.user.proflle
-                          ? item.user.profile
-                          : require('@/assets/images/default.jpeg')
-                      "
-                    ></b-img>
-                  </div>
-                  <div class="comment_box">
-                    <div class="comment_name" v-if="item.admin">
-                      {{ item.admin.name }}
+                    >
+                      <div class="comment_image">
+                        <b-img
+                          v-if="item.admin"
+                          :src="
+                            item.admin.proflle
+                              ? item.admin.profile
+                              : require('@/assets/images/default.jpeg')
+                          "
+                        ></b-img>
+                        <b-img
+                          v-if="item.facilitator"
+                          :src="
+                            item.facilitator.proflle
+                              ? item.facilitator.profile
+                              : require('@/assets/images/default.jpeg')
+                          "
+                        ></b-img>
+                        <b-img
+                          v-if="item.user"
+                          :src="
+                            item.user.proflle
+                              ? item.user.profile
+                              : require('@/assets/images/default.jpeg')
+                          "
+                        ></b-img>
+                      </div>
+                      <div class="comment_box">
+                        <div class="comment_name" v-if="item.admin">
+                          {{ item.admin.name }}
+                        </div>
+                        <div class="comment_name" v-if="item.facilitator">
+                          {{ item.facilitator.name }}
+                        </div>
+                        <div class="comment_name" v-if="item.user">
+                          {{ item.user.name }}
+                        </div>
+                        <div class="comment_details">
+                          <span class="mr-2">{{
+                            $moment(message.create_at).fromNow()
+                          }}</span>
+                          <span
+                            >{{
+                              message.discussionmessagecomment.length
+                            }}
+                            comments</span
+                          >
+                        </div>
+                        <div
+                          class="comment_text text-truncate text-truncate--2"
+                          v-html="message.message"
+                        ></div>
+                      </div>
                     </div>
-                    <div class="comment_name" v-if="item.facilitator">
-                      {{ item.facilitator.name }}
-                    </div>
-                    <div class="comment_name" v-if="item.user">
-                      {{ item.user.name }}
-                    </div>
-                    <div class="comment_details">
-                      <span class="mr-2">{{
-                        $moment(message.create_at).fromNow()
-                      }}</span>
-                      <span
-                        >{{
-                          message.discussionmessagecomment.length
-                        }}
-                        comments</span
-                      >
-                    </div>
-                    <div class="comment_text text-truncate text-truncate--2">
-                      {{ message.message }}
-                    </div>
-                  </div>
+                  </VueSlickCarousel>
                 </div>
               </div>
             </div>
           </b-col>
         </b-row>
+        <div class="py-4 d-sm-none px-3">
+          <carousel :perPage="1">
+            <slide
+              v-for="(item, id) in trending.slice(0, 6)"
+              :key="id"
+              class="px-2"
+            >
+              <div
+                class="discussion_container position-relative"
+                @click="$router.push(`/discussion/${item.id}`)"
+              >
+                <div class="p-4 dicussion_overlay position-relative">
+                  <b-avatar
+                    v-if="item.admin"
+                    :src="item.admin.profile"
+                    class="mr-3 discussion_avatar"
+                  ></b-avatar>
+                  <b-avatar
+                    v-if="item.user"
+                    :src="item.user.profile"
+                    class="mr-3 discussion_avatar"
+                  ></b-avatar>
+                  <b-avatar
+                    v-if="item.facilitator"
+                    :src="item.facilitator.profile"
+                    class="mr-3 discussion_avatar"
+                  ></b-avatar>
+                  <div class="discussion_name" v-if="item.admin">
+                    {{ item.admin.name }}
+                  </div>
+
+                  <div class="discussion_name" v-if="item.facilitator">
+                    {{ item.facilitator.name }}
+                  </div>
+                  <div class="discussion_name" v-if="item.user">
+                    {{ item.user.name }}
+                  </div>
+                  <div class="fs11 mb-3">
+                    {{ $moment(item.created_at).fromNow() }}
+                  </div>
+                  <div class="discussion_title">
+                    {{ item.name }}
+                  </div>
+
+                  <span class="position-absolute discussion_badge">
+                    <b-badge
+                      class="text-white d-flex align-items-center"
+                      :style="{
+                        backgroundColor: JSON.parse(item.category).color,
+                      }"
+                    >
+                      <b-icon
+                        icon="circle-fill"
+                        class="mr-1"
+                        font-scale=".5"
+                      ></b-icon>
+                      {{ JSON.parse(item.category).value }}</b-badge
+                    >
+                  </span>
+
+                  <div
+                    class="comment_carousel"
+                    v-if="item.discussionmessage.length"
+                  >
+                    <div
+                      v-for="(message, idx) in item.discussionmessage"
+                      :key="idx"
+                      class="
+                        rounded
+                        d-flex
+                        comment_container
+                        mb-3
+                        overflow-hidden
+                      "
+                    >
+                      <div class="comment_image">
+                        <b-img
+                          v-if="item.admin"
+                          :src="
+                            item.admin.proflle
+                              ? item.admin.profile
+                              : require('@/assets/images/default.jpeg')
+                          "
+                        ></b-img>
+                        <b-img
+                          v-if="item.facilitator"
+                          :src="
+                            item.facilitator.proflle
+                              ? item.facilitator.profile
+                              : require('@/assets/images/default.jpeg')
+                          "
+                        ></b-img>
+                        <b-img
+                          v-if="item.user"
+                          :src="
+                            item.user.proflle
+                              ? item.user.profile
+                              : require('@/assets/images/default.jpeg')
+                          "
+                        ></b-img>
+                      </div>
+                      <div class="comment_box">
+                        <div class="comment_name" v-if="item.admin">
+                          {{ item.admin.name }}
+                        </div>
+                        <div class="comment_name" v-if="item.facilitator">
+                          {{ item.facilitator.name }}
+                        </div>
+                        <div class="comment_name" v-if="item.user">
+                          {{ item.user.name }}
+                        </div>
+                        <div class="comment_details">
+                          <span class="mr-2">{{
+                            $moment(message.create_at).fromNow()
+                          }}</span>
+                          <span
+                            >{{
+                              message.discussionmessagecomment.length
+                            }}
+                            comments</span
+                          >
+                        </div>
+                        <div
+                          class="comment_text text-truncate text-truncate--2"
+                          v-html="message.message"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </slide>
+          </carousel>
+        </div>
       </section>
       <section class="py-3 py-sm-5">
         <b-row class="d-flex">
-          <b-col>
-            <div class="d-flex justify-content-between">
-              <h6 class="mb-5 font-weight-bold trending">Popular Feed</h6>
-              <router-link to="/feeds" class="text-dark-green"
-                ><small
-                  >View all feeds
-                  <b-icon font-scale=".85" icon="chevron-right"></b-icon></small
-              ></router-link>
-            </div>
+          <b-col sm="8">
+            <h6 class="mb-4 font-weight-bold trending">Popular Feed</h6>
+          </b-col>
+          <b-col sm="4" class="d-none d-sm-block">
+            <h6 class="mb-4 fs12 text-dark-green">Trending in Last 24hrs</h6>
           </b-col>
         </b-row>
         <b-row>
@@ -374,7 +445,7 @@
                     </b-dropdown>
                   </div>
 
-                  <div v-if="feed.media || feed.publicId">
+                  <div v-if="feed.media || feed.publicId" class="d-none">
                     <div class="mb-4 position-relative w-100 media">
                       <cld-image
                         v-if="
@@ -630,7 +701,7 @@
                 <div class="text-center mt-2">
                   <router-link to="/feeds" class="text-dark-green"
                     ><small
-                      >View all feeds
+                      >View all feed
                       <b-icon
                         font-scale=".85"
                         icon="chevron-right"
@@ -662,7 +733,9 @@
           </b-col>
           <b-col sm="4" class="px-3">
             <div class="text-left">
-              <h6 class="mb-3 fs12 text-dark-green">Trending in Last 24hrs</h6>
+              <h6 class="mb-4 fs12 text-dark-green d-sm-none">
+                Trending in Last 24hrs
+              </h6>
               <div v-if="trendingFeed.length" class="pb-3">
                 <div
                   v-for="(item, id) in trendingFeed.slice(0, 10)"
@@ -687,20 +760,20 @@
       </section>
 
       <section class="text-center mb-5 py-5">
-        <h4 class="mb-4">Explore Interest</h4>
+        <h5 class="mb-4">Explore Interest</h5>
 
         <p class="px-2 px-sm--5">
           There are several interest to be explored from health,
           entreprenuership, lifestyle , connection explore different areas of
           interest that can help improve your business skills
         </p>
-        <b-row class="py-2 justify-content-around">
+        <b-row class="py-2 justify-content-sm-around">
           <b-col
             v-for="(item, id) in interests"
             :key="id"
             class="mb-5 cursor-pointer"
-            cols="4"
-            sm="3"
+            sm="2"
+            md="3"
             ><b-img
               :src="item.image"
               @click="$router.push(`/interests/${item.id}`)"
@@ -710,12 +783,12 @@
           >
         </b-row>
       </section>
-      <section class="py-5">
-        <h6 class="mb-3 font-weight-bold text-center text-sm-left">
+      <section class="py-4">
+        <h6 class="mb-4 font-weight-bold text-center text-sm-left">
           Popular Courses
         </h6>
         <b-row
-          class="justify-content-start pt-5 pb-1"
+          class="justify-content-start pb-1"
           v-if="mostenrolledcourse.length"
         >
           <b-col
@@ -927,7 +1000,7 @@
           </b-col>
         </b-row>
 
-        <div class="text-center text-dark-green">
+        <div class="text-center text-dark-green fs12">
           <span @click="$router.push('/explore/courses')" class="cursor-pointer"
             >Load more...</span
           >
@@ -935,7 +1008,7 @@
       </section>
       <section class="py-3 py-sm-5">
         <div class="d-flex justify-content-between">
-          <h6 class="mb-5 font-weight-bold">Upcoming Events</h6>
+          <h6 class="mb-4 font-weight-bold">Upcoming Events</h6>
           <router-link to="/events" class="text-dark-green"
             ><small
               >View all events
@@ -959,7 +1032,7 @@
                   .filter((item) => item.status == 'pending')
                   .slice(0, 5)"
                 :key="item.id"
-                class=""
+                class="px-2"
               >
                 <div
                   class="
@@ -1052,6 +1125,11 @@
 import Interests from "@/components/helpers/category.js";
 import SubInterests from "@/components/helpers/subcategory.js";
 import EmojiPicker from "vue-emoji-picker";
+import VueSlickCarousel from "vue-slick-carousel";
+import "vue-slick-carousel/dist/vue-slick-carousel.css";
+// optional style for arrows & dots
+import "vue-slick-carousel/dist/vue-slick-carousel-theme.css";
+
 export default {
   data() {
     return {
@@ -1102,6 +1180,7 @@ export default {
   },
   components: {
     EmojiPicker,
+    VueSlickCarousel,
   },
   computed: {
     trending() {
@@ -1400,14 +1479,11 @@ export default {
   cursor: pointer;
 }
 .discussion_container {
-  height: 300px;
+  height: 265px;
   color: #fff;
   border-radius: 10px;
-  margin-bottom: 5.2rem;
-  background-size: cover;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+
+  background-image: url("/img/fac1.jpg");
 }
 .dicussion_overlay {
   width: 100%;
@@ -1492,7 +1568,24 @@ export default {
     width: 30px;
   }
   .trending {
-    font-size: 1rem;
+    font-size: 0.85rem;
+  }
+  .discussion_container {
+    min-width: 320px;
+    margin-bottom: 4.1rem;
+  }
+  .comment_carousel {
+    overflow-y: auto;
+    max-height: 200px;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .comment_carousel::-webkit-scrollbar {
+    display: none;
+  }
+  .event_img {
+    height: 200px;
+    object-fit: cover;
   }
 }
 </style>

@@ -170,7 +170,18 @@
               </b-form-row>
 
               <b-form-row class="mb-2">
-                <b-col sm="5" class="pr-sm-3">
+                <b-col sm="6" class="pr-sm-3" v-if="type == 'learner'">
+                  <b-form-group label="Username">
+                    <b-form-input
+                      size="lg"
+                      v-model="user.username"
+                      type="text"
+                      :required="type == 'learner'"
+                      placeholder="Your unique username"
+                    ></b-form-input>
+                  </b-form-group>
+                </b-col>
+                <b-col sm="6" class="pr-sm-3">
                   <b-form-group label="Referral code(optional)">
                     <b-form-input
                       size="lg"
@@ -309,6 +320,7 @@ export default {
         referral: "",
         referral_type: "",
         agree: null,
+        username: "",
       },
     };
   },

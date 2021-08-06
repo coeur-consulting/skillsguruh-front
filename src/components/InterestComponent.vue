@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import Interest from "./insight";
+import Interest from "./helpers/subcategory.js";
 export default {
   props: ["user", "type"],
   data() {
@@ -87,7 +87,7 @@ export default {
       interests: [],
       selected_interests: [],
       search: "",
-      initial: 30,
+      initial: 17,
     };
   },
   created() {

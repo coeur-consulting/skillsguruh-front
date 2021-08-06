@@ -1,8 +1,16 @@
 <template>
-  <div class="bg-light pb-5 pt-3" v-if="currentinterests">
-    <b-container>
-      <b-row>
-        <b-col sm="9" class="col-sm-offset">
+  <div class="bg-light pb-5 pt-0 pt-sm-5" v-if="currentinterests">
+    <b-container class="p-0">
+      <div class="text-left mb-2 d-none d-sm-block">
+        <span @click="$router.go(-1)" class="cursor-pointer back fs13">
+          <span class="mr-2">
+            <b-icon icon="arrow-left" class=""></b-icon
+          ></span>
+          <span class="d-none d-sm-inline">Back</span>
+        </span>
+      </div>
+      <b-row class="px-3 px-sm-0">
+        <b-col sm="9" class="">
           <b-row>
             <b-col cols="12" class="mb-0 rounded px-1 px-sm-4 pb-2">
               <b-card
@@ -11,27 +19,33 @@
                 style=""
               >
                 <b-card-body class="p-0">
-                  <div class="d-flex">
+                  <div class="d-flex align-items-center">
                     <div class="prof_img position-relative">
                       <div class="discussion_overlay"></div>
                       <b-card-img
                         :style="{
-                          backgroundColor: '',
+                          backgroundColor: ''
                         }"
                         :src="currentinterests.image"
                         alt="Image"
                         class="rounded-0"
                       ></b-card-img>
                     </div>
-                    <div class="flex-1">
-                      <b-card-body
-                        :title="currentinterests.value"
-                        class="text-left text-capitalize"
+                    <div class="flex-1 p-3">
+                      <div
+                        class="
+                          text-left text-capitalize
+                          d-flex
+                          align-items-center
+                        "
                       >
-                      </b-card-body>
+                        <h6 class="mb-0">{{ currentinterests.value }}</h6>
+                        <span class="px-1">|</span>
+                        <h6 class="text-muted mb-0">{{ subId }}</h6>
+                      </div>
                     </div>
                   </div>
-                  <hr />
+                  <hr class="mt-0" />
                   <nav class="w-100">
                     <ul
                       id="navbar"
@@ -43,28 +57,28 @@
                       "
                     >
                       <li
-                        class="h6 fs14 cursor-pointer mb-0"
+                        class="h6 fs14 cursor-pointer mb-0 text-muted"
                         :class="active == 4 ? 'active' : ''"
                         @click="active = 4"
                       >
                         People
                       </li>
                       <li
-                        class="h6 fs14 cursor-pointer mb-0"
+                        class="h6 fs14 cursor-pointer mb-0 text-muted"
                         :class="active == 1 ? 'active' : ''"
                         @click="active = 1"
                       >
                         Feed
                       </li>
                       <li
-                        class="h6 fs14 cursor-pointer mb-0"
+                        class="h6 fs14 cursor-pointer mb-0 text-muted"
                         :class="active == 2 ? 'active' : ''"
                         @click="active = 2"
                       >
                         Discussions
                       </li>
                       <li
-                        class="h6 fs14 cursor-pointer mb-0"
+                        class="h6 fs14 cursor-pointer mb-0 text-muted"
                         :class="active == 3 ? 'active' : ''"
                         @click="active = 3"
                       >
@@ -84,7 +98,7 @@
                       <b-row class="facilitators justify-content-sm-start">
                         <b-col
                           sm="4"
-                          class="mb-5 mb-sm-0 py-3"
+                          class="mb-3 mb-sm-0 py-3"
                           v-for="(item, id) in users"
                           :key="id"
                         >
@@ -281,7 +295,7 @@
                                 <b-img
                                   v-if="
                                     feed.media &&
-                                    img_ext.includes(getextension(feed.media))
+                                      img_ext.includes(getextension(feed.media))
                                   "
                                   fluid-grow
                                   :src="feed.media"
@@ -291,7 +305,7 @@
                                   width="100%"
                                   v-if="
                                     feed.media &&
-                                    vid_ext.includes(getextension(feed.media))
+                                      vid_ext.includes(getextension(feed.media))
                                   "
                                   :src="feed.media"
                                   class="fluid-grow"
@@ -299,7 +313,7 @@
                                 <div
                                   v-if="
                                     feed.media &&
-                                    doc_ext.includes(getextension(feed.media))
+                                      doc_ext.includes(getextension(feed.media))
                                   "
                                   class="text-center p-3 bg-skills-grey"
                                 >
@@ -324,7 +338,7 @@
                                 <b-icon
                                   :icon="
                                     feed.stars.find(
-                                      (item) =>
+                                      item =>
                                         item.star &&
                                         item.facilitator_id ==
                                           $store.getters.facilitator.id
@@ -335,7 +349,7 @@
                                   class="text-blue mr-1"
                                 ></b-icon>
                                 <span>{{
-                                  feed.stars.filter((item) => item.star).length
+                                  feed.stars.filter(item => item.star).length
                                 }}</span>
                                 stars</span
                               >
@@ -343,7 +357,7 @@
                                 ><b-icon
                                   :icon="
                                     feed.likes.find(
-                                      (item) =>
+                                      item =>
                                         item.like &&
                                         item.facilitator_id ==
                                           $store.getters.facilitator.id
@@ -354,7 +368,7 @@
                                   class="text-danger mr-1"
                                 ></b-icon>
                                 <span>{{
-                                  feed.likes.filter((item) => item.like).length
+                                  feed.likes.filter(item => item.like).length
                                 }}</span>
                                 likes</span
                               >
@@ -626,7 +640,7 @@
                                       item.cover
                                         ? item.cover
                                         : require('@/assets/images/default.png')
-                                    })`,
+                                    })`
                                   }"
                                 ></div>
                                 <div class="course_text">
@@ -642,7 +656,7 @@
                                       :style="{
                                         backgroundColor: JSON.parse(
                                           item.courseoutline.knowledge_areas
-                                        ).color,
+                                        ).color
                                       }"
                                     >
                                       <b-icon
@@ -771,8 +785,8 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col sm="2" class="d-none d-sm-block">
-          <nav class="bg-white rounded p-3">
+        <b-col sm="3" class="d-none d-sm-block">
+          <nav class="rounded px-3">
             <ul>
               <li
                 v-for="(sub, id) in filteredinterests"
@@ -781,11 +795,12 @@
                 :class="subId == sub.value ? 'activesub' : ''"
                 class="d-flex align-items-center"
               >
-                <b-icon
+                <!-- <b-icon
                   icon="chevron-right"
                   font-scale=".7"
+                  v-show="subId == sub.value"
                   :variant="subId == sub.value ? 'dark-green' : ''"
-                ></b-icon>
+                ></b-icon> -->
                 <span>{{ sub.value.trim() }}</span>
               </li>
             </ul>
@@ -808,7 +823,9 @@
           network="facebook"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`"
+          :description="
+            `I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -821,7 +838,9 @@
           network="twitter"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`"
+          :description="
+            `I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -834,7 +853,9 @@
           network="whatsApp"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`"
+          :description="
+            `I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -856,7 +877,9 @@
           network="Telegram"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`"
+          :description="
+            `I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`
+          "
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -889,9 +912,11 @@
               <b-icon
                 stacked
                 icon="circle-fill"
-                :style="`color:${
-                  JSON.parse(course.courseoutline.knowledge_areas).color
-                }`"
+                :style="
+                  `color:${
+                    JSON.parse(course.courseoutline.knowledge_areas).color
+                  }`
+                "
               ></b-icon>
               <b-icon
                 stacked
@@ -1249,7 +1274,7 @@
                     class="text-sm font-weight-bold"
                     v-if="item.facilitator_id != null"
                     >{{
-                      facilitators.find((val) => val.id == item.facilitator_id)
+                      facilitators.find(val => val.id == item.facilitator_id)
                         .name
                     }}</span
                   >
@@ -1344,7 +1369,7 @@ export default {
         id: "",
         name: "",
         type: "",
-        profile: "",
+        profile: ""
       },
       open: false,
       showAll: false,
@@ -1359,9 +1384,9 @@ export default {
         url: "",
         users: [
           {
-            email: "",
-          },
-        ],
+            email: ""
+          }
+        ]
       },
       course: null,
       courses: [],
@@ -1373,7 +1398,7 @@ export default {
       course_type: "",
       recent: false,
       trending: false,
-      sending: false,
+      sending: false
     };
   },
   created() {
@@ -1383,23 +1408,23 @@ export default {
   watch: {
     $route: "getcontent",
     filteredinterests: "setSubInterest",
-    subId: "getcontent",
+    subId: "getcontent"
   },
   computed: {
     filteredinterests() {
       return this.subinterests.filter(
-        (item) => item.category_id == this.$route.params.id
+        item => item.category_id == this.$route.params.id
       );
     },
     currentinterests() {
       var result = this.interests.filter(
-        (item) => item.id == this.$route.params.id
+        item => item.id == this.$route.params.id
       );
       return result.slice().shift();
     },
     filterFeeds() {
       return this.feeds
-        .filter((item) =>
+        .filter(item =>
           item.name.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
@@ -1415,7 +1440,7 @@ export default {
     },
     filteredCourse() {
       var title = this.filter.filter(
-        (item) =>
+        item =>
           item.title.toLowerCase().includes(this.search.toLowerCase()) ||
           JSON.parse(item.courseoutline.knowledge_areas)
             .value.toLowerCase()
@@ -1428,11 +1453,11 @@ export default {
       }
       var courseType;
       if (this.course_type == "free") {
-        courseType = title.filter((item) => item.type == "free");
+        courseType = title.filter(item => item.type == "free");
       } else if (this.course_type == "paid") {
-        courseType = title.filter((item) => item.type == "paid");
+        courseType = title.filter(item => item.type == "paid");
       } else if (this.course_type == "group") {
-        courseType = title.filter((item) => item.type == "group");
+        courseType = title.filter(item => item.type == "group");
       } else {
         courseType = title;
       }
@@ -1441,12 +1466,15 @@ export default {
         return courseType.slice().reverse();
       }
       return courseType;
-    },
+    }
   },
 
   methods: {
     setSubInterest() {
-      this.subId = this.filteredinterests.slice().shift().value.trim();
+      this.subId = this.filteredinterests
+        .slice()
+        .shift()
+        .value.trim();
     },
     sharelink(id) {
       this.link = `https://skillsguruh.com/explore/courses/?course=${encodeURIComponent(
@@ -1456,7 +1484,7 @@ export default {
     },
     loadCourse() {
       this.course = this.courses.find(
-        (item) => item.id == this.$route.query.course_id
+        item => item.id == this.$route.query.course_id
       );
     },
     getmediacount(arr, media) {
@@ -1465,8 +1493,8 @@ export default {
         return 0;
       }
       if (media == "document") {
-        arr.forEach((val) => {
-          JSON.parse(val.modules).forEach((item) => {
+        arr.forEach(val => {
+          JSON.parse(val.modules).forEach(item => {
             if (
               item.file_type.toLowerCase() == media.toLowerCase() ||
               item.file_type.toLowerCase() == "worksheet"
@@ -1476,8 +1504,8 @@ export default {
           });
         });
       } else {
-        arr.forEach((val) => {
-          JSON.parse(val.modules).forEach((item) => {
+        arr.forEach(val => {
+          JSON.parse(val.modules).forEach(item => {
             if (item.file_type.toLowerCase() == media.toLowerCase()) {
               newarr.push(item);
             }
@@ -1522,7 +1550,7 @@ export default {
     getcontent() {
       this.$http
         .get(`${this.$store.getters.url}/get/interests/${this.subId}`)
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.getUsers();
             this.feeds = Object.values(res.data.feeds);
@@ -1539,7 +1567,7 @@ export default {
     getUsers() {
       this.$http
         .get(`${this.$store.getters.url}/guest/users/${this.subId}`)
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.users = res.data;
             this.rows = res.data.length;
@@ -1549,12 +1577,12 @@ export default {
     getfacilitators() {
       this.$http
         .get(`${this.$store.getters.url}/guest/facilitators`)
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1563,8 +1591,8 @@ export default {
       this.$bvModal.show("sharecourse");
     },
     vote(val) {
-      var positive = val.filter((item) => item.vote).length;
-      var negative = val.filter((item) => !item.vote).length;
+      var positive = val.filter(item => item.vote).length;
+      var negative = val.filter(item => !item.vote).length;
       return Number(positive) - Number(negative);
     },
     sendinvite(title) {
@@ -1576,10 +1604,10 @@ export default {
         this.$http
           .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
+            }
           })
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.$toast.success("Invite Sent");
               this.$bvModal.hide("sharecourse");
@@ -1589,9 +1617,9 @@ export default {
                 title: "",
                 users: [
                   {
-                    email: "",
-                  },
-                ],
+                    email: ""
+                  }
+                ]
               };
             }
           })
@@ -1603,10 +1631,10 @@ export default {
         this.$http
           .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+            }
           })
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.$toast.success("Invite Sent");
               this.$bvModal.hide("sharecourse");
@@ -1616,9 +1644,9 @@ export default {
                 title: "",
                 users: [
                   {
-                    email: "",
-                  },
-                ],
+                    email: ""
+                  }
+                ]
               };
             }
           })
@@ -1632,7 +1660,7 @@ export default {
             `${this.$store.getters.url}/guest/send/invite`,
             this.inviteUsers
           )
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.$toast.success("Invite Sent");
               this.$bvModal.hide("sharecourse");
@@ -1642,9 +1670,9 @@ export default {
                 title: "",
                 users: [
                   {
-                    email: "",
-                  },
-                ],
+                    email: ""
+                  }
+                ]
               };
             }
           })
@@ -1656,17 +1684,17 @@ export default {
     },
     addinvite() {
       this.inviteUsers.users.push({
-        email: "",
+        email: ""
       });
     },
-    onCopy: function (e) {
+    onCopy: function(e) {
       alert("You just copied the following text to the clipboard: " + e.text);
     },
-    onError: function (e) {
+    onError: function(e) {
       alert("Failed to copy the text to the clipboard");
       console.log(e);
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">
@@ -1692,8 +1720,9 @@ ul li {
   font-size: 0.9rem;
   cursor: pointer;
 }
-.activesub {
-  color: var(--dark-green);
+.activesub,
+.active {
+  color: var(--dark-green) !important;
 }
 .shadow {
   box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
@@ -1845,7 +1874,7 @@ h4.card-title {
 .card-img-top {
   height: 4rem;
   width: 8rem;
-  object-fit: cover;
+  object-fit: contain;
 }
 .card-title {
   font-size: 13px;
@@ -1949,5 +1978,19 @@ h4.card-title {
 .facilitator img {
   width: 100%;
   height: 140px;
+}
+@media (max-width: 600px) {
+  h6 {
+    font-size: 0.9rem;
+  }
+  nav ul li {
+    font-size: 12px !important;
+  }
+  .card-img,
+  .card-img-top {
+    height: 3rem;
+    width: 5rem;
+    object-fit: contain;
+  }
 }
 </style>

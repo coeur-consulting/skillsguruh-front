@@ -32,20 +32,21 @@
               <div class="d-flex align-items-center mb-3 w-100">
                 <div class="d-flex flex-1">
                   <div
-                    class="pr-3 fs12 font-weight-bold cursor-pointer"
+                    class="
+                      pr-3
+                      border-right
+                      fs12
+                      font-weight-bold
+                      cursor-pointer
+                    "
                     :class="courseShown == 'recommended' ? '' : 'text-muted'"
                     @click="courseShown = 'recommended'"
                   >
                     Recommended
                   </div>
+
                   <div
-                    class="
-                      pl-3
-                      fs12
-                      font-weight-bold
-                      border-right
-                      cursor-pointer
-                    "
+                    class="pl-3 fs12 font-weight-bold cursor-pointer"
                     :class="courseShown == 'enrolled' ? '' : 'text-muted'"
                     @click="courseShown = 'enrolled'"
                   >

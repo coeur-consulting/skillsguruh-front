@@ -311,6 +311,7 @@ export default {
                 if (res.status == 200) {
                   authLearner.id = res.data.id;
                   authLearner.name = res.data.name;
+                  authLearner.username = res.data.username;
                   authLearner.email = res.data.email;
                   authLearner.profile = res.data.profile;
                   authLearner.voice = res.data.voice;
