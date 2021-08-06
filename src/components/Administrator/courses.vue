@@ -2841,13 +2841,9 @@ export default {
     this.getcourses();
     this.getfacilitators();
     this.interest = Interest;
-    this.options = Interest.map((item) => {
-      var res = {};
-
-      res.value = item.value;
-      res.color = item.color;
-      res.icon = item.icon;
-      return res;
+    this.options = Interest.map(item => {
+      item.text = item.value;
+      return item;
     });
     this.$root.$on("bv::modal::hide", (bvEvent, modalId) => {
       if (modalId == "addcourse" || modalId == "update") {

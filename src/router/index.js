@@ -200,7 +200,7 @@ const routes = [
     },
   },
   {
-    path: "/interests/:interest",
+    path: "/interests/:id",
     name: "Interest",
     components: {
       header: Header,

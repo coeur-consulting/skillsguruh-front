@@ -116,12 +116,12 @@
         </b-row>
         <b-row>
           <b-col class="mb-3">
-            <div class="d-flex justify-content-between">
-              <div>
-                <h4 class="font-weight-bold trending">Trending Discussions</h4>
+            <div>
+              <div class="d-flex justify-content-between">
+                <h6 class="font-weight-bold trending">Trending Discussions</h6>
                 <small
                   @click="$router.push('/discussions')"
-                  class="cursor-pointer"
+                  class="cursor-pointer text-dark-green"
                   >View all {{ discussions.length }} discussions
                   <b-icon font-scale=".85" icon="chevron-right"></b-icon
                 ></small>
@@ -138,7 +138,11 @@
           >
             <div
               class="discussion_container position-relative"
-              :style="{ backgroundColor: '' }"
+              :style="{
+                backgroundImage: `url(
+                  ${JSON.parse(item.category).image}
+                )`,
+              }"
             >
               <div class="p-4 dicussion_overlay position-relative">
                 <b-avatar
@@ -174,13 +178,13 @@
                 </div>
 
                 <span class="position-absolute discussion_badge">
-                  <b-badge>
+                  <b-badge variant="dark-green">
                     <b-icon icon="circle-fill" font-scale=".7"></b-icon>
-                    Tech</b-badge
+                    {{ JSON.parse(item.category).value }}</b-badge
                   >
                 </span>
 
-                <b-row class="justify-content-start mb-2">
+                <!-- <b-row class="justify-content-start mb-2">
                   <b-col
                     cols="auto"
                     v-for="(tag, id) in JSON.parse(item.tags)"
@@ -192,7 +196,7 @@
                       >{{ tag.value }}</b-badge
                     ></b-col
                   >
-                </b-row>
+                </b-row> -->
                 <div
                   class="
                     rounded
@@ -242,7 +246,7 @@
                       {{ item.user.name }}
                     </div>
                     <div class="comment_details">
-                      <span class="mr-3">{{
+                      <span class="mr-2">{{
                         $moment(message.create_at).fromNow()
                       }}</span>
                       <span
@@ -263,21 +267,24 @@
         </b-row>
       </section>
       <section class="py-3 py-sm-5">
-        <b-row>
-          <b-col sm="8" class="mb-4 mb-sm-0">
+        <b-row class="d-flex">
+          <b-col>
             <div class="d-flex justify-content-between">
-              <h4 class="mb-5 font-weight-bold trending">Most Popular Feed</h4>
+              <h6 class="mb-5 font-weight-bold trending">Popular Feed</h6>
               <router-link to="/feeds" class="text-dark-green"
                 ><small
                   >View all feeds
                   <b-icon font-scale=".85" icon="chevron-right"></b-icon></small
               ></router-link>
             </div>
-
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col sm="8" class="mb-4 mb-sm-0">
             <div v-if="showFeeds">
               <div v-if="feeds.length">
                 <div
-                  v-for="(feed, index) in feeds.slice(0, 4)"
+                  v-for="(feed, index) in feeds.slice(0, 3)"
                   :key="index"
                   class="border bg-white rounded-8 mb-2"
                 >
@@ -655,7 +662,7 @@
           </b-col>
           <b-col sm="4" class="px-3">
             <div class="text-left">
-              <h6 class="mb-3 fs12">Trending in Last 24hrs</h6>
+              <h6 class="mb-3 fs12 text-dark-green">Trending in Last 24hrs</h6>
               <div v-if="trendingFeed.length" class="py-3">
                 <div
                   v-for="(item, id) in trendingFeed.slice(0, 10)"
@@ -687,110 +694,26 @@
           entreprenuership, lifestyle , connection explore different areas of
           interest that can help improve your business skills
         </p>
-
-        <b-row class="py-4">
+        <b-row class="py-2 justify-content-around">
           <b-col
+            v-for="(item, id) in interests"
+            :key="id"
             class="mb-5 cursor-pointer"
             cols="4"
-            sm="2"
-            @click="$router.push('/interests/Literature')"
-            ><b-img src="/img/one.png" class="mb-2 interest"></b-img>
-            <h6 class="font-weight-bold">Literature</h6></b-col
-          >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
+            sm="3"
             ><b-img
-              src="/img/two.png"
-              @click="$router.push('/interests/Politics')"
+              :src="item.image"
+              @click="$router.push(`/interests/${item.id}`)"
               class="mb-2 interest"
             ></b-img>
-            <h6 class="font-weight-bold">Politics</h6>
-          </b-col>
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
-            ><b-img
-              src="/img/three.png"
-              @click="$router.push('/interests/Sports')"
-              class="mb-2 interest"
-            ></b-img>
-            <h6 class="font-weight-bold">Sports</h6></b-col
-          >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
-            ><b-img
-              src="/img/four.png"
-              @click="$router.push('/interests/Marketing')"
-              class="mb-2 interest"
-            ></b-img>
-            <h6 class="font-weight-bold">Marketing</h6></b-col
-          >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
-            ><b-img
-              src="/img/five.png"
-              @click="$router.push('/interests/Health')"
-              class="mb-2 interest"
-            ></b-img>
-            <h6 class="font-weight-bold">Health</h6></b-col
-          >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
-            ><b-img
-              src="/img/six.png"
-              @click="$router.push('/interests/Tech')"
-              class="mb-2 interest"
-            ></b-img>
-            <h6 class="font-weight-bold">Tech</h6></b-col
-          >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
-            ><b-img
-              src="/img/seven.png"
-              @click="$router.push('/interests/Gaming')"
-              class="mb-2 interest"
-            ></b-img>
-            <h6 class="font-weight-bold">Gaming</h6></b-col
-          >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
-            ><b-img
-              src="/img/eight.png"
-              @click="$router.push('/interests/Entrepreneurship')"
-              class="mb-2 interest"
-            ></b-img>
-            <h6 class="font-weight-bold">Entrepreneurship</h6></b-col
-          >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
-            ><b-img
-              src="/img/nine.png"
-              @click="$router.push('/interests/News')"
-              class="mb-2 interest"
-            ></b-img>
-            <h6 class="font-weight-bold">News</h6></b-col
-          >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
-            ><b-img
-              src="/img/ten.png"
-              @click="$router.push('/interests/Community')"
-              class="mb-2 interest"
-            ></b-img>
-            <h6 class="font-weight-bold">Community</h6></b-col
-          >
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
-            ><b-img
-              src="/img/eleven.png"
-              @click="$router.push('/interests/Art')"
-              class="mb-2 interest"
-            ></b-img>
-            <h6 class="font-weight-bold">Art</h6>
-          </b-col>
-          <b-col class="mb-5 cursor-pointer" cols="4" sm="2"
-            ><b-img
-              src="/img/twelve.png"
-              @click="$router.push('/interests/Law')"
-              class="mb-2 interest"
-            ></b-img>
-            <h6 class="font-weight-bold">Law</h6></b-col
+            <h6 class="font-weight-bold">{{ item.value }}</h6></b-col
           >
         </b-row>
       </section>
       <section class="py-5">
-        <h4 class="mb-3 font-weight-bold text-center text-sm-left">
-          Most Popular Courses
-        </h4>
+        <h6 class="mb-3 font-weight-bold text-center text-sm-left">
+          Popular Courses
+        </h6>
         <b-row
           class="justify-content-start pt-5 pb-1"
           v-if="mostenrolledcourse.length"
@@ -1036,9 +959,18 @@
                   .filter((item) => item.status == 'pending')
                   .slice(0, 5)"
                 :key="item.id"
-                class="bg-white"
+                class=""
               >
-                <div class="border rounded text-left position-relative shadow">
+                <div
+                  class="
+                    border
+                    bg-white
+                    rounded
+                    text-left
+                    position-relative
+                    shadow
+                  "
+                >
                   <b-img fluid-grow :src="item.cover" class="event_img"></b-img>
                   <div class="px-3 py-3">
                     <p class="mb-2">
@@ -1065,14 +997,23 @@
                       justify-content-between
                     "
                   >
-                    <h4 class="text-capitalize text-dark mb-0 text-left">
+                    <div
+                      class="
+                        event_title
+                        text-capitalize text-dark
+                        mb-0
+                        text-left
+                      "
+                    >
                       {{ item.title }}
-                    </h4>
+                    </div>
                     <span
                       class="cursor-pointer"
                       @click="$router.push(`/event/${item.id}`)"
                     >
-                      <span class="viewevent d-none d-sm-inline">
+                      <span
+                        class="viewevent d-none d-sm-inline text-dark-green"
+                      >
                         View Event
                       </span>
                       <b-icon font-scale=".85" icon="chevron-right"></b-icon>
@@ -1108,7 +1049,8 @@
   </div>
 </template>
 <script>
-import interest from "@/components/insight.js";
+import Interests from "@/components/helpers/category.js";
+import SubInterests from "@/components/helpers/subcategory.js";
 import EmojiPicker from "vue-emoji-picker";
 export default {
   data() {
@@ -1133,7 +1075,8 @@ export default {
       events: [],
       discussions: [],
       showEvents: false,
-      interest: [],
+      interests: [],
+      SubInterests: [],
       contributors: [],
       showFeeds: false,
       trendingFeed: [],
@@ -1154,7 +1097,8 @@ export default {
     this.getdiscussions();
     this.getcontributors();
     this.getTrendingFeeds();
-    this.interest = interest;
+    this.interests = Interests;
+    this.SubInterests = SubInterests;
   },
   components: {
     EmojiPicker,
@@ -1459,12 +1403,16 @@ export default {
   height: 300px;
   color: #fff;
   border-radius: 10px;
-  background-image: url("/img/fac1.jpg");
+  margin-bottom: 5.2rem;
+  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 .dicussion_overlay {
   width: 100%;
   height: 100%;
-  background: rgba($color: #000000, $alpha: 0.44);
+  background: rgba($color: #000000, $alpha: 0.54);
   border-radius: 10px;
 }
 .discussion_avatar {
@@ -1473,8 +1421,10 @@ export default {
 .discussion_badge {
   top: 15px;
   right: 15px;
+  z-index: 2;
 }
 .discussion_name {
+  font-size: 0.85rem;
   margin-bottom: 2px;
 }
 .discussion_title {
@@ -1502,7 +1452,7 @@ export default {
   padding: 10px;
 }
 .comment_name {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: rgba($color: #000000, $alpha: 0.64);
 }
 .comment_text {
@@ -1517,9 +1467,16 @@ export default {
   font-size: 0.6rem;
   color: white;
 }
+.event_title {
+  font-size: 1.05rem;
+  font-weight: 500;
+}
 @media (max-width: 600px) {
   .interest {
     width: 40px;
+  }
+  .event_title {
+    font-size: 0.85rem;
   }
   h6 {
     font-size: 14px;

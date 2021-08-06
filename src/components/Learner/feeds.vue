@@ -835,12 +835,9 @@ export default {
       this.feeds.unshift(data.message);
     });
     this.options = Interest.map((item) => {
-      var res = {};
-      res.text = item.value;
-      res.value = item.value;
-      res.color = item.color;
-      res.icon = item.icon;
-      return res;
+      item.text = item.value;
+
+      return item;
     });
   },
   computed: {

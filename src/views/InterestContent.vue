@@ -1,88 +1,229 @@
 <template>
-  <div class="bg-light">
+  <div class="bg-light pb-5 pt-3" v-if="currentinterests">
     <b-container>
       <b-row>
-        <b-col sm="9">
+        <b-col sm="9" class="col-sm-offset">
           <b-row>
             <b-col cols="12" class="mb-0 rounded px-1 px-sm-4 pb-2">
-              <b-card no-body class="overflow-hidden border-0" style="">
-                <b-row no-gutters>
-                  <div
-                    class="prof_img"
-                    v-if="
-                      Interests.find(
-                        (item) => item.value == $route.params.interest
-                      )
-                    "
-                  >
-                    <b-card-img
-                      :style="{
-                        backgroundColor: Interests.find(
-                          (item) => item.value == $route.params.interest
-                        ).color,
-                      }"
-                      width="15%"
-                      :src="require('@/assets/images/default.png')"
-                      alt="Image"
-                      class="rounded-0"
-                    ></b-card-img>
-                  </div>
-                  <div class="flex-1">
-                    <b-card-body
-                      :title="$route.params.interest"
-                      class="text-left text-capitalize"
-                    >
-                    </b-card-body>
-                  </div>
-                </b-row>
-              </b-card>
-            </b-col>
-            <b-col cols="12" class="px-1 px-sm-4 mb-3">
-              <b-card no-body class="border-0" style="">
-                <b-row>
-                  <b-card-body class="text-left w-100 pb-0">
-                    <nav class="w-100">
-                      <ul
-                        id="navbar"
-                        class="
-                          d-flex
-                          justify-content-around
-                          text-decoration-none
-                          list-unstyled
-                        "
+              <b-card
+                no-body
+                class="overflow-hidden border-0 bg-white rounded"
+                style=""
+              >
+                <b-card-body class="p-0">
+                  <div class="d-flex">
+                    <div class="prof_img position-relative">
+                      <div class="discussion_overlay"></div>
+                      <b-card-img
+                        :style="{
+                          backgroundColor: '',
+                        }"
+                        :src="currentinterests.image"
+                        alt="Image"
+                        class="rounded-0"
+                      ></b-card-img>
+                    </div>
+                    <div class="flex-1">
+                      <b-card-body
+                        :title="currentinterests.value"
+                        class="text-left text-capitalize"
                       >
-                        <li
-                          class="h6 fs14 cursor-pointer mb-0"
-                          :class="active == 1 ? 'active' : ''"
-                          @click="active = 1"
-                        >
-                          Feed
-                        </li>
-                        <li
-                          class="h6 fs14 cursor-pointer mb-0"
-                          :class="active == 2 ? 'active' : ''"
-                          @click="active = 2"
-                        >
-                          Discussions
-                        </li>
-                        <li
-                          class="h6 fs14 cursor-pointer mb-0"
-                          :class="active == 3 ? 'active' : ''"
-                          @click="active = 3"
-                        >
-                          Courses
-                        </li>
-                      </ul>
-                    </nav>
-                  </b-card-body>
-                </b-row>
+                      </b-card-body>
+                    </div>
+                  </div>
+                  <hr />
+                  <nav class="w-100">
+                    <ul
+                      id="navbar"
+                      class="
+                        d-flex
+                        justify-content-around
+                        text-decoration-none
+                        list-unstyled
+                      "
+                    >
+                      <li
+                        class="h6 fs14 cursor-pointer mb-0"
+                        :class="active == 4 ? 'active' : ''"
+                        @click="active = 4"
+                      >
+                        People
+                      </li>
+                      <li
+                        class="h6 fs14 cursor-pointer mb-0"
+                        :class="active == 1 ? 'active' : ''"
+                        @click="active = 1"
+                      >
+                        Feed
+                      </li>
+                      <li
+                        class="h6 fs14 cursor-pointer mb-0"
+                        :class="active == 2 ? 'active' : ''"
+                        @click="active = 2"
+                      >
+                        Discussions
+                      </li>
+                      <li
+                        class="h6 fs14 cursor-pointer mb-0"
+                        :class="active == 3 ? 'active' : ''"
+                        @click="active = 3"
+                      >
+                        Courses
+                      </li>
+                    </ul>
+                  </nav>
+                </b-card-body>
               </b-card>
             </b-col>
+
             <b-col cols="12" class="px-1 px-sm-4">
-              <b-card no-body class="border-0 bg-transparent" style="">
-                <b-row>
-                  <b-card-body
-                    class="text-left w-100 pb-1 pt-0 px-3"
+              <b-card no-body class="border-0 bg-transparent rounded" style="">
+                <b-card-body class="px-0">
+                  <div v-if="active == 4">
+                    <div v-if="users.length">
+                      <b-row class="facilitators justify-content-sm-start">
+                        <b-col
+                          sm="4"
+                          class="mb-5 mb-sm-0 py-3"
+                          v-for="(item, id) in users"
+                          :key="id"
+                        >
+                          <div
+                            v-if="item.qualifications"
+                            class="position-relative cursor-pointer"
+                            @click="$router.push(`/profile/f/${item.id}`)"
+                          >
+                            <div
+                              class="facilitator shadow-sm position-relative"
+                            >
+                              <b-img
+                                class="rounded mb-4"
+                                fluid-grow
+                                :src="
+                                  item.profile
+                                    ? item.profile
+                                    : require('@/assets/images/default.jpeg')
+                                "
+                                style="object-fit: cover"
+                              ></b-img>
+                              <div class="p-3">
+                                <div>{{ item.name }}</div>
+                                <div class="text-muted fs13 text-capitalize">
+                                  <span>
+                                    {{
+                                      item.age ? item.age + " years" : "N/a"
+                                    }}</span
+                                  >
+                                  <span v-if="item.gender"
+                                    >,
+                                    {{
+                                      item.gender ? item.gender : "N/a"
+                                    }}</span
+                                  >
+                                </div>
+
+                                <div class="text-muted fs13 text-capitalize">
+                                  {{ item.state ? item.state : "Lagos" }},
+                                  {{ item.country ? item.country : "NG" }}
+                                </div>
+                                <!-- <div class="text-muted fs12 text-capitalize">
+                                {{
+                                  item.interests
+                                    ? JSON.parse(item.interests).length +
+                                      " interests"
+                                    : "0 intersts"
+                                }},
+                              </div> -->
+                              </div>
+                            </div>
+                            <span class="hover_box"></span>
+                          </div>
+                          <div
+                            class="position-relative cursor-pointer"
+                            v-else
+                            @click="$router.push(`/profile/u/${item.id}`)"
+                          >
+                            <div
+                              class="facilitator shadow-sm position-relative"
+                            >
+                              <b-img
+                                class="rounded mb-4"
+                                fluid-grow
+                                :src="
+                                  item.profile
+                                    ? item.profile
+                                    : require('@/assets/images/default.jpeg')
+                                "
+                                style="object-fit: cover"
+                              ></b-img>
+                              <div class="p-3">
+                                <div>{{ item.name }}</div>
+                                <div class="text-muted fs13 text-capitalize">
+                                  <span>
+                                    {{
+                                      item.age ? item.age + " years" : "N/a"
+                                    }}</span
+                                  >
+                                  <span v-if="item.gender"
+                                    >,
+                                    {{
+                                      item.gender ? item.gender : "N/a"
+                                    }}</span
+                                  >
+                                </div>
+
+                                <div class="text-muted fs13 text-capitalize">
+                                  {{ item.state ? item.state : "Lagos" }},
+                                  {{ item.country ? item.country : "NG" }}
+                                </div>
+                                <!-- <div class="text-muted fs12 text-capitalize">
+                                {{
+                                  item.interests
+                                    ? JSON.parse(item.interests).length +
+                                      " interests"
+                                    : "0 intersts"
+                                }},
+                              </div> -->
+                                <!--
+                              <div class="text-muted">
+                                <small>Learner</small>
+                              </div> -->
+                              </div>
+                            </div>
+                            <span class="hover_box"></span>
+                          </div>
+                        </b-col>
+                      </b-row>
+                      <div
+                        class="py-3 d-flex justify-content-between"
+                        v-if="rows > 10"
+                      >
+                        <div class="fs12 text-muted">
+                          Showing 1-10 of {{ learners.length }} items
+                        </div>
+                        <b-pagination
+                          pills
+                          size="sm"
+                          variant="dark-green"
+                          align="right"
+                          v-model="currentPage"
+                          :total-rows="rows"
+                          :per-page="perPage"
+                        ></b-pagination>
+                      </div>
+                    </div>
+                    <div v-else class="text-center p-3 p-sm-5">
+                      <b-img
+                        class="mb-3"
+                        :src="require('@/assets/images/creator.svg')"
+                      ></b-img>
+                      <div class="text-muted text-center">
+                        No User Available
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="text-left w-100 pb-1 pt-0 px-0"
                     v-if="active == 1"
                   >
                     <div>
@@ -287,8 +428,8 @@
                         </div>
                       </div>
                     </div>
-                  </b-card-body>
-                  <b-card-body v-if="active == 2" class="pt-0 px-3">
+                  </div>
+                  <div v-if="active == 2" class="pt-0 px-0">
                     <div>
                       <div class="main_content" v-if="discussions.length">
                         <div
@@ -461,9 +602,9 @@
                         </div>
                       </div>
                     </div>
-                  </b-card-body>
+                  </div>
 
-                  <b-card-body v-if="active == 3" class="pt-0 px-3">
+                  <div v-if="active == 3" class="pt-0 px-0">
                     <div>
                       <div v-if="courses.length">
                         <b-container fluid class="main-course">
@@ -624,104 +765,31 @@
                         </div>
                       </div>
                     </div>
-                  </b-card-body>
-                </b-row>
+                  </div>
+                </b-card-body>
               </b-card>
             </b-col>
           </b-row>
         </b-col>
-        <b-col sm="3" class="d-none d-sm-block">
-          <b-row class="bg-white rounded text-left py-3">
-            <b-col cols="12" class="mb-4">
-              <h6 class="fs13">Facilitators with shared Interest</h6>
-              <div v-if="facilitators.length">
-                <div
-                  v-for="(facilitator, id) in facilitators.slice(0, 5)"
-                  :key="id"
-                  class="d-flex justify-content-between mb-2"
-                >
-                  <div class="d-flex">
-                    <div class="mr-2">
-                      <b-avatar
-                        size="1.5rem"
-                        :src="facilitator.profile"
-                      ></b-avatar>
-                    </div>
-                    <div>
-                      <div class="fs13 text-capitalize">
-                        {{ facilitator.name }}
-                      </div>
-                      <div class="fs12">
-                        <div>
-                          <div class="text-muted fs11">Other interests</div>
-
-                          <b-badge
-                            class="mr-1"
-                            @click="$router.push(`/interests/${int}`)"
-                            v-for="(int, id) in JSON.parse(
-                              facilitator.interests
-                            ).slice(0, 5)"
-                            :key="id"
-                            >#{{ int }}</b-badge
-                          >
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="fs10 cursor-pointer text-dark-green"
-                    @click="$router.push('/login')"
-                  >
-                    Connect
-                  </div>
-                </div>
-              </div>
-              <div v-else class="text-left fs13 text-muted">Not Available</div>
-            </b-col>
-            <b-col cols="12">
-              <h6 class="fs13">Learners with shared Interest</h6>
-              <div v-if="users">
-                <div
-                  v-for="(user, id) in users"
-                  :key="id"
-                  class="d-flex mb-2 justify-content-between"
-                >
-                  <div class="d-flex">
-                    <div class="mr-2">
-                      <b-avatar size="1.5rem" :src="user.profile"></b-avatar>
-                    </div>
-                    <div>
-                      <div class="fs13 text-capitalize">
-                        {{ user.name }}
-                      </div>
-                      <div class="fs12">
-                        <div>
-                          <div class="text-muted fs11">Other interests</div>
-
-                          <b-badge
-                            class="mr-1"
-                            @click="$router.push(`/interests/${int}`)"
-                            v-for="(int, id) in JSON.parse(
-                              user.interests
-                            ).slice(0, 5)"
-                            :key="id"
-                            >#{{ int }}</b-badge
-                          >
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="fs10 cursor-pointer text-dark-green"
-                    @click="$router.push('/login')"
-                  >
-                    Connect
-                  </div>
-                </div>
-              </div>
-              <div v-else class="text-left text-muted fs13">Not Available</div>
-            </b-col>
-          </b-row>
+        <b-col sm="2" class="d-none d-sm-block">
+          <nav class="bg-white rounded p-3">
+            <ul>
+              <li
+                v-for="(sub, id) in filteredinterests"
+                :key="id"
+                @click="subId = sub.value.trim()"
+                :class="subId == sub.value ? 'activesub' : ''"
+                class="d-flex align-items-center"
+              >
+                <b-icon
+                  icon="chevron-right"
+                  font-scale=".7"
+                  :variant="subId == sub.value ? 'dark-green' : ''"
+                ></b-icon>
+                <span>{{ sub.value.trim() }}</span>
+              </li>
+            </ul>
+          </nav>
         </b-col>
       </b-row>
     </b-container>
@@ -1250,13 +1318,15 @@
   </div>
 </template>
 <script>
-import Interests from "@/components/insight";
+import interests from "@/components/helpers/category.js";
+import subinterests from "@/components/helpers/subcategory.js";
 export default {
   data() {
     return {
       id: this.$route.params.id,
+      subId: null,
       detail: [],
-      active: 1,
+      active: 4,
       search: "",
       currentPage: 1,
       rows: null,
@@ -1265,6 +1335,7 @@ export default {
       users: [],
       discussions: [],
       facilitators: [],
+
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp"],
       aud_ext: ["mp3"],
@@ -1280,7 +1351,8 @@ export default {
 
       link: "",
       message: "",
-      Interests: [],
+      interests: [],
+      subinterests: [],
       inviteUsers: {
         code: "",
         title: "",
@@ -1304,14 +1376,27 @@ export default {
       sending: false,
     };
   },
-  mounted() {
-    this.getcontent();
-    this.Interests = Interests;
+  created() {
+    this.interests = interests;
+    this.subinterests = subinterests;
   },
   watch: {
     $route: "getcontent",
+    filteredinterests: "setSubInterest",
+    subId: "getcontent",
   },
   computed: {
+    filteredinterests() {
+      return this.subinterests.filter(
+        (item) => item.category_id == this.$route.params.id
+      );
+    },
+    currentinterests() {
+      var result = this.interests.filter(
+        (item) => item.id == this.$route.params.id
+      );
+      return result.slice().shift();
+    },
     filterFeeds() {
       return this.feeds
         .filter((item) =>
@@ -1360,6 +1445,9 @@ export default {
   },
 
   methods: {
+    setSubInterest() {
+      this.subId = this.filteredinterests.slice().shift().value.trim();
+    },
     sharelink(id) {
       this.link = `https://skillsguruh.com/explore/courses/?course=${encodeURIComponent(
         this.course.title.trim()
@@ -1433,21 +1521,29 @@ export default {
 
     getcontent() {
       this.$http
-        .get(
-          `${this.$store.getters.url}/get/interests/${this.$route.params.interest}`
-        )
+        .get(`${this.$store.getters.url}/get/interests/${this.subId}`)
         .then((res) => {
           if (res.status == 200) {
+            this.getUsers();
             this.feeds = Object.values(res.data.feeds);
             this.courses = Object.values(res.data.courses);
             this.discussions = Object.values(res.data.discussions);
-            this.users = Object.values(res.data.users);
-            this.facilitators = Object.values(res.data.facilitators);
+
             this.showCourse = true;
           }
         })
         .catch(() => {
           this.$toast.error("Something went wrong");
+        });
+    },
+    getUsers() {
+      this.$http
+        .get(`${this.$store.getters.url}/guest/users/${this.subId}`)
+        .then((res) => {
+          if (res.status == 200) {
+            this.users = res.data;
+            this.rows = res.data.length;
+          }
         });
     },
     getfacilitators() {
@@ -1577,6 +1673,27 @@ export default {
 .container {
   padding-top: 30px;
   min-height: 100vh;
+}
+.discussion_overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba($color: #000000, $alpha: 0.24);
+  // border-radius: 1px;
+}
+ul {
+  text-decoration: none;
+  list-style: none;
+  text-align: left;
+  padding-left: 0;
+}
+ul li {
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.activesub {
+  color: var(--dark-green);
 }
 .shadow {
   box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
@@ -1726,7 +1843,8 @@ h4.card-title {
 }
 .card-img,
 .card-img-top {
-  height: 8rem;
+  height: 4rem;
+  width: 8rem;
   object-fit: cover;
 }
 .card-title {
@@ -1772,5 +1890,64 @@ h4.card-title {
   color: #333;
   font-size: 11px;
   cursor: pointer;
+}
+#facilitators {
+  position: relative;
+  padding-top: 8rem;
+  padding-bottom: 5rem;
+}
+.ex-facilitators {
+}
+
+.ex-facilitators h2 {
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 33px;
+  letter-spacing: 0em;
+  text-align: center;
+}
+.ex-facilitators p {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: 0.06em;
+  text-align: center;
+  color: #828282;
+}
+.facilitators {
+  display: flex;
+  width: 100%;
+  margin: 0 auto;
+  justify-content: space-around;
+}
+.hover_box {
+  width: 100%;
+  height: 100%;
+  background: var(--dark-green);
+  position: absolute;
+  right: 0px;
+  top: 0;
+  border-radius: 10px;
+  z-index: 0;
+  transition: 0.25s;
+  opacity: 0;
+}
+.facilitator {
+  padding: 0;
+  text-align: left;
+  border-radius: 10px;
+  z-index: 1;
+  background: white;
+}
+.facilitator:hover ~ .hover_box {
+  right: -5px;
+  transform: rotate(5deg);
+  opacity: 1;
+}
+.facilitator img {
+  width: 100%;
+  height: 140px;
 }
 </style>

@@ -382,11 +382,22 @@
           </b-col>
         </b-form-row>
 
-        <b-form-group label="Tags">
+        <b-form-group label="Category">
+          <model-list-select
+            :list="category"
+            v-model="discussion.category"
+            option-value="value"
+            option-text="value"
+            placeholder="select category"
+          >
+          </model-list-select>
+        </b-form-group>
+
+        <b-form-group label="Interests">
           <multi-select
             :options="mytags"
             :selected-options="discussion.tags"
-            placeholder="select tags"
+            placeholder="select interests"
             @select="onSelect"
           >
           </multi-select>
@@ -432,6 +443,7 @@
 import { MultiSelect } from "vue-search-select";
 import { ModelListSelect } from "vue-search-select";
 import Interest from "../helpers/subcategory.js";
+import Category from "../helpers/category.js";
 export default {
   data() {
     return {
@@ -450,6 +462,7 @@ export default {
         type: "public",
         course: null,
         tags: [],
+        category: {},
       },
       courses: [],
       tag: "",
@@ -461,6 +474,7 @@ export default {
       searchText: "", // If value is falsy, reset searchText & searchItem
       items: [],
       lastSelectItem: {},
+      category: [],
     };
   },
   components: {
@@ -474,13 +488,11 @@ export default {
     this.getdiscussionsbyinterest();
     this.getdiscussionsbytrend();
     this.mytags = Interest.map((item) => {
-      var obj = {};
-      obj.value = item.value;
-      obj.color = item.color;
-      obj.text = item.value;
-      obj.icon = item.icon;
-      return obj;
+      item.text = item.value;
+
+      return item;
     });
+    this.category = Category;
     this.getcourses();
     this.getothers();
   },
@@ -695,7 +707,9 @@ export default {
         .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Discussion created");
-            this.discussions.unshift(res.data);
+            this.getcustomdiscussions();
+            this.getdiscussionsbyinterest();
+            this.getdiscussionsbytrend();
             this.discussion = {
               title: "",
               description: "",
