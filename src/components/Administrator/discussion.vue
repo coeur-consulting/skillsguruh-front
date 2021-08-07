@@ -1363,6 +1363,7 @@ export default {
     },
     addToFeed() {
       this.feed = {
+       tags:[],
         message:
           "I just started a discussion, " +
           this.discussion.name.toUpperCase() +

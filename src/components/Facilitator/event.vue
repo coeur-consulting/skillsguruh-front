@@ -513,6 +513,7 @@ export default {
     },
     addToFeed() {
       this.feed = {
+       tags:[],
         media: this.event.cover,
         message:
           "Let’s attend the event, " +

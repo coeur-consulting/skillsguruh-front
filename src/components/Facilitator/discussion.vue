@@ -715,8 +715,8 @@
           class="mr-3"
           network="facebook"
           :url="link"
-          title="DISCUSSION INVITATION"
-          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `"
+          title=""
+          :description="description"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -729,8 +729,8 @@
           class="mr-3"
           network="twitter"
           :url="link"
-          title="DISCUSSION INVITATION"
-          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `"
+          title=""
+          :description="description"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -743,8 +743,8 @@
           class="mr-3"
           network="whatsApp"
           :url="link"
-          title="DISCUSSION INVITATION"
-          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `"
+          title=""
+          :description="description"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -766,8 +766,8 @@
           class="mr-3"
           network="Telegram"
           :url="link"
-          title="DISCUSSION INVITATION"
-          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `"
+          title=""
+          :description="description"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1160,6 +1160,16 @@ export default {
     this.link =
       "https://skillsguruh.com/learner/discussion/" + this.$route.params.id;
   },
+  mounted() {
+    if (
+      this.discussion.facilitator &&
+      this.discussion.facilitator.id == this.$store.getters.facilitator.id
+    ) {
+      this.description = `I just started a discussion, *${this.discussion.name}*  on SkillsGuruh and I’d like to hear your thoughts. `;
+    } else {
+      this.description = `I just joined a discussion, *${this.discussion.name}*  on SkillsGuruh and I’d like to hear your thoughts. `;
+    }
+  },
   computed: {
     filteredDiscussion() {
       var res = this.posts.slice(
@@ -1365,6 +1375,7 @@ export default {
     },
     addToFeed() {
       this.feed = {
+         tags:[],
         message:
           "I just started a discussion, " +
           this.discussion.name.toUpperCase() +

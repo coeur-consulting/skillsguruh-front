@@ -2841,7 +2841,7 @@ export default {
     this.getcourses();
     this.getfacilitators();
     this.interest = Interest;
-    this.options = Interest.map(item => {
+    this.options = Interest.map((item) => {
       item.text = item.value;
       return item;
     });
@@ -3008,6 +3008,8 @@ export default {
     },
     addToFeed() {
       this.feed = {
+        tags: [],
+
         media: this.course.cover,
         message:
           "I created a course titled, " +

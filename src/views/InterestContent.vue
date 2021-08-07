@@ -1378,6 +1378,19 @@
           font-scale="2.5"
         ></b-icon
       ></span>
+      <b-button
+        variant="dark-green"
+        class="mobile-add btn-circle btn-raised shadow"
+      >
+        <span>
+          <b-icon
+            icon="plus-circle-fill"
+            variant="dark-green"
+            @click="$bvModal.show('start')"
+            font-scale="2.5"
+          ></b-icon
+        ></span>
+      </b-button>
     </div>
   </div>
 </template>
@@ -1736,7 +1749,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .container {
-  padding-top: 30px;
+  padding-top: 0px;
   min-height: 100vh;
 }
 .discussion_overlay {

@@ -703,8 +703,8 @@
           class="mr-3"
           network="facebook"
           :url="link"
-          title="DISCUSSION INVITATION"
-          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `"
+          title=""
+          :description="description"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -717,8 +717,8 @@
           class="mr-3"
           network="twitter"
           :url="link"
-          title="DISCUSSION INVITATION"
-          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `"
+          title=""
+          :description="description"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -731,8 +731,8 @@
           class="mr-3"
           network="whatsApp"
           :url="link"
-          title="DISCUSSION INVITATION"
-          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `"
+          title=""
+          :description="description"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -754,8 +754,8 @@
           class="mr-3"
           network="Telegram"
           :url="link"
-          title="DISCUSSION INVITATION"
-          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `"
+          title=""
+          :description="description"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
         >
@@ -1090,6 +1090,7 @@ import TextToSpeech from "@/components/textToSpeech";
 export default {
   data() {
     return {
+      description: "",
       index: null,
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp"],
@@ -1149,6 +1150,16 @@ export default {
     channel.bind("adddiscussion", (data) => {
       this.posts.push(data.message);
     });
+  },
+  mounted() {
+    if (
+      this.discussion.user &&
+      this.discussion.user.id == this.$store.getters.learner.id
+    ) {
+      this.description = `I just started a discussion, *${this.discussion.name}*  on SkillsGuruh and I’d like to hear your thoughts. `;
+    } else {
+      this.description = `I just joined a discussion, *${this.discussion.name}*  on SkillsGuruh and I’d like to hear your thoughts. `;
+    }
   },
   computed: {
     filteredDiscussion() {
@@ -1354,6 +1365,29 @@ export default {
         });
     },
     addToFeed() {
+      if (
+        this.discussion.user &&
+        this.discussion.user.id == this.$store.getters.learner.id
+      ) {
+        this.feed = {
+           tags:[],
+          message:
+            "I just started a discussion, " +
+            this.discussion.name.bold() +
+            " and I’d like to hear your thoughts",
+          url:
+            "https://skillsguruh.com/learner/discussion/" + this.discussion.id,
+        };
+      } else {
+        this.feed = {
+          message:
+            "I just joined a discussion, " +
+            this.discussion.name.bold() +
+            " and I’d like to hear your thoughts",
+          url:
+            "https://skillsguruh.com/learner/discussion/" + this.discussion.id,
+        };
+      }
       this.feed = {
         message:
           "I just started a discussion, " +

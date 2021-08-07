@@ -625,8 +625,63 @@ ol.subquest {
 .comment_header {
   font-size: 0.75rem;
 }
+.mobile-add {
+  display: none;
+}
+.btn-circle {
+  border-radius: 50rem;
+  padding: 0.25rem 0.25rem !important;
+}
+.btn-raised {
+  transition: box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+    transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
 
+.btn-raised:not([disabled]):active,
+.btn-raised:not([disabled]):focus,
+.btn-raised:not([disabled]):hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+  transform: translate3d(0, -1px, 0);
+}
+
+.shadow {
+  overflow: hidden;
+  position: relative;
+  transform: translate3d(0, 0, 0);
+}
+
+.shadow:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  pointer-events: none;
+  background-image: radial-gradient(circle, #000 10%, transparent 10.01%);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transform: scale(10, 10);
+  opacity: 0;
+  transition: transform 0.5s, opacity 1.5s;
+}
+
+.shadow:active:before {
+  transform: scale(0, 0);
+  opacity: 0.1;
+  transition: 0s;
+}
 @media (max-width: 600px) {
+  .mobile-add {
+    display: block;
+    position: fixed;
+    right: 20px;
+    bottom: 40px;
+  }
   .p-0-rem {
     padding: 0.1rem !important;
   }

@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-sm-4">
+  <div class="pt-sm-4 position-relative">
     <b-container class="px-0 px-sm-3">
       <b-row>
         <b-col sm="8">
@@ -447,6 +447,17 @@
         >
       </div>
     </b-modal>
+
+    <b-button
+      variant="dark-green"
+      class="mobile-add btn-circle btn-raised shadow"
+    >
+      <b-icon
+        icon="plus-circle"
+        @click="$bvModal.show('start')"
+        font-scale="2.5"
+      ></b-icon
+    ></b-button>
   </div>
 </template>
 

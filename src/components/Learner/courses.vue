@@ -1629,7 +1629,7 @@
           class="mr-3"
           network="facebook"
           :url="link"
-          title="COURSE INVITATION"
+          title="Course Invitation"
           :description="description"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
@@ -1642,7 +1642,7 @@
           class="mr-3"
           network="twitter"
           :url="link"
-          title="COURSE INVITATION"
+          title="Course Invitation"
           :description="description"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
@@ -1655,7 +1655,7 @@
           class="mr-3"
           network="whatsApp"
           :url="link"
-          title="COURSE INVITATION"
+          title="Course Invitation"
           :description="description"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
@@ -1677,7 +1677,7 @@
           class="mr-3"
           network="Telegram"
           :url="link"
-          title="COURSE INVITATION"
+          title="Course Invitation"
           :description="description"
           quote="SkillsGuruh"
           hashtags="SkillsGuruh,  Social learning"
@@ -1818,6 +1818,7 @@ export default {
     addToFeed() {
       if (this.checkLibrary()) {
         this.feed = {
+           tags:[],
           media: this.course.cover,
           message:
             "I just enrolled for the course titled, " +
@@ -1888,14 +1889,14 @@ export default {
                 res.data.code
               }`;
             } else {
-              this.link = `https://skillsguruh.com/explore/?course=${encodeURIComponent(
+              this.link = `https://skillsguruh.com/explore/courses?course=${encodeURIComponent(
                 this.course.title.trim()
               )}&course_id=${course.id}`;
             }
             if (this.library.some((item) => item.course_id == course.id)) {
-              this.description = `I just enrolled for the course titled, *${course.title}*. Check it out here!`;
+              this.description = `I just enrolled for the course titled, *${course.title}* on SkillsGuruh. Check it out here!`;
             } else {
-              this.description = `Let's enroll for the course titled, *${course.title}*. Check it out here!`;
+              this.description = `Let's enroll for the course titled, *${course.title}* on SkillsGuruh. Check it out here!`;
             }
             this.$bvModal.show("share");
           }
