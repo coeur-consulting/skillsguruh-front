@@ -625,6 +625,9 @@ ol.subquest {
 .comment_header {
   font-size: 0.75rem;
 }
+.p-0-rem {
+  padding: 0.1rem !important;
+}
 @media (max-width: 600px) {
   .trending_name {
     font: size 0.8em;
@@ -913,7 +916,7 @@ ol.subquest {
   }
   .overview-title {
     font-size: 0.7rem;
-    height: 24px;
+    height: 28px;
   }
   .course_desc {
     font-size: 0.6rem !important;

@@ -72,7 +72,7 @@
                 <b-col
                   cols="6"
                   :sm="sideOpen ? 4 : 3"
-                  class="mb-3 side_box px-2 px-sm-3"
+                  class="mb-3 side_box p-0-rem px-sm-3"
                   v-for="(item, index) in filteredCourse"
                   :key="index"
                 >

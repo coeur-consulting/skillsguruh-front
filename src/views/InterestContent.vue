@@ -112,7 +112,7 @@
                       <b-row class="facilitators justify-content-start">
                         <b-col
                           cols="4"
-                          class="mb-3 mb-sm-0 px-0 px-sm-3 py-sm-3"
+                          class="mb-0 mb-sm-3 p-0-rem px-sm-3 py-sm-3"
                           v-for="(item, id) in users"
                           :key="id"
                         >
@@ -1373,10 +1373,9 @@
       <span>
         <b-icon
           icon="plus-circle-fill"
-          class="shadow-lg"
           variant="dark-green"
           @click="toggleNav = !toggleNav"
-          font-scale="2"
+          font-scale="2.5"
         ></b-icon
       ></span>
     </div>
@@ -1389,7 +1388,7 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
-      toggleNav: true,
+      toggleNav: false,
       subId: null,
       detail: [],
       active: 4,
@@ -1755,7 +1754,7 @@ ul {
 }
 ul li {
   padding: 5px 10px;
-  font-size: 0.9rem;
+  font-size: 1rem;
   cursor: pointer;
 }
 .activesub,
@@ -2072,7 +2071,7 @@ h4.card-title {
     font-size: 0.9rem;
   }
   nav ul li {
-    font-size: 12px !important;
+    font-size: 14px;
   }
   .card-img,
   .card-img-top {

@@ -142,7 +142,7 @@
                             )
                           "
                           icon="envelope"
-                          font-scale="1"
+                          font-scale="1.4"
                           class="text-muted"
                         ></b-icon>
                         <b-icon
@@ -1547,6 +1547,7 @@ export default {
 }
 h4.card-title {
   font-size: 1.1rem;
+  margin-bottom: 0.25rem;
 }
 
 .search.form-control {
@@ -1694,7 +1695,7 @@ h4.card-title {
   .btn-sm,
   .btn-group-sm > .btn {
     padding: 0.2rem 0.5rem;
-    font-size: 0.5rem !important;
+    font-size: 0.65rem !important;
     line-height: 1.3;
     border-radius: 0.2rem;
   }

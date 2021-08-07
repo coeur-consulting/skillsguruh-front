@@ -576,6 +576,7 @@
                   </div>
                   <div
                     class="comments px-3 pt-2 border-bottom text-left"
+                    style="line-height: 1.2"
                     v-if="feed.comments.length"
                   >
                     <span
@@ -589,7 +590,7 @@
                     >
                     <div class="all_comment">
                       <div
-                        class="comment d-flex text-left mb-1"
+                        class="comment d-flex text-left"
                         v-for="item in feed.comments.slice(0, 2)"
                         :key="item.id"
                       >

@@ -24,7 +24,7 @@
       <b-row class="facilitators justify-content-start">
         <b-col
           cols="4"
-          class="mb-5 mb-sm-0 p-0 py-sm-3 px-sm-4"
+          class="mb-5 mb-sm-0 p-0-rem py-sm-3 px-sm-4"
           v-for="(item, id) in facilitators"
           :key="id"
         >
