@@ -718,18 +718,7 @@ export default {
   justify-content: space-around;
   background: #fff;
 }
-.hover_box {
-  width: 100%;
-  height: 100%;
-  background: var(--dark-green);
-  position: absolute;
-  right: 0px;
-  top: 0;
-  border-radius: 10px;
-  z-index: 0;
-  transition: 0.25s;
-  opacity: 0;
-}
+
 .facilitator {
   padding: 25px;
   text-align: left;

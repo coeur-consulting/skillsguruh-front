@@ -160,18 +160,7 @@ export default {
   margin: 0 auto;
   justify-content: space-around;
 }
-.hover_box {
-  width: 100%;
-  height: 100%;
-  background: var(--dark-green);
-  position: absolute;
-  right: 0px;
-  top: 0;
-  border-radius: 10px;
-  z-index: 0;
-  transition: 0.25s;
-  opacity: 0;
-}
+
 .facilitator {
   padding: 0;
   text-align: left;
