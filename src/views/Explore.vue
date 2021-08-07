@@ -785,7 +785,7 @@
           >
         </b-row>
       </section>
-      <section class="py-4">
+      <section class="py-5">
         <h6 class="mb-4 font-weight-bold text-center text-sm-left">
           Popular Courses
         </h6>
@@ -795,7 +795,7 @@
         >
           <b-col
             sm="4"
-            class="mb-4 px-4 d-none d-sm-block"
+            class="mb-sm-4 px-4 d-none d-sm-block"
             v-for="item in mostenrolledcourse.slice(0, 6)"
             :key="item.id"
           >
@@ -890,7 +890,7 @@
               </div>
             </div>
           </b-col>
-          <b-col cols="12" class="mb-4 px-sm-4 d-sm-none">
+          <b-col cols="12" class="mb-sm-4 px-sm-4 d-sm-none">
             <carousel
               :scrollPerPage="true"
               :perPage="1"

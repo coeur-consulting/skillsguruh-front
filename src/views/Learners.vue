@@ -24,7 +24,7 @@
       <b-row class="learners justify-content-start">
         <b-col
           cols="4"
-          sm="4"
+          sm="3"
           class="mb-0 mb-sm-0 p-0-rem py-sm-3 px-sm-4"
           v-for="(item, id) in filteredName"
           :key="id"
@@ -189,8 +189,9 @@ export default {
 .facilitator {
   padding: 0;
   text-align: left;
-  border-radius: 0;
+  border-radius: 10px;
   z-index: 1;
+  overflow: hidden;
 }
 .facilitator:hover ~ .hover_box {
   right: -5px;
@@ -218,7 +219,7 @@ export default {
 }
 @media (max-width: 600px) {
   .facilitator {
-    border-radius: 0;
+    border-radius: 5px;
     padding: 0;
   }
   .facilitator img {

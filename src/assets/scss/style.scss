@@ -625,10 +625,11 @@ ol.subquest {
 .comment_header {
   font-size: 0.75rem;
 }
-.p-0-rem {
-  padding: 0.1rem !important;
-}
+
 @media (max-width: 600px) {
+  .p-0-rem {
+    padding: 0.1rem !important;
+  }
   .trending_name {
     font: size 0.8em;
   }
