@@ -13,8 +13,7 @@
         <div class="wrapper mb-2">
           <b-form-textarea
             rows="3"
-            class="rounded stat border-0"
-            size="lg"
+            class="rounded border-0"
             v-model="feed.message"
             :placeholder="
               'Whats on your mind ' + $store.getters.admin.name + '?'
@@ -559,6 +558,14 @@
                       >
                       comments</span
                     >
+                    <span class="cursor-pointer"
+                      ><b-icon
+                        icon="
+                            share
+                          "
+                        class=""
+                      ></b-icon>
+                    </span>
                   </div>
                   <div
                     class="comments px-3 pt-2 border-bottom text-left"

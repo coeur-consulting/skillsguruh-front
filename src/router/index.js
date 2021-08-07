@@ -215,6 +215,19 @@ const routes = [
     },
   },
   {
+    path: "feed/:id",
+    name: "View Feed",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "viewfeed" */ "../views/viewfeed.vue"),
+      footer: Footer,
+    },
+    meta: {
+      title: "Feed | SkillsGuruh",
+    },
+  },
+  {
     path: "/discussion/:id",
     name: "Discussion",
     components: {

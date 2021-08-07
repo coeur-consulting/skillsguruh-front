@@ -704,7 +704,6 @@
                                   <div class="pt-3 pb-1 text-left">
                                     <h6
                                       class="
-                                        font-weight-bold
                                         text-capitalize
                                         overview-title
                                         text-truncate text-truncate--2

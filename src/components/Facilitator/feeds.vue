@@ -13,8 +13,7 @@
         <div class="wrapper mb-2">
           <b-form-textarea
             rows="3"
-            class="rounded stat border-0"
-            size="lg"
+            class="rounded border-0"
             v-model="feed.message"
             :placeholder="
               'Whats on your mind ' + $store.getters.facilitator.name + '?'
@@ -114,9 +113,9 @@
             <b-img
               :src="require('@/assets/images/event.svg')"
               width="18px"
-              class="mr-1 cursor-pointer"
+              class="mr-1 cursor-pointer ev"
             ></b-img>
-            Image
+            <span class="ev">Image</span>
           </FeedUpload>
         </div>
         <div>
@@ -124,9 +123,9 @@
             <b-img
               :src="require('@/assets/images/youtube.svg')"
               width="18px"
-              class="mr-1 cursor-pointer"
+              class="mr-1 cursor-pointer ev"
             ></b-img
-            >Video
+            ><span class="ev">Video</span>
           </FeedUpload>
         </div>
         <div>
@@ -134,9 +133,9 @@
             <b-img
               :src="require('@/assets/images/advert.svg')"
               width="18px"
-              class="mr-1 cursor-pointer"
+              class="mr-1 cursor-pointer ev"
             ></b-img>
-            Event
+            <span class="ev">Event</span>
           </FeedUpload>
         </div>
       </div>
@@ -573,6 +572,14 @@
                       >
                       comments</span
                     >
+                    <span class="cursor-pointer"
+                      ><b-icon
+                        icon="
+                            share
+                          "
+                        class=""
+                      ></b-icon>
+                    </span>
                   </div>
                   <div
                     class="comments px-3 pt-2 border-bottom text-left"

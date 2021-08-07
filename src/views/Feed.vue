@@ -13,13 +13,10 @@
         <div class="mb-4">
           <div class="wrapper mb-2">
             <b-form-textarea
-              rows="3"
-              class="rounded stat border-0"
-              size="lg"
+              rows="4"
+              class="rounded border-0"
               v-model="feed.message"
-              placeholder="
-                Whats on your mind today?
-              "
+              placeholder="Whats on your mind today?"
             ></b-form-textarea>
           </div>
           <emoji-picker
@@ -116,9 +113,9 @@
               <b-img
                 :src="require('@/assets/images/event.svg')"
                 width="18px"
-                class="mr-1 cursor-pointer"
+                class="mr-1 cursor-pointer ev"
               ></b-img>
-              Image
+              <span class="ev">Image</span>
             </FeedUpload>
           </div>
           <div>
@@ -126,9 +123,9 @@
               <b-img
                 :src="require('@/assets/images/youtube.svg')"
                 width="18px"
-                class="mr-1 cursor-pointer"
+                class="mr-1 cursor-pointer ev"
               ></b-img
-              >Media
+              ><span class="ev">Video</span>
             </FeedUpload>
           </div>
           <div>
@@ -136,9 +133,9 @@
               <b-img
                 :src="require('@/assets/images/advert.svg')"
                 width="18px"
-                class="mr-1 cursor-pointer"
+                class="mr-1 cursor-pointer ev"
               ></b-img>
-              Event
+              <span class="ev">Event</span>
             </FeedUpload>
           </div>
         </div>
@@ -301,28 +298,26 @@
                   size="lg"
                   readonly
                   @click="$bvModal.show('feed')"
-                  placeholder="
-                    Whats on your mind today?
-                  "
+                  placeholder="Whats on your mind today? "
                 ></b-form-input>
               </div>
 
-              <div class="d-flex justify-content-around event">
+              <div class="d-flex justify-content-around event_video">
                 <div @click="$bvModal.show('feed')">
                   <b-img
                     :src="require('@/assets/images/event.svg')"
                     width="18px"
                     class="mr-1 cursor-pointer"
                   ></b-img>
-                  Image
+                  <span>Image</span>
                 </div>
                 <div @click="$bvModal.show('feed')">
                   <b-img
                     :src="require('@/assets/images/youtube.svg')"
                     width="18px"
                     class="mr-1 cursor-pointer"
-                  ></b-img
-                  >Media
+                  ></b-img>
+                  <span class="ev">Media</span>
                 </div>
                 <div @click="$bvModal.show('feed')">
                   <b-img
@@ -330,7 +325,7 @@
                     width="18px"
                     class="mr-1 cursor-pointer"
                   ></b-img>
-                  Event
+                  <span class="ev">Event</span>
                 </div>
               </div>
             </div>
@@ -555,6 +550,14 @@
                         >
                         comments</span
                       >
+                      <span class="cursor-pointer"
+                        ><b-icon
+                          icon="
+                            share
+                          "
+                          class="mr-1"
+                        ></b-icon>
+                      </span>
                     </div>
                     <div
                       class="comments px-3 pt-2 border-bottom text-left"
@@ -780,10 +783,14 @@
 import EmojiPicker from "vue-emoji-picker";
 import FeedUpload from "@/components/feedupload";
 import { MultiSelect } from "vue-search-select";
-import Interest from "@/components/insight.js";
+import Interest from "@/components/helpers/subcategory.js";
 export default {
   data() {
     return {
+      recentfeeds: [],
+      trendingFeed: [],
+      customfeeds: [],
+      feedShown: "recent",
       options: [],
       searchText: "", // If value is falsy, reset searchText & searchItem
       items: [],
@@ -795,6 +802,8 @@ export default {
       feed: {
         media: "",
         message: "",
+        publicId: "",
+        tags: [],
       },
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp", "flv", "mov"],
@@ -811,13 +820,7 @@ export default {
         profile: "",
       },
       showFeeds: false,
-
-      currentPage: 1,
-      rows: null,
-      perPage: 10,
       page: 1,
-      trendingFeed: [],
-      auth: false,
     };
   },
   components: {
@@ -834,16 +837,14 @@ export default {
     }
     this.getSpecificFeeds();
     this.getTrendingFeeds();
+  },
+  created() {
     this.options = Interest.map((item) => {
-      var res = {};
-      res.text = item.value;
-      res.value = item.value;
-      res.color = item.color;
-      res.icon = item.icon;
-      return res;
+      item.text = item.value;
+
+      return item;
     });
   },
-
   methods: {
     getTrendingFeeds() {
       this.$http
@@ -1059,6 +1060,9 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+::placeholder {
+  text-align: left;
+}
 .stat {
   height: 50px;
 }

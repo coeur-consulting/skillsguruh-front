@@ -735,7 +735,7 @@ ol.subquest {
     font-size: 12px;
   }
   ::placeholder {
-    font-size: x-small;
+    font-size: 0.9rem;
   }
   .reg .custom-control-label {
     font-size: 0.7rem;
@@ -860,7 +860,7 @@ ol.subquest {
     font-weight: 400;
   }
   .form-control {
-    font-size: 0.9rem !important;
+    font-size: 0.8rem !important;
   }
 
   .main_box {
@@ -1020,7 +1020,7 @@ ol.subquest {
 
   .interactions {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     font-size: 12px;
   }
   .event_title {
@@ -1117,8 +1117,13 @@ ol.subquest {
   .search {
     width: 100%;
   }
-  .event_video {
-    font-size: 0.6rem;
+  .event_video,
+  .event_video div img,
+  .ev {
+    font-size: 0.7rem;
+  }
+  .event_video div img {
+    width: 14px;
   }
   .img-s {
     width: 80px;
