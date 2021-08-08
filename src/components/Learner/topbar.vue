@@ -429,8 +429,9 @@ export default {
     };
   },
 
-  mounted() {},
-
+  watch: {
+    $route: "isOpen",
+  },
   methods: {
     togglechat() {
       this.mini_info = {
