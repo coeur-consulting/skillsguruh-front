@@ -13,7 +13,7 @@
         <b-col>
           <b-card no-body class="">
             <b-row no-gutters>
-              <b-col md="8" class="text-left p-3 p-md-4 border-right">
+              <b-col md="8" class="text-left p-3 p-sm-4 border-right">
                 <div
                   class="d-flex justify-content-between p-3 px-md-2 d-md-none"
                 >
@@ -33,7 +33,7 @@
                     ></b-avatar>
                     <div
                       @click="
-                        $router.push(`/learner/profile/u/${feed.user.id}`)
+                        $router.push(`/facilitator/profile/u/${feed.user.id}`)
                       "
                       class="feed_name"
                     >
@@ -52,7 +52,7 @@
                     <div
                       @click="
                         $router.push(
-                          `/learner/profile/f/${feed.facilitator.id}`
+                          `/facilitator/profile/f/${feed.facilitator.id}`
                         )
                       "
                       class="feed_name"
@@ -74,7 +74,8 @@
                       class="fs12"
                       @click="drop(feed.id, index)"
                       v-if="
-                        feed.user && feed.user.id == $store.getters.learner.id
+                        feed.user &&
+                        feed.facilitator.id == $store.getters.facilitator.id
                       "
                       >Delete</b-dropdown-item
                     >
@@ -160,7 +161,7 @@
               </b-col>
               <b-col md="4">
                 <b-card-body
-                  class="text-left px-0 d-flex flex-column h-100 pb-0"
+                  class="text-left px-0 h-100 d-flex flex-column pb-0"
                 >
                   <div class="justify-content-between px-3 d-none d-md-flex">
                     <div class="d-flex align-items-center" v-if="feed.admin">
@@ -179,7 +180,7 @@
                       ></b-avatar>
                       <div
                         @click="
-                          $router.push(`/learner/profile/u/${feed.user.id}`)
+                          $router.push(`/facilitator/profile/u/${feed.user.id}`)
                         "
                         class="feed_name"
                       >
@@ -198,7 +199,7 @@
                       <div
                         @click="
                           $router.push(
-                            `/learner/profile/f/${feed.facilitator.id}`
+                            `/facilitator/profile/f/${feed.facilitator.id}`
                           )
                         "
                         class="feed_name"
@@ -220,7 +221,8 @@
                         class="fs12"
                         @click="drop(feed.id, index)"
                         v-if="
-                          feed.user && feed.user.id == $store.getters.learner.id
+                          feed.user &&
+                          feed.facilitator.id == $store.getters.facilitator.id
                         "
                         >Delete</b-dropdown-item
                       >
@@ -240,7 +242,9 @@
                       <span
                         class="comment_name mr-1"
                         @click="
-                          $router.push(`/learner/profile/f/${comment.user.id}`)
+                          $router.push(
+                            `/facilitator/profile/f/${comment.user.id}`
+                          )
                         "
                         v-if="comment.user"
                         >{{ comment.user.name }}</span
@@ -249,7 +253,7 @@
                         class="comment_name mr-1"
                         @click="
                           $router.push(
-                            `/learner/profile/f/${comment.facilitator.id}`
+                            `/facilitator/profile/f/${comment.facilitator.id}`
                           )
                         "
                         v-if="comment.facilitator"
@@ -319,7 +323,7 @@
                         ></b-icon>
                       </span>
                     </div>
-                    <div class="fs12 text-muted py-2">
+                    <div class="fs12 text-muted">
                       {{ $moment(feed.created_at).fromNow() }}
                     </div>
                   </div>
@@ -542,7 +546,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/feed-comments`, this.comment, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
           },
         })
         .then((res) => {
@@ -568,7 +572,7 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
             },
           }
         )
@@ -578,7 +582,7 @@ export default {
           }
           if (res.status == 200) {
             this.feeds[index].likes.map((item) => {
-              if (item.user_id == this.$store.getters.learner.id) {
+              if (item.user_id == this.$store.getters.facilitator.id) {
                 return (item.like = res.data.like);
               }
             });
@@ -595,7 +599,7 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
             },
           }
         )
@@ -605,7 +609,7 @@ export default {
           }
           if (res.status == 200) {
             this.feeds[index].stars.map((item) => {
-              if (item.user_id == this.$store.getters.learner.id) {
+              if (item.user_id == this.$store.getters.facilitator.id) {
                 return (item.star = res.data.star);
               }
             });
@@ -621,7 +625,7 @@ export default {
           this.$http
             .delete(`${this.$store.getters.url}/feeds/${this.id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
               },
             })
             .then((res) => {

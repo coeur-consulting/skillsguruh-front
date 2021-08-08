@@ -422,9 +422,6 @@
                       </div>
                     </div>
                     <b-dropdown
-                      v-if="
-                        feed.user && feed.user.id == $store.getters.learner.id
-                      "
                       size="sm"
                       variant="transparent"
                       no-caret
@@ -433,6 +430,11 @@
                       <template #button-content>
                         <b-icon icon="three-dots" font-scale="1.4"></b-icon>
                       </template>
+                      <b-dropdown-item
+                        class="fs12"
+                        @click="$router.push(`/feed/view/${feed.id}`)"
+                        >View post</b-dropdown-item
+                      >
 
                       <b-dropdown-item
                         class="fs12"

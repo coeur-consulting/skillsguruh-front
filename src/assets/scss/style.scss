@@ -16,7 +16,6 @@ html::-webkit-scrollbar {
   display: none;
 }
 body {
-  line-height: 1.5;
 }
 p,
 li,
@@ -28,8 +27,10 @@ h4 {
   hyphens: auto;
   word-wrap: break-word;
 }
+
 p {
-  color: rgba($color: #000000, $alpha: 0.74);
+  color: rgba($color: #000000, $alpha: 0.64);
+  line-height: 1.5;
 }
 .line-height-1_2 {
   line-height: 1.2;
@@ -566,10 +567,13 @@ ol.subquest {
   align-items: center;
   line-height: 1;
 }
-
+.feed_name {
+  cursor: pointer;
+}
 .comment_name {
   font-size: 0.8rem;
   font-weight: 500;
+  cursor: pointer;
 }
 .comment_text {
   font-size: 0.7rem;
@@ -578,10 +582,12 @@ ol.subquest {
   font-size: 0.65rem;
 }
 .comment_post {
-  font-size: 0.7rem;
+  font-size: 0.9rem;
   font-weight: 500;
 }
-.comment_post:hover {
+.comment_post:hover,
+.comment_name:hover,
+.feed_name:hover {
   opacity: 0.7;
 }
 .my_courses {
@@ -687,6 +693,125 @@ ol.subquest {
   transition: 0.25s;
   opacity: 0;
 }
+.wrapper {
+  position: relative;
+  width: 100%;
+}
+.text-post {
+  width: 85%;
+  margin-left: auto;
+}
+.regular-input {
+  padding: 0.5rem 1rem;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  height: 7rem;
+  outline: none;
+}
+
+.regular-input:focus {
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+
+.emoji-invoker {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.emoji-invoker:hover {
+  transform: scale(1.1);
+}
+.emoji-invoker > svg {
+  fill: #b1c6d0;
+}
+.emoji-invoker2 {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.emoji-invoker2:hover {
+  transform: scale(1.1);
+}
+.emoji-invoker2 > svg {
+  fill: #b1c6d0;
+}
+
+.emoji-picker {
+  position: absolute;
+  z-index: 1;
+  font-family: Montserrat;
+  border: 1px solid #ccc;
+  width: 15rem;
+  height: 20rem;
+  overflow: scroll;
+  padding: 1rem;
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  background: #fff;
+  box-shadow: 1px 1px 8px #c7dbe6;
+  top: 40px;
+  right: -150px;
+}
+.emoji-picker.picker {
+  position: absolute;
+  z-index: 1;
+  font-family: Montserrat;
+  border: 1px solid #ccc;
+  width: 15rem;
+  height: 20rem;
+  overflow: scroll;
+  padding: 1rem;
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  background: #fff;
+  box-shadow: 1px 1px 8px #c7dbe6;
+  top: unset;
+  bottom: 60px;
+  right: -150px;
+}
+.emoji-picker__search {
+  display: flex;
+}
+.emoji-picker__search > input {
+  flex: 1;
+  border-radius: 10rem;
+  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+  outline: none;
+}
+.emoji-picker h5 {
+  margin-bottom: 0;
+  color: #b1b1b1;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  cursor: default;
+}
+.emoji-picker .emojis {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.emoji-picker .emojis:after {
+  content: "";
+  flex: auto;
+}
+.emoji-picker .emojis span {
+  padding: 0.2rem;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.emoji-picker .emojis span:hover {
+  background: #ececec;
+  cursor: pointer;
+}
+
 @media (max-width: 600px) {
   .hover_box {
     background-color: hsl(185deg, 41%, 88%) !important;
@@ -729,13 +854,14 @@ ol.subquest {
     font-size: 0.55rem;
   }
   .comment_post {
-    font-size: 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 500;
   }
   .discusion_text {
     font-size: 12px;
   }
   ::placeholder {
-    font-size: 0.9rem;
+    font-size: 0.75rem;
   }
   .reg .custom-control-label {
     font-size: 0.7rem;
@@ -829,10 +955,6 @@ ol.subquest {
     font-size: 0.8rem;
   }
 
-  span {
-    line-height: 1.3;
-  }
-
   .fs14,
   .col-form-label,
   .custom-select {
@@ -851,16 +973,13 @@ ol.subquest {
     font-size: 1rem !important;
   }
   .feed_text {
-    font-size: 0.87rem;
+    font-size: 0.8rem;
     color: rgba($color: #000000, $alpha: 0.54);
   }
   small,
   .small {
     font-size: 70%;
     font-weight: 400;
-  }
-  .form-control {
-    font-size: 0.8rem !important;
   }
 
   .main_box {
@@ -963,7 +1082,7 @@ ol.subquest {
     height: 100px;
   }
   .course_badge {
-    font-size: 0.6rem !important;
+    font-size: 0.5rem !important;
   }
   .course_text {
     height: 58% !important;
@@ -1008,6 +1127,7 @@ ol.subquest {
   .bottom_bar {
     width: 100% !important;
   }
+
   .toggleSide {
     display: none !important;
   }
@@ -1129,5 +1249,8 @@ ol.subquest {
     width: 80px;
     margin: 0 auto;
     height: auto;
+  }
+  .course_description {
+    font-size: 0.7rem;
   }
 }

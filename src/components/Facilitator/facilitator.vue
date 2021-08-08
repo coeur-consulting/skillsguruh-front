@@ -7,7 +7,7 @@
             <b-col cols="12" class="mb-0 rounded pt-sm-2 px-1 px-sm-4 pb-2">
               <b-card no-body class="overflow-hidden border-0" style="">
                 <b-row no-gutters>
-                  <div class="prof_img">
+                  <b-col cols="3" class="prof_img">
                     <b-card-img
                       width="15%"
                       :src="
@@ -18,8 +18,8 @@
                       alt="Image"
                       class="rounded-0"
                     ></b-card-img>
-                  </div>
-                  <div class="flex-1">
+                  </b-col>
+                  <b-col cols="9" class="flex-1">
                     <b-card-body
                       :title="detail.name"
                       class="text-left text-capitalize"
@@ -120,7 +120,7 @@
                         >
                       </div>
                     </b-card-body>
-                  </div>
+                  </b-col>
                 </b-row>
               </b-card>
             </b-col>

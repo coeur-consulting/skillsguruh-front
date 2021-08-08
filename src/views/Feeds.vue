@@ -329,7 +329,7 @@
                 </div>
               </div>
             </div>
-            <div class="d-flex justify-content-end">
+            <div class="d-flex justify-content-center justify-content-md-end">
               <div class="d-flex align-items-center pl-3 mb-3">
                 <div
                   class="pr-2 fs12 font-weight-bold cursor-pointer"
@@ -366,7 +366,7 @@
                             :src="feed.admin.profile"
                           ></b-avatar>
                           <div>
-                            <div style="line-height: 1.2">
+                            <div style="line-height: 1.3">
                               {{ feed.admin.name }} <br />
                             </div>
                             <small
@@ -424,9 +424,6 @@
                         </div>
                       </div>
                       <b-dropdown
-                        v-if="
-                          feed.user && feed.user.id == $store.getters.learner.id
-                        "
                         size="sm"
                         variant="transparent"
                         no-caret
@@ -435,6 +432,11 @@
                         <template #button-content>
                           <b-icon icon="three-dots" font-scale="1.4"></b-icon>
                         </template>
+                        <b-dropdown-item
+                          class="fs12"
+                          @click="$router.push(`/learner/feed/view/${feed.id}`)"
+                          >View post</b-dropdown-item
+                        >
 
                         <b-dropdown-item
                           class="fs12"
@@ -575,6 +577,7 @@
                       >
                       <span class="cursor-pointer"
                         ><b-icon
+                          @click="sharenow(feed)"
                           icon="
                             share
                           "
@@ -584,7 +587,7 @@
                     </div>
                     <div
                       class="comments px-3 pt-2 border-bottom text-left"
-                      style="line-height: 1.2"
+                      style="line-height: 1.6"
                       v-if="feed.comments.length"
                     >
                       <span
@@ -640,7 +643,7 @@
                       </div>
                     </div>
 
-                    <div class="interact text-left px-3 pb-1">
+                    <div class="interact text-left py-1">
                       <b-input-group class="mt-1">
                         <template #append>
                           <b-input-group-text
@@ -656,10 +659,8 @@
                             ></b-input-group-text
                           >
                         </template>
-                        <template #prepend class="d-none d-md-block">
-                          <b-input-group-text
-                            class="border-0 bg-transparent d-none d-md-block"
-                          >
+                        <template #prepend class="">
+                          <b-input-group-text class="border-0 bg-transparent">
                             <emoji-picker
                               @emoji="insertcomment"
                               :search="search"
@@ -719,10 +720,8 @@
                           </b-input-group-text>
                         </template>
                         <b-form-input
-                          size="sm"
                           autocomplete="off"
                           autocorrect="off"
-                          rows="1"
                           v-model="feed.comment"
                           placeholder="Add comment"
                           class="border-0 no-focus"
@@ -802,6 +801,73 @@
         </b-row>
       </b-container>
     </div>
+    <b-modal id="share" hide-footer centered size="lg">
+      <div class="p-2 text-center">
+        <h6 class="font-weight-bold mb-3">Share</h6>
+        <ShareNetwork
+          class="mr-3"
+          network="facebook"
+          :url="link"
+          title=""
+          :description="description"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
+          >
+        </ShareNetwork>
+        <ShareNetwork
+          class="mr-3"
+          network="twitter"
+          :url="link"
+          title=""
+          :description="description"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
+          >
+        </ShareNetwork>
+        <ShareNetwork
+          class="mr-3"
+          network="whatsApp"
+          :url="link"
+          title=""
+          :description="description"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green">
+            <b-iconstack>
+              <b-icon stacked icon="circle-fill" variant="dark-green"></b-icon>
+              <b-icon
+                stacked
+                icon="telephone-plus"
+                variant="light"
+                scale="0.5"
+              ></b-icon>
+            </b-iconstack>
+            Whatsapp</b-button
+          >
+        </ShareNetwork>
+        <ShareNetwork
+          class="mr-3"
+          network="Telegram"
+          :url="link"
+          title=""
+          :description="description"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning, Feeds"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
+            Telegram</b-button
+          >
+        </ShareNetwork>
+      </div>
+    </b-modal>
   </b-container>
 </template>
 
@@ -813,6 +879,8 @@ import Interest from "@/components/insight.js";
 export default {
   data() {
     return {
+      link: "",
+      description: "",
       auth: false,
       feedShown: "recent",
       trendingfeeds: [],
@@ -892,6 +960,11 @@ export default {
     },
   },
   methods: {
+    sharenow(feed) {
+      this.description = feed.message;
+      this.link = `https://skillsguruh.com/feed/view/${feed.id}?utf_medium=share`;
+      this.$bvModal.show("share");
+    },
     gettrendingfeeds() {
       this.$http
         .get(`${this.$store.getters.url}/trending/feeds`)
@@ -1119,124 +1192,6 @@ export default {
 <style scoped lang="scss">
 .stat {
   height: 50px;
-}
-.wrapper {
-  position: relative;
-  width: 100%;
-}
-.text-post {
-  width: 85%;
-  margin-left: auto;
-}
-.regular-input {
-  padding: 0.5rem 1rem;
-  border-radius: 3px;
-  border: 1px solid #ccc;
-  height: 7rem;
-  outline: none;
-}
-
-.regular-input:focus {
-  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
-}
-
-.emoji-invoker {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.emoji-invoker:hover {
-  transform: scale(1.1);
-}
-.emoji-invoker > svg {
-  fill: #b1c6d0;
-}
-.emoji-invoker2 {
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.emoji-invoker2:hover {
-  transform: scale(1.1);
-}
-.emoji-invoker2 > svg {
-  fill: #b1c6d0;
-}
-
-.emoji-picker {
-  position: absolute;
-  z-index: 1;
-  font-family: Montserrat;
-  border: 1px solid #ccc;
-  width: 15rem;
-  height: 20rem;
-  overflow: scroll;
-  padding: 1rem;
-  box-sizing: border-box;
-  border-radius: 0.5rem;
-  background: #fff;
-  box-shadow: 1px 1px 8px #c7dbe6;
-  top: 40px;
-  right: -150px;
-}
-.emoji-picker.picker {
-  position: absolute;
-  z-index: 1;
-  font-family: Montserrat;
-  border: 1px solid #ccc;
-  width: 15rem;
-  height: 20rem;
-  overflow: scroll;
-  padding: 1rem;
-  box-sizing: border-box;
-  border-radius: 0.5rem;
-  background: #fff;
-  box-shadow: 1px 1px 8px #c7dbe6;
-  top: unset;
-  bottom: 60px;
-  right: -150px;
-}
-.emoji-picker__search {
-  display: flex;
-}
-.emoji-picker__search > input {
-  flex: 1;
-  border-radius: 10rem;
-  border: 1px solid #ccc;
-  padding: 0.5rem 1rem;
-  outline: none;
-}
-.emoji-picker h5 {
-  margin-bottom: 0;
-  color: #b1b1b1;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  cursor: default;
-}
-.emoji-picker .emojis {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-.emoji-picker .emojis:after {
-  content: "";
-  flex: auto;
-}
-.emoji-picker .emojis span {
-  padding: 0.2rem;
-  cursor: pointer;
-  border-radius: 5px;
-}
-.emoji-picker .emojis span:hover {
-  background: #ececec;
-  cursor: pointer;
 }
 
 .rounded-8 {

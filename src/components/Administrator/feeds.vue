@@ -560,6 +560,7 @@
                     >
                     <span class="cursor-pointer"
                       ><b-icon
+                        @click="sharenow(feed)"
                         icon="
                             share
                           "
@@ -624,7 +625,7 @@
                     </div>
                   </div>
 
-                  <div class="interact text-left px-3 pb-1">
+                  <div class="interact text-left py-1">
                     <b-input-group class="mt-1">
                       <template #append>
                         <b-input-group-text
@@ -636,10 +637,8 @@
                           ></b-input-group-text
                         >
                       </template>
-                      <template #prepend class="d-none d-md-block">
-                        <b-input-group-text
-                          class="border-0 bg-transparent d-none d-md-block"
-                        >
+                      <template #prepend class="">
+                        <b-input-group-text class="border-0 bg-transparent">
                           <emoji-picker @emoji="insertcomment" :search="search">
                             <div
                               class="emoji-invoker2"
@@ -690,10 +689,8 @@
                         </b-input-group-text>
                       </template>
                       <b-form-input
-                        size="sm"
                         autocomplete="off"
                         autocorrect="off"
-                        rows="1"
                         v-model="feed.comment"
                         placeholder="Add comment"
                         class="border-0 no-focus"
@@ -759,6 +756,73 @@
         <Minichat :user="'admin'" />
       </div>
     </b-container>
+    <b-modal id="share" hide-footer centered size="lg">
+      <div class="p-2 text-center">
+        <h6 class="font-weight-bold mb-3">Share</h6>
+        <ShareNetwork
+          class="mr-3"
+          network="facebook"
+          :url="link"
+          title=""
+          :description="description"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
+          >
+        </ShareNetwork>
+        <ShareNetwork
+          class="mr-3"
+          network="twitter"
+          :url="link"
+          title=""
+          :description="description"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
+          >
+        </ShareNetwork>
+        <ShareNetwork
+          class="mr-3"
+          network="whatsApp"
+          :url="link"
+          title=""
+          :description="description"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green">
+            <b-iconstack>
+              <b-icon stacked icon="circle-fill" variant="dark-green"></b-icon>
+              <b-icon
+                stacked
+                icon="telephone-plus"
+                variant="light"
+                scale="0.5"
+              ></b-icon>
+            </b-iconstack>
+            Whatsapp</b-button
+          >
+        </ShareNetwork>
+        <ShareNetwork
+          class="mr-3"
+          network="Telegram"
+          :url="link"
+          title=""
+          :description="description"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning, Feeds"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
+            Telegram</b-button
+          >
+        </ShareNetwork>
+      </div>
+    </b-modal>
   </div>
 </template>
 <script>
@@ -771,6 +835,8 @@ import Interest from "../insight.js";
 export default {
   data() {
     return {
+      link: "",
+      description: "",
       options: [],
       searchText: "", // If value is falsy, reset searchText & searchItem
       items: [],
@@ -826,6 +892,11 @@ export default {
     this.getfeeds();
   },
   methods: {
+    sharenow(feed) {
+      this.description = feed.message;
+      this.link = `https://skillsguruh.com/feed/view/${feed.id}?utf_medium=share`;
+      this.$bvModal.show("share");
+    },
     infiniteHandler($state) {
       this.$http
         .get(`${this.$store.getters.url}/feeds?page=${this.page}`, {

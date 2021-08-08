@@ -64,10 +64,9 @@
                   <carousel
                     :scrollPerPage="true"
                     :paginationEnabled="true"
-                    :perPage="1"
-                    :spacePadding="15"
+                    :perPage="2"
                     :perPageCustom="[
-                      [600, 1],
+                      [600, 2],
                       [768, 3],
                     ]"
                     v-if="courses.length"
@@ -136,7 +135,12 @@
                             >
                               {{ item.title }}
                             </h6>
-                            <div class="fs13 text-truncate text-truncate--2">
+                            <div
+                              class="
+                                course_description
+                                text-truncate text-truncate--2
+                              "
+                            >
                               {{ item.description }}
                             </div>
                           </div>
@@ -160,12 +164,18 @@
                                   style="color: gold"
                                   class="mr-1"
                                 ></b-icon>
-                                <span>{{ item.review.length }} reviews</span>
+                                <span
+                                  >{{ item.review.length }}
+                                  <span class="d-none d-sm-inline"
+                                    >reviews</span
+                                  ></span
+                                >
                               </div>
                             </div>
 
                             <b-avatar
                               size="sm"
+                              class="course_avatar"
                               variant="light"
                               :src="item.cover"
                             >
@@ -184,10 +194,9 @@
                   <carousel
                     :scrollPerPage="true"
                     :paginationEnabled="true"
-                    :perPage="1"
-                    :spacePadding="15"
+                    :perPage="2"
                     :perPageCustom="[
-                      [600, 1],
+                      [600, 2],
                       [768, 3],
                     ]"
                     v-if="library.length"
@@ -210,13 +219,18 @@
                         class="mb-2 border"
                       >
                         <b-card-text
-                          class="fs13 text-truncate text-truncate--2"
+                          class="
+                            course_description
+                            text-truncate text-truncate--2
+                          "
                         >
                           {{ item.course.description }}
                         </b-card-text>
 
                         <div class="mt-3">
-                          <div class="mb-2 fs12">Your progress</div>
+                          <div class="mb-2 fs12 d-none d-sm-block">
+                            Your progress
+                          </div>
                           <b-progress
                             :max="100"
                             height=".8rem"
@@ -235,6 +249,7 @@
                             @click="
                               $router.push(`/learner/media/${item.course.id}`)
                             "
+                            block
                             size="sm"
                             variant="lighter-green"
                             >Continue course</b-button
@@ -873,7 +888,6 @@ export default {
 }
 
 .course_text {
-  height: 55%;
   padding: 10px;
 }
 
@@ -905,6 +919,22 @@ export default {
   .main_box {
     width: 100%;
     padding: 15px;
+  }
+  .card-img,
+  .card-img-top {
+    height: 100px;
+  }
+  .btn-sm,
+  .btn-group-sm > .btn {
+    width: 100%;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.6rem !important;
+    line-height: 1.3;
+    border-radius: 0.2rem;
+  }
+  .card-title {
+    margin-bottom: 0.35rem;
+    font-size: 0.7rem !important;
   }
 }
 </style>

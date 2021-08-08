@@ -215,7 +215,7 @@ const routes = [
     },
   },
   {
-    path: "feed/:id",
+    path: "/feed/view/:id",
     name: "View Feed",
     components: {
       header: Header,
@@ -956,6 +956,22 @@ const routes = [
         },
       },
       {
+        path: "feed/view/:id",
+        name: "View single Feed",
+        components: {
+          header: Header,
+          default: () =>
+            import(
+              /* webpackChunkName: "viewfeed" */ "@/components/Facilitator/viewfeed.vue"
+            ),
+          footer: Footer,
+        },
+        meta: {
+          typeFacilitator: true,
+          title: "Feed | SkillsGuruh",
+        },
+      },
+      {
         path: "interests",
         name: "facilitator interests",
         components: {
@@ -1460,7 +1476,22 @@ const routes = [
           title: "Home | Learner",
         },
       },
-
+      {
+        path: "feed/view/:id",
+        name: "View learner Feed",
+        components: {
+          header: Header,
+          default: () =>
+            import(
+              /* webpackChunkName: "viewfeed" */ "@/components/Learner/viewfeed.vue"
+            ),
+          footer: Footer,
+        },
+        meta: {
+          typeLearner: true,
+          title: "Feed | SkillsGuruh",
+        },
+      },
       {
         path: "facilitators",
         name: "Learner facilitators",

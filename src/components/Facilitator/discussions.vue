@@ -29,7 +29,6 @@
                   placeholder="Find a discussion"
                   type="search"
                   v-model="search"
-                  size="sm"
                 ></b-form-input
               ></span>
             </div>

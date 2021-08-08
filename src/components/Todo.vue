@@ -4,7 +4,7 @@
     <b-row class="p-2 p-sm-3">
       <b-col sm="12">
         <b-form @submit.prevent="register">
-          <b-input-group size="sm">
+          <b-input-group>
             <b-form-input
               autocomplete="off"
               :autofocus="false"
@@ -13,8 +13,8 @@
               v-model="todo"
             ></b-form-input>
             <b-input-group-append>
-              <b-button size="sm" type="submit" class="" variant="dark-green"
-                ><b-icon icon="plus" font-scale="1.5"></b-icon
+              <b-button type="submit" class="" variant="dark-green"
+                ><b-icon icon="plus-circle-fill" font-scale="1.5"></b-icon
               ></b-button>
             </b-input-group-append>
           </b-input-group> </b-form
@@ -43,7 +43,7 @@
                       class="text-sm"
                       :class="{
                         'text-success': item.status,
-                        'text-danger': !item.status
+                        'text-danger': !item.status,
                       }"
                       >{{ item.status ? "Completed" : "Incomplete" }}</span
                     >
@@ -91,7 +91,7 @@ export default {
     return {
       todos: [],
       todo: "",
-      showTodo: false
+      showTodo: false,
     };
   },
 
@@ -111,7 +111,7 @@ export default {
         return this.$store.getters.learner;
       }
       return token;
-    }
+    },
   },
 
   methods: {
@@ -119,16 +119,16 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/todos`, {
           headers: {
-            Authorization: `Bearer ${this.useraccess.access_token}`
-          }
+            Authorization: `Bearer ${this.useraccess.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.todos = res.data;
             this.showTodo = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -139,11 +139,11 @@ export default {
           { todo: this.todo },
           {
             headers: {
-              Authorization: `Bearer ${this.useraccess.access_token}`
-            }
+              Authorization: `Bearer ${this.useraccess.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.$toast.success("Added successfully");
 
@@ -151,7 +151,7 @@ export default {
             this.todo = "";
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -163,36 +163,36 @@ export default {
           { todo: data, status: status },
           {
             headers: {
-              Authorization: `Bearer ${this.useraccess.access_token}`
-            }
+              Authorization: `Bearer ${this.useraccess.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Todo Updated ");
             this.todos.splice(index, 1, res.data);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/todos/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.useraccess.access_token}`
-              }
+                Authorization: `Bearer ${this.useraccess.access_token}`,
+              },
             })
-            .then(res => {
+            .then((res) => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.todos.splice(index, 1);
               }
             })
-            .catch(err => {
+            .catch((err) => {
               this.$toast.error(err.response.data.message);
             });
         }
@@ -202,20 +202,20 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/todos-destroy`, {
           headers: {
-            Authorization: `Bearer ${this.useraccess.access_token}`
-          }
+            Authorization: `Bearer ${this.useraccess.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.$toast.success("All cleared");
             this.todos = [];
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped lang="scss">

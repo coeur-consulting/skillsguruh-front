@@ -401,9 +401,6 @@
                         </div>
                       </div>
                       <b-dropdown
-                        v-if="
-                          feed.user && feed.user.id == $store.getters.learner.id
-                        "
                         size="sm"
                         variant="transparent"
                         no-caret
@@ -412,6 +409,11 @@
                         <template #button-content>
                           <b-icon icon="three-dots" font-scale="1.4"></b-icon>
                         </template>
+                        <b-dropdown-item
+                          class="fs12"
+                          @click="$router.push(`/feed/view/${feed.id}`)"
+                          >View post</b-dropdown-item
+                        >
 
                         <b-dropdown-item
                           class="fs12"
@@ -552,6 +554,7 @@
                       >
                       <span class="cursor-pointer"
                         ><b-icon
+                          @click="sharenow(feed)"
                           icon="
                             share
                           "
@@ -614,7 +617,7 @@
                       </div>
                     </div>
 
-                    <div class="interact text-left px-3 pb-1">
+                    <div class="interact text-left py-1">
                       <b-input-group class="mt-1">
                         <template #append>
                           <b-input-group-text
@@ -776,6 +779,73 @@
         </b-row>
       </b-container>
     </div>
+    <b-modal id="share" hide-footer centered size="lg">
+      <div class="p-2 text-center">
+        <h6 class="font-weight-bold mb-3">Share</h6>
+        <ShareNetwork
+          class="mr-3"
+          network="facebook"
+          :url="link"
+          title=""
+          :description="description"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
+          >
+        </ShareNetwork>
+        <ShareNetwork
+          class="mr-3"
+          network="twitter"
+          :url="link"
+          title=""
+          :description="description"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
+          >
+        </ShareNetwork>
+        <ShareNetwork
+          class="mr-3"
+          network="whatsApp"
+          :url="link"
+          title=""
+          :description="description"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green">
+            <b-iconstack>
+              <b-icon stacked icon="circle-fill" variant="dark-green"></b-icon>
+              <b-icon
+                stacked
+                icon="telephone-plus"
+                variant="light"
+                scale="0.5"
+              ></b-icon>
+            </b-iconstack>
+            Whatsapp</b-button
+          >
+        </ShareNetwork>
+        <ShareNetwork
+          class="mr-3"
+          network="Telegram"
+          :url="link"
+          title=""
+          :description="description"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning, Feeds"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
+            Telegram</b-button
+          >
+        </ShareNetwork>
+      </div>
+    </b-modal>
   </b-container>
 </template>
 
@@ -787,6 +857,8 @@ import Interest from "@/components/helpers/subcategory.js";
 export default {
   data() {
     return {
+      link: "",
+      description: "",
       recentfeeds: [],
       trendingFeed: [],
       customfeeds: [],
@@ -846,6 +918,11 @@ export default {
     });
   },
   methods: {
+    sharenow(feed) {
+      this.description = feed.message;
+      this.link = `https://skillsguruh.com/feed/view/${feed.id}?utf_medium=share`;
+      this.$bvModal.show("share");
+    },
     getTrendingFeeds() {
       this.$http
         .get(`${this.$store.getters.url}/guest/trending/feeds`)

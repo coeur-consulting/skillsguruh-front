@@ -504,7 +504,17 @@
                               </template>
                               <b-dropdown-item
                                 class="fs12"
-                                @click="drop(item.id, index)"
+                                @click="$router.push(`/feed/view/${feed.id}`)"
+                                >View post</b-dropdown-item
+                              >
+
+                              <b-dropdown-item
+                                class="fs12"
+                                @click="drop(feed.id, index)"
+                                v-if="
+                                  feed.user &&
+                                  feed.user.id == $store.getters.learner.id
+                                "
                                 >Delete</b-dropdown-item
                               >
                             </b-dropdown>
