@@ -918,9 +918,9 @@
           network="facebook"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          :description="`I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
             ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
@@ -931,9 +931,9 @@
           network="twitter"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          :description="`I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
             ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
@@ -944,9 +944,9 @@
           network="whatsApp"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          :description="`I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green">
             <b-iconstack>
@@ -966,9 +966,9 @@
           network="Telegram"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          :description="`I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
             ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
@@ -1584,7 +1584,7 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.message = `https://skillsguruh.com/explore/courses/?course_id=${this.course.id}&invite=${res.data.code}`;
+            this.message = `https://nzukoor.com/explore/courses/?course_id=${this.course.id}&invite=${res.data.code}`;
             this.inviteUsers.code = res.data.code;
             this.$bvModal.show("sharecourse");
           }
@@ -1673,7 +1673,7 @@ export default {
         .then((res) => {
           if (res.status == 201) {
             this.communitylink.push(res.data);
-            this.message = `https://skillsguruh.com/explore/courses/?course_id=${this.course.id}&invite=${res.data.code}`;
+            this.message = `https://nzukoor.com/explore/courses/?course_id=${this.course.id}&invite=${res.data.code}`;
             this.$toast.info("Course link created");
             this.inviteUsers.code = res.data.code;
             this.$bvModal.show("courselink");
@@ -1684,7 +1684,7 @@ export default {
         });
     },
     sharelink(id) {
-      this.link = `https://skillsguruh.com/explore/courses/?course=${encodeURIComponent(
+      this.link = `https://nzukoor.com/explore/courses/?course=${encodeURIComponent(
         this.course.title.trim()
       )}&course_id=${id}`;
       this.$bvModal.show("share");
@@ -1771,7 +1771,7 @@ export default {
         });
     },
     sharecourse(id) {
-      this.message = `https://skillsguruh.com/explore/courses?course_id=${id}`;
+      this.message = `https://nzukoor.com/explore/courses?course_id=${id}`;
       this.$bvModal.show("sharecourse");
     },
     sendinvite(title) {

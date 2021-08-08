@@ -41,7 +41,7 @@
                 variant="dark-green"
               ></b-icon>
             </b-iconstack>
-            <span class="font-weight-bold fs15"> info@skillsguruh.com</span>
+            <span class="font-weight-bold fs15"> info@nzukoor.com</span>
           </div>
           <div>
             <div class="mapouter">

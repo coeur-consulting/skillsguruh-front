@@ -805,8 +805,8 @@
           :url="link"
           title=""
           :description="description"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
             ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
@@ -818,8 +818,8 @@
           :url="link"
           title=""
           :description="description"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
             ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
@@ -831,8 +831,8 @@
           :url="link"
           title=""
           :description="description"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green">
             <b-iconstack>
@@ -853,8 +853,8 @@
           :url="link"
           title=""
           :description="description"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning, Feeds"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning, Feeds"
         >
           <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
             ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
@@ -957,7 +957,7 @@ export default {
   methods: {
     sharenow(feed) {
       this.description = feed.message;
-      this.link = `https://skillsguruh.com/feed/view/${feed.id}?utf_medium=share`;
+      this.link = `https://nzukoor.com/feed/view/${feed.id}?utf_medium=share`;
       this.$bvModal.show("share");
     },
     infiniteHandler($state) {

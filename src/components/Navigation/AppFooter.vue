@@ -50,7 +50,7 @@
             </b-iconstack>
           </div>
           <small class="text-muted"
-            >&copy; {{ new Date().getFullYear() }} SkillsGuruh</small
+            >&copy; {{ new Date().getFullYear() }} Nzukoor</small
           >
         </b-col>
         <b-col class="link" cols="4" md="3">
@@ -125,7 +125,7 @@
             </b-iconstack>
           </div>
           <small class="text-muted"
-            >&copy; {{ new Date().getFullYear() }} SkillsGuruh</small
+            >&copy; {{ new Date().getFullYear() }} Nzukoor</small
           >
         </b-col>
       </b-row>

@@ -95,7 +95,7 @@
                 img-fluid
                 banner_image
               "
-              alt="skillsguruh"
+              alt="nzukoor"
               :src="require('../assets/images/banner-img.png')"
             ></b-img>
           </b-col>
@@ -366,9 +366,9 @@
       <b-container>
         <b-row>
           <b-col class="text-center learners">
-            <h2 class="mb-2">SKILLSGURUH STORIES</h2>
+            <h2 class="mb-2">NZUKOOR STORIES</h2>
             <p class="mb-5">
-              Stories of people whose lives were changed through SkillsGuruh
+              Stories of people whose lives were changed through Nzukoor
             </p>
 
             <div class="shadow learner position-relative">
@@ -420,7 +420,7 @@
                         <p>
                           My Customer Service team took the course on marketing
                           and I can already see the impact in their productivity
-                          and results. Kudos to the SkillsGuruh team for such
+                          and results. Kudos to the Nzukoor team for such
                           innovation.
                         </p>
                         <div class="test-1">Oscar Eze— Entrepreneur, Lagos</div>
@@ -443,10 +443,10 @@
                           font-scale="3.5"
                         ></b-icon>
                         <p>
-                          Thanks to SkillsGuruh I’ve been able to establish
-                          myself as a supply chain expert. I find the groups to
-                          be more engaged due to their shared interests and that
-                          really drives me to be my best.
+                          Thanks to Nzukoor I’ve been able to establish myself
+                          as a supply chain expert. I find the groups to be more
+                          engaged due to their shared interests and that really
+                          drives me to be my best.
                         </p>
                         <div class="test-1">Umoh— Entrepreneur, Uyo</div>
                       </div>

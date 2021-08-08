@@ -1291,9 +1291,9 @@
           network="facebook"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          :description="`I created a course titled,  *${course.title}*, on Nzukoor. Check it out here`"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
             ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
@@ -1304,9 +1304,9 @@
           network="twitter"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          :description="`I created a course titled,  *${course.title}*, on Nzukoor. Check it out here`"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
             ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
@@ -1317,9 +1317,9 @@
           network="whatsApp"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          :description="`I created a course titled,  *${course.title}*, on Nzukoor. Check it out here`"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green">
             <b-iconstack>
@@ -1339,9 +1339,9 @@
           network="Telegram"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I created a course titled,  *${course.title}*, on SkillsGuruh. Check it out here`"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          :description="`I created a course titled,  *${course.title}*, on Nzukoor. Check it out here`"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
             ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
@@ -3003,7 +3003,7 @@ export default {
         });
     },
     sharecourse(id) {
-      this.message = `https://skillsguruh.com/explore/courses?course_id=${id}`;
+      this.message = `https://nzukoor.com/explore/courses?course_id=${id}`;
       this.$bvModal.show("sharecourse");
     },
     addToFeed() {
@@ -3016,7 +3016,7 @@ export default {
           this.course.title.bold() +
           ", Check it out here",
         url:
-          "https://skillsguruh.com/explore/courses/?course_id=" +
+          "https://nzukoor.com/explore/courses/?course_id=" +
           this.course.id,
       };
       this.$http
@@ -3041,7 +3041,7 @@ export default {
         });
     },
     sharelink(id) {
-      this.link = `https://skillsguruh.com/explore/courses/?course_id=${id}`;
+      this.link = `https://nzukoor.com/explore/courses/?course_id=${id}`;
 
       this.$bvModal.show("share");
     },

@@ -211,9 +211,9 @@ export default {
       user: {
         email: "",
 
-        password: "",
+        password: ""
       },
-      agree: false,
+      agree: false
     };
   },
 
@@ -239,20 +239,20 @@ export default {
           client_id: 4,
           client_secret: "NVXAR1hE3wGF6cz5lZKdo2rsaafzZ73sGGsBPH7h",
           username: this.user.email,
-          password: this.user.password,
+          password: this.user.password
         };
         this.$http
-          .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
-          .then((res) => {
+          .post("https://nzukoor-server.herokuapp.com/oauth/token", data)
+          .then(res => {
             authFacilitator.access_token = res.data.access_token;
             authFacilitator.refresh_token = res.data.refresh_token;
             this.$http
               .get(`${this.$store.getters.url}/facilitator`, {
                 headers: {
-                  Authorization: `Bearer ${res.data.access_token}`,
-                },
+                  Authorization: `Bearer ${res.data.access_token}`
+                }
               })
-              .then((res) => {
+              .then(res => {
                 authFacilitator.id = res.data.id;
                 authFacilitator.name = res.data.name;
                 authFacilitator.email = res.data.email;
@@ -294,20 +294,20 @@ export default {
           client_id: 2,
           client_secret: "OAniIlKCpBOv2oMpKVoRLBau55xLKbz1Qo5YNuee",
           username: this.user.email,
-          password: this.user.password,
+          password: this.user.password
         };
         this.$http
-          .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
-          .then((res) => {
+          .post("https://nzukoor-server.herokuapp.com/oauth/token", data)
+          .then(res => {
             authLearner.access_token = res.data.access_token;
             authLearner.refresh_token = res.data.refresh_token;
             this.$http
               .get(`${this.$store.getters.url}/user`, {
                 headers: {
-                  Authorization: `Bearer ${res.data.access_token}`,
-                },
+                  Authorization: `Bearer ${res.data.access_token}`
+                }
               })
-              .then((res) => {
+              .then(res => {
                 if (res.status == 200) {
                   authLearner.id = res.data.id;
                   authLearner.name = res.data.name;
@@ -318,7 +318,7 @@ export default {
                   authLearner.interests = res.data.interests;
                   if (!res.data.organization) {
                     authLearner.org_profile = require("@/assets/images/logo.png");
-                    authLearner.org_name = "SkillsGuruh";
+                    authLearner.org_name = "Nzukoor";
                   } else {
                     authLearner.org_profile = res.data.organization.logo;
                     authLearner.org_name = res.data.organization.name;
@@ -359,8 +359,8 @@ export default {
         "Social_Login",
         "toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=0,width=100,height=100,left = 490,top = 262"
       );
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -1631,8 +1631,8 @@
           :url="link"
           title="Course Invitation"
           :description="description"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
             ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
@@ -1644,8 +1644,8 @@
           :url="link"
           title="Course Invitation"
           :description="description"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
             ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
@@ -1657,8 +1657,8 @@
           :url="link"
           title="Course Invitation"
           :description="description"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green">
             <b-iconstack>
@@ -1679,8 +1679,8 @@
           :url="link"
           title="Course Invitation"
           :description="description"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
             ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
@@ -1825,7 +1825,7 @@ export default {
             this.course.title.bold() +
             ". Check it out here!",
           url:
-            "https://skillsguruh.com/explore/courses/?course_id=" +
+            "https://nzukoor.com/explore/courses/?course_id=" +
             this.course.id,
         };
       } else {
@@ -1836,7 +1836,7 @@ export default {
             this.course.title.bold() +
             " Check it out here!",
           url:
-            "https://skillsguruh.com/learner/courses/?course_id=" +
+            "https://nzukoor.com/learner/courses/?course_id=" +
             this.course.id,
         };
       }
@@ -1883,20 +1883,20 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             if (res.data) {
-              this.link = `https://skillsguruh.com/explore/courses/?course_id=${
+              this.link = `https://nzukoor.com/explore/courses/?course_id=${
                 course.id
               }&course=${encodeURIComponent(this.course.title.trim())}&invite=${
                 res.data.code
               }`;
             } else {
-              this.link = `https://skillsguruh.com/explore/courses?course=${encodeURIComponent(
+              this.link = `https://nzukoor.com/explore/courses?course=${encodeURIComponent(
                 this.course.title.trim()
               )}&course_id=${course.id}`;
             }
             if (this.library.some((item) => item.course_id == course.id)) {
-              this.description = `I just enrolled for the course titled, *${course.title}* on SkillsGuruh. Check it out here!`;
+              this.description = `I just enrolled for the course titled, *${course.title}* on Nzukoor. Check it out here!`;
             } else {
-              this.description = `Let's enroll for the course titled, *${course.title}* on SkillsGuruh. Check it out here!`;
+              this.description = `Let's enroll for the course titled, *${course.title}* on Nzukoor. Check it out here!`;
             }
             this.$bvModal.show("share");
           }
@@ -1984,7 +1984,7 @@ export default {
         .then((res) => {
           if (res.status == 201) {
             this.communitylink.push(res.data);
-            this.message = `https://skillsguruh.com/explore/courses/?course_id=${this.course.id}&invite=${res.data.code}`;
+            this.message = `https://nzukoor.com/explore/courses/?course_id=${this.course.id}&invite=${res.data.code}`;
             this.$toast.info("Course link created");
             this.inviteUsers.code = res.data.code;
             this.$bvModal.show("courselink");
@@ -2011,7 +2011,7 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.message = `https://skillsguruh.com/explore/courses/?course_id=${this.course.id}&invite=${res.data.code}`;
+            this.message = `https://nzukoor.com/explore/courses/?course_id=${this.course.id}&invite=${res.data.code}`;
             this.inviteUsers.code = res.data.code;
             this.$bvModal.show("sharecourse");
           }
@@ -2021,7 +2021,7 @@ export default {
         });
     },
     sharecourse(id) {
-      this.message = `https://skillsguruh.com/explore/courses?course_id=${id}`;
+      this.message = `https://nzukoor.com/explore/courses?course_id=${id}`;
       this.$bvModal.show("sharecourse");
     },
     getCommunity() {

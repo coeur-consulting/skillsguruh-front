@@ -875,9 +875,9 @@
           network="facebook"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          :description="`I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
             ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
@@ -888,9 +888,9 @@
           network="twitter"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          :description="`I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
             ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
@@ -901,9 +901,9 @@
           network="whatsApp"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          :description="`I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green">
             <b-iconstack>
@@ -923,9 +923,9 @@
           network="Telegram"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, *${course.title}* on SkillsGuruh and I think you'd like it. Join me`"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          :description="`I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
             ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
@@ -1421,8 +1421,8 @@
           :url="link"
           title=""
           :description="description"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
             ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
@@ -1434,8 +1434,8 @@
           :url="link"
           title=""
           :description="description"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
             ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
@@ -1447,8 +1447,8 @@
           :url="link"
           title=""
           :description="description"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green">
             <b-iconstack>
@@ -1469,8 +1469,8 @@
           :url="link"
           title=""
           :description="description"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning, Feeds"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning, Feeds"
         >
           <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
             ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
@@ -1612,14 +1612,14 @@ export default {
   methods: {
     sharenow(feed) {
       this.description = feed.message;
-      this.link = `https://skillsguruh.com/feed/view/${feed.id}?utf_medium=share`;
+      this.link = `https://nzukoor.com/feed/view/${feed.id}?utf_medium=share`;
       this.$bvModal.show("share");
     },
     setSubInterest() {
       this.subId = this.filteredinterests.slice().shift().value.trim();
     },
     sharelink(id) {
-      this.link = `https://skillsguruh.com/explore/courses/?course=${encodeURIComponent(
+      this.link = `https://nzukoor.com/explore/courses/?course=${encodeURIComponent(
         this.course.title.trim()
       )}&course_id=${id}`;
       this.$bvModal.show("share");
@@ -1729,7 +1729,7 @@ export default {
         });
     },
     sharecourse(id) {
-      this.message = `https://skillsguruh.com/explore/courses?course_id=${id}`;
+      this.message = `https://nzukoor.com/explore/courses?course_id=${id}`;
       this.$bvModal.show("sharecourse");
     },
     vote(val) {

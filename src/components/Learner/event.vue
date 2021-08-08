@@ -315,8 +315,8 @@
           :url="link"
           title="EVENT INVITATION"
           :description="`I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
             ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
@@ -329,8 +329,8 @@
           :url="link"
           title="EVENT INVITATION"
           :description="`I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
             ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
@@ -343,8 +343,8 @@
           :url="link"
           title="EVENT INVITATION"
           :description="`I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green">
             <b-iconstack>
@@ -366,8 +366,8 @@
           :url="link"
           title="EVENT INVITATION"
           :description="`I will be attending the event, ${event.title.toUpperCase()}  and I think you’d like it. Join me!`"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
             ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
@@ -499,7 +499,7 @@ export default {
     });
     this.getconnections();
     this.link =
-      "https://skillsguruh.com/learner/event/" + this.$route.params.id;
+      "https://nzukoor.com/learner/event/" + this.$route.params.id;
   },
   computed: {
     filteredConnections() {
@@ -590,7 +590,7 @@ export default {
           "Let’s attend the event, " +
           this.event.title.toUpperCase() +
           " together",
-        url: "https://skillsguruh.com/learner/event/" + this.event.id,
+        url: "https://nzukoor.com/learner/event/" + this.event.id,
       };
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
@@ -686,7 +686,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.event = res.data;
-            window.document.title = `${res.data.title} | SkillsGuruh`;
+            window.document.title = `${res.data.title} | Nzukoor`;
             this.showEvent = true;
           }
         })

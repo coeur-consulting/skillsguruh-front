@@ -208,7 +208,7 @@
                         class="text-center"
                         v-if="
                           item.attachment &&
-                            img_ext.includes(getextension(item.attachment))
+                          img_ext.includes(getextension(item.attachment))
                         "
                       >
                         <div class="image">
@@ -234,7 +234,7 @@
                           <div
                             v-if="
                               item.attachment &&
-                                vid_ext.includes(getextension(item.attachment))
+                              vid_ext.includes(getextension(item.attachment))
                             "
                             class="p-1 rounded cursor-pointer"
                           >
@@ -252,7 +252,7 @@
                           <div
                             v-if="
                               item.attachment &&
-                                aud_ext.includes(getextension(item.attachment))
+                              aud_ext.includes(getextension(item.attachment))
                             "
                             class="
                               p-1
@@ -275,7 +275,7 @@
                           <div
                             v-if="
                               item.attachment &&
-                                doc_ext.includes(getextension(item.attachment))
+                              doc_ext.includes(getextension(item.attachment))
                             "
                             class="
                               p-1
@@ -407,8 +407,7 @@
                         ></text-to-speech
                       ></span>
                       <div
-                        v-for="(reply,
-                        index) in item.discussionmessagecomment
+                        v-for="(reply, index) in item.discussionmessagecomment
                           .slice(0, 2)
                           .reverse()"
                         :key="index"
@@ -498,12 +497,12 @@
                         plugins: [
                           '  lists link  charmap   anchor',
                           'searchreplace visualblocks code fullscreen',
-                          '  table paste code'
+                          '  table paste code',
                         ],
                         toolbar:
                           ' styleselect | bold italic | \
            alignleft aligncenter alignright alignjustify | \
-           bullist numlist  '
+           bullist numlist  ',
                       }"
                     />
                   </b-form-group>
@@ -708,11 +707,9 @@
           network="facebook"
           :url="link"
           title="DISCUSSION INVITATION"
-          :description="
-            `I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `
-          "
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on Nzukoor and I’d like to hear your thoughts. `"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
             ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
@@ -724,11 +721,9 @@
           network="twitter"
           :url="link"
           title="DISCUSSION INVITATION"
-          :description="
-            `I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `
-          "
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on Nzukoor and I’d like to hear your thoughts. `"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
             ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
@@ -740,11 +735,9 @@
           network="whatsApp"
           :url="link"
           title="DISCUSSION INVITATION"
-          :description="
-            `I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `
-          "
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on Nzukoor and I’d like to hear your thoughts. `"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green">
             <b-iconstack>
@@ -765,11 +758,9 @@
           network="Telegram"
           :url="link"
           title="DISCUSSION INVITATION"
-          :description="
-            `I just joined a discussion, ${discussion.name.toUpperCase()}  on SkillsGuruh and I’d like to hear your thoughts. `
-          "
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on Nzukoor and I’d like to hear your thoughts. `"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
             ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
@@ -1114,14 +1105,14 @@ export default {
         attachment: "",
         message: "",
         discussion_id: null,
-        publicId: null
+        publicId: null,
       },
       myviews: null,
       search: "",
       feed: {},
       inviteUsers: {
         title: "",
-        users: []
+        users: [],
       },
       connections: [],
       emails: [],
@@ -1132,15 +1123,14 @@ export default {
       reply: {
         message: "",
         message_id: null,
-        discussion_id: null
+        discussion_id: null,
       },
       currentPage: 1,
       rows: null,
       perPage: 10,
       comments: {},
       toggleview: "recent",
-      font:
-        "@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap');body{font-family:Poppins;font-size:13px}"
+      font: "@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap');body{font-family:Poppins;font-size:13px}",
     };
   },
   components: {
@@ -1148,7 +1138,7 @@ export default {
     Attachment,
     SpeechToText,
     TextToSpeech,
-    Editor
+    Editor,
   },
   created() {
     this.getdiscussion();
@@ -1156,11 +1146,11 @@ export default {
     this.getvote();
     this.getconnections();
     this.link =
-      "https://skillsguruh.com/learner/discussion/" + this.$route.params.id;
+      "https://nzukoor.com/learner/discussion/" + this.$route.params.id;
 
     var channel = this.$pusher.subscribe("adddiscussion");
 
-    channel.bind("adddiscussion", data => {
+    channel.bind("adddiscussion", (data) => {
       this.posts.push(data.message);
     });
   },
@@ -1189,7 +1179,7 @@ export default {
       });
     },
     thread() {
-      var thread = this.discussion.discussionmessage.map(item => {
+      var thread = this.discussion.discussionmessage.map((item) => {
         if (item.admin) {
           return `${item.admin.name}, ${this.toText(item.message)} ... `;
         }
@@ -1227,7 +1217,7 @@ export default {
         return [];
       }
       return this.discussion.related.filter(
-        item => Number(item.id) != Number(this.$route.params.id)
+        (item) => Number(item.id) != Number(this.$route.params.id)
       );
     },
     posts() {
@@ -1237,15 +1227,17 @@ export default {
       return this.myviews;
     },
     vote() {
-      var positive = this.discussion.discussionvote.filter(item => item.vote)
-        .length;
-      var negative = this.discussion.discussionvote.filter(item => !item.vote)
-        .length;
+      var positive = this.discussion.discussionvote.filter(
+        (item) => item.vote
+      ).length;
+      var negative = this.discussion.discussionvote.filter(
+        (item) => !item.vote
+      ).length;
       return Number(positive) - Number(negative);
     },
 
     filteredConnections() {
-      return this.connections.filter(item => {
+      return this.connections.filter((item) => {
         if (item.user_follower) {
           return item.user_follower.name
             .toLowerCase()
@@ -1257,7 +1249,7 @@ export default {
             .includes(this.search.toLowerCase());
         }
       });
-    }
+    },
   },
   methods: {
     addmessagecomment(val, index) {
@@ -1271,7 +1263,7 @@ export default {
       this.$bvModal.show("allcomment");
     },
     replies(val) {
-      var thread = val.map(item => {
+      var thread = val.map((item) => {
         if (item.admin) {
           return `${item.admin.name}, ${item.message}...  `;
         }
@@ -1301,11 +1293,11 @@ export default {
           this.reply,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.$bvModal.hide("addcomment");
             this.filteredDiscussion[this.index].discussionmessagecomment.push(
@@ -1315,11 +1307,11 @@ export default {
             this.reply = {
               message_id: null,
               message: "",
-              discussion_id: null
+              discussion_id: null,
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1344,15 +1336,15 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/connections`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.connections = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1362,38 +1354,38 @@ export default {
         return;
       }
       this.feed = {
-         tags:[],
+        tags: [],
         message:
           "I just started a discussion, " +
           this.discussion.name.toUpperCase() +
           " and I’d like to hear your thoughts",
-        url: "https://skillsguruh.com/learner/discussion/" + this.discussion.id
+        url: "https://nzukoor.com/learner/discussion/" + this.discussion.id,
       };
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Added to feeds ");
             this.$bvModal.hide("share");
 
             this.feed = {
               media: "",
-              message: ""
+              message: "",
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
     sendinvite() {
-      var emails = this.emails.map(item => {
+      var emails = this.emails.map((item) => {
         return {
-          email: item
+          email: item,
         };
       });
       this.inviteUsers.title = this.discussion.name;
@@ -1405,11 +1397,11 @@ export default {
           this.inviteUsers,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Invite Sent");
             this.$bvModal.hide("share");
@@ -1417,16 +1409,16 @@ export default {
               title: "",
               users: [
                 {
-                  email: ""
-                }
-              ]
+                  email: "",
+                },
+              ],
             };
           }
         });
     },
     addinvite() {
       this.inviteUsers.users.push({
-        email: ""
+        email: "",
       });
     },
     getextension(fileName) {
@@ -1464,15 +1456,15 @@ export default {
         .get(
           `${this.$store.getters.url}/guest/discussions/${this.$route.params.id}`
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.discussion = res.data;
             this.rows = res.data.discussionmessage.length;
-            window.document.title = `${res.data.name} | SkillsGuruh`;
+            window.document.title = `${res.data.name} | Nzukoor`;
             this.showdiscussion = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1489,10 +1481,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/discussion-messages`, this.info, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             if (this.info.publicId) {
               this.$bvModal.hide("media");
@@ -1501,11 +1493,11 @@ export default {
               attachment: "",
               message: "",
               discussion_id: null,
-              publicId: null
+              publicId: null,
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1516,15 +1508,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/add-view/${this.$route.params.id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200 || res.status == 201) {
             this.myviews = res.data.view;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1535,15 +1527,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/votes/${this.$route.params.id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.topvote = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1559,23 +1551,23 @@ export default {
           { id: this.$route.params.id, vote: 1 },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.discussion.discussionvote.push(res.data);
           }
           if (res.status == 200) {
-            this.discussion.discussionvote.map(item => {
+            this.discussion.discussionvote.map((item) => {
               if (item.learner_id == this.$store.getters.learner.id) {
                 return (item.vote = res.data.vote);
               }
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1591,34 +1583,34 @@ export default {
           { id: this.$route.params.id, vote: 0 },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.discussion.discussionvote.push(res.data);
           }
           if (res.status == 200) {
-            this.discussion.discussionvote.map(item => {
+            this.discussion.discussionvote.map((item) => {
               if (item.learner_id == this.$store.getters.learner.id) {
                 return (item.vote = res.data.vote);
               }
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
-    }
+    },
   },
   directives: {
     focus: {
       inserted(el) {
         el.focus();
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>
 <style scoped lang="scss">

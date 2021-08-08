@@ -9,7 +9,7 @@ export default {
       USER_CLIENT_SECRET: process.env.VUE_APP_USER_CLIENT_SECRET,
       USER_CLIENT_ID: process.env.VUE_APP_USER_CLIENT_ID,
       FAC_CLIENT_SECRET: process.env.VUE_APP_FAC_CLIENT_SECRET,
-      FAC_CLIENT_ID: process.env.VUE_APP_FAC_CLIENT_ID
+      FAC_CLIENT_ID: process.env.VUE_APP_FAC_CLIENT_ID,
     };
   },
   mounted() {
@@ -40,7 +40,7 @@ export default {
       //     access_token: this.access_token, // access token issued by specified provider
       //   };
       //   this.$http
-      //     .post("https://skillsguruh-api.herokuapp.com//oauth/token", data)
+      //     .post("https://nzukoor-server.herokuapp.com//oauth/token", data)
       //     .then((res) => {
       //       authOrg.access_token = res.data.access_token;
       //       authOrg.refresh_token = res.data.refresh_token;
@@ -80,7 +80,7 @@ export default {
       //     password: this.user.password,
       //   };
       //   this.$http
-      //     .post("https://skillsguruh-api.herokuapp.com//oauth/token", data)
+      //     .post("https://nzukoor-server.herokuapp.com//oauth/token", data)
       //     .then((res) => {
       //       authAdmin.access_token = res.data.access_token;
       //       authAdmin.refresh_token = res.data.refresh_token;
@@ -124,7 +124,7 @@ export default {
       //     password: this.user.password,
       //   };
       //   this.$http
-      //     .post("https://skillsguruh-api.herokuapp.com//oauth/token", data)
+      //     .post("https://nzukoor-server.herokuapp.com//oauth/token", data)
       //     .then((res) => {
       //       authFacilitator.access_token = res.data.access_token;
       //       authFacilitator.refresh_token = res.data.refresh_token;
@@ -168,20 +168,20 @@ export default {
         client_id: this.USER_CLIENT_ID,
         client_secret: this.USER_CLIENT_SECRET, // client secret
         provider: this.$route.params.provider, // name of provider (e.g., 'facebook', 'google' etc.)
-        access_token: this.access_token // access token issued by specified provider
+        access_token: this.access_token, // access token issued by specified provider
       };
       this.$http
-        .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
-        .then(res => {
+        .post("https://nzukoor-server.herokuapp.com/oauth/token", data)
+        .then((res) => {
           authLearner.access_token = res.data.access_token;
           authLearner.refresh_token = res.data.refresh_token;
           this.$http
             .get(`${this.$store.getters.url}/user`, {
               headers: {
-                Authorization: `Bearer ${res.data.access_token}`
-              }
+                Authorization: `Bearer ${res.data.access_token}`,
+              },
             })
-            .then(res => {
+            .then((res) => {
               if (res.status == 200) {
                 authLearner.id = res.data.id;
                 authLearner.name = res.data.name;
@@ -214,7 +214,7 @@ export default {
     async callback() {
       try {
         var response = await this.$http.post(
-          `https://skillsguruh-api.herokuapp.com/v1/auth/${this.$route.params.provider}/callback`,
+          `https://nzukoor-server.herokuapp.com/v1/auth/${this.$route.params.provider}/callback`,
           this.$route.query
         );
 
@@ -223,7 +223,7 @@ export default {
       } catch (error) {
         this.access_token = error;
       }
-    }
-  }
+    },
+  },
 };
 </script>

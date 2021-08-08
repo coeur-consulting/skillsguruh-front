@@ -245,7 +245,7 @@ export default {
           password: this.user.password,
         };
         this.$http
-          .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
+          .post("https://nzukoor-server.herokuapp.com/oauth/token", data)
           .then((res) => {
             authOrg.access_token = res.data.access_token;
             authOrg.refresh_token = res.data.refresh_token;
@@ -293,7 +293,7 @@ export default {
           password: this.user.password,
         };
         this.$http
-          .post("https://skillsguruh-api.herokuapp.com/oauth/token", data)
+          .post("https://nzukoor-server.herokuapp.com/oauth/token", data)
           .then((res) => {
             authAdmin.access_token = res.data.access_token;
             authAdmin.refresh_token = res.data.refresh_token;

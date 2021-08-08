@@ -705,8 +705,8 @@
           :url="link"
           title=""
           :description="description"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
             ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
@@ -719,8 +719,8 @@
           :url="link"
           title=""
           :description="description"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
             ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
@@ -733,8 +733,8 @@
           :url="link"
           title=""
           :description="description"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green">
             <b-iconstack>
@@ -756,8 +756,8 @@
           :url="link"
           title=""
           :description="description"
-          quote="SkillsGuruh"
-          hashtags="SkillsGuruh,  Social learning"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
             ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
@@ -1143,7 +1143,7 @@ export default {
     this.getvote();
     this.getconnections();
     this.link =
-      "https://skillsguruh.com/learner/discussion/" + this.$route.params.id;
+      "https://nzukoor.com/learner/discussion/" + this.$route.params.id;
 
     var channel = this.$pusher.subscribe("adddiscussion");
 
@@ -1156,9 +1156,9 @@ export default {
       this.discussion.user &&
       this.discussion.user.id == this.$store.getters.learner.id
     ) {
-      this.description = `I just started a discussion, *${this.discussion.name}*  on SkillsGuruh and I’d like to hear your thoughts. `;
+      this.description = `I just started a discussion, *${this.discussion.name}*  on Nzukoor and I’d like to hear your thoughts. `;
     } else {
-      this.description = `I just joined a discussion, *${this.discussion.name}*  on SkillsGuruh and I’d like to hear your thoughts. `;
+      this.description = `I just joined a discussion, *${this.discussion.name}*  on Nzukoor and I’d like to hear your thoughts. `;
     }
   },
   computed: {
@@ -1376,7 +1376,7 @@ export default {
             this.discussion.name.bold() +
             " and I’d like to hear your thoughts",
           url:
-            "https://skillsguruh.com/learner/discussion/" + this.discussion.id,
+            "https://nzukoor.com/learner/discussion/" + this.discussion.id,
         };
       } else {
         this.feed = {
@@ -1385,7 +1385,7 @@ export default {
             this.discussion.name.bold() +
             " and I’d like to hear your thoughts",
           url:
-            "https://skillsguruh.com/learner/discussion/" + this.discussion.id,
+            "https://nzukoor.com/learner/discussion/" + this.discussion.id,
         };
       }
       this.feed = {
@@ -1393,7 +1393,7 @@ export default {
           "I just started a discussion, " +
           this.discussion.name.toUpperCase() +
           " and I’d like to hear your thoughts",
-        url: "https://skillsguruh.com/learner/discussion/" + this.discussion.id,
+        url: "https://nzukoor.com/learner/discussion/" + this.discussion.id,
       };
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
@@ -1499,7 +1499,7 @@ export default {
           if (res.status == 200) {
             this.discussion = res.data;
             this.rows = res.data.discussionmessage.length;
-            window.document.title = `${res.data.name} | SkillsGuruh`;
+            window.document.title = `${res.data.name} | Nzukoor`;
             this.showdiscussion = true;
           }
         })

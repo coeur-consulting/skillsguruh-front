@@ -16,7 +16,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Home | SkillsGuruh",
+      title: "Home | Nzukoor",
     },
   },
 
@@ -28,7 +28,7 @@ const routes = [
         import(/* webpackChunkName: "Register" */ "../views/Auth/Register.vue"),
     },
     meta: {
-      title: "Register | SkillsGuruh",
+      title: "Register | Nzukoor",
     },
   },
   {
@@ -49,7 +49,7 @@ const routes = [
         import(/* webpackChunkName: "Login" */ "../views/Auth/Login.vue"),
     },
     meta: {
-      title: "Login | SkillsGuruh",
+      title: "Login | Nzukoor",
     },
     beforeEnter: (to, from, next) => {
       if (localStorage.getItem("authLearner")) {
@@ -93,7 +93,7 @@ const routes = [
         import(/* webpackChunkName: "Login" */ "../views/Auth/OrgLogin.vue"),
     },
     meta: {
-      title: "Admin Login | SkillsGuruh",
+      title: "Admin Login | Nzukoor",
     },
     beforeEnter: (to, from, next) => {
       if (localStorage.getItem("authAdmin")) {
@@ -127,7 +127,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Transaction | SkillsGuruh",
+      title: "Transaction | Nzukoor",
     },
   },
   {
@@ -140,7 +140,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Explore | SkillsGuruh",
+      title: "Explore | Nzukoor",
     },
   },
   {
@@ -155,7 +155,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Explore Facilitators| SkillsGuruh",
+      title: "Explore Facilitators| Nzukoor",
     },
   },
   {
@@ -170,7 +170,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Explore Learners| SkillsGuruh",
+      title: "Explore Learners| Nzukoor",
     },
   },
   {
@@ -183,7 +183,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Explore courses | SkillsGuruh",
+      title: "Explore courses | Nzukoor",
     },
   },
   {
@@ -196,7 +196,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "About | SkillsGuruh",
+      title: "About | Nzukoor",
     },
   },
   {
@@ -211,7 +211,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Interests | SkillsGuruh",
+      title: "Interests | Nzukoor",
     },
   },
   {
@@ -224,7 +224,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Feed | SkillsGuruh",
+      title: "Feed | Nzukoor",
     },
   },
   {
@@ -237,7 +237,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Discussion | SkillsGuruh",
+      title: "Discussion | Nzukoor",
     },
   },
   {
@@ -250,7 +250,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Event | SkillsGuruh",
+      title: "Event | Nzukoor",
     },
   },
   {
@@ -263,7 +263,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Order | SkillsGuruh",
+      title: "Order | Nzukoor",
     },
   },
   {
@@ -276,7 +276,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Feeds | SkillsGuruh",
+      title: "Feeds | Nzukoor",
     },
   },
   {
@@ -288,7 +288,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Feed | SkillsGuruh",
+      title: "Feed | Nzukoor",
     },
   },
   {
@@ -301,7 +301,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Events | SkillsGuruh",
+      title: "Events | Nzukoor",
     },
   },
   {
@@ -316,7 +316,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Discussion | SkillsGuruh",
+      title: "Discussion | Nzukoor",
     },
   },
   {
@@ -329,7 +329,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Contact us | SkillsGuruh",
+      title: "Contact us | Nzukoor",
     },
   },
   {
@@ -341,7 +341,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Quiz | SkillsGuruh",
+      title: "Quiz | Nzukoor",
     },
   },
   {
@@ -354,7 +354,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Asseeement | SkillsGuruh",
+      title: "Asseeement | Nzukoor",
     },
   },
   {
@@ -367,7 +367,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Loading | SkillsGuruh",
+      title: "Loading | Nzukoor",
     },
   },
   {
@@ -968,7 +968,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
-          title: "Feed | SkillsGuruh",
+          title: "Feed | Nzukoor",
         },
       },
       {
@@ -1489,7 +1489,7 @@ const routes = [
         },
         meta: {
           typeLearner: true,
-          title: "Feed | SkillsGuruh",
+          title: "Feed | Nzukoor",
         },
       },
       {
@@ -1962,7 +1962,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Event | SkillsGuruh",
+      title: "Event | Nzukoor",
     },
   },
 
@@ -1976,7 +1976,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Not Found | SkillsGuruh",
+      title: "Not Found | Nzukoor",
     },
   },
 ];
@@ -1990,7 +1990,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   // to and from are both route objects. must call `next`.
   window.document.title =
-    to.meta && to.meta.title ? to.meta.title : "Home | SkillsGuruh";
+    to.meta && to.meta.title ? to.meta.title : "Home | Nzukoor";
   window.scrollTo(0, 0);
   next();
 });

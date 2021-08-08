@@ -12,7 +12,7 @@ export default new Vuex.Store({
     facilitator: JSON.parse(localStorage.getItem("authFacilitator")) || {},
     learner: JSON.parse(localStorage.getItem("authLearner")) || {},
    // url: "http://localhost:8000/v1",
-    url: "https://skillsguruh-api.herokuapp.com/v1",
+    url: "https://nzukoor-server.herokuapp.com/v1",
     inboxes: [],
   },
   mutations: {

@@ -53,7 +53,7 @@ export default {
         })
         .then(res => {
           if (res.status == 201) {
-            var url = `https://skillsguruh.com/transaction/?trxref=${response.trxref}`;
+            var url = `https://nzukoor.com/transaction/?trxref=${response.trxref}`;
             // var url = `http://localhost:8080/transaction/?trxref=${response.trxref}`;
             window.location.href = url;
           }

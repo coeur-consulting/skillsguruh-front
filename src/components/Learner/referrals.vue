@@ -15,7 +15,7 @@
               ></b-col>
               <b-col sm="8">
                 <p>
-                  Refer your friends to skillsguruh and earn bonus point we also
+                  Refer your friends to nzukoor and earn bonus point we also
                   give your friends bonus because we value your friendship
                 </p>
                 <b-form
@@ -147,10 +147,10 @@
                 <b-td
                   class="fs13 cursor-copy"
                   v-clipboard:copy="
-                    `https://skillsguruh.com/invite/${item.code}`
+                    `https://nzukoor.com/invite/${item.code}`
                   "
                   v-clipboard:success="onCopy"
-                  >{{ `https://skillsguruh.com/invite/${item.code}` }}</b-td
+                  >{{ `https://nzukoor.com/invite/${item.code}` }}</b-td
                 >
               </b-tr>
             </b-tbody>
@@ -251,14 +251,14 @@ export default {
       },
       referrals: [],
       email: "",
-      message: `https://skillsguruh.com/invite/${this.$store.getters.learner.referral}`,
+      message: `https://nzukoor.com/invite/${this.$store.getters.learner.referral}`,
       communities_link: [],
     };
   },
   mounted() {
     this.getreferrals();
     this.getcommunity();
-    this.message = `https://skillsguruh.com/invite/${this.$store.getters.learner.referral}`;
+    this.message = `https://nzukoor.com/invite/${this.$store.getters.learner.referral}`;
   },
   methods: {
     addinvite() {

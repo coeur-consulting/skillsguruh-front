@@ -20,10 +20,9 @@
 
             <p>
               At
-              <span class="text-dark-green font-weight-bold">SkillsGuruh</span>,
-              our mission is to help people build their capacity to be more, so
-              we connect them with
-              <span class="font-weight-bold">Knowledge</span>,
+              <span class="text-dark-green font-weight-bold">Nzukoor</span>, our
+              mission is to help people build their capacity to be more, so we
+              connect them with <span class="font-weight-bold">Knowledge</span>,
               <span class="font-weight-bold">People</span> and
               <span class="font-weight-bold">Opportunities</span> everyday.
             </p>

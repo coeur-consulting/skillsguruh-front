@@ -15,7 +15,7 @@
               ></b-col>
               <b-col sm="8">
                 <p>
-                  Refer your friends to skillsguruh and earn bonus point we also
+                  Refer your friends to nzukoor and earn bonus point we also
                   give your friends bonus because we value your friendship
                 </p>
                 <b-form
@@ -218,14 +218,14 @@ export default {
       },
       referrals: [],
       email: "",
-      message: `https://skillsguruh.com/invite/${this.$store.getters.admin.referral}`,
+      message: `https://nzukoor.com/invite/${this.$store.getters.admin.referral}`,
       communities_link: [],
     };
   },
   mounted() {
     this.getreferrals();
     this.getcommunity();
-    this.message = `https://skillsguruh.com/invite/${this.$store.getters.admin.referral}`;
+    this.message = `https://nzukoor.com/invite/${this.$store.getters.admin.referral}`;
   },
   methods: {
     addinvite() {
