@@ -430,9 +430,12 @@ export default {
   },
 
   watch: {
-    $route: "isOpen",
+    $route: "close",
   },
   methods: {
+    close() {
+      this.isOpen = false;
+    },
     togglechat() {
       this.mini_info = {
         id: "",
@@ -643,6 +646,7 @@ export default {
 
 .logo {
   padding: 0px 0 40px;
+  flex-direction: row;
 }
 .org_name {
   font-size: 17px;
