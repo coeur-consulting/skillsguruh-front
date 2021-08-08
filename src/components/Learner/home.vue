@@ -64,6 +64,7 @@
                   <carousel
                     :scrollPerPage="true"
                     :paginationEnabled="true"
+                    :spacePadding="7"
                     :perPage="2"
                     :perPageCustom="[
                       [600, 2],
@@ -194,6 +195,7 @@
                   <carousel
                     :scrollPerPage="true"
                     :paginationEnabled="true"
+                    :spacePadding="7"
                     :perPage="2"
                     :perPageCustom="[
                       [600, 2],

@@ -1253,4 +1253,10 @@ ol.subquest {
   .course_description {
     font-size: 0.7rem;
   }
+  .bm-item-list > * {
+    display: flex;
+    padding: 0.5em !important;
+    text-decoration: none;
+    flex-direction: column;
+  }
 }

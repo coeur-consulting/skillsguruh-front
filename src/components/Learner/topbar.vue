@@ -27,7 +27,7 @@
 
     <div class="d-flex align-items-center d-sm-none">
       <div class="mr-3">
-        <PushRotate :closeOnNavigation="true" width="250">
+        <PushRotate width="250" isOpen>
           <div class="logo d-flex align-items-center">
             <div style="width: 40px; height: 40px" class="mr-2">
               <b-img fluid :src="$store.getters.learner.org_profile"></b-img>
@@ -41,58 +41,112 @@
               <span class="side-link px-2">Dashboard</span>
             </div>
           </router-link>
-          <router-link to="/learner/courses">
-            <div class="side_item">
-              <folder-icon size="1.2x" class="custom-class"></folder-icon>
-              <span class="side-link px-2">Courses</span>
-            </div>
-          </router-link>
-          <router-link to="/learner/assessments">
-            <div class="side_item">
-              <database-icon size="1x" class="custom-class"></database-icon>
-              <span class="side-link px-2">Assessments</span>
-            </div>
-          </router-link>
-          <router-link to="/learner/library">
-            <div class="side_item">
-              <book-icon size="1.2x" class="custom-class"></book-icon>
-              <span class="side-link px-2">Library</span>
-            </div>
-          </router-link>
-          <router-link to="/learner/schedule">
-            <div class="side_item">
-              <calendar-icon size="1.2x" class="custom-class"></calendar-icon>
-              <span class="side-link px-2">Schedule</span>
-            </div>
-          </router-link>
-          <router-link to="/learner/feeds">
-            <div class="side_item">
-              <rss-icon size="1.2x" class="custom-class"></rss-icon>
-              <span class="side-link px-2"
-                ><span class="mr-5">Feed</span>
-              </span>
-            </div>
-          </router-link>
-          <router-link to="/learner/discussions">
-            <div class="side_item">
-              <twitch-icon size="1.2x" class="custom-class"></twitch-icon>
-              <span class="side-link px-2">Discussions</span>
-            </div>
-          </router-link>
           <router-link to="/learner/connections">
             <div class="side_item">
               <link-icon size="1.2x" class="custom-class"></link-icon>
               <span class="side-link px-2">Connections</span>
             </div>
           </router-link>
-          <router-link to="/learner/events">
-            <div class="side_item">
-              <bookmark-icon size="1.2x" class="custom-class"></bookmark-icon>
-              <span class="side-link px-2">
-                <span class="mr-5">Events</span>
-              </span>
+
+          <div>
+            <div class="side_item" @click="toggleCommunity = !toggleCommunity">
+              <folder-icon size="1.2x" class="custom-class"></folder-icon>
+              <span class="side-link px-2">Community</span>
             </div>
-          </router-link>
+            <div
+              class="px-3 py-1 animate__slideInDown animate__slideInUp"
+              v-if="toggleCommunity"
+            >
+              <router-link to="/learner/feeds">
+                <div class="side_item py-1">
+                  <rss-icon size="1.2x" class="custom-class"></rss-icon>
+                  <span class="side-link px-2"
+                    ><span class="mr-5">Feed</span>
+                  </span>
+                </div>
+              </router-link>
+              <router-link to="/learner/discussions">
+                <div class="side_item py-1">
+                  <twitch-icon size="1.2x" class="custom-class"></twitch-icon>
+                  <span class="side-link px-2">Discussions</span>
+                </div>
+              </router-link>
+
+              <router-link to="/learner/events">
+                <div class="side_item py-1">
+                  <bookmark-icon
+                    size="1.2x"
+                    class="custom-class"
+                  ></bookmark-icon>
+                  <span class="side-link px-2">
+                    <span class="mr-5">Events</span>
+                    <span v-if="activeaccount"
+                      ><b-badge variant="danger" size="sm">{{
+                        activeaccount
+                      }}</b-badge></span
+                    ></span
+                  >
+                </div>
+              </router-link>
+            </div>
+          </div>
+
+          <div>
+            <div class="side_item" @click="toggleCourse = !toggleCourse">
+              <calendar-icon size="1.2x" class="custom-class"></calendar-icon>
+              <span class="side-link px-2">Course</span>
+            </div>
+
+            <div
+              class="
+                px-3
+                py-1
+                animate__slideInDown animate__slideInUp animate__slow
+              "
+              v-if="toggleCourse"
+            >
+              <router-link to="/learner/courses">
+                <div class="side_item py-1">
+                  <folder-icon size="1.2x" class="custom-class"></folder-icon>
+                  <span class="side-link px-2">Courses</span>
+                </div>
+              </router-link>
+              <router-link to="/learner/assessments">
+                <div class="side_item py-1">
+                  <database-icon size="1x" class="custom-class"></database-icon>
+                  <span class="side-link px-2">Assessments</span>
+                </div>
+              </router-link>
+              <router-link to="/learner/library">
+                <div class="side_item py-1">
+                  <book-icon size="1.2x" class="custom-class"></book-icon>
+                  <span class="side-link px-2">Library</span>
+                </div>
+              </router-link>
+            </div>
+          </div>
+
+          <div>
+            <div class="side_item" @click="toggleSchedule = !toggleSchedule">
+              <b-icon icon="tools"></b-icon>
+              <span class="side-link px-2">Tools</span>
+            </div>
+            <div
+              class="px-3 py-1 animate__slideInDown animate__slideInUp"
+              v-if="toggleSchedule"
+            >
+              <router-link to="/learner/schedule">
+                <div class="side_item py-1">
+                  <calendar-icon
+                    size="1.2x"
+                    class="custom-class"
+                  ></calendar-icon>
+                  <span class="side-link px-2">Schedule</span>
+                </div>
+              </router-link>
+            </div>
+          </div>
+
           <router-link to="/learner/referrals">
             <div class="side_item">
               <credit-card-icon
@@ -103,7 +157,7 @@
             </div>
           </router-link>
 
-          <hr />
+          <hr class="mb-0" />
 
           <router-link to="/explore">
             <div class="side_item">
@@ -116,7 +170,7 @@
             </div></router-link
           >
           <router-link to="/">
-            <div class="side_item mt-1">
+            <div class="side_item">
               <b-icon
                 icon="arrow-left"
                 font-scale="1.1"
@@ -125,7 +179,10 @@
               <span class="side-link px-2">Back to Home</span>
             </div>
           </router-link>
-          <div class="side_item mt-1" @click="logout">
+          <div
+            class="side_item d-flex flex-row align-iteems-center"
+            @click="logout"
+          >
             <log-out-icon size="1x" class="custom-class"></log-out-icon>
             <span
               class="side-link px-2 font-weight-normal ml-0"
@@ -198,7 +255,7 @@
               </div>
             </div>
           </div>
-          <div class="text-center py-2 border-top text-lighter-green fs11">
+          <div class="text-center py-1 border-top text-lighter-green fs11">
             <span
               class="cursor-pointer"
               @click="
@@ -234,7 +291,7 @@
             v-for="(message, index) in chatter"
             :key="index"
           >
-            <div class="px-3 py-2 d-flex border-bottom">
+            <div class="px-3 py-1 d-flex border-bottom">
               <b-avatar size="1.8rem" :src="message.profile"></b-avatar>
 
               <div
@@ -351,9 +408,13 @@ export default {
   },
   data() {
     return {
+      isOpen: true,
       toggleMessage: true,
       open: false,
       showAll: false,
+      toggleCourse: false,
+      toggleCommunity: false,
+      toggleSchedule: false,
 
       current: {
         id: "",

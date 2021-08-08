@@ -1,5 +1,5 @@
 <template>
-  <div id="chart1" style="overflow: hidden" class="p-1 rounded">
+  <div id="chart1" style="overflow: hidden" class="rounded">
     <h6>To do List</h6>
     <b-row class="p-2 p-sm-3">
       <b-col sm="12">
@@ -33,7 +33,7 @@
                   @change="update(index, item.id, item.todo, item.status)"
                   size="sm"
                   ><div class="text-left">
-                    <span :class="{ strike: item.status }"
+                    <span :class="{ strike: item.status }" class="todo-text"
                       >{{ item.todo }} </span
                     ><br />
                     <span class="text-muted fs11 mr-5">{{
@@ -268,6 +268,9 @@ export default {
   }
   .admin_tab {
     min-height: 200px;
+  }
+  .todo-text {
+    font-size: 0.85rem;
   }
 }
 </style>

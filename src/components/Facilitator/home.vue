@@ -130,12 +130,12 @@
             <div v-if="showEnrolled">
               <div v-if="courseShown == 'mostenrolled'">
                 <carousel
-                  :perPage="1"
+                  :perPage="2"
                   :scrollPerPage="true"
                   :paginationEnabled="true"
-                  :spacePadding="15"
+                  :spacePadding="8"
                   :perPageCustom="[
-                    [600, 1],
+                    [600, 2],
                     [768, 3],
                   ]"
                   v-if="mostenrolledcourse.length"
@@ -163,14 +163,14 @@
                           })`,
                         }"
                       ></div>
-                      <div class="course_text">
+                      <div class="course_text p-2 p-sm-3">
                         <div class="d-flex justify-content-between">
                           <span
                             class="
-                              p-2
+                              px-2
+                              py-1
                               rounded-pill
                               text-white
-                              fs11
                               course_badge
                             "
                             :style="{
@@ -207,7 +207,12 @@
                           >
                             {{ item.course.title }}
                           </h6>
-                          <div class="fs13 text-truncate text-truncate--2">
+                          <div
+                            class="
+                              text-truncate text-truncate--2
+                              course_description
+                            "
+                          >
                             {{ item.course.description }}
                           </div>
                         </div>
@@ -233,6 +238,7 @@
                             size="sm"
                             variant="light"
                             :src="item.course.cover"
+                            class="course_avatar"
                           >
                           </b-avatar>
                         </div>
@@ -249,10 +255,10 @@
                 <carousel
                   :scrollPerPage="true"
                   :paginationEnabled="true"
-                  :perPage="1"
-                  :spacePadding="15"
+                  :perPage="2"
+                  :spacePadding="8"
                   :perPageCustom="[
-                    [600, 1],
+                    [600, 2],
                     [768, 3],
                   ]"
                   class="px-sm-0"
@@ -277,14 +283,14 @@
                           })`,
                         }"
                       ></div>
-                      <div class="course_text">
+                      <div class="course_text p-2 p-sm-3">
                         <div class="d-flex justify-content-between">
                           <span
                             class="
-                              p-2
+                              px-2
+                              py-1
                               rounded-pill
                               text-white
-                              fs11
                               course_badge
                             "
                             :style="{
@@ -316,7 +322,12 @@
                             {{ item[1].course.title }}
                           </h6>
 
-                          <div class="fs13 text-truncate text-truncate--2">
+                          <div
+                            class="
+                              text-truncate text-truncate--2
+                              course_description
+                            "
+                          >
                             {{ item[1].course.description }}
                           </div>
                         </div>
@@ -354,6 +365,7 @@
                             size="sm"
                             variant="light"
                             :src="item[1].course.cover"
+                            class="course_avatar"
                           >
                           </b-avatar>
                         </div>
@@ -988,23 +1000,10 @@ export default {
   min-height: 400px;
 }
 .course {
-  height: 350px;
   position: relative;
   background: white;
   border-radius: 8px;
   overflow: hidden;
-}
-.course_img {
-  height: 45%;
-  width: 100%;
-
-  border-radius: 8px;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-.course_text {
-  height: 55%;
-  padding: 10px;
 }
 
 .todos {
