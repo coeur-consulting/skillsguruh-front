@@ -489,7 +489,7 @@ export default {
           this.inviteUsers,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
             },
           }
         )

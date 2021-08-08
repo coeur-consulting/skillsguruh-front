@@ -8,13 +8,13 @@
         <span
           v-if="mini_info.type == 'user'"
           class="chat_name hover_green"
-          @click="$router.push(`/learner/profile/u/${mini_info.id}`)"
+          @click="$router.push(`/member/profile/u/${mini_info.id}`)"
           >{{ mini_info.name }}</span
         >
         <span
           v-else-if="mini_info.type == 'facilitator'"
           class="chat_name hover_green"
-          @click="$router.push(`/learner/profile/u/${mini_info.id}`)"
+          @click="$router.push(`/member/profile/u/${mini_info.id}`)"
           >{{ mini_info.name }}</span
         >
         <span v-else class="chat_name">{{ mini_info.name }}</span>
@@ -108,7 +108,7 @@
             v-if="item.user_id"
             class="mb-2"
             :class="
-              item.user_id == $store.getters.learner.id
+              item.user_id == $store.getters.member.id
                 ? 'right_text'
                 : 'left_text'
             "
@@ -610,8 +610,8 @@ export default {
       if (this.$props.user == "facilitator") {
         return this.$store.getters.facilitator;
       }
-      if (this.$props.user == "learner") {
-        return this.$store.getters.learner;
+      if (this.$props.user == "member") {
+        return this.$store.getters.member;
       }
       return token;
     },
@@ -641,12 +641,12 @@ export default {
         return;
       }
 
-      if (this.$props.user == "learner") {
+      if (this.$props.user == "member") {
         if (
           !this.unreadmesages.some(
             (item) =>
-              item.receiver == "learner" &&
-              item.receiver_id == this.$store.getters.learner.id
+              item.receiver == "member" &&
+              item.receiver_id == this.$store.getters.member.id
           )
         ) {
           return;
@@ -683,8 +683,8 @@ export default {
         .post(`${this.$store.getters.url}/inboxes/mark/read`, data)
         .then((res) => {
           if (res.status == 200) {
-            if (this.$props.user == "learner") {
-              this.$store.dispatch("getInbox", "learner");
+            if (this.$props.user == "member") {
+              this.$store.dispatch("getInbox", "member");
             }
 
             if (this.$props.user == "facilitator") {
@@ -748,7 +748,7 @@ export default {
         if (this.$props.user == "admin") {
           if (item.admin_id && item.admin_id == this.useraccess.id) {
             info.admin = item.admin_info || null;
-            info.user = item.learner_info || null;
+            info.user = item.member_info || null;
             info.facilitator = item.facilitator_info || null;
             info.message = item.message || null;
             info.time = item.created_at || null;
@@ -770,7 +770,7 @@ export default {
             item.facilitator_id == this.useraccess.id
           ) {
             info.admin = item.admin_info || null;
-            info.user = item.learner_info || null;
+            info.user = item.member_info || null;
             info.facilitator = item.facilitator_info || null;
             info.message = item.message || null;
             info.time = item.created_at || null;
@@ -786,10 +786,10 @@ export default {
             info.time = item.created_at || null;
           }
         }
-        if (this.$props.user == "learner") {
+        if (this.$props.user == "member") {
           if (item.user_id && item.user_id == this.useraccess.id) {
             info.admin = item.admin_info || null;
-            info.user = item.learner_info || null;
+            info.user = item.member_info || null;
             info.facilitator = item.facilitator_info || null;
             info.message = item.message || null;
             info.time = item.created_at || null;

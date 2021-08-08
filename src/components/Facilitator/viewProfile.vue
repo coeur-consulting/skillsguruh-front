@@ -82,12 +82,12 @@
 export default {
   data() {
     return {
-      user: {}
+      user: {},
     };
   },
 
   mounted() {
-    if (this.$route.params.type == "learner") {
+    if (this.$route.params.type == "member") {
       this.getuser();
     }
     if (this.$route.params.type == "facilitator") {
@@ -101,11 +101,11 @@ export default {
           `${this.$store.getters.url}/facilitator-get-facilitator/${this.$route.params.id}`,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.user = res.data;
           }
@@ -117,17 +117,17 @@ export default {
           `${this.$store.getters.url}/facilitator-get-user/${this.$route.params.id}`,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.user = res.data;
           }
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

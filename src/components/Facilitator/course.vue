@@ -181,12 +181,12 @@ export default {
   data() {
     return {
       course: {},
-      inLibrary: false
+      inLibrary: false,
     };
   },
   mounted() {
     this.getcourse();
-    if (this.$store.getters.learner) {
+    if (this.$store.getters.member) {
       this.checkLibrary();
     }
   },
@@ -194,18 +194,18 @@ export default {
     getcourse() {
       this.$http
         .get(`${this.$store.getters.url}/get-course/${this.$route.params.id}`)
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.course = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
 
     addtolibrary() {
-      if (!this.$store.getters.learner) {
+      if (!this.$store.getters.member) {
         this.$toast.info("Login to add course");
         return;
       }
@@ -213,35 +213,35 @@ export default {
         .get(
           `${this.$store.getters.url}/libraries/`,
           {
-            course_id: this.$route.params.id
+            course_id: this.$route.params.id,
           },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.inLibrary = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
     checkLibrary() {
-      if (!this.$store.getters.learner) {
+      if (!this.$store.getters.member) {
         this.$toast.info("Login to add course");
         return;
       }
       this.$http
         .get(`${this.$store.getters.url}/libraries/${this.$route.params.id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             if (res.data) {
               this.inLibrary = true;
@@ -250,11 +250,11 @@ export default {
             }
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

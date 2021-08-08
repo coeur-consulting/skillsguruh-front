@@ -93,9 +93,9 @@ export default {
   created() {
     this.interests = Interest;
 
-    if (this.$props.type == "learner") {
+    if (this.$props.type == "member") {
       this.selected_interests =
-        JSON.parse(this.$store.getters.learner.interests) || [];
+        JSON.parse(this.$store.getters.member.interests) || [];
     }
     if (this.$props.type == "facilitator") {
       this.selected_interests =
@@ -143,10 +143,10 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             var user;
-            if (this.$props.type == "learner") {
-              user = JSON.parse(localStorage.getItem("authLearner"));
+            if (this.$props.type == "member") {
+              user = JSON.parse(localStorage.getItem("authMember"));
               user.interests = res.data.interests;
-              localStorage.setItem("authLearner", JSON.stringify(user));
+              localStorage.setItem("authMember", JSON.stringify(user));
             }
             if (this.$props.type == "facilitator") {
               user = JSON.parse(localStorage.getItem("authFacilitator"));

@@ -90,7 +90,7 @@
                   >
                     <b-dropdown
                       v-if="
-                        item.user && item.user.id == $store.getters.learner.id
+                        item.user && item.user.id == $store.getters.member.id
                       "
                       size="sm"
                       variant="transparent"

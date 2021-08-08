@@ -152,9 +152,8 @@
               <p class="mb-4 pr-3">
                 Now you can put your knowledge to work. Convert what you know to
                 a course in minutes and enjoy teaching a more engaged group of
-                learners. Manage your private group, connect with external
-                learners and collaborate with other experts— the choice is
-                yours!
+                members. Manage your private group, connect with external
+                members and collaborate with other experts— the choice is yours!
               </p>
               <b-button
                 size="lg"
@@ -173,7 +172,7 @@
             <div class="onboard">
               <h5 class="mb-2">Shared interest is all you need</h5>
               <p class="mb-4 pr-3">
-                Connect with experts and learners with similar interests to gain
+                Connect with experts and members with similar interests to gain
                 rich insight to your most pressing questions, then pay it
                 forward by lending your voice to trending discussions. Maximize
                 the group access feature and make learning a party with your
@@ -362,16 +361,16 @@
       </b-container>
     </section>
 
-    <section id="learners">
+    <section id="members">
       <b-container>
         <b-row>
-          <b-col class="text-center learners">
+          <b-col class="text-center members">
             <h2 class="mb-2">NZUKOOR STORIES</h2>
             <p class="mb-5">
               Stories of people whose lives were changed through Nzukoor
             </p>
 
-            <div class="shadow learner position-relative">
+            <div class="shadow member position-relative">
               <b-iconstack font-scale="3.5" class="nav-left shadow-sm">
                 <b-icon stacked icon="circle-fill" variant="white"></b-icon>
                 <b-icon
@@ -407,7 +406,7 @@
                   <b-row>
                     <b-col sm="4" class="d-flex align-items-center">
                       <div class="p-4 testimonial">
-                        <b-img class="learner-img" src="/img/fac5.jpg"></b-img>
+                        <b-img class="member-img" src="/img/fac5.jpg"></b-img>
                       </div>
                     </b-col>
                     <b-col sm="8" class="d-flex align-items-center">
@@ -432,7 +431,7 @@
                   <b-row>
                     <b-col sm="4" class="d-flex align-items-center">
                       <div class="p-4 testimonial">
-                        <b-img class="learner-img" src="/img/fac4.jpg"></b-img>
+                        <b-img class="member-img" src="/img/fac4.jpg"></b-img>
                       </div>
                     </b-col>
                     <b-col sm="8" class="d-flex align-items-center">
@@ -458,7 +457,7 @@
                     <b-col sm="4" class="d-flex align-items-center">
                       <div class="p-4 testimonial">
                         <b-img
-                          class="learner-img"
+                          class="member-img"
                           :src="require('../assets/images/test.png')"
                         ></b-img>
                       </div>
@@ -530,7 +529,7 @@ export default {
     };
   },
   mounted() {
-    if (localStorage.getItem("authLearner")) {
+    if (localStorage.getItem("authMember")) {
       this.auth = true;
     } else if (localStorage.getItem("authFacilitator")) {
       this.auth = true;
@@ -743,13 +742,13 @@ export default {
 .test-1 {
   font-weight: 600;
 }
-#learners {
+#members {
   position: relative;
   padding-top: 8rem;
   padding-bottom: 5rem;
   background: rgba(194, 237, 206, 0.09);
 }
-.learners h2 {
+.members h2 {
   font-size: 25px;
   font-style: normal;
   font-weight: 600;
@@ -757,7 +756,7 @@ export default {
   letter-spacing: 0em;
   text-align: center;
 }
-.learners p {
+.members p {
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -766,14 +765,14 @@ export default {
   text-align: center;
   color: #828282;
 }
-.learner {
+.member {
   border-radius: 10px;
   background-color: #fff;
   position: relative;
   width: 80%;
   margin: 0 auto;
 }
-.learner-img {
+.member-img {
   border-radius: 10px;
   border-radius: 10px;
   width: 100%;
@@ -863,7 +862,7 @@ img {
     font-size: 26px;
     line-height: 34px;
   }
-  .learner {
+  .member {
     width: 90%;
   }
 }
@@ -938,11 +937,11 @@ img {
     padding-top: 5rem;
     padding-bottom: 0rem;
   }
-  .learners p {
+  .members p {
     font-size: 12px;
     line-height: 1.5;
   }
-  .learner-img {
+  .member-img {
     height: 200px;
   }
   #joinnow {

@@ -10,8 +10,8 @@ export default new Vuex.Store({
     organization: JSON.parse(localStorage.getItem("authOrg")) || {},
     admin: JSON.parse(localStorage.getItem("authAdmin")) || {},
     facilitator: JSON.parse(localStorage.getItem("authFacilitator")) || {},
-    learner: JSON.parse(localStorage.getItem("authLearner")) || {},
-   // url: "http://localhost:8000/v1",
+    member: JSON.parse(localStorage.getItem("authMember")) || {},
+    // url: "http://localhost:8000/v1",
     url: "https://nzukoor-server.herokuapp.com/v1",
     inboxes: [],
   },
@@ -67,11 +67,11 @@ export default new Vuex.Store({
             commit("SET_INBOX", response.data);
           });
       }
-      if (user == "learner") {
+      if (user == "member") {
         Vue.axios
           .get(`${state.url}/inboxes`, {
             headers: {
-              Authorization: `Bearer ${state.learner.access_token}`,
+              Authorization: `Bearer ${state.member.access_token}`,
             },
           })
           .then((response) => {
@@ -113,11 +113,11 @@ export default new Vuex.Store({
             commit("SET_NOTIFICATION", response.data);
           });
       }
-      if (user == "learner") {
+      if (user == "member") {
         Vue.axios
           .get(`${state.url}/get-notifications`, {
             headers: {
-              Authorization: `Bearer ${state.learner.access_token}`,
+              Authorization: `Bearer ${state.member.access_token}`,
             },
           })
           .then((response) => {
@@ -165,7 +165,7 @@ export default new Vuex.Store({
     organization: (state) => state.organization,
     admin: (state) => state.admin,
     facilitator: (state) => state.facilitator,
-    learner: (state) => state.learner,
+    member: (state) => state.member,
     url: (state) => state.url,
     notifications: (state) => state.notifications,
     inboxes: (state) => state.inboxes,

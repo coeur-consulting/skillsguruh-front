@@ -45,12 +45,12 @@
                 <br />
                 <div
                   class="last_message"
-                  v-if="user == 'learner'"
+                  v-if="user == 'member'"
                   :class="
                     !lastMessage(message).status &&
                     lastMessage(message).receiver_id ==
-                      $store.getters.learner.id &&
-                    lastMessage(message).receiver == 'learner'
+                      $store.getters.member.id &&
+                    lastMessage(message).receiver == 'member'
                       ? 'font-weight-bold'
                       : ''
                   "
@@ -220,10 +220,10 @@ export default {
             item.facilitator_id !== this.$store.getters.facilitator.id
         );
       }
-      if (this.$props.user == "learner") {
+      if (this.$props.user == "member") {
         return this.inboxes.filter(
           (item) =>
-            !item.status && item.user_id !== this.$store.getters.learner.id
+            !item.status && item.user_id !== this.$store.getters.member.id
         );
       }
       return [];
@@ -236,8 +236,8 @@ export default {
       if (this.$props.user == "facilitator") {
         return this.$store.getters.facilitator;
       }
-      if (this.$props.user == "learner") {
-        return this.$store.getters.learner;
+      if (this.$props.user == "member") {
+        return this.$store.getters.member;
       }
       return token;
     },
@@ -248,16 +248,16 @@ export default {
       return this.inboxes.map((item) => {
         var info = {};
 
-        if (this.$props.user == "learner") {
+        if (this.$props.user == "member") {
           if (item.user_id && item.user_id == this.useraccess.id) {
             info.admin = item.admin_info;
-            info.user = item.learner_info;
+            info.user = item.member_info;
             info.facilitator = item.facilitator_info;
             info.message = item.message;
             info.time = item.created_at;
             info.status = item.status;
             info.id = item.id;
-            info.learner_id = item.learner_id;
+            info.member_id = item.member_id;
             info.receiver_id = item.receiver_id;
             info.receiver = item.receiver;
             return info;
@@ -284,7 +284,7 @@ export default {
             item.facilitator_id == this.useraccess.id
           ) {
             info.admin = item.admin_info;
-            info.user = item.learner_info;
+            info.user = item.member_info;
             info.facilitator = item.facilitator_info;
             info.message = item.message;
             info.time = item.created_at;
@@ -314,7 +314,7 @@ export default {
         if (this.$props.user == "admin") {
           if (item.admin_id && item.admin_id == this.useraccess.id) {
             info.admin = item.admin_info;
-            info.user = item.learner_info;
+            info.user = item.member_info;
             info.facilitator = item.facilitator_info;
             info.message = item.message;
             info.time = item.created_at;
@@ -379,7 +379,7 @@ export default {
           }
         }
 
-        if (this.$props.user == "learner") {
+        if (this.$props.user == "member") {
           if (item.user && item.user.id != this.useraccess.id) {
             checkers.id = item.user.id;
             checkers.type = "user";

@@ -317,7 +317,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/join-discussion`, data, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
           },
         })
         .then((res) => {

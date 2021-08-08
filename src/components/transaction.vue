@@ -36,7 +36,7 @@
                 <p>{{ order.message }}</p>
               </div>
 
-              <router-link to="/learner">
+              <router-link to="/member">
                 <b-button variant="lighter-green"
                   >Back to Dashboard</b-button
                 ></router-link
@@ -53,7 +53,7 @@ export default {
   data() {
     return {
       order: {},
-      loading: true
+      loading: true,
     };
   },
   components: {},
@@ -65,17 +65,17 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/orders/${this.$route.query.trxref}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.loading = false;
             this.order = res.data;
           }
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

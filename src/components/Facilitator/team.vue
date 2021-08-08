@@ -6,21 +6,21 @@
       </b-form-checkbox>
     </div>
     <Admin v-if="team" />
-    <Learners v-else />
+    <Members v-else />
   </div>
 </template>
 <script>
 import Admin from "./admins";
-import Learners from "./learners";
+import Members from "./members";
 export default {
   data() {
     return {
-      team: true
+      team: true,
     };
   },
   components: {
     Admin,
-    Learners
-  }
+    Members,
+  },
 };
 </script>

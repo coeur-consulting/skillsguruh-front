@@ -29,7 +29,7 @@ export default {
       // var authOrg = {};
       // var authAdmin = {};
       // var authFacilitator = {};
-      var authLearner = {};
+      var authMember = {};
 
       // if (this.type == "organization") {
       //   let data = {
@@ -162,7 +162,7 @@ export default {
       //       this.$toast.error("Invalid credentials");
       //     });
       // }
-      //   if (this.type == "learner") {
+      //   if (this.type == "member") {
       let data = {
         grant_type: "social", // static 'social' value
         client_id: this.USER_CLIENT_ID,
@@ -173,8 +173,8 @@ export default {
       this.$http
         .post("https://nzukoor-server.herokuapp.com/oauth/token", data)
         .then((res) => {
-          authLearner.access_token = res.data.access_token;
-          authLearner.refresh_token = res.data.refresh_token;
+          authMember.access_token = res.data.access_token;
+          authMember.refresh_token = res.data.refresh_token;
           this.$http
             .get(`${this.$store.getters.url}/user`, {
               headers: {
@@ -183,20 +183,17 @@ export default {
             })
             .then((res) => {
               if (res.status == 200) {
-                authLearner.id = res.data.id;
-                authLearner.name = res.data.name;
-                authLearner.email = res.data.email;
-                authLearner.profile = res.data.profile;
-                authLearner.voice = res.data.voice;
-                authLearner.interests = res.data.interests;
-                authLearner.org_profile = res.data.organization.logo;
-                authLearner.org_name = res.data.organization.name;
-                authLearner.referral = res.data.referral_code;
+                authMember.id = res.data.id;
+                authMember.name = res.data.name;
+                authMember.email = res.data.email;
+                authMember.profile = res.data.profile;
+                authMember.voice = res.data.voice;
+                authMember.interests = res.data.interests;
+                authMember.org_profile = res.data.organization.logo;
+                authMember.org_name = res.data.organization.name;
+                authMember.referral = res.data.referral_code;
 
-                localStorage.setItem(
-                  "authLearner",
-                  JSON.stringify(authLearner)
-                );
+                localStorage.setItem("authMember", JSON.stringify(authMember));
                 this.$toast.success("Login successful");
                 this.RefreshParent();
               }

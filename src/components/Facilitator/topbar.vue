@@ -47,14 +47,14 @@
               <span class="side-link">Team</span>
             </div>
           </router-link>
-          <!-- <router-link to="/facilitator/learners">
+          <!-- <router-link to="/facilitator/members">
           <div class="side_item">
             <b-icon
               icon="people"
               font-scale="1.1"
               class="mr-2 dark-green"
             ></b-icon>
-            <span class="side-link">Learners</span>
+            <span class="side-link">Members</span>
           </div>
         </router-link> -->
           <router-link to="/facilitator/schedule">
@@ -510,7 +510,7 @@ export default {
           item.facilitator_id == this.$store.getters.facilitator.id
         ) {
           info.admin = item.admin_info || null;
-          info.user = item.learner_info || null;
+          info.user = item.member_info || null;
           info.facilitator = item.facilitator_info || null;
           info.message = item.message || null;
           info.time = item.created_at || null;

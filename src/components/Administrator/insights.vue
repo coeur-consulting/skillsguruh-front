@@ -546,7 +546,7 @@ export default {
         "15:00",
         "16:00",
       ],
-      learners: [],
+      members: [],
       facilitators: [],
       courses: [],
       gender: "",
@@ -1169,7 +1169,7 @@ export default {
       },
       ageSeries: [
         {
-          name: "Learners",
+          name: "Members",
           data: [],
         },
       ],
@@ -1204,7 +1204,7 @@ export default {
         },
         yaxis: {
           title: {
-            text: "Learners ",
+            text: "Members ",
           },
         },
         fill: {
@@ -1220,7 +1220,7 @@ export default {
       },
       stateSeries: [
         {
-          name: "Learners",
+          name: "Members",
           data: [],
         },
       ],
@@ -1381,7 +1381,7 @@ export default {
     MapChart,
   },
   created() {
-    this.getlearners();
+    this.getmembers();
     this.getCourses();
     this.getFacilitators();
     this.getRevenue();
@@ -1391,7 +1391,7 @@ export default {
     states: "handleStateSeries",
     loginHistory: "handleTimeSeries",
     facilitatorLoginHistory: "handleFacilitatorTimeSeries",
-    sortLearner: "getGender",
+    sortMember: "getGender",
   },
   computed: {
     sortCourse() {
@@ -1416,16 +1416,16 @@ export default {
       }
       return this.revenues;
     },
-    sortLearner() {
+    sortMember() {
       if (this.start && this.end) {
-        return this.learners.filter((item) => {
+        return this.members.filter((item) => {
           return this.$moment(item.created_at).isBetween(
             this.$moment(this.start),
             this.$moment(this.end)
           );
         });
       }
-      return this.learners;
+      return this.members;
     },
     sortFacilitator() {
       if (this.start && this.end) {
@@ -1481,18 +1481,18 @@ export default {
         }, 0);
     },
     male() {
-      return this.sortLearner.filter((item) => item.gender == "male").length;
+      return this.sortMember.filter((item) => item.gender == "male").length;
     },
     female() {
-      return this.sortLearner.filter((item) => item.gender == "male").length;
+      return this.sortMember.filter((item) => item.gender == "male").length;
     },
     others() {
-      return this.sortLearner.filter(
+      return this.sortMember.filter(
         (item) => item.gender !== "male" && item.gender !== "female"
       ).length;
     },
     countries() {
-      return this.sortLearner.map((item) => item.country);
+      return this.sortMember.map((item) => item.country);
     },
     uniqueCountries() {
       var count = [...new Set(this.countries)];
@@ -1513,13 +1513,13 @@ export default {
       return {};
     },
     states() {
-      var state = this.learners.map(
+      var state = this.members.map(
         (item) => item.state.slice(0, 1).toUpperCase() + item.state.slice(1)
       );
       return [...new Set(state)];
     },
     loginHistory() {
-      var arr = this.sortLearner.map((item) => item.loginhistory);
+      var arr = this.sortMember.map((item) => item.loginhistory);
       return arr.flat();
     },
     facilitatorLoginHistory() {
@@ -1701,14 +1701,14 @@ export default {
       return res;
     },
     sortAge(a, b) {
-      var res = this.sortLearner.filter(
+      var res = this.sortMember.filter(
         (item) => item.age >= a && item.age < b
       ).length;
 
       return res;
     },
     sortState(state) {
-      var res = this.sortLearner.filter(
+      var res = this.sortMember.filter(
         (item) => item.state.toLowerCase() == state.toLowerCase()
       ).length;
 
@@ -1811,7 +1811,7 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
-    getlearners() {
+    getmembers() {
       this.$http
         .get(`${this.$store.getters.url}/admin-get-users`, {
           headers: {
@@ -1820,7 +1820,7 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
-            this.learners = res.data;
+            this.members = res.data;
             this.handleAgeSeries();
             this.getGender();
           }
@@ -1895,7 +1895,7 @@ export default {
     handleAgeSeries() {
       this.ageSeries = [
         {
-          name: "Learners",
+          name: "Members",
           data: [
             this.sortAge(0, 12),
             this.sortAge(13, 17),
@@ -1913,7 +1913,7 @@ export default {
 
       this.stateSeries = [
         {
-          name: "Learners ",
+          name: "Members ",
           data: states,
         },
       ];
@@ -1942,7 +1942,7 @@ export default {
         },
         yaxis: {
           title: {
-            text: "Learners ",
+            text: "Members ",
           },
         },
         fill: {

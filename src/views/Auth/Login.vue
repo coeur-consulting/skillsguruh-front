@@ -54,13 +54,13 @@
                 </div>
               </b-col>
               <b-col cols="6" sm="6" class="text-left">
-                <div class="type" :class="{ selected_type: type == 'learner' }">
+                <div class="type" :class="{ selected_type: type == 'member' }">
                   <b-form-radio
                     class="reg"
                     size="sm"
                     v-model="type"
-                    value="learner"
-                    >Learner</b-form-radio
+                    value="member"
+                    >Member</b-form-radio
                   >
                 </div>
               </b-col>
@@ -168,7 +168,7 @@
               >
             </div>
 
-            <div v-if="type == 'learner'">
+            <div v-if="type == 'member'">
               <div class="or my-4">OR</div>
 
               <div class="socials mt-3">
@@ -211,9 +211,9 @@ export default {
       user: {
         email: "",
 
-        password: ""
+        password: "",
       },
-      agree: false
+      agree: false,
     };
   },
 
@@ -231,7 +231,7 @@ export default {
       this.loading = true;
 
       var authFacilitator = {};
-      var authLearner = {};
+      var authMember = {};
 
       if (this.type == "facilitator") {
         let data = {
@@ -239,20 +239,20 @@ export default {
           client_id: 4,
           client_secret: "NVXAR1hE3wGF6cz5lZKdo2rsaafzZ73sGGsBPH7h",
           username: this.user.email,
-          password: this.user.password
+          password: this.user.password,
         };
         this.$http
           .post("https://nzukoor-server.herokuapp.com/oauth/token", data)
-          .then(res => {
+          .then((res) => {
             authFacilitator.access_token = res.data.access_token;
             authFacilitator.refresh_token = res.data.refresh_token;
             this.$http
               .get(`${this.$store.getters.url}/facilitator`, {
                 headers: {
-                  Authorization: `Bearer ${res.data.access_token}`
-                }
+                  Authorization: `Bearer ${res.data.access_token}`,
+                },
               })
-              .then(res => {
+              .then((res) => {
                 authFacilitator.id = res.data.id;
                 authFacilitator.name = res.data.name;
                 authFacilitator.email = res.data.email;
@@ -288,54 +288,54 @@ export default {
             }, 5000);
           });
       }
-      if (this.type == "learner") {
+      if (this.type == "member") {
         let data = {
           grant_type: "password",
           client_id: 2,
           client_secret: "OAniIlKCpBOv2oMpKVoRLBau55xLKbz1Qo5YNuee",
           username: this.user.email,
-          password: this.user.password
+          password: this.user.password,
         };
         this.$http
           .post("https://nzukoor-server.herokuapp.com/oauth/token", data)
-          .then(res => {
-            authLearner.access_token = res.data.access_token;
-            authLearner.refresh_token = res.data.refresh_token;
+          .then((res) => {
+            authMember.access_token = res.data.access_token;
+            authMember.refresh_token = res.data.refresh_token;
             this.$http
               .get(`${this.$store.getters.url}/user`, {
                 headers: {
-                  Authorization: `Bearer ${res.data.access_token}`
-                }
+                  Authorization: `Bearer ${res.data.access_token}`,
+                },
               })
-              .then(res => {
+              .then((res) => {
                 if (res.status == 200) {
-                  authLearner.id = res.data.id;
-                  authLearner.name = res.data.name;
-                  authLearner.username = res.data.username;
-                  authLearner.email = res.data.email;
-                  authLearner.profile = res.data.profile;
-                  authLearner.voice = res.data.voice;
-                  authLearner.interests = res.data.interests;
+                  authMember.id = res.data.id;
+                  authMember.name = res.data.name;
+                  authMember.username = res.data.username;
+                  authMember.email = res.data.email;
+                  authMember.profile = res.data.profile;
+                  authMember.voice = res.data.voice;
+                  authMember.interests = res.data.interests;
                   if (!res.data.organization) {
-                    authLearner.org_profile = require("@/assets/images/logo.png");
-                    authLearner.org_name = "Nzukoor";
+                    authMember.org_profile = require("@/assets/images/logo.png");
+                    authMember.org_name = "Nzukoor";
                   } else {
-                    authLearner.org_profile = res.data.organization.logo;
-                    authLearner.org_name = res.data.organization.name;
+                    authMember.org_profile = res.data.organization.logo;
+                    authMember.org_name = res.data.organization.name;
                   }
 
-                  authLearner.referral = res.data.referral_code;
+                  authMember.referral = res.data.referral_code;
 
                   localStorage.setItem(
-                    "authLearner",
-                    JSON.stringify(authLearner)
+                    "authMember",
+                    JSON.stringify(authMember)
                   );
                   this.$toast.success("Login successful");
                   if (this.$route.query.redirect) {
                     window.location.href = this.$route.query.redirect;
                     return;
                   }
-                  window.location.href = "/learner";
+                  window.location.href = "/member";
                 }
               })
               .catch(() => {
@@ -359,8 +359,8 @@ export default {
         "Social_Login",
         "toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=0,width=100,height=100,left = 490,top = 262"
       );
-    }
-  }
+    },
+  },
 };
 </script>
 

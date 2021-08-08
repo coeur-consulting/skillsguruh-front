@@ -466,7 +466,7 @@ export default {
     this.getfacilitators().then(() => {
       this.getevent();
       this.getconnections();
-      this.link = "https://nzukoor.com/learner/event/" + this.$route.params.id;
+      this.link = "https://nzukoor.com/member/event/" + this.$route.params.id;
     });
   },
   computed: {
@@ -518,7 +518,7 @@ export default {
           "Let’s attend the event, " +
           this.event.title.toUpperCase() +
           " together",
-        url: "https://nzukoor.com/learner/event/" + this.event.id,
+        url: "https://nzukoor.com/member/event/" + this.event.id,
       };
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {

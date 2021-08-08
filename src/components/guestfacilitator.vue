@@ -99,7 +99,7 @@
                           v-if="
                             $route.params.user != 'u' ||
                             ($route.params.user == 'u' &&
-                              $store.getters.learner.id != $route.params.id)
+                              $store.getters.member.id != $route.params.id)
                           "
                           class="mr-3"
                         >
@@ -1071,7 +1071,7 @@
     </b-modal>
     <Minichat
       class="minichats"
-      :user="'learner'"
+      :user="'member'"
       :mini_info="mini_info"
       :open="open"
       :showAll="showAll"
@@ -1189,7 +1189,7 @@ export default {
     },
   },
   created() {
-    if (localStorage.getItem("authLearner")) {
+    if (localStorage.getItem("authMember")) {
       this.auth = true;
     }
     this.getmyconnections();
@@ -1213,7 +1213,7 @@ export default {
           { following_id: id, follow_type: type },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
             },
           }
         )
@@ -1234,7 +1234,7 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/connections`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
           },
         })
         .then((res) => {
@@ -1264,7 +1264,7 @@ export default {
       this.$http
         .delete(`${this.$store.getters.url}/connections/${res.id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
           },
         })
         .then((res) => {
@@ -1323,7 +1323,7 @@ export default {
       } else {
         this.$http
           .get(
-            `${this.$store.getters.url}/learner/info/${this.$route.params.id}`
+            `${this.$store.getters.url}/member/info/${this.$route.params.id}`
           )
           .then((res) => {
             if (res.status == 200) {
@@ -1353,7 +1353,7 @@ export default {
       } else {
         this.$http
           .get(
-            `${this.$store.getters.url}/learner/discussions/${this.$route.params.id}`
+            `${this.$store.getters.url}/member/discussions/${this.$route.params.id}`
           )
           .then((res) => {
             if (res.status == 200) {
@@ -1401,7 +1401,7 @@ export default {
       } else {
         this.$http
           .get(
-            `${this.$store.getters.url}/learner/feeds/${this.$route.params.id}`
+            `${this.$store.getters.url}/member/feeds/${this.$route.params.id}`
           )
           .then((res) => {
             if (res.status == 200) {
@@ -1470,7 +1470,7 @@ export default {
       } else {
         this.$http
           .get(
-            `${this.$store.getters.url}/learner/connections/${this.$route.params.id}`
+            `${this.$store.getters.url}/member/connections/${this.$route.params.id}`
           )
           .then((res) => {
             if (res.status == 200) {

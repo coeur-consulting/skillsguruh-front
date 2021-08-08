@@ -235,7 +235,7 @@
                         v-if="rows > 10"
                       >
                         <div class="fs12 text-muted">
-                          Showing 1-10 of {{ learners.length }} items
+                          Showing 1-10 of {{ members.length }} items
                         </div>
                         <b-pagination
                           pills
@@ -524,7 +524,7 @@
                                 @click="drop(feed.id, index)"
                                 v-if="
                                   feed.user &&
-                                  feed.user.id == $store.getters.learner.id
+                                  feed.user.id == $store.getters.member.id
                                 "
                                 >Delete</b-dropdown-item
                               >
@@ -1742,11 +1742,11 @@ export default {
       this.inviteUsers.title = title;
       this.inviteUsers.url = this.message;
 
-      if (this.$store.getters.learner.access_token) {
+      if (this.$store.getters.member.access_token) {
         this.$http
           .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
             },
           })
           .then((res) => {

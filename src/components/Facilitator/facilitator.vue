@@ -1203,7 +1203,7 @@ export default {
       } else {
         this.$http
           .get(
-            `${this.$store.getters.url}/learner/info/${this.$route.params.id}`
+            `${this.$store.getters.url}/member/info/${this.$route.params.id}`
           )
           .then((res) => {
             if (res.status == 200) {
@@ -1233,7 +1233,7 @@ export default {
       } else {
         this.$http
           .get(
-            `${this.$store.getters.url}/learner/discussions/${this.$route.params.id}`
+            `${this.$store.getters.url}/member/discussions/${this.$route.params.id}`
           )
           .then((res) => {
             if (res.status == 200) {
@@ -1281,7 +1281,7 @@ export default {
       } else {
         this.$http
           .get(
-            `${this.$store.getters.url}/learner/feeds/${this.$route.params.id}`
+            `${this.$store.getters.url}/member/feeds/${this.$route.params.id}`
           )
           .then((res) => {
             if (res.status == 200) {
@@ -1350,7 +1350,7 @@ export default {
       } else {
         this.$http
           .get(
-            `${this.$store.getters.url}/learner/connections/${this.$route.params.id}`
+            `${this.$store.getters.url}/member/connections/${this.$route.params.id}`
           )
           .then((res) => {
             if (res.status == 200) {

@@ -25,7 +25,7 @@
                       :src="discussion.user.profile"
                       v-if="discussion.user"
                       @click="
-                        $router.push(`/learner/profile/u/${discussion.user.id}`)
+                        $router.push(`/member/profile/u/${discussion.user.id}`)
                       "
                     ></b-avatar>
                     <b-avatar
@@ -34,7 +34,7 @@
                       v-if="discussion.facilitator"
                       @click="
                         $router.push(
-                          `/learner/profile/f/${discussion.facilitator.id}`
+                          `/member/profile/f/${discussion.facilitator.id}`
                         )
                       "
                     ></b-avatar>
@@ -136,7 +136,7 @@
                       v-if="discussion.user"
                       class="cursor-pointer text-dark-green hover_green"
                       @click="
-                        $router.push(`/learner/profile/u/${discussion.user.id}`)
+                        $router.push(`/member/profile/u/${discussion.user.id}`)
                       "
                       >{{ discussion.user.name }}</span
                     >
@@ -145,7 +145,7 @@
                       class="cursor-pointer text-dark-green hover_green"
                       @click="
                         $router.push(
-                          `/learner/profile/f/${discussion.facilitator.id}`
+                          `/member/profile/f/${discussion.facilitator.id}`
                         )
                       "
                       >{{ discussion.facilitator.name }}</span
@@ -612,7 +612,7 @@
                 <div
                   class="d-flex p-2 px-3 cursor-pointer"
                   v-if="item.type == 'public'"
-                  @click="$router.push(`/learner/discussion/${item.id}`)"
+                  @click="$router.push(`/member/discussion/${item.id}`)"
                 >
                   <div v-if="item.discussionmessage.length">
                     <div>
@@ -1146,7 +1146,7 @@ export default {
     this.getvote();
     this.getconnections();
     this.link =
-      "https://nzukoor.com/learner/discussion/" + this.$route.params.id;
+      "https://nzukoor.com/member/discussion/" + this.$route.params.id;
 
     var channel = this.$pusher.subscribe("adddiscussion");
 
@@ -1155,7 +1155,7 @@ export default {
     });
   },
   mounted() {
-    if (localStorage.getItem("authLearner")) {
+    if (localStorage.getItem("authMember")) {
       this.auth = true;
     }
   },
@@ -1209,7 +1209,7 @@ export default {
     },
     voices() {
       return this.$store.getters.voices[
-        Number(this.$store.getters.learner.voice)
+        Number(this.$store.getters.member.voice)
       ];
     },
     related() {
@@ -1293,7 +1293,7 @@ export default {
           this.reply,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
             },
           }
         )
@@ -1336,7 +1336,7 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/connections`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
           },
         })
         .then((res) => {
@@ -1359,12 +1359,12 @@ export default {
           "I just started a discussion, " +
           this.discussion.name.toUpperCase() +
           " and I’d like to hear your thoughts",
-        url: "https://nzukoor.com/learner/discussion/" + this.discussion.id,
+        url: "https://nzukoor.com/member/discussion/" + this.discussion.id,
       };
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
           },
         })
         .then((res) => {
@@ -1397,7 +1397,7 @@ export default {
           this.inviteUsers,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
             },
           }
         )
@@ -1481,7 +1481,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/discussion-messages`, this.info, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
           },
         })
         .then((res) => {
@@ -1508,7 +1508,7 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/add-view/${this.$route.params.id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
           },
         })
         .then((res) => {
@@ -1527,7 +1527,7 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/votes/${this.$route.params.id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
           },
         })
         .then((res) => {
@@ -1551,7 +1551,7 @@ export default {
           { id: this.$route.params.id, vote: 1 },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
             },
           }
         )
@@ -1561,7 +1561,7 @@ export default {
           }
           if (res.status == 200) {
             this.discussion.discussionvote.map((item) => {
-              if (item.learner_id == this.$store.getters.learner.id) {
+              if (item.member_id == this.$store.getters.member.id) {
                 return (item.vote = res.data.vote);
               }
             });
@@ -1583,7 +1583,7 @@ export default {
           { id: this.$route.params.id, vote: 0 },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
             },
           }
         )
@@ -1593,7 +1593,7 @@ export default {
           }
           if (res.status == 200) {
             this.discussion.discussionvote.map((item) => {
-              if (item.learner_id == this.$store.getters.learner.id) {
+              if (item.member_id == this.$store.getters.member.id) {
                 return (item.vote = res.data.vote);
               }
             });

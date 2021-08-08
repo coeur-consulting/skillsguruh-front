@@ -77,7 +77,7 @@
                   variant="dark-green"
                 ></b-icon>
               </b-iconstack>
-              <div class="h6 mb-0 text-dark-green">Learners</div>
+              <div class="h6 mb-0 text-dark-green">Members</div>
             </div>
 
             <div class="d-flex justify-content-between mb-2 w-100">
@@ -141,7 +141,7 @@ export default {
           type: "pie",
         },
         colors: ["#377f87", "#3d96a5", "#6beed1"],
-        labels: ["Learners", "Facilitators", "Administrators"],
+        labels: ["Members", "Facilitators", "Administrators"],
         responsive: [
           {
             breakpoint: 480,
@@ -189,7 +189,7 @@ export default {
         },
 
         xaxis: {
-          categories: ["Learners", "Facilitators", "Administrators"],
+          categories: ["Members", "Facilitators", "Administrators"],
           position: "top",
           axisBorder: {
             show: false,
@@ -335,7 +335,7 @@ export default {
           type: "pie",
         },
         colors: ["#377f87", "#3d96a5", "#6beed1"],
-        labels: ["Learners", "Facilitators", "Administrators"],
+        labels: ["Members", "Facilitators", "Administrators"],
         responsive: [
           {
             breakpoint: 480,

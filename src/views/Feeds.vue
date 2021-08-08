@@ -290,7 +290,7 @@
                 <b-avatar
                   class="mr-2"
                   size="2.4rem"
-                  :src="$store.getters.learner.profile"
+                  :src="$store.getters.member.profile"
                 ></b-avatar>
 
                 <b-form-input
@@ -384,7 +384,7 @@
                           ></b-avatar>
                           <span
                             @click="
-                              $router.push(`/learner/profile/u/${feed.user.id}`)
+                              $router.push(`/member/profile/u/${feed.user.id}`)
                             "
                             class="hover_green"
                           >
@@ -408,7 +408,7 @@
                             class="hover_green"
                             @click="
                               $router.push(
-                                `/learner/profile/f/${feed.facilitator.id}`
+                                `/member/profile/f/${feed.facilitator.id}`
                               )
                             "
                           >
@@ -434,7 +434,7 @@
                         </template>
                         <b-dropdown-item
                           class="fs12"
-                          @click="$router.push(`/learner/feed/view/${feed.id}`)"
+                          @click="$router.push(`/member/feed/view/${feed.id}`)"
                           >View post</b-dropdown-item
                         >
 
@@ -443,7 +443,7 @@
                           @click="drop(feed.id, index)"
                           v-if="
                             feed.user &&
-                            feed.user.id == $store.getters.learner.id
+                            feed.user.id == $store.getters.member.id
                           "
                           >Delete</b-dropdown-item
                         >
@@ -538,7 +538,7 @@
                             feed.stars.find(
                               (item) =>
                                 item.star &&
-                                item.user_id == $store.getters.learner.id
+                                item.user_id == $store.getters.member.id
                             )
                               ? 'star-fill'
                               : 'star'
@@ -557,7 +557,7 @@
                             feed.likes.find(
                               (item) =>
                                 item.like &&
-                                item.user_id == $store.getters.learner.id
+                                item.user_id == $store.getters.member.id
                             )
                               ? 'heart-fill'
                               : 'heart'
@@ -613,7 +613,7 @@
                               class="comment_name mr-2 hover_green"
                               @click="
                                 $router.push(
-                                  `/learner/profile/u/${item.user.id}`
+                                  `/member/profile/u/${item.user.id}`
                                 )
                               "
                               v-if="item.user"
@@ -624,7 +624,7 @@
                               class="comment_name mr-2 hover_green"
                               @click="
                                 $router.push(
-                                  `/learner/profile/f/${item.facilitator.id}`
+                                  `/member/profile/f/${item.facilitator.id}`
                                 )
                               "
                               v-if="item.facilitator"
@@ -940,7 +940,7 @@ export default {
   },
 
   mounted() {
-    if (localStorage.getItem("authLearner")) {
+    if (localStorage.getItem("authMember")) {
       this.auth = true;
     }
     this.getfeeds();
@@ -1078,7 +1078,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
           },
         })
         .then((res) => {
@@ -1115,7 +1115,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/feed-comments`, this.comment, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
           },
         })
         .then((res) => {
@@ -1146,7 +1146,7 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
             },
           }
         )
@@ -1156,7 +1156,7 @@ export default {
           }
           if (res.status == 200) {
             this.feeds[index].likes.map((item) => {
-              if (item.user_id == this.$store.getters.learner.id) {
+              if (item.user_id == this.$store.getters.member.id) {
                 return (item.like = res.data.like);
               }
             });
@@ -1177,7 +1177,7 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
             },
           }
         )
@@ -1187,7 +1187,7 @@ export default {
           }
           if (res.status == 200) {
             this.feeds[index].stars.map((item) => {
-              if (item.user_id == this.$store.getters.learner.id) {
+              if (item.user_id == this.$store.getters.member.id) {
                 return (item.star = res.data.star);
               }
             });

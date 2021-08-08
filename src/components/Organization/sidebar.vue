@@ -40,14 +40,14 @@
           <span class="side-link">Facilitators</span>
         </div>
       </router-link>
-      <router-link to="/organization/learners">
+      <router-link to="/organization/members">
         <div class="side_item">
           <b-icon
             icon="people"
             font-scale="1.25"
             class="mr-3 text-lemon"
           ></b-icon>
-          <span class="side-link">Learners</span>
+          <span class="side-link">Members</span>
         </div>
       </router-link>
       <router-link to="/organization/schedule">

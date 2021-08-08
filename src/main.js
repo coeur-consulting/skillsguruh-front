@@ -128,9 +128,9 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
-  if (to.matched.some((record) => record.meta.typeLearner)) {
-    var learner = JSON.parse(localStorage.getItem("authLearner"));
-    if (!learner) {
+  if (to.matched.some((record) => record.meta.typeMember)) {
+    var member = JSON.parse(localStorage.getItem("authMember"));
+    if (!member) {
       next({
         path: "/login",
         query: { redirect: to.fullPath },

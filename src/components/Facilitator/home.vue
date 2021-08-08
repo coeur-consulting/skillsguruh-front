@@ -32,7 +32,7 @@
                     </b-iconstack>
                     <div class="h6 mb-0 text-dark-green">
                       Total <br />
-                      Learners
+                      Members
                     </div>
                   </div>
                   <div class="h2">{{ users.length }}</div>
@@ -48,7 +48,7 @@
                         Math.round((newlyusers / users.length) * 100) || 0
                       }}%</span
                     >
-                    <span class="mt-1">New Learners this month</span>
+                    <span class="mt-1">New Members this month</span>
                   </div>
                 </div>
               </div>
@@ -149,7 +149,7 @@
                       class="course border"
                       @click="
                         $router.push(
-                          `/learner/courses?course_id=${this.course.id}`
+                          `/member/courses?course_id=${this.course.id}`
                         )
                       "
                     >
@@ -271,7 +271,7 @@
                   >
                     <div
                       class="course border"
-                      @click="$router.push('/learner/courses')"
+                      @click="$router.push('/member/courses')"
                     >
                       <div
                         class="course_img"
@@ -820,7 +820,7 @@ export default {
     getUsersWithInterest() {
       this.$http
         .get(
-          `${this.$store.getters.url}/identical-learners`,
+          `${this.$store.getters.url}/identical-members`,
 
           {
             headers: {

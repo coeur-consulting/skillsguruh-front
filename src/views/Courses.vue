@@ -1502,7 +1502,7 @@ export default {
     };
   },
   mounted() {
-    if (localStorage.getItem("authLearner")) {
+    if (localStorage.getItem("authMember")) {
       this.auth = true;
     }
 
@@ -1550,13 +1550,13 @@ export default {
   },
   methods: {
     getCommunity() {
-      if (!this.$store.getters.learner) {
+      if (!this.$store.getters.member) {
         return;
       }
       this.$http
         .get(`${this.$store.getters.url}/apply-community`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
           },
         })
         .then((res) => {
@@ -1569,7 +1569,7 @@ export default {
         });
     },
     getcode(id) {
-      if (!this.$store.getters.learner) {
+      if (!this.$store.getters.member) {
         return;
       }
       this.$http
@@ -1578,7 +1578,7 @@ export default {
 
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
             },
           }
         )
@@ -1598,7 +1598,7 @@ export default {
         this.$toast.info("Login to add course");
         return;
       }
-      this.$router.push(`/learner/order?id=${course.id}`);
+      this.$router.push(`/member/order?id=${course.id}`);
     },
     addcount(id) {
       this.$http.get(`${this.$store.getters.url}/course/view/${id}`);
@@ -1612,7 +1612,7 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/libraries`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
           },
         })
         .then((res) => {
@@ -1646,7 +1646,7 @@ export default {
 
       var check = this.library.find(
         (item) =>
-          item.user_id == this.$store.getters.learner.id &&
+          item.user_id == this.$store.getters.member.id &&
           item.course_id == this.course.id
       );
 
@@ -1666,7 +1666,7 @@ export default {
           },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
             },
           }
         )
@@ -1779,11 +1779,11 @@ export default {
       this.inviteUsers.title = title;
       this.inviteUsers.url = this.message;
 
-      if (this.$store.getters.learner.access_token) {
+      if (this.$store.getters.member.access_token) {
         this.$http
           .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
             },
           })
           .then((res) => {

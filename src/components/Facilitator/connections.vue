@@ -194,7 +194,7 @@ export default {
       search: "",
       suggested_search: "",
       connections: [],
-      learner_connections: [],
+      member_connections: [],
       facilitators_connections: [],
       open: false,
       showAll: false,
@@ -226,11 +226,11 @@ export default {
         }
       });
     },
-    filteredLearnerSuggested() {
+    filteredMemberSuggested() {
       if (!this.connections.length) {
-        return this.learner_connections;
+        return this.member_connections;
       }
-      return this.learner_connections.filter(
+      return this.member_connections.filter(
         (item) =>
           !this.connections
             .filter((ite) => ite.user_follower)
@@ -327,7 +327,7 @@ export default {
     getUsersWithInterest() {
       this.$http
         .get(
-          `${this.$store.getters.url}/identical-learners`,
+          `${this.$store.getters.url}/identical-members`,
 
           {
             headers: {
@@ -337,7 +337,7 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.learner_connections = res.data;
+            this.member_connections = res.data;
           }
         });
     },

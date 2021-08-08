@@ -276,7 +276,7 @@
                             feed.stars.some(
                               (item) =>
                                 item.star &&
-                                item.user_id == $store.getters.learner.id
+                                item.user_id == $store.getters.member.id
                             )
                               ? 'star-fill'
                               : 'star'
@@ -295,7 +295,7 @@
                             feed.likes.some(
                               (item) =>
                                 item.like &&
-                                item.user_id == $store.getters.learner.id
+                                item.user_id == $store.getters.member.id
                             )
                               ? 'heart-fill'
                               : 'heart'

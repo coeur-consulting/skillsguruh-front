@@ -52,12 +52,12 @@ const routes = [
       title: "Login | Nzukoor",
     },
     beforeEnter: (to, from, next) => {
-      if (localStorage.getItem("authLearner")) {
-        let user = localStorage.getItem("authLearner");
+      if (localStorage.getItem("authMember")) {
+        let user = localStorage.getItem("authMember");
         if (!user) {
           next();
         } else {
-          next("/learner");
+          next("/member");
         }
       } else if (localStorage.getItem("authFacilitator")) {
         let user = localStorage.getItem("authFacilitator");
@@ -159,18 +159,16 @@ const routes = [
     },
   },
   {
-    path: "/explore/learners",
-    name: "Explore Learners",
+    path: "/explore/members",
+    name: "Explore Members",
     components: {
       header: Header,
       default: () =>
-        import(
-          /* webpackChunkName: "exploreLearners" */ "../views/Learners.vue"
-        ),
+        import(/* webpackChunkName: "exploreMembers" */ "../views/Members.vue"),
       footer: Footer,
     },
     meta: {
-      title: "Explore Learners| Nzukoor",
+      title: "Explore Members| Nzukoor",
     },
   },
   {
@@ -464,31 +462,31 @@ const routes = [
         },
       },
       {
-        path: "learners",
-        name: "organization learners",
+        path: "members",
+        name: "organization members",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "organizationlearners" */ "@/components/Organization/learners.vue"
+              /* webpackChunkName: "organizationmembers" */ "@/components/Organization/members.vue"
             ),
         },
         meta: {
           typeOrg: true,
-          title: "Learners - Organization",
+          title: "Members - Organization",
         },
       },
       {
-        path: "learner",
-        name: "organization learner",
+        path: "member",
+        name: "organization member",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "organizationlearner" */ "@/components/Organization/learner.vue"
+              /* webpackChunkName: "organizationmember" */ "@/components/Organization/member.vue"
             ),
         },
         meta: {
           typeOrg: true,
-          title: "Learner - Organization",
+          title: "Member - Organization",
         },
       },
       {
@@ -690,31 +688,31 @@ const routes = [
         },
       },
       {
-        path: "learners",
-        name: "Administrator learners",
+        path: "members",
+        name: "Administrator members",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Administratorlearners" */ "@/components/Administrator/learners.vue"
+              /* webpackChunkName: "Administratormembers" */ "@/components/Administrator/members.vue"
             ),
         },
         meta: {
           typeAdmin: true,
-          title: "Learners | Administrator",
+          title: "Members | Administrator",
         },
       },
       {
-        path: "learner",
-        name: "Administrator learner",
+        path: "member",
+        name: "Administrator member",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Administratorlearner" */ "@/components/Administrator/learner.vue"
+              /* webpackChunkName: "Administratormember" */ "@/components/Administrator/member.vue"
             ),
         },
         meta: {
           typeAdmin: true,
-          title: "Learner | Administrator",
+          title: "Member | Administrator",
         },
       },
       {
@@ -1161,7 +1159,7 @@ const routes = [
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "facilitatorlearners" */ "@/components/Facilitator/team.vue"
+              /* webpackChunkName: "facilitatormembers" */ "@/components/Facilitator/team.vue"
             ),
         },
         meta: {
@@ -1198,31 +1196,31 @@ const routes = [
         },
       },
       {
-        path: "learners",
-        name: "Facilitator learners",
+        path: "members",
+        name: "Facilitator members",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "facilitatorlearners" */ "@/components/Facilitator/learners.vue"
+              /* webpackChunkName: "facilitatormembers" */ "@/components/Facilitator/members.vue"
             ),
         },
         meta: {
           typeFacilitator: true,
-          title: "View Learners | Facilitator",
+          title: "View Members | Facilitator",
         },
       },
       {
-        path: "learner",
-        name: "Facilitator learner",
+        path: "member",
+        name: "Facilitator member",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Facilitatorlearner" */ "@/components/Facilitator/learner.vue"
+              /* webpackChunkName: "Facilitatormember" */ "@/components/Facilitator/member.vue"
             ),
         },
         meta: {
           typeFacilitator: true,
-          title: "View Learner | Facilitator",
+          title: "View Member | Facilitator",
         },
       },
       {
@@ -1454,477 +1452,477 @@ const routes = [
   },
 
   {
-    path: "/learner",
+    path: "/member",
 
     components: {
       default: () =>
-        import(/* webpackChunkName: "Learner" */ "../views/Learner.vue"),
+        import(/* webpackChunkName: "Member" */ "../views/Member.vue"),
     },
 
     children: [
       {
         path: "",
-        name: "Learner dashboard",
+        name: "Member dashboard",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerdashboard" */ "@/components/Learner/home.vue"
+              /* webpackChunkName: "Memberdashboard" */ "@/components/Member/home.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Home | Learner",
+          typeMember: true,
+          title: "Home | Member",
         },
       },
       {
         path: "feed/view/:id",
-        name: "View learner Feed",
+        name: "View member Feed",
         components: {
           header: Header,
           default: () =>
             import(
-              /* webpackChunkName: "viewfeed" */ "@/components/Learner/viewfeed.vue"
+              /* webpackChunkName: "viewfeed" */ "@/components/Member/viewfeed.vue"
             ),
           footer: Footer,
         },
         meta: {
-          typeLearner: true,
+          typeMember: true,
           title: "Feed | Nzukoor",
         },
       },
       {
         path: "facilitators",
-        name: "Learner facilitators",
+        name: "Member facilitators",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerfacilitators" */ "@/components/Learner/facilitators.vue"
+              /* webpackChunkName: "Memberfacilitators" */ "@/components/Member/facilitators.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "View Facilitators | Learner",
+          typeMember: true,
+          title: "View Facilitators | Member",
         },
       },
       {
         path: "profile/:user/:id",
-        name: "Learner facilitatorprofile",
+        name: "Member facilitatorprofile",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerfacilitators" */ "@/components/Learner/facilitator.vue"
+              /* webpackChunkName: "Memberfacilitators" */ "@/components/Member/facilitator.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "View Profile | Learner",
+          typeMember: true,
+          title: "View Profile | Member",
         },
       },
       {
         path: "assessments",
-        name: "Learner assessments",
+        name: "Member assessments",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerassessments" */ "@/components/Learner/assessments.vue"
+              /* webpackChunkName: "Memberassessments" */ "@/components/Member/assessments.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Assessments | Learner",
+          typeMember: true,
+          title: "Assessments | Member",
         },
       },
       {
         path: "assessment/:type",
-        name: "Learner assessment",
+        name: "Member assessment",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerassessment" */ "@/components/Learner/learnerassessment.vue"
+              /* webpackChunkName: "Memberassessment" */ "@/components/Member/memberassessment.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Assessment | Learner",
+          typeMember: true,
+          title: "Assessment | Member",
         },
       },
       {
         path: "solve/assessment/quiz/:id",
-        name: "Learner solve quiz",
+        name: "Member solve quiz",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnersolvequiz" */ "@/components/Learner/AnswerTemplates/quiz.vue"
+              /* webpackChunkName: "Membersolvequiz" */ "@/components/Member/AnswerTemplates/quiz.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Solve Quiz | Learner",
+          typeMember: true,
+          title: "Solve Quiz | Member",
         },
       },
       {
         path: "solve/assessment/:id",
-        name: "Learner solve assessment",
+        name: "Member solve assessment",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnersolveassessment " */ "@/components/Learner/AnswerTemplates/others.vue"
+              /* webpackChunkName: "Membersolveassessment " */ "@/components/Member/AnswerTemplates/others.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Solve Assessment | Learner",
+          typeMember: true,
+          title: "Solve Assessment | Member",
         },
       },
       {
         path: "facilitator",
-        name: "Learner facilitator",
+        name: "Member facilitator",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerfacilitator" */ "@/components/Learner/facilitator.vue"
+              /* webpackChunkName: "Memberfacilitator" */ "@/components/Member/facilitator.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "View Facilitator | Learner",
+          typeMember: true,
+          title: "View Facilitator | Member",
         },
       },
       {
         path: "order",
-        name: "Learner order",
+        name: "Member order",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerfacilitator" */ "@/components/Learner/order.vue"
+              /* webpackChunkName: "Memberfacilitator" */ "@/components/Member/order.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Order | Learner",
+          typeMember: true,
+          title: "Order | Member",
         },
       },
       {
         path: "transaction",
-        name: "Learner transaction",
+        name: "Member transaction",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnertransaction" */ "@/components/Learner/transaction.vue"
+              /* webpackChunkName: "Membertransaction" */ "@/components/Member/transaction.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Transaction | Learner",
+          typeMember: true,
+          title: "Transaction | Member",
         },
       },
       {
         path: "questionnaire/:id/:module_id/:course_id",
-        name: "Learner questionnaire",
+        name: "Member questionnaire",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerfacilitator" */ "@/components/Learner/viewQuestionnaire.vue"
+              /* webpackChunkName: "Memberfacilitator" */ "@/components/Member/viewQuestionnaire.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Questionnaire | Learner",
+          typeMember: true,
+          title: "Questionnaire | Member",
         },
       },
       {
         path: "solve/template/:id/:module_id/:course_id",
-        name: "Learner template",
+        name: "Member template",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerfacilitator" */ "@/components/Learner/viewQuestionnaire.vue"
+              /* webpackChunkName: "Memberfacilitator" */ "@/components/Member/viewQuestionnaire.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Solve | Learner",
+          typeMember: true,
+          title: "Solve | Member",
         },
       },
       {
-        path: "learners",
-        name: " learners",
+        path: "members",
+        name: " members",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "learners" */ "@/components/Learner/learners.vue"
+              /* webpackChunkName: "members" */ "@/components/Member/members.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "View Learners | Learner",
+          typeMember: true,
+          title: "View Members | Member",
         },
       },
       {
-        path: "learner",
-        name: " learner",
+        path: "member",
+        name: " member",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "learner" */ "@/components/Learner/learner.vue"
+              /* webpackChunkName: "member" */ "@/components/Member/member.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "View Learner | Learner",
+          typeMember: true,
+          title: "View Member | Member",
         },
       },
       {
         path: "schedule",
-        name: "Learner schedule",
+        name: "Member schedule",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerschedule" */ "@/components/Learner/schedule.vue"
+              /* webpackChunkName: "Memberschedule" */ "@/components/Member/schedule.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Schedule | Learner",
+          typeMember: true,
+          title: "Schedule | Member",
         },
       },
       {
         path: "library",
-        name: "Learner library",
+        name: "Member library",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerlibrary" */ "@/components/Learner/library.vue"
+              /* webpackChunkName: "Memberlibrary" */ "@/components/Member/library.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Library | Learner",
+          typeMember: true,
+          title: "Library | Member",
         },
       },
       {
         path: "discussions",
-        name: "Learner discussions",
+        name: "Member discussions",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerdiscussions" */ "@/components/Learner/discussions.vue"
+              /* webpackChunkName: "Memberdiscussions" */ "@/components/Member/discussions.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Discussions | Learner",
+          typeMember: true,
+          title: "Discussions | Member",
         },
       },
       {
         path: "discussion/:id",
-        name: "Learner discussion",
+        name: "Member discussion",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerdiscussion" */ "@/components/Learner/discussion.vue"
+              /* webpackChunkName: "Memberdiscussion" */ "@/components/Member/discussion.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Discussion | Learner",
+          typeMember: true,
+          title: "Discussion | Member",
         },
       },
       {
         path: "feeds",
-        name: "Learner feeds",
+        name: "Member feeds",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerfeeds" */ "@/components/Learner/feeds.vue"
+              /* webpackChunkName: "Memberfeeds" */ "@/components/Member/feeds.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Feeds | Learner",
+          typeMember: true,
+          title: "Feeds | Member",
         },
       },
       {
         path: "courses",
-        name: "Learner courses",
+        name: "Member courses",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnercourses" */ "@/components/Learner/courses.vue"
+              /* webpackChunkName: "Membercourses" */ "@/components/Member/courses.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Courses | Learner",
+          typeMember: true,
+          title: "Courses | Member",
         },
       },
       {
         path: "course/:id",
-        name: "Learner course",
+        name: "Member course",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnercourse" */ "@/components/Learner/course.vue"
+              /* webpackChunkName: "Membercourse" */ "@/components/Member/course.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Course | Learner",
+          typeMember: true,
+          title: "Course | Member",
         },
       },
 
       {
         path: "outlines",
-        name: "Learner outlines",
+        name: "Member outlines",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learneroutlines" */ "@/components/Learner/outlines.vue"
+              /* webpackChunkName: "Memberoutlines" */ "@/components/Member/outlines.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Modules | Learner",
+          typeMember: true,
+          title: "Modules | Member",
         },
       },
       {
         path: "outline/:id",
-        name: "Learner outline",
+        name: "Member outline",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learneroutline" */ "@/components/Learner/outline.vue"
+              /* webpackChunkName: "Memberoutline" */ "@/components/Member/outline.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Module | Learner",
+          typeMember: true,
+          title: "Module | Member",
         },
       },
       {
         path: "events",
-        name: "Learner events",
+        name: "Member events",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerevents" */ "@/components/Learner/events.vue"
+              /* webpackChunkName: "Memberevents" */ "@/components/Member/events.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Events | Learner",
+          typeMember: true,
+          title: "Events | Member",
         },
       },
       {
         path: "event/:id",
-        name: "Learner event",
+        name: "Member event",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerevent" */ "@/components/Learner/event.vue"
+              /* webpackChunkName: "Memberevent" */ "@/components/Member/event.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Event | Learner",
+          typeMember: true,
+          title: "Event | Member",
         },
       },
       {
         path: "connections",
-        name: "Learner connections",
+        name: "Member connections",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerconnections" */ "@/components/Learner/connections.vue"
+              /* webpackChunkName: "Memberconnections" */ "@/components/Member/connections.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Connections | Learner",
+          typeMember: true,
+          title: "Connections | Member",
         },
       },
       {
         path: "referrals",
-        name: "Learner referrals",
+        name: "Member referrals",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerreferrals" */ "@/components/Learner/referrals.vue"
+              /* webpackChunkName: "Memberreferrals" */ "@/components/Member/referrals.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Referrals | Learner",
+          typeMember: true,
+          title: "Referrals | Member",
         },
       },
       {
         path: "insights",
-        name: "Learner insights",
+        name: "Member insights",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerinsights" */ "@/components/Learner/insights.vue"
+              /* webpackChunkName: "Memberinsights" */ "@/components/Member/insights.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Insight | Learner",
+          typeMember: true,
+          title: "Insight | Member",
         },
       },
       {
         path: "bonuses",
-        name: "Learner bonuses",
+        name: "Member bonuses",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerbonuses" */ "@/components/Learner/bonuses.vue"
+              /* webpackChunkName: "Memberbonuses" */ "@/components/Member/bonuses.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Bonuses | Learner",
+          typeMember: true,
+          title: "Bonuses | Member",
         },
       },
       {
         path: "profile",
-        name: "Learner profile",
+        name: "Member profile",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerprofile" */ "@/components/Learner/profile.vue"
+              /* webpackChunkName: "Memberprofile" */ "@/components/Member/profile.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Profile | Learner",
+          typeMember: true,
+          title: "Profile | Member",
         },
       },
       {
         path: "media/:id",
-        name: "Learner media",
+        name: "Member media",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnermedia" */ "@/components/Learner/Media/index.vue"
+              /* webpackChunkName: "Membermedia" */ "@/components/Member/Media/index.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "Media | Learner",
+          typeMember: true,
+          title: "Media | Member",
         },
       },
       {
         path: "view/:type/:id",
-        name: "Learner viewprofile",
+        name: "Member viewprofile",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Learnerview" */ "@/components/Learner/viewProfile.vue"
+              /* webpackChunkName: "Memberview" */ "@/components/Member/viewProfile.vue"
             ),
         },
         meta: {
-          typeLearner: true,
-          title: "View Profile | Learner",
+          typeMember: true,
+          title: "View Profile | Member",
         },
       },
     ],
@@ -1937,7 +1935,7 @@ const routes = [
         import(/* webpackChunkName: "course" */ "@/components/course.vue"),
     },
     meta: {
-      title: "Course | Learner",
+      title: "Course | Member",
     },
   },
   {
@@ -1948,7 +1946,7 @@ const routes = [
         import(/* webpackChunkName: "question" */ "@/components/uploader.vue"),
     },
     meta: {
-      title: "Questionnaire | Learner",
+      title: "Questionnaire | Member",
     },
   },
 

@@ -426,7 +426,7 @@
                         class="fs12"
                         @click="drop(feed.id, index)"
                         v-if="
-                          feed.user && feed.user.id == $store.getters.learner.id
+                          feed.user && feed.user.id == $store.getters.member.id
                         "
                         >Delete</b-dropdown-item
                       >

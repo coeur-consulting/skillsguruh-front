@@ -36,9 +36,9 @@
           <b-navbar-nav class="ml-auto">
             <span class="d-flex flex-column flex-sm-row align-items-center">
               <b-nav-item
-                v-if="authLearner"
+                v-if="authMember"
                 class="px-4"
-                @click="$router.push('/learner')"
+                @click="$router.push('/member')"
               >
                 Dashboard</b-nav-item
               >
@@ -67,7 +67,7 @@
                 Dashboard</b-nav-item
               >
               <b-nav-item
-                v-if="authLearner || authFacilitator || authAdmin || authOrg"
+                v-if="authMember || authFacilitator || authAdmin || authOrg"
               >
                 <b-button class="px-4" @click="logout" variant="dark-green">
                   Logout</b-button
@@ -76,7 +76,7 @@
             </span>
             <b-nav-item
               href="#"
-              v-if="!authLearner && !authFacilitator && !authAdmin && !authOrg"
+              v-if="!authMember && !authFacilitator && !authAdmin && !authOrg"
             >
               <b-button
                 class="px-5"
@@ -96,15 +96,15 @@
 export default {
   data() {
     return {
-      authLearner: false,
+      authMember: false,
       authAdmin: false,
       authOrg: false,
       authFacilitator: false,
     };
   },
   mounted() {
-    if (localStorage.getItem("authLearner")) {
-      this.authLearner = true;
+    if (localStorage.getItem("authMember")) {
+      this.authMember = true;
     } else if (localStorage.getItem("authFacilitator")) {
       this.authFacilitator = true;
     } else if (localStorage.getItem("authAdmin")) {

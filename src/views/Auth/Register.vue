@@ -72,13 +72,13 @@
                 </div>
               </b-col>
               <b-col cols="4" class="pr-0 pr-sm-2">
-                <div class="type" :class="{ selected_type: type == 'learner' }">
+                <div class="type" :class="{ selected_type: type == 'member' }">
                   <b-form-radio
                     class="reg"
                     size="sm"
                     v-model="type"
-                    value="learner"
-                    >Learner</b-form-radio
+                    value="member"
+                    >Member</b-form-radio
                   >
                 </div>
               </b-col>
@@ -170,13 +170,13 @@
               </b-form-row>
 
               <b-form-row class="mb-2">
-                <b-col sm="6" class="pr-sm-3" v-if="type == 'learner'">
+                <b-col sm="6" class="pr-sm-3" v-if="type == 'member'">
                   <b-form-group label="Username">
                     <b-form-input
                       size="lg"
                       v-model="user.username"
                       type="text"
-                      :required="type == 'learner'"
+                      :required="type == 'member'"
                       placeholder="Your unique username"
                     ></b-form-input>
                   </b-form-group>
@@ -267,7 +267,7 @@
               </b-form-group>
             </div>
 
-            <div v-if="type == 'learner'">
+            <div v-if="type == 'member'">
               <div class="or my-4">OR</div>
 
               <div class="socials mt-3">
@@ -428,7 +428,7 @@ export default {
               }
             });
         }
-        if (this.type == "learner") {
+        if (this.type == "member") {
           this.$http
             .post(`${this.$store.getters.url}/user-register`, this.user)
             .then((res) => {

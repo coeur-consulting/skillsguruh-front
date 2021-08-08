@@ -12,9 +12,9 @@
         <b-col cols="4">
           <span
             class="d-flex align-items-center justify-content-start tpp"
-            @click="$router.push('/explore/learners')"
+            @click="$router.push('/explore/members')"
           >
-            <b-img class="mr-2 tp" size="2.5rem" src="/img/learner.png"></b-img>
+            <b-img class="mr-2 tp" size="2.5rem" src="/img/member.png"></b-img>
             <span>
               <span class="">{{ users.length }}+</span> <br />
               <span class="">Happy Members</span>
@@ -440,7 +440,7 @@
                         class="fs12"
                         @click="drop(feed.id, index)"
                         v-if="
-                          feed.user && feed.user.id == $store.getters.learner.id
+                          feed.user && feed.user.id == $store.getters.member.id
                         "
                         >Delete</b-dropdown-item
                       >
@@ -537,7 +537,7 @@
                           feed.stars.find(
                             (item) =>
                               item.star &&
-                              item.user_id == $store.getters.learner.id
+                              item.user_id == $store.getters.member.id
                           )
                             ? 'star-fill'
                             : 'star'
@@ -554,7 +554,7 @@
                           feed.likes.find(
                             (item) =>
                               item.like &&
-                              item.user_id == $store.getters.learner.id
+                              item.user_id == $store.getters.member.id
                           )
                             ? 'heart-fill'
                             : 'heart'
@@ -1249,13 +1249,13 @@ export default {
     };
   },
   mounted() {
-    if (localStorage.getItem("authLearner")) {
+    if (localStorage.getItem("authMember")) {
       this.auth = true;
     }
     this.gettrendingfeeds();
     this.mostenrolled();
     this.getprograms();
-    this.getlearners();
+    this.getmembers();
     this.getevents();
     this.getfacilitators();
     this.getdiscussions();
@@ -1344,14 +1344,12 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
-    getlearners() {
-      this.$http
-        .get(`${this.$store.getters.url}/guest/learners`)
-        .then((res) => {
-          if (res.status == 200) {
-            this.users = res.data;
-          }
-        });
+    getmembers() {
+      this.$http.get(`${this.$store.getters.url}/guest/members`).then((res) => {
+        if (res.status == 200) {
+          this.users = res.data;
+        }
+      });
     },
     getfacilitators() {
       this.$http
@@ -1411,7 +1409,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/feed-comments`, this.comment, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
           },
         })
         .then((res) => {
@@ -1442,7 +1440,7 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
             },
           }
         )
@@ -1452,7 +1450,7 @@ export default {
           }
           if (res.status == 200) {
             this.feeds[index].likes.map((item) => {
-              if (item.user_id == this.$store.getters.learner.id) {
+              if (item.user_id == this.$store.getters.member.id) {
                 return (item.like = res.data.like);
               }
             });
@@ -1473,7 +1471,7 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.learner.access_token}`,
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
             },
           }
         )
@@ -1483,7 +1481,7 @@ export default {
           }
           if (res.status == 200) {
             this.feeds[index].stars.map((item) => {
-              if (item.user_id == this.$store.getters.learner.id) {
+              if (item.user_id == this.$store.getters.member.id) {
                 return (item.star = res.data.star);
               }
             });

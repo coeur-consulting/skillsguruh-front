@@ -1158,7 +1158,7 @@ export default {
     this.getvote();
     this.getconnections();
     this.link =
-      "https://nzukoor.com/learner/discussion/" + this.$route.params.id;
+      "https://nzukoor.com/member/discussion/" + this.$route.params.id;
   },
   mounted() {
     if (
@@ -1220,7 +1220,7 @@ export default {
     },
     voices() {
       return this.$store.getters.voices[
-        Number(this.$store.getters.learner.voice)
+        Number(this.$store.getters.member.voice)
       ];
     },
     related() {
@@ -1380,7 +1380,7 @@ export default {
           "I just started a discussion, " +
           this.discussion.name.toUpperCase() +
           " and I’d like to hear your thoughts",
-        url: "https://nzukoor.com/learner/discussion/" + this.discussion.id,
+        url: "https://nzukoor.com/member/discussion/" + this.discussion.id,
       };
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {

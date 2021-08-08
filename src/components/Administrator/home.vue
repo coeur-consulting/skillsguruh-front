@@ -32,7 +32,7 @@
                     </b-iconstack>
                     <div class="h6 mb-0 text-dark-green">
                       Total <br />
-                      Learners
+                      Members
                     </div>
                   </div>
                   <div class="h2">{{ users.length }}</div>
@@ -48,7 +48,7 @@
                         Math.round((newlyusers / users.length) * 100) || 0
                       }}%</span
                     >
-                    <span class="mt-1">New Learners this month</span>
+                    <span class="mt-1">New Members this month</span>
                   </div>
                 </div>
               </div>
@@ -169,7 +169,7 @@ export default {
       masks: {
         weekdays: "WWW",
       },
-      showLearner: false,
+      showMember: false,
       showFacilitator: false,
       showTable: false,
     };
@@ -350,7 +350,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.users = res.data;
-            this.showLearner = true;
+            this.showMember = true;
           }
         })
         .catch((err) => {

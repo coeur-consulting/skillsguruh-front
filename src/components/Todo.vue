@@ -107,8 +107,8 @@ export default {
       if (this.$props.user == "facilitator") {
         return this.$store.getters.facilitator;
       }
-      if (this.$props.user == "learner") {
-        return this.$store.getters.learner;
+      if (this.$props.user == "member") {
+        return this.$store.getters.member;
       }
       return token;
     },

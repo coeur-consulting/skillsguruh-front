@@ -150,8 +150,8 @@
                 Login as a
                 <span
                   class="text-dark-green cursor-pointer"
-                  @click="$router.push('/login?auth=learner')"
-                  >Learner</span
+                  @click="$router.push('/login?auth=member')"
+                  >Member</span
                 >
                 or
                 <span
@@ -171,7 +171,7 @@
               >
             </div>
 
-            <div v-if="type == 'learner'">
+            <div v-if="type == 'member'">
               <div class="or my-4">OR</div>
 
               <div class="socials mt-3">

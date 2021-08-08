@@ -1,0 +1,658 @@
+<template>
+  <div class="bg-light">
+    <b-container class="main-card py-sm-5" v-if="feed">
+      <div class="text-left mb-3">
+        <span @click="$router.go(-1)" class="cursor-pointer back fs13">
+          <span class="mr-2">
+            <b-icon icon="arrow-left" class=""></b-icon
+          ></span>
+          <span class="d-none d-sm-inline">Back</span>
+        </span>
+      </div>
+      <b-row>
+        <b-col>
+          <b-card no-body class="">
+            <b-row no-gutters>
+              <b-col md="8" class="text-left p-0 p-md-4 border-right">
+                <div
+                  class="
+                    d-flex
+                    justify-content-between
+                    p-3
+                    px-md-2
+                    d-md-none
+                    border-bottom
+                  "
+                >
+                  <div class="d-flex align-items-center" v-if="feed.admin">
+                    <b-avatar
+                      :src="feed.admin.profile"
+                      size="sm"
+                      class="mr-2"
+                    ></b-avatar>
+                    <div class="feed_name">{{ feed.admin.name }}</div>
+                  </div>
+                  <div class="d-flex align-items-center" v-if="feed.user">
+                    <b-avatar
+                      :src="feed.user.profile"
+                      size="sm"
+                      class="mr-2"
+                    ></b-avatar>
+                    <div
+                      @click="$router.push(`/member/profile/u/${feed.user.id}`)"
+                      class="feed_name"
+                    >
+                      {{ feed.user.name }}
+                    </div>
+                  </div>
+                  <div
+                    class="d-flex align-items-center"
+                    v-if="feed.facilitator"
+                  >
+                    <b-avatar
+                      :src="feed.facilitator.profile"
+                      size="sm"
+                      class="mr-2"
+                    ></b-avatar>
+                    <div
+                      @click="
+                        $router.push(`/member/profile/f/${feed.facilitator.id}`)
+                      "
+                      class="feed_name"
+                    >
+                      {{ feed.facilitator.name }}
+                    </div>
+                  </div>
+                  <b-dropdown
+                    size="sm"
+                    variant="transparent"
+                    no-caret
+                    class="no-focus"
+                  >
+                    <template #button-content>
+                      <b-icon icon="three-dots" font-scale="1.4"></b-icon>
+                    </template>
+
+                    <b-dropdown-item
+                      class="fs12"
+                      @click="drop(feed.id, index)"
+                      v-if="
+                        feed.user && feed.user.id == $store.getters.member.id
+                      "
+                      >Delete</b-dropdown-item
+                    >
+                  </b-dropdown>
+                </div>
+                <div class="p-3">
+                  <b-card-text v-html="feed.message"> </b-card-text>
+                  <div v-if="feed.url" class="text-dark-green mb-1">
+                    <a :href="feed.url" target="_blank">Click link</a>
+                  </div>
+                  <div v-if="feed.tags" class="px-3 mb-1">
+                    <b-row class="justify-content-start">
+                      <b-col
+                        cols="auto"
+                        class="px-1"
+                        v-for="(tag, id) in JSON.parse(feed.tags)"
+                        :key="id"
+                      >
+                        <b-badge
+                          class="fs10 text-dark-green"
+                          size="sm"
+                          variant="lighter-green"
+                          >{{ tag.text }}</b-badge
+                        >
+                      </b-col>
+                    </b-row>
+                  </div>
+                  <div v-if="feed.media || feed.publicId">
+                    <div class="mb-4 position-relative w-100 media">
+                      <cld-image
+                        v-if="
+                          feed.publicId &&
+                          img_ext.includes(getextension(feed.media))
+                        "
+                        :publicId="feed.publicId"
+                      >
+                        <cld-transformation crop="fill" quality="auto" />
+                        <cld-transformation width="auto" crop="scale" />
+                        <cld-transformation dpr="auto" />
+                      </cld-image>
+                      <b-img
+                        v-if="
+                          !feed.publicId &&
+                          feed.media &&
+                          img_ext.includes(getextension(feed.media))
+                        "
+                        :src="feed.media"
+                      ></b-img>
+
+                      <cld-video
+                        controls
+                        v-if="
+                          feed.publicId &&
+                          vid_ext.includes(getextension(feed.media))
+                        "
+                        :publicId="feed.publicId"
+                      >
+                        <cld-transformation crop="fill" height="500" />
+                      </cld-video>
+
+                      <audio
+                        width="100%"
+                        controls
+                        v-if="
+                          feed.media &&
+                          aud_ext.includes(getextension(feed.media))
+                        "
+                        :src="feed.media"
+                        class="fluid-grow"
+                      ></audio>
+                      <div
+                        v-if="
+                          feed.media &&
+                          doc_ext.includes(getextension(feed.media))
+                        "
+                        class="text-center p-3 p-sm-4 bg-skills-grey"
+                      >
+                        <b-icon icon="image" font-scale="3rem"></b-icon>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </b-col>
+              <b-col md="4">
+                <b-card-body
+                  class="text-left px-0 d-flex flex-column h-100 pb-0"
+                >
+                  <div class="justify-content-between px-3 d-none d-md-flex">
+                    <div class="d-flex align-items-center" v-if="feed.admin">
+                      <b-avatar
+                        :src="feed.admin.profile"
+                        size="sm"
+                        class="mr-2"
+                      ></b-avatar>
+                      <div class="feed_name">{{ feed.admin.name }}</div>
+                    </div>
+                    <div class="d-flex align-items-center" v-if="feed.user">
+                      <b-avatar
+                        :src="feed.user.profile"
+                        size="sm"
+                        class="mr-2"
+                      ></b-avatar>
+                      <div
+                        @click="
+                          $router.push(`/member/profile/u/${feed.user.id}`)
+                        "
+                        class="feed_name"
+                      >
+                        {{ feed.user.name }}
+                      </div>
+                    </div>
+                    <div
+                      class="d-flex align-items-center"
+                      v-if="feed.facilitator"
+                    >
+                      <b-avatar
+                        :src="feed.facilitator.profile"
+                        size="sm"
+                        class="mr-2"
+                      ></b-avatar>
+                      <div
+                        @click="
+                          $router.push(
+                            `/member/profile/f/${feed.facilitator.id}`
+                          )
+                        "
+                        class="feed_name"
+                      >
+                        {{ feed.facilitator.name }}
+                      </div>
+                    </div>
+                    <b-dropdown
+                      size="sm"
+                      variant="transparent"
+                      no-caret
+                      class="no-focus"
+                    >
+                      <template #button-content>
+                        <b-icon icon="three-dots" font-scale="1.4"></b-icon>
+                      </template>
+
+                      <b-dropdown-item
+                        class="fs12"
+                        @click="drop(feed.id, index)"
+                        v-if="
+                          feed.user && feed.user.id == $store.getters.member.id
+                        "
+                        >Delete</b-dropdown-item
+                      >
+                    </b-dropdown>
+                  </div>
+
+                  <hr />
+                  <div class="comments px-3 flex-1">
+                    <b-card-text
+                      v-for="(comment, id) in feed.comments"
+                      :key="id"
+                      style="line-height: 1.1"
+                    >
+                      <span class="comment_name mr-1" v-if="comment.admin">{{
+                        comment.admin.name
+                      }}</span>
+                      <span
+                        class="comment_name mr-1"
+                        @click="
+                          $router.push(`/member/profile/f/${comment.user.id}`)
+                        "
+                        v-if="comment.user"
+                        >{{ comment.user.name }}</span
+                      >
+                      <span
+                        class="comment_name mr-1"
+                        @click="
+                          $router.push(
+                            `/member/profile/f/${comment.facilitator.id}`
+                          )
+                        "
+                        v-if="comment.facilitator"
+                        >{{ comment.facilitator.name }}</span
+                      >
+                      <span class="comment_text">{{
+                        comment.comment
+                      }}</span></b-card-text
+                    >
+                  </div>
+                  <hr />
+                  <div class="px-3 py-2 border-bottom">
+                    <div class="interactions text-left" v-if="feed">
+                      <span
+                        class="mr-3 cursor-pointer"
+                        @click="toggleStar(feed.id, index)"
+                      >
+                        <b-icon
+                          :icon="
+                            feed.stars.some(
+                              (item) =>
+                                item.star &&
+                                item.user_id == $store.getters.member.id
+                            )
+                              ? 'star-fill'
+                              : 'star'
+                          "
+                          class="text-blue mr-1"
+                        ></b-icon>
+                        <span>{{
+                          feed.stars.filter((item) => item.star).length
+                        }}</span>
+                      </span>
+                      <span
+                        class="mr-3 cursor-pointer"
+                        @click="toggleLike(feed.id, index)"
+                        ><b-icon
+                          :icon="
+                            feed.likes.some(
+                              (item) =>
+                                item.like &&
+                                item.user_id == $store.getters.member.id
+                            )
+                              ? 'heart-fill'
+                              : 'heart'
+                          "
+                          class="text-danger mr-1"
+                        ></b-icon>
+                        <span>{{
+                          feed.likes.filter((item) => item.like).length
+                        }}</span>
+                      </span>
+                      <span class="mr-3">
+                        <b-icon icon="chat-fill" class="mr-1"></b-icon>
+                        <span
+                          ><span>{{ feed.comments.length }}</span></span
+                        >
+                        comments</span
+                      >
+                      <span class="cursor-pointer"
+                        ><b-icon
+                          @click="sharenow(feed)"
+                          icon="
+                            share
+                          "
+                          class=""
+                        ></b-icon>
+                      </span>
+                    </div>
+                    <div class="fs12 text-muted py-2">
+                      {{ $moment(feed.created_at).fromNow() }}
+                    </div>
+                  </div>
+                  <div class="interact text-left">
+                    <b-input-group class="py-2">
+                      <template #append>
+                        <b-input-group-text
+                          class="border-0 bg-transparent d-block"
+                          ><span
+                            @click="addcomment(feed.id, index)"
+                            class="text-dark-green cursor-pointer comment_post"
+                            >Post</span
+                          ></b-input-group-text
+                        >
+                      </template>
+                      <template #prepend class="">
+                        <b-input-group-text class="border-0 bg-transparent">
+                          <emoji-picker @emoji="insertcomment" :search="search">
+                            <div
+                              class="emoji-invoker2"
+                              slot="emoji-invoker"
+                              slot-scope="{ events: { click: clickEvent } }"
+                              @click.stop="clickEvent"
+                            >
+                              <svg
+                                height="24"
+                                viewBox="0 0 24 24"
+                                width="24"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path d="M0 0h24v24H0z" fill="none" />
+                                <path
+                                  d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"
+                                />
+                              </svg>
+                            </div>
+                            <div
+                              slot="emoji-picker"
+                              slot-scope="{ emojis, insert }"
+                            >
+                              <div class="emoji-picker picker">
+                                <div class="emoji-picker__search">
+                                  <input type="text" v-model="search" v-focus />
+                                </div>
+                                <div>
+                                  <div
+                                    v-for="(emojiGroup, category) in emojis"
+                                    :key="category"
+                                  >
+                                    <h5>{{ category }}</h5>
+                                    <div class="emojis">
+                                      <span
+                                        v-for="(emoji, emojiName) in emojiGroup"
+                                        :key="emojiName"
+                                        @click="insert(emoji)"
+                                        :title="emojiName"
+                                        >{{ emoji }}</span
+                                      >
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </emoji-picker>
+                        </b-input-group-text>
+                      </template>
+                      <b-form-input
+                        autocomplete="off"
+                        autocorrect="off"
+                        v-model="comment.comment"
+                        placeholder="Add comment"
+                        class="border-0 no-focus"
+                      ></b-form-input>
+                    </b-input-group>
+                  </div>
+                </b-card-body>
+              </b-col>
+            </b-row>
+          </b-card>
+        </b-col>
+      </b-row>
+    </b-container>
+    <b-modal id="share" hide-footer centered size="lg">
+      <div class="p-2 text-center">
+        <h6 class="font-weight-bold mb-3">Share</h6>
+        <ShareNetwork
+          class="mr-3"
+          network="facebook"
+          :url="link"
+          title=""
+          :description="description"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
+          >
+        </ShareNetwork>
+        <ShareNetwork
+          class="mr-3"
+          network="twitter"
+          :url="link"
+          title=""
+          :description="description"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
+          >
+        </ShareNetwork>
+        <ShareNetwork
+          class="mr-3"
+          network="whatsApp"
+          :url="link"
+          title=""
+          :description="description"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green">
+            <b-iconstack>
+              <b-icon stacked icon="circle-fill" variant="dark-green"></b-icon>
+              <b-icon
+                stacked
+                icon="telephone-plus"
+                variant="light"
+                scale="0.5"
+              ></b-icon>
+            </b-iconstack>
+            Whatsapp</b-button
+          >
+        </ShareNetwork>
+        <ShareNetwork
+          class="mr-3"
+          network="Telegram"
+          :url="link"
+          title=""
+          :description="description"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning, Feeds"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
+            Telegram</b-button
+          >
+        </ShareNetwork>
+      </div>
+    </b-modal>
+  </div>
+</template>
+<script>
+import EmojiPicker from "vue-emoji-picker";
+export default {
+  data() {
+    return {
+      link: "",
+      description: "",
+      id: this.$route.params.id,
+      feed: null,
+      search: "",
+      showFeeds: false,
+      img_ext: ["jpg", "png", "jpeg", "gif"],
+      vid_ext: ["mp4", "3gp", "flv", "mov"],
+      aud_ext: ["mp3", "aac"],
+      doc_ext: ["docx", "pdf", "ppt", "zip"],
+      comment: {
+        comment: "",
+        id: "",
+      },
+    };
+  },
+  components: {
+    EmojiPicker,
+  },
+  created() {
+    this.getfeeds();
+  },
+  methods: {
+    sharenow(feed) {
+      this.description = feed.message;
+      this.link = `https://nzukoor.com/feed/${feed.id}?utf_medium=share`;
+      this.$bvModal.show("share");
+    },
+    getextension(fileName) {
+      if (fileName) {
+        var regex = new RegExp("[^.]+$");
+        var extension = fileName.match(regex);
+
+        return extension[0];
+      }
+    },
+    getfeeds() {
+      this.$http
+        .get(`${this.$store.getters.url}/feeds/${this.id}`)
+        .then((res) => {
+          if (res.status == 200) {
+            this.feed = res.data;
+            this.showFeeds = true;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    insertfeed(emoji) {
+      this.feed.message += emoji + "";
+    },
+    insertcomment(emoji) {
+      this.comment.comment += emoji + "";
+    },
+
+    addcomment(id) {
+      if (!this.comment.comment) {
+        this.$toast.info("Cannot be empty");
+        return;
+      }
+      this.comment.id = id;
+
+      this.$http
+        .post(`${this.$store.getters.url}/feed-comments`, this.comment, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 201) {
+            this.$toast.success("Comment updated ");
+
+            this.feed.comments.unshift(res.data);
+
+            this.comment = {
+              comment: "",
+              id: "",
+            };
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    toggleLike(id, index) {
+      this.$http
+        .post(
+          `${this.$store.getters.url}/feed-likes`,
+          { id },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 201) {
+            this.feeds[index].likes.push(res.data);
+          }
+          if (res.status == 200) {
+            this.feeds[index].likes.map((item) => {
+              if (item.user_id == this.$store.getters.member.id) {
+                return (item.like = res.data.like);
+              }
+            });
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    toggleStar(id, index) {
+      this.$http
+        .post(
+          `${this.$store.getters.url}/feed-stars`,
+          { id },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 201) {
+            this.feeds[index].stars.push(res.data);
+          }
+          if (res.status == 200) {
+            this.feeds[index].stars.map((item) => {
+              if (item.user_id == this.$store.getters.member.id) {
+                return (item.star = res.data.star);
+              }
+            });
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    drop(id, index) {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+        if (val) {
+          this.$http
+            .delete(`${this.$store.getters.url}/feeds/${this.id}`, {
+              headers: {
+                Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+              },
+            })
+            .then((res) => {
+              if (res.status == 200) {
+                this.$toast.success("Feed deleted");
+                this.feeds.splice(index, 1);
+              }
+            })
+            .catch((err) => {
+              this.$toast.error(err.response.data.message);
+            });
+        }
+      });
+    },
+  },
+};
+</script>
+<style scoped>
+.main-card {
+  height: 80vh;
+}
+.comments {
+  max-height: 500px;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: none;
+}
+.comments::-webkit-scrollbar {
+  display: none;
+}
+</style>
