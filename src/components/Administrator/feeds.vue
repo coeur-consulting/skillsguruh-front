@@ -558,7 +558,7 @@
                       >
                       comments</span
                     >
-                    <span class="cursor-pointer"
+                    <span class="cursor-pointer flex-1 text-right"
                       ><b-icon
                         @click="sharenow(feed)"
                         icon="
@@ -696,6 +696,9 @@
                         class="border-0 no-focus"
                       ></b-form-input>
                     </b-input-group>
+                  </div>
+                  <div class="feed_time text-muted py-2 px-3 text-left   border-top">
+                    {{ $moment(feed.created_at).fromNow() }}
                   </div>
                 </div>
                 <infinite-loading

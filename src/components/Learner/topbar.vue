@@ -27,7 +27,12 @@
 
     <div class="d-flex align-items-center d-sm-none">
       <div class="mr-3">
-        <PushRotate width="250" isOpen>
+        <PushRotate
+          width="250"
+          :isOpen="isOpen"
+          @openMenu="isOpen = true"
+          @closeMenu="isOpen = false"
+        >
           <div class="logo d-flex align-items-center">
             <div style="width: 40px; height: 40px" class="mr-2">
               <b-img fluid :src="$store.getters.learner.org_profile"></b-img>
@@ -408,7 +413,7 @@ export default {
   },
   data() {
     return {
-      isOpen: true,
+      isOpen: false,
       toggleMessage: true,
       open: false,
       showAll: false,

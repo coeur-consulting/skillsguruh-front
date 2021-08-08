@@ -572,6 +572,15 @@
                       >
                       comments</span
                     >
+                    <span class="cursor-pointer flex-1 text-right"
+                      ><b-icon
+                        @click="sharenow(feed)"
+                        icon="
+                            share
+                          "
+                        class=""
+                      ></b-icon>
+                    </span>
                   </div>
                   <div
                     class="comments px-3 pt-2 border-bottom text-left"
@@ -699,6 +708,11 @@
                         class="border-0 no-focus"
                       ></b-form-input>
                     </b-input-group>
+                  </div>
+                  <div
+                    class="feed_time text-muted py-2 px-3 text-left border-top"
+                  >
+                    {{ $moment(feed.created_at).fromNow() }}
                   </div>
                 </div>
                 <div class="text-center mt-2">
@@ -1124,6 +1138,73 @@
         </div>
       </section>
     </b-container>
+    <b-modal id="share" hide-footer centered size="lg">
+      <div class="p-2 text-center">
+        <h6 class="font-weight-bold mb-3">Share</h6>
+        <ShareNetwork
+          class="mr-3"
+          network="facebook"
+          :url="link"
+          title=""
+          :description="description"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
+          >
+        </ShareNetwork>
+        <ShareNetwork
+          class="mr-3"
+          network="twitter"
+          :url="link"
+          title=""
+          :description="description"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
+          >
+        </ShareNetwork>
+        <ShareNetwork
+          class="mr-3"
+          network="whatsApp"
+          :url="link"
+          title=""
+          :description="description"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green">
+            <b-iconstack>
+              <b-icon stacked icon="circle-fill" variant="dark-green"></b-icon>
+              <b-icon
+                stacked
+                icon="telephone-plus"
+                variant="light"
+                scale="0.5"
+              ></b-icon>
+            </b-iconstack>
+            Whatsapp</b-button
+          >
+        </ShareNetwork>
+        <ShareNetwork
+          class="mr-3"
+          network="Telegram"
+          :url="link"
+          title=""
+          :description="description"
+          quote="SkillsGuruh"
+          hashtags="SkillsGuruh,  Social learning, Feeds"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
+            Telegram</b-button
+          >
+        </ShareNetwork>
+      </div>
+    </b-modal>
   </div>
 </template>
 <script>
@@ -1208,6 +1289,11 @@ export default {
     },
   },
   methods: {
+    sharenow(feed) {
+      this.description = feed.message;
+      this.link = `https://skillsguruh.com/feed/view/${feed.id}?utf_medium=share`;
+      this.$bvModal.show("share");
+    },
     loadCourse() {
       this.course = this.courses.find(
         (item) => item.id == this.$route.query.course_id

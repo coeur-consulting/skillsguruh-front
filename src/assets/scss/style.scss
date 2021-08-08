@@ -606,6 +606,8 @@ ol.subquest {
 
 .interactions {
   font-size: 14px;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .prof_img img {
@@ -811,7 +813,9 @@ ol.subquest {
   background: #ececec;
   cursor: pointer;
 }
-
+.feed_time {
+  font-size: 0.65rem;
+}
 @media (max-width: 600px) {
   .hover_box {
     background-color: hsl(185deg, 41%, 88%) !important;
@@ -1139,8 +1143,6 @@ ol.subquest {
   }
 
   .interactions {
-    display: flex;
-    justify-content: flex-start;
     font-size: 12px;
   }
   .event_title {

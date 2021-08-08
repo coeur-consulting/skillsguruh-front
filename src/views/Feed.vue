@@ -275,8 +275,8 @@
         </div>
       </b-modal>
       <b-container>
-        <div class="mb-3 d-none d-sm-block">
-          <span @click="$router.go(-1)" class="pl-3 cursor-pointer back">
+        <div class="mb-3 d-none d-sm-block text-left">
+          <span @click="$router.go(-1)" class="cursor-pointer back">
             <span class="mr-2">
               <b-icon icon="arrow-left" class=""></b-icon
             ></span>
@@ -552,7 +552,7 @@
                         >
                         comments</span
                       >
-                      <span class="cursor-pointer"
+                      <span class="cursor-pointer flex-1 text-right"
                         ><b-icon
                           @click="sharenow(feed)"
                           icon="
@@ -696,15 +696,16 @@
                           </b-input-group-text>
                         </template>
                         <b-form-input
-                          size="sm"
                           autocomplete="off"
                           autocorrect="off"
-                          rows="1"
                           v-model="feed.comment"
                           placeholder="Add comment"
                           class="border-0 no-focus"
                         ></b-form-input>
                       </b-input-group>
+                    </div>
+                    <div class="feed_time text-muted py-2 px-3 text-left">
+                      {{ $moment(feed.created_at).fromNow() }}
                     </div>
                   </div>
                   <infinite-loading

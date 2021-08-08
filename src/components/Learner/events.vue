@@ -138,8 +138,10 @@
                         {{ item.title }}
                       </h4>
                       <span @click="view(item.id)" class="viewevent">
-                        <span class="cursor-pointer pl-2"> View Event </span>
-                        <b-icon icon="chevron-double-right"></b-icon>
+                        <span class="cursor-pointer pl-2 d-none d-sm-inline">
+                          View Event
+                        </span>
+                        <b-icon icon="chevron-right"></b-icon>
                       </span>
                     </div>
                   </div>

@@ -716,6 +716,9 @@
                       ></b-form-input>
                     </b-input-group>
                   </div>
+                  <div class="feed_time text-muted py-2 px-3 text-left">
+                    {{ $moment(feed.created_at).fromNow() }}
+                  </div>
                 </div>
                 <infinite-loading
                   @infinite="infiniteHandler"
