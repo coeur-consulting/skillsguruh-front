@@ -279,7 +279,7 @@
       <b-container>
         <b-row>
           <b-col sm="8" class="px-0">
-            <div class="border bg-white py-3 px-2 p-sm-4 rounded-8 mb-4">
+            <div class="border bg-white py-3 px-2 p-sm-4 rounded-8 mb-1">
               <div class="d-flex align-items-center mb-3">
                 <b-avatar
                   class="mr-2"
@@ -326,7 +326,7 @@
               </div>
             </div>
             <div class="d-flex justify-content-center justify-content-md-end">
-              <div class="d-flex align-items-center pl-3 mb-3">
+              <div class="d-flex align-items-center pl-3 mb-1">
                 <div
                   class="pr-2 fs12 font-weight-bold cursor-pointer"
                   :class="feedShown == 'recent' ? '' : 'text-muted'"
@@ -579,7 +579,7 @@
                         >
                         comments</span
                       >
-                      <span class="cursor-pointer"
+                      <span class="cursor-pointer flex-1 text-right"
                         ><b-icon
                           @click="sharenow(feed)"
                           icon="

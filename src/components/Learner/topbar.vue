@@ -85,12 +85,7 @@
                   ></bookmark-icon>
                   <span class="side-link px-2">
                     <span class="mr-5">Events</span>
-                    <span v-if="activeaccount"
-                      ><b-badge variant="danger" size="sm">{{
-                        activeaccount
-                      }}</b-badge></span
-                    ></span
-                  >
+                  </span>
                 </div>
               </router-link>
             </div>
