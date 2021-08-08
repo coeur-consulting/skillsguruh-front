@@ -1035,7 +1035,10 @@
         </div>
 
         <div v-if="showEvents">
-          <div class="events" v-if="events.length">
+          <div
+            class="events"
+            v-if="events.filter((item) => item.status == 'pending').length"
+          >
             <carousel
               :perPage="1"
               :paginationEnabled="true"
@@ -1219,6 +1222,8 @@ import "vue-slick-carousel/dist/vue-slick-carousel-theme.css";
 export default {
   data() {
     return {
+      link: "",
+      description: "",
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp", "flv", "mov"],
       aud_ext: ["mp3", "aac"],
