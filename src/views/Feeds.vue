@@ -275,7 +275,7 @@
         </div>
       </b-modal>
       <b-container>
-        <div class="mb-3 d-none d-sm-block">
+        <div class="mb-3 d-none d-sm-block text-left">
           <span @click="$router.go(-1)" class="pl-3 cursor-pointer back">
             <span class="mr-2">
               <b-icon icon="arrow-left" class=""></b-icon
