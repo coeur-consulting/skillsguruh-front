@@ -185,14 +185,15 @@
                         </div>
                         <div class="comment_details">
                           <span class="mr-2">{{
-                            $moment(message.create_at).fromNow()
+                            $moment(message.created_at).fromNow()
                           }}</span>
                           <span
-                            >{{
-                              message.discussionmessagecomment.length
-                            }}
-                            comments</span
-                          >
+                            >{{ message.discussionmessagecomment.length }}
+                            <b-icon
+                              icon="chat-left-dots-fill"
+                              font-scale=".85"
+                            ></b-icon
+                          ></span>
                         </div>
                         <div
                           class="comment_text text-truncate text-truncate--2"
@@ -319,14 +320,15 @@
                         </div>
                         <div class="comment_details">
                           <span class="mr-2">{{
-                            $moment(message.create_at).fromNow()
+                            $moment(message.created_at).fromNow()
                           }}</span>
                           <span
-                            >{{
-                              message.discussionmessagecomment.length
-                            }}
-                            comments</span
-                          >
+                            >{{ message.discussionmessagecomment.length }}
+                            <b-icon
+                              icon="chat-left-dots-fill"
+                              font-scale=".85"
+                            ></b-icon
+                          ></span>
                         </div>
                         <div
                           class="comment_text text-truncate text-truncate--2"
