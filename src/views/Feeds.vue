@@ -276,7 +276,7 @@
       </b-modal>
       <b-container>
         <div class="mb-3 d-none d-sm-block text-left">
-          <span @click="$router.go(-1)" class="pl-3 cursor-pointer back">
+          <span @click="$router.go(-1)" class=" cursor-pointer back">
             <span class="mr-2">
               <b-icon icon="arrow-left" class=""></b-icon
             ></span>
@@ -787,7 +787,7 @@
               </div>
             </div>
           </b-col>
-          <b-col sm="4" class="p-sm-5 text-left">
+          <b-col sm="4" class="px-sm-5 text-left">
             <div>
               <h6 class="mb-3 fs12 text-left">Trending in Last 24hrs</h6>
               <div v-if="trendingFeed.length" class="py-3">
