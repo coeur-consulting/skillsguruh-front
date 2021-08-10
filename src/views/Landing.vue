@@ -104,9 +104,9 @@
     </section>
 
     <section id="how-it-works">
-      <b-container class="">
+      <b-container class="text-center text-sm-left">
         <h2 class="text-center">How it works</h2>
-        <b-row class="mb-6">
+        <b-row class="mb-6 text-center text-sm-left">
           <b-col sm="6" class="d-flex align-items-center">
             <div class="onboard">
               <h5 class="mb-2">
@@ -137,7 +137,9 @@
           </b-col>
         </b-row>
 
-        <b-row class="mb-6 flex-column-reverse flex-sm-row">
+        <b-row
+          class="mb-6 flex-column-reverse flex-sm-row text-center text-sm-left"
+        >
           <b-col sm="6">
             <b-img
               v-animate-onscroll="
@@ -167,7 +169,7 @@
           </b-col>
         </b-row>
 
-        <b-row class="">
+        <b-row class="text-center text-sm-left">
           <b-col sm="6" class="d-flex align-items-center">
             <div class="onboard">
               <h5 class="mb-2">Shared interest is all you need</h5>
@@ -868,6 +870,9 @@ img {
 }
 
 @media (max-width: 600px) {
+  .btn {
+    height: 46px;
+  }
   .banner-text h1 {
     font-size: 24px;
     font-style: normal;
@@ -877,7 +882,8 @@ img {
     text-align: left;
   }
   h2 {
-    font-size: 17px !important;
+    font-size: 18px !important;
+    color: rgba($color: #000000, $alpha: 0.64);
   }
   .mb-6 {
     margin-bottom: 4.5rem;
@@ -923,15 +929,19 @@ img {
   .banner_row {
     height: 100%;
   }
+  .onboard {
+    text-align: center;
+  }
   .onboard p {
     font-style: normal;
     font-weight: 400;
     line-height: 24px;
     letter-spacing: 0.06em;
-    text-align: left;
+    text-align: center;
   }
   h5 {
     font-size: 1rem;
+    text-align: center;
   }
   #how-it-works {
     padding-top: 5rem;

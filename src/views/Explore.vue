@@ -523,7 +523,7 @@
                           :key="id"
                         >
                           <b-badge
-                            class="fs10 text-dark-green"
+                            class="fs10 text-dark font-weight-normal text-sm"
                             size="sm"
                             variant="lighter-green"
                             >{{ tag.text }}</b-badge
@@ -635,7 +635,7 @@
                     </div>
                   </div>
 
-                  <div class="interact text-left px-3 pb-1">
+                  <div class="interact text-left pb-1 px-2">
                     <b-input-group class="mt-1">
                       <template #append>
                         <b-input-group-text
@@ -757,7 +757,7 @@
               </h6>
               <div v-if="trendingFeed.length" class="pb-3">
                 <div
-                  v-for="(item, id) in trendingFeed.slice(0, 10)"
+                  v-for="(item, id) in trendingFeed.slice(0, 6)"
                   :key="id"
                   class="mb-3"
                 >
@@ -778,7 +778,7 @@
         </b-row>
       </section>
 
-      <section class="text-center mb-5 py-5">
+      <section class="text-center mb-5 pt-4 py-sm-5">
         <h5 class="mb-4">Explore Interest</h5>
 
         <p class="px-2 px-sm--5">
