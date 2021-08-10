@@ -480,7 +480,7 @@ ol.subquest {
 .overview-title {
   font-size: 13px;
   height: 36px;
-  font-weight: 600;
+  font-weight: 500;
   display: -webkit-box;
   line-clamp: 2;
   -webkit-line-clamp: 2;
@@ -488,6 +488,7 @@ ol.subquest {
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.42;
+  margin-bottom: 2px ​ !important;
 }
 .one-title {
   font-size: 13px;
@@ -820,6 +821,9 @@ ol.subquest {
   .hover_box {
     background-color: hsl(185deg, 41%, 88%) !important;
   }
+  .side_dis {
+    font-size: 0.7rem;
+  }
   .mobile-add {
     display: block;
     position: fixed;
@@ -830,10 +834,10 @@ ol.subquest {
     padding: 0.1rem !important;
   }
   .trending_name {
-    font: size 0.8em;
+    font-size: 0.7em;
   }
   .trending_count {
-    font: size 0.7em;
+    font-size: 0.62em;
   }
 
   .prof_img img {
@@ -956,7 +960,7 @@ ol.subquest {
 
   p,
   .main_text {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
 
   .fs14,
@@ -982,7 +986,7 @@ ol.subquest {
   }
   small,
   .small {
-    font-size: 70%;
+    font-size: 80%;
     font-weight: 400;
   }
 
@@ -990,7 +994,7 @@ ol.subquest {
     padding: 15px 0 !important;
   }
   .title {
-    font-size: 13.5px !important;
+    font-size: 0.75rem !important;
   }
   .asked {
     font-size: x-small !important;
@@ -1111,6 +1115,7 @@ ol.subquest {
   .overview-title {
     font-size: 0.7rem !important;
     height: 28px;
+    line-height: 1.2;
   }
   .course_desc {
     font-size: 0.6rem !important;
@@ -1131,7 +1136,9 @@ ol.subquest {
   .bottom_bar {
     width: 100% !important;
   }
-
+  .next_dis {
+    line-height: 1.4;
+  }
   .toggleSide {
     display: none !important;
   }
@@ -1205,7 +1212,7 @@ ol.subquest {
     font-size: 0.85rem;
   }
   p {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
   .connection_name {
     font-size: 0.8rem;

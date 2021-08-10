@@ -121,8 +121,12 @@
                         >
                         <span class="mr-2 fs13"
                           ><b-badge
-                            class="text-capitalize font-weight-normal"
-                            variant="dark-green"
+                            class="
+                              text-capitalize
+                              font-weight-normal
+                              text-sm text-dark
+                            "
+                            variant="lighter-green"
                             >{{ item.type }}</b-badge
                           ></span
                         >
@@ -733,17 +737,7 @@ export default {
   color: rgba($color: #000000, $alpha: 0.64);
   text-transform: capitalize;
 }
-.main_text {
-  display: -webkit-box;
-  font-size: 14px;
-  line-height: 1.6;
-  color: rgba($color: #000000, $alpha: 0.5);
-  text-overflow: ellipsis;
-  overflow: hidden;
-  line-clamp: 4;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-}
+
 .bottom_bar {
   width: 85%;
   margin-left: auto;

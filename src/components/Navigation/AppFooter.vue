@@ -174,5 +174,8 @@ footer {
   .link a div {
     font-size: 12px;
   }
+  p {
+    font-size: 0.75rem;
+  }
 }
 </style>

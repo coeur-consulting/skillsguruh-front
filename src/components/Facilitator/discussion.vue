@@ -98,7 +98,7 @@
                         >
                           <b-badge
                             variant="lighter-green"
-                            class="text-dark-green"
+                            class="text-dark fs10 font-weight-normal"
                             >{{ tag.value }}</b-badge
                           ></b-col
                         >
@@ -187,8 +187,8 @@
                       "
                       @click="toggleview = 'comments'"
                       size="sm"
-                      >Most Comments</b-button
-                    >
+                      >Most
+                    </b-button>
                   </b-button-group>
                 </div>
 
@@ -1783,6 +1783,13 @@ export default {
   .document {
     width: 100%;
     margin: 10px auto;
+  }
+  .btn-sm,
+  .btn-group-sm > .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
   }
 }
 </style>
