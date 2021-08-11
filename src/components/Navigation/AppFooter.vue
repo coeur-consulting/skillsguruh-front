@@ -2,49 +2,48 @@
   <footer>
     <b-container>
       <b-row>
-        <b-col cols="12" md="3" class="d-none d-sm-block text-sm-left">
-          <b-img src="/img/logo.svg" class="mb-2 logo"></b-img>
-          <p class="fs14 text-muted">
-            A platform for business owners and entreprenuer to upskill
-          </p>
+        <b-col
+          cols="12"
+          md="3"
+          class="d-none d-md-block text-center text-sm-left mt-4 mt-md-0"
+        >
+          <b-img src="" class="mb-2 logo" alt="Nzukoor"></b-img>
+          <div class="d-flex mb-3">
+            <b-img
+              class="googleplay"
+              :src="require('@/assets/images/landing/googleplay.png')"
+            ></b-img>
+            <b-img
+              class="appstore"
+              :src="require('@/assets/images/landing/appstore.png')"
+            ></b-img>
+          </div>
 
           <div class="mb-3">
-            <b-iconstack font-scale="2.2" class="mr-3">
-              <b-icon
-                stacked
-                icon="circle-fill"
-                variant="lighter-green"
-              ></b-icon>
+            <b-iconstack font-scale="1.8" class="mr-3">
+              <b-icon stacked icon="circle-fill" variant="white"></b-icon>
               <b-icon
                 stacked
                 icon="facebook"
-                variant="dark"
+                variant="mustard"
                 scale="0.5"
               ></b-icon>
             </b-iconstack>
-            <b-iconstack font-scale="2.2" class="mr-3">
-              <b-icon
-                stacked
-                icon="circle-fill"
-                variant="lighter-green"
-              ></b-icon>
+            <b-iconstack font-scale="1.8" class="mr-3">
+              <b-icon stacked icon="circle-fill" variant="white"></b-icon>
               <b-icon
                 stacked
                 icon="twitter"
-                variant="dark"
+                variant="mustard"
                 scale="0.5"
               ></b-icon>
             </b-iconstack>
-            <b-iconstack font-scale="2.2" class="">
-              <b-icon
-                stacked
-                icon="circle-fill"
-                variant="lighter-green"
-              ></b-icon>
+            <b-iconstack font-scale="1.8" class="">
+              <b-icon stacked icon="circle-fill" variant="white"></b-icon>
               <b-icon
                 stacked
                 icon="instagram"
-                variant="dark"
+                variant="mustard"
                 scale="0.5"
               ></b-icon>
             </b-iconstack>
@@ -61,6 +60,7 @@
           <router-link to="/contact"><div>FAQS</div></router-link>
           <router-link to="/contact"><div>Help Center</div></router-link>
         </b-col>
+
         <b-col class="link" cols="4" md="3">
           <h5>Company</h5>
           <router-link to=""><div>Mission</div></router-link>
@@ -77,49 +77,44 @@
           <router-link to="/contact"><div>FAQS</div></router-link>
           <router-link to="/contact"><div>Help Center</div></router-link>
         </b-col>
-        <b-col cols="12" md="3" class="d-sm-none text-sm-left">
-          <b-img src="/img/logo.svg" class="mb-2 logo"></b-img>
-          <p class="fs14 text-muted">
-            A platform for business owners and entreprenuer to upskill
-          </p>
+        <b-col cols="12" md="3" class="d-md-none text-sm-left mt-4">
+          <b-img src="" class="mb-2 logo" alt="Nzukoor"></b-img>
+          <div class="d-flex justify-content-center mb-3">
+            <b-img
+              class="googleplay"
+              :src="require('@/assets/images/landing/googleplay.png')"
+            ></b-img>
+            <b-img
+              class="appstore"
+              :src="require('@/assets/images/landing/appstore.png')"
+            ></b-img>
+          </div>
 
           <div class="mb-3">
-            <b-iconstack font-scale="2.2" class="mr-3">
-              <b-icon
-                stacked
-                icon="circle-fill"
-                variant="lighter-green"
-              ></b-icon>
+            <b-iconstack font-scale="1.8" class="mr-3">
+              <b-icon stacked icon="circle-fill" variant="white"></b-icon>
               <b-icon
                 stacked
                 icon="facebook"
-                variant="dark"
+                variant="mustard"
                 scale="0.5"
               ></b-icon>
             </b-iconstack>
-            <b-iconstack font-scale="2.2" class="mr-3">
-              <b-icon
-                stacked
-                icon="circle-fill"
-                variant="lighter-green"
-              ></b-icon>
+            <b-iconstack font-scale="1.8" class="mr-3">
+              <b-icon stacked icon="circle-fill" variant="white"></b-icon>
               <b-icon
                 stacked
                 icon="twitter"
-                variant="dark"
+                variant="mustard"
                 scale="0.5"
               ></b-icon>
             </b-iconstack>
-            <b-iconstack font-scale="2.2" class="">
-              <b-icon
-                stacked
-                icon="circle-fill"
-                variant="lighter-green"
-              ></b-icon>
+            <b-iconstack font-scale="1.8" class="">
+              <b-icon stacked icon="circle-fill" variant="white"></b-icon>
               <b-icon
                 stacked
                 icon="instagram"
-                variant="dark"
+                variant="mustard"
                 scale="0.5"
               ></b-icon>
             </b-iconstack>
@@ -141,25 +136,38 @@ footer {
   position: relative;
   padding-top: 6rem;
   padding-bottom: 4rem;
-  background: rgba(194, 237, 206, 0.06);
+  background: var(--mustard);
+  text-align: left;
 }
 .link h5 {
-  font-size: 16px;
+  color: hsl(43deg 74% 25%);
+  font-size: 0.95rem;
   font-weight: 500;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 .link a div {
-  color: rgba(0, 0, 0, 0.5);
-  font-size: 14px;
-  margin-bottom: 10px;
+  color: hsl(43deg 74% 25%);
+  font-size: 0.8rem;
+  margin-bottom: 5px;
 }
-@media (max-width: 600px) {
+.googleplay {
+  margin-right: 10px;
+}
+.googleplay,
+.appstore {
+  width: 45%;
+}
+@media (max-width: 768px) {
   .container {
     height: 100%;
   }
 
   .row {
     flex-direction: row-reverse;
+  }
+  .googleplay,
+  .appstore {
+    width: 30%;
   }
   footer {
     padding-top: 3rem;

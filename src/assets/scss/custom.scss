@@ -5,11 +5,14 @@
 
 // Color system
 
-$skills--dark-green: #388087;
+$skills--dark-green: #2a9d8f;
 $skills--light-green: #6fb3b8;
 $skills--lighter-green: rgba(56, 128, 135, 0.17);
 $skills--lighter-lemon: #c2edce;
 $skills--grey: #f6f6f2;
+$mustard: #e9c46a;
+$secondary: #e76f51;
+$orange: #f4a261;
 
 $theme-colors: () !default;
 $theme-colors: map-merge(
@@ -19,6 +22,9 @@ $theme-colors: map-merge(
     "lighter-green": $skills--lighter-green,
     "lemon": $skills--lighter-lemon,
     "skills-grey": $skills--grey,
+    "orange": $orange,
+    "mustard": $mustard,
+    "secondary": $secondary,
   ),
   $theme-colors
 );
