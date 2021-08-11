@@ -104,6 +104,9 @@ export default {
       scrollPosition: null,
     };
   },
+  created() {
+    window.addEventListener("scroll", this.changeOnScroll);
+  },
   mounted() {
     if (localStorage.getItem("authMember")) {
       this.authMember = true;
@@ -116,9 +119,6 @@ export default {
     } else {
       return;
     }
-
-    this.windowHeight = window.innerHeight;
-    window.addEventListener("scroll", this.changeOnScroll);
   },
   methods: {
     changeOnScroll() {
