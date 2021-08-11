@@ -145,10 +145,11 @@
         <b-row class="d-flex flex-column flex-md-row">
           <b-col
             sm="3"
-            class="mb-5 mb-sm-0 px-3"
+            class="mb-5 mb-sm-0 px-3 cursor-pointer"
             v-for="(item, id) in about"
             :key="id"
             v-animate-onscroll.repeat="item.animation"
+            @click="$router.push(item.url)"
           >
             <div class="rules shadow-sm position-relative">
               <kinesis-container>
