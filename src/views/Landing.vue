@@ -5,7 +5,42 @@
         <b-row class="justify-content-center align-items-center banner_row">
           <b-col md="6" sm="12" class="mb-sm-0 top_b">
             <div class="banner-text mb-3">
-              <h1 class="mb-3 mb-sm-5">
+              <h1 class="d-none d-md-block mb-5">
+                <VueTextTransition
+                  tag="h1"
+                  name="fade"
+                  :show="showTitle"
+                  :interval="30"
+                >
+                  Discover People, Knowledge, and
+                </VueTextTransition>
+                <span class="d-flex">
+                  <VueTextTransition
+                    tag="h1"
+                    name="fade"
+                    :show="showTitle"
+                    :interval="30"
+                    class="mr-2"
+                  >
+                    Opportunities for
+                  </VueTextTransition>
+
+                  <span
+                    class="
+                      position-relative
+                      text-secondary
+                      growth-text
+                      animate__animated animate__zoomIn animate__slower
+                    "
+                    >Growth
+                    <b-img
+                      :src="require('@/assets/images/landing/black-brush.png')"
+                    ></b-img>
+                  </span>
+                </span>
+              </h1>
+
+              <h1 class="mb-3 mb-sm-5 d-md-none">
                 Discover People, Knowledge, and <br class="d-none d-md-block" />
                 Opportunities for
                 <span class="position-relative text-secondary growth-text"
@@ -83,15 +118,18 @@
             </div>
           </b-col>
           <b-col md="6" class="position-relative down_b">
-            <b-img
-              class="
-                animate__animated animate__slideInUp animate__slow
-                img-fluid
-                banner_image
-              "
-              alt="nzukoor"
-              :src="require('../assets/images/landing/banner-img.png')"
-            ></b-img>
+            <kinesis-container>
+              <kinesis-element :strength="10" type="depth">
+                <b-img
+                  v-animate-onscroll.repeat="
+                    'animate__animated animate__pulse animate__repeat-2'
+                  "
+                  class="img-fluid banner_image"
+                  alt="nzukoor"
+                  :src="require('../assets/images/landing/banner-img.png')"
+                ></b-img>
+              </kinesis-element>
+            </kinesis-container>
           </b-col>
         </b-row>
       </b-container>
@@ -105,53 +143,27 @@
       </p>
       <b-container>
         <b-row class="d-flex flex-column flex-md-row">
-          <b-col sm="3" class="mb-5 mb-sm-0 px-3">
+          <b-col
+            sm="3"
+            class="mb-5 mb-sm-0 px-3"
+            v-for="(item, id) in about"
+            :key="id"
+            v-animate-onscroll.repeat="item.animation"
+          >
             <div class="rules shadow-sm position-relative">
-              <b-img
-                class="rounded mb-4"
-                fluid-grow
-                :src="require('@/assets/images/landing/explore.png')"
-              ></b-img>
-              <div>Explore</div>
-              <p class="text-muted">
-                Discover people, knowledge and opportunities across interests
-              </p>
-            </div>
-          </b-col>
-          <b-col sm="3" class="mb-5 mb-sm-0 px-3">
-            <div class="rules shadow-sm position-relative">
-              <b-img
-                class="rounded mb-4"
-                fluid-grow
-                :src="require('@/assets/images/landing/engage.png')"
-              ></b-img>
-              <div>Engage</div>
-              <p class="text-muted">Connect with your tribe</p>
-            </div>
-          </b-col>
-          <b-col sm="3" class="mb-5 mb-sm-0 px-3">
-            <div class="rules shadow-sm position-relative">
-              <b-img
-                class="rounded mb-4"
-                fluid-grow
-                :src="require('@/assets/images/landing/evolve.png')"
-              ></b-img>
-              <div>Evolve</div>
-              <p class="text-muted">Maximize opportunities and soar</p>
-            </div>
-          </b-col>
-          <b-col sm="3" class="mb-5 mb-sm-0 px-3">
-            <div class="rules shadow-sm position-relative">
-              <b-img
-                class="rounded mb-4"
-                fluid-grow
-                :src="require('@/assets/images/landing/impact.png')"
-              ></b-img>
-              <div>Impact</div>
-              <p class="text-muted">
-                Nothing better than a tribe that grows together. Invite your
-                friends!
-              </p>
+              <kinesis-container>
+                <kinesis-element :strength="8" type="depth">
+                  <b-img
+                    class="rounded mb-4"
+                    fluid-grow
+                    :src="item.image"
+                  ></b-img>
+                </kinesis-element>
+                <div>{{ item.name }}</div>
+                <p class="text-muted">
+                  {{ item.text }}
+                </p>
+              </kinesis-container>
             </div>
           </b-col>
         </b-row>
@@ -187,14 +199,20 @@
                 class="mb-sm-0 px-3 py-1"
                 v-for="(item, id) in facilitators"
                 :key="id"
+                v-animate-onscroll.repeat="'animate__animated animate__zoomIn '"
               >
                 <div class="position-relative">
                   <div class="facilitator shadow-sm position-relative">
-                    <b-img
-                      class="rounded mb-4"
-                      fluid-grow
-                      :src="item.image"
-                    ></b-img>
+                    <kinesis-container>
+                      <kinesis-element :strength="10">
+                        <b-img
+                          class="rounded mb-4"
+                          fluid-grow
+                          :src="item.image"
+                        ></b-img>
+                      </kinesis-element>
+                    </kinesis-container>
+
                     <div>{{ item.name }}</div>
                     <div class="text-muted"><small>Facilitator</small></div>
                     <div>
@@ -289,7 +307,11 @@
                   <b-row>
                     <b-col sm="4" class="d-flex align-items-center">
                       <div class="p-4 testimonial">
-                        <b-img class="member-img" :src="item.image"></b-img>
+                        <kinesis-container>
+                          <kinesis-element :strength="10">
+                            <b-img class="member-img" :src="item.image"></b-img>
+                          </kinesis-element>
+                        </kinesis-container>
                       </div>
                     </b-col>
                     <b-col sm="8" class="d-flex align-items-center">
@@ -316,9 +338,12 @@
   </div>
 </template>
 <script>
+import { KinesisContainer, KinesisElement } from "vue-kinesis";
+import VueTextTransition from "vue-text-transition";
 export default {
   data() {
     return {
+      showTitle: false,
       auth: null,
       stories: [
         {
@@ -360,9 +385,43 @@ export default {
           image: require("@/assets/images/landing/story3.png"),
         },
       ],
+      about: [
+        {
+          name: "Explore",
+          text: "Discover people, knowledge and opportunities across interests",
+          image: require("@/assets/images/landing/explore.png"),
+          animation: "animate__animated animate__slideInRight ",
+        },
+        {
+          name: "Engage",
+          text: "Connect with your tribe",
+          image: require("@/assets/images/landing/engage.png"),
+          animation: " animate__animated animate__slideInRight",
+        },
+        {
+          name: "Evolve",
+          text: "Maximize opportunities and soar",
+          image: require("@/assets/images/landing/evolve.png"),
+          animation: "animate__animated animate__slideInRight animate__slow",
+        },
+        {
+          name: "Impact",
+          text: "Nothing better than a tribe that grows together. Invite your friends!",
+          image: require("@/assets/images/landing/impact.png"),
+          animation: "animate__animated animate__slideInRight animate__slow",
+        },
+      ],
     };
   },
+  components: {
+    KinesisContainer,
+    KinesisElement,
+    VueTextTransition,
+  },
   mounted() {
+    setTimeout(() => {
+      this.showTitle = true;
+    }, 500);
     if (localStorage.getItem("authMember")) {
       this.auth = true;
     } else if (localStorage.getItem("authFacilitator")) {
@@ -411,7 +470,6 @@ export default {
   font-size: 28px;
   font-style: normal;
   font-weight: 600;
-  line-height: 36px;
   letter-spacing: 0.06em;
   text-align: left;
   word-wrap: break-word;
@@ -427,6 +485,7 @@ export default {
 
 .banner-buttons {
   display: flex;
+  width: 80%;
 }
 .banner-image {
   position: relative;
@@ -477,6 +536,10 @@ export default {
   }
 }
 @media (max-width: 768px) {
+  .banner-buttons {
+    display: flex;
+    width: 100%;
+  }
   #with_nzukoor {
     > p {
       width: 95%;
@@ -622,7 +685,7 @@ export default {
 }
 .facilitator:hover ~ .hover_box {
   right: -5px;
-  transform: rotate(8deg);
+  transform: rotate(6deg);
   opacity: 1;
 }
 .facilitator img {

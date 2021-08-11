@@ -136,6 +136,9 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.shadow-sm {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15) !important;
+}
 .navbar-light .navbar-nav .nav-link {
   color: rgb(0, 0, 0);
   font-weight: 500;
