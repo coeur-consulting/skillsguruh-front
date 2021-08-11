@@ -1,25 +1,19 @@
 <template>
   <div id="main">
     <section class="banner" id="banner">
-      <span class="vector1"></span>
-      <span class="vector2"></span>
-      <span class="vector3"></span>
-      <span class="vector4"></span>
-      <span class="vector5"></span>
-      <span class="vector6"></span>
-      <b-container class="h-100 d-flex align-items-end">
-        <b-row
-          class="
-            justify-content-center
-            align-items-center
-            banner_row
-            overflow-hidden
-          "
-        >
+      <b-container class="h-100 d-flex align-items-center pt-3 pt-md-0">
+        <b-row class="justify-content-center align-items-center banner_row">
           <b-col md="6" sm="12" class="mb-sm-0 top_b">
-            <div class="banner-text mb-3 mb-sm-5">
-              <h1 class="mb-3 mt-4 mt-sm-0">
-                Discover People, Knowledge, and Opportunities for Growth!
+            <div class="banner-text mb-3">
+              <h1 class="mb-3 mb-sm-5">
+                Discover People, Knowledge, and <br class="d-none d-md-block" />
+                Opportunities for
+                <span class="position-relative text-secondary growth-text"
+                  >Growth
+                  <b-img
+                    :src="require('@/assets/images/landing/black-brush.png')"
+                  ></b-img>
+                </span>
               </h1>
               <p>Enjoy a more engaging and organized virtual learning</p>
             </div>
@@ -29,7 +23,7 @@
                 size="lg"
                 variant="dark-green"
                 @click="$router.push('/explore')"
-                class="m-0 mr-3"
+                class="m-0 mr-3 btn-shadow"
               >
                 Explore Interest</b-button
               >
@@ -46,8 +40,8 @@
               <b-button
                 v-if="auth"
                 block
-                size="sm"
-                class="m-0"
+                size="lg"
+                class="m-0 btn-shadow"
                 variant="outline-dark-green"
                 v-b-tooltip.hover
                 title="You are  connected"
@@ -61,7 +55,7 @@
                 size="sm"
                 variant="dark-green"
                 @click="$router.push('/explore')"
-                class="m-0 mr-3"
+                class="m-0 mr-3 btn-shadow"
               >
                 Explore Interest</b-button
               >
@@ -69,7 +63,7 @@
                 v-if="auth"
                 block
                 size="sm"
-                class="m-0"
+                class="m-0 btn-shadow"
                 variant="outline-dark-green"
                 v-b-tooltip.hover
                 title="You are  connected"
@@ -80,7 +74,7 @@
                 v-if="!auth"
                 block
                 size="sm"
-                class="m-0"
+                class="m-0 btn-shadow"
                 variant="outline-dark-green"
                 @click="$router.push('/register')"
               >
@@ -96,282 +90,172 @@
                 banner_image
               "
               alt="nzukoor"
-              :src="require('../assets/images/banner-img.png')"
+              :src="require('../assets/images/landing/banner-img.png')"
             ></b-img>
           </b-col>
         </b-row>
       </b-container>
     </section>
 
-    <section id="how-it-works">
-      <b-container class="text-center text-sm-left">
-        <h2 class="text-center">How it works</h2>
-        <b-row class="mb-6 text-center text-sm-left">
-          <b-col sm="6" class="d-flex align-items-center">
-            <div class="onboard">
-              <h5 class="mb-2">
-                Join as an Organization and onboard your employees
-              </h5>
-              <p class="mb-4 pr-3">
-                No longer do your employees have to struggle to get on the same
-                page. Keep teams aligned and productive by signing them up to
-                tailor-made courses that improve their skills.
-              </p>
-              <b-button
-                size="lg"
-                variant="dark-green"
-                class="px-5 mb-5 mb-sm-0"
-                @click="$router.push('/register')"
-              >
-                Invite Your Team
-              </b-button>
-            </div>
-          </b-col>
-          <b-col sm="6">
-            <b-img
-              v-animate-onscroll="
-                'animate__animated animate__zoomIn animate__slow'
-              "
-              :src="require('../assets/images/onboard.png')"
-            ></b-img>
-          </b-col>
-        </b-row>
-
-        <b-row
-          class="mb-6 flex-column-reverse flex-sm-row text-center text-sm-left"
-        >
-          <b-col sm="6">
-            <b-img
-              v-animate-onscroll="
-                'animate__animated animate__zoomIn animate__slow'
-              "
-              :src="require('../assets/images/onboard2.png')"
-            ></b-img>
-          </b-col>
-          <b-col sm="6" class="d-flex align-items-center">
-            <div class="onboard">
-              <h5 class="mb-2">Share your skills and expertise</h5>
-              <p class="mb-4 pr-3">
-                Now you can put your knowledge to work. Convert what you know to
-                a course in minutes and enjoy teaching a more engaged group of
-                members. Manage your private group, connect with external
-                members and collaborate with other experts— the choice is yours!
-              </p>
-              <b-button
-                size="lg"
-                variant="dark-green"
-                class="px-5"
-                @click="$router.push('/login')"
-              >
-                Start Teaching
-              </b-button>
-            </div>
-          </b-col>
-        </b-row>
-
-        <b-row class="text-center text-sm-left">
-          <b-col sm="6" class="d-flex align-items-center">
-            <div class="onboard">
-              <h5 class="mb-2">Shared interest is all you need</h5>
-              <p class="mb-4 pr-3">
-                Connect with experts and members with similar interests to gain
-                rich insight to your most pressing questions, then pay it
-                forward by lending your voice to trending discussions. Maximize
-                the group access feature and make learning a party with your
-                friends.
-              </p>
-              <p class="mb-3">Yes, you can be social even while learning.</p>
-              <b-button
-                size="lg"
-                variant="dark-green"
-                class="px-5 mb-5 mb-sm-0"
-                @click="$router.push('/login')"
-              >
-                Connect & Learn
-              </b-button>
-            </div>
-          </b-col>
-          <b-col sm="6">
-            <b-img
-              v-animate-onscroll="
-                'animate__animated animate__zoomIn animate__slow'
-              "
-              :src="require('../assets/images/onboard3.png')"
-            ></b-img>
-          </b-col>
-        </b-row>
-      </b-container>
-    </section>
-    <section id="facilitators">
+    <section id="with_nzukoor">
+      <h2 class="mb-5"><span>Get N-circled</span></h2>
+      <p class="mb-5">
+        Follow our 3E-I to make the most of your time here. We promise it’ll be
+        well worth your while.
+      </p>
       <b-container>
-        <b-row
-          v-animate-onscroll="'animate__animated animate__zoomIn animate__slow'"
-        >
-          <b-col class="ex-facilitators text-center">
-            <h2 class="mb-2">Most Popular Facilitators</h2>
-            <p class="mb-5">
-              All our facilitators are awesome, but these ones really stand
-              <br class="d-none d-sm-block" />
-              out in our community. Get to know them!
-            </p>
-
-            <b-row class="facilitators d-none d-sm-flex">
-              <b-col sm="4" class="mb-5 mb-sm-0 py-3 px-4">
-                <div class="position-relative">
-                  <div class="facilitator shadow-sm position-relative">
-                    <b-img
-                      class="rounded mb-4"
-                      fluid-grow
-                      src="/img/fac1.jpg"
-                    ></b-img>
-                    <div>Ada Okafor</div>
-                    <div class="text-muted"><small>Facilitator</small></div>
-                    <div>
-                      <b-icon class="text-gold" icon="star-fill"></b-icon>
-                      <b-icon class="text-gold" icon="star-fill"></b-icon>
-                      <b-icon class="text-gold" icon="star-fill"></b-icon>
-                      <b-icon class="text-gold" icon="star-fill"></b-icon>
-                      <b-icon class="text-gold" icon="star-fill"></b-icon>
-                    </div>
-                  </div>
-                  <span class="hover_box"></span>
-                </div>
-              </b-col>
-              <b-col sm="4" class="mb-5 mb-sm-0 py-3 px-4">
-                <div class="position-relative">
-                  <div class="facilitator shadow-sm position-relative">
-                    <b-img
-                      class="rounded mb-4"
-                      fluid-grow
-                      src="/img/fac2.jpg"
-                    ></b-img>
-                    <div>John Obi Uchendu</div>
-                    <div class="text-muted"><small>Facilitator</small></div>
-                    <div>
-                      <b-icon class="text-gold" icon="star-fill"></b-icon>
-                      <b-icon class="text-gold" icon="star-fill"></b-icon>
-                      <b-icon class="text-gold" icon="star-fill"></b-icon>
-                      <b-icon class="text-gold" icon="star-fill"></b-icon>
-                      <b-icon class="text-gold" icon="star-fill"></b-icon>
-                    </div>
-                  </div>
-                  <span class="hover_box"></span>
-                </div>
-              </b-col>
-              <b-col sm="4" class="mb-5 mb-sm-0 py-3 px-4">
-                <div class="position-relative">
-                  <div class="facilitator shadow-sm position-relative">
-                    <b-img
-                      class="rounded mb-4"
-                      fluid-grow
-                      src="/img/fac3.jpg"
-                    ></b-img>
-                    <div>Nkechi Ezeukwu</div>
-                    <div class="text-muted"><small>Facilitator</small></div>
-                    <div>
-                      <b-icon class="text-gold" icon="star-fill"></b-icon>
-                      <b-icon class="text-gold" icon="star-fill"></b-icon>
-                      <b-icon class="text-gold" icon="star-fill"></b-icon>
-                      <b-icon class="text-gold" icon="star-fill"></b-icon>
-                      <b-icon class="text-gold" icon="star-fill"></b-icon>
-                    </div>
-                  </div>
-                  <span class="hover_box"></span>
-                </div>
-              </b-col>
-            </b-row>
-            <b-row class="d-sm-none">
-              <b-col>
-                <carousel
-                  :perPage="1"
-                  :paginationEnabled="true"
-                  navigationNextLabel=""
-                  navigationPrevLabel=""
-                  :autoplay="true"
-                  :speed="1000"
-                  :autoplayTimeout="5000"
-                  :loop="true"
-                >
-                  <slide class="mb-sm-0 py-3 px-4">
-                    <div class="position-relative">
-                      <div class="facilitator shadow-sm position-relative">
-                        <b-img
-                          class="rounded mb-4"
-                          fluid-grow
-                          src="/img/fac1.jpg"
-                        ></b-img>
-                        <div>Ada Okafor</div>
-                        <div class="text-muted"><small>Facilitator</small></div>
-                        <div>
-                          <b-icon class="text-gold" icon="star-fill"></b-icon>
-                          <b-icon class="text-gold" icon="star-fill"></b-icon>
-                          <b-icon class="text-gold" icon="star-fill"></b-icon>
-                          <b-icon class="text-gold" icon="star-fill"></b-icon>
-                          <b-icon class="text-gold" icon="star-fill"></b-icon>
-                        </div>
-                      </div>
-                      <span class="hover_box"></span>
-                    </div>
-                  </slide>
-                  <slide class="mb-sm-0 py-3 px-4">
-                    <div class="position-relative">
-                      <div class="facilitator shadow-sm position-relative">
-                        <b-img
-                          class="rounded mb-4"
-                          fluid-grow
-                          src="/img/fac2.jpg"
-                        ></b-img>
-                        <div>John Obi Uchendu</div>
-                        <div class="text-muted"><small>Facilitator</small></div>
-                        <div>
-                          <b-icon class="text-gold" icon="star-fill"></b-icon>
-                          <b-icon class="text-gold" icon="star-fill"></b-icon>
-                          <b-icon class="text-gold" icon="star-fill"></b-icon>
-                          <b-icon class="text-gold" icon="star-fill"></b-icon>
-                          <b-icon class="text-gold" icon="star-fill"></b-icon>
-                        </div>
-                      </div>
-                      <span class="hover_box"></span>
-                    </div>
-                  </slide>
-                  <slide class="mb-sm-0 py-3 px-4">
-                    <div class="position-relative">
-                      <div class="facilitator shadow-sm position-relative">
-                        <b-img
-                          class="rounded mb-4"
-                          fluid-grow
-                          src="/img/fac3.jpg"
-                        ></b-img>
-                        <div>Nkechi Ezeukwu</div>
-                        <div class="text-muted"><small>Facilitator</small></div>
-                        <div>
-                          <b-icon class="text-gold" icon="star-fill"></b-icon>
-                          <b-icon class="text-gold" icon="star-fill"></b-icon>
-                          <b-icon class="text-gold" icon="star-fill"></b-icon>
-                          <b-icon class="text-gold" icon="star-fill"></b-icon>
-                          <b-icon class="text-gold" icon="star-fill"></b-icon>
-                        </div>
-                      </div>
-                      <span class="hover_box"></span>
-                    </div>
-                  </slide>
-                </carousel>
-              </b-col>
-            </b-row>
+        <b-row class="d-flex flex-column flex-md-row">
+          <b-col sm="3" class="mb-5 mb-sm-0 px-3">
+            <div class="rules shadow-sm position-relative">
+              <b-img
+                class="rounded mb-4"
+                fluid-grow
+                :src="require('@/assets/images/landing/explore.png')"
+              ></b-img>
+              <div>Explore</div>
+              <p class="text-muted">
+                Discover people, knowledge and opportunities across interests
+              </p>
+            </div>
+          </b-col>
+          <b-col sm="3" class="mb-5 mb-sm-0 px-3">
+            <div class="rules shadow-sm position-relative">
+              <b-img
+                class="rounded mb-4"
+                fluid-grow
+                :src="require('@/assets/images/landing/engage.png')"
+              ></b-img>
+              <div>Engage</div>
+              <p class="text-muted">Connect with your tribe</p>
+            </div>
+          </b-col>
+          <b-col sm="3" class="mb-5 mb-sm-0 px-3">
+            <div class="rules shadow-sm position-relative">
+              <b-img
+                class="rounded mb-4"
+                fluid-grow
+                :src="require('@/assets/images/landing/evolve.png')"
+              ></b-img>
+              <div>Evolve</div>
+              <p class="text-muted">Maximize opportunities and soar</p>
+            </div>
+          </b-col>
+          <b-col sm="3" class="mb-5 mb-sm-0 px-3">
+            <div class="rules shadow-sm position-relative">
+              <b-img
+                class="rounded mb-4"
+                fluid-grow
+                :src="require('@/assets/images/landing/impact.png')"
+              ></b-img>
+              <div>Impact</div>
+              <p class="text-muted">
+                Nothing better than a tribe that grows together. Invite your
+                friends!
+              </p>
+            </div>
           </b-col>
         </b-row>
+      </b-container>
+    </section>
+
+    <section id="facilitators">
+      <h2 class="mb-5"><span>Our Top Facilitators</span></h2>
+      <p class="mb-5">
+        All our facilitators are awesome, but these ones really stand out in our
+        community. Get to know them!
+      </p>
+
+      <b-container>
+        <b-row>
+          <b-col>
+            <carousel
+              :perPage="1"
+              :perPageCustom="[
+                [600, 1],
+                [768, 3],
+              ]"
+              :paginationEnabled="true"
+              navigationNextLabel=""
+              navigationPrevLabel=""
+              :autoplay="true"
+              :speed="1000"
+              :autoplayTimeout="5000"
+              :loop="true"
+              class="py-3"
+            >
+              <slide
+                class="mb-sm-0 px-3 py-1"
+                v-for="(item, id) in facilitators"
+                :key="id"
+              >
+                <div class="position-relative">
+                  <div class="facilitator shadow-sm position-relative">
+                    <b-img
+                      class="rounded mb-4"
+                      fluid-grow
+                      :src="item.image"
+                    ></b-img>
+                    <div>{{ item.name }}</div>
+                    <div class="text-muted"><small>Facilitator</small></div>
+                    <div>
+                      <b-icon class="text-gold" icon="star-fill"></b-icon>
+                      <b-icon class="text-gold" icon="star-fill"></b-icon>
+                      <b-icon class="text-gold" icon="star-fill"></b-icon>
+                      <b-icon class="text-gold" icon="star-fill"></b-icon>
+                      <b-icon class="text-gold" icon="star-fill"></b-icon>
+                    </div>
+                  </div>
+                  <span class="hover_box"></span>
+                </div>
+              </slide>
+            </carousel>
+          </b-col>
+        </b-row>
+      </b-container>
+    </section>
+    <section id="joinnow" class="bg-dark-green">
+      <b-img class="eli1" :src="require('../assets/images/dot-im.png')"></b-img>
+
+      <b-container>
+        <b-row>
+          <b-col class="joinnow position-relative">
+            <span class="eli2">
+              <b-img :src="require('../assets/images/large-elli.png')"></b-img>
+            </span>
+            <h2 class="mb-3 mb-sm-5 text-white">
+              Create and deliver curated learning in minutes
+            </h2>
+
+            <b-button
+              size="lg"
+              variant="outline-dark-green"
+              class="
+                bg-white
+                text-dark-green
+                px-3 px-lg-5
+                border-white
+                btn-raised btn-shadow
+              "
+              >Join Now</b-button
+            >
+          </b-col>
+        </b-row>
+        <b-img
+          class="brush"
+          :src="require('../assets/images/landing/white-brush.png')"
+        ></b-img>
       </b-container>
     </section>
 
     <section id="members">
+      <h2 class="mb-5"><span>Nzukoor Stories</span></h2>
+      <p class="mb-5">
+        Connect with experts and learners with similar interests. Join trending
+        discussions and lend your voice to issues of
+      </p>
       <b-container>
         <b-row>
           <b-col class="text-center members">
-            <h2 class="mb-2">NZUKOOR STORIES</h2>
-            <p class="mb-5">
-              Stories of people whose lives were changed through Nzukoor
-            </p>
-
             <div class="shadow member position-relative">
               <b-iconstack font-scale="3.5" class="nav-left shadow-sm">
                 <b-icon stacked icon="circle-fill" variant="white"></b-icon>
@@ -379,16 +263,12 @@
                   stacked
                   icon="arrow-left"
                   scale="0.5"
-                  variant="dark-green"
+                  variant="secondary"
                 ></b-icon>
               </b-iconstack>
 
               <b-iconstack font-scale="3.5" class="nav-right shadow-sm">
-                <b-icon
-                  stacked
-                  icon="circle-fill"
-                  variant="dark-green"
-                ></b-icon>
+                <b-icon stacked icon="circle-fill" variant="secondary"></b-icon>
                 <b-icon
                   stacked
                   icon="arrow-right"
@@ -403,120 +283,32 @@
                 :speed="1000"
                 :autoplayTimeout="5000"
                 :loop="true"
+                class="py-3"
               >
-                <slide>
+                <slide v-for="(item, id) in stories" :key="id" class="py-1">
                   <b-row>
                     <b-col sm="4" class="d-flex align-items-center">
                       <div class="p-4 testimonial">
-                        <b-img class="member-img" src="/img/fac5.jpg"></b-img>
+                        <b-img class="member-img" :src="item.image"></b-img>
                       </div>
                     </b-col>
                     <b-col sm="8" class="d-flex align-items-center">
                       <div class="text-center p-2 p-sm-4 py-sm-5">
                         <b-icon
-                          icon="chat-quote-fill"
-                          class="text-dark-green mb-4"
+                          :icon="item.icon"
+                          class="text-secondary mb-4"
                           font-scale="3.5"
                         ></b-icon>
-                        <p>
-                          My Customer Service team took the course on marketing
-                          and I can already see the impact in their productivity
-                          and results. Kudos to the Nzukoor team for such
-                          innovation.
+                        <p class="p-3">
+                          {{ item.story }}
                         </p>
-                        <div class="test-1">Oscar Eze— Entrepreneur, Lagos</div>
-                      </div>
-                    </b-col>
-                  </b-row>
-                </slide>
-                <slide>
-                  <b-row>
-                    <b-col sm="4" class="d-flex align-items-center">
-                      <div class="p-4 testimonial">
-                        <b-img class="member-img" src="/img/fac4.jpg"></b-img>
-                      </div>
-                    </b-col>
-                    <b-col sm="8" class="d-flex align-items-center">
-                      <div class="text-center p-2 p-sm-4 py-sm-5">
-                        <b-icon
-                          icon="chat-quote-fill"
-                          class="text-dark-green mb-4"
-                          font-scale="3.5"
-                        ></b-icon>
-                        <p>
-                          Thanks to Nzukoor I’ve been able to establish myself
-                          as a supply chain expert. I find the groups to be more
-                          engaged due to their shared interests and that really
-                          drives me to be my best.
-                        </p>
-                        <div class="test-1">Umoh— Entrepreneur, Uyo</div>
-                      </div>
-                    </b-col>
-                  </b-row>
-                </slide>
-                <slide>
-                  <b-row>
-                    <b-col sm="4" class="d-flex align-items-center">
-                      <div class="p-4 testimonial">
-                        <b-img
-                          class="member-img"
-                          :src="require('../assets/images/test.png')"
-                        ></b-img>
-                      </div>
-                    </b-col>
-                    <b-col sm="8" class="d-flex align-items-center">
-                      <div class="text-center p-2 p-sm-4 py-sm-5">
-                        <b-icon
-                          icon="chat-quote-fill"
-                          class="text-dark-green mb-4"
-                          font-scale="3.5"
-                        ></b-icon>
-                        <p>
-                          I invited my friends to take the BizGuruh course on
-                          self-discovery via the free group access and that just
-                          took us all to the next level. We’ve recently launched
-                          our business and I can confirm that winning is
-                          sweetest with my tribe.
-                        </p>
-                        <div class="test-1">Yetty — Student, Enugu</div>
+                        <div class="test-1">{{ item.name }}</div>
                       </div>
                     </b-col>
                   </b-row>
                 </slide>
               </carousel>
             </div>
-          </b-col>
-        </b-row>
-      </b-container>
-    </section>
-
-    <section id="joinnow">
-      <b-container>
-        <b-row>
-          <b-col class="joinnow bg-dark-green position-relative">
-            <span class="eli1">
-              <b-img :src="require('../assets/images/dot-im.png')"></b-img>
-            </span>
-            <span class="eli2">
-              <b-img :src="require('../assets/images/large-elli.png')"></b-img>
-            </span>
-            <h2 class="mb-3 mb-sm-5 text-white">
-              Create and deliver curated <br />
-              learning in minutes
-            </h2>
-            <b-row class="d-flex position-relative">
-              <b-col cols="12" sm="8" class="mb-3 mb-sm-0">
-                <b-form-input placeholder="Enter your email"></b-form-input
-              ></b-col>
-              <b-col cols="12" sm="4"
-                ><b-button
-                  size="lg"
-                  variant="outline-dark-green"
-                  class="bg-white px-3 px-lg-5"
-                  >Join Now</b-button
-                ></b-col
-              >
-            </b-row>
           </b-col>
         </b-row>
       </b-container>
@@ -528,6 +320,46 @@ export default {
   data() {
     return {
       auth: null,
+      stories: [
+        {
+          name: "Oscar Eze— Entrepreneur, Lagos",
+          story:
+            " My Customer Service team took the course on marketing and I can already see the impact in their productivity and results. Kudos to the Nzukoor team for such innovation.",
+          icon: "chat-quote-fill",
+          image: require("@/assets/images/landing/test.png"),
+        },
+        {
+          name: "Umoh— Entrepreneur, Uyo",
+          story:
+            "  Thanks to Nzukoor I’ve been able to establish myself  as a supply chain expert. I find the groups to be more engaged due to their shared interests and that really drives me to be my best",
+          icon: "chat-quote-fill",
+          image: require("@/assets/images/landing/fac4.jpg"),
+        },
+        {
+          name: "Yetty — Student, Enugu",
+          story:
+            "I invited my friends to take the BizGuruh course on self-discovery via the free group access and that just took us all to the next level. We’ve recently launched  our business and I can confirm that winning is sweetest with my tribe.",
+          icon: "chat-quote-fill",
+          image: require("@/assets/images/landing/fac5.jpg"),
+        },
+      ],
+      facilitators: [
+        {
+          name: "Ada Okafor, Lagos",
+
+          image: require("@/assets/images/landing/story1.png"),
+        },
+        {
+          name: "Obi Uchendu, Imo",
+
+          image: require("@/assets/images/landing/story2.png"),
+        },
+        {
+          name: "Nkechi Ezeukwu , Enugu",
+
+          image: require("@/assets/images/landing/story3.png"),
+        },
+      ],
     };
   },
   mounted() {
@@ -564,19 +396,22 @@ export default {
 }
 #banner {
   position: relative;
-  height: calc(100vh - 90px);
+  height: calc(100vh - 76px);
 }
 .banner {
-  background-color: var(--skills-grey);
+  background-image: url("../assets/images/landing/transparent.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 .banner-text {
   text-align: left;
 }
 .banner-text h1 {
-  font-size: 30px;
+  font-size: 28px;
   font-style: normal;
-  font-weight: 700;
-  line-height: 41px;
+  font-weight: 600;
+  line-height: 36px;
   letter-spacing: 0.06em;
   text-align: left;
   word-wrap: break-word;
@@ -589,6 +424,7 @@ export default {
   letter-spacing: 0.06em;
   text-align: left;
 }
+
 .banner-buttons {
   display: flex;
 }
@@ -598,62 +434,81 @@ export default {
 .banner-image img {
   width: 100%;
   object-position: bottom;
-  margin-bottom: -90px;
+  margin-bottom: 0px;
 }
-.vector1 {
-  position: absolute;
-  top: 20%;
-  right: 0;
-  background-image: url("../assets/images/eclipse-half.png");
-  height: 50px;
-  width: 18px;
+.down_b {
+  justify-content: center;
+  img {
+    width: 80%;
+    object-fit: contain;
+  }
+}
+#with_nzukoor {
+  padding-top: 80px;
+  padding-bottom: 105px;
+  background-image: url("../assets/images/landing/with_nzukoor.png");
   background-repeat: no-repeat;
+  text-align: center;
+  background-size: contain;
+  h2 span {
+    position: relative;
+  }
+  h2 span::after {
+    content: "";
+    background-image: url("../assets/images/landing/mustard-brush.png");
+    position: absolute;
+    width: 150px;
+    height: 20px;
+    background-size: 150px 20px;
+    background-repeat: no-repeat;
+    bottom: -24px;
+    right: -15%;
+  }
+  > p {
+    width: 35%;
+    margin: 0 auto;
+  }
 }
-.vector2 {
+@media (max-width: 1440px) {
+  #with_nzukoor {
+    > p {
+      width: 40%;
+    }
+  }
+}
+@media (max-width: 768px) {
+  #with_nzukoor {
+    > p {
+      width: 95%;
+    }
+  }
+}
+.rules {
+  background-color: white;
+  border-radius: 8px;
+  padding: 15px;
+  text-align: left;
+  height: 100%;
+  img {
+    width: 90%;
+    object-position: center;
+    object-fit: contain;
+  }
+  div {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  p {
+    text-align: left;
+    font-size: 0.9rem;
+  }
+}
+.growth-text img {
   position: absolute;
-  bottom: 20%;
+  bottom: -25px;
   left: 0;
-  background-image: url("../assets/images/ellipse-half.png");
-  height: 50px;
-  width: 20px;
-  background-repeat: no-repeat;
 }
-.vector3 {
-  position: absolute;
-  top: 20%;
-  left: 0;
-  background-image: url("../assets/images/poly.png");
-  height: 100px;
-  width: 60px;
-  background-repeat: no-repeat;
-}
-.vector4 {
-  position: absolute;
-  top: 32.2%;
-  left: 19.3%;
-  background-image: url("../assets/images/ellipse2.png");
-  height: 100px;
-  width: 100px;
-  background-repeat: no-repeat;
-}
-.vector5 {
-  position: absolute;
-  top: 33%;
-  left: 57.4%;
-  background-image: url("../assets/images/eli.png");
-  height: 100px;
-  width: 100px;
-  background-repeat: no-repeat;
-}
-.vector6 {
-  position: absolute;
-  top: 33%;
-  left: 77%;
-  background-image: url("../assets/images/ellipse.png");
-  height: 100px;
-  width: 100px;
-  background-repeat: no-repeat;
-}
+
 #how-it-works {
   min-height: 100vh;
   padding-top: 8rem;
@@ -689,8 +544,46 @@ export default {
 }
 #facilitators {
   position: relative;
-  padding-top: 8rem;
-  padding-bottom: 5rem;
+  padding-top: 80px;
+  padding-bottom: 105px;
+  text-align: center;
+  background-image: url("../assets/images/landing/transparent.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  h2 span {
+    position: relative;
+  }
+  h2 span::after {
+    content: "";
+    background-image: url("../assets/images/landing/mustard-brush.png");
+    position: absolute;
+    width: 150px;
+    height: 20px;
+    background-size: 150px 20px;
+    background-repeat: no-repeat;
+    bottom: -24px;
+    right: -15%;
+  }
+  > p {
+    width: 35%;
+    margin: 0 auto;
+  }
+}
+@media (max-width: 1440px) {
+  #facilitators {
+    > p {
+      width: 40%;
+    }
+  }
+}
+@media (max-width: 768px) {
+  #facilitators {
+    > p {
+      width: 95%;
+    }
+  }
 }
 .ex-facilitators {
 }
@@ -725,16 +618,15 @@ export default {
   text-align: left;
   border-radius: 10px;
   z-index: 1;
-  background: #f9fdfc;
+  background: #fff;
 }
 .facilitator:hover ~ .hover_box {
   right: -5px;
-  transform: rotate(5deg);
+  transform: rotate(8deg);
   opacity: 1;
 }
 .facilitator img {
   width: 100%;
-  height: 200px;
 }
 .facilitator > div {
 }
@@ -746,9 +638,47 @@ export default {
 }
 #members {
   position: relative;
-  padding-top: 8rem;
-  padding-bottom: 5rem;
+  padding-top: 80px;
+  padding-bottom: 105px;
   background: rgba(194, 237, 206, 0.09);
+  text-align: center;
+  background-image: url("../assets/images/landing/transparent.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  h2 span {
+    position: relative;
+  }
+  h2 span::after {
+    content: "";
+    background-image: url("../assets/images/landing/mustard-brush.png");
+    position: absolute;
+    width: 150px;
+    height: 20px;
+    background-size: 150px 20px;
+    background-repeat: no-repeat;
+    bottom: -24px;
+    right: -15%;
+  }
+  > p {
+    width: 35%;
+    margin: 0 auto;
+  }
+}
+@media (max-width: 1440px) {
+  #members {
+    > p {
+      width: 40%;
+    }
+  }
+}
+@media (max-width: 768px) {
+  #members {
+    > p {
+      width: 95%;
+    }
+  }
 }
 .members h2 {
   font-size: 25px;
@@ -800,27 +730,36 @@ export default {
 }
 #joinnow {
   position: relative;
-  padding-top: 8rem;
-  padding-bottom: 5rem;
+  padding-top: 80px;
+  padding-bottom: 105px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .brush {
+    width: 35%;
+    position: absolute;
+    bottom: 25px;
+    left: 50px;
+  }
 }
 .joinnow {
-  padding: 8rem 15rem;
-  border-radius: 10px;
-  text-align: center;
+  padding: 6rem 1rem;
 }
 .joinnow h2 {
-  font-size: 36px;
+  font-size: 30px;
   font-style: normal;
-  font-weight: 700;
-  line-height: 44px;
+  font-weight: 500;
+  line-height: 1.5;
   letter-spacing: 0.14em;
   text-align: center;
 }
 .eli1 {
+  width: 20%;
   position: absolute;
-  top: 50%;
-  right: 0;
-  margin-top: -78.5px;
+  top: 25px;
+  right: 25px;
 }
 .eli2 {
   position: absolute;
@@ -832,57 +771,44 @@ export default {
   background: var(--lighter-green);
 }
 .btn {
-  height: 56px;
+  height: 46px;
 }
 img {
   width: 100%;
 }
 @media (max-width: 1024px) {
-  .joinnow {
-    padding: 5rem 10rem;
-    border-radius: 10px;
-    text-align: center;
-  }
-  .eli2 {
-    bottom: -75px;
-  }
 }
 
 @media (max-width: 1024px) {
   .test-1 {
     font-size: 0.9rem;
   }
-  .joinnow {
-    padding: 4rem 6rem;
-    border-radius: 10px;
-    text-align: center;
-  }
-  .eli2 {
-    bottom: -75px;
-  }
+
   .joinnow h2 {
     font-size: 26px;
-    line-height: 34px;
   }
   .member {
     width: 90%;
   }
 }
 
-@media (max-width: 600px) {
-  .btn {
-    height: 46px;
+@media (max-width: 768px) {
+  .banner-text {
+    h1 {
+      font-size: 22px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 30px;
+      letter-spacing: 0.06em;
+      text-align: left;
+    }
+    p {
+      font-size: 15px;
+    }
   }
-  .banner-text h1 {
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 31px;
-    letter-spacing: 0.06em;
-    text-align: left;
-  }
+
   h2 {
-    font-size: 18px !important;
+    font-size: 22px !important;
     color: rgba($color: #000000, $alpha: 0.64);
   }
   .mb-6 {
@@ -896,19 +822,7 @@ img {
     padding-top: 4rem;
     padding-bottom: 3rem;
   }
-  .joinnow {
-    padding: 5rem 10rem;
-    border-radius: 10px;
-    text-align: center;
-  }
-  .eli2 {
-    bottom: -75px;
-  }
-  .joinnow {
-    padding: 2rem 1rem;
-    border-radius: unset;
-    text-align: center;
-  }
+
   .joinnow h2 {
     font-size: 16px !important;
   }
@@ -918,13 +832,12 @@ img {
     background: var(--lighter-green);
   }
   .top_b {
-    height: 50%;
     display: flex;
-    flex-direction: column;
     justify-content: center;
+    flex-direction: column;
   }
-  .down_b {
-    height: 50%;
+  .down_b img {
+    width: 60%;
   }
   .banner_row {
     height: 100%;
