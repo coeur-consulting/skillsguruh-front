@@ -4,7 +4,7 @@
       <b-row
         class="py-3 px-0 p-sm-4 align-items-center justify-content-between"
       >
-        <b-col cols="2" sm="3" md="4">
+        <b-col cols="1" sm="3" md="4">
           <span @click="$router.go(-1)" class="cursor-pointer back fs13">
             <span class="mr-2">
               <b-icon icon="arrow-left" class=""></b-icon
