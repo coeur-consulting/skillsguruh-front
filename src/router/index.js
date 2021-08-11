@@ -198,7 +198,7 @@ const routes = [
     },
   },
   {
-    path: "/interests/:id",
+    path: "/explore/interests/:id",
     name: "Interest",
     components: {
       header: Header,
@@ -213,7 +213,7 @@ const routes = [
     },
   },
   {
-    path: "/feed/view/:id",
+    path: "/explore/feed/view/:id",
     name: "View Feed",
     components: {
       header: Header,
@@ -226,7 +226,7 @@ const routes = [
     },
   },
   {
-    path: "/discussion/:id",
+    path: "/explore/discussion/:id",
     name: "Discussion",
     components: {
       header: Header,
@@ -239,7 +239,7 @@ const routes = [
     },
   },
   {
-    path: "/event/:id",
+    path: "/explore/event/:id",
     name: "Event",
     components: {
       header: Header,
@@ -265,7 +265,7 @@ const routes = [
     },
   },
   {
-    path: "/feeds",
+    path: "/explore/feeds",
     name: "Feeds",
     components: {
       header: Header,
@@ -278,7 +278,7 @@ const routes = [
     },
   },
   {
-    path: "/feed/:interest",
+    path: "/explore/feed/:interest",
     name: "Feed",
     components: {
       header: Header,
@@ -290,7 +290,7 @@ const routes = [
     },
   },
   {
-    path: "/events",
+    path: "/explore/events",
     name: "Events",
     components: {
       header: Header,
@@ -303,7 +303,7 @@ const routes = [
     },
   },
   {
-    path: "/discussions",
+    path: "/explore/discussions",
     name: "Discussions",
     components: {
       header: Header,

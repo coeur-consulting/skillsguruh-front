@@ -4,7 +4,7 @@
       <b-row
         class="py-3 px-0 p-sm-4 align-items-center justify-content-between"
       >
-        <b-col cols="1" sm="2">
+        <b-col cols="2" sm="3" md="4">
           <span @click="$router.go(-1)" class="cursor-pointer back fs13">
             <span class="mr-2">
               <b-icon icon="arrow-left" class=""></b-icon
@@ -31,7 +31,11 @@
         >
           <div
             class="position-relative cursor-pointer"
-            @click="$router.push(`/profile/u/${item.id}`)"
+            @click="
+              item.qualifications
+                ? $router.push(`/profile/f/${item.id}`)
+                : $router.push(`/profile/u/${item.id}`)
+            "
           >
             <div class="facilitator shadow-sm position-relative bg-white">
               <b-img
@@ -44,38 +48,36 @@
                 "
                 style="object-fit: cover"
               ></b-img>
-              <div class="f_name text-truncate text-truncate--1">
-                {{ item.name }}
-              </div>
-              <div class="text-muted fs13 text-capitalize f_detail">
-                <span> {{ item.age ? item.age + " years" : "N/a" }}</span>
-                <span v-if="item.gender"
-                  >, {{ item.gender ? item.gender : "N/a" }}</span
-                >
-              </div>
+              <div class="p-1">
+                <div class="f_name text-truncate text-truncate--1">
+                  {{ item.name }}
+                </div>
+                <div class="text-muted fs13 text-capitalize f_detail">
+                  <span> {{ item.age ? item.age + " years" : "N/a" }}</span>
+                  <span v-if="item.gender"
+                    >, {{ item.gender ? item.gender : "N/a" }}</span
+                  >
+                </div>
 
-              <div class="text-muted fs13 text-capitalize f_detail">
-                {{ item.state ? item.state : "Lagos" }},
-                {{ item.country ? item.country : "NG" }}
-              </div>
-              <div class="text-muted fs12 text-capitalize f_detail">
-                {{
-                  item.interests
-                    ? JSON.parse(item.interests).length + " interests"
-                    : "0 intersts"
-                }},
-              </div>
+                <div class="text-muted fs13 text-capitalize f_detail">
+                  {{ item.state ? item.state : "Lagos" }},
+                  {{ item.country ? item.country : "NG" }}
+                </div>
+                <div class="text-muted fs12 text-capitalize f_detail">
+                  {{
+                    item.interests
+                      ? JSON.parse(item.interests).length + " interests"
+                      : "0 intersts"
+                  }}
+                </div>
 
-              <div class="text-muted">
-                <small class="f_detail">Member</small>
+                <div class="text-muted" v-if="item.qualifications">
+                  <small class="f_detail role">Facilitator</small>
+                </div>
+                <div class="text-muted" v-else>
+                  <small class="f_detail role">Member</small>
+                </div>
               </div>
-              <!-- <div>
-              <b-icon class="text-gold" icon="star-fill"></b-icon>
-              <b-icon class="text-gold" icon="star-fill"></b-icon>
-              <b-icon class="text-gold" icon="star-fill"></b-icon>
-              <b-icon class="text-gold" icon="star-fill"></b-icon>
-              <b-icon class="text-gold" icon="star-fill"></b-icon>
-            </div> -->
             </div>
             <span class="hover_box"></span>
           </div>

@@ -150,50 +150,10 @@
             @click="$router.push(item.url)"
           >
             <div class="rules shadow-sm position-relative">
-              <b-img
-                class="rounded mb-4"
-                fluid-grow
-                :src="require('@/assets/images/landing/explore.png')"
-              ></b-img>
-              <div>Explore</div>
+              <b-img class="rounded mb-4" fluid-grow :src="item.image"></b-img>
+              <div>{{ item.name }}</div>
               <p class="text-muted">
-                Discover people, knowledge and opportunities across interests
-              </p>
-            </div>
-          </b-col>
-          <b-col sm="3" class="mb-5 mb-sm-0 px-3">
-            <div class="rules shadow-sm position-relative">
-              <b-img
-                class="rounded mb-4"
-                fluid-grow
-                :src="require('@/assets/images/landing/engage.png')"
-              ></b-img>
-              <div>Engage</div>
-              <p class="text-muted">Connect with your tribe</p>
-            </div>
-          </b-col>
-          <b-col sm="3" class="mb-5 mb-sm-0 px-3">
-            <div class="rules shadow-sm position-relative">
-              <b-img
-                class="rounded mb-4"
-                fluid-grow
-                :src="require('@/assets/images/landing/evolve.png')"
-              ></b-img>
-              <div>Evolve</div>
-              <p class="text-muted">Maximize opportunities and soar</p>
-            </div>
-          </b-col>
-          <b-col sm="3" class="mb-5 mb-sm-0 px-3">
-            <div class="rules shadow-sm position-relative">
-              <b-img
-                class="rounded mb-4"
-                fluid-grow
-                :src="require('@/assets/images/landing/impact.png')"
-              ></b-img>
-              <div>Impact</div>
-              <p class="text-muted">
-                Nothing better than a tribe that grows together. Invite your
-                friends!
+                {{ item.text }}
               </p>
             </div>
           </b-col>
@@ -500,6 +460,7 @@ export default {
 
 .banner-buttons {
   display: flex;
+  width: 80%;
 }
 .banner-image {
   position: relative;
@@ -550,6 +511,9 @@ export default {
   }
 }
 @media (max-width: 768px) {
+  .banner-buttons {
+    width: 100%;
+  }
   #with_nzukoor {
     > p {
       width: 95%;
