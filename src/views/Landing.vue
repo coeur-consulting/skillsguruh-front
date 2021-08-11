@@ -30,7 +30,7 @@
                       position-relative
                       text-secondary
                       growth-text
-                      animate__animated animate__zoomIn animate__slower
+                      animate__animated animate__zoomIn
                     "
                     >Growth
                     <b-img
@@ -391,24 +391,28 @@ export default {
           text: "Discover people, knowledge and opportunities across interests",
           image: require("@/assets/images/landing/explore.png"),
           animation: "animate__animated animate__slideInRight ",
+          url: "/explore",
         },
         {
           name: "Engage",
           text: "Connect with your tribe",
           image: require("@/assets/images/landing/engage.png"),
           animation: " animate__animated animate__slideInRight",
+          url: "/explore/discussions",
         },
         {
           name: "Evolve",
           text: "Maximize opportunities and soar",
           image: require("@/assets/images/landing/evolve.png"),
           animation: "animate__animated animate__slideInRight animate__slow",
+          url: "/explore/courses",
         },
         {
           name: "Impact",
-          text: "Nothing better than a tribe that grows together. Invite your friends!",
+          text: "Invite your friends and win with your tribe",
           image: require("@/assets/images/landing/impact.png"),
           animation: "animate__animated animate__slideInRight animate__slow",
+          url: "explore/members",
         },
       ],
     };
@@ -485,7 +489,7 @@ export default {
 
 .banner-buttons {
   display: flex;
-  width: 80%;
+  width: 100%;
 }
 .banner-image {
   position: relative;
@@ -537,7 +541,6 @@ export default {
 }
 @media (max-width: 768px) {
   .banner-buttons {
-    display: flex;
     width: 100%;
   }
   #with_nzukoor {

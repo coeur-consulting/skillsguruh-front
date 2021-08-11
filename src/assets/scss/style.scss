@@ -840,6 +840,10 @@ ol.subquest {
 .feed_time {
   font-size: 0.65rem;
 }
+.role {
+  color: var(--secondary);
+  font-weight: 500;
+}
 @media (max-width: 600px) {
   .hover_box {
     background-color: hsl(185deg, 41%, 88%) !important;

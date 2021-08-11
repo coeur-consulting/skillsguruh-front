@@ -55,7 +55,7 @@
               <div class="d-flex justify-content-between">
                 <h6 class="font-weight-bold trending">Trending Discussions</h6>
                 <small
-                  @click="$router.push('/discussions')"
+                  @click="$router.push('/explore/discussions')"
                   class="cursor-pointer text-dark-green"
                   >View all {{ discussions.length }} discussions
                   <b-icon font-scale=".85" icon="chevron-right"></b-icon
@@ -73,7 +73,7 @@
           >
             <div
               class="discussion_container position-relative"
-              @click="$router.push(`/discussion/${item.id}`)"
+              @click="$router.push(`/explore/discussion/${item.id}`)"
             >
               <div class="p-4 dicussion_overlay position-relative">
                 <b-avatar
@@ -216,7 +216,7 @@
             >
               <div
                 class="discussion_container position-relative"
-                @click="$router.push(`/discussion/${item.id}`)"
+                @click="$router.push(`/explore/discussion/${item.id}`)"
               >
                 <div class="p-4 dicussion_overlay position-relative">
                   <b-avatar
@@ -434,7 +434,7 @@
                       </template>
                       <b-dropdown-item
                         class="fs12"
-                        @click="$router.push(`/feed/view/${feed.id}`)"
+                        @click="$router.push(`/explore/feed/view/${feed.id}`)"
                         >View post</b-dropdown-item
                       >
 
@@ -763,7 +763,7 @@
                 >
                   <div
                     class="trending_name cursor-pointer"
-                    @click="$router.push(`/feed/${item.name}`)"
+                    @click="$router.push(`/explore/feed/${item.name}`)"
                   >
                     {{ item.name }}
                   </div>
@@ -796,7 +796,7 @@
             md="3"
             ><b-img
               :src="item.image"
-              @click="$router.push(`/interests/${item.id}`)"
+              @click="$router.push(`/explore/interests/${item.id}`)"
               class="mb-2 interest"
             ></b-img>
             <h6 class="interest text-center w-100">{{ item.value }}</h6></b-col
@@ -1106,7 +1106,7 @@
                     </div>
                     <span
                       class="cursor-pointer"
-                      @click="$router.push(`/event/${item.id}`)"
+                      @click="$router.push(`/explore/event/${item.id}`)"
                     >
                       <span
                         class="viewevent d-none d-sm-inline text-dark-green"
