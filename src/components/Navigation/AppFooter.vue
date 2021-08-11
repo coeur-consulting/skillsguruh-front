@@ -1,14 +1,12 @@
 <template>
-  <footer>
+  <footer class="position-relative">
     <b-container>
       <b-row>
-        <b-col
-          cols="12"
-          md="3"
-          class="d-none d-md-block text-center text-sm-left mt-4 mt-md-0"
-        >
+        <b-col cols="12" md="6" class="text-center text-sm-left mb-4 mb-md-0">
           <b-img src="" class="mb-2 logo" alt="Nzukoor"></b-img>
-          <div class="d-flex mb-3">
+          <div
+            class="d-flex mb-3 justify-content-center justify-content-md-start"
+          >
             <b-img
               class="googleplay"
               :src="require('@/assets/images/landing/googleplay.png')"
@@ -19,116 +17,98 @@
             ></b-img>
           </div>
 
-          <div class="mb-3">
-            <b-iconstack font-scale="1.8" class="mr-3">
-              <b-icon stacked icon="circle-fill" variant="white"></b-icon>
-              <b-icon
-                stacked
-                icon="facebook"
-                variant="mustard"
-                scale="0.5"
-              ></b-icon>
-            </b-iconstack>
-            <b-iconstack font-scale="1.8" class="mr-3">
-              <b-icon stacked icon="circle-fill" variant="white"></b-icon>
-              <b-icon
-                stacked
-                icon="twitter"
-                variant="mustard"
-                scale="0.5"
-              ></b-icon>
-            </b-iconstack>
-            <b-iconstack font-scale="1.8" class="">
-              <b-icon stacked icon="circle-fill" variant="white"></b-icon>
-              <b-icon
-                stacked
-                icon="instagram"
-                variant="mustard"
-                scale="0.5"
-              ></b-icon>
-            </b-iconstack>
+          <div>
+            <small
+              ><span>Terms of services</span> <span class="mx-1">|</span>
+              <span>Privacy Policy</span></small
+            >
           </div>
+
           <small class="text-muted"
             >&copy; {{ new Date().getFullYear() }} Nzukoor</small
           >
         </b-col>
-        <b-col class="link" cols="4" md="3">
-          <h5>About</h5>
-          <router-link to=""><div>Mission</div></router-link>
-          <router-link to=""><div>Vision</div></router-link>
-          <router-link to="/about"><div>About Us</div></router-link>
-          <router-link to="/contact"><div>FAQS</div></router-link>
-          <router-link to="/contact"><div>Help Center</div></router-link>
-        </b-col>
 
-        <b-col class="link" cols="4" md="3">
+        <b-col class="link mb-3 mb-md-0" cols="6" md="3">
           <h5>Company</h5>
-          <router-link to=""><div>Mission</div></router-link>
-          <router-link to=""><div>Vision</div></router-link>
+
           <router-link to="/about"><div>About Us</div></router-link>
-          <router-link to="/contact"><div>FAQS</div></router-link>
-          <router-link to="/contact"><div>Help Center</div></router-link>
+          <router-link to="/contact"><div>FAQs</div></router-link>
+          <router-link to="/contact"><div>Contact Us</div></router-link>
         </b-col>
-        <b-col class="link" cols="4" md="3">
-          <h5>Quick Links</h5>
-          <router-link to=""><div>Mission</div></router-link>
-          <router-link to=""><div>Vision</div></router-link>
-          <router-link to="/about"><div>About Us</div></router-link>
-          <router-link to="/contact"><div>FAQS</div></router-link>
-          <router-link to="/contact"><div>Help Center</div></router-link>
+        <b-col class="link mb-3 mb-md-0 d-md-none" cols="6" md="3">
+          <b-img
+            :src="require('@/assets/images/landing/black-brush.png')"
+            class="black_brush"
+          ></b-img>
+          <b-img
+            :src="require('@/assets/images/landing/mustard-brush.png')"
+            class="mustard_brush"
+          ></b-img>
         </b-col>
-        <b-col cols="12" md="3" class="d-md-none text-sm-left mt-4">
-          <b-img src="" class="mb-2 logo" alt="Nzukoor"></b-img>
-          <div class="d-flex justify-content-center mb-3">
-            <b-img
-              class="googleplay"
-              :src="require('@/assets/images/landing/googleplay.png')"
-            ></b-img>
-            <b-img
-              class="appstore"
-              :src="require('@/assets/images/landing/appstore.png')"
-            ></b-img>
-          </div>
+
+        <b-col class="link text-center text-sm-left" cols="12" md="3">
+          <h4>Get In Touch</h4>
+          <p class="text-muted mb-0">Partnership and general enquiries</p>
+          <p>nzukoor@gmail.com</p>
 
           <div class="mb-3">
             <b-iconstack font-scale="1.8" class="mr-3">
-              <b-icon stacked icon="circle-fill" variant="white"></b-icon>
+              <b-icon
+                stacked
+                icon="circle-fill"
+                class="lighter-circle"
+              ></b-icon>
               <b-icon
                 stacked
                 icon="facebook"
-                variant="mustard"
+                variant="dark-green"
                 scale="0.5"
               ></b-icon>
             </b-iconstack>
             <b-iconstack font-scale="1.8" class="mr-3">
-              <b-icon stacked icon="circle-fill" variant="white"></b-icon>
+              <b-icon
+                stacked
+                icon="circle-fill"
+                class="lighter-circle"
+              ></b-icon>
               <b-icon
                 stacked
                 icon="twitter"
-                variant="mustard"
+                variant="dark-green"
                 scale="0.5"
               ></b-icon>
             </b-iconstack>
             <b-iconstack font-scale="1.8" class="">
-              <b-icon stacked icon="circle-fill" variant="white"></b-icon>
+              <b-icon
+                stacked
+                icon="circle-fill"
+                class="lighter-circle"
+              ></b-icon>
               <b-icon
                 stacked
                 icon="instagram"
-                variant="mustard"
+                variant="dark-green"
                 scale="0.5"
               ></b-icon>
             </b-iconstack>
           </div>
-          <small class="text-muted"
-            >&copy; {{ new Date().getFullYear() }} Nzukoor</small
-          >
         </b-col>
       </b-row>
     </b-container>
+
+    <b-img
+      :src="require('@/assets/images/landing/black-brush.png')"
+      class="black_brush d-none d-md-block"
+    ></b-img>
+    <b-img
+      :src="require('@/assets/images/landing/mustard-brush.png')"
+      class="mustard_brush d-none d-md-block"
+    ></b-img>
   </footer>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .logo {
   width: 120px;
 }
@@ -136,17 +116,47 @@ footer {
   position: relative;
   padding-top: 6rem;
   padding-bottom: 4rem;
-  background: var(--mustard);
+  background: white;
   text-align: left;
+  color: rgba($color: #000000, $alpha: 0.54);
+}
+.black_brush {
+  width: 18%;
+  position: absolute;
+  right: 0;
+  transform: rotate(153deg);
+}
+.mustard_brush {
+  width: 18%;
+  position: absolute;
+  right: 0;
+  transform: rotate(153deg);
+  bottom: 18px;
+}
+p {
+  color: rgba($color: #000000, $alpha: 0.54);
+  font-size: 0.85rem;
+}
+.lighter-circle {
+  color: hsl(0deg, 0%, 96%);
+}
+.lighter-circle:hover {
+  color: hsl(0deg, 0%, 93%);
 }
 .link h5 {
-  color: hsl(43deg 74% 25%);
+  color: var(--dark-green);
   font-size: 0.95rem;
   font-weight: 500;
   margin-bottom: 6px;
 }
+.link h4 {
+  color: var(--dark-green);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
 .link a div {
-  color: hsl(43deg 74% 25%);
+  color: rgba($color: #000000, $alpha: 0.64);
   font-size: 0.8rem;
   margin-bottom: 5px;
 }
@@ -155,16 +165,23 @@ footer {
 }
 .googleplay,
 .appstore {
-  width: 45%;
+  width: 25%;
 }
 @media (max-width: 768px) {
+  .black_brush {
+    position: relative;
+    width: 100%;
+    transform: unset;
+  }
+  .mustard_brush {
+    position: relative;
+    width: 100%;
+    transform: unset;
+  }
   .container {
     height: 100%;
   }
 
-  .row {
-    flex-direction: row-reverse;
-  }
   .googleplay,
   .appstore {
     width: 30%;
