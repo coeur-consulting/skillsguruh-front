@@ -5,7 +5,42 @@
         <b-row class="justify-content-center align-items-center banner_row">
           <b-col md="6" sm="12" class="mb-sm-0 top_b">
             <div class="banner-text mb-3">
-              <h1 class="mb-3 mb-sm-5">
+              <h1 class="d-none d-md-block mb-5">
+                <VueTextTransition
+                  tag="h1"
+                  name="fade"
+                  :show="showTitle"
+                  :interval="30"
+                >
+                  Discover People, Knowledge, and
+                </VueTextTransition>
+                <span class="d-flex">
+                  <VueTextTransition
+                    tag="h1"
+                    name="fade"
+                    :show="showTitle"
+                    :interval="30"
+                    class="mr-2"
+                  >
+                    Opportunities for
+                  </VueTextTransition>
+
+                  <span
+                    class="
+                      position-relative
+                      text-secondary
+                      growth-text
+                      animate__animated animate__zoomIn
+                    "
+                    >Growth
+                    <b-img
+                      :src="require('@/assets/images/landing/black-brush.png')"
+                    ></b-img>
+                  </span>
+                </span>
+              </h1>
+
+              <h1 class="mb-3 mb-sm-5 d-md-none">
                 Discover People, Knowledge, and <br class="d-none d-md-block" />
                 Opportunities for
                 <span class="position-relative text-secondary growth-text"
@@ -105,7 +140,15 @@
       </p>
       <b-container>
         <b-row class="d-flex flex-column flex-md-row">
-          <b-col sm="3" class="mb-5 mb-sm-0 px-3">
+          <b-col
+            md="6"
+            lg="3"
+            class="mb-5 mb-md-4 mb-lg-0 px-3 cursor-pointer"
+            v-for="(item, id) in about"
+            :key="id"
+            v-animate-onscroll.repeat="item.animation"
+            @click="$router.push(item.url)"
+          >
             <div class="rules shadow-sm position-relative">
               <b-img
                 class="rounded mb-4"
@@ -358,6 +401,36 @@ export default {
           name: "Nkechi Ezeukwu , Enugu",
 
           image: require("@/assets/images/landing/story3.png"),
+        },
+      ],
+      about: [
+        {
+          name: "Explore",
+          text: "Discover people, knowledge and opportunities across interests",
+          image: require("@/assets/images/landing/explore.png"),
+          animation: "animate__animated animate__slideInRight ",
+          url: "/explore",
+        },
+        {
+          name: "Engage",
+          text: "Connect with your tribe",
+          image: require("@/assets/images/landing/engage.png"),
+          animation: " animate__animated animate__slideInRight",
+          url: "/explore/discussions",
+        },
+        {
+          name: "Evolve",
+          text: "Maximize opportunities and soar",
+          image: require("@/assets/images/landing/evolve.png"),
+          animation: "animate__animated animate__slideInRight animate__slow",
+          url: "/explore/courses",
+        },
+        {
+          name: "Impact",
+          text: "Invite your friends and win with your tribe",
+          image: require("@/assets/images/landing/impact.png"),
+          animation: "animate__animated animate__slideInRight animate__slow",
+          url: "explore/members",
         },
       ],
     };
