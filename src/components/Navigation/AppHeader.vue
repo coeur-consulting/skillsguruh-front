@@ -11,20 +11,14 @@
         ><b-img src="/img/logo.png"></b-img
       ></b-navbar-brand>
 
-      <b-navbar-toggle target="nav-collapse">
+      <b-navbar-toggle target="nav-collapse" class="border-0">
         <template #default="{ expanded }">
-          <b-icon
-            v-if="expanded"
-            font-scale="1.3"
-            icon="chevron-bar-up"
-            class="text-dark-green"
-          ></b-icon>
-          <b-icon
-            v-else
-            font-scale="1.3"
-            icon="chevron-bar-down"
-            class="text-dark-green"
-          ></b-icon>
+          <div class="navtog">
+            <div class="checked" v-if="expanded"></div>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
         </template>
       </b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
@@ -150,6 +144,50 @@ export default {
 .navbar-light .navbar-nav .nav-link.router-link-exact-active {
   color: var(--secondary);
 }
+.navtog {
+  display: flex;
+  flex-direction: column;
+  width: 30px;
+  cursor: pointer;
+  margin: 0;
+}
+
+.navtog span {
+  background: var(--dark-green);
+  border-radius: 10px;
+  height: 3px;
+  margin: 3px 0;
+  transition: 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+}
+
+span:nth-of-type(1) {
+  width: 50%;
+}
+
+span:nth-of-type(2) {
+  width: 100%;
+}
+
+span:nth-of-type(3) {
+  width: 75%;
+}
+
+.checked ~ span:nth-of-type(1) {
+  transform-origin: bottom;
+  transform: rotatez(45deg) translate(5px, 0px);
+}
+
+.checked ~ span:nth-of-type(2) {
+  transform-origin: top;
+  transform: rotatez(-45deg);
+}
+
+.checked ~ span:nth-of-type(3) {
+  transform-origin: bottom;
+  width: 50%;
+  transform: translate(13px, -5px) rotatez(45deg);
+}
+
 @media (max-width: 600px) {
   .navbar-light .navbar-nav .nav-link {
     font-size: 14px;

@@ -169,6 +169,14 @@ p {
 }
 @media (max-width: 768px) {
   .black_brush {
+    width: 35%;
+  }
+  .mustard_brush {
+    width: 35%;
+  }
+}
+@media (max-width: 600px) {
+  .black_brush {
     position: relative;
     width: 100%;
     transform: unset;
