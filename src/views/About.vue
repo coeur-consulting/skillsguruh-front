@@ -262,9 +262,6 @@ p {
   p {
     text-align: center;
   }
-  .stbg {
-
-  height: 200px;
 }
 
 @media (max-width: 600px) {
