@@ -202,7 +202,7 @@
                 class="mb-sm-0 px-3 py-1"
                 v-for="(item, id) in facilitators"
                 :key="id"
-                v-animate-onscroll.repeat="'animate__animated animate__zoomIn '"
+                v-animate-onscroll="'animate__animated animate__zoomIn '"
               >
                 <div class="position-relative">
                   <div class="facilitator shadow-sm position-relative">
