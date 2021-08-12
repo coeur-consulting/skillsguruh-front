@@ -3,7 +3,7 @@
     <b-container>
       <b-row>
         <b-col cols="12" md="6" class="text-center text-sm-left mb-4 mb-md-0">
-          <b-img src="" class="mb-2 logo" alt="Nzukoor"></b-img>
+          <b-img src="/img/logo.png" class="mb-4 logo" alt="Nzukoor"></b-img>
           <div
             class="d-flex mb-3 justify-content-center justify-content-md-start"
           >
@@ -19,8 +19,8 @@
 
           <div>
             <small
-              ><span>Terms of services</span> <span class="mx-1">|</span>
-              <span>Privacy Policy</span></small
+              ><span>Terms of services</span><span class="mx-1">|</span
+              ><span>Privacy Policy</span></small
             >
           </div>
 
@@ -110,7 +110,7 @@
 
 <style scoped lang="scss">
 .logo {
-  width: 120px;
+  width: 150px;
 }
 footer {
   position: relative;
@@ -199,7 +199,7 @@ p {
     padding-bottom: 2rem;
   }
   .logo {
-    width: 100px;
+    width: 130px;
   }
   .link h5 {
     font-size: 13px;

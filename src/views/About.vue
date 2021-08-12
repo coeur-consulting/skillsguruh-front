@@ -1,5 +1,5 @@
 <template>
-  <div class="main_cont text-left py-5">
+  <div class="main_cont text-left">
     <div class="position-relative">
       <div class="stbg">
         <div class="bg_overlay">
@@ -47,84 +47,156 @@
           ></b-img>
         </b-col>
       </b-row>
-
-      <b-row
-        class="
-          align-items-center
-          flex-column-reverse flex-md-row
-          text-center text-sm-left
-        "
-      >
-        <b-col sm="6" class="">
-          <b-img
-            v-animate-onscroll="
-              'animate__animated animate__zoomIn animate__slow'
-            "
-            :src="require('../assets/images/about.png')"
-          ></b-img>
-        </b-col>
-        <b-col sm="6" class="mb-4 mb-sm-0">
-          <h4 class="mb-4">
-            Want to be part of the change we work for everyday?
-          </h4>
-          <p class="text-center text-sm-left">
-            We’ve created a home for you to share your experience or expertise.
-            The world needs a hero, just like you!
-          </p>
-          <div class="banner-buttons d-none d-sm-flex">
-            <b-button
-              block
-              size="lg"
-              variant="dark-green"
-              @click="$router.push('/register')"
-              class="m-0 mr-3"
-            >
-              Become a Facilitator</b-button
-            >
-            <b-button
-              block
-              size="lg"
-              class="m-0"
-              variant="outline-dark-green"
-              @click="$router.push('/register')"
-            >
-              Connect & Learn</b-button
-            >
-          </div>
-          <div class="banner-buttons d-flex d-sm-none">
-            <b-button
-              block
-              size="sm"
-              variant="dark-green"
-              @click="$router.push('/register')"
-              class="m-0 mr-3 py-2"
-            >
-              Become a Facilitator</b-button
-            >
-            <b-button
-              block
-              size="sm"
-              class="m-0 py-2"
-              variant="outline-dark-green"
-              @click="$router.push('/register')"
-            >
-              Connect & Learn</b-button
-            >
-          </div>
-        </b-col>
-      </b-row>
     </b-container>
+    <section id="with_nzukoor">
+      <h2 class="mb-5"><span>Get N-circled</span></h2>
+      <p class="mb-5 text-center">
+        Follow our 3E-I to make the most of your time here. We promise it’ll be
+        well worth your while.
+      </p>
+      <b-container>
+        <b-row class="d-flex flex-column flex-md-row">
+          <b-col
+            sm="6"
+            md="6"
+            lg="3"
+            class="mb-5 px-3 cursor-pointer"
+            v-for="(item, id) in about"
+            :key="id"
+            v-animate-onscroll.repeat="item.animation"
+            @click="$router.push(item.url)"
+          >
+            <div class="rules shadow-sm position-relative">
+              <kinesis-container>
+                <kinesis-element :strength="8" type="depth">
+                  <b-img
+                    class="rounded mb-4"
+                    fluid-grow
+                    :src="item.image"
+                  ></b-img>
+                </kinesis-element>
+                <div>{{ item.name }}</div>
+                <p class="text-muted">
+                  {{ item.text }}
+                </p>
+              </kinesis-container>
+            </div>
+          </b-col>
+        </b-row>
+      </b-container>
+    </section>
   </div>
 </template>
-
+<script>
+import { KinesisContainer, KinesisElement } from "vue-kinesis";
+export default {
+  data() {
+    return {
+      about: [
+        {
+          name: "Explore",
+          text: "Discover people, knowledge and opportunities across interests",
+          image: require("@/assets/images/landing/explore.png"),
+          animation: "animate__animated animate__slideInRight ",
+          url: "/explore",
+        },
+        {
+          name: "Engage",
+          text: "Connect with your tribe",
+          image: require("@/assets/images/landing/engage.png"),
+          animation: " animate__animated animate__slideInRight",
+          url: "/explore/discussions",
+        },
+        {
+          name: "Evolve",
+          text: "Maximize opportunities and soar",
+          image: require("@/assets/images/landing/evolve.png"),
+          animation: "animate__animated animate__slideInRight animate__slow",
+          url: "/explore/courses",
+        },
+        {
+          name: "Impact",
+          text: "Invite your friends and win with your tribe",
+          image: require("@/assets/images/landing/impact.png"),
+          animation: "animate__animated animate__slideInRight animate__slow",
+          url: "explore/members",
+        },
+      ],
+    };
+  },
+  components: {
+    KinesisContainer,
+    KinesisElement,
+  },
+};
+</script>
 <style scoped lang="scss">
 .main_cont {
   background: #f7f7f7;
 }
-.container {
-  min-height: calc(100vh - 100px);
+#with_nzukoor {
+  padding-top: 80px;
+  padding-bottom: 105px;
+  background-image: url("../assets/images/landing/with_nzukoor.png");
+  background-repeat: no-repeat;
+  text-align: center;
+  background-size: contain;
+  h2 span {
+    position: relative;
+  }
+  h2 span::after {
+    content: "";
+    background-image: url("../assets/images/landing/mustard-brush.png");
+    position: absolute;
+    width: 150px;
+    height: 20px;
+    background-size: 150px 20px;
+    background-repeat: no-repeat;
+    bottom: -24px;
+    right: -15%;
+  }
+  > p {
+    width: 35%;
+    margin: 0 auto;
+  }
 }
-
+.rules {
+  background-color: white;
+  border-radius: 8px;
+  padding: 15px;
+  text-align: left;
+  height: 100%;
+  img {
+    width: 90%;
+    object-position: center;
+    object-fit: contain;
+  }
+  div {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  p {
+    text-align: left;
+    font-size: 0.9rem;
+  }
+}
+@media (max-width: 1440px) {
+  #with_nzukoor {
+    > p {
+      width: 40%;
+    }
+  }
+}
+@media (max-width: 768px) {
+  .banner-buttons {
+    width: 100%;
+  }
+  #with_nzukoor {
+    > p {
+      width: 95%;
+    }
+  }
+}
 .stbg {
   width: 100%;
   height: 250px;

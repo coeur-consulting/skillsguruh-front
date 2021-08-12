@@ -1,7 +1,7 @@
 <template>
   <div id="main">
     <section class="banner" id="banner">
-      <b-container class="h-100 d-flex align-items-center pt-3 pt-md-0">
+      <b-container class="h-100 d-flex align-items-center pt-5 pt-md-0">
         <b-row class="justify-content-center align-items-center banner_row">
           <b-col md="6" sm="12" class="mb-sm-0 top_b">
             <div class="banner-text mb-3">
@@ -70,7 +70,7 @@
                 variant="outline-dark-green"
                 @click="$router.push('/register')"
               >
-                Get Connected</b-button
+                Get Started</b-button
               >
               <b-button
                 v-if="auth"
@@ -113,7 +113,7 @@
                 variant="outline-dark-green"
                 @click="$router.push('/register')"
               >
-                Get Connected</b-button
+                Get Started</b-button
               >
             </div>
           </b-col>
@@ -492,7 +492,7 @@ export default {
 
 .banner-buttons {
   display: flex;
-  width: 100%;
+  width: 70%;
 }
 .banner-image {
   position: relative;
@@ -505,7 +505,7 @@ export default {
 .down_b {
   justify-content: center;
   img {
-    width: 80%;
+    width: 100%;
     object-fit: contain;
   }
 }
@@ -906,7 +906,7 @@ img {
     flex-direction: column;
   }
   .down_b img {
-    width: 60%;
+    width: 80%;
   }
   .banner_row {
     height: 100%;

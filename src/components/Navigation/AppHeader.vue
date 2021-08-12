@@ -8,7 +8,7 @@
   >
     <b-container>
       <b-navbar-brand href="/"
-        ><b-img src="/img/logo.png"></b-img
+        ><b-img class="logo" src="/img/logo.png"></b-img
       ></b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse" class="border-0">
@@ -187,10 +187,15 @@ span:nth-of-type(3) {
   width: 50%;
   transform: translate(13px, -5px) rotatez(45deg);
 }
-
+.logo {
+  width: 120px;
+}
 @media (max-width: 600px) {
   .navbar-light .navbar-nav .nav-link {
     font-size: 14px;
+  }
+  .logo {
+    width: 100px;
   }
 }
 </style>
