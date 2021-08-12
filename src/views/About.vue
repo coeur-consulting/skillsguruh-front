@@ -1,17 +1,22 @@
 <template>
-  <div class="main_cont text-left">
+  <div class="main_cont text-center text-md-left">
     <div class="position-relative">
       <div class="stbg">
         <div class="bg_overlay">
-          <h1 class="text-white font-weight-bold">About Us</h1>
+          <h2 class="text-white">About Us</h2>
         </div>
       </div>
     </div>
     <b-container class="">
       <b-row class="mb-4 py-5 align-items-center">
-        <b-col sm="6" class="d-flex flex-column align-items-center">
+        <b-col
+          sm="6"
+          class="d-flex flex-column align-items-center text-center text-md-left"
+        >
           <div>
-            <h2>What do I value?</h2>
+            <div class="trending mb-5">
+              <h2><span>What do I value?</span></h2>
+            </div>
 
             <h5 class="mb-4 text-dark-green">
               How will I leave an eternal legacy?
@@ -63,20 +68,16 @@
             class="mb-5 px-3 cursor-pointer"
             v-for="(item, id) in about"
             :key="id"
-            v-animate-onscroll.repeat="item.animation"
+            v-animate-onscroll="item.animation"
             @click="$router.push(item.url)"
           >
             <div class="rules shadow-sm position-relative">
               <kinesis-container>
                 <kinesis-element :strength="8" type="depth">
-                  <b-img
-                    class="rounded mb-4"
-                    fluid-grow
-                    :src="item.image"
-                  ></b-img>
+                  <b-img class="rounded mb-4" :src="item.image"></b-img>
                 </kinesis-element>
                 <div>{{ item.name }}</div>
-                <p class="text-muted">
+                <p class="text-muted text-center text-md-left">
                   {{ item.text }}
                 </p>
               </kinesis-container>
@@ -180,21 +181,25 @@ export default {
     font-size: 0.9rem;
   }
 }
-@media (max-width: 1440px) {
-  #with_nzukoor {
-    > p {
-      width: 40%;
-    }
+.trending {
+  h2 span {
+    position: relative;
   }
-}
-@media (max-width: 768px) {
-  .banner-buttons {
-    width: 100%;
+  h2 span::after {
+    content: "";
+    background-image: url("../assets/images/landing/mustard-brush.png");
+    position: absolute;
+    width: 150px;
+    height: 20px;
+    background-size: 150px 20px;
+    background-repeat: no-repeat;
+    bottom: -24px;
+    right: 50%;
+    margin-right: -75px;
   }
-  #with_nzukoor {
-    > p {
-      width: 95%;
-    }
+  > p {
+    width: 35%;
+    margin: 0 auto;
   }
 }
 .stbg {
@@ -221,12 +226,53 @@ p {
 p {
   text-align: justify;
 }
-@media (max-width: 600px) {
-  p {
-    text-align: left;
+@media (max-width: 1440px) {
+  #with_nzukoor {
+    > p {
+      width: 40%;
+    }
   }
+}
+@media (max-width: 768px) {
+  .main_cont {
+    text-align: center;
+  }
+  .banner-buttons {
+    width: 100%;
+  }
+  #with_nzukoor {
+    > p {
+      width: 95%;
+    }
+  }
+  .rules {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+
+    img {
+      width: 60%;
+    }
+  }
+  .trending {
+    h2 {
+      font-size: 1.3rem;
+    }
+  }
+  p {
+    text-align: center;
+  }
+  .stbg {
+
+  height: 200px;
+}
+
+@media (max-width: 600px) {
   .container {
     height: auto;
+  }
+  p {
+    text-align: center;
   }
 }
 </style>

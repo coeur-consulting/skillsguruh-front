@@ -156,14 +156,10 @@
             <div class="rules shadow-sm position-relative">
               <kinesis-container>
                 <kinesis-element :strength="8" type="depth">
-                  <b-img
-                    class="rounded mb-4"
-                    fluid-grow
-                    :src="item.image"
-                  ></b-img>
+                  <b-img class="rounded mb-4" :src="item.image"></b-img>
                 </kinesis-element>
                 <div>{{ item.name }}</div>
-                <p class="text-muted">
+                <p class="text-muted text-center text-md-left">
                   {{ item.text }}
                 </p>
               </kinesis-container>
@@ -651,6 +647,15 @@ export default {
   #facilitators {
     > p {
       width: 95%;
+    }
+  }
+  .rules {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+
+    img {
+      width: 60%;
     }
   }
 }
