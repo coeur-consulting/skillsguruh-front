@@ -40,7 +40,7 @@
                 </span>
               </h1>
 
-              <h1 class="mb-3 mb-sm-5 d-md-none">
+              <h1 class="mb-4 mb-sm-5 d-md-none">
                 Discover People, Knowledge, and <br class="d-none d-md-block" />
                 Opportunities for
                 <span class="position-relative text-secondary growth-text"
@@ -570,7 +570,7 @@ export default {
 }
 .growth-text img {
   position: absolute;
-  bottom: -25px;
+  bottom: -15px;
   left: 0;
 }
 
@@ -837,7 +837,7 @@ export default {
 }
 .eli2 {
   position: absolute;
-  bottom: -25px;
+  bottom: -15px;
   left: 10%;
 }
 .form-control {

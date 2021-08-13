@@ -115,7 +115,7 @@
             <b-form-row>
               <b-col sm="12">
                 <b-form-group label="Bio">
-                  <b-form-textarea v-model="user.bio">
+                  <b-form-textarea maxlength="150" v-model="user.bio">
                   </b-form-textarea></b-form-group
               ></b-col>
             </b-form-row>

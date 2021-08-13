@@ -5,7 +5,7 @@
         <b-col sm="8">
           <b-row>
             <b-col cols="12" class="mb-0 rounded px-1 pt-sm-2 px-sm-4 pb-2">
-              <b-card no-body class="overflow-hidden border-0" style="">
+              <b-card no-body class="overflow-hidden border-0 top_h" style="">
                 <b-row no-gutters>
                   <b-col cols="3" class="prof_img">
                     <b-card-img

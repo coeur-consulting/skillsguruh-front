@@ -24,18 +24,14 @@
                       class="starter"
                       :src="discussion.user.profile"
                       v-if="discussion.user"
-                      @click="
-                        $router.push(`/member/profile/u/${discussion.user.id}`)
-                      "
+                      @click="$router.push(`/profile/u/${discussion.user.id}`)"
                     ></b-avatar>
                     <b-avatar
                       class="starter"
                       :src="discussion.facilitator.profile"
                       v-if="discussion.facilitator"
                       @click="
-                        $router.push(
-                          `/member/profile/f/${discussion.facilitator.id}`
-                        )
+                        $router.push(`/profile/f/${discussion.facilitator.id}`)
                       "
                     ></b-avatar>
                   </div>
@@ -135,18 +131,14 @@
                     <span
                       v-if="discussion.user"
                       class="cursor-pointer text-dark-green hover_green"
-                      @click="
-                        $router.push(`/member/profile/u/${discussion.user.id}`)
-                      "
+                      @click="$router.push(`/profile/u/${discussion.user.id}`)"
                       >{{ discussion.user.name }}</span
                     >
                     <span
                       v-if="discussion.facilitator"
                       class="cursor-pointer text-dark-green hover_green"
                       @click="
-                        $router.push(
-                          `/member/profile/f/${discussion.facilitator.id}`
-                        )
+                        $router.push(`/profile/f/${discussion.facilitator.id}`)
                       "
                       >{{ discussion.facilitator.name }}</span
                     >
@@ -612,7 +604,7 @@
                 <div
                   class="d-flex p-2 px-3 cursor-pointer"
                   v-if="item.type == 'public'"
-                  @click="$router.push(`/member/discussion/${item.id}`)"
+                  @click="$router.push(`/discussion/${item.id}`)"
                 >
                   <div v-if="item.discussionmessage.length">
                     <div>
@@ -1145,8 +1137,7 @@ export default {
     this.addview();
     this.getvote();
     this.getconnections();
-    this.link =
-      "https://nzukoor.com/member/discussion/" + this.$route.params.id;
+    this.link = "https://nzukoor.com/discussion/" + this.$route.params.id;
 
     var channel = this.$pusher.subscribe("adddiscussion");
 
@@ -1359,7 +1350,7 @@ export default {
           "I just started a discussion, " +
           this.discussion.name.toUpperCase() +
           " and I’d like to hear your thoughts",
-        url: "https://nzukoor.com/member/discussion/" + this.discussion.id,
+        url: "https://nzukoor.com/discussion/" + this.discussion.id,
       };
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {

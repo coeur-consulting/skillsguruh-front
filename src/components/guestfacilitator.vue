@@ -15,11 +15,10 @@
         <b-col sm="7">
           <b-row>
             <b-col cols="12" class="mb-0 rounded pt-sm-2 px-1 px-sm-4 pb-2">
-              <b-card no-body class="overflow-hidden border-0" style="">
+              <b-card no-body class="overflow-hidden border-0 top_h" style="">
                 <b-row no-gutters>
                   <b-col cols="3" sm="3" class="prof_img">
                     <b-card-img
-                      width="15%"
                       :src="
                         detail.profile
                           ? detail.profile
@@ -1541,6 +1540,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+
 .shadow {
   box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;

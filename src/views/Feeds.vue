@@ -276,7 +276,7 @@
       </b-modal>
       <b-container>
         <div class="mb-3 d-none d-sm-block text-left">
-          <span @click="$router.go(-1)" class=" cursor-pointer back">
+          <span @click="$router.go(-1)" class="cursor-pointer back">
             <span class="mr-2">
               <b-icon icon="arrow-left" class=""></b-icon
             ></span>
@@ -383,9 +383,7 @@
                             :src="feed.user.profile"
                           ></b-avatar>
                           <span
-                            @click="
-                              $router.push(`/member/profile/u/${feed.user.id}`)
-                            "
+                            @click="$router.push(`/profile/u/${feed.user.id}`)"
                             class="hover_green"
                           >
                             <div style="line-height: 1.2">
@@ -407,9 +405,7 @@
                           <span
                             class="hover_green"
                             @click="
-                              $router.push(
-                                `/member/profile/f/${feed.facilitator.id}`
-                              )
+                              $router.push(`/profile/f/${feed.facilitator.id}`)
                             "
                           >
                             <div style="line-height: 1.2">
@@ -434,7 +430,7 @@
                         </template>
                         <b-dropdown-item
                           class="fs12"
-                          @click="$router.push(`/member/feed/view/${feed.id}`)"
+                          @click="$router.push(`/feed/view/${feed.id}`)"
                           >View post</b-dropdown-item
                         >
 
@@ -612,9 +608,7 @@
                             <span
                               class="comment_name mr-2 hover_green"
                               @click="
-                                $router.push(
-                                  `/member/profile/u/${item.user.id}`
-                                )
+                                $router.push(`/profile/u/${item.user.id}`)
                               "
                               v-if="item.user"
                             >
@@ -624,7 +618,7 @@
                               class="comment_name mr-2 hover_green"
                               @click="
                                 $router.push(
-                                  `/member/profile/f/${item.facilitator.id}`
+                                  `/profile/f/${item.facilitator.id}`
                                 )
                               "
                               v-if="item.facilitator"
