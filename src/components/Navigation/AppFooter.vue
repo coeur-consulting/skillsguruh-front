@@ -3,7 +3,7 @@
     <b-container>
       <b-row>
         <b-col cols="12" md="6" class="text-center text-sm-left mb-4 mb-md-0">
-          <b-img src="/img/logo.png" class="mb-4 logo" alt="Nzukoor"></b-img>
+          <b-img src="/icon.png" class="mb-4 logo" alt="Nzukoor"></b-img>
           <div
             class="d-flex mb-3 justify-content-center justify-content-md-start"
           >
@@ -110,7 +110,7 @@
 
 <style scoped lang="scss">
 .logo {
-  width: 150px;
+  width: 100px;
 }
 footer {
   position: relative;
@@ -166,6 +166,7 @@ p {
 .googleplay,
 .appstore {
   width: 25%;
+  height: 40px;
 }
 @media (max-width: 768px) {
   .black_brush {
@@ -199,7 +200,7 @@ p {
     padding-bottom: 2rem;
   }
   .logo {
-    width: 130px;
+    width: 80px;
   }
   .link h5 {
     font-size: 13px;
