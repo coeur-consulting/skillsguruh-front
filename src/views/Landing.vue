@@ -5,7 +5,7 @@
         <b-row class="justify-content-center align-items-center banner_row">
           <b-col md="6" sm="12" class="mb-sm-0 top_b">
             <div class="banner-text mb-3">
-              <h1 class="d-none d-md-block mb-5">
+              <h1 class="d-none d-md-block mb-5 mb-md-4">
                 <VueTextTransition
                   tag="h1"
                   name="fade"
@@ -40,7 +40,7 @@
                 </span>
               </h1>
 
-              <h1 class="mb-4 mb-sm-5 d-md-none">
+              <h1 class="mb-4 mb-sm-4 d-md-none">
                 Discover People, Knowledge, and <br class="d-none d-md-block" />
                 Opportunities for
                 <span class="position-relative text-secondary growth-text"
@@ -50,7 +50,7 @@
                   ></b-img>
                 </span>
               </h1>
-              <p>Enjoy a more engaging and organized virtual learning</p>
+              <p>Enjoy a more engaging and organized virtual network</p>
             </div>
             <div class="banner-buttons d-none d-sm-flex">
               <b-button

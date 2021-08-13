@@ -826,9 +826,7 @@
           </div>
 
           <p class="px-2 px-sm--5">
-            There are several interest to be explored from health,
-            entreprenuership, lifestyle , connection explore different areas of
-            interest that can help improve your business skills
+            Select your interest to connect with your tribe right away
           </p>
           <b-row class="py-2 justify-content-center justify-content-sm-around">
             <b-col
