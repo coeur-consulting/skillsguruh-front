@@ -78,6 +78,7 @@
                       <b-form-input
                         size="sm"
                         v-model="user.email"
+                        autocomplete="off"
                         type="email"
                         name="email"
                         :state="validateState('email')"
@@ -98,6 +99,7 @@
                     <b-form-group label="Username">
                       <b-form-input
                         size="sm"
+                        autocomplete="off"
                         v-model="user.username"
                         type="text"
                         :required="!type"
@@ -109,6 +111,7 @@
                     <b-form-group label="Phone" id="phone" label-for="phone">
                       <b-form-input
                         size="sm"
+                        autocomplete="off"
                         v-model="user.phone"
                         type="tel"
                         name="phone"
@@ -134,6 +137,7 @@
                         size="sm"
                         v-model="user.password"
                         type="password"
+                        autocomplete="off"
                         name="password"
                         :state="validateState('password')"
                         placeholder="Enter password"
