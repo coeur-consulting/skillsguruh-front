@@ -46,6 +46,10 @@ p {
   opacity: 0;
   transform: translateY(20px);
 }
+.col-form-label,
+label {
+  font-size: 0.9rem;
+}
 @media (min-width: 1300px) {
   .container,
   .container-sm,
@@ -202,7 +206,7 @@ a:hover {
   display: none !important;
 }
 ::placeholder {
-  font-size: 14px;
+  font-size: 0.9rem;
 }
 .form-control {
   font-size: 15px;
@@ -247,9 +251,7 @@ a:hover {
 #addcourse___BV_modal_header_ h5 {
   font-size: 1.1rem;
 }
-.col-form-label {
-  font-size: 0.9rem;
-}
+
 .border-left-green {
   border-left: 4px solid var(--dark-green);
 }

@@ -1,46 +1,22 @@
 <template>
   <div>
-    <form
-      @submit.prevent="processUpload"
-      class="form text-center p-3 cursor-pointer position-relative"
-    >
-      <div class="cursor-pointer">
-        <label class="form-group mb-0" for="logo">
-          <input
-            type="file"
-            class="form-control hidden"
-            id="logo"
-            aria-describedby="helpId"
-            placeholder
-            @change="handleFileChange($event)"
-          />
+    <form @submit.prevent="processUpload" class="position-relative">
+      <div class="cursor-pointer d-flex align-items-center">
+        <b-form-file
+          size="sm"
+          type="file"
+          class="form-control mr-3"
+          id="logo"
+          aria-describedby="helpId"
+          placeholder="Choose an image"
+          @change="handleFileChange($event)"
+        ></b-form-file>
 
-          <div
-            class="text-center cursor-pointer position-relative"
-            v-if="!uploadedFileUrl"
-          >
-            <b-icon
-              class="mb-2 text-muted"
-              icon="cloud-upload"
-              font-scale="4"
-            ></b-icon>
-            <div><span>Upload</span></div>
-            <div v-if="start" class="spinner-start">
-              <b-spinner
-                class="text-dark-green"
-                style="width: 4rem; height: 4rem"
-                label="Spinning"
-              ></b-spinner>
-            </div>
-          </div>
-          <b-img
-            v-if="uploadedFileUrl"
-            :src="uploadedFileUrl"
-            blank-color="transparent"
-            width="100%"
-            height="100%"
-          ></b-img>
-        </label>
+        <b-avatar
+          v-if="uploadedFileUrl"
+          :src="uploadedFileUrl"
+          blank-color="transparent"
+        ></b-avatar>
       </div>
     </form>
   </div>
@@ -50,6 +26,7 @@
   border-radius: 8px;
   border: 1px dashed #ccc;
 }
+
 label {
   position: relative;
   top: 0;
@@ -97,7 +74,7 @@ export default {
   name: "CloudinaryUpload",
   data() {
     return {
-      img_ext: ["jpg", "png", "jpeg ", "gif"],
+      img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp", "mov", "flv"],
       filesSelectedLength: 0,
       file: [],
@@ -172,7 +149,7 @@ export default {
         if (xhr.status === 200) {
           // Success! You probably wantto save the URL somewhere
           this.progress = "Completed";
-
+          this.$toast.success("Upload successful");
           var response = JSON.parse(xhr.response);
           this.start = false;
           this.uploadedFileUrl = response.secure_url; // https address of uploaded file

@@ -2,208 +2,163 @@
   <div id="register">
     <b-container fluid class="p-sm-0 h-100">
       <b-row class="h-100">
-        <b-col cols="0" sm="3" class="side p-3 p-sm-4 d-none d-sm-flex">
+        <b-col cols="0" sm="6" class="side p-3 p-sm-4 d-none d-sm-flex">
           <b-img
             class="logo cursor-pointer"
             @click="$router.push('/')"
             :src="require('@/assets/images/logo.png')"
           ></b-img>
-          <div class="ico text-center p-3">
-            <p class="mb-5 text-dark-green">
-              You are a few Click away from signing up to our platform, get
-              access to a whole new world of learning
-            </p>
-            <div class="position-relative">
-              <span class="rect">
-                <b-img :src="require('@/assets/images/rect.png')"></b-img>
-              </span>
-              <span class="circ">
-                <b-img :src="require('@/assets/images/eli-white.png')"></b-img>
-              </span>
+          <div class="position-relative">
+            <span class="rect">
               <b-img
-                class="position-relative centerimg"
-                :src="require('@/assets/images/sideb.png')"
+                :src="require('@/assets/images/auth/loginimg.png')"
               ></b-img>
-            </div>
+            </span>
+
+            <h3 class="mt-4">{{ type ? "Facilitator" : "Member" }} Login</h3>
           </div>
         </b-col>
-        <b-col cols="12" sm="9" class="main p-3 p-sm-4 text-sm-left">
-          <div class="d-sm-none position-relative">
-            <b-img
-              class="img-l cursor-pointer"
-              @click="$router.push('/')"
-              width="40px"
-              src="/img/logo.png"
-            ></b-img>
+        <b-col
+          cols="12"
+          sm="6"
+          class="
+            main
+            p-3 p-sm-5
+            d-flex
+            justify-content-center
+            align-items-center
+            text-sm-left
+          "
+        >
+          <div class="shadow rounded p-4 p-sm-5 h-100 w-100">
+            <div class="d-sm-none position-relative">
+              <b-img
+                class="img-l cursor-pointer"
+                @click="$router.push('/')"
+                width="40px"
+                src="/img/logo.png"
+              ></b-img>
+            </div>
+
+            <b-form @submit.stop.prevent="register" class="user w-100">
+              <legend>
+                Login in to
+                <span class="font-weight-bold text-dark-green">Nzukoor</span>
+              </legend>
+              <div class="form-text mb-4">
+                You do not have an account?
+                <span
+                  class="text-secondary cursor-pointer"
+                  @click="$router.push('/register')"
+                  >Sign Up</span
+                >
+              </div>
+
+              <div>
+                <b-form-row class="mb-2">
+                  <b-col class="pr-sm-3">
+                    <b-form-group label="Email" id="email" label-for="email">
+                      <b-form-input
+                        size="lg"
+                        required
+                        v-model="user.email"
+                        name="email"
+                        :state="validation"
+                        type="email"
+                        placeholder="Enter email address"
+                        aria-describedby="email-feedback"
+                      ></b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-form-row>
+                <b-form-row class="mb-2">
+                  <b-col cols="12" class="pr-sm-3">
+                    <b-form-group
+                      label="Password"
+                      id="password"
+                      label-for="password"
+                    >
+                      <b-form-input
+                        required
+                        size="lg"
+                        v-model="user.password"
+                        type="password"
+                        name="password"
+                        :state="validation"
+                        placeholder="Enter password"
+                        aria-describedby="password-feedback"
+                      ></b-form-input>
+                    </b-form-group>
+                  </b-col>
+                </b-form-row>
+
+                <b-form-group>
+                  <div class="mb-3">
+                    <b-button
+                      type="submit"
+                      variant="dark-green"
+                      size="lg"
+                      block
+                      :disabled="loading"
+                      class="px-5 d-flex justify-content-center"
+                    >
+                      <span class="fs16">Login</span>
+                      <b-icon
+                        icon="three-dots"
+                        v-if="loading"
+                        animation="cylon"
+                        class="ml-3"
+                        font-scale="1.5"
+                      ></b-icon
+                    ></b-button>
+                  </div>
+                </b-form-group>
+              </div>
+
+              <div v-if="!type">
+                <div class="or my-4">OR</div>
+
+                <div class="socials mt-3">
+                  <div
+                    class="social shadow-sm mb-3 border btn-shadow"
+                    @click="socialregister('google')"
+                  >
+                    <b-img
+                      :src="require('@/assets/images/auth/goo.png')"
+                      class="mr-2"
+                    ></b-img>
+                    Log in with Google
+                  </div>
+                  <div
+                    class="social shadow-sm border btn-shado"
+                    @click="socialregister('facebook')"
+                  >
+                    <b-img
+                      :src="require('@/assets/images/auth/face.png')"
+                      class="mr-2"
+                    ></b-img>
+                    Log in with Facebook
+                  </div>
+                </div>
+              </div>
+              <div class="text-center mt-4">
+                <span
+                  v-if="type == false"
+                  class="text-secondary cursor-pointer"
+                  @click="type = true"
+                >
+                  I am a Facilitator
+                </span>
+                <span
+                  v-else
+                  class="text-secondary cursor-pointer"
+                  @click="type = false"
+                >
+                  I am a Member
+                </span>
+              </div>
+            </b-form>
           </div>
-          <b-form @submit.stop.prevent="register" class="user mt-sm-5">
-            <legend>Login as</legend>
-            <!-- <b-form-row class="mb-4 my_type">
-              <b-col cols="6" sm="6" class="text-left">
-                <div
-                  class="type"
-                  :class="{ selected_type: type == 'facilitator' }"
-                >
-                  <b-form-radio
-                    class="reg"
-                    size="sm"
-                    v-model="type"
-                    value="facilitator"
-                    >Facilitator</b-form-radio
-                  >
-                </div>
-              </b-col>
-              <b-col cols="6" sm="6" class="text-left">
-                <div class="type" :class="{ selected_type: type == 'member' }">
-                  <b-form-radio
-                    class="reg"
-                    size="sm"
-                    v-model="type"
-                    value="member"
-                    >Member</b-form-radio
-                  >
-                </div>
-              </b-col>
-            </b-form-row> -->
-
-            <div class="mb-3">
-              <span class="d-flex align-items-center">
-                <span class="mr-2" :class="!type ? '' : 'text-muted'">
-                  Member</span
-                >
-                <b-form-checkbox v-model="type" name="check-button" switch>
-                  <span :class="!type ? 'text-muted' : ''">Facilitator</span>
-                </b-form-checkbox>
-              </span>
-            </div>
-
-            <div>
-              <b-form-row class="mb-2">
-                <b-col class="pr-sm-3">
-                  <b-form-group label="Email" id="email" label-for="email">
-                    <b-form-input
-                      size="lg"
-                      required
-                      v-model="user.email"
-                      name="email"
-                      :state="validation"
-                      type="email"
-                      placeholder="Enter email address"
-                      aria-describedby="email-feedback"
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-              </b-form-row>
-              <b-form-row class="mb-2">
-                <b-col cols="12" class="pr-sm-3">
-                  <b-form-group
-                    label="Password"
-                    id="password"
-                    label-for="password"
-                  >
-                    <b-form-input
-                      required
-                      size="lg"
-                      v-model="user.password"
-                      type="password"
-                      name="password"
-                      :state="validation"
-                      placeholder="Enter password"
-                      aria-describedby="password-feedback"
-                    ></b-form-input>
-                  </b-form-group>
-                </b-col>
-              </b-form-row>
-
-              <b-form-group>
-                <div class="mb-3">
-                  <b-button
-                    type="submit"
-                    variant="dark-green"
-                    size="lg"
-                    class="px-5 d-none d-sm-flex align-items-center"
-                    :disabled="loading"
-                  >
-                    <span>Login</span>
-                    <b-icon
-                      icon="three-dots"
-                      v-if="loading"
-                      animation="cylon"
-                      class="ml-3"
-                      font-scale="1.5"
-                    ></b-icon
-                  ></b-button>
-                  <b-button
-                    type="submit"
-                    variant="dark-green"
-                    size="lg"
-                    block
-                    :disabled="loading"
-                    class="px-5 d-flex d-sm-none justify-content-center"
-                  >
-                    <span class="fs16">Login</span>
-                    <b-icon
-                      icon="three-dots"
-                      v-if="loading"
-                      animation="cylon"
-                      class="ml-3"
-                      font-scale="1.5"
-                    ></b-icon
-                  ></b-button>
-                </div>
-              </b-form-group>
-            </div>
-            <!-- <div class="mb-2 d-flex">
-              <div class="fs14">
-                Login as an
-                <span
-                  class="text-dark-green cursor-pointer"
-                  @click="$router.push('/admin/login?auth=organization')"
-                  >Organization</span
-                >
-                or
-                <span
-                  class="text-dark-green cursor-pointer"
-                  @click="$router.push('/admin/login?auth=administrator')"
-                  >Administrator</span
-                >
-              </div>
-            </div> -->
-
-            <div class="fs14">
-              Don't have an account yet?
-              <span
-                class="text-dark-green cursor-pointer"
-                @click="$router.push('/register')"
-                >Register now</span
-              >
-            </div>
-
-            <div v-if="type == 'member'">
-              <div class="or my-4">OR</div>
-
-              <div class="socials mt-3">
-                <div
-                  class="social mr-4 shadow"
-                  @click="socialregister('google')"
-                >
-                  <b-img :src="require('@/assets/images/gmail.png')"></b-img>
-                </div>
-                <div
-                  class="social mr-4 shadow"
-                  @click="socialregister('facebook')"
-                >
-                  <b-img :src="require('@/assets/images/facebook.png')"></b-img>
-                </div>
-                <div
-                  class="social shadow"
-                  @click="$toast.info('Not yet available')"
-                >
-                  <b-img :src="require('@/assets/images/linkedin.png')"></b-img>
-                </div>
-              </div>
-            </div>
-          </b-form>
         </b-col>
       </b-row>
     </b-container>
@@ -385,7 +340,7 @@ export default {
 }
 
 .side {
-  background-color: hsl(173deg 58% 94%);
+  background-color: #f4faf8;
   background-position: center;
   background-size: contain;
   display: flex;
@@ -409,7 +364,7 @@ p {
   text-align: left;
 }
 .logo {
-  width: 120px;
+  width: 200px;
   position: absolute;
   top: 50px;
   left: 40px;
@@ -418,9 +373,7 @@ p {
   z-index: 2;
 }
 .rect {
-  position: absolute;
-  right: -32px;
-  top: 20px;
+  width: 100%;
   z-index: 1;
 }
 .circ {
@@ -467,13 +420,15 @@ p {
   margin-top: 3.5px;
 }
 .socials {
-  display: flex;
-  justify-content: center;
 }
 .social {
-  padding: 10px;
+  padding: 15px;
   border-radius: 5px;
   cursor: pointer;
+  text-align: center;
+}
+.social:hover {
+  background: #f4faf8;
 }
 .social img {
   width: 25px;
@@ -507,6 +462,9 @@ a {
   }
   .type {
     padding: 5px 5px;
+  }
+  .form-text {
+    font-size: 0.8rem;
   }
 }
 </style>
