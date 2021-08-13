@@ -189,8 +189,8 @@ var insights = [
 
   {
     id: 1,
-    value: "Religion",
-    icon: "journal-bookmark-fill",
+    value: "Gender",
+    icon: "people-fill",
     category_id: 7,
     color: "#4863A0",
   },

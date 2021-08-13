@@ -401,7 +401,7 @@ export default {
         },
         {
           name: "Evolve",
-          text: "Maximize opportunities and soar",
+          text: "Maximize courses and events, and soar",
           image: require("@/assets/images/landing/evolve.png"),
           animation: "animate__animated animate__slideInUp ",
           url: "/explore/courses",
