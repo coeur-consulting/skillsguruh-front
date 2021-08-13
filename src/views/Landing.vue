@@ -117,12 +117,12 @@
               >
             </div>
           </b-col>
-          <b-col md="6" class="position-relative down_b">
+          <b-col md="6" class="position-relative down_b text-md-right">
             <kinesis-container>
               <kinesis-element :strength="10" type="depth">
                 <b-img
                   v-animate-onscroll.repeat="
-                    'animate__animated animate__pulse animate__repeat-2'
+                    'animate__animated animate__pulse animate__repeat-1'
                   "
                   class="img-fluid banner_image"
                   alt="nzukoor"
@@ -389,28 +389,28 @@ export default {
           name: "Explore",
           text: "Discover people, knowledge and opportunities across interests",
           image: require("@/assets/images/landing/explore.png"),
-          animation: "animate__animated animate__slideInRight ",
+          animation: "animate__animated animate__slideInUp ",
           url: "/explore",
         },
         {
           name: "Engage",
           text: "Connect with your tribe",
           image: require("@/assets/images/landing/engage.png"),
-          animation: " animate__animated animate__slideInRight",
+          animation: " animate__animated animate__slideInUp",
           url: "/explore/discussions",
         },
         {
           name: "Evolve",
           text: "Maximize opportunities and soar",
           image: require("@/assets/images/landing/evolve.png"),
-          animation: "animate__animated animate__slideInRight animate__slow",
+          animation: "animate__animated animate__slideInUp ",
           url: "/explore/courses",
         },
         {
           name: "Impact",
           text: "Invite your friends and win with your tribe",
           image: require("@/assets/images/landing/impact.png"),
-          animation: "animate__animated animate__slideInRight animate__slow",
+          animation: "animate__animated animate__slideInUp",
           url: "explore/members",
         },
       ],
@@ -501,7 +501,7 @@ export default {
 .down_b {
   justify-content: center;
   img {
-    width: 100%;
+    width: 90%;
     object-fit: contain;
   }
 }
