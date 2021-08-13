@@ -33,7 +33,7 @@
               class="img-l cursor-pointer"
               @click="$router.push('/')"
               width="40px"
-              src="/img/logo.svg"
+              src="/img/logo.png"
             ></b-img>
           </div>
           <b-form @submit.stop.prevent="register" class="user mt-sm-5">
@@ -216,7 +216,7 @@ export default {
 
   data() {
     return {
-      type: true,
+      type: false,
       loading: false,
       validation: null,
       user: {
@@ -502,7 +502,8 @@ a {
     font-size: 14;
   }
   .img-l {
-    width: 100px;
+    margin-top: 20px;
+    width: 150px;
   }
   .type {
     padding: 5px 5px;

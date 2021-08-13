@@ -37,13 +37,13 @@
               class="img-l cursor-pointer"
               @click="$router.push('/')"
               width="40px"
-              src="/img/logo.svg"
+              src="/img/logo.png"
             ></b-img>
           </div>
           <b-form @submit.stop.prevent="register" class="user">
             <legend>Register as</legend>
             <b-form-row class="mb-4 my_type">
-              <b-col cols="4" class="pr-0 pr-sm-2">
+              <!-- <b-col cols="4" class="pr-0 pr-sm-2">
                 <div
                   class="type"
                   :class="{ selected_type: type == 'organization' }"
@@ -56,7 +56,7 @@
                     >Organization</b-form-radio
                   >
                 </div>
-              </b-col>
+              </b-col> -->
               <b-col cols="4" class="pr-0 pr-sm-2">
                 <div
                   class="type"
@@ -309,7 +309,7 @@ export default {
   mixins: [validationMixin],
   data() {
     return {
-      type: "organization",
+      type: "facilitator",
       loading: false,
       user: {
         name: "",
@@ -605,7 +605,8 @@ a {
     font-size: 14;
   }
   .img-l {
-    width: 100px;
+    margin-top: 20px;
+    width: 150px;
   }
   .type {
     padding: 5px 5px;

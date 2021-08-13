@@ -394,7 +394,7 @@ export default {
         },
         {
           name: "Engage",
-          text: "Connect with your tribe",
+          text: "Start and join discussions to connect with your tribe",
           image: require("@/assets/images/landing/engage.png"),
           animation: " animate__animated animate__slideInUp",
           url: "/explore/discussions",

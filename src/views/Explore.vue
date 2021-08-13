@@ -34,7 +34,7 @@
                 ></b-img>
                 <span>
                   <span class="">{{ courses.length }}+</span> <br />
-                  <span class="">Online Programs</span>
+                  <span class="">Online Courses</span>
                 </span>
               </span>
             </b-col>
