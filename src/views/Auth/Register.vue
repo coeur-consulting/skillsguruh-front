@@ -6,10 +6,10 @@
           <b-img
             class="logo cursor-pointer"
             @click="$router.push('/')"
-            :src="require('@/assets/images/logo-white.svg')"
+            :src="require('@/assets/images/logo.png')"
           ></b-img>
           <div class="ico text-center p-3">
-            <p class="mb-5">
+            <p class="mb-5 text-dark-green">
               You are a few Click away from signing up to our platform, get
               access to a whole new world of learning
             </p>
@@ -488,7 +488,7 @@ export default {
 }
 
 .side {
-  background-image: url("../../assets/images/reg.svg");
+  background-color: hsl(173deg 58% 94%);
   background-position: center;
   background-size: contain;
   display: flex;

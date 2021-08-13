@@ -518,8 +518,9 @@ ol.subquest {
 }
 .course_description {
   font-size: 0.95rem;
-  line-height: normal;
-  color: rgba($color: #000000, $alpha: 0.45);
+  line-height: 1.4;
+  color: rgba(0, 0, 0, 0.45);
+  margin-top: 0.5rem;
 }
 .course_type {
   font-size: 0.85rem;

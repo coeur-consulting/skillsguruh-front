@@ -6,10 +6,10 @@
           <b-img
             class="logo cursor-pointer"
             @click="$router.push('/')"
-            :src="require('@/assets/images/logo-white.svg')"
+            :src="require('@/assets/images/logo.png')"
           ></b-img>
           <div class="ico text-center p-3">
-            <p class="mb-5">
+            <p class="mb-5 text-dark-green">
               You are a few Click away from signing up to our platform, get
               access to a whole new world of learning
             </p>
@@ -38,7 +38,7 @@
           </div>
           <b-form @submit.stop.prevent="register" class="user mt-sm-5">
             <legend>Login as</legend>
-            <b-form-row class="mb-4 my_type">
+            <!-- <b-form-row class="mb-4 my_type">
               <b-col cols="6" sm="6" class="text-left">
                 <div
                   class="type"
@@ -64,7 +64,18 @@
                   >
                 </div>
               </b-col>
-            </b-form-row>
+            </b-form-row> -->
+
+            <div class="mb-3">
+              <span class="d-flex align-items-center">
+                <span class="mr-2" :class="!type ? '' : 'text-muted'">
+                  Member</span
+                >
+                <b-form-checkbox v-model="type" name="check-button" switch>
+                  <span :class="!type ? 'text-muted' : ''">Facilitator</span>
+                </b-form-checkbox>
+              </span>
+            </div>
 
             <div>
               <b-form-row class="mb-2">
@@ -142,7 +153,7 @@
                 </div>
               </b-form-group>
             </div>
-            <div class="mb-2 d-flex">
+            <!-- <div class="mb-2 d-flex">
               <div class="fs14">
                 Login as an
                 <span
@@ -157,7 +168,7 @@
                   >Administrator</span
                 >
               </div>
-            </div>
+            </div> -->
 
             <div class="fs14">
               Don't have an account yet?
@@ -205,7 +216,7 @@ export default {
 
   data() {
     return {
-      type: "facilitator",
+      type: true,
       loading: false,
       validation: null,
       user: {
@@ -218,9 +229,12 @@ export default {
   },
 
   mounted() {
-    this.$route.query.auth
-      ? (this.type = this.$route.query.auth)
-      : (this.type = "facilitator");
+    if (this.$route.query.auth == "facilitator") {
+      this.type = true;
+    }
+    if (this.$route.query.auth == "member") {
+      this.type = false;
+    }
   },
 
   methods: {
@@ -233,7 +247,7 @@ export default {
       var authFacilitator = {};
       var authMember = {};
 
-      if (this.type == "facilitator") {
+      if (this.type) {
         let data = {
           grant_type: "password",
           client_id: 4,
@@ -288,7 +302,7 @@ export default {
             }, 5000);
           });
       }
-      if (this.type == "member") {
+      if (!this.type) {
         let data = {
           grant_type: "password",
           client_id: 2,
@@ -371,7 +385,7 @@ export default {
 }
 
 .side {
-  background-image: url("../../assets/images/reg.svg");
+  background-color: hsl(173deg 58% 94%);
   background-position: center;
   background-size: contain;
   display: flex;
