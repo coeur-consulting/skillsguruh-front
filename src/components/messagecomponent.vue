@@ -55,7 +55,12 @@
                       : ''
                   "
                 >
-                  {{ lastMessage(message).message }}
+                  <span v-if="lastMessage(message).message">
+                    {{ lastMessage(message).message }}</span
+                  >
+                  <span v-else class="text-muted fs11"
+                    ><i>Sent attachment</i></span
+                  >
                 </div>
                 <div
                   class="last_message"

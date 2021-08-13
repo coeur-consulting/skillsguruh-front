@@ -90,7 +90,7 @@
                         :key="id"
                       >
                         <b-badge
-                          class="fs10 text-dark-green"
+                          class="fs10 text-dark font-weight-normal"
                           size="sm"
                           variant="lighter-green"
                           >{{ tag.text }}</b-badge
@@ -233,6 +233,7 @@
                       v-for="(comment, id) in feed.comments"
                       :key="id"
                       style="line-height: 1.1"
+                      class="mb-1"
                     >
                       <span class="comment_name mr-1" v-if="comment.admin">{{
                         comment.admin.name

@@ -366,9 +366,9 @@
           <b-row>
             <b-col sm="8" class="mb-4 mb-sm-0">
               <div v-if="showFeeds">
-                <div v-if="feeds.length">
+                <div v-if="filteredFeeds.length">
                   <div
-                    v-for="(feed, index) in feeds.slice(0, 3)"
+                    v-for="(feed, index) in filteredFeeds"
                     :key="index"
                     class="border bg-white rounded-8 mb-2"
                   >
@@ -673,6 +673,8 @@
                           >
                             <emoji-picker
                               @emoji="insertcomment"
+                              :id="feed.id"
+                              :index="index"
                               :search="search"
                             >
                               <div
@@ -1184,7 +1186,7 @@
 <script>
 import Interests from "@/components/helpers/category.js";
 import SubInterests from "@/components/helpers/subcategory.js";
-import EmojiPicker from "vue-emoji-picker";
+import EmojiPicker from "@/components/emoji/EmojiPicker";
 import VueSlickCarousel from "vue-slick-carousel";
 import "vue-slick-carousel/dist/vue-slick-carousel.css";
 // optional style for arrows & dots
@@ -1224,6 +1226,13 @@ export default {
       auth: false,
     };
   },
+  directives: {
+    focus: {
+      inserted(el) {
+        el.focus();
+      },
+    },
+  },
   mounted() {
     if (localStorage.getItem("authMember")) {
       this.auth = true;
@@ -1262,6 +1271,9 @@ export default {
           return b.count - a.count;
         })
         .slice(0, 5);
+    },
+    filteredFeeds() {
+      return this.feeds.slice(0, 3);
     },
   },
   methods: {
@@ -1366,8 +1378,11 @@ export default {
     insertfeed(emoji) {
       this.feed.message += emoji + "";
     },
-    insertcomment(emoji) {
-      this.comment.comment += emoji + "";
+    insertcomment(emoji, id, index) {
+      if (this.filteredFeeds[index].comment == null) {
+        this.filteredFeeds[index].comment = "";
+      }
+      this.filteredFeeds[index].comment += emoji + "";
     },
     addcomment(id, index, comment) {
       if (!comment) {
@@ -1391,7 +1406,6 @@ export default {
         .then((res) => {
           if (res.status == 201) {
             this.$toast.success("Comment updated ");
-
             this.filteredFeeds[index].comments.unshift(res.data);
             this.filteredFeeds[index].comment = "";
 

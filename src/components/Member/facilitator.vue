@@ -85,40 +85,71 @@
                         </span>
                       </b-card-text>
 
-                      <div
-                        v-if="
-                          $route.params.user != 'u' ||
-                          ($route.params.user == 'u' &&
-                            $store.getters.member.id != $route.params.id)
-                        "
-                      >
-                        <b-button
-                          size="sm"
+                      <div class="d-flex align-items-center">
+                        <div
                           v-if="
-                            $route.params.user == 'f' &&
-                            !checkconnection(detail)
+                            $route.params.user != 'u' ||
+                            ($route.params.user == 'u' &&
+                              $store.getters.member.id != $route.params.id)
                           "
-                          variant="outline-dark-green"
-                          @click="addconnections(detail.id, 'facilitator')"
-                          >Connect</b-button
+                          class="mr-3"
                         >
-                        <b-button
-                          size="sm"
-                          v-if="
-                            $route.params.user == 'u' &&
-                            !checkconnection(detail)
+                          <b-button
+                            size="sm"
+                            v-if="
+                              $route.params.user == 'f' &&
+                              !checkconnection(detail)
+                            "
+                            variant="outline-dark-green"
+                            @click="addconnections(detail.id, 'facilitator')"
+                            >Connect</b-button
+                          >
+                          <b-button
+                            size="sm"
+                            v-if="
+                              $route.params.user == 'u' &&
+                              !checkconnection(detail)
+                            "
+                            variant="outline-dark-green"
+                            @click="addconnections(detail.id, 'user')"
+                            >Connect</b-button
+                          >
+                          <b-button
+                            size="sm"
+                            v-if="checkconnection(detail)"
+                            @click="removeconnections(detail)"
+                            variant="dark-green"
+                            >Connected</b-button
+                          >
+                        </div>
+                        <b-icon
+                          v-if="$route.params.user == 'u'"
+                          @click="
+                            getmessage(
+                              detail.id,
+                              detail.name,
+                              'user',
+                              detail.profile
+                            )
                           "
-                          variant="outline-dark-green"
-                          @click="addconnections(detail.id, 'user')"
-                          >Connect</b-button
-                        >
-                        <b-button
-                          size="sm"
-                          v-if="checkconnection(detail)"
-                          @click="removeconnections(detail)"
-                          variant="dark-green"
-                          >Connected</b-button
-                        >
+                          icon="envelope"
+                          font-scale="1.4"
+                          class="text-muted cursor-pointer"
+                        ></b-icon>
+                        <b-icon
+                          v-if="$route.params.user == 'f'"
+                          @click="
+                            getmessage(
+                              detail.id,
+                              detail.name,
+                              'facilitator',
+                              detail.profile
+                            )
+                          "
+                          icon="envelope"
+                          font-scale="1.4"
+                          class="text-muted cursor-pointer"
+                        ></b-icon>
                       </div>
                     </b-card-body>
                   </b-col>
@@ -1139,6 +1170,9 @@ export default {
         );
     },
   },
+  watch: {
+    $route: "updateProfile",
+  },
   created() {
     this.getmyconnections();
   },
@@ -1150,6 +1184,14 @@ export default {
     this.getConnections();
   },
   methods: {
+    updateProfile() {
+      this.getmyconnections();
+      this.getdiscussions();
+      this.getinfo();
+      this.getFeeds();
+      this.getEvents();
+      this.getConnections();
+    },
     showcomments(feed) {
       this.allcomments = feed;
       this.$bvModal.show("allcomments");

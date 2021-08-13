@@ -97,7 +97,7 @@
                         :key="id"
                       >
                         <b-badge
-                          class="fs10 text-dark-green"
+                          class="fs10 text-dark font-weight-normal"
                           size="sm"
                           variant="lighter-green"
                           >{{ tag.text }}</b-badge

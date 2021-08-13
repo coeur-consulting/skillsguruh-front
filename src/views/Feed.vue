@@ -639,6 +639,8 @@
                           >
                             <emoji-picker
                               @emoji="insertcomment"
+                               :id="feed.id"
+                              :index="index"
                               :search="search"
                             >
                               <div
@@ -851,7 +853,7 @@
 </template>
 
 <script>
-import EmojiPicker from "vue-emoji-picker";
+import EmojiPicker from "@/components/emoji/EmojiPicker";
 import FeedUpload from "@/components/feedupload";
 import { MultiSelect } from "vue-search-select";
 import Interest from "@/components/helpers/subcategory.js";
@@ -998,10 +1000,12 @@ export default {
     insertfeed(emoji) {
       this.feed.message += emoji + "";
     },
-    insertcomment(emoji) {
-      this.comment.comment += emoji + "";
+     insertcomment(emoji, id, index) {
+      if (this.filteredFeeds[index].comment == null) {
+        this.filteredFeeds[index].comment = "";
+      }
+      this.filteredFeeds[index].comment += emoji + "";
     },
-
     post() {
       if (!this.feed.message && !this.feed.media) {
         this.$toast.info("Cannot be empty");

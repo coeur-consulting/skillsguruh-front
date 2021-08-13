@@ -667,6 +667,8 @@
                           <b-input-group-text class="border-0 bg-transparent">
                             <emoji-picker
                               @emoji="insertcomment"
+                              :id="feed.id"
+                              :index="index"
                               :search="search"
                             >
                               <div
@@ -867,7 +869,8 @@
 </template>
 
 <script>
-import EmojiPicker from "vue-emoji-picker";
+import EmojiPicker from "@/components/emoji/EmojiPicker";
+
 import FeedUpload from "../feedupload";
 import Message from "../messagecomponent";
 import { MultiSelect } from "vue-search-select";
@@ -954,7 +957,17 @@ export default {
     this.gettrendingfeeds();
     this.getrecentfeeds();
   },
+  directives: {
+    focus: {
+      inserted(el) {
+        el.focus();
+      },
+    },
+  },
   methods: {
+    toggle(id) {
+      console.log("🚀 ~ file: feeds.vue ~ line 967 ~ toggle ~ id", id);
+    },
     sharenow(feed) {
       this.description = feed.message;
       this.link = `https://nzukoor.com/feed/view/${feed.id}?utf_medium=share`;
@@ -1012,11 +1025,15 @@ export default {
       this.feed.publicId = val.public_id;
       this.$bvModal.show("media");
     },
+
     insertfeed(emoji) {
       this.feed.message += emoji + "";
     },
-    insertcomment(emoji) {
-      this.comment.comment += emoji + "";
+    insertcomment(emoji, id, index) {
+      if (this.filteredFeeds[index].comment == null) {
+        this.filteredFeeds[index].comment = "";
+      }
+      this.filteredFeeds[index].comment += emoji + "";
     },
     getmyfeeds() {
       this.$http

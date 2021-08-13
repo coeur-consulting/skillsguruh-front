@@ -14,7 +14,7 @@
         <span
           v-else-if="mini_info.type == 'facilitator'"
           class="chat_name hover_green"
-          @click="$router.push(`/member/profile/u/${mini_info.id}`)"
+          @click="$router.push(`/member/profile/f/${mini_info.id}`)"
           >{{ mini_info.name }}</span
         >
         <span v-else class="chat_name">{{ mini_info.name }}</span>
@@ -61,8 +61,11 @@
       </div>
     </div>
     <div v-if="open">
-      <div class="reply py-3 text-left" v-chat-scroll>
-        <div v-for="(item, index) in messages" :key="index">
+      <ul
+        class="reply py-3 text-left pl-0 mb-0"
+        v-chat-scroll="{ always: false, smooth: true, scrollonremoved: true }"
+      >
+        <li v-for="(item, index) in messages" :key="index">
           <div
             v-if="item.admin_id"
             class="mb-2"
@@ -102,7 +105,7 @@
                 {{ item.created_at | moment("LT") }}</span
               >
             </div>
-            <span>{{ item.message }}</span>
+            <div class="pt-2">{{ item.message }}</div>
           </div>
           <div
             v-if="item.user_id"
@@ -266,7 +269,7 @@
                 </div>
               </div>
             </a>
-            <span>{{ item.message }}</span>
+            <div class="pt-2">{{ item.message }}</div>
           </div>
           <div
             v-if="item.facilitator_id"
@@ -430,10 +433,10 @@
                 </div>
               </div>
             </a>
-            <span>{{ item.message }}</span>
+            <div class="pt-2">{{ item.message }}</div>
           </div>
-        </div>
-      </div>
+        </li>
+      </ul>
       <div class="text-left py-2 bg-light mb-1">
         <b-input-group class="mt-1">
           <template #append>
@@ -449,20 +452,58 @@
           <template #prepend>
             <b-input-group-text
               class="border-0 bg-transparent d-none d-md-block"
-              ><span class=""
-                ><b-icon
-                  icon="emoji-smile-fill"
-                  class="text-dark cursor-pointer"
-                  font-scale="1"
-                ></b-icon></span
-            ></b-input-group-text>
+            >
+              <emoji-picker @emoji="insert" :search="search">
+                <div
+                  class="emoji-invoker2"
+                  slot="emoji-invoker"
+                  slot-scope="{ events: { click: clickEvent } }"
+                  @click.stop="clickEvent"
+                >
+                  <svg
+                    height="24"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path
+                      d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"
+                    />
+                  </svg>
+                </div>
+                <div slot="emoji-picker" slot-scope="{ emojis, insert }">
+                  <div class="emoji-picker picker">
+                    <div class="emoji-picker__search">
+                      <input type="text" v-model="search" v-focus />
+                    </div>
+                    <div>
+                      <div
+                        v-for="(emojiGroup, category) in emojis"
+                        :key="category"
+                      >
+                        <h5>{{ category }}</h5>
+                        <div class="emojis">
+                          <span
+                            v-for="(emoji, emojiName) in emojiGroup"
+                            :key="emojiName"
+                            @click="insert(emoji)"
+                            :title="emojiName"
+                            >{{ emoji }}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </emoji-picker>
+            </b-input-group-text>
           </template>
           <b-form-input
             @keyup.enter="addinbox"
             v-model="inbox.message"
-            autocomplete="off"
-            autocorrect="off"
-            placeholder="Type here .."
+            type="text"
+            placeholder="Type here ..."
             class="border-0 no-focus rounded-pill fs13"
           ></b-form-input>
         </b-input-group>
@@ -539,14 +580,52 @@
           </b-input-group-text>
         </template>
         <template #prepend>
-          <b-input-group-text class="border-0 bg-transparent d-none d-md-block"
-            ><span class=""
-              ><b-icon
-                icon="emoji-smile-fill"
-                class="text-dark cursor-pointer"
-                font-scale="1"
-              ></b-icon></span
-          ></b-input-group-text>
+          <b-input-group-text class="border-0 bg-transparent d-none d-md-block">
+            <emoji-picker @emoji="insert" :search="search">
+              <div
+                class="emoji-invoker2"
+                slot="emoji-invoker"
+                slot-scope="{ events: { click: clickEvent } }"
+                @click.stop="clickEvent"
+              >
+                <svg
+                  height="24"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <path
+                    d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"
+                  />
+                </svg>
+              </div>
+              <div slot="emoji-picker" slot-scope="{ emojis, insert }">
+                <div class="emoji-picker picker">
+                  <div class="emoji-picker__search">
+                    <input type="text" v-model="search" v-focus />
+                  </div>
+                  <div>
+                    <div
+                      v-for="(emojiGroup, category) in emojis"
+                      :key="category"
+                    >
+                      <h5>{{ category }}</h5>
+                      <div class="emojis">
+                        <span
+                          v-for="(emoji, emojiName) in emojiGroup"
+                          :key="emojiName"
+                          @click="insert(emoji)"
+                          :title="emojiName"
+                          >{{ emoji }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </emoji-picker>
+          </b-input-group-text>
         </template>
         <b-form-input
           @keyup.enter="addinbox"
@@ -562,6 +641,7 @@
 </template>
 <script>
 import Upload from "@/components/chatUpload";
+import EmojiPicker from "vue-emoji-picker";
 export default {
   props: ["mini_info", "user", "open", "showAll"],
   data() {
@@ -571,19 +651,27 @@ export default {
       aud_ext: ["mp3", "aac"],
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       inbox: {
-        mesage: "",
+        message: "",
         attachment: "",
         receiver: "",
         receiver_id: "",
       },
+      search: "",
     };
   },
-
+  directives: {
+    focus: {
+      inserted(el) {
+        el.focus();
+      },
+    },
+  },
   mounted() {
     // this.getinbox();
   },
   components: {
     Upload,
+    EmojiPicker,
   },
   watch: {
     $route: "closeChat",
@@ -636,6 +724,10 @@ export default {
     },
   },
   methods: {
+    insert(emoji) {
+      this.inbox.message = this.inbox.message + emoji;
+    },
+
     markMessagesRead() {
       if (!this.unreadmesages.length) {
         return;

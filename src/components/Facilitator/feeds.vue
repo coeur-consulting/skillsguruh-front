@@ -658,7 +658,12 @@
                       </template>
                       <template #prepend class="">
                         <b-input-group-text class="border-0 bg-transparent">
-                          <emoji-picker @emoji="insertcomment" :search="search">
+                          <emoji-picker
+                            @emoji="insertcomment"
+                            :id="feed.id"
+                            :index="index"
+                            :search="search"
+                          >
                             <div
                               class="emoji-invoker2"
                               slot="emoji-invoker"
@@ -847,7 +852,7 @@
   </div>
 </template>
 <script>
-import EmojiPicker from "vue-emoji-picker";
+import EmojiPicker from "@/components/emoji/EmojiPicker";
 import FeedUpload from "../feedupload";
 import Minichat from "../minichat";
 import Message from "../messagecomponent";
@@ -935,6 +940,13 @@ export default {
     this.getcustomfeeds();
     this.gettrendingfeeds();
     this.getrecentfeeds();
+  },
+  directives: {
+    focus: {
+      inserted(el) {
+        el.focus();
+      },
+    },
   },
   methods: {
     sharenow(feed) {
@@ -1073,8 +1085,11 @@ export default {
     insertfeed(emoji) {
       this.feed.message += emoji + "";
     },
-    insertcomment(emoji) {
-      this.comment.comment += emoji + "";
+    insertcomment(emoji, id, index) {
+      if (this.filteredFeeds[index].comment == null) {
+        this.filteredFeeds[index].comment = "";
+      }
+      this.filteredFeeds[index].comment += emoji + "";
     },
 
     getfeeds() {
