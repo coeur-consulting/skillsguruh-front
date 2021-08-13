@@ -512,7 +512,7 @@ p {
   text-align: left;
 }
 .logo {
-  width: 70px;
+  width: 120px;
   position: absolute;
   top: 50px;
   left: 40px;
