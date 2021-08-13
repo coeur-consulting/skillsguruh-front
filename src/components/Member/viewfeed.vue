@@ -232,10 +232,15 @@
 
                   <hr />
                   <div class="comments px-3 flex-1">
+                    <div v-if="feed.comments.length" class="comment_header">
+                      View {{ feed.comments.length }}
+                      {{ feed.comments.length > 1 ? "comments" : "comment" }}
+                    </div>
                     <b-card-text
                       v-for="(comment, id) in feed.comments"
                       :key="id"
                       style="line-height: 1.1"
+                      class="mb-1"
                     >
                       <span class="comment_name mr-1" v-if="comment.admin">{{
                         comment.admin.name
@@ -654,5 +659,11 @@ export default {
 }
 .comments::-webkit-scrollbar {
   display: none;
+}
+hr {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 </style>

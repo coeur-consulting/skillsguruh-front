@@ -83,7 +83,7 @@
                     ></b-icon>
                   </div>
                   <div class="text-left next_dis">
-                    <div class="main_text">
+                    <div class="main_desc_text">
                       {{ discussion.description }}
                     </div>
                     <div class="mt-2">

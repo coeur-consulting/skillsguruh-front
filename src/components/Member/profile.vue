@@ -316,6 +316,7 @@ export default {
   mounted() {
     this.getuser();
     this.getrequests();
+    window.document.title = `${this.$store.getters.member.name} | Nzukoor`;
   },
   computed: {
     voices() {

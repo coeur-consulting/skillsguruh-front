@@ -318,7 +318,7 @@ export default {
   },
   mounted() {
     this.getuser();
-
+    window.document.title = `${this.$store.getters.facilitator.name} | Nzukoor`;
     this.getrequests();
   },
   computed: {
