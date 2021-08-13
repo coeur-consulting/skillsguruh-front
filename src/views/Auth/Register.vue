@@ -15,7 +15,9 @@
               ></b-img>
             </span>
 
-            <h3 class="mt-4">{{ type ? "Facilitator" : "Member" }} Login</h3>
+            <h3 class="mt-4">
+              {{ type ? "Facilitator" : "Member" }} Registration
+            </h3>
           </div>
         </b-col>
         <b-col
