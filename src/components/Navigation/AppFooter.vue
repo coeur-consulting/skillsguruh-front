@@ -50,7 +50,7 @@
         <b-col class="link text-center text-sm-left" cols="12" md="3">
           <h4>Get In Touch</h4>
           <p class="text-muted mb-0">Partnership and general enquiries</p>
-          <p>nzukoor@gmail.com</p>
+          <p>info@nzukoor.com</p>
 
           <div class="mb-3">
             <b-iconstack font-scale="1.8" class="mr-3">
