@@ -294,7 +294,7 @@
                 font-scale="2.5"
                 class="nav-right shadow-sm"
                 @click="index++"
-                v-if="index < suggestions.length - 1"
+                v-if="index < stories.length - 1"
               >
                 <b-icon stacked icon="circle-fill" variant="secondary"></b-icon>
                 <b-icon
@@ -307,7 +307,7 @@
               <carousel
                 :perPage="1"
                 :paginationEnabled="false"
-                :navigationEnabled="true"
+                :navigationEnabled="false"
                 :autoplay="true"
                 :speed="1000"
                 :autoplayTimeout="5000"
