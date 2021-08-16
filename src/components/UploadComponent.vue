@@ -68,11 +68,6 @@ label {
   object-fit: contain;
 }
 .spinner-start {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-left: -2rem;
-  margin-top: -2rem;
 }
 </style>
 <script>
