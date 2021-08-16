@@ -226,7 +226,7 @@
                 font-scale="1"
                 @click="list = true"
               >
-                <b-icon stacked icon="square-fill" variant="secondary"></b-icon>
+                <b-icon stacked icon="square-fill"></b-icon>
                 <b-icon stacked icon="list" variant="white" scale="0.7">
                 </b-icon>
               </b-iconstack>
@@ -235,7 +235,7 @@
                 class="cursor-pointer"
                 @click="list = false"
               >
-                <b-icon stacked icon="square-fill" variant="secondary"></b-icon>
+                <b-icon stacked icon="square-fill"></b-icon>
                 <b-icon
                   stacked
                   icon="grid3x3-gap-fill"

@@ -173,7 +173,12 @@
               </b-thead>
               <b-tbody>
                 <b-tr v-for="item in referrals" :key="item.id">
-                  <b-td class="text-capitalize">{{
+                  <b-td
+                    class="text-capitalize"
+                    v-if="item.facilitatotr_detail"
+                    >{{ item.facilitatotr_detail.name }}</b-td
+                  >
+                  <b-td class="text-capitalize" v-if="item.member_detail">{{
                     item.member_detail.name
                   }}</b-td>
                   <b-td class="fs14">200 points</b-td>

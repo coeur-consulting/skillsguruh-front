@@ -1,6 +1,6 @@
 <template>
   <b-container class="py-4 text-left">
-    <div class="d-flex justify-content-between align-items-end mb-3">
+    <b-container class="d-flex justify-content-between align-items-end mb-3">
       <div>
         <h5 class="font-weight-bold">Analytics</h5>
         <div class="d-flex align-items-center">
@@ -72,8 +72,8 @@
           </div>
         </b-modal>
       </div>
-    </div>
-    <div v-if="about == 'audience'">
+    </b-container>
+    <b-container v-if="about == 'audience'">
       <b-row class="mb-3">
         <b-col class="bg-white border rounded p-3 p-sm-4">
           <div>
@@ -185,9 +185,9 @@
           </div>
         </b-col>
       </b-row>
-    </div>
+    </b-container>
 
-    <div v-if="about == 'courses'">
+    <b-container v-if="about == 'courses'">
       <b-row class="mb-3">
         <b-col class="bg-white border rounded p-3 p-sm-4">
           <div>
@@ -345,8 +345,8 @@
           </div>
         </b-col>
       </b-row>
-    </div>
-    <div v-if="about == 'facilitators'">
+    </b-container>
+    <b-container v-if="about == 'facilitators'">
       <b-row class="mb-3">
         <b-col class="bg-white border rounded p-3 p-sm-4">
           <div>
@@ -450,8 +450,8 @@
           </div>
         </b-col>
       </b-row>
-    </div>
-    <div v-if="about == 'revenue'">
+    </b-container>
+    <b-container v-if="about == 'revenue'">
       <b-row class="mb-3">
         <b-col class="bg-white border rounded p-3 p-sm-4">
           <div>
@@ -523,7 +523,7 @@
           </div>
         </b-col>
       </b-row>
-    </div>
+    </b-container>
   </b-container>
 </template>
 

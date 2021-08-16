@@ -152,7 +152,7 @@ export default {
         var regex = new RegExp("[^.]+$");
         var extension = fileName.match(regex);
 
-        return extension[0];
+        return extension[0].toLowerCase();
       }
     },
     handleFileChange(event) {

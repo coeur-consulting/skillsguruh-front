@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-container class="px-3 px-sm-0">
+    <b-container class="px-3 px-sm-3">
       <b-row>
         <b-col sm="9">
           <b-row class="mb-4 mb-sm-5">

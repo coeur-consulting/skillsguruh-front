@@ -150,6 +150,7 @@ export default {
         password: "",
         confirmpassword: "",
         token: this.$route.query.token,
+        type: this.$route.query.auth,
       },
     };
   },
@@ -188,10 +189,6 @@ export default {
         .post(`${this.$store.getters.url}/reset-password`, this.user)
         .then((res) => {
           if (res.status === 200) {
-            console.log(
-              "🚀 ~ file: ResetPassword.vue ~ line 192 ~ .then ~ res.data.message",
-              res.data.message
-            );
             if (res.data.message == "identical password") {
               this.$toast.info("New password cannot be same with old password");
               this.loading = false;

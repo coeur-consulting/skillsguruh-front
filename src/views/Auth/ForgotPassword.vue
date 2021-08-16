@@ -108,6 +108,7 @@ export default {
 
       user: {
         email: "",
+        type: this.$route.query.auth,
       },
     };
   },
@@ -120,6 +121,10 @@ export default {
         .post(`${this.$store.getters.url}/forgot-password`, this.user)
         .then((res) => {
           if (res.status === 200) {
+            if (res.data.message == "email not found") {
+              this.$toast.error("Email not found!");
+              return;
+            }
             this.$toast.info("We have sent a link to your mail!");
             this.user.email = "";
             this.loading = false;

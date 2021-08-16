@@ -32,6 +32,9 @@ p {
   color: rgba($color: #000000, $alpha: 0.64);
   line-height: 1.5;
 }
+::placeholder {
+  font-size: 0.7rem;
+}
 .v--vtt-fade {
   will-change: transform, opacity;
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
@@ -509,7 +512,7 @@ ol.subquest {
   overflow-y: scroll;
 }
 .overview-title {
-  font-size: 16px;
+  font-size: 14px;
   height: 40px;
   font-weight: 600;
   display: -webkit-box;
@@ -917,9 +920,7 @@ ol.subquest {
   .discusion_text {
     font-size: 12px;
   }
-  ::placeholder {
-    font-size: 0.75rem;
-  }
+
   .reg .custom-control-label {
     font-size: 0.7rem;
     margin-top: 3px;

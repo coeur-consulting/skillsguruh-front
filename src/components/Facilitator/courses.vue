@@ -1368,7 +1368,7 @@
         <b-row v-if="courses.length">
           <b-col :md="sideOpen ? 8 : 12" class="my_courses main_box">
             <div class="d-block d-sm-flex justify-content-between py-3">
-              <div class="">
+              <div class="pl-3">
                 <h4>Courses</h4>
               </div>
 
@@ -1379,7 +1379,7 @@
                   align-items-center
                   justify-content-center justify-content-sm-end
                   mr-sm-3
-                  px-3
+                  px-3 px-md-0
                 "
               >
                 <b-icon
@@ -1419,13 +1419,6 @@
                     </b-input-group-append>
                     <b-input-group-append>
                       <b-button
-                        class="d-none d-sm-block"
-                        variant="dark-green"
-                        @click="$bvModal.show('addcourse')"
-                        >Add course</b-button
-                      >
-                      <b-button
-                        class="d-sm-none"
                         variant="dark-green"
                         @click="$bvModal.show('addcourse')"
                         ><b-icon icon="plus"></b-icon
@@ -3015,15 +3008,13 @@ export default {
     },
     addToFeed() {
       this.feed = {
-       tags:[],
+        tags: [],
         media: this.course.cover,
         message:
           "I created a course titled, " +
           this.course.title.bold() +
           ", Check it out here",
-        url:
-          "https://nzukoor.com/explore/courses/?course_id=" +
-          this.course.id,
+        url: "https://nzukoor.com/explore/courses/?course_id=" + this.course.id,
       };
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {

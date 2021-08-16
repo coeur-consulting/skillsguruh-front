@@ -120,10 +120,10 @@ export default {
       uploadedFileUrl: null,
       cloudinary: {
         uploadPreset: "skillsguruh_preset",
-        cloudName: "skillsguruh"
+        cloudName: "skillsguruh",
       },
       progress: 0,
-      start: false
+      start: false,
     };
   },
 
@@ -139,7 +139,7 @@ export default {
         var regex = new RegExp("[^.]+$");
         var extension = fileName.match(regex);
 
-        return extension[0];
+        return extension[0].toLowerCase();
       }
     },
     handleFileChange(event) {
@@ -194,7 +194,7 @@ export default {
     },
     loadFile() {
       let reader = new FileReader();
-      reader.onload = event => {
+      reader.onload = (event) => {
         this.uploadedFile = event.target.result;
       };
       reader.readAsDataURL(this.file);
@@ -213,16 +213,16 @@ export default {
         "POST",
         "https://api.cloudinary.com/v1_1/" + cloudName + "/upload"
       );
-      xhr.upload.onprogress = function(e) {
+      xhr.upload.onprogress = function (e) {
         if (e.lengthComputable) {
           that.progress = Math.round((e.loaded / e.total) * 100) + "%";
         }
       };
 
-      xhr.upload.onloadstart = function() {
+      xhr.upload.onloadstart = function () {
         this.progress = "Starting...";
       };
-      xhr.upload.onloadend = function() {
+      xhr.upload.onloadend = function () {
         this.progress = "Completing..";
       };
       xhr.onload = () => {
@@ -242,7 +242,7 @@ export default {
         }
       };
       xhr.send(formData);
-    }
-  }
+    },
+  },
 };
 </script>

@@ -188,14 +188,11 @@ span:nth-of-type(3) {
   transform: translate(13px, -5px) rotatez(45deg);
 }
 .logo {
-  width: 120px;
+  width: 100px;
 }
 @media (max-width: 600px) {
   .navbar-light .navbar-nav .nav-link {
     font-size: 14px;
-  }
-  .logo {
-    width: 100px;
   }
 }
 </style>

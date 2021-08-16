@@ -10,7 +10,6 @@
         <b-col sm="4" class="mb-5">
           <div
             class="
-              shadow
               bg-white
               rounded
               p-3
@@ -20,7 +19,9 @@
             "
             @click="$router.push('/facilitator/assessment/quiz')"
           >
-            <b-badge class="badge" variant="danger">{{ quiz }}</b-badge>
+            <b-badge class="badge font-weight-normal fs11" variant="danger">{{
+              quiz
+            }}</b-badge>
             <b-img
               :src="require('@/assets/images/ass2.png')"
               alt="quiz"
@@ -34,7 +35,6 @@
         <b-col sm="4" class="mb-5">
           <div
             class="
-              shadow
               bg-white
               rounded
               p-3
@@ -44,7 +44,9 @@
             "
             @click="$router.push('/facilitator/assessment/test')"
           >
-            <b-badge class="badge" variant="danger">{{ test }}</b-badge>
+            <b-badge class="badge font-weight-normal fs11" variant="danger">{{
+              test
+            }}</b-badge>
             <b-img
               :src="require('@/assets/images/ass1.png')"
               alt="test"
@@ -59,7 +61,6 @@
         <b-col sm="4" class="mb-5">
           <div
             class="
-              shadow
               bg-white
               rounded
               p-3
@@ -69,7 +70,7 @@
             "
             @click="$router.push('/facilitator/assessment/worksheet')"
           >
-            <b-badge class="badge" variant="danger">{{
+            <b-badge class="badge font-weight-normal fs11" variant="danger">{{
               questionnaire
             }}</b-badge>
             <b-img

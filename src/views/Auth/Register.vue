@@ -57,12 +57,11 @@
               </div>
               <div>
                 <b-form-row class="mb-2">
-                  <b-col sm="6" class="pr-sm-3">
+                  <b-col sm="12">
                     <b-form-group label="Full name" id="name" label-for="name">
                       <b-form-input
-                        size="sm"
                         v-model="user.name"
-                        placeholder="Enter full name"
+                        placeholder="Enter your full name"
                         :state="validateState('name')"
                         name="name"
                         aria-describedby="name-feedback"
@@ -75,16 +74,17 @@
                       </b-form-valid-feedback>
                     </b-form-group>
                   </b-col>
-                  <b-col sm="6" class="pr-sm-3">
+                </b-form-row>
+                <b-form-row class="mb-2">
+                  <b-col sm="6">
                     <b-form-group label="Email" id="email" label-for="email">
                       <b-form-input
-                        size="sm"
                         v-model="user.email"
                         autocomplete="off"
                         type="email"
                         name="email"
                         :state="validateState('email')"
-                        placeholder="Enter email address"
+                        placeholder="Enter your email address"
                         aria-describedby="email-feedback"
                       ></b-form-input>
                       <b-form-invalid-feedback id="email-feedback"
@@ -95,12 +95,9 @@
                       </b-form-valid-feedback>
                     </b-form-group>
                   </b-col>
-                </b-form-row>
-                <b-form-row class="mb-2">
-                  <b-col sm="4" class="pr-sm-3">
+                  <b-col sm="6">
                     <b-form-group label="Username">
                       <b-form-input
-                        size="sm"
                         autocomplete="off"
                         v-model="user.username"
                         type="text"
@@ -109,10 +106,9 @@
                       ></b-form-input>
                     </b-form-group>
                   </b-col>
-                  <b-col sm="4" class="pr-sm-3">
+                  <b-col sm="6">
                     <b-form-group label="Phone" id="phone" label-for="phone">
                       <b-form-input
-                        size="sm"
                         autocomplete="off"
                         v-model="user.phone"
                         type="tel"
@@ -129,14 +125,13 @@
                       </b-form-valid-feedback>
                     </b-form-group>
                   </b-col>
-                  <b-col sm="4" class="pr-sm-3">
+                  <b-col sm="6">
                     <b-form-group
                       label="Password"
                       id="password"
                       label-for="password"
                     >
                       <b-form-input
-                        size="sm"
                         v-model="user.password"
                         type="password"
                         autocomplete="off"
@@ -156,7 +151,7 @@
                 </b-form-row>
 
                 <b-form-row class="mb-2">
-                  <b-col sm="6" class="pr-sm-3">
+                  <b-col sm="6">
                     <div class="form-group">
                       <label for="">
                         {{
@@ -167,10 +162,9 @@
                       <Upload @getUpload="getUpload" />
                     </div>
                   </b-col>
-                  <b-col sm="6" class="pr-sm-3">
+                  <b-col sm="6">
                     <b-form-group label="Referral code(optional)">
                       <b-form-input
-                        size="sm"
                         v-model="user.referral"
                         type="tel"
                         placeholder="Do you have a referral code?"
@@ -186,7 +180,6 @@
                         ><b-form-checkbox
                           :state="validateState('agree')"
                           v-model="user.agree"
-                          size="sm"
                           name="agree"
                           aria-describedby="agree-feedback"
                           >I agree to the
@@ -284,7 +277,7 @@ export default {
   mixins: [validationMixin],
   data() {
     return {
-      type: "facilitator",
+      type: false,
       loading: false,
       user: {
         name: "",
@@ -339,39 +332,39 @@ export default {
 
       if (this.user.agree) {
         this.loading = true;
-        if (this.type == "organization") {
-          this.$http
-            .post(`${this.$store.getters.url}/register-organization`, this.user)
-            .then((res) => {
-              if (res.status == 201) {
-                this.$toast.success("Registration successful");
-                this.$router.push("/login");
-                this.user = {
-                  name: "",
-                  email: "",
-                  phone: "",
-                  password: "",
-                  profile: "",
-                };
-              }
-            })
-            .catch((err) => {
-              this.loading = false;
-              if (err.response.data.errors.email) {
-                this.$toast.error(err.response.data.errors.email[0]);
-              }
-              if (err.response.data.errors.phone) {
-                this.$toast.error(err.response.data.errors.phone[0]);
-              }
-              if (err.response.data.errors.name) {
-                this.$toast.error(err.response.data.errors.name[0]);
-              }
-              if (err.response.data.errors.password) {
-                this.$toast.error(err.response.data.errors.password[0]);
-              }
-            });
-        }
-        if (this.type == "facilitator") {
+        // if (this.type == "organization") {
+        //   this.$http
+        //     .post(`${this.$store.getters.url}/register-organization`, this.user)
+        //     .then((res) => {
+        //       if (res.status == 201) {
+        //         this.$toast.success("Registration successful");
+        //         this.$router.push("/login");
+        //         this.user = {
+        //           name: "",
+        //           email: "",
+        //           phone: "",
+        //           password: "",
+        //           profile: "",
+        //         };
+        //       }
+        //     })
+        //     .catch((err) => {
+        //       this.loading = false;
+        //       if (err.response.data.errors.email) {
+        //         this.$toast.error(err.response.data.errors.email[0]);
+        //       }
+        //       if (err.response.data.errors.phone) {
+        //         this.$toast.error(err.response.data.errors.phone[0]);
+        //       }
+        //       if (err.response.data.errors.name) {
+        //         this.$toast.error(err.response.data.errors.name[0]);
+        //       }
+        //       if (err.response.data.errors.password) {
+        //         this.$toast.error(err.response.data.errors.password[0]);
+        //       }
+        //     });
+        // }
+        if (this.type) {
           this.$http
             .post(`${this.$store.getters.url}/facilitator-register`, this.user)
             .then((res) => {
@@ -403,7 +396,7 @@ export default {
               }
             });
         }
-        if (this.type == "member") {
+        if (!this.type) {
           this.$http
             .post(`${this.$store.getters.url}/user-register`, this.user)
             .then((res) => {
@@ -466,7 +459,7 @@ export default {
   overflow-y: auto;
 }
 ::placeholder {
-  font-size: 0.9rem;
+  font-size: 0.7rem;
 }
 .side {
   background-color: #f4faf8;

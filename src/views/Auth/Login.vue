@@ -137,7 +137,13 @@
                   <div class="">
                     <small
                       class="text-secondary"
-                      @click="$router.push('/forgot-password')"
+                      @click="
+                        $router.push(
+                          `/forgot-password?auth=${
+                            !type ? 'user' : 'facilitator'
+                          }`
+                        )
+                      "
                       >Forgot password?</small
                     >
                   </div>

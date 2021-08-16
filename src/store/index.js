@@ -11,8 +11,8 @@ export default new Vuex.Store({
     admin: JSON.parse(localStorage.getItem("authAdmin")) || {},
     facilitator: JSON.parse(localStorage.getItem("authFacilitator")) || {},
     member: JSON.parse(localStorage.getItem("authMember")) || {},
-    //url: "http://localhost:8000/v1",
-    url: "https://nzukoor-server.herokuapp.com/v1",
+    url: "http://localhost:8000/v1",
+    //url: "https://nzukoor-server.herokuapp.com/v1",
     inboxes: [],
   },
   mutations: {

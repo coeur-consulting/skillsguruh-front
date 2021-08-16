@@ -276,7 +276,7 @@
     </b-modal>
     <b-container>
       <b-row>
-        <b-col sm="8" class="px-0">
+        <b-col sm="8" class="px-0 px-md-3">
           <div class="border bg-white py-3 px-2 p-sm-4 rounded-8 mb-1">
             <div class="d-flex align-items-center mb-3">
               <b-avatar size="1.8rem" class="mr-3"></b-avatar>
@@ -1064,7 +1064,7 @@ export default {
         var regex = new RegExp("[^.]+$");
         var extension = fileName.match(regex);
 
-        return extension[0];
+       return extension[0].toLowerCase();
       }
     },
     getUpload(val) {

@@ -244,6 +244,7 @@
             </h2>
 
             <b-button
+              @click="$router.push('/register')"
               size="lg"
               variant="outline-dark-green"
               class="
@@ -804,7 +805,7 @@ export default {
 }
 #joinnow {
   position: relative;
-  padding-top: 80px;
+  padding-top: 105px;
   padding-bottom: 105px;
   text-align: center;
   display: flex;
@@ -818,9 +819,7 @@ export default {
     left: 50px;
   }
 }
-.joinnow {
-  padding: 6rem 1rem;
-}
+
 .joinnow h2 {
   font-size: 30px;
   font-style: normal;
@@ -830,7 +829,7 @@ export default {
   text-align: center;
 }
 .eli1 {
-  width: 20%;
+  width: 10%;
   position: absolute;
   top: 25px;
   right: 25px;

@@ -10,7 +10,6 @@
         <b-col sm="4" class="mb-4">
           <div
             class="
-              shadow
               bg-white
               rounded
               p-3
@@ -20,7 +19,7 @@
             "
             @click="$router.push('/member/assessment/quiz')"
           >
-            <b-badge class="mybadge" variant="danger">{{
+            <b-badge class="mybadge font-weight-normal fs11" variant="danger">{{
               quiz.length
             }}</b-badge>
             <b-img
@@ -36,10 +35,10 @@
                 >New {{ drafttemplate }}
               </b-badge> -->
 
-              <b-badge variant="warning" class="mr-2"
+              <b-badge variant="warning" class="mr-2 font-weight-normal fs11"
                 >Pending {{ activeQuiz.length - submittedQuiz }}
               </b-badge>
-              <b-badge variant="dark-green"
+              <b-badge variant="dark-green" class="font-weight-normal fs11"
                 >Submitted {{ submittedQuiz }}
               </b-badge>
             </div>
@@ -48,7 +47,6 @@
         <b-col sm="4" class="mb-4">
           <div
             class="
-              shadow
               bg-white
               rounded
               p-3
@@ -58,7 +56,7 @@
             "
             @click="$router.push('/member/assessment/test')"
           >
-            <b-badge class="mybadge" variant="danger">{{
+            <b-badge class="mybadge font-weight-normal fs11" variant="danger">{{
               test.length
             }}</b-badge>
             <b-img
@@ -74,10 +72,10 @@
                 >New {{ worksheet }}
               </b-badge> -->
 
-              <b-badge variant="warning" class="mr-2"
+              <b-badge variant="warning" class="mr-2 font-weight-normal fs11"
                 >Pending {{ activeTest.length - submittedTest }}
               </b-badge>
-              <b-badge variant="dark-green"
+              <b-badge variant="dark-green" class="font-weight-normal fs11"
                 >Submitted {{ submittedTest }}
               </b-badge>
             </div>
@@ -86,7 +84,6 @@
         <b-col sm="4" class="mb-4">
           <div
             class="
-              shadow
               bg-white
               rounded
               p-3
@@ -96,7 +93,7 @@
             "
             @click="$router.push('/member/assessment/worksheet')"
           >
-            <b-badge class="mybadge" variant="danger">{{
+            <b-badge class="mybadge font-weight-normal fs11" variant="danger">{{
               worksheet.length
             }}</b-badge>
             <b-img
@@ -108,10 +105,10 @@
             <div class="font-weight-bold fs15">Worksheets</div>
             <p class="fs15 text-muted">View all workshets here</p>
             <div class="d-flex justify-content-end">
-              <b-badge variant="warning" class="mr-2"
+              <b-badge variant="warning" class="mr-2 font-weight-normal fs11"
                 >Draft {{ drafttemplate }}
               </b-badge>
-              <b-badge variant="dark-green"
+              <b-badge variant="dark-green" class="font-weight-normal fs11"
                 >Submitted {{ submittedtemplate }}
               </b-badge>
             </div>

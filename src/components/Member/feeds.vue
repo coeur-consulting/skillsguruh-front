@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 <template>
-  <b-container fluid class="px-0 px-sm 4">
+  <b-container fluid class="px-0 px-sm-4">
     <div class="pb-5 pt-sm-4">
       <b-modal
         no-close-on-backdrop
@@ -1007,7 +1007,7 @@ export default {
         var regex = new RegExp("[^.]+$");
         var extension = fileName.match(regex);
 
-        return extension[0];
+       return extension[0].toLowerCase();
       }
     },
     getUpload(val) {

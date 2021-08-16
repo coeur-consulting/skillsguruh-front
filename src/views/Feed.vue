@@ -639,7 +639,7 @@
                           >
                             <emoji-picker
                               @emoji="insertcomment"
-                               :id="feed.id"
+                              :id="feed.id"
                               :index="index"
                               :search="search"
                             >
@@ -981,7 +981,7 @@ export default {
         var regex = new RegExp("[^.]+$");
         var extension = fileName.match(regex);
 
-        return extension[0];
+        return extension[0].toLowerCase();
       }
     },
     getUpload(val) {
@@ -1000,7 +1000,7 @@ export default {
     insertfeed(emoji) {
       this.feed.message += emoji + "";
     },
-     insertcomment(emoji, id, index) {
+    insertcomment(emoji, id, index) {
       if (this.filteredFeeds[index].comment == null) {
         this.filteredFeeds[index].comment = "";
       }

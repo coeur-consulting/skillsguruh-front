@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-container class="px-3 px-sm-0">
+    <b-container class="px-3 px-sm-3">
       <b-row>
         <b-col sm="9">
           <b-row class="mb-4 mb-sm-5">
@@ -29,7 +29,7 @@
                       :class="{
                         'bg-dark': item.status == 'ongoing',
                         'bg-danger': item.status == 'expired',
-                        'bg-info': item.status == 'pending',
+                        'bg-info': item.status == 'pending'
                       }"
                     >
                       {{ item.status }} event
@@ -65,7 +65,7 @@
                           <b-button
                             v-if="
                               $moment().isBefore(item.start) ||
-                              $moment().isAfter(item.end)
+                                $moment().isAfter(item.end)
                             "
                             pill
                             size="sm"
@@ -178,7 +178,7 @@
                               class="mr-3 text-white"
                               style="width: 250px"
                               :style="{
-                                'background-color': item.customData.color,
+                                'background-color': item.customData.color
                               }"
                             >
                               <b-card-header
@@ -604,7 +604,7 @@
 
                       <multi-select
                         :options="
-                          facilitators.map((item) => {
+                          facilitators.map(item => {
                             var val = {};
                             val.value = item.id;
                             val.text = item.name;
@@ -901,7 +901,7 @@ export default {
         "thursday",
         "friday",
         "saturday",
-        "sunday",
+        "sunday"
       ],
       events: [],
       facilitators: [],
@@ -919,7 +919,7 @@ export default {
         start: "",
         end: "",
         resource: "",
-        facilitators: [],
+        facilitators: []
       },
       detail: {
         course_id: null,
@@ -930,12 +930,12 @@ export default {
             url: "",
             start_time: new Date(),
             end_time: new Date(),
-            facilitator_id: null,
-          },
-        ],
+            facilitator_id: null
+          }
+        ]
       },
       masks: {
-        weekdays: "WWW",
+        weekdays: "WWW"
       },
       showTable: false,
       showEvent: false,
@@ -943,14 +943,14 @@ export default {
       options: [],
       searchText: "", // If value is falsy, reset searchText & searchItem
       items: [],
-      lastSelectItem: {},
+      lastSelectItem: {}
     };
   },
   components: {
     PopoverRow,
     Upload,
     MultiSelect,
-    ModelListSelect,
+    ModelListSelect
   },
   watch: {},
   created() {
@@ -979,7 +979,7 @@ export default {
           highlight: {
             start: { color: "teal", fillMode: "outline" },
             base: { color: "teal", fillMode: "light" },
-            end: { color: "teal", fillMode: "solid" },
+            end: { color: "teal", fillMode: "solid" }
           },
           dot: false,
           bar: false,
@@ -996,12 +996,12 @@ export default {
                 "weeks"
               ) + "weeks",
             type: "Course",
-            class: "bg-red-600 text-white",
+            class: "bg-red-600 text-white"
           },
           dates: {
             start: new Date(item.start_time),
-            end: new Date(item.end_time),
-          },
+            end: new Date(item.end_time)
+          }
         };
         return res;
       });
@@ -1014,7 +1014,7 @@ export default {
           highlight: {
             start: { color: "green", fillMode: "outline" },
             base: { color: "green", fillMode: "light" },
-            end: { color: "green", fillMode: "solid" },
+            end: { color: "green", fillMode: "solid" }
           },
           dot: false,
           bar: false,
@@ -1027,9 +1027,9 @@ export default {
             facilitator: item.facilitator ? item.facilitator.name : "",
             duration: item.schedule,
             type: item.type,
-            class: "bg-red-600 text-white",
+            class: "bg-red-600 text-white"
           },
-          dates: { start: new Date(item.start), end: new Date(item.end) },
+          dates: { start: new Date(item.start), end: new Date(item.end) }
         };
         return res;
       });
@@ -1041,16 +1041,14 @@ export default {
           highlight: item.highlight,
           popover: true,
           customData: item.customData,
-          dates: item.dates,
+          dates: item.dates
         };
         return res;
       });
     },
     comingevents() {
-      return this.events
-        .filter((item) => item.status !== "expired")
-        .slice(0, 5);
-    },
+      return this.events.filter(item => item.status !== "expired").slice(0, 5);
+    }
   },
   methods: {
     onSelect(items, lastSelectItem) {
@@ -1078,7 +1076,7 @@ export default {
     daySchedule(day) {
       if (this.joinedSchedule.length) {
         return this.joinedSchedule.filter(
-          (item) =>
+          item =>
             this.$moment(item.dates.start, "YYYY-MM-DD HH:mm:ss")
               .format("dddd")
               .toLowerCase() == day.toLowerCase() &&
@@ -1093,7 +1091,7 @@ export default {
     todaySchedule() {
       if (this.joinedSchedule.length) {
         return this.joinedSchedule.filter(
-          (item) =>
+          item =>
             this.$moment().isAfter(item.dates.start) &&
             this.$moment().isBefore(item.dates.end)
         );
@@ -1107,7 +1105,7 @@ export default {
         venue: "",
         start_time: new Date(),
         end_time: new Date(),
-        facilitator_id: null,
+        facilitator_id: null
       });
       this.current_schedule = this.detail.schedule.length - 1;
     },
@@ -1125,13 +1123,13 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/courseschedules`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.schedules = res.data.filter(
-              (item) =>
+              item =>
                 this.$moment().isBefore(item.start_time) ||
                 this.$moment().isBefore(item.end_time)
             );
@@ -1139,7 +1137,7 @@ export default {
             this.showschedule = true;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1147,15 +1145,15 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/admin-get-facilitators`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1164,16 +1162,16 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/courses`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.courses = res.data;
             this.showTable = true;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1181,16 +1179,16 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/events`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
-            this.events = res.data.filter((item) => item.status !== "expired");
+            this.events = res.data.filter(item => item.status !== "expired");
           }
           this.showEvent = true;
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1200,10 +1198,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/courseschedules`, this.detail, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.disabled = false;
             this.$toast.success("Added successfully");
@@ -1216,11 +1214,11 @@ export default {
               url: "",
               start_time: new Date(),
               end_time: new Date(),
-              facilitator_id: null,
+              facilitator_id: null
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.disabled = false;
           if (err.response.data.errors.email[0]) {
             this.$toast.error(err.response.data.errors.email[0]);
@@ -1238,16 +1236,14 @@ export default {
     },
     addevent() {
       this.disabled = true;
-      this.event.facilitators = this.event.facilitators.map(
-        (item) => item.value
-      );
+      this.event.facilitators = this.event.facilitators.map(item => item.value);
       this.$http
         .post(`${this.$store.getters.url}/events`, this.event, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.disabled = false;
             this.$toast.success("Added successfully");
@@ -1264,11 +1260,11 @@ export default {
               start: "",
               end: "",
               resource: "",
-              facilitators: [],
+              facilitators: []
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.disabled = false;
           if (err.response.data.errors.email[0]) {
             this.$toast.error(err.response.data.errors.email[0]);
@@ -1295,48 +1291,48 @@ export default {
           this.detail,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Updated successfully");
             this.detail.schedule = {
               day: "",
               start_time: new Date(),
               end_time: new Date(),
-              facilitator_id: null,
+              facilitator_id: null
             };
             this.getschedules();
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     drop(id) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/courseschedules/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.admin.access_token}`,
-              },
+                Authorization: `Bearer ${this.$store.getters.admin.access_token}`
+              }
             })
-            .then((res) => {
+            .then(res => {
               if (res.status == 200) {
                 this.$toast.success("Removed successfully");
                 this.getschedules();
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">
