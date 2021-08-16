@@ -7,13 +7,13 @@
 
           <div class="mb-3">
             <b-row class="mb-3">
-              <b-col class="text-center">
+              <b-col cols="12" class="text-center">
                 <b-img
                   class="img-s"
                   :src="require('@/assets/images/bonus.png')"
                 ></b-img
               ></b-col>
-              <b-col>
+              <b-col cols="12">
                 <p>
                   Refer your friends to nzukoor and earn bonus point we also
                   give your friends bonus because we value your friendship
@@ -163,7 +163,7 @@
       </b-col>
       <b-col sm="5">
         <div class="box">
-          <h6 class="mb-4 py-2 px-3">Referral List</h6>
+          <h5 class="mb-4 py-2 px-3">Referral List</h5>
 
           <div class="" v-if="showReferral">
             <b-table-simple v-if="referrals.length">

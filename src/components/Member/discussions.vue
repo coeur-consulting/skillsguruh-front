@@ -299,6 +299,7 @@
                       </div>
                     </div>
                     <span
+                      @click="$router.push(`/member/discussion/${dis.id}`)"
                       class="related text-left text-capitalize font-weight-bold"
                       >{{ dis.name }}</span
                     >

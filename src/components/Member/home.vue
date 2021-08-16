@@ -359,7 +359,7 @@
               <div v-if="showConnect">
                 <div v-if="connections.length">
                   <div
-                    class="d-flex mb-2 align-items-center"
+                    class="d-flex mb-3 align-items-center"
                     v-for="user in connections.slice(0, 5)"
                     :key="user.id"
                   >

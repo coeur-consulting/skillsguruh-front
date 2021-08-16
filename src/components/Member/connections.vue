@@ -31,7 +31,7 @@
                       class="connection_name cursor-pointer"
                       @click="
                         $router.push(
-                          `/member/profile/u/${item.facilitator_follower.id}`
+                          `/member/profile/u/${item.user_follower.id}`
                         )
                       "
                     >

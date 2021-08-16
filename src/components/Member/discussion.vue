@@ -1155,6 +1155,9 @@ export default {
       this.description = `I just joined a discussion, *${this.discussion.name}*  on Nzukoor and I’d like to hear your thoughts. `;
     }
   },
+  watch: {
+    $route: "getdiscussion",
+  },
   computed: {
     filteredDiscussion() {
       var res = this.posts.slice(

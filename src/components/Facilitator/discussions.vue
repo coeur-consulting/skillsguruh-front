@@ -291,7 +291,7 @@
                 <div v-if="otherdiscussion">
                   <div
                     class="d-flex p-2 px-3"
-                    v-for="(dis, id) in otherdiscussion.slice(0, 6)"
+                    v-for="(dis, id) in otherdiscussion.slice(0, 8)"
                     :key="id"
                   >
                     <div>
@@ -300,6 +300,7 @@
                       </div>
                     </div>
                     <span
+                      @click="$router.push(`/facilitator/discussion/${dis.id}`)"
                       class="related text-left text-capitalize font-weight-bold"
                       >{{ dis.name }}</span
                     >

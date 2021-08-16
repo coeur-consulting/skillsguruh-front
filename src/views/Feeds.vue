@@ -439,7 +439,7 @@
                           @click="drop(feed.id, index)"
                           v-if="
                             feed.user &&
-                              feed.user.id == $store.getters.member.id
+                            feed.user.id == $store.getters.member.id
                           "
                           >Delete</b-dropdown-item
                         >
@@ -451,7 +451,7 @@
                         <cld-image
                           v-if="
                             feed.publicId &&
-                              img_ext.includes(getextension(feed.media))
+                            img_ext.includes(getextension(feed.media))
                           "
                           :publicId="feed.publicId"
                         >
@@ -462,8 +462,8 @@
                         <b-img
                           v-if="
                             !feed.publicId &&
-                              feed.media &&
-                              img_ext.includes(getextension(feed.media))
+                            feed.media &&
+                            img_ext.includes(getextension(feed.media))
                           "
                           :src="feed.media"
                         ></b-img>
@@ -472,7 +472,7 @@
                           controls
                           v-if="
                             feed.publicId &&
-                              vid_ext.includes(getextension(feed.media))
+                            vid_ext.includes(getextension(feed.media))
                           "
                           :publicId="feed.publicId"
                         >
@@ -484,7 +484,7 @@
                           controls
                           v-if="
                             feed.media &&
-                              aud_ext.includes(getextension(feed.media))
+                            aud_ext.includes(getextension(feed.media))
                           "
                           :src="feed.media"
                           class="fluid-grow"
@@ -492,7 +492,7 @@
                         <div
                           v-if="
                             feed.media &&
-                              doc_ext.includes(getextension(feed.media))
+                            doc_ext.includes(getextension(feed.media))
                           "
                           class="text-center p-3 p-sm-4 bg-skills-grey"
                         >
@@ -532,7 +532,7 @@
                         <b-icon
                           :icon="
                             feed.stars.find(
-                              item =>
+                              (item) =>
                                 item.star &&
                                 item.user_id == $store.getters.member.id
                             )
@@ -542,7 +542,7 @@
                           class="text-blue mr-1"
                         ></b-icon>
                         <span>{{
-                          feed.stars.filter(item => item.star).length
+                          feed.stars.filter((item) => item.star).length
                         }}</span>
                       </span>
                       <span
@@ -551,7 +551,7 @@
                         ><b-icon
                           :icon="
                             feed.likes.find(
-                              item =>
+                              (item) =>
                                 item.like &&
                                 item.user_id == $store.getters.member.id
                             )
@@ -561,7 +561,7 @@
                           class="text-danger mr-1"
                         ></b-icon>
                         <span>{{
-                          feed.likes.filter(item => item.like).length
+                          feed.likes.filter((item) => item.like).length
                         }}</span>
                       </span>
                       <span class="mr-3">
@@ -581,6 +581,11 @@
                         ></b-icon>
                       </span>
                     </div>
+                    <div
+                      class="liked_by px-3 border-bottom"
+                      @click="showlikes(feed)"
+                      v-html="getlikes(feed.likes)"
+                    ></div>
                     <div
                       class="comments px-3 pt-2 border-bottom text-left"
                       style="line-height: 1.6"
@@ -699,8 +704,9 @@
                                       <h5>{{ category }}</h5>
                                       <div class="emojis">
                                         <span
-                                          v-for="(emoji,
-                                          emojiName) in emojiGroup"
+                                          v-for="(
+                                            emoji, emojiName
+                                          ) in emojiGroup"
                                           :key="emojiName"
                                           @click="insert(emoji)"
                                           :title="emojiName"
@@ -808,6 +814,125 @@
         </b-row>
       </b-container>
     </div>
+    <b-modal
+      no-close-on-backdrop
+      id="alllikes"
+      hide-footer
+      centered
+      title="Likes"
+      size="sm"
+    >
+      <div class="comments" v-if="alllikes">
+        <div class="mb-3">
+          <div class="d-flex mb-3 pt-3">
+            <div class="d-flex flex-1 text-left">
+              <div class="mr-2 mb-1" v-if="alllikes.admin">
+                <b-avatar
+                  class="mr-2"
+                  size="1.8rem"
+                  :src="alllikes.admin.profile"
+                ></b-avatar>
+              </div>
+              <div class="mr-2 mb-1" v-if="alllikes.user">
+                <b-avatar
+                  class="mr-2"
+                  size="1.8rem"
+                  :src="alllikes.user.profile"
+                ></b-avatar>
+              </div>
+              <div class="comment_name mr-2 mb-1" v-if="alllikes.facilitator">
+                <b-avatar
+                  class="mr-2"
+                  size="1.8rem"
+                  :src="alllikes.facilitator.profile"
+                ></b-avatar>
+              </div>
+              <div class="profile">
+                <div class="name" v-if="alllikes.admin">
+                  {{ alllikes.admin.name }}
+                </div>
+                <div class="name" v-if="alllikes.user">
+                  {{ alllikes.user.name }}
+                </div>
+                <div class="name" v-if="alllikes.facilitator">
+                  {{ alllikes.facilitator.name }}
+                </div>
+
+                <div class="date fs11">
+                  {{ alllikes.created_at | moment("ll") }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-left feed_text pb-3">
+            <span>{{ alllikes.message }}</span>
+          </div>
+        </div>
+        <div class="comments">
+          <h6>Liked by</h6>
+          <div
+            class="comment d-flex text-left mb-2"
+            v-for="(item, index) in alllikes.likes.filter((val) => val.like)"
+            :key="index"
+          >
+            <div class="flex-1">
+              <div class="flex-1 pr-2">
+                <div class="d-flex mb-1" v-if="item.admin">
+                  <div class="d-flex flex-1">
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.admin.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.admin.name }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex mb-1" v-if="item.user">
+                  <div
+                    class="d-flex flex-1"
+                    @click="$router.push(`/member/profile/u/${item.user.id}`)"
+                  >
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.user.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.user.name }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex mb-1" v-if="item.facilitator">
+                  <div
+                    class="d-flex flex-1"
+                    @click="
+                      $router.push(`/member/profile/f/${item.facilitator.id}`)
+                    "
+                  >
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.facilitator.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.facilitator.name }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </b-modal>
     <b-modal id="share" hide-footer centered size="lg">
       <div class="p-2 text-center">
         <h6 class="font-weight-bold mb-3">Share</h6>
@@ -904,7 +1029,7 @@ export default {
         media: "",
         message: "",
         publicId: "",
-        tags: []
+        tags: [],
       },
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp", "flv", "mov"],
@@ -912,13 +1037,13 @@ export default {
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       comment: {
         comment: "",
-        id: ""
+        id: "",
       },
       mini_info: {
         id: "",
         name: "",
         type: "",
-        profile: ""
+        profile: "",
       },
       showFeeds: false,
 
@@ -926,21 +1051,22 @@ export default {
       rows: null,
       perPage: 10,
       page: 1,
-      trendingFeed: []
+      trendingFeed: [],
+      alllikes: null,
     };
   },
   components: {
     EmojiPicker,
     FeedUpload,
     MultiSelect,
-    Suggestions
+    Suggestions,
   },
   directives: {
     focus: {
       inserted(el) {
         el.focus();
-      }
-    }
+      },
+    },
   },
   mounted() {
     if (localStorage.getItem("authMember")) {
@@ -949,7 +1075,7 @@ export default {
     this.getfeeds();
     this.getTrendingFeeds();
     this.gettrendingfeeds();
-    this.options = Interest.map(item => {
+    this.options = Interest.map((item) => {
       var res = {};
       res.text = item.value;
       res.value = item.value;
@@ -972,9 +1098,79 @@ export default {
       }
 
       return feeds;
-    }
+    },
+    useraccess() {
+      var token = null;
+      if (this.$store.getters.admin.access_token) {
+        return "admin";
+      }
+      if (this.$store.getters.facilitator.access_token) {
+        return "facilitator";
+      }
+      if (this.$store.getters.member.access_token) {
+        return "member";
+      }
+      return token;
+    },
   },
   methods: {
+    showlikes(likes) {
+      this.alllikes = likes;
+
+      this.$bvModal.show("alllikes");
+    },
+    getlikes(item) {
+      var arr = item.filter((val) => val.like);
+      var first = {};
+      var result = "";
+      if (arr.length > 0) {
+        first = arr.shift();
+        if (first.user) {
+          result = `<span>Liked by ${
+            this.useraccess == "member" &&
+            this.$store.getters.member.id == first.user.id
+              ? "You"
+              : first.user.name
+          } </span>`;
+        }
+        if (first.facilitator) {
+          result = `<span>Liked by ${
+            this.useraccess == "facilitator" &&
+            this.$store.getters.facilitator.id == first.facilitator.id
+              ? "You"
+              : first.facilitator.name
+          } </span>`;
+        }
+        if (first.admin) {
+          result = `<span>Liked by ${
+            this.useraccess == "admin" &&
+            this.$store.getters.admin.id == first.admin.id
+              ? "You"
+              : first.admin.name
+          } </span>`;
+        }
+      }
+      if (arr.length > 1) {
+        first = arr.shift();
+        if (first.user) {
+          result = `<span>Liked by ${first.user.name} and ${arr.length} ${
+            arr.length > 1 ? "others" : "other"
+          }  </span>`;
+        }
+        if (first.facilitator) {
+          result = `<span>Liked by ${first.facilitator.name} and ${
+            arr.length
+          } ${arr.length > 1 ? "others" : "other"}  </span>`;
+        }
+        if (first.admin) {
+          result = `<span>Liked by ${first.admin.name} and ${arr.length} ${
+            arr.length > 1 ? "others" : "other"
+          }  </span>`;
+        }
+      }
+
+      return result;
+    },
     sharenow(feed) {
       this.description = feed.message;
       this.link = `https://nzukoor.com/explore/feed/view/${feed.id}?utf_medium=share`;
@@ -983,19 +1179,19 @@ export default {
     gettrendingfeeds() {
       this.$http
         .get(`${this.$store.getters.url}/trending/feeds`)
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.trendingfeeds = res.data.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
     getTrendingFeeds() {
       this.$http
         .get(`${this.$store.getters.url}/guest/trending/feeds`)
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.trendingFeed = res.data;
           }
@@ -1004,7 +1200,7 @@ export default {
     infiniteHandler($state) {
       this.$http
         .get(`${this.$store.getters.url}/guest/feeds?page=${this.page}`)
-        .then(res => {
+        .then((res) => {
           if (res.data.data.length) {
             this.page += 1;
             this.feeds.push(...res.data.data);
@@ -1060,14 +1256,14 @@ export default {
     getfeeds() {
       this.$http
         .get(`${this.$store.getters.url}/guest/feeds?page=${this.page}`)
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.feeds = res.data.data;
             this.showFeeds = true;
             this.rows = res.data.data.length;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1083,10 +1279,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Feed Updated ");
             this.$bvModal.hide("feed");
@@ -1096,11 +1292,11 @@ export default {
               media: "",
               message: "",
               publicId: "",
-              tags: []
+              tags: [],
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1120,10 +1316,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/feed-comments`, this.comment, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.$toast.success("Comment updated ");
 
@@ -1132,11 +1328,11 @@ export default {
 
             this.comment = {
               comment: "",
-              id: ""
+              id: "",
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1151,23 +1347,23 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
-            this.feeds[index].likes.push(res.data);
+            this.filteredFeeds[index].likes.push(res.data);
           }
           if (res.status == 200) {
-            this.feeds[index].likes.map(item => {
+            this.filteredFeeds[index].likes.map((item) => {
               if (item.user_id == this.$store.getters.member.id) {
                 return (item.like = res.data.like);
               }
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1182,28 +1378,28 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
-            this.feeds[index].stars.push(res.data);
+            this.filteredFeeds[index].stars.push(res.data);
           }
           if (res.status == 200) {
-            this.feeds[index].stars.map(item => {
+            this.filteredFeeds[index].stars.map((item) => {
               if (item.user_id == this.$store.getters.member.id) {
                 return (item.star = res.data.star);
               }
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
-    drop() {}
-  }
+    drop() {},
+  },
 };
 </script>
 <style scoped lang="scss">
