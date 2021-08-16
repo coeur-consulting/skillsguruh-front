@@ -1741,7 +1741,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/feed-comments`, this.comment, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            Authorization: `Bearer ${this.useraccess.access_token}`,
           },
         })
         .then((res) => {
@@ -1781,12 +1781,12 @@ export default {
           }
           if (res.status == 200) {
             this.filteredFeeds[index].likes.map((item) => {
-              if (this.useraccess.type == "facilitator") {
+              if (this.$store.getters.facilitator.access_token) {
                 if (item.facilitator_id == this.$store.getters.facilitator.id) {
                   return (item.like = res.data.like);
                 }
               }
-              if (this.useraccess.type == "member") {
+              if (this.$store.getters.member.access_token) {
                 if (item.user_id == this.$store.getters.member.id) {
                   return (item.like = res.data.like);
                 }
@@ -1819,8 +1819,15 @@ export default {
           }
           if (res.status == 200) {
             this.filteredFeeds[index].stars.map((item) => {
-              if (item.user_id == this.$store.getters.member.id) {
-                return (item.star = res.data.star);
+              if (this.$store.getters.facilitator.access_token) {
+                if (item.facilitator_id == this.$store.getters.facilitator.id) {
+                  return (item.like = res.data.like);
+                }
+              }
+              if (this.$store.getters.member.access_token) {
+                if (item.user_id == this.$store.getters.member.id) {
+                  return (item.like = res.data.like);
+                }
               }
             });
           }
