@@ -89,7 +89,7 @@
                     <a :href="feed.url" target="_blank">Click link</a>
                   </div>
                   <div v-if="feed.tags" class="px-3 px-md-0 mb-1">
-                    <b-row class="justify-content-start">
+                    <div class="d-flex justify-content-start">
                       <b-col
                         cols="auto"
                         class="pr-2 pl-0"
@@ -103,7 +103,7 @@
                           >{{ tag.text }}</b-badge
                         >
                       </b-col>
-                    </b-row>
+                    </div>
                   </div>
                   <div v-if="feed.media || feed.publicId">
                     <div class="mb-4 position-relative w-100 media">
