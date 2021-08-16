@@ -88,11 +88,11 @@
                   <div v-if="feed.url" class="text-dark-green mb-1">
                     <a :href="feed.url" target="_blank">Click link</a>
                   </div>
-                  <div v-if="feed.tags" class="px-3 mb-1">
+                  <div v-if="feed.tags" class="px-3 px-md-0 mb-1">
                     <b-row class="justify-content-start">
                       <b-col
                         cols="auto"
-                        class="px-1"
+                        class="pr-2 pl-0"
                         v-for="(tag, id) in JSON.parse(feed.tags)"
                         :key="id"
                       >
@@ -273,7 +273,7 @@
                     <div class="interactions text-left" v-if="feed">
                       <span
                         class="mr-3 cursor-pointer"
-                        @click="toggleStar(feed.id, index)"
+                        @click="toggleStar(feed.id)"
                       >
                         <b-icon
                           :icon="
@@ -293,7 +293,7 @@
                       </span>
                       <span
                         class="mr-3 cursor-pointer"
-                        @click="toggleLike(feed.id, index)"
+                        @click="toggleLike(feed.id)"
                         ><b-icon
                           :icon="
                             feed.likes.some(
@@ -594,10 +594,10 @@ export default {
         )
         .then((res) => {
           if (res.status == 201) {
-            this.feeds.likes.push(res.data);
+            this.feed.likes.push(res.data);
           }
           if (res.status == 200) {
-            this.feeds.likes.map((item) => {
+            this.feed.likes.map((item) => {
               if (item.user_id == this.$store.getters.member.id) {
                 return (item.like = res.data.like);
               }
@@ -621,10 +621,10 @@ export default {
         )
         .then((res) => {
           if (res.status == 201) {
-            this.feeds.stars.push(res.data);
+            this.feed.stars.push(res.data);
           }
           if (res.status == 200) {
-            this.feeds.stars.map((item) => {
+            this.feed.stars.map((item) => {
               if (item.user_id == this.$store.getters.member.id) {
                 return (item.star = res.data.star);
               }
