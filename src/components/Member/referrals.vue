@@ -1,19 +1,19 @@
 <template>
-  <b-container class="py-5 px-3 text-left">
+  <b-container class="py-5 text-left">
     <b-row>
       <b-col sm="7" v-if="showRef">
         <div class="box border p-3 p-sm-4 mb-4">
-          <h6 class="font-weight-bold mb-4">Invite Friends and Earn Points</h6>
+          <h6 class="mb-4">Invite Friends and Earn Points</h6>
 
           <div class="mb-3">
             <b-row class="mb-3 flex-column flex-sm-row">
-              <b-col sm="4" class="text-center">
+              <b-col sm="12" class="text-center">
                 <b-img
                   class="img-s"
                   :src="require('@/assets/images/bonus.png')"
                 ></b-img
               ></b-col>
-              <b-col sm="8">
+              <b-col sm="12">
                 <p>
                   Refer your friends to nzukoor and earn bonus point we also
                   give your friends bonus because we value your friendship
@@ -76,43 +76,45 @@
                   </div>
                 </b-form>
 
-                <div class="d-none d-md-block">
+                <!-- <div class="d-none d-md-block">
                   <b-row class="justify-content-center">
                     <div class="mr-4">
                       <b-img
-                        width="40"
+                        width="20"
                         :src="require('@/assets/images/twitter.png')"
                       ></b-img>
                     </div>
                     <div class="mr-4">
                       <b-img
-                        width="40"
+                        width="20"
                         :src="require('@/assets/images/linked.png')"
                       ></b-img>
                     </div>
                     <div class="mr-4">
                       <b-img
-                        width="40"
+                        width="20"
                         :src="require('@/assets/images/fb.png')"
                       ></b-img>
                     </div>
                     <div>
                       <b-img
-                        width="40"
+                        width="20"
                         :src="require('@/assets/images/google.png')"
                       ></b-img>
                     </div>
                   </b-row>
-                </div>
+                </div> -->
               </b-col>
             </b-row>
-            <div class="py-3 text-center mb-4">
-              <div class="mb-3 px-sm-4 py-2 rounded d-flex text-muted">
+            <div class="p-3 text-center mb-4">
+              <div
+                class="px-3 py-2 d-flex align-items-center search bg-light mb-3"
+              >
                 <b-icon icon="link45deg" font-scale="1.5rem"></b-icon>
                 <b-form-input
                   v-model="message"
                   readonly
-                  class="text-align flex-1 rounded-pill no-focus fs12"
+                  class="flex-1 border-0 no-focus search-bg"
                 >
                 </b-form-input>
               </div>
@@ -132,7 +134,7 @@
           </div>
         </div>
 
-        <div class="box border text-left mb-4" v-if="communities_link">
+        <!-- <div class="box border text-left mb-4" v-if="communities_link">
           <h6 class="mb-4 py-2 px-3">Course Referral Links</h6>
           <b-table-simple class="border-top-0" responsive v-if="showCommunity">
             <b-thead class="border-0">
@@ -161,10 +163,10 @@
               :table-props="{ bordered: true, striped: true }"
             ></b-skeleton-table>
           </div>
-        </div>
+        </div> -->
       </b-col>
       <b-col sm="7" v-else class="p-5">
-        <div class="d-flex w-100 mb-3 border box">
+        <div class="d-flex w-100 mb-3 border">
           <div class="mr-2">
             <b-skeleton type="avatar"></b-skeleton>
           </div>
@@ -192,7 +194,7 @@
       </b-col>
       <b-col sm="5">
         <div class="box">
-          <h6 class="mb-4 py-2 px-3">Referral List</h6>
+          <h5 class="py-2 px-3">Referral List</h5>
           <div class="" v-if="showReferral">
             <b-table-simple v-if="referrals.length">
               <b-thead>
@@ -210,7 +212,7 @@
                 </b-tr>
                 <b-tr>
                   <b-td>Total earnings</b-td>
-                  <b-td class="text-dark-green font-weight-bold fs14">
+                  <b-td class="text-dark-green fs14">
                     {{ referrals.length * 200 }} points</b-td
                   >
                 </b-tr>
@@ -347,7 +349,7 @@ export default {
   overflow: auto;
 }
 .suggestion_box {
-  max-height: 40vh;
+  max-height: 20vh;
   overflow: auto;
 }
 @media (max-width: 600px) {

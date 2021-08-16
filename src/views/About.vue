@@ -37,8 +37,8 @@
               that others can live a full life as well.
             </p>
             <p>
-              When you teach at SkillGuruh, you get to take part in something
-              that has lasting value: helping people around the world experience
+              When you teach at Nzukoor, you get to take part in something that
+              has lasting value: helping people around the world experience
               growth and fulfillment.
             </p>
           </div>

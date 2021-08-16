@@ -55,7 +55,7 @@
                       : ''
                   "
                 >
-                  <span v-if="lastMessage(message).message">
+                  <span v-if="lastMessage(message).message" class="text-muted">
                     {{ lastMessage(message).message }}</span
                   >
                   <span v-else class="text-muted fs11"
@@ -533,10 +533,11 @@ export default {
 .message_text {
   line-height: 1.4;
   text-align: left;
+  color: rgba($color: #000000, $alpha: 0.44);
 }
 .message_name {
   font-size: 13px;
-  font-weight: bold;
+
   color: rgba($color: #000000, $alpha: 0.64);
 }
 .last_message {

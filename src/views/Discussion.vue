@@ -144,23 +144,19 @@
                     >
                   </div>
                 </div>
-                <div class="text-right">
+                <div class="text-right" v-if="posts.length">
                   <b-button-group>
                     <b-button
                       @click="toggleview = 'recent'"
                       :variant="
-                        toggleview == 'recent'
-                          ? 'secondary'
-                          : 'outline-secondary'
+                        toggleview == 'recent' ? 'dark' : 'outline-dark'
                       "
                       size="sm"
                       >Newest</b-button
                     >
                     <b-button
                       :variant="
-                        toggleview == 'oldest'
-                          ? 'secondary'
-                          : 'outline-secondary'
+                        toggleview == 'oldest' ? 'dark' : 'outline-dark'
                       "
                       @click="toggleview = 'oldest'"
                       size="sm"
@@ -168,9 +164,7 @@
                     >
                     <b-button
                       :variant="
-                        toggleview == 'comments'
-                          ? 'secondary'
-                          : 'outline-secondary'
+                        toggleview == 'comments' ? 'dark' : 'outline-dark'
                       "
                       @click="toggleview = 'comments'"
                       size="sm"
@@ -604,13 +598,13 @@
                 <div
                   class="d-flex p-2 px-3 cursor-pointer"
                   v-if="item.type == 'public'"
-                  @click="$router.push(`/discussion/${item.id}`)"
+                  @click="$router.push(`/explore/discussion/${item.id}`)"
                 >
                   <div v-if="item.discussionmessage.length">
                     <div>
-                      <span class="mr-3 related_count">
+                      <div class="mr-3 related_count">
                         {{ item.discussionmessage.length }}
-                      </span>
+                      </div>
                     </div>
                   </div>
                   <div class="related text-left">{{ item.name }}</div>
@@ -676,14 +670,14 @@
       <div class="text-center">
         <p class="mb-4 fs16">Do you wish to join this discussion?</p>
         <b-button
-          variant="outline-secondary"
+          variant="outline-dark"
           class="mr-3"
           size="sm"
           @click="$bvModal.hide('access')"
           >Cancel</b-button
         >
         <b-button
-          variant="secondary"
+          variant="dark"
           size="sm"
           @click="$toast.success('Request sent succesfully')"
           >Send a request</b-button
@@ -1137,7 +1131,8 @@ export default {
     this.addview();
     this.getvote();
     this.getconnections();
-    this.link = "https://nzukoor.com/discussion/" + this.$route.params.id;
+    this.link =
+      "https://nzukoor.com//explore/discussion/" + this.$route.params.id;
 
     var channel = this.$pusher.subscribe("adddiscussion");
 
@@ -1280,7 +1275,7 @@ export default {
       this.reply.discussion_id = this.$route.params.id;
       this.$http
         .post(
-          `${this.$store.getters.url}/discussion/message/replies`,
+          `${this.$store.getters.url}/explore/discussion/message/replies`,
           this.reply,
           {
             headers: {
@@ -1350,7 +1345,7 @@ export default {
           "I just started a discussion, " +
           this.discussion.name.toUpperCase() +
           " and I’d like to hear your thoughts",
-        url: "https://nzukoor.com/discussion/" + this.discussion.id,
+        url: "https://nzukoor.com/explore/discussion/" + this.discussion.id,
       };
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {

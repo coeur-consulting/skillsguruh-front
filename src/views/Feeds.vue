@@ -320,8 +320,14 @@
               </div>
             </div>
             <div>
-              <Suggestions user="member" v-if="$store.getters.member" />
-              <Suggestions user="member" v-if="$store.getters.facilitator" />
+              <Suggestions
+                user="member"
+                v-if="$store.getters.member.access_token"
+              />
+              <Suggestions
+                user="facilitator"
+                v-if="$store.getters.facilitator.access_token"
+              />
             </div>
             <div class="d-flex justify-content-center justify-content-md-end">
               <div class="d-flex align-items-center pl-3 mb-3">
@@ -591,7 +597,7 @@
                       >
                       <div class="all_comment">
                         <div
-                          class="comment d-flex text-left"
+                          class="comment d-flex text-left mb-1"
                           v-for="item in feed.comments.slice(0, 2)"
                           :key="item.id"
                         >
@@ -809,7 +815,7 @@
           class="mr-3"
           network="facebook"
           :url="link"
-          title=""
+          title="Check out my new feed post on Nzùkóór:"
           :description="description"
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning"
@@ -822,7 +828,7 @@
           class="mr-3"
           network="twitter"
           :url="link"
-          title=""
+          title="Check out my new feed post on Nzùkóór:"
           :description="description"
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning"
@@ -835,7 +841,7 @@
           class="mr-3"
           network="whatsApp"
           :url="link"
-          title=""
+          title="Check out my new feed post on Nzùkóór:"
           :description="description"
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning"
@@ -857,7 +863,7 @@
           class="mr-3"
           network="Telegram"
           :url="link"
-          title=""
+          title="Check out my new feed post on Nzùkóór:"
           :description="description"
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning, Feeds"
@@ -971,7 +977,7 @@ export default {
   methods: {
     sharenow(feed) {
       this.description = feed.message;
-      this.link = `https://nzukoor.com/feed/view/${feed.id}?utf_medium=share`;
+      this.link = `https://nzukoor.com/explore/feed/view/${feed.id}?utf_medium=share`;
       this.$bvModal.show("share");
     },
     gettrendingfeeds() {

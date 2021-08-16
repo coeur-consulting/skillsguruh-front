@@ -3,12 +3,10 @@
     <div class="logo_bar">
       <b-img
         class="mr-2"
-        width="30"
-        height="30"
+        width="100"
         style="object-fit: contain"
-        :src="$store.getters.facilitator.org_profile"
+        :src="require('@/assets/images/logo.png')"
       ></b-img>
-      <h5 class="mb-0">{{ $store.getters.facilitator.org_name }}</h5>
     </div>
     <div class="side_items">
       <div>
@@ -217,11 +215,10 @@ export default {
   border-right: 1px solid #f7f8fa;
 }
 .logo_bar {
-  height: 80px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding-left: 30px;
+  padding: 30px 0 0 30px;
 }
 .side_items {
   padding: 40px 0;

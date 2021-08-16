@@ -789,7 +789,7 @@
           class="mr-3"
           network="facebook"
           :url="link"
-          title=""
+          title="Check out my new feed post on Nzùkóór:"
           :description="description"
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning"
@@ -802,7 +802,7 @@
           class="mr-3"
           network="twitter"
           :url="link"
-          title=""
+          title="Check out my new feed post on Nzùkóór:"
           :description="description"
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning"
@@ -815,7 +815,7 @@
           class="mr-3"
           network="whatsApp"
           :url="link"
-          title=""
+          title="Check out my new feed post on Nzùkóór:"
           :description="description"
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning"
@@ -837,7 +837,7 @@
           class="mr-3"
           network="Telegram"
           :url="link"
-          title=""
+          title="Check out my new feed post on Nzùkóór:"
           :description="description"
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning, Feeds"
@@ -923,7 +923,7 @@ export default {
   methods: {
     sharenow(feed) {
       this.description = feed.message;
-      this.link = `https://nzukoor.com/feed/view/${feed.id}?utf_medium=share`;
+      this.link = `https://nzukoor.com/explore/feed/view/${feed.id}?utf_medium=share`;
       this.$bvModal.show("share");
     },
     getTrendingFeeds() {

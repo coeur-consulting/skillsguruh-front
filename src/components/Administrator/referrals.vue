@@ -3,17 +3,17 @@
     <b-row>
       <b-col sm="7" v-if="showRef">
         <div class="box p-4 mb-4">
-          <h6 class="font-weight-bold mb-4">Invite Friends and Earn Points</h6>
+          <h6 class="mb-4">Invite Friends and Earn Points</h6>
 
           <div class="mb-3">
             <b-row class="mb-3">
-              <b-col sm="4" class="text-center">
+              <b-col class="text-center">
                 <b-img
                   class="img-s"
                   :src="require('@/assets/images/bonus.png')"
                 ></b-img
               ></b-col>
-              <b-col sm="8">
+              <b-col>
                 <p>
                   Refer your friends to nzukoor and earn bonus point we also
                   give your friends bonus because we value your friendship
@@ -106,13 +106,15 @@
                 </div>
               </b-col>
             </b-row>
-            <div class="p-sm-3 text-center mb-4">
-              <div class="mb-3 px-sm-4 py-2 rounded d-flex text-muted">
-                <b-icon icon="link45deg" font-scale="1.3rem"></b-icon>
+            <div class="p-3 text-center mb-4">
+              <div
+                class="px-3 py-2 d-flex align-items-center search bg-light mb-3"
+              >
+                <b-icon icon="link45deg" font-scale="1.5rem"></b-icon>
                 <b-form-input
                   v-model="message"
                   readonly
-                  class="text-align flex-1 rounded-pill no-focus fs13"
+                  class="flex-1 border-0 no-focus search-bg"
                 >
                 </b-form-input>
               </div>
@@ -124,7 +126,7 @@
                   v-clipboard:copy="message"
                   v-clipboard:success="onCopy"
                   v-clipboard:error="onError"
-                  class="rounded px-sm-4"
+                  class="rounded px-4"
                   >Copy link</b-button
                 >
               </div>
@@ -161,7 +163,7 @@
       </b-col>
       <b-col sm="5">
         <div class="box">
-          <h6 class="mb-4 py-2 px-3">Referral List</h6>
+          <h5 class="py-2 px-3">Referral List</h5>
           <div class="" v-if="showReferral">
             <b-table-simple v-if="referrals.length">
               <b-thead>
@@ -179,7 +181,7 @@
                 </b-tr>
                 <b-tr>
                   <b-td>Total earnings</b-td>
-                  <b-td class="text-dark-green font-weight-bold fs14">
+                  <b-td class="text-dark-green fs14">
                     {{ referrals.length * 200 }} points</b-td
                   >
                 </b-tr>

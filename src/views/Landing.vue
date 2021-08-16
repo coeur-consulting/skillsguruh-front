@@ -940,9 +940,5 @@ img {
   .member-img {
     height: 200px;
   }
-  #joinnow {
-    padding-top: 0rem;
-    padding-bottom: 0rem;
-  }
 }
 </style>

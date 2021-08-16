@@ -1,6 +1,7 @@
 <template>
   <b-container fluid class="px-3">
     <div class="my-3 position-relative">
+      <h6 class="mb-3 text-left text-muted">Some connection suggestions</h6>
       <b-iconstack
         font-scale="2.5"
         class="nav-left shadow-sm"
@@ -26,7 +27,7 @@
         <b-icon stacked icon="arrow-right" scale="0.5" variant="white"></b-icon>
       </b-iconstack>
       <carousel
-        :perPage="4"
+        :perPage="5"
         :scrollPerPage="true"
         :paginationEnabled="false"
         :navigationEnabled="false"
@@ -46,9 +47,12 @@
                   : require('@/assets/images/default.jpeg')
               "
             ></b-card-img>
-            <b-card-body class="text-center">
+            <b-card-body class="text-center p-2">
               <div class="text-left">
-                <div class="name text-capitalize text-left mb-1">
+                <div
+                  class="name text-capitalize text-left mb-1 cursor-pointer"
+                  @click="gotoprofile(item)"
+                >
                   {{ item.name }}
                 </div>
 
@@ -60,6 +64,7 @@
                 variant="dark-green"
                 size="sm"
                 block
+                class="fs10 py-1"
                 v-if="item.qualifications"
                 @click="addconnections(item.id, 'facilitator')"
                 >Connect</b-button
@@ -68,6 +73,7 @@
                 variant="dark-green"
                 size="sm"
                 block
+                class="fs10 py-1"
                 v-else
                 @click="addconnections(item.id, 'user')"
                 >Connect</b-button
@@ -114,6 +120,21 @@ export default {
     this.getsimilarusers();
   },
   methods: {
+    gotoprofile(val) {
+      if (this.$props.user == "facilitator") {
+        if (val.qualifications) {
+          return this.$router.push(`/facilitator/profile/f/${val.id}`);
+        }
+        return this.$router.push(`/facilitator/profile/u/${val.id}`);
+      }
+      if (this.$props.user == "member") {
+        if (val.qualifications) {
+          return this.$router.push(`/member/profile/f/${val.id}`);
+        }
+        return this.$router.push(`/member/profile/u/${val.id}`);
+      }
+    },
+
     async getsimilarusers() {
       return this.$http
         .get(`${this.$store.getters.url}/similar/users`, {
@@ -156,18 +177,22 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .suggestion img {
-  height: 12 0px;
+  height: 120px;
   width: 100%;
   object-fit: cover;
 }
 .name {
-  font-size: 1rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+.name:hover {
+  color: rgba($color: #000000, $alpha: 0.44);
 }
 @media (max-width: 768px) {
   .name {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
   }
 }
 </style>

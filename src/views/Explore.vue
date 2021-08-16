@@ -71,7 +71,7 @@
             <b-col
               sm="4"
               class="mb-2"
-              v-for="(item, id) in trending.slice(0, 6)"
+              v-for="(item, id) in trending.slice(0, 3)"
               :key="id"
             >
               <div
@@ -187,9 +187,6 @@
                             {{ item.user.name }}
                           </div>
                           <div class="comment_details">
-                            <span class="mr-2">{{
-                              $moment(message.created_at).fromNow()
-                            }}</span>
                             <span
                               >{{ message.discussionmessagecomment.length }}
                               <b-icon
@@ -612,7 +609,7 @@
                       >
                       <div class="all_comment">
                         <div
-                          class="comment d-flex text-left"
+                          class="comment d-flex text-left mb-1"
                           v-for="item in feed.comments.slice(0, 2)"
                           :key="item.id"
                         >
@@ -798,7 +795,7 @@
                 </h6>
                 <div v-if="trendingFeed.length" class="pb-3">
                   <div
-                    v-for="(item, id) in trendingFeed.slice(0, 6)"
+                    v-for="(item, id) in trendingFeed.slice(0, 3)"
                     :key="id"
                     class="mb-3"
                   >
@@ -877,7 +874,7 @@
               >
                 <slide
                   class="pr-3"
-                  v-for="item in mostenrolledcourse.slice(0, 6)"
+                  v-for="item in mostenrolledcourse.slice(0, 3)"
                   :key="item.id"
                 >
                   <div
@@ -1008,7 +1005,7 @@
                 <slide
                   v-for="item in events
                     .filter((item) => item.status == 'pending')
-                    .slice(0, 5)"
+                    .slice(0, 4)"
                   :key="item.id"
                   class="px-2"
                 >
@@ -1255,7 +1252,7 @@
           class="mr-3"
           network="facebook"
           :url="link"
-          title=""
+          title="Check out my new feed post on Nzùkóór:"
           :description="description"
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning"
@@ -1268,7 +1265,7 @@
           class="mr-3"
           network="twitter"
           :url="link"
-          title=""
+          title="Check out my new feed post on Nzùkóór:"
           :description="description"
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning"
@@ -1281,7 +1278,7 @@
           class="mr-3"
           network="whatsApp"
           :url="link"
-          title=""
+          title="Check out my new feed post on Nzùkóór:"
           :description="description"
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning"
@@ -1303,7 +1300,7 @@
           class="mr-3"
           network="Telegram"
           :url="link"
-          title=""
+          title="Check out my new feed post on Nzùkóór:"
           :description="description"
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning, Feeds"
@@ -1414,7 +1411,7 @@ export default {
   methods: {
     sharenow(feed) {
       this.description = feed.message;
-      this.link = `https://nzukoor.com/feed/view/${feed.id}?utf_medium=share`;
+      this.link = `https://nzukoor.com/explore/feed/view/${feed.id}?utf_medium=share`;
       this.$bvModal.show("share");
     },
     loadCourse() {

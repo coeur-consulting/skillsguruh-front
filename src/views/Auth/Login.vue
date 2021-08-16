@@ -247,7 +247,7 @@ export default {
           password: this.user.password,
         };
         this.$http
-          .post("http://localhost:8000/oauth/token", data)
+          .post("https://nzukoor-server.herokuapp.com/oauth/token", data)
           .then((res) => {
             authFacilitator.access_token = res.data.access_token;
             authFacilitator.refresh_token = res.data.refresh_token;
@@ -265,8 +265,8 @@ export default {
                 authFacilitator.profile = res.data.profile;
                 authFacilitator.facilitator_role = res.data.facilitator_role;
                 authFacilitator.interests = res.data.interests;
-                authFacilitator.org_profile = res.data.organization.logo;
-                authFacilitator.org_name = res.data.organization.name;
+                // authFacilitator.org_profile = res.data.organization.logo;
+                // authFacilitator.org_name = res.data.organization.name;
                 authFacilitator.referral = res.data.referral_code;
 
                 localStorage.setItem(
@@ -302,7 +302,7 @@ export default {
           password: this.user.password,
         };
         this.$http
-          .post("http://localhost:8000/oauth/token", data)
+          .post("https://nzukoor-server.herokuapp.com/oauth/token", data)
           .then((res) => {
             authMember.access_token = res.data.access_token;
             authMember.refresh_token = res.data.refresh_token;
@@ -321,13 +321,13 @@ export default {
                   authMember.profile = res.data.profile;
                   authMember.voice = res.data.voice;
                   authMember.interests = res.data.interests;
-                  if (!res.data.organization) {
-                    authMember.org_profile = require("@/assets/images/logo.png");
-                    authMember.org_name = "Nzukoor";
-                  } else {
-                    authMember.org_profile = res.data.organization.logo;
-                    authMember.org_name = res.data.organization.name;
-                  }
+                  // if (!res.data.organization) {
+                  //   authMember.org_profile = require("@/assets/images/logo.png");
+                  //   authMember.org_name = "Nzukoor";
+                  // } else {
+                  //   authMember.org_profile = res.data.organization.logo;
+                  //   authMember.org_name = res.data.organization.name;
+                  // }
 
                   authMember.referral = res.data.referral_code;
 

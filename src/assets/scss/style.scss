@@ -108,6 +108,11 @@ label {
 .media audio {
   width: 100%;
 }
+.img-s {
+  width: 80px;
+  margin: 0 auto;
+  height: auto;
+}
 // .VueCarousel-navigation-next {
 //   right: 24px !important;
 //   transform: translateY(-50%) translateX(100%);
@@ -259,6 +264,9 @@ a:hover {
 }
 .fs10 {
   font-size: 10px !important;
+}
+.fs9 {
+  font-size: 9px !important;
 }
 .vc-title {
   font-size: 14px !important;
@@ -528,9 +536,9 @@ ol.subquest {
   overflow-y: scroll;
 }
 .overview-title {
-  font-size: 14px;
-  height: 40px;
-  font-weight: 600;
+  font-size: 0.85rem;
+  height: 33px;
+  font-weight: 500;
   display: -webkit-box;
   line-clamp: 2;
   -webkit-line-clamp: 2;
@@ -541,7 +549,7 @@ ol.subquest {
   margin-bottom: 1px ​ !important;
 }
 .course_description {
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   line-height: 1.4;
   color: rgba(0, 0, 0, 0.45);
   margin-top: 0.5rem;
@@ -1108,11 +1116,7 @@ ol.subquest {
   span.viewevent span {
     font-size: 0.65rem !important;
   }
-  .img-s {
-    width: 120px;
-    margin: 0 auto;
-    height: auto;
-  }
+
   .feedname,
   .name {
     font-size: 0.85rem;

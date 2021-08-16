@@ -1612,7 +1612,7 @@ export default {
   methods: {
     sharenow(feed) {
       this.description = feed.message;
-      this.link = `https://nzukoor.com/feed/view/${feed.id}?utf_medium=share`;
+      this.link = `https://nzukoor.com/explore/feed/view/${feed.id}?utf_medium=share`;
       this.$bvModal.show("share");
     },
     setSubInterest() {

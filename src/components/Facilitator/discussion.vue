@@ -157,23 +157,19 @@
                     >
                   </div>
                 </div>
-                <div class="text-right">
+                <div class="text-right" v-if="posts.length">
                   <b-button-group>
                     <b-button
                       @click="toggleview = 'recent'"
                       :variant="
-                        toggleview == 'recent'
-                          ? 'secondary'
-                          : 'outline-secondary'
+                        toggleview == 'recent' ? 'dark' : 'outline-dark'
                       "
                       size="sm"
                       >Newest</b-button
                     >
                     <b-button
                       :variant="
-                        toggleview == 'oldest'
-                          ? 'secondary'
-                          : 'outline-secondary'
+                        toggleview == 'oldest' ? 'dark' : 'outline-dark'
                       "
                       @click="toggleview = 'oldest'"
                       size="sm"
@@ -181,9 +177,7 @@
                     >
                     <b-button
                       :variant="
-                        toggleview == 'comments'
-                          ? 'secondary'
-                          : 'outline-secondary'
+                        toggleview == 'comments' ? 'dark' : 'outline-dark'
                       "
                       @click="toggleview = 'comments'"
                       size="sm"
@@ -696,13 +690,13 @@
       <div class="text-center">
         <p class="mb-4 fs16">Do you wish to join this discussion?</p>
         <b-button
-          variant="outline-secondary"
+          variant="outline-dark"
           class="mr-3"
           size="sm"
           @click="$bvModal.hide('access')"
           >Cancel</b-button
         >
-        <b-button variant="secondary" size="sm" @click="requestAccess"
+        <b-button variant="dark" size="sm" @click="requestAccess"
           >Send a request</b-button
         >
       </div>

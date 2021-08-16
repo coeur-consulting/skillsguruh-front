@@ -417,7 +417,7 @@
           class="mr-3"
           network="facebook"
           :url="link"
-          title=""
+          title="Check out my new feed post on Nzùkóór:"
           :description="description"
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning"
@@ -430,7 +430,7 @@
           class="mr-3"
           network="twitter"
           :url="link"
-          title=""
+          title="Check out my new feed post on Nzùkóór:"
           :description="description"
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning"
@@ -443,7 +443,7 @@
           class="mr-3"
           network="whatsApp"
           :url="link"
-          title=""
+          title="Check out my new feed post on Nzùkóór:"
           :description="description"
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning"
@@ -465,7 +465,7 @@
           class="mr-3"
           network="Telegram"
           :url="link"
-          title=""
+          title="Check out my new feed post on Nzùkóór:"
           :description="description"
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning, Feeds"
@@ -507,6 +507,17 @@ export default {
     this.getfeeds();
   },
   methods: {
+    toText(HTML) {
+      if (!HTML) return;
+      var input = HTML;
+
+      return input
+        .replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi, "")
+        .replace(/<[^>]+?>/g, "")
+        .replace(/\s+/g, " ")
+        .replace(/ /g, " ")
+        .replace(/>/g, " ");
+    },
     sharenow(feed) {
       this.description = feed.message;
       this.link = `https://nzukoor.com/feed/${feed.id}?utf_medium=share`;
@@ -527,6 +538,7 @@ export default {
           if (res.status == 200) {
             this.feed = res.data;
             this.showFeeds = true;
+            window.title = `${this.toText(this.feed.message)} | NzuKoor`;
           }
         })
         .catch((err) => {
@@ -569,7 +581,7 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
-    toggleLike(id, index) {
+    toggleLike(id) {
       this.$http
         .post(
           `${this.$store.getters.url}/feed-likes`,
@@ -582,10 +594,10 @@ export default {
         )
         .then((res) => {
           if (res.status == 201) {
-            this.feeds[index].likes.push(res.data);
+            this.feeds.likes.push(res.data);
           }
           if (res.status == 200) {
-            this.feeds[index].likes.map((item) => {
+            this.feeds.likes.map((item) => {
               if (item.user_id == this.$store.getters.member.id) {
                 return (item.like = res.data.like);
               }
@@ -596,7 +608,7 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
-    toggleStar(id, index) {
+    toggleStar(id) {
       this.$http
         .post(
           `${this.$store.getters.url}/feed-stars`,
@@ -609,10 +621,10 @@ export default {
         )
         .then((res) => {
           if (res.status == 201) {
-            this.feeds[index].stars.push(res.data);
+            this.feeds.stars.push(res.data);
           }
           if (res.status == 200) {
-            this.feeds[index].stars.map((item) => {
+            this.feeds.stars.map((item) => {
               if (item.user_id == this.$store.getters.member.id) {
                 return (item.star = res.data.star);
               }

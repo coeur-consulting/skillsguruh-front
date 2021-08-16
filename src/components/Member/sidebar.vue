@@ -3,12 +3,10 @@
     <div class="logo_bar">
       <b-img
         class="mr-2"
-        width="30"
-        height="30"
-        :src="$store.getters.member.org_profile"
+        width="100"
+        :src="require('@/assets/images/logo.png')"
         style="object-fit: contain"
       ></b-img>
-      <h5 class="mb-0">{{ $store.getters.member.org_name }}</h5>
     </div>
     <div class="side_items">
       <div>
@@ -27,11 +25,16 @@
 
         <div>
           <div
-            class="side_item py-2"
-            @click="toggleCommunity = !toggleCommunity"
+            class="side_item d-flex align-items-center py-2"
+            @click="switchTab('two')"
           >
-            <folder-icon size="1.2x" class="custom-class"></folder-icon>
-            <span class="side-link p-3">Community</span>
+            <span class="flex-1">
+              <folder-icon size="1.2x" class="custom-class mr-3"></folder-icon>
+              <span class="side-link">Community</span></span
+            >
+            <b-icon
+              :icon="toggleCommunity ? 'chevron-down' : 'chevron-right'"
+            ></b-icon>
           </div>
           <div
             class="px-3 py-1 animate__slideInDown animate__slideInUp"
@@ -64,9 +67,20 @@
         </div>
 
         <div>
-          <div class="side_item py-2" @click="toggleCourse = !toggleCourse">
-            <calendar-icon size="1.2x" class="custom-class"></calendar-icon>
-            <span class="side-link p-3">Course</span>
+          <div
+            class="side_item d-flex align-items-center py-2"
+            @click="switchTab('one')"
+          >
+            <span class="flex-1">
+              <calendar-icon
+                size="1.2x"
+                class="custom-class mr-3"
+              ></calendar-icon>
+              <span class="side-link">Course</span>
+            </span>
+            <b-icon
+              :icon="toggleCourse ? 'chevron-down' : 'chevron-right'"
+            ></b-icon>
           </div>
 
           <div
@@ -99,9 +113,17 @@
         </div>
 
         <div>
-          <div class="side_item py-2" @click="toggleSchedule = !toggleSchedule">
-            <b-icon icon="tools"></b-icon>
-            <span class="side-link p-3">Tools</span>
+          <div
+            class="side_item d-flex align-items-center py-2"
+            @click="switchTab('three')"
+          >
+            <span class="flex-1">
+              <b-icon icon="tools" class="mr-3"></b-icon>
+              <span class="side-link">Tools</span>
+            </span>
+            <b-icon
+              :icon="toggleSchedule ? 'chevron-down' : 'chevron-right'"
+            ></b-icon>
           </div>
           <div
             class="px-3 py-1 animate__slideInDown animate__slideInUp"
@@ -198,7 +220,50 @@ export default {
       return this.events.filter((item) => item.status == "active").length;
     },
   },
+  watch: {
+    $route: "handleTab",
+  },
   methods: {
+    handleTab() {
+      // if(){
+      //   this.switchTab()
+      // }
+    },
+    switchTab(data) {
+      switch (data) {
+        case "one":
+          if (!this.toggleCourse) {
+            this.toggleCourse = true;
+            this.toggleCommunity = this.toggleSchedule = false;
+          } else {
+            this.toggleCourse = false;
+          }
+          return;
+        case "two":
+          if (!this.toggleCommunity) {
+            this.toggleCommunity = true;
+            this.toggleCourse = this.toggleSchedule = false;
+          } else {
+            this.toggleCommunity = false;
+          }
+          return;
+        case "three":
+          if (!this.toggleSchedule) {
+            this.toggleSchedule = true;
+            this.toggleCommunity = this.toggleCourse = false;
+          } else {
+            this.toggleSchedule = false;
+          }
+          return;
+
+        default:
+          this.toggleSchedule =
+            this.toggleCommunity =
+            this.toggleCourse =
+              false;
+          break;
+      }
+    },
     logout() {
       localStorage.removeItem("authMember");
       this.$router.push("/login");
@@ -231,11 +296,10 @@ export default {
   border-right: 1px solid #f7f8fa;
 }
 .logo_bar {
-  height: 80px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding-left: 30px;
+  padding: 30px 0 0 30px;
 }
 .side_items {
   padding: 40px 0;

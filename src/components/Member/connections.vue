@@ -22,7 +22,7 @@
             <div v-for="(item, id) in filteredConnections" :key="id">
               <div
                 v-if="item.user_follower"
-                class="d-flex align-items-end mb-4"
+                class="d-flex align-items-end mb-3"
               >
                 <div class="d-flex align-items-center flex-1">
                   <b-avatar class="mr-2" size="2rem"></b-avatar>
@@ -36,10 +36,6 @@
                       "
                     >
                       {{ item.user_follower.name }}
-                    </div>
-
-                    <div class="connection_email text-muted">
-                      {{ item.user_follower.email }}
                     </div>
                   </div>
                 </div>
@@ -63,7 +59,7 @@
                   >
                 </div>
               </div>
-              <div v-else class="d-flex align-items-end mb-4">
+              <div v-else class="d-flex align-items-end mb-3">
                 <div class="d-flex align-items-center flex-1">
                   <b-avatar class="mr-2" size="2rem"></b-avatar>
                   <div>
@@ -76,10 +72,6 @@
                       class="connection_name cursor-pointer"
                     >
                       {{ item.facilitator_follower.name }}
-                    </div>
-
-                    <div class="connection_email text-muted">
-                      {{ item.facilitator_follower.email }}
                     </div>
                   </div>
                 </div>
@@ -114,31 +106,26 @@
 
           <div class="py-1 suggestion_box" v-if="similarconnections.length">
             <div
-              class="d-flex align-items-end mb-4"
+              class="d-flex align-items-end mb-3"
               v-for="(item, id) in similarconnections.slice(0, 9)"
               :key="id"
             >
               <div class="d-flex align-items-center flex-1">
-                <b-avatar class="mr-2" size="2rem"></b-avatar>
+                <b-avatar class="mr-2" size="sm"></b-avatar>
                 <div style="line-height: 1.2">
                   <span
                     v-if="item.qualifications"
                     @click="$router.push(`/member/profile/f/${item.id}`)"
-                    class="connection_name cursor-pointer"
+                    class="connection_name cursor-pointer fs13"
                     >{{ item.name }}</span
                   >
 
                   <span
                     v-else
                     @click="$router.push(`/member/profile/u/${item.id}`)"
-                    class="connection_name cursor-pointer"
+                    class="connection_name cursor-pointer fs13"
                     >{{ item.name }}</span
                   >
-
-                  <br />
-                  <span class="connection_email text-muted">{{
-                    item.email
-                  }}</span>
                 </div>
               </div>
 
@@ -146,17 +133,19 @@
                 <b-button
                   v-if="item.qualifications"
                   @click="addconnections(item.id, 'facilitator')"
-                  size="sm"
                   variant="outline-dark-green"
-                  class="rounded-pill fs11"
-                  ><span class="connection_button">Connect</span></b-button
+                  size="sm"
+                  class="rounded-pill fs9"
+                  style="padding-top: 0.15rem; padding-bottom: 0.15rem"
+                  ><span>Connect</span></b-button
                 >
                 <b-button
                   v-else
                   @click="addconnections(item.id, 'user')"
-                  size="sm"
                   variant="outline-dark-green"
-                  class="rounded-pill fs11"
+                  size="sm"
+                  class="rounded-pill fs9"
+                  style="padding-top: 0.15rem; padding-bottom: 0.15rem"
                   >Connect</b-button
                 >
               </div>

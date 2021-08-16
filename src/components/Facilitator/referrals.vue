@@ -3,17 +3,17 @@
     <b-row>
       <b-col sm="7" v-if="showRef">
         <div class="box p-4 mb-4">
-          <h6 class="font-weight-bold mb-4">Invite Friends and Earn Points</h6>
+          <h6 class="mb-4">Invite Friends and Earn Points</h6>
 
           <div class="mb-3">
             <b-row class="mb-3">
-              <b-col sm="4" class="text-center">
+              <b-col class="text-center">
                 <b-img
                   class="img-s"
                   :src="require('@/assets/images/bonus.png')"
                 ></b-img
               ></b-col>
-              <b-col sm="8">
+              <b-col>
                 <p>
                   Refer your friends to nzukoor and earn bonus point we also
                   give your friends bonus because we value your friendship
@@ -75,7 +75,7 @@
                     </div>
                   </div>
                 </b-form>
-
+                <!--
                 <div class="d-none d-md-block">
                   <b-row class="justify-content-center">
                     <div class="mr-4">
@@ -103,16 +103,18 @@
                       ></b-img>
                     </div>
                   </b-row>
-                </div>
+                </div> -->
               </b-col>
             </b-row>
-            <div class="py-3 text-center mb-4">
-              <div class="mb-3 border px-sm-4 py-2 rounded d-flex text-muted">
+            <div class="p-3 text-center mb-4">
+              <div
+                class="px-3 py-2 d-flex align-items-center search bg-light mb-3"
+              >
                 <b-icon icon="link45deg" font-scale="1.5rem"></b-icon>
                 <b-form-input
                   v-model="message"
                   readonly
-                  class="text-align flex-1 rounded-pill no-focus fs13"
+                  class="flex-1 border-0 no-focus search-bg"
                 >
                 </b-form-input>
               </div>
@@ -132,8 +134,8 @@
           </div>
         </div>
       </b-col>
-      <b-col sm="7" v-else class="p-5">
-        <div class="d-flex w-100 mb-3 box">
+      <b-col v-else class="p-5">
+        <div class="d-flex w-100 mb-3">
           <div class="mr-2">
             <b-skeleton type="avatar"></b-skeleton>
           </div>
@@ -185,7 +187,7 @@
                 </b-tr>
                 <b-tr>
                   <b-td>Total earnings</b-td>
-                  <b-td class="text-dark-green font-weight-bold fs14">
+                  <b-td class="text-dark-green fs14">
                     {{ referrals.length * 200 }} points</b-td
                   >
                 </b-tr>
