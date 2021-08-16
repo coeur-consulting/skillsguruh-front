@@ -1528,13 +1528,13 @@ export default {
     useraccess() {
       var token = null;
       if (this.$store.getters.admin.access_token) {
-        return "admin";
+        return this.$store.getters.admin;
       }
       if (this.$store.getters.facilitator.access_token) {
-        return "facilitator";
+        return this.$store.getters.facilitator;
       }
       if (this.$store.getters.member.access_token) {
-        return "member";
+        return this.$store.getters.member;
       }
       return token;
     },
@@ -1570,7 +1570,7 @@ export default {
       var arr = item.filter((val) => val.like);
       var first = {};
       var result = "";
-      if (arr.length ==1) {
+      if (arr.length == 1) {
         first = arr.shift();
         if (first.user) {
           result = `<span>Liked by ${
@@ -1771,7 +1771,7 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+              Authorization: `Bearer ${this.useraccess.access_token}`,
             },
           }
         )
@@ -1781,8 +1781,15 @@ export default {
           }
           if (res.status == 200) {
             this.filteredFeeds[index].likes.map((item) => {
-              if (item.user_id == this.$store.getters.member.id) {
-                return (item.like = res.data.like);
+              if (this.useraccess.type == "facilitator") {
+                if (item.facilitator_id == this.$store.getters.facilitator.id) {
+                  return (item.like = res.data.like);
+                }
+              }
+              if (this.useraccess.type == "member") {
+                if (item.user_id == this.$store.getters.member.id) {
+                  return (item.like = res.data.like);
+                }
               }
             });
           }
@@ -1802,7 +1809,7 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+              Authorization: `Bearer ${this.useraccess.access_token}`,
             },
           }
         )
