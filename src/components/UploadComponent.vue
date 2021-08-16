@@ -11,7 +11,13 @@
           placeholder="Choose an image"
           @change="handleFileChange($event)"
         ></b-form-file>
-
+        <div v-if="start" class="spinner-start">
+          <b-spinner
+            class="text-dark-green"
+            style="width: 1.5rem; height: 1.5rem"
+            label="Spinning"
+          ></b-spinner>
+        </div>
         <b-avatar
           v-if="uploadedFileUrl"
           :src="uploadedFileUrl"
