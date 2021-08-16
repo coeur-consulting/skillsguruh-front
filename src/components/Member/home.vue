@@ -14,9 +14,9 @@
                 mb-5
               "
             >
-              <h4 class="text-dark-green">
+              <h5 class="text-dark-green">
                 Hello {{ $store.getters.member.name }}
-              </h4>
+              </h5>
               <p class="w-50">
                 Remember to meet at least one person, learn at least one new
                 thing and teach at least one new person.

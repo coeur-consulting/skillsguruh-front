@@ -55,33 +55,13 @@
                       :state="verifypassword"
                     >
                       <b-input-group>
-                        <template #append>
-                          <div>
-                            <b-input-group-text
-                              class="bg-transparent border-left-0"
-                              :class="
-                                verifypassword === false ? 'border-danger' : ''
-                              "
-                            >
-                              <b-icon
-                                @click="toggleeye1 = !toggleeye1"
-                                font-scale=".85"
-                                :icon="toggleeye1 ? 'eye' : 'eye-slash'"
-                                :class="
-                                  verifypassword === false ? 'text-danger' : ''
-                                "
-                              ></b-icon>
-                            </b-input-group-text>
-                          </div>
-                        </template>
                         <b-form-input
-                          class="border-right-0"
                           required
                           min="6"
                           v-model="user.password"
                           name="password"
                           :state="verifypassword"
-                          :type="toggleeye1 ? 'text' : 'password'"
+                          :type="toggleEye ? 'text' : 'password'"
                           placeholder="Enter new password "
                           aria-describedby="password-feedback"
                         ></b-form-input>
@@ -99,37 +79,22 @@
                       :state="verifypassword"
                     >
                       <b-input-group>
-                        <template #append>
-                          <div>
-                            <b-input-group-text
-                              class="bg-transparent border-left-0"
-                              :class="
-                                verifypassword === false ? 'border-danger' : ''
-                              "
-                            >
-                              <b-icon
-                                @click="toggleeye2 = !toggleeye2"
-                                font-scale=".85"
-                                :icon="toggleeye2 ? 'eye' : 'eye-slash'"
-                                :class="
-                                  verifypassword === false ? 'text-danger' : ''
-                                "
-                              ></b-icon>
-                            </b-input-group-text>
-                          </div>
-                        </template>
                         <b-form-input
-                          class="border-right-0"
                           required
                           min="6"
                           v-model="user.confirmpassword"
                           name="password"
                           :state="verifypassword"
-                          :type="toggleeye2 ? 'text' : 'password'"
+                          :type="toggleEye ? 'text' : 'password'"
                           placeholder="Confirm new password "
                           aria-describedby="password-feedback"
                         ></b-form-input>
                       </b-input-group>
+                    </b-form-group>
+                    <b-form-group>
+                      <b-form-checkbox size="sm" v-model="toggleEye"
+                        >Show Password</b-form-checkbox
+                      >
                     </b-form-group>
                   </b-col>
                 </b-form-row>
@@ -179,8 +144,8 @@ export default {
   data() {
     return {
       loading: false,
-      toggleeye1: false,
-      toggleeye2: false,
+      toggleEye: false,
+
       user: {
         password: "",
         confirmpassword: "",
@@ -223,6 +188,15 @@ export default {
         .post(`${this.$store.getters.url}/reset-password`, this.user)
         .then((res) => {
           if (res.status === 200) {
+            console.log(
+              "🚀 ~ file: ResetPassword.vue ~ line 192 ~ .then ~ res.data.message",
+              res.data.message
+            );
+            if (res.data.message == "identical password") {
+              this.$toast.info("New password cannot be same with old password");
+              this.loading = false;
+              return;
+            }
             this.$toast.success("Password reset successful");
             this.$router.push("/login");
             this.loading = false;

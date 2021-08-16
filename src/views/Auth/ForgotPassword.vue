@@ -121,6 +121,7 @@ export default {
         .then((res) => {
           if (res.status === 200) {
             this.$toast.info("We have sent a link to your mail!");
+            this.user.email = "";
             this.loading = false;
           }
         })

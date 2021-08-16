@@ -78,7 +78,7 @@
                       id="password"
                       label-for="password"
                     >
-                      <b-input-group>
+                      <b-input-group size="lg">
                         <template #append>
                           <div>
                             <b-input-group-text
@@ -138,7 +138,7 @@
                     <small
                       class="text-secondary"
                       @click="$router.push('/forgot-password')"
-                      >Forgot passport?</small
+                      >Forgot password?</small
                     >
                   </div>
                 </b-form-group>
