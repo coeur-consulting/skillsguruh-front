@@ -275,7 +275,12 @@
         <b-row>
           <b-col class="text-center members">
             <div class="shadow member position-relative">
-              <b-iconstack font-scale="3.5" class="nav-left shadow-sm">
+              <b-iconstack
+                font-scale="2.5"
+                class="nav-left shadow-sm"
+                v-if="index > 0"
+                @click="index--"
+              >
                 <b-icon stacked icon="circle-fill" variant="white"></b-icon>
                 <b-icon
                   stacked
@@ -285,7 +290,12 @@
                 ></b-icon>
               </b-iconstack>
 
-              <b-iconstack font-scale="3.5" class="nav-right shadow-sm">
+              <b-iconstack
+                font-scale="2.5"
+                class="nav-right shadow-sm"
+                @click="index++"
+                v-if="index < suggestions.length - 1"
+              >
                 <b-icon stacked icon="circle-fill" variant="secondary"></b-icon>
                 <b-icon
                   stacked
@@ -297,11 +307,13 @@
               <carousel
                 :perPage="1"
                 :paginationEnabled="false"
+                :navigationEnabled="true"
                 :autoplay="true"
                 :speed="1000"
                 :autoplayTimeout="5000"
                 :loop="true"
                 class="py-3"
+                :navigateTo="index"
               >
                 <slide v-for="(item, id) in stories" :key="id" class="py-1">
                   <b-row>
@@ -345,6 +357,7 @@ export default {
     return {
       showTitle: false,
       auth: null,
+      index: 0,
       stories: [
         {
           name: "Oscar Eze— Entrepreneur, Lagos",
@@ -789,20 +802,7 @@ export default {
 .text-1 {
   font-size: 17px;
 }
-.nav-left {
-  position: absolute;
-  left: -28px;
-  top: 50%;
-  margin-top: -28px;
-  border-radius: 50%;
-}
-.nav-right {
-  position: absolute;
-  right: -28px;
-  top: 50%;
-  margin-top: -28px;
-  border-radius: 50%;
-}
+
 #joinnow {
   position: relative;
   padding-top: 105px;

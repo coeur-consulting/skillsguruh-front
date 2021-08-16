@@ -130,16 +130,6 @@
               ><span class="ev">Video</span>
             </FeedUpload>
           </div>
-          <div>
-            <FeedUpload @getUpload="getUpload" :id="'event'">
-              <b-img
-                :src="require('@/assets/images/advert.svg')"
-                width="18px"
-                class="mr-1 cursor-pointer ev"
-              ></b-img>
-              <span class="ev">Event</span>
-            </FeedUpload>
-          </div>
         </div>
         <b-button @click="post" block variant="dark-green">Post</b-button>
       </b-modal>
@@ -315,16 +305,20 @@
                   ></b-img
                   >Video
                 </div>
-                <div @click="$bvModal.show('feed')">
+                <div @click="$bvModal.show('feelings')">
                   <b-img
                     :src="require('@/assets/images/advert.svg')"
                     width="18px"
                     class="mr-1 cursor-pointer"
                   ></b-img>
-                  Event
+                  Feelings
                 </div>
               </div>
             </div>
+            <div>
+              <Suggestions user="member" />
+            </div>
+
             <div class="d-flex justify-content-center justify-content-md-end">
               <div class="d-flex align-items-center pl-3 mb-1">
                 <div
@@ -875,6 +869,7 @@ import FeedUpload from "../feedupload";
 import Message from "../messagecomponent";
 import { MultiSelect } from "vue-search-select";
 import Interest from "../helpers/subcategory.js";
+import Suggestions from "@/components/suggestions.vue";
 export default {
   data() {
     return {
@@ -921,6 +916,7 @@ export default {
     EmojiPicker,
     FeedUpload,
     MultiSelect,
+    Suggestions,
   },
   created() {
     var channel = this.$pusher.subscribe("addfeed");
@@ -1007,7 +1003,7 @@ export default {
         var regex = new RegExp("[^.]+$");
         var extension = fileName.match(regex);
 
-       return extension[0].toLowerCase();
+        return extension[0].toLowerCase();
       }
     },
     getUpload(val) {

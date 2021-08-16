@@ -35,6 +35,22 @@ p {
 ::placeholder {
   font-size: 0.75rem;
 }
+.nav-left {
+  position: absolute;
+  left: -28px;
+  top: 50%;
+  margin-top: -28px;
+  border-radius: 50%;
+  z-index: 3;
+}
+.nav-right {
+  position: absolute;
+  right: -28px;
+  top: 50%;
+  margin-top: -28px;
+  border-radius: 50%;
+  z-index: 3;
+}
 .v--vtt-fade {
   will-change: transform, opacity;
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
