@@ -181,19 +181,19 @@
                   ></b-avatar>
                 </div>
                 <div class="profile">
-                  <span class="name" v-if="allcomments.admin">{{
-                    allcomments.admin.name
-                  }}</span>
-                  <span class="name" v-if="allcomments.user">{{
-                    allcomments.user.name
-                  }}</span>
-                  <span class="name" v-if="allcomments.facilitator">{{
-                    allcomments.facilitator.name
-                  }}</span>
-                  <br />
-                  <span class="date fs11">{{
-                    allcomments.created_at | moment("ll")
-                  }}</span>
+                  <div class="name" v-if="allcomments.admin">
+                    {{ allcomments.admin.name }}
+                  </div>
+                  <div class="name" v-if="allcomments.user">
+                    {{ allcomments.user.name }}
+                  </div>
+                  <div class="name" v-if="allcomments.facilitator">
+                    {{ allcomments.facilitator.name }}
+                  </div>
+
+                  <div class="date fs11">
+                    {{ allcomments.created_at | moment("ll") }}
+                  </div>
                 </div>
               </div>
             </div>

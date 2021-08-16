@@ -603,7 +603,8 @@
                     >
                       <span
                         v-if="feed.comments.length"
-                        class="comment_header mb-2 cursor-pointer"
+                        @click="showcomments(feed)"
+                        class="comment_header cursor-pointer"
                         >View {{ feed.comments.length }}
                         {{
                           feed.comments.length > 1 ? "comments" : "comment"
@@ -883,7 +884,7 @@
                     class="course border rounded overflow-hidden"
                     @click="
                       $router.push(
-                        `/member/courses?course_id=${this.course.id}`
+                        `/explore/courses?course_id=${item.course.id}`
                       )
                     "
                   >
@@ -1114,6 +1115,139 @@
       </section>
     </div>
 
+    <b-modal
+      no-close-on-backdrop
+      id="allcomments"
+      hide-footer
+      centered
+      title="Comments"
+      size="md"
+    >
+      <div class="comments" v-if="allcomments">
+        <div class="mb-3">
+          <div class="d-flex mb-3 pt-3">
+            <div class="d-flex flex-1 text-left">
+              <div class="mr-2 mb-1" v-if="allcomments.admin">
+                <b-avatar
+                  class="mr-2"
+                  size="1.8rem"
+                  :src="allcomments.admin.profile"
+                ></b-avatar>
+              </div>
+              <div class="mr-2 mb-1" v-if="allcomments.user">
+                <b-avatar
+                  class="mr-2"
+                  size="1.8rem"
+                  :src="allcomments.user.profile"
+                ></b-avatar>
+              </div>
+              <div
+                class="comment_name mr-2 mb-1"
+                v-if="allcomments.facilitator"
+              >
+                <b-avatar
+                  class="mr-2"
+                  size="1.8rem"
+                  :src="allcomments.facilitator.profile"
+                ></b-avatar>
+              </div>
+              <div class="profile">
+                <div class="name" v-if="allcomments.admin">
+                  {{ allcomments.admin.name }}
+                </div>
+                <div class="name" v-if="allcomments.user">
+                  {{ allcomments.user.name }}
+                </div>
+                <div class="name" v-if="allcomments.facilitator">
+                  {{ allcomments.facilitator.name }}
+                </div>
+
+                <div class="date fs11">
+                  {{ allcomments.created_at | moment("ll") }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-left feed_text px-3 pb-3">
+            <span>{{ allcomments.message }}</span>
+          </div>
+        </div>
+        <div class="comments">
+          <div
+            class="comment d-flex text-left mb-2"
+            v-for="(item, index) in allcomments.comments"
+            :key="index"
+          >
+            <div class="flex-1">
+              <div class="flex-1 pr-2">
+                <div class="d-flex mb-1" v-if="item.admin">
+                  <div class="d-flex flex-1">
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.admin.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.admin.name }}
+                      </div>
+                      <div class="comment_text">{{ item.comment }}</div>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="comment_mins pl-2">{{
+                      $moment(item.created_at).fromNow()
+                    }}</span>
+                  </div>
+                </div>
+                <div class="d-flex mb-1" v-if="item.user">
+                  <div class="d-flex flex-1">
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.user.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.user.name }}
+                      </div>
+                      <div class="comment_text">{{ item.comment }}</div>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="comment_mins pl-2">{{
+                      $moment(item.created_at).fromNow()
+                    }}</span>
+                  </div>
+                </div>
+                <div class="d-flex mb-1" v-if="item.facilitator">
+                  <div class="d-flex flex-1">
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.facilitator.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.facilitator.name }}
+                      </div>
+                      <div class="comment_text">{{ item.comment }}</div>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="comment_mins pl-2">{{
+                      $moment(item.created_at).fromNow()
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </b-modal>
+
     <b-modal id="share" hide-footer centered size="lg">
       <div class="p-2 text-center">
         <h6 class="font-weight-bold mb-3">Share</h6>
@@ -1197,6 +1331,7 @@ export default {
     return {
       link: "",
       description: "",
+      allcomments: [],
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp", "flv", "mov"],
       aud_ext: ["mp3", "aac"],

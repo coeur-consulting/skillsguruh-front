@@ -15,7 +15,7 @@
         <b-col sm="7">
           <b-row>
             <b-col cols="12" class="mb-0 rounded pt-sm-2 px-1 px-sm-4 pb-2">
-              <b-card no-body class="overflow-hidden border-0 top_h" style="">
+              <b-card no-body class="border-0 top_h" style="">
                 <b-row no-gutters>
                   <b-col cols="3" sm="3" class="prof_img">
                     <b-card-img
@@ -225,698 +225,666 @@
             </b-col>
 
             <b-col cols="12" class="px-1 px-sm-4">
-              <b-card no-body class="border-0 bg-transparent" style="">
-                <b-row>
-                  <b-card-body
-                    class="text-left w-100 pb-1 pt-0 px-3"
-                    v-if="active == 1"
-                  >
-                    <div>
-                      <div v-if="feeds.length">
-                        <div class="feed-content">
-                          <div
-                            v-for="(feed, index) in feeds"
-                            :key="index"
-                            class="border bg-white rounded mb-2"
-                          >
-                            <div class="d-flex mb-3 px-3 pt-3">
-                              <div class="d-flex flex-1 text-left">
-                                <div
-                                  class="h6 mr-2 mb-1 feedname"
-                                  v-if="feed.admin"
-                                >
-                                  <b-avatar
-                                    size="1.8rem"
-                                    class="mr-2"
-                                    :src="feed.admin.profile"
-                                  ></b-avatar>
-                                  {{ feed.admin.name }}
-                                </div>
-                                <div
-                                  class="h6 mr-2 mb-1 feedname"
-                                  v-if="feed.user"
-                                >
-                                  <b-avatar
-                                    size="1.8rem"
-                                    class="mr-2"
-                                    :src="feed.user.profile"
-                                  ></b-avatar>
-                                  {{ feed.user.name }}
-                                </div>
-                                <div
-                                  class="h6mr-2 mb-1 feedname"
-                                  v-if="feed.facilitator"
-                                >
-                                  <b-avatar
-                                    size="1.8rem"
-                                    class="mr-2"
-                                    :src="feed.facilitator.profile"
-                                  ></b-avatar>
-                                  {{ feed.facilitator.name }}
-                                </div>
-                              </div>
+              <b-card-body
+                class="text-left w-100 pb-1 pt-0 px-0"
+                v-if="active == 1"
+              >
+                <div>
+                  <div v-if="feeds.length">
+                    <div class="feed-content">
+                      <div
+                        v-for="(feed, index) in feeds"
+                        :key="index"
+                        class="border bg-white rounded mb-2"
+                      >
+                        <div class="d-flex mb-3 px-3 pt-3">
+                          <div class="d-flex flex-1 text-left">
+                            <div
+                              class="h6 mr-2 mb-1 feedname"
+                              v-if="feed.admin"
+                            >
+                              <b-avatar
+                                size="1.8rem"
+                                class="mr-2"
+                                :src="feed.admin.profile"
+                              ></b-avatar>
+                              {{ feed.admin.name }}
+                            </div>
+                            <div class="h6 mr-2 mb-1 feedname" v-if="feed.user">
+                              <b-avatar
+                                size="1.8rem"
+                                class="mr-2"
+                                :src="feed.user.profile"
+                              ></b-avatar>
+                              {{ feed.user.name }}
+                            </div>
+                            <div
+                              class="h6mr-2 mb-1 feedname"
+                              v-if="feed.facilitator"
+                            >
+                              <b-avatar
+                                size="1.8rem"
+                                class="mr-2"
+                                :src="feed.facilitator.profile"
+                              ></b-avatar>
+                              {{ feed.facilitator.name }}
+                            </div>
+                          </div>
 
-                              <b-dropdown
-                                v-if="
-                                  feed.facilitator &&
-                                  feed.facilitator.id ==
-                                    $store.getters.facilitator.id
-                                "
-                                size="sm"
-                                variant="transparent"
-                                no-caret
-                                class="no-focus"
-                              >
-                                <template #button-content>
-                                  <b-icon
-                                    icon="three-dots"
-                                    font-scale="1.4"
-                                  ></b-icon>
-                                </template>
-                                <b-dropdown-item
-                                  class="fs12"
-                                  @click="drop(feed.id, index)"
-                                  >Delete</b-dropdown-item
-                                >
-                              </b-dropdown>
-                            </div>
-                            <div class="text-left feed_text px-3 pb-3">
-                              <span v-html="feed.message"></span><br />
-                              <span v-if="feed.url" class="text-dark-green"
-                                ><a :href="feed.url" target="_blank"
-                                  >Click link</a
-                                ></span
-                              >
-                            </div>
-                            <div>
-                              <div class="mb-4 position-relative">
-                                <b-img
-                                  v-if="
-                                    feed.media &&
-                                    img_ext.includes(getextension(feed.media))
-                                  "
-                                  fluid-grow
-                                  :src="feed.media"
-                                ></b-img>
-                                <video
-                                  controls
-                                  width="100%"
-                                  v-if="
-                                    feed.media &&
-                                    vid_ext.includes(getextension(feed.media))
-                                  "
-                                  :src="feed.media"
-                                  class="fluid-grow"
-                                ></video>
-                                <div
-                                  v-if="
-                                    feed.media &&
-                                    doc_ext.includes(getextension(feed.media))
-                                  "
-                                  class="text-center p-3 bg-skills-grey"
-                                >
-                                  <b-icon
-                                    icon="image"
-                                    font-scale="3rem"
-                                  ></b-icon>
-                                </div>
-                              </div>
-                            </div>
-                            <div
-                              class="
-                                interactions
-                                text-left
-                                px-3
-                                py-3
-                                border-bottom
+                          <b-dropdown
+                            v-if="
+                              feed.facilitator &&
+                              feed.facilitator.id ==
+                                $store.getters.facilitator.id
+                            "
+                            size="sm"
+                            variant="transparent"
+                            no-caret
+                            class="no-focus"
+                          >
+                            <template #button-content>
+                              <b-icon
+                                icon="three-dots"
+                                font-scale="1.4"
+                              ></b-icon>
+                            </template>
+                            <b-dropdown-item
+                              class="fs12"
+                              @click="drop(feed.id, index)"
+                              >Delete</b-dropdown-item
+                            >
+                          </b-dropdown>
+                        </div>
+                        <div class="text-left feed_text px-3 pb-3">
+                          <span v-html="feed.message"></span><br />
+                          <span v-if="feed.url" class=""
+                            ><a :href="feed.url" target="_blank"
+                              >Click link</a
+                            ></span
+                          >
+                        </div>
+                        <div>
+                          <div class="mb-4 position-relative">
+                            <b-img
+                              v-if="
+                                feed.media &&
+                                img_ext.includes(getextension(feed.media))
                               "
-                            >
-                              <span class="mr-3 cursor-pointer">
-                                <b-icon
-                                  :icon="
-                                    feed.stars.find(
-                                      (item) =>
-                                        item.star &&
-                                        item.facilitator_id ==
-                                          $store.getters.facilitator.id
-                                    )
-                                      ? 'star-fill'
-                                      : 'star'
-                                  "
-                                  class="text-blue mr-1"
-                                ></b-icon>
-                                <span>{{
-                                  feed.stars.filter((item) => item.star).length
-                                }}</span>
-                                stars</span
-                              >
-                              <span class="mr-3 cursor-pointer"
-                                ><b-icon
-                                  :icon="
-                                    feed.likes.find(
-                                      (item) =>
-                                        item.like &&
-                                        item.facilitator_id ==
-                                          $store.getters.facilitator.id
-                                    )
-                                      ? 'heart-fill'
-                                      : 'heart'
-                                  "
-                                  class="text-danger mr-1"
-                                ></b-icon>
-                                <span>{{
-                                  feed.likes.filter((item) => item.like).length
-                                }}</span>
-                                likes</span
-                              >
-                              <span class="mr-3">
-                                <b-icon icon="chat-fill" class="mr-1"></b-icon>
-                                <span
-                                  ><span>{{ feed.comments.length }}</span></span
-                                >
-                                comments</span
-                              >
-                              <span class="cursor-pointer">
-                                <b-icon icon="share"></b-icon>
-                              </span>
-                            </div>
+                              fluid-grow
+                              :src="feed.media"
+                            ></b-img>
+                            <video
+                              controls
+                              width="100%"
+                              v-if="
+                                feed.media &&
+                                vid_ext.includes(getextension(feed.media))
+                              "
+                              :src="feed.media"
+                              class="fluid-grow"
+                            ></video>
                             <div
-                              class="comments px-3 pt-2 border-bottom text-left"
-                              v-if="feed.comments.length"
+                              v-if="
+                                feed.media &&
+                                doc_ext.includes(getextension(feed.media))
+                              "
+                              class="text-center p-3 bg-skills-grey"
                             >
-                              <span
-                                v-if="feed.comments.length"
-                                class="comment_header mb-2 cursor-pointer"
-                                @click="showcomments(feed)"
-                                >View all
-                                {{ feed.comments.length }} comments</span
-                              >
-                              <div class="all_comment">
-                                <div
-                                  class="comment d-flex text-left mb-1"
-                                  v-for="item in feed.comments.slice(0, 2)"
-                                  :key="item.id"
-                                >
-                                  <div class="flex-1 pr-2">
-                                    <span
-                                      class="font-weight-bold mr-2"
-                                      v-if="item.admin"
-                                    >
-                                      {{ item.admin.name }}</span
-                                    >
-                                    <span
-                                      class="font-weight-bold mr-2"
-                                      v-if="item.user"
-                                    >
-                                      {{ item.user.name }}</span
-                                    >
-                                    <span
-                                      class="font-weight-bold mr-2"
-                                      v-if="item.facilitator"
-                                    >
-                                      {{ item.facilitator.name }}</span
-                                    >
-                                    <span>{{ item.comment }}</span>
-                                  </div>
-                                  <div>
-                                    <span class="fs11">{{
-                                      item.created_at | moment("ll")
-                                    }}</span>
-                                  </div>
-                                </div>
-                              </div>
+                              <b-icon icon="image" font-scale="3rem"></b-icon>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div v-else class="text-center p-3 p-sm-5">
-                        <b-img
-                          class="mb-3"
-                          :src="require('@/assets/images/creator.svg')"
-                        ></b-img>
-                        <div class="text-muted text-center">
-                          No feed Available
+                        <div
+                          class="interactions text-left px-3 py-3 border-bottom"
+                        >
+                          <span class="mr-3 cursor-pointer">
+                            <b-icon
+                              :icon="
+                                feed.stars.find(
+                                  (item) =>
+                                    item.star &&
+                                    item.facilitator_id ==
+                                      $store.getters.facilitator.id
+                                )
+                                  ? 'star-fill'
+                                  : 'star'
+                              "
+                              class="text-blue mr-1"
+                            ></b-icon>
+                            <span>{{
+                              feed.stars.filter((item) => item.star).length
+                            }}</span>
+                            stars</span
+                          >
+                          <span class="mr-3 cursor-pointer"
+                            ><b-icon
+                              :icon="
+                                feed.likes.find(
+                                  (item) =>
+                                    item.like &&
+                                    item.facilitator_id ==
+                                      $store.getters.facilitator.id
+                                )
+                                  ? 'heart-fill'
+                                  : 'heart'
+                              "
+                              class="text-danger mr-1"
+                            ></b-icon>
+                            <span>{{
+                              feed.likes.filter((item) => item.like).length
+                            }}</span>
+                            likes</span
+                          >
+                          <span class="mr-3">
+                            <b-icon icon="chat-fill" class="mr-1"></b-icon>
+                            <span
+                              ><span>{{ feed.comments.length }}</span></span
+                            >
+                            comments</span
+                          >
+                          <span class="cursor-pointer">
+                            <b-icon icon="share"></b-icon>
+                          </span>
+                        </div>
+                        <div
+                          class="comments px-3 pt-2 border-bottom text-left"
+                          v-if="feed.comments.length"
+                        >
+                          <span
+                            v-if="feed.comments.length"
+                            class="comment_header mb-2 cursor-pointer"
+                            @click="showcomments(feed)"
+                            >View all {{ feed.comments.length }} comments</span
+                          >
+                          <div class="all_comment">
+                            <div
+                              class="comment d-flex text-left mb-1"
+                              v-for="item in feed.comments.slice(0, 2)"
+                              :key="item.id"
+                            >
+                              <div class="flex-1 pr-2">
+                                <span
+                                  class="comment_name mr-2"
+                                  v-if="item.admin"
+                                >
+                                  {{ item.admin.name }}</span
+                                >
+                                <span
+                                  class="comment_name mr-2"
+                                  v-if="item.user"
+                                >
+                                  {{ item.user.name }}</span
+                                >
+                                <span
+                                  class="comment_name mr-2"
+                                  v-if="item.facilitator"
+                                >
+                                  {{ item.facilitator.name }}</span
+                                >
+                                <span class="comment_text">{{
+                                  item.comment
+                                }}</span>
+                              </div>
+                              <div>
+                                <span class="comment_mins">{{
+                                  item.created_at | moment("ll")
+                                }}</span>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </b-card-body>
-                  <b-card-body v-if="active == 2" class="pt-0 px-3">
-                    <div>
-                      <div class="main_content" v-if="discussions.length">
+                  </div>
+                  <div v-else class="text-center p-3 p-sm-5">
+                    <b-img
+                      class="mb-3"
+                      :src="require('@/assets/images/creator.svg')"
+                    ></b-img>
+                    <div class="text-muted text-center">No feed Available</div>
+                  </div>
+                </div>
+              </b-card-body>
+              <b-card-body v-if="active == 2" class="pt-0 px-0">
+                <div>
+                  <div class="main_content" v-if="discussions.length">
+                    <div
+                      class="
+                        content
+                        border-bottom
+                        p-3
+                        pt-4
+                        pb-5
+                        cursor-pointer
+                        bg-white
+                      "
+                      v-for="(item, index) in discussions"
+                      :key="index"
+                    >
+                      <div
+                        class="
+                          top_dis
+                          d-flex
+                          align-items-center
+                          mb-2
+                          position-relative
+                        "
+                      >
+                        <b-dropdown
+                          size="sm"
+                          variant="transparent"
+                          no-caret
+                          class="no-focus drop"
+                        >
+                          <template #button-content>
+                            <b-icon icon="three-dots" font-scale="1.4"></b-icon>
+                          </template>
+                          <b-dropdown-item
+                            class="fs12"
+                            @click="drop(item.id, index)"
+                            >Delete</b-dropdown-item
+                          >
+                        </b-dropdown>
+                        <div class="side_dis">
+                          <b-avatar
+                            size="1.8rem"
+                            v-if="item.creator == 'admin'"
+                            :src="item.admin.profile"
+                          ></b-avatar>
+                          <b-avatar
+                            size="1.8rem"
+                            v-if="item.creator == 'user'"
+                            :src="item.user.profile"
+                          ></b-avatar>
+                          <b-avatar
+                            size="1.8rem"
+                            v-if="item.creator == 'facilitator'"
+                            :src="item.facilitator.profile"
+                          ></b-avatar>
+                        </div>
+                        <div class="text-left next_dis">
+                          <span>
+                            <span class="asked mr-2">
+                              Started
+                              {{ item.created_at | moment("ll") }}</span
+                            >
+                            <span class="mr-2 fs13"
+                              ><b-badge
+                                class="text-capitalize font-weight-normal"
+                                variant="dark-green"
+                                >{{ item.type }}</b-badge
+                              ></span
+                            >
+                          </span>
+                          <br />
+                          <span class="title">{{ item.name }} </span>
+                        </div>
+                      </div>
+                      <div class="top_dis d-flex align-items-start">
                         <div
                           class="
-                            content
-                            border-bottom
-                            p-3
-                            pt-4
-                            pb-5
-                            cursor-pointer
-                            bg-white
+                            side_dis
+                            d-flex
+                            flex-column
+                            align-items-center
+                            justify-content-center
+                            text-center
+                            vote
                           "
-                          v-for="(item, index) in discussions"
-                          :key="index"
                         >
-                          <div
-                            class="
-                              top_dis
-                              d-flex
-                              align-items-center
-                              mb-2
-                              position-relative
-                            "
+                          <b-icon
+                            icon="caret-up-fill"
+                            font-scale="1.2"
+                            class="cursor-pointer"
+                          ></b-icon>
+                          <span v-if="item.discussionvote">
+                            <span v-if="vote(item.discussionvote) > 0">+</span>
+                            <span v-if="vote(item.discussionvote) < 0">-</span
+                            >{{ vote(item.discussionvote) }}</span
                           >
-                            <b-dropdown
-                              size="sm"
-                              variant="transparent"
-                              no-caret
-                              class="no-focus drop"
-                            >
-                              <template #button-content>
-                                <b-icon
-                                  icon="three-dots"
-                                  font-scale="1.4"
-                                ></b-icon>
-                              </template>
-                              <b-dropdown-item
-                                class="fs12"
-                                @click="drop(item.id, index)"
-                                >Delete</b-dropdown-item
-                              >
-                            </b-dropdown>
-                            <div class="side_dis">
-                              <b-avatar
-                                size="1.8rem"
-                                v-if="item.creator == 'admin'"
-                                :src="item.admin.profile"
-                              ></b-avatar>
-                              <b-avatar
-                                size="1.8rem"
-                                v-if="item.creator == 'user'"
-                                :src="item.user.profile"
-                              ></b-avatar>
-                              <b-avatar
-                                size="1.8rem"
-                                v-if="item.creator == 'facilitator'"
-                                :src="item.facilitator.profile"
-                              ></b-avatar>
-                            </div>
-                            <div class="text-left next_dis">
-                              <span>
-                                <span class="asked mr-2">
-                                  Started
-                                  {{ item.created_at | moment("ll") }}</span
-                                >
-                                <span class="mr-2 fs13"
-                                  ><b-badge
-                                    class="text-capitalize font-weight-normal"
-                                    variant="dark-green"
-                                    >{{ item.type }}</b-badge
-                                  ></span
-                                >
-                              </span>
-                              <br />
-                              <span class="title">{{ item.name }} </span>
-                            </div>
-                          </div>
-                          <div class="top_dis d-flex align-items-start">
-                            <div
-                              class="
-                                side_dis
-                                d-flex
-                                flex-column
-                                align-items-center
-                                justify-content-center
-                                text-center
-                                vote
-                              "
-                            >
-                              <b-icon
-                                icon="caret-up-fill"
-                                font-scale="1.2"
-                                class="cursor-pointer"
-                              ></b-icon>
-                              <span v-if="item.discussionvote">
-                                <span v-if="vote(item.discussionvote) > 0"
-                                  >+</span
-                                >
-                                <span v-if="vote(item.discussionvote) < 0"
-                                  >-</span
-                                >{{ vote(item.discussionvote) }}</span
-                              >
-                              <span v-else>0</span>
+                          <span v-else>0</span>
 
-                              <b-icon
-                                icon="caret-down-fill"
-                                font-scale="1.2"
-                                class="cursor-pointer"
-                              ></b-icon>
+                          <b-icon
+                            icon="caret-down-fill"
+                            font-scale="1.2"
+                            class="cursor-pointer"
+                          ></b-icon>
+                        </div>
+                        <div class="text-left next_dis">
+                          <div class="main_text">
+                            {{ item.description }}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="bottom_bar d-flex justify-content-between">
+                        <div>
+                          <span class="mr-4"
+                            ><b-icon icon="chat" class="mr-1"></b-icon>
+                            <span>{{ item.discussionmessage.length }}</span>
+                            answers</span
+                          >
+                          <span class="mr-4"
+                            ><b-icon icon="eye-fill" class="mr-1"></b-icon>
+                            <span v-if="item.discussionview">{{
+                              item.discussionview.view || 0
+                            }}</span>
+                            <span v-else>{{ 0 }}</span> views</span
+                          >
+                        </div>
+                        <div>
+                          <span
+                            v-if="item.type == 'public'"
+                            @click="
+                              $router.push(`/facilitator/discussion/${item.id}`)
+                            "
+                            class="
+                              text-dark-green
+                              font-weight-bold
+                              cursor-pointer
+                            "
+                            >Join Discussion</span
+                          >
+                          <span
+                            v-else
+                            @click="joindiscussion(item)"
+                            class="
+                              text-dark-green
+                              font-weight-bold
+                              cursor-pointer
+                            "
+                            >Join Discussion</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div v-else class="text-center admin_tab p-3 p-sm-5">
+                    <div>
+                      <b-img
+                        :src="require('@/assets/images/creator.svg')"
+                      ></b-img>
+                      <h6 class="text-muted my-3 fs14">
+                        No Discussion available
+                      </h6>
+                    </div>
+                  </div>
+                </div>
+              </b-card-body>
+
+              <b-card-body v-if="active == 3" class="pt-0 px-0">
+                <div>
+                  <div v-if="events.length" class="events">
+                    <div
+                      class="border rounded text-left mb-5 position-relative"
+                      v-for="(item, index) in events"
+                      :key="item.id"
+                    >
+                      <div
+                        class="
+                          bg-lighter-green
+                          px-3
+                          py-3
+                          text-left
+                          d-flex
+                          justify-content-between
+                          align-items-center
+                        "
+                      >
+                        <h5 class="text-capitalize mb-0 flex-1 fs16">
+                          {{ item.title }}
+                        </h5>
+                        <span
+                          @click="$router.push(`/facilitator/event/${item.id}`)"
+                        >
+                          <span class="fs14 cursor-pointer viewevent pl-2">
+                            View Event
+                          </span>
+                          <b-icon icon="chevron-double-right"></b-icon>
+                        </span>
+                      </div>
+                      <b-img
+                        class="event_image"
+                        fluid-grow
+                        :src="item.cover"
+                      ></b-img>
+
+                      <div class="px-3 py-2 d-flex bg-white">
+                        <div class="flex-1">
+                          <p class="mb-1 text-muted fs14">
+                            <b-icon
+                              icon="calendar2-check"
+                              class="mr-2 text-muted"
+                            ></b-icon>
+                            {{ item.schedule }}
+                          </p>
+                          <p class="mb-1 text-muted fs14">
+                            <b-icon
+                              icon="people"
+                              class="mr-2 text-muted"
+                            ></b-icon>
+                            {{ item.eventattendance.length }} Attending
+                          </p>
+                          <div class="d-flex">
+                            <p class="description text-muted">
+                              {{ item.description }}
+                            </p>
+                          </div>
+                        </div>
+                        <b-dropdown
+                          v-if="
+                            item.facilitator_id &&
+                            item.facilitator_id == $store.getters.facilitator.id
+                          "
+                          size="sm"
+                          variant="transparent"
+                          no-caret
+                          class="no-focus"
+                        >
+                          <template #button-content>
+                            <b-icon
+                              icon="three-dots-vertical"
+                              font-scale="1.4"
+                            ></b-icon>
+                          </template>
+                          <b-dropdown-item class="fs13" @click="edit(item)"
+                            >Edit</b-dropdown-item
+                          >
+                          <b-dropdown-item
+                            class="fs13"
+                            @click="drop(item.id, index)"
+                            >Delete</b-dropdown-item
+                          >
+                        </b-dropdown>
+                      </div>
+                    </div>
+                    <div
+                      class="py-3 d-flex justify-content-between"
+                      v-if="rows > 10"
+                    >
+                      <div class="fs12 text-muted">
+                        Showing 1-10 of {{ events.length }} items
+                      </div>
+                      <b-pagination
+                        pills
+                        size="sm"
+                        variant="dark-green"
+                        align="right"
+                        v-model="currentPage"
+                        :total-rows="rows"
+                        :per-page="perPage"
+                      ></b-pagination>
+                    </div>
+                  </div>
+                  <div v-else class="text-center admin_tab p-3 p-sm-5">
+                    <div>
+                      <b-img
+                        :src="require('@/assets/images/creator.svg')"
+                      ></b-img>
+                      <h6 class="text-muted my-3 fs14">
+                        No event available
+                        <br class="d-none d-sm-block" />
+                      </h6>
+                    </div>
+                  </div>
+                </div>
+              </b-card-body>
+
+              <b-card-body v-if="active == 4" class="pt-0 px-0">
+                <div v-if="showCourse">
+                  <b-container fluid class="main-course">
+                    <b-row>
+                      <b-col
+                        cols="6"
+                        sm="4 "
+                        class="mb-3 side_box"
+                        v-for="(item, index) in filteredCourse"
+                        :key="index"
+                      >
+                        <div class="course border cursor-pointer shadow-sm">
+                          <div
+                            class="course_img"
+                            :style="{
+                              backgroundImage: `url(${
+                                item.cover
+                                  ? item.cover
+                                  : require('@/assets/images/default.png')
+                              })`,
+                            }"
+                          ></div>
+                          <div class="course_text">
+                            <div class="d-flex justify-content-between">
+                              <span
+                                class="
+                                  px-2
+                                  py-1
+                                  rounded-pill
+                                  text-white
+                                  fs11
+                                  course_badge
+                                "
+                                :style="{
+                                  backgroundColor: JSON.parse(
+                                    item.courseoutline.knowledge_areas
+                                  ).color,
+                                }"
+                              >
+                                <b-icon
+                                  class="mr-2"
+                                  :icon="
+                                    JSON.parse(
+                                      item.courseoutline.knowledge_areas
+                                    ).icon
+                                  "
+                                ></b-icon>
+                                <span>{{
+                                  JSON.parse(item.courseoutline.knowledge_areas)
+                                    .value
+                                }}</span></span
+                              >
+                              <span class="text-capitalize fs11">{{
+                                item.type
+                              }}</span>
                             </div>
-                            <div class="text-left next_dis">
-                              <div class="main_text">
+                            <div class="pt-3 pb-1 text-left">
+                              <h6
+                                class="
+                                  text-capitalize
+                                  overview-title
+                                  text-truncate text-truncate--2
+                                  mb-0
+                                "
+                              >
+                                {{ item.title }}
+                              </h6>
+                              <div
+                                class="
+                                  fs13
+                                  text-truncate text-truncate--2
+                                  course_desc
+                                "
+                              >
                                 {{ item.description }}
                               </div>
                             </div>
-                          </div>
-
-                          <div
-                            class="bottom_bar d-flex justify-content-between"
-                          >
-                            <div>
-                              <span class="mr-4"
-                                ><b-icon icon="chat" class="mr-1"></b-icon>
-                                <span>{{ item.discussionmessage.length }}</span>
-                                answers</span
-                              >
-                              <span class="mr-4"
-                                ><b-icon icon="eye-fill" class="mr-1"></b-icon>
-                                <span v-if="item.discussionview">{{
-                                  item.discussionview.view || 0
-                                }}</span>
-                                <span v-else>{{ 0 }}</span> views</span
-                              >
-                            </div>
-                            <div>
-                              <span
-                                v-if="item.type == 'public'"
-                                @click="
-                                  $router.push(
-                                    `/facilitator/discussion/${item.id}`
-                                  )
-                                "
-                                class="
-                                  text-dark-green
-                                  font-weight-bold
-                                  cursor-pointer
-                                "
-                                >Join Discussion</span
-                              >
-                              <span
-                                v-else
-                                @click="joindiscussion(item)"
-                                class="
-                                  text-dark-green
-                                  font-weight-bold
-                                  cursor-pointer
-                                "
-                                >Join Discussion</span
-                              >
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div v-else class="text-center admin_tab p-3 p-sm-5">
-                        <div>
-                          <b-img
-                            :src="require('@/assets/images/creator.svg')"
-                          ></b-img>
-                          <h6 class="text-muted my-3 fs14">
-                            No Discussion available
-                          </h6>
-                        </div>
-                      </div>
-                    </div>
-                  </b-card-body>
-
-                  <b-card-body v-if="active == 3" class="pt-0 px-3">
-                    <div>
-                      <div v-if="events.length" class="events">
-                        <div
-                          class="
-                            border
-                            rounded
-                            text-left
-                            mb-5
-                            position-relative
-                          "
-                          v-for="(item, index) in events"
-                          :key="item.id"
-                        >
-                          <div
-                            class="
-                              bg-lighter-green
-                              px-3
-                              py-3
-                              text-left text-dark-green
-                              d-flex
-                              justify-content-between
-                              align-items-center
-                            "
-                          >
-                            <h5 class="text-capitalize mb-0 flex-1 fs16">
-                              {{ item.title }}
-                            </h5>
-                            <span
-                              @click="
-                                $router.push(`/facilitator/event/${item.id}`)
-                              "
-                            >
-                              <span class="fs14 cursor-pointer viewevent pl-2">
-                                View Event
-                              </span>
-                              <b-icon icon="chevron-double-right"></b-icon>
-                            </span>
-                          </div>
-                          <b-img
-                            class="event_image"
-                            fluid-grow
-                            :src="item.cover"
-                          ></b-img>
-
-                          <div class="px-3 py-2 d-flex bg-white">
-                            <div class="flex-1">
-                              <p class="mb-1 text-muted fs14">
-                                <b-icon
-                                  icon="calendar2-check"
-                                  class="mr-2 text-muted"
-                                ></b-icon>
-                                {{ item.schedule }}
-                              </p>
-                              <p class="mb-1 text-muted fs14">
-                                <b-icon
-                                  icon="people"
-                                  class="mr-2 text-muted"
-                                ></b-icon>
-                                {{ item.eventattendance.length }} Attending
-                              </p>
+                            <div class="info fs11">
                               <div class="d-flex">
-                                <p class="description text-muted">
-                                  {{ item.description }}
-                                </p>
-                              </div>
-                            </div>
-                            <b-dropdown
-                              v-if="
-                                item.facilitator_id &&
-                                item.facilitator_id ==
-                                  $store.getters.facilitator.id
-                              "
-                              size="sm"
-                              variant="transparent"
-                              no-caret
-                              class="no-focus"
-                            >
-                              <template #button-content>
-                                <b-icon
-                                  icon="three-dots-vertical"
-                                  font-scale="1.4"
-                                ></b-icon>
-                              </template>
-                              <b-dropdown-item class="fs13" @click="edit(item)"
-                                >Edit</b-dropdown-item
-                              >
-                              <b-dropdown-item
-                                class="fs13"
-                                @click="drop(item.id, index)"
-                                >Delete</b-dropdown-item
-                              >
-                            </b-dropdown>
-                          </div>
-                        </div>
-                        <div
-                          class="py-3 d-flex justify-content-between"
-                          v-if="rows > 10"
-                        >
-                          <div class="fs12 text-muted">
-                            Showing 1-10 of {{ events.length }} items
-                          </div>
-                          <b-pagination
-                            pills
-                            size="sm"
-                            variant="dark-green"
-                            align="right"
-                            v-model="currentPage"
-                            :total-rows="rows"
-                            :per-page="perPage"
-                          ></b-pagination>
-                        </div>
-                      </div>
-                      <div v-else class="text-center admin_tab p-3 p-sm-5">
-                        <div>
-                          <b-img
-                            :src="require('@/assets/images/creator.svg')"
-                          ></b-img>
-                          <h6 class="text-muted my-3 fs14">
-                            No event available
-                            <br class="d-none d-sm-block" />
-                          </h6>
-                        </div>
-                      </div>
-                    </div>
-                  </b-card-body>
-
-                  <b-card-body v-if="active == 4" class="pt-0 px-3">
-                    <div v-if="showCourse">
-                      <b-container fluid class="main-course">
-                        <b-row>
-                          <b-col
-                            sm="4 "
-                            class="mb-3 side_box"
-                            v-for="(item, index) in filteredCourse"
-                            :key="index"
-                          >
-                            <div class="course border cursor-pointer shadow-sm">
-                              <div
-                                class="course_img"
-                                :style="{
-                                  backgroundImage: `url(${
-                                    item.cover
-                                      ? item.cover
-                                      : require('@/assets/images/default.png')
-                                  })`,
-                                }"
-                              ></div>
-                              <div class="course_text">
-                                <div class="d-flex justify-content-between">
+                                <div class="mr-2">
+                                  <b-icon icon="people" class="mr-1"></b-icon>
                                   <span
-                                    class="
-                                      px-2
-                                      py-1
-                                      rounded-pill
-                                      text-white
-                                      fs11
-                                    "
-                                    :style="{
-                                      backgroundColor: JSON.parse(
-                                        item.courseoutline.knowledge_areas
-                                      ).color,
-                                    }"
+                                    >{{
+                                      item.enroll ? item.enroll.count : 0
+                                    }}+</span
                                   >
-                                    <b-icon
-                                      class="mr-2"
-                                      :icon="
-                                        JSON.parse(
-                                          item.courseoutline.knowledge_areas
-                                        ).icon
-                                      "
-                                    ></b-icon>
-                                    <span>{{
-                                      JSON.parse(
-                                        item.courseoutline.knowledge_areas
-                                      ).value
-                                    }}</span></span
-                                  >
-                                  <span class="text-capitalize fs11">{{
-                                    item.type
-                                  }}</span>
                                 </div>
-                                <div class="border-bottom pt-3 text-left">
-                                  <h6
-                                    class="
-                                      font-weight-bold
-                                      text-capitalize
-                                      overview-title
-                                    "
+                                <div class="mr-3">
+                                  <b-icon icon="eye" class="mr-1"></b-icon>
+                                  <span
+                                    >{{
+                                      item.viewcount ? item.viewcount.count : 0
+                                    }}
+                                    +</span
                                   >
-                                    {{ item.title }}
-                                  </h6>
-                                  <div
-                                    class="fs13 overview"
-                                    v-html="item.courseoutline.overview"
-                                  ></div>
                                 </div>
-                                <div class="info fs11">
-                                  <div class="d-flex">
-                                    <div class="mr-2">
-                                      <b-icon
-                                        icon="people"
-                                        class="mr-1"
-                                      ></b-icon>
-                                      <span
-                                        >{{
-                                          item.enroll ? item.enroll.count : 0
-                                        }}+</span
-                                      >
-                                    </div>
-                                    <div class="mr-3">
-                                      <b-icon icon="eye" class="mr-1"></b-icon>
-                                      <span
-                                        >{{
-                                          item.viewcount
-                                            ? item.viewcount.count
-                                            : 0
-                                        }}
-                                        +</span
-                                      >
-                                    </div>
-                                    <div>
-                                      <b-icon
-                                        icon="star-fill"
-                                        style="color: gold"
-                                        class="mr-1"
-                                      ></b-icon>
-                                      <span
-                                        >{{ item.review.length }} reviews</span
-                                      >
-                                    </div>
-                                  </div>
-
-                                  <b-avatar
-                                    size="sm"
-                                    variant="light"
-                                    :src="item.cover"
+                                <div>
+                                  <b-icon
+                                    icon="star-fill"
+                                    style="color: gold"
+                                    class="mr-1"
+                                  ></b-icon>
+                                  <span
+                                    >{{ item.review.length }}
+                                    <span class="d-none d-sm-inline"
+                                      >reviews</span
+                                    ></span
                                   >
-                                  </b-avatar>
                                 </div>
                               </div>
+
+                              <b-avatar
+                                size="sm"
+                                class="course_avatar"
+                                variant="light"
+                                :src="item.cover"
+                              >
+                              </b-avatar>
                             </div>
-                          </b-col>
-                        </b-row>
-                        <div
-                          class="p-3 d-flex justify-content-between"
-                          v-if="rows > 10"
-                        >
-                          <div class="fs12 text-muted">
-                            Showing {{ perPage * currentPage - perPage + 1 }}-{{
-                              perPage * currentPage
-                            }}
-                            of {{ courses.length }} items
                           </div>
-                          <b-pagination
-                            pills
-                            size="sm"
-                            variant="dark-green"
-                            align="right"
-                            v-model="currentPage"
-                            :total-rows="rows"
-                            :per-page="perPage"
-                          ></b-pagination>
                         </div>
-                      </b-container>
-                    </div>
-                    <div v-else class="text-center admin_tab p-3 p-sm-5">
-                      <div>
-                        <b-img
-                          :src="require('@/assets/images/creator.svg')"
-                        ></b-img>
-                        <h6 class="text-muted my-3 fs14">
-                          No course available
-                        </h6>
+                      </b-col>
+                    </b-row>
+                    <div
+                      class="p-3 d-flex justify-content-between"
+                      v-if="rows > 10"
+                    >
+                      <div class="fs12 text-muted">
+                        Showing {{ perPage * currentPage - perPage + 1 }}-{{
+                          perPage * currentPage
+                        }}
+                        of {{ courses.length }} items
                       </div>
+                      <b-pagination
+                        pills
+                        size="sm"
+                        variant="dark-green"
+                        align="right"
+                        v-model="currentPage"
+                        :total-rows="rows"
+                        :per-page="perPage"
+                      ></b-pagination>
                     </div>
-                  </b-card-body>
-                </b-row>
-              </b-card>
+                  </b-container>
+                </div>
+                <div v-else class="text-center admin_tab p-3 p-sm-5">
+                  <div>
+                    <b-img
+                      :src="require('@/assets/images/creator.svg')"
+                    ></b-img>
+                    <h6 class="text-muted my-3 fs14">No course available</h6>
+                  </div>
+                </div>
+              </b-card-body>
             </b-col>
           </b-row>
         </b-col>
@@ -1068,6 +1036,138 @@
         >
       </div>
     </b-modal>
+    <b-modal
+      no-close-on-backdrop
+      id="allcomments"
+      hide-footer
+      centered
+      title="Comments"
+      size="md"
+    >
+      <div class="comments" v-if="allcomments">
+        <div class="mb-3">
+          <div class="d-flex mb-3 pt-3">
+            <div class="d-flex flex-1 text-left">
+              <div class="mr-2 mb-1" v-if="allcomments.admin">
+                <b-avatar
+                  class="mr-2"
+                  size="1.8rem"
+                  :src="allcomments.admin.profile"
+                ></b-avatar>
+              </div>
+              <div class="mr-2 mb-1" v-if="allcomments.user">
+                <b-avatar
+                  class="mr-2"
+                  size="1.8rem"
+                  :src="allcomments.user.profile"
+                ></b-avatar>
+              </div>
+              <div
+                class="comment_name mr-2 mb-1"
+                v-if="allcomments.facilitator"
+              >
+                <b-avatar
+                  class="mr-2"
+                  size="1.8rem"
+                  :src="allcomments.facilitator.profile"
+                ></b-avatar>
+              </div>
+              <div class="profile">
+                <div class="name" v-if="allcomments.admin">
+                  {{ allcomments.admin.name }}
+                </div>
+                <div class="name" v-if="allcomments.user">
+                  {{ allcomments.user.name }}
+                </div>
+                <div class="name" v-if="allcomments.facilitator">
+                  {{ allcomments.facilitator.name }}
+                </div>
+
+                <div class="date fs11">
+                  {{ allcomments.created_at | moment("ll") }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-left feed_text px-3 pb-3">
+            <span>{{ allcomments.message }}</span>
+          </div>
+        </div>
+        <div class="comments">
+          <div
+            class="comment d-flex text-left mb-2"
+            v-for="(item, index) in allcomments.comments"
+            :key="index"
+          >
+            <div class="flex-1">
+              <div class="flex-1 pr-2">
+                <div class="d-flex mb-1" v-if="item.admin">
+                  <div class="d-flex flex-1">
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.admin.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.admin.name }}
+                      </div>
+                      <div class="comment_text">{{ item.comment }}</div>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="comment_mins pl-2">{{
+                      $moment(item.created_at).fromNow()
+                    }}</span>
+                  </div>
+                </div>
+                <div class="d-flex mb-1" v-if="item.user">
+                  <div class="d-flex flex-1">
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.user.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.user.name }}
+                      </div>
+                      <div class="comment_text">{{ item.comment }}</div>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="comment_mins pl-2">{{
+                      $moment(item.created_at).fromNow()
+                    }}</span>
+                  </div>
+                </div>
+                <div class="d-flex mb-1" v-if="item.facilitator">
+                  <div class="d-flex flex-1">
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.facilitator.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.facilitator.name }}
+                      </div>
+                      <div class="comment_text">{{ item.comment }}</div>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="comment_mins pl-2">{{
+                      $moment(item.created_at).fromNow()
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </b-modal>
     <Minichat
       class="minichats"
       :user="'member'"
@@ -1111,6 +1211,7 @@ export default {
       recent: false,
       trending: false,
       alpha: false,
+      allcomments: [],
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp"],
       aud_ext: ["mp3"],
@@ -1375,6 +1476,10 @@ export default {
       this.showAll = false;
     },
     getmessage(id, name, type, profile) {
+      if (!this.auth) {
+        this.$toast.error("Login to complete action");
+        return;
+      }
       this.mini_info.id = id;
       this.mini_info.name = name;
       this.mini_info.type = type;
@@ -1540,7 +1645,6 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-
 .shadow {
   box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;
@@ -1578,14 +1682,12 @@ h4.card-title {
   text-align: center;
 }
 .course {
-  height: 350px;
   position: relative;
   background: white;
   border-radius: 8px;
   overflow: hidden;
 }
 .course_img {
-  height: 45%;
   width: 100%;
 
   border-radius: 8px;
@@ -1593,14 +1695,9 @@ h4.card-title {
   background-size: cover;
 }
 .course_text {
-  height: 55%;
   padding: 10px;
 }
-.info {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-}
+
 .next_dis {
   width: 85%;
 }
@@ -1691,6 +1788,9 @@ h4.card-title {
   }
   p {
     margin-bottom: 1px;
+  }
+  .top_h {
+    height: auto;
   }
 }
 </style>

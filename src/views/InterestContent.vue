@@ -424,7 +424,7 @@
                               >
                               <div class="all_comment">
                                 <div
-                                  class="comment d-flex text-left mb-1"
+                                  class="comment d-flex text-left"
                                   v-for="item in feed.comments.slice(0, 2)"
                                   :key="item.id"
                                 >

@@ -51,6 +51,7 @@ const routes = [
     meta: {
       title: "Login | Nzukoor",
     },
+
     beforeEnter: (to, from, next) => {
       if (localStorage.getItem("authMember")) {
         let user = localStorage.getItem("authMember");
@@ -113,6 +114,32 @@ const routes = [
       } else {
         next();
       }
+    },
+  },
+  {
+    path: "/forgot-password",
+    name: "Forgot Password",
+    components: {
+      default: () =>
+        import(
+          /* webpackChunkName: "ForgotPassword" */ "../views/Auth/ForgotPassword.vue"
+        ),
+    },
+    meta: {
+      title: "Forgot Password | Nzukoor",
+    },
+  },
+  {
+    path: "/reset-password",
+    name: "Reset Password",
+    components: {
+      default: () =>
+        import(
+          /* webpackChunkName: "ResetPassword" */ "../views/Auth/ResetPassword.vue"
+        ),
+    },
+    meta: {
+      title: "Reset Password | Nzukoor",
     },
   },
   {

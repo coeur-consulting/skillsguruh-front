@@ -74,20 +74,42 @@
                 <b-form-row class="mb-2">
                   <b-col cols="12" class="pr-sm-3">
                     <b-form-group
-                      label="Password"
+                      label=" Password"
                       id="password"
                       label-for="password"
                     >
-                      <b-form-input
-                        required
-                        size="lg"
-                        v-model="user.password"
-                        type="password"
-                        name="password"
-                        :state="validation"
-                        placeholder="Enter password"
-                        aria-describedby="password-feedback"
-                      ></b-form-input>
+                      <b-input-group>
+                        <template #append>
+                          <div>
+                            <b-input-group-text
+                              class="bg-transparent border-left-0"
+                              :class="
+                                validation === false ? 'border-danger' : ''
+                              "
+                            >
+                              <b-icon
+                                @click="toggleeye1 = !toggleeye1"
+                                font-scale=".85"
+                                :icon="toggleeye1 ? 'eye' : 'eye-slash'"
+                                :class="
+                                  validation === false ? 'text-danger' : ''
+                                "
+                              ></b-icon>
+                            </b-input-group-text>
+                          </div>
+                        </template>
+                        <b-form-input
+                          class="border-right-0"
+                          required
+                          min="6"
+                          v-model="user.password"
+                          name="password"
+                          :state="validation"
+                          :type="toggleeye1 ? 'text' : 'password'"
+                          placeholder="Enter  password "
+                          aria-describedby="password-feedback"
+                        ></b-form-input>
+                      </b-input-group>
                     </b-form-group>
                   </b-col>
                 </b-form-row>
@@ -111,6 +133,13 @@
                         font-scale="1.5"
                       ></b-icon
                     ></b-button>
+                  </div>
+                  <div class="">
+                    <small
+                      class="text-secondary"
+                      @click="$router.push('/forgot-password')"
+                      >Forgot passport?</small
+                    >
                   </div>
                 </b-form-group>
               </div>
@@ -174,6 +203,7 @@ export default {
       type: false,
       loading: false,
       validation: null,
+      toggleeye1: false,
       user: {
         email: "",
 
