@@ -956,7 +956,7 @@ export default {
 </script>
 <style scoped>
 .main-card {
-  height: 80vh;
+  height: 100vh;
 }
 .comments {
   max-height: 500px;

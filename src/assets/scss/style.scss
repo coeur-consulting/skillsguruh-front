@@ -113,11 +113,18 @@ label {
 .media video,
 .media audio {
   width: 100%;
+  height: 500px;
+  object-fit: contain;
 }
 .img-s {
   width: 80px;
   margin: 0 auto;
   height: auto;
+}
+.img_feed {
+  object-fit: contain;
+  width: 100%;
+  height: 500px;
 }
 // .VueCarousel-navigation-next {
 //   right: 24px !important;
@@ -200,6 +207,9 @@ label {
 // .top_h .prof_img {
 //   height: 100%;
 // }
+.course_badge {
+  font-size: 0.7rem !important;
+}
 .text-muted {
   color: rgba($color: #000000, $alpha: 0.44) !important;
 }

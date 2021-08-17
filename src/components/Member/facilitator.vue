@@ -396,7 +396,7 @@
                                 >
                                   <div class="flex-1 pr-2">
                                     <span
-                                      class="f mr-1 comment_name"
+                                      class="mr-1 comment_name"
                                       v-if="item.admin"
                                     >
                                       {{ item.admin.name }}</span
@@ -1192,10 +1192,6 @@
                     <b-avatar class="mr-2" size="1.6rem"></b-avatar>
                     <div style="line-height: 1.2">
                       <span class="fs13">{{ item.user_follower.name }}</span>
-                      <br />
-                      <span class="fs12 text-muted">{{
-                        item.user_follower.email
-                      }}</span>
                     </div>
                   </div>
 
@@ -1224,10 +1220,6 @@
                     <div style="line-height: 1.2">
                       <span class="fs13">{{
                         item.facilitator_follower.name
-                      }}</span>
-                      <br />
-                      <span class="fs12 text-muted">{{
-                        item.facilitator_follower.email
                       }}</span>
                     </div>
                   </div>
@@ -1468,7 +1460,7 @@ export default {
               ? "you"
               : first.user.name
           } </span>`;
-           return result;
+          return result;
         }
         if (first.facilitator) {
           result = `<span>Liked by ${
@@ -1477,7 +1469,7 @@ export default {
               ? "you"
               : first.facilitator.name
           } </span>`;
-           return result;
+          return result;
         }
         if (first.admin) {
           result = `<span>Liked by ${
@@ -1486,7 +1478,7 @@ export default {
               ? "you"
               : first.admin.name
           } </span>`;
-           return result;
+          return result;
         }
       }
       if (arr.length > 1) {
@@ -1496,25 +1488,25 @@ export default {
           );
           if (check) {
             result = `Liked by you and ${arr.length - 1} others`;
-             return result;
+            return result;
           } else {
             if (first.user) {
               result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
                 arr.length - 1 > 1 ? "others" : "other"
               } `;
-               return result;
+              return result;
             }
             if (first.facilitator) {
               result = `Liked by  ${first.facilitator.name} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
-               return result;
+              return result;
             }
             if (first.admin) {
               result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
                 arr.length - 1 > 1 ? "others" : "other"
               } `;
-               return result;
+              return result;
             }
           }
         }
@@ -1526,25 +1518,25 @@ export default {
           );
           if (check) {
             result = `Liked by you and ${arr.length - 1} others`;
-             return result;
+            return result;
           } else {
             if (first.user) {
               result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
                 arr.length - 1 > 1 ? "others" : "other"
               } `;
-               return result;
+              return result;
             }
             if (first.facilitator) {
               result = `Liked by  ${first.facilitator.name} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
-               return result;
+              return result;
             }
             if (first.admin) {
               result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
                 arr.length - 1 > 1 ? "others" : "other"
               } `;
-               return result;
+              return result;
             }
           }
         }
@@ -1554,34 +1546,32 @@ export default {
           );
           if (check) {
             result = `Liked by you and ${arr.length - 1} others`;
-             return result;
+            return result;
           } else {
             if (first.user) {
               result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
                 arr.length - 1 > 1 ? "others" : "other"
               } `;
-               return result;
+              return result;
             }
             if (first.facilitator) {
               result = `Liked by  ${first.facilitator.name} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
-               return result;
+              return result;
             }
             if (first.admin) {
               result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
                 arr.length - 1 > 1 ? "others" : "other"
               } `;
-               return result;
+              return result;
             }
           }
         } else {
           result = `Liked by ${arr.length} people`;
-           return result;
+          return result;
         }
       }
-
-
     },
     updateProfile() {
       this.getmyconnections();
