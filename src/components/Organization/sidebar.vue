@@ -2,6 +2,7 @@
   <div id="sidebar">
     <div class="logo_bar">
       <b-img
+        @click="$router.push('/')"
         class="mr-2"
         width="30"
         height="30"

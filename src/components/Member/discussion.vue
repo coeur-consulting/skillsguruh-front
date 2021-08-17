@@ -1145,16 +1145,7 @@ export default {
       this.posts.push(data.message);
     });
   },
-  mounted() {
-    if (
-      this.discussion.user &&
-      this.discussion.user.id == this.$store.getters.member.id
-    ) {
-      this.description = `I just started a discussion, *${this.discussion.name}*  on Nzukoor and I’d like to hear your thoughts. `;
-    } else {
-      this.description = `I just joined a discussion, *${this.discussion.name}*  on Nzukoor and I’d like to hear your thoughts. `;
-    }
-  },
+  mounted() {},
   watch: {
     $route: "getdiscussion",
   },
@@ -1496,6 +1487,14 @@ export default {
             this.rows = res.data.discussionmessage.length;
             window.document.title = `${res.data.name} | Nzukoor`;
             this.showdiscussion = true;
+            if (
+              this.discussion.user &&
+              this.discussion.user.id == this.$store.getters.member.id
+            ) {
+              this.description = `I just started a discussion, *${this.discussion.name}*  on Nzukoor and I’d like to hear your thoughts.  Let's discuss!`;
+            } else {
+              this.description = `I just joined a discussion, *${this.discussion.name}*  on Nzukoor and I’d like to hear your thoughts. Let's discuss!`;
+            }
           }
         })
         .catch((err) => {
