@@ -50,7 +50,7 @@
               ></b-img>
               <div class="p-1">
                 <div class="f_name text-truncate text-truncate--1">
-                  {{ item.name }}
+                  {{ item.username }}
                 </div>
                 <div class="text-muted fs13 text-capitalize f_detail">
                   <span> {{ item.age ? item.age + " years" : "N/a" }}</span>

@@ -42,7 +42,7 @@
                       @click="$router.push(`/member/profile/u/${feed.user.id}`)"
                       class="feed_name"
                     >
-                      {{ feed.user.name }}
+                      {{ feed.user.username }}
                     </div>
                   </div>
                   <div
@@ -60,7 +60,7 @@
                       "
                       class="feed_name"
                     >
-                      {{ feed.facilitator.name }}
+                      {{ feed.facilitator.username }}
                     </div>
                   </div>
                   <b-dropdown
@@ -186,7 +186,7 @@
                         "
                         class="feed_name"
                       >
-                        {{ feed.user.name }}
+                        {{ feed.user.username }}
                       </div>
                     </div>
                     <div
@@ -206,7 +206,7 @@
                         "
                         class="feed_name"
                       >
-                        {{ feed.facilitator.name }}
+                        {{ feed.facilitator.username }}
                       </div>
                     </div>
                     <b-dropdown
@@ -251,7 +251,7 @@
                           $router.push(`/member/profile/f/${comment.user.id}`)
                         "
                         v-if="comment.user"
-                        >{{ comment.user.name }}</span
+                        >{{ comment.user.username }}</span
                       >
                       <span
                         class="comment_name mr-1"
@@ -261,7 +261,7 @@
                           )
                         "
                         v-if="comment.facilitator"
-                        >{{ comment.facilitator.name }}</span
+                        >{{ comment.facilitator.username }}</span
                       >
                       <span class="comment_text">{{
                         comment.comment
@@ -455,10 +455,10 @@
                   {{ alllikes.admin.name }}
                 </div>
                 <div class="name" v-if="alllikes.user">
-                  {{ alllikes.user.name }}
+                  {{ alllikes.user.username }}
                 </div>
                 <div class="name" v-if="alllikes.facilitator">
-                  {{ alllikes.facilitator.name }}
+                  {{ alllikes.facilitator.username }}
                 </div>
 
                 <div class="date fs11">
@@ -506,7 +506,7 @@
                     ></b-avatar>
                     <div>
                       <div class="comment_name">
-                        {{ item.user.name }}
+                        {{ item.user.username }}
                       </div>
                     </div>
                   </div>
@@ -525,7 +525,7 @@
                     ></b-avatar>
                     <div>
                       <div class="comment_name">
-                        {{ item.facilitator.name }}
+                        {{ item.facilitator.username }}
                       </div>
                     </div>
                   </div>
@@ -654,7 +654,7 @@ export default {
 
       this.$bvModal.show("alllikes");
     },
-   getlikes(item) {
+    getlikes(item) {
       var arr = item.filter((val) => val.like);
       var first = {};
       var check = null;
@@ -666,18 +666,18 @@ export default {
             this.useraccess == "member" &&
             this.$store.getters.member.id == first.user.id
               ? "you"
-              : first.user.name
+              : first.user.username
           } </span>`;
-           return result;
+          return result;
         }
         if (first.facilitator) {
           result = `<span>Liked by ${
             this.useraccess == "facilitator" &&
             this.$store.getters.facilitator.id == first.facilitator.id
               ? "you"
-              : first.facilitator.name
+              : first.facilitator.username
           } </span>`;
-           return result;
+          return result;
         }
         if (first.admin) {
           result = `<span>Liked by ${
@@ -686,7 +686,7 @@ export default {
               ? "you"
               : first.admin.name
           } </span>`;
-           return result;
+          return result;
         }
       }
       if (arr.length > 1) {
@@ -696,25 +696,25 @@ export default {
           );
           if (check) {
             result = `Liked by you and ${arr.length - 1} others`;
-             return result;
+            return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
-                arr.length - 1 > 1 ? "others" : "other"
-              } `;
-               return result;
-            }
-            if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.name} and  ${
+              result = `Liked by  ${first.user.username} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
-               return result;
+              return result;
+            }
+            if (first.facilitator) {
+              result = `Liked by  ${first.facilitator.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              return result;
             }
             if (first.admin) {
               result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
                 arr.length - 1 > 1 ? "others" : "other"
               } `;
-               return result;
+              return result;
             }
           }
         }
@@ -726,25 +726,25 @@ export default {
           );
           if (check) {
             result = `Liked by you and ${arr.length - 1} others`;
-             return result;
+            return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
-                arr.length - 1 > 1 ? "others" : "other"
-              } `;
-               return result;
-            }
-            if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.name} and  ${
+              result = `Liked by  ${first.user.username} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
-               return result;
+              return result;
+            }
+            if (first.facilitator) {
+              result = `Liked by  ${first.facilitator.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              return result;
             }
             if (first.admin) {
               result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
                 arr.length - 1 > 1 ? "others" : "other"
               } `;
-               return result;
+              return result;
             }
           }
         }
@@ -754,34 +754,32 @@ export default {
           );
           if (check) {
             result = `Liked by you and ${arr.length - 1} others`;
-             return result;
+            return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
-                arr.length - 1 > 1 ? "others" : "other"
-              } `;
-               return result;
-            }
-            if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.name} and  ${
+              result = `Liked by  ${first.user.username} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
-               return result;
+              return result;
+            }
+            if (first.facilitator) {
+              result = `Liked by  ${first.facilitator.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              return result;
             }
             if (first.admin) {
               result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
                 arr.length - 1 > 1 ? "others" : "other"
               } `;
-               return result;
+              return result;
             }
           }
         } else {
           result = `Liked by ${arr.length} people`;
-           return result;
+          return result;
         }
       }
-
-
     },
     toText(HTML) {
       if (!HTML) return;

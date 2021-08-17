@@ -99,10 +99,10 @@
                   </div>
 
                   <div class="discussion_name" v-if="item.facilitator">
-                    {{ item.facilitator.name }}
+                    {{ item.facilitator.username }}
                   </div>
                   <div class="discussion_name" v-if="item.user">
-                    {{ item.user.name }}
+                    {{ item.user.username }}
                   </div>
                   <div class="fs11 mb-3">
                     <!-- {{ $moment(item.created_at).fromNow() }} -->
@@ -176,10 +176,10 @@
                               {{ item.admin.name }}
                             </div>
                             <div class="comment_name" v-if="item.facilitator">
-                              {{ item.facilitator.name }}
+                              {{ item.facilitator.username }}
                             </div>
                             <div class="comment_name" v-if="item.user">
-                              {{ item.user.name }}
+                              {{ item.user.username }}
                             </div>
                             <div class="comment_details">
                               <span
@@ -238,10 +238,10 @@
                     </div>
 
                     <div class="discussion_name" v-if="item.facilitator">
-                      {{ item.facilitator.name }}
+                      {{ item.facilitator.username }}
                     </div>
                     <div class="discussion_name" v-if="item.user">
-                      {{ item.user.name }}
+                      {{ item.user.username }}
                     </div>
 
                     <div class="discussion_title">
@@ -310,10 +310,10 @@
                             {{ item.admin.name }}
                           </div>
                           <div class="comment_name" v-if="item.facilitator">
-                            {{ item.facilitator.name }}
+                            {{ item.facilitator.username }}
                           </div>
                           <div class="comment_name" v-if="item.user">
-                            {{ item.user.name }}
+                            {{ item.user.username }}
                           </div>
                           <div class="comment_details">
                             <!-- <span class="mr-2">{{
@@ -376,7 +376,7 @@
                           ></b-avatar>
                           <div>
                             <div style="line-height: 1.2">
-                              {{ feed.admin.name }} <br />
+                              {{ feed.admin.username }} <br />
                             </div>
                             <small
                               v-if="feed.admin.state"
@@ -400,7 +400,7 @@
                             class="hover_green"
                           >
                             <div style="line-height: 1.2">
-                              {{ feed.user.name }}
+                              {{ feed.user.username }}
                             </div>
                             <small
                               v-if="feed.user.state"
@@ -426,7 +426,7 @@
                             "
                           >
                             <div style="line-height: 1.2">
-                              {{ feed.facilitator.name }}
+                              {{ feed.facilitator.username }}
                             </div>
                             <small
                               v-if="feed.facilitator.state"
@@ -643,7 +643,7 @@
                               "
                               v-if="item.user"
                             >
-                              {{ item.user.name }}</span
+                              {{ item.user.username }}</span
                             >
                             <span
                               class="comment_name mr-2 hover_green"
@@ -654,7 +654,7 @@
                               "
                               v-if="item.facilitator"
                             >
-                              {{ item.facilitator.name }}</span
+                              {{ item.facilitator.username }}</span
                             >
 
                             <span class="comment_text">{{ item.comment }}</span>
@@ -1237,7 +1237,7 @@
                     ></b-avatar>
                     <div>
                       <div class="comment_name">
-                        {{ item.user.name }}
+                        {{ item.user.username }}
                       </div>
                     </div>
                   </div>
@@ -1256,7 +1256,7 @@
                     ></b-avatar>
                     <div>
                       <div class="comment_name">
-                        {{ item.facilitator.name }}
+                        {{ item.facilitator.nausernameme }}
                       </div>
                     </div>
                   </div>
@@ -1361,7 +1361,7 @@
                     ></b-avatar>
                     <div>
                       <div class="comment_name">
-                        {{ item.user.name }}
+                        {{ item.user.username }}
                       </div>
                       <div class="comment_text">{{ item.comment }}</div>
                     </div>
@@ -1381,7 +1381,7 @@
                     ></b-avatar>
                     <div>
                       <div class="comment_name">
-                        {{ item.facilitator.name }}
+                        {{ item.facilitator.username }}
                       </div>
                       <div class="comment_text">{{ item.comment }}</div>
                     </div>

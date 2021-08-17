@@ -35,7 +35,7 @@
                       @click="$router.push(`/member/profile/u/${feed.user.id}`)"
                       class="feed_name"
                     >
-                      {{ feed.user.name }}
+                      {{ feed.user.username }}
                     </div>
                   </div>
                   <div
@@ -53,7 +53,7 @@
                       "
                       class="feed_name"
                     >
-                      {{ feed.facilitator.name }}
+                      {{ feed.facilitator.username }}
                     </div>
                   </div>
                   <b-dropdown
@@ -499,7 +499,7 @@
                     ></b-avatar>
                     <div>
                       <div class="comment_name">
-                        {{ item.user.name }}
+                        {{ item.user.username }}
                       </div>
                     </div>
                   </div>
@@ -518,7 +518,7 @@
                     ></b-avatar>
                     <div>
                       <div class="comment_name">
-                        {{ item.facilitator.name }}
+                        {{ item.facilitator.username }}
                       </div>
                     </div>
                   </div>

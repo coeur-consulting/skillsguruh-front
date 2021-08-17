@@ -497,14 +497,14 @@
                         v-if="user.qualifications"
                         @click="$router.push(`/member/profile/f/${user.id}`)"
                       >
-                        {{ user.name }}
+                        {{ user.username }}
                       </div>
                       <div
                         class="fs13 text-capitalize text-left"
                         v-else
                         @click="$router.push(`/member/profile/u/${user.id}`)"
                       >
-                        {{ user.name }}
+                        {{ user.username }}
                       </div>
                     </div>
                   </div>

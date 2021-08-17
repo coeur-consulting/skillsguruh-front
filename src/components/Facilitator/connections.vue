@@ -117,14 +117,14 @@
                     v-if="item.qualifications"
                     @click="$router.push(`/facilitator/profile/f/${item.id}`)"
                     class="connection_name cursor-pointer"
-                    >{{ item.name }}</span
+                    >{{ item.username }}</span
                   >
 
                   <span
                     v-else
                     @click="$router.push(`/facilitator/profile/u/${item.id}`)"
                     class="connection_name cursor-pointer"
-                    >{{ item.name }}</span
+                    >{{ item.username }}</span
                   >
                 </div>
               </div>

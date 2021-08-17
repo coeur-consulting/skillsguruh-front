@@ -178,7 +178,7 @@
                   <b-td
                     class="text-capitalize"
                     v-if="item.facilitatotr_detail"
-                    >{{ item.facilitatotr_detail.name }}</b-td
+                    >{{ item.facilitatotr_detail.username }}</b-td
                   >
                   <b-td class="text-capitalize" v-if="item.member_detail">{{
                     item.member_detail.name

@@ -290,7 +290,7 @@
                                     class="mr-2"
                                     :src="feed.user.profile"
                                   ></b-avatar>
-                                  {{ feed.user.name }}
+                                  {{ feed.user.username }}
                                 </div>
                                 <div
                                   class="font-weight-bold mr-2 mb-1 feedname"
@@ -300,7 +300,7 @@
                                     class="mr-2"
                                     :src="feed.facilitator.profile"
                                   ></b-avatar>
-                                  {{ feed.facilitator.name }}
+                                  {{ feed.facilitator.username }}
                                 </div>
                               </div>
                             </div>
@@ -439,13 +439,13 @@
                                       class="comment_name mr-2"
                                       v-if="item.user"
                                     >
-                                      {{ item.user.name }}</span
+                                      {{ item.user.username }}</span
                                     >
                                     <span
                                       class="comment_name mr-2"
                                       v-if="item.facilitator"
                                     >
-                                      {{ item.facilitator.name }}</span
+                                      {{ item.facilitator.username }}</span
                                     >
                                     <span>{{ item.comment }}</span>
                                   </div>

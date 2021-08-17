@@ -222,7 +222,7 @@
         </PushRotate>
       </div>
       <div class="org_name h4 mb-0" @click="$router.push('/facilitator')">
-        {{ this.$store.getters.facilitator.org_name }}
+        {{ this.$store.getters.facilitator.username }}
       </div>
     </div>
 
