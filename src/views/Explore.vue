@@ -2,7 +2,7 @@
   <div class="main_c text-left pt-md-5">
     <section class="top_bg"></section>
 
-    <div class="mywhite">
+    <div class="bg-white">
       <section>
         <b-container class="pb-5">
           <b-row class="justify-content-around p-2 py-sm-5">
@@ -135,70 +135,69 @@
                       :arrows="false"
                       :vertical="true"
                       :slidesToShow="2"
-                      :slidesToScroll="2"
+                      :slidesToScroll="1"
                       :autoplay="true"
                       :autoplaySpeed="5000"
                     >
                       <div
                         v-for="(message, idx) in item.discussionmessage"
                         :key="idx"
-                        class="
-                          rounded
-                          d-flex
-                          comment_container
-                          mb-3
-                          overflow-hidden
-                        "
+                        class="comment_container mb-3 shadow-sm"
                       >
-                        <div class="comment_image">
-                          <b-img
-                            v-if="item.admin"
-                            :src="
-                              item.admin.proflle
-                                ? item.admin.profile
-                                : require('@/assets/images/default.jpeg')
-                            "
-                          ></b-img>
-                          <b-img
-                            v-if="item.facilitator"
-                            :src="
-                              item.facilitator.proflle
-                                ? item.facilitator.profile
-                                : require('@/assets/images/default.jpeg')
-                            "
-                          ></b-img>
-                          <b-img
-                            v-if="item.user"
-                            :src="
-                              item.user.proflle
-                                ? item.user.profile
-                                : require('@/assets/images/default.jpeg')
-                            "
-                          ></b-img>
-                        </div>
-                        <div class="comment_box">
-                          <div class="comment_name" v-if="item.admin">
-                            {{ item.admin.name }}
+                        <div class="rounded overflow-hidden d-flex">
+                          <div class="comment_image">
+                            <b-img
+                              v-if="item.admin"
+                              :src="
+                                item.admin.proflle
+                                  ? item.admin.profile
+                                  : require('@/assets/images/default.jpeg')
+                              "
+                            ></b-img>
+                            <b-img
+                              v-if="item.facilitator"
+                              :src="
+                                item.facilitator.proflle
+                                  ? item.facilitator.profile
+                                  : require('@/assets/images/default.jpeg')
+                              "
+                            ></b-img>
+                            <b-img
+                              v-if="item.user"
+                              :src="
+                                item.user.proflle
+                                  ? item.user.profile
+                                  : require('@/assets/images/default.jpeg')
+                              "
+                            ></b-img>
                           </div>
-                          <div class="comment_name" v-if="item.facilitator">
-                            {{ item.facilitator.name }}
+                          <div class="comment_box">
+                            <div class="comment_name" v-if="item.admin">
+                              {{ item.admin.name }}
+                            </div>
+                            <div class="comment_name" v-if="item.facilitator">
+                              {{ item.facilitator.name }}
+                            </div>
+                            <div class="comment_name" v-if="item.user">
+                              {{ item.user.name }}
+                            </div>
+                            <div class="comment_details">
+                              <span
+                                >{{ message.discussionmessagecomment.length }}
+                                <b-icon
+                                  icon="chat-left-dots-fill"
+                                  font-scale=".85"
+                                ></b-icon
+                              ></span>
+                            </div>
+                            <div
+                              class="
+                                comment_text
+                                text-truncate text-truncate--2
+                              "
+                              v-html="message.message"
+                            ></div>
                           </div>
-                          <div class="comment_name" v-if="item.user">
-                            {{ item.user.name }}
-                          </div>
-                          <div class="comment_details">
-                            <span
-                              >{{ message.discussionmessagecomment.length }}
-                              <b-icon
-                                icon="chat-left-dots-fill"
-                                font-scale=".85"
-                              ></b-icon
-                            ></span>
-                          </div>
-                          <div
-                            class="comment_text text-truncate text-truncate--2"
-                            v-html="message.message"
-                          ></div>
                         </div>
                       </div>
                     </VueSlickCarousel>
@@ -365,7 +364,7 @@
                   <div
                     v-for="(feed, index) in filteredFeeds"
                     :key="index"
-                    class="border bg-white rounded-8 mb-2"
+                    class="border bg-white rounded-8 mb-3 shadow-sm"
                   >
                     <div class="d-flex mb-3 px-2 px-sm-3 pt-3">
                       <div class="flex-1 text-left">
@@ -790,7 +789,7 @@
                       :src="require('@/assets/images/creator.svg')"
                     ></b-img>
                     <h6 class="text-muted my-3 fs14">
-                      It appears you have no event,
+                      It appears you have no feed,
                       <br class="d-none d-sm-block" />
                     </h6>
                   </div>
@@ -893,94 +892,107 @@
                 v-if="mostenrolledcourse.length"
               >
                 <slide
-                  class="pr-3"
+                  class="p-2 pr-3"
                   v-for="item in mostenrolledcourse.slice(0, 3)"
                   :key="item.id"
                 >
-                  <div
-                    class="course border rounded overflow-hidden"
-                    @click="
-                      $router.push(
-                        `/explore/courses?course_id=${item.course.id}`
-                      )
-                    "
-                  >
+                  <div class="shadow-sm">
                     <div
-                      class="course_img"
-                      :style="{
-                        backgroundImage: `url(${
-                          item.course.cover
-                            ? item.course.cover
-                            : require('@/assets/images/default.png')
-                        })`,
-                      }"
-                    ></div>
-                    <div class="course_text bg-white p-2 p-sm-3">
-                      <div class="d-flex justify-content-between">
-                        <span
-                          class="px-2 py-1 rounded-pill text-white course_badge"
-                          :style="{
-                            backgroundColor: JSON.parse(
-                              item.course.courseoutline.knowledge_areas
-                            ).color,
-                          }"
-                        >
-                          <b-icon
-                            class="mr-2"
-                            :icon="
+                      class="course border rounded overflow-hidden"
+                      @click="
+                        $router.push(
+                          `/explore/courses?course_id=${item.course.id}`
+                        )
+                      "
+                    >
+                      <div
+                        class="course_img"
+                        :style="{
+                          backgroundImage: `url(${
+                            item.course.cover
+                              ? item.course.cover
+                              : require('@/assets/images/default.png')
+                          })`,
+                        }"
+                      ></div>
+                      <div class="course_text bg-white p-2 p-sm-3">
+                        <div class="d-flex justify-content-between">
+                          <span
+                            class="
+                              px-2
+                              py-1
+                              rounded-pill
+                              text-white
+                              course_badge
+                            "
+                            :style="{
+                              backgroundColor: JSON.parse(
+                                item.course.courseoutline.knowledge_areas
+                              ).color,
+                            }"
+                          >
+                            <b-icon
+                              class="mr-2"
+                              :icon="
+                                JSON.parse(
+                                  item.course.courseoutline.knowledge_areas
+                                ).icon
+                              "
+                            ></b-icon>
+                            <span>{{
                               JSON.parse(
                                 item.course.courseoutline.knowledge_areas
-                              ).icon
+                              ).value
+                            }}</span></span
+                          >
+                          <span class="text-capitalize course_type">{{
+                            item.course.type
+                          }}</span>
+                        </div>
+                        <div class="pt-2 pb-1">
+                          <h6
+                            class="
+                              overview-title
+                              text-truncate text-truncate--2
                             "
-                          ></b-icon>
-                          <span>{{
-                            JSON.parse(
-                              item.course.courseoutline.knowledge_areas
-                            ).value
-                          }}</span></span
-                        >
-                        <span class="text-capitalize course_type">{{
-                          item.course.type
-                        }}</span>
-                      </div>
-                      <div class="pt-2 pb-1">
-                        <h6
-                          class="overview-title text-truncate text-truncate--2"
-                        >
-                          {{ item.course.title }}
-                        </h6>
-                        <div
-                          class="
-                            text-truncate text-truncate--2
-                            course_description
-                          "
-                        >
-                          {{ item.course.description }}
-                        </div>
-                      </div>
-                      <div class="info fs12">
-                        <div class="d-flex">
-                          <div class="mr-3">
-                            <b-icon icon="people" class="mr-1"></b-icon>
-                            <span>{{ item.count }}+</span>
-                          </div>
-                          <div>
-                            <b-icon
-                              icon="star-fill"
-                              style="color: gold"
-                              class="mr-1"
-                            ></b-icon>
-                            <span>{{ item.course.review.length }} reviews</span>
+                          >
+                            {{ item.course.title }}
+                          </h6>
+                          <div
+                            class="
+                              text-truncate text-truncate--2
+                              course_description
+                            "
+                          >
+                            {{ item.course.description }}
                           </div>
                         </div>
+                        <div class="info fs12">
+                          <div class="d-flex">
+                            <div class="mr-3">
+                              <b-icon icon="people" class="mr-1"></b-icon>
+                              <span>{{ item.count }}+</span>
+                            </div>
+                            <div>
+                              <b-icon
+                                icon="star-fill"
+                                style="color: gold"
+                                class="mr-1"
+                              ></b-icon>
+                              <span
+                                >{{ item.course.review.length }} reviews</span
+                              >
+                            </div>
+                          </div>
 
-                        <b-avatar
-                          size="sm"
-                          variant="light"
-                          :src="item.course.cover"
-                          class="course_avatar"
-                        >
-                        </b-avatar>
+                          <b-avatar
+                            size="sm"
+                            variant="light"
+                            :src="item.course.cover"
+                            class="course_avatar"
+                          >
+                          </b-avatar>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1024,79 +1036,84 @@
               >
                 <slide
                   v-for="item in events
-                    .filter((item) => item.status == 'pending')
+                    .filter((item) => item.status !== 'expired')
                     .slice(0, 4)"
                   :key="item.id"
-                  class="px-2"
+                  class="p-3"
                 >
-                  <div
-                    class="
-                      border
-                      bg-white
-                      rounded
-                      text-left
-                      position-relative
-                      shadow
-                    "
-                  >
-                    <b-img
-                      fluid-grow
-                      :src="item.cover"
-                      class="event_img"
-                    ></b-img>
-                    <div class="px-3 py-3">
-                      <p class="mb-1 schedule">
-                        <b-icon icon="calendar2-check" class="mr-2"></b-icon>
-
-                        {{ item.schedule }}
-                      </p>
-                      <p class="mb-1 attending">
-                        <b-icon icon="people" class="mr-2"></b-icon>
-                        {{ item.eventattendance.length }} Attending
-                      </p>
-                      <div class="d-flex">
-                        <p class="description text-truncate text-truncate--2">
-                          {{ item.description }}
-                        </p>
-                      </div>
-                    </div>
+                  <div class="shadow-sm">
                     <div
                       class="
-                        bg-light
-                        px-3
-                        py-3
-                        text-left text-dark
-                        d-flex
-                        justify-content-between
+                        border
+                        bg-white
+                        rounded
+                        text-left
+                        position-relative
+                        overflow-hidden
                       "
                     >
+                      <b-img
+                        fluid-grow
+                        :src="item.cover"
+                        class="event_img"
+                      ></b-img>
+                      <div class="px-3 py-3">
+                        <p class="mb-1 schedule">
+                          <b-icon icon="calendar2-check" class="mr-2"></b-icon>
+
+                          {{ item.schedule }}
+                        </p>
+                        <p class="mb-1 attending">
+                          <b-icon icon="people" class="mr-2"></b-icon>
+                          {{ item.eventattendance.length }} Attending
+                        </p>
+                        <div class="d-flex">
+                          <p class="description text-truncate text-truncate--2">
+                            {{ item.description }}
+                          </p>
+                        </div>
+                      </div>
                       <div
                         class="
-                          event_title
-                          text-capitalize text-dark
-                          mb-0
-                          text-left
+                          bg-light
+                          px-3
+                          py-3
+                          text-left text-dark
+                          d-flex
+                          justify-content-between
                         "
                       >
-                        {{ item.title }}
-                      </div>
-                      <span
-                        class="cursor-pointer"
-                        @click="$router.push(`/explore/event/${item.id}`)"
-                      >
-                        <span
-                          class="viewevent d-none d-sm-inline text-dark-green"
+                        <div
+                          class="
+                            event_title
+                            text-capitalize text-dark
+                            mb-0
+                            text-left
+                          "
                         >
-                          View Event
+                          {{ item.title }}
+                        </div>
+                        <span
+                          class="cursor-pointer"
+                          @click="$router.push(`/explore/event/${item.id}`)"
+                        >
+                          <span
+                            class="viewevent d-none d-sm-inline text-dark-green"
+                          >
+                            View Event
+                          </span>
+                          <b-icon
+                            font-scale=".85"
+                            icon="chevron-right"
+                          ></b-icon>
                         </span>
-                        <b-icon font-scale=".85" icon="chevron-right"></b-icon>
-                      </span>
+                      </div>
                     </div>
                   </div>
                 </slide>
               </carousel>
 
-              <div class="mt-5">
+              <div class="px-2">
                 <router-link to="/events" class="text-dark-green"
                   ><small
                     >View all events
