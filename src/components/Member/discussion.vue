@@ -1581,7 +1581,7 @@ export default {
           }
           if (res.status == 200) {
             this.discussion.discussionvote.map((item) => {
-              if (item.member_id == this.$store.getters.member.id) {
+              if (item.user_id == this.$store.getters.member.id) {
                 return (item.vote = res.data.vote);
               }
             });
@@ -1609,7 +1609,7 @@ export default {
           }
           if (res.status == 200) {
             this.discussion.discussionvote.map((item) => {
-              if (item.member_id == this.$store.getters.member.id) {
+              if (item.user_id == this.$store.getters.member.id) {
                 return (item.vote = res.data.vote);
               }
             });

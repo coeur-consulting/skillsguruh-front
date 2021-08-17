@@ -640,6 +640,19 @@ export default {
       }
       return token;
     },
+    usertoken() {
+      var token = null;
+      if (this.$store.getters.admin.access_token) {
+        return this.$store.getters.admin;
+      }
+      if (this.$store.getters.facilitator.access_token) {
+        return this.$store.getters.facilitator;
+      }
+      if (this.$store.getters.member.access_token) {
+        return this.$store.getters.member;
+      }
+      return token;
+    },
   },
   mounted() {},
   methods: {
@@ -651,54 +664,129 @@ export default {
     getlikes(item) {
       var arr = item.filter((val) => val.like);
       var first = {};
+      var check = null;
+      first = arr.slice().shift();
       var result = "";
       if (arr.length == 1) {
-        first = arr.shift();
         if (first.user) {
           result = `<span>Liked by ${
             this.useraccess == "member" &&
             this.$store.getters.member.id == first.user.id
-              ? "You"
+              ? "you"
               : first.user.name
           } </span>`;
+          return result;
         }
         if (first.facilitator) {
           result = `<span>Liked by ${
             this.useraccess == "facilitator" &&
             this.$store.getters.facilitator.id == first.facilitator.id
-              ? "You"
+              ? "you"
               : first.facilitator.name
           } </span>`;
+          return result;
         }
         if (first.admin) {
           result = `<span>Liked by ${
             this.useraccess == "admin" &&
             this.$store.getters.admin.id == first.admin.id
-              ? "You"
+              ? "you"
               : first.admin.name
           } </span>`;
+          return result;
         }
       }
       if (arr.length > 1) {
-        first = arr.shift();
-        if (first.user) {
-          result = `<span>Liked by ${first.user.name} and ${arr.length} ${
-            arr.length > 1 ? "others" : "other"
-          }  </span>`;
+        if (this.$store.getters.member.access_token) {
+          check = arr.some(
+            (val) => val.user_id && val.user.id == this.$store.getters.member.id
+          );
+          if (check) {
+            result = `Liked by you and ${arr.length - 1} others`;
+            return result;
+          } else {
+            if (first.user) {
+              result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
+              return result;
+            }
+            if (first.facilitator) {
+              result = `Liked by  ${first.facilitator.name} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              return result;
+            }
+            if (first.admin) {
+              result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
+              return result;
+            }
+          }
         }
-        if (first.facilitator) {
-          result = `<span>Liked by ${first.facilitator.name} and ${
-            arr.length
-          } ${arr.length > 1 ? "others" : "other"}  </span>`;
+        if (this.$store.getters.facilitator.access_token) {
+          check = arr.some(
+            (val) =>
+              val.facilitator_id &&
+              val.facilitator.id == this.$store.getters.facilitator.id
+          );
+          if (check) {
+            result = `Liked by you and ${arr.length - 1} others`;
+            return result;
+          } else {
+            if (first.user) {
+              result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
+              return result;
+            }
+            if (first.facilitator) {
+              result = `Liked by  ${first.facilitator.name} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              return result;
+            }
+            if (first.admin) {
+              result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
+              return result;
+            }
+          }
         }
-        if (first.admin) {
-          result = `<span>Liked by ${first.admin.name} and ${arr.length} ${
-            arr.length > 1 ? "others" : "other"
-          }  </span>`;
+        if (this.$store.getters.admin.access_token) {
+          check = arr.some(
+            (val) => val.admin && val.admin.id == this.$store.getters.admin.id
+          );
+          if (check) {
+            result = `Liked by you and ${arr.length - 1} others`;
+            return result;
+          } else {
+            if (first.user) {
+              result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
+              return result;
+            }
+            if (first.facilitator) {
+              result = `Liked by  ${first.facilitator.name} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              return result;
+            }
+            if (first.admin) {
+              result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
+              return result;
+            }
+          }
+        } else {
+          result = `Liked by ${arr.length} people`;
+          return result;
         }
       }
-
-      return result;
     },
     toText(HTML) {
       if (!HTML) return;
@@ -755,7 +843,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/feed-comments`, this.comment, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            Authorization: `Bearer ${this.usertoken.access_token}`,
           },
         })
         .then((res) => {
@@ -781,7 +869,7 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+              Authorization: `Bearer ${this.usertoken.access_token}`,
             },
           }
         )
@@ -791,8 +879,15 @@ export default {
           }
           if (res.status == 200) {
             this.feed.likes.map((item) => {
-              if (item.user_id == this.$store.getters.member.id) {
-                return (item.like = res.data.like);
+              if (this.$store.getters.facilitator.access_token) {
+                if (item.facilitator_id == this.$store.getters.facilitator.id) {
+                  return (item.like = res.data.like);
+                }
+              }
+              if (this.$store.getters.member.access_token) {
+                if (item.user_id == this.$store.getters.member.id) {
+                  return (item.like = res.data.like);
+                }
               }
             });
           }
@@ -808,7 +903,7 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+              Authorization: `Bearer ${this.usertoken.access_token}`,
             },
           }
         )
@@ -818,8 +913,15 @@ export default {
           }
           if (res.status == 200) {
             this.feed.stars.map((item) => {
-              if (item.user_id == this.$store.getters.member.id) {
-                return (item.star = res.data.star);
+              if (this.$store.getters.facilitator.access_token) {
+                if (item.facilitator_id == this.$store.getters.facilitator.id) {
+                  return (item.like = res.data.like);
+                }
+              }
+              if (this.$store.getters.member.access_token) {
+                if (item.user_id == this.$store.getters.member.id) {
+                  return (item.like = res.data.like);
+                }
               }
             });
           }
@@ -834,7 +936,7 @@ export default {
           this.$http
             .delete(`${this.$store.getters.url}/feeds/${this.id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+                Authorization: `Bearer ${this.usertoken.access_token}`,
               },
             })
             .then((res) => {

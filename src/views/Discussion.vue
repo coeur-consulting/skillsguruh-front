@@ -1141,11 +1141,27 @@ export default {
     });
   },
   mounted() {
-    if (localStorage.getItem("authMember")) {
+    if (
+      localStorage.getItem("authMember") ||
+      localStorage.getItem("authFacilitator")
+    ) {
       this.auth = true;
     }
   },
   computed: {
+    useraccess() {
+      var token = null;
+      if (this.$store.getters.admin.access_token) {
+        return this.$store.getters.admin;
+      }
+      if (this.$store.getters.facilitator.access_token) {
+        return this.$store.getters.facilitator;
+      }
+      if (this.$store.getters.member.access_token) {
+        return this.$store.getters.member;
+      }
+      return token;
+    },
     filteredDiscussion() {
       var res = this.posts.slice(
         this.perPage * this.currentPage - this.perPage,
@@ -1279,7 +1295,7 @@ export default {
           this.reply,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+              Authorization: `Bearer ${this.useraccess.access_token}`,
             },
           }
         )
@@ -1322,7 +1338,7 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/connections`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            Authorization: `Bearer ${this.useraccess.access_token}`,
           },
         })
         .then((res) => {
@@ -1350,7 +1366,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            Authorization: `Bearer ${this.useraccess.access_token}`,
           },
         })
         .then((res) => {
@@ -1383,7 +1399,7 @@ export default {
           this.inviteUsers,
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+              Authorization: `Bearer ${this.useraccess.access_token}`,
             },
           }
         )
@@ -1467,7 +1483,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/discussion-messages`, this.info, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            Authorization: `Bearer ${this.useraccess.access_token}`,
           },
         })
         .then((res) => {
@@ -1494,7 +1510,7 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/add-view/${this.$route.params.id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            Authorization: `Bearer ${this.useraccess.access_token}`,
           },
         })
         .then((res) => {
@@ -1513,7 +1529,7 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/votes/${this.$route.params.id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            Authorization: `Bearer ${this.useraccess.access_token}`,
           },
         })
         .then((res) => {
@@ -1537,7 +1553,7 @@ export default {
           { id: this.$route.params.id, vote: 1 },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+              Authorization: `Bearer ${this.useraccess.access_token}`,
             },
           }
         )
@@ -1547,7 +1563,16 @@ export default {
           }
           if (res.status == 200) {
             this.discussion.discussionvote.map((item) => {
-              if (item.member_id == this.$store.getters.member.id) {
+              if (
+                this.$store.getters.member.id &&
+                item.user_id == this.$store.getters.member.id
+              ) {
+                return (item.vote = res.data.vote);
+              }
+              if (
+                this.$store.getters.facilitator.id &&
+                item.facilitator_id == this.$store.getters.facilitator.id
+              ) {
                 return (item.vote = res.data.vote);
               }
             });
@@ -1569,7 +1594,7 @@ export default {
           { id: this.$route.params.id, vote: 0 },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+              Authorization: `Bearer ${this.useraccess.access_token}`,
             },
           }
         )
@@ -1579,7 +1604,16 @@ export default {
           }
           if (res.status == 200) {
             this.discussion.discussionvote.map((item) => {
-              if (item.member_id == this.$store.getters.member.id) {
+              if (
+                this.$store.getters.member.id &&
+                item.user_id == this.$store.getters.member.id
+              ) {
+                return (item.vote = res.data.vote);
+              }
+              if (
+                this.$store.getters.facilitator.id &&
+                item.facilitator_id == this.$store.getters.facilitator.id
+              ) {
                 return (item.vote = res.data.vote);
               }
             });

@@ -307,6 +307,19 @@ export default {
       }
       return [];
     },
+    usertoken() {
+      var token = null;
+      if (this.$store.getters.admin.access_token) {
+        return this.$store.getters.admin;
+      }
+      if (this.$store.getters.facilitator.access_token) {
+        return this.$store.getters.facilitator;
+      }
+      if (this.$store.getters.member.access_token) {
+        return this.$store.getters.member;
+      }
+      return token;
+    },
   },
   methods: {
     vote(val) {
@@ -322,7 +335,7 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/join-discussion`, data, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            Authorization: `Bearer ${this.usertoken.access_token}`,
           },
         })
         .then((res) => {
