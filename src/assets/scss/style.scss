@@ -916,6 +916,11 @@ ol.subquest {
   font-weight: 500;
 }
 @media (max-width: 600px) {
+  .media img,
+  .media video,
+  .media audio {
+    height: auto;
+  }
   .side_dis {
     font-size: 0.7rem;
   }

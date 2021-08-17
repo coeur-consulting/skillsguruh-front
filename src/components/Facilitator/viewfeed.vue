@@ -13,7 +13,7 @@
         <b-col>
           <b-card no-body class="">
             <b-row no-gutters>
-              <b-col md="8" class="text-left p-3 p-sm-4 border-right">
+              <b-col md="8" class="text-left py-3 p-sm-4 border-right">
                 <div
                   class="d-flex justify-content-between p-3 px-md-2 d-md-none"
                 >
@@ -951,5 +951,10 @@ hr {
   margin-bottom: 0.5rem;
   border: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+@media (max-width: 768px) {
+  .main-card {
+    height: auto;
+  }
 }
 </style>
