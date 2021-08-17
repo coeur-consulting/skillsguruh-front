@@ -15,8 +15,8 @@
         <b-col sm="7">
           <b-row>
             <b-col cols="12" class="mb-0 rounded pt-sm-2 px-1 px-sm-4 pb-2">
-              <b-card no-body class="border-0 top_h" style="">
-                <b-row no-gutters>
+              <b-card no-body class="border-0" style="">
+                <b-row no-gutters class="top_h">
                   <b-col cols="3" sm="3" class="prof_img">
                     <b-card-img
                       :src="
@@ -334,9 +334,7 @@
                             </div>
                           </div>
                         </div>
-                        <div
-                          class="interactions text-left px-3 py-3 border-bottom"
-                        >
+                        <div class="interactions text-left px-3 py-3">
                           <span class="mr-3 cursor-pointer">
                             <b-icon
                               :icon="
@@ -386,6 +384,11 @@
                             <b-icon icon="share"></b-icon>
                           </span>
                         </div>
+                        <div
+                          class="liked_by px-3 border-bottom"
+                          @click="showlikes(feed)"
+                          v-html="getlikes(feed.likes)"
+                        ></div>
                         <div
                           class="comments px-3 pt-2 border-bottom text-left"
                           v-if="feed.comments.length"
@@ -891,6 +894,125 @@
       </b-row>
     </b-container>
     <b-modal
+      no-close-on-backdrop
+      id="alllikes"
+      hide-footer
+      centered
+      title="Likes"
+      size="sm"
+    >
+      <div class="comments" v-if="alllikes">
+        <div class="mb-3">
+          <div class="d-flex mb-3 pt-3">
+            <div class="d-flex flex-1 text-left">
+              <div class="mr-2 mb-1" v-if="alllikes.admin">
+                <b-avatar
+                  class="mr-2"
+                  size="1.8rem"
+                  :src="alllikes.admin.profile"
+                ></b-avatar>
+              </div>
+              <div class="mr-2 mb-1" v-if="alllikes.user">
+                <b-avatar
+                  class="mr-2"
+                  size="1.8rem"
+                  :src="alllikes.user.profile"
+                ></b-avatar>
+              </div>
+              <div class="comment_name mr-2 mb-1" v-if="alllikes.facilitator">
+                <b-avatar
+                  class="mr-2"
+                  size="1.8rem"
+                  :src="alllikes.facilitator.profile"
+                ></b-avatar>
+              </div>
+              <div class="profile">
+                <div class="name" v-if="alllikes.admin">
+                  {{ alllikes.admin.name }}
+                </div>
+                <div class="name" v-if="alllikes.user">
+                  {{ alllikes.user.name }}
+                </div>
+                <div class="name" v-if="alllikes.facilitator">
+                  {{ alllikes.facilitator.name }}
+                </div>
+
+                <div class="date fs11">
+                  {{ alllikes.created_at | moment("ll") }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-left feed_text pb-3">
+            <span>{{ alllikes.message }}</span>
+          </div>
+        </div>
+        <div class="comments">
+          <h6>Liked by</h6>
+          <div
+            class="comment d-flex text-left mb-2"
+            v-for="(item, index) in alllikes.likes.filter((val) => val.like)"
+            :key="index"
+          >
+            <div class="flex-1">
+              <div class="flex-1 pr-2">
+                <div class="d-flex mb-1" v-if="item.admin">
+                  <div class="d-flex flex-1">
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.admin.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.admin.name }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex mb-1" v-if="item.user">
+                  <div
+                    class="d-flex flex-1"
+                    @click="$router.push(`/member/profile/u/${item.user.id}`)"
+                  >
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.user.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.user.name }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex mb-1" v-if="item.facilitator">
+                  <div
+                    class="d-flex flex-1"
+                    @click="
+                      $router.push(`/member/profile/f/${item.facilitator.id}`)
+                    "
+                  >
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.facilitator.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.facilitator.name }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </b-modal>
+    <b-modal
       id="connections"
       scrollable
       size="sm"
@@ -1219,12 +1341,26 @@ export default {
 
       showCourse: false,
       auth: false,
+      alllikes: null,
     };
   },
   components: {
     Minichat,
   },
   computed: {
+    useraccess() {
+      var token = null;
+      if (this.$store.getters.admin.access_token) {
+        return "admin";
+      }
+      if (this.$store.getters.facilitator.access_token) {
+        return "facilitator";
+      }
+      if (this.$store.getters.member.access_token) {
+        return "member";
+      }
+      return token;
+    },
     filteredCourse() {
       var title = this.courses
         .slice(
@@ -1302,6 +1438,138 @@ export default {
     this.getEvents();
   },
   methods: {
+    showlikes(likes) {
+      this.alllikes = likes;
+
+      this.$bvModal.show("alllikes");
+    },
+    getlikes(item) {
+      var arr = item.filter((val) => val.like);
+      var first = {};
+      var check = null;
+      first = arr.slice().shift();
+      var result = "";
+      if (arr.length == 1) {
+        if (first.user) {
+          result = `<span>Liked by ${
+            this.useraccess == "member" &&
+            this.$store.getters.member.id == first.user.id
+              ? "you"
+              : first.user.name
+          } </span>`;
+          return result;
+        }
+        if (first.facilitator) {
+          result = `<span>Liked by ${
+            this.useraccess == "facilitator" &&
+            this.$store.getters.facilitator.id == first.facilitator.id
+              ? "you"
+              : first.facilitator.name
+          } </span>`;
+          return result;
+        }
+        if (first.admin) {
+          result = `<span>Liked by ${
+            this.useraccess == "admin" &&
+            this.$store.getters.admin.id == first.admin.id
+              ? "you"
+              : first.admin.name
+          } </span>`;
+          return result;
+        }
+      }
+      if (arr.length > 1) {
+        if (this.$store.getters.member.access_token) {
+          check = arr.some(
+            (val) => val.user_id && val.user.id == this.$store.getters.member.id
+          );
+          if (check) {
+            result = `Liked by you and ${arr.length - 1} others`;
+            return result;
+          } else {
+            if (first.user) {
+              result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
+              return result;
+            }
+            if (first.facilitator) {
+              result = `Liked by  ${first.facilitator.name} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              return result;
+            }
+            if (first.admin) {
+              result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
+              return result;
+            }
+          }
+        }
+        if (this.$store.getters.facilitator.access_token) {
+          check = arr.some(
+            (val) =>
+              val.facilitator_id &&
+              val.facilitator.id == this.$store.getters.facilitator.id
+          );
+          if (check) {
+            result = `Liked by you and ${arr.length - 1} others`;
+            return result;
+          } else {
+            if (first.user) {
+              result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
+              return result;
+            }
+            if (first.facilitator) {
+              result = `Liked by  ${first.facilitator.name} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              return result;
+            }
+            if (first.admin) {
+              result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
+              return result;
+            }
+          }
+        }
+        if (this.$store.getters.admin.access_token) {
+          check = arr.some(
+            (val) => val.admin && val.admin.id == this.$store.getters.admin.id
+          );
+          if (check) {
+            result = `Liked by you and ${arr.length - 1} others`;
+            return result;
+          } else {
+            if (first.user) {
+              result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
+              return result;
+            }
+            if (first.facilitator) {
+              result = `Liked by  ${first.facilitator.name} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              return result;
+            }
+            if (first.admin) {
+              result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
+              return result;
+            }
+          }
+        } else {
+          result = `Liked by ${arr.length} people`;
+          return result;
+        }
+      }
+    },
     async addconnections(id, type) {
       if (!this.auth) {
         this.$toast.error("Login to complete action");
@@ -1402,7 +1670,7 @@ export default {
         var regex = new RegExp("[^.]+$");
         var extension = fileName.match(regex);
 
-       return extension[0].toLowerCase();
+        return extension[0].toLowerCase();
       }
     },
     getinfo() {

@@ -481,42 +481,39 @@
             <div v-if="showConnect">
               <div v-if="connections.length">
                 <div
-                  class="d-flex mb-3"
+                  class="d-flex mb-3 align-items-center"
                   v-for="user in connections.slice(0, 5)"
                   :key="user.id"
                 >
-                  <div class="d-flex flex-1">
+                  <div class="d-flex flex-1 align-items-center">
                     <b-avatar
                       size="sm"
                       :src="user.profile"
                       class="mr-2"
                     ></b-avatar>
                     <div class="text-left">
-                      <div
-                        class="fs12 font-weight-bold text-capitalize text-left"
-                      >
+                      <div class="fs13 text-capitalize text-left">
                         {{ user.name }}
-                      </div>
-                      <div style="line-height: 1">
-                        <span class="fs11"
-                          >{{ user.state ? user.state : "Lagos " }},
-                          {{ user.country ? user.country : " NG" }}</span
-                        >
-                        <br /><span class="fs11"
-                          >{{ user.similar }} similar interests</span
-                        >
                       </div>
                     </div>
                   </div>
                   <div>
-                    <small
-                      class="connect"
+                    <b-button
+                      variant="outline-dark-green"
+                      size="sm"
+                      class="rounded-pill fs9"
+                      style="padding-top: 0.15rem; padding-bottom: 0.15rem"
                       v-if="user.qualifications"
                       @click="addconnections(user.id, 'facilitator')"
-                      >Connect</small
+                      >Connect</b-button
                     >
-                    <small v-else @click="addconnections(user.id, 'user')"
-                      >Connect</small
+                    <b-button
+                      variant="outline-dark-green"
+                      size="sm"
+                      class="rounded-pill fs9 py-1"
+                      v-else
+                      @click="addconnections(user.id, 'user')"
+                      >Connect</b-button
                     >
                   </div>
                 </div>

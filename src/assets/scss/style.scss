@@ -51,6 +51,12 @@ p {
   border-radius: 50%;
   z-index: 3;
 }
+.liked_by {
+  font-size: 0.75rem;
+  color: rgba($color: #000000, $alpha: 0.4);
+  text-align: left;
+  cursor: pointer;
+}
 .v--vtt-fade {
   will-change: transform, opacity;
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
@@ -192,7 +198,7 @@ label {
   max-height: 200px;
 }
 .text-muted {
-  color: rgba($color: #000000, $alpha: 0.34) !important;
+  color: rgba($color: #000000, $alpha: 0.44) !important;
 }
 .text2speech {
   position: absolute;

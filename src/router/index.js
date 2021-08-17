@@ -1430,7 +1430,7 @@ const routes = [
         },
         meta: {
           typeFacilitator: true,
-          title: "Insight| Facilitator",
+          title: "Insight | Facilitator",
         },
       },
       {

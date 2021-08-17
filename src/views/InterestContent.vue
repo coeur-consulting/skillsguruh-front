@@ -1551,6 +1551,19 @@ export default {
     subId: "getcontent",
   },
   computed: {
+    usertoken() {
+      var token = null;
+      if (this.$store.getters.admin.access_token) {
+        return this.$store.getters.admin;
+      }
+      if (this.$store.getters.facilitator.access_token) {
+        return this.$store.getters.facilitator;
+      }
+      if (this.$store.getters.member.access_token) {
+        return this.$store.getters.member;
+      }
+      return token;
+    },
     filteredinterests() {
       return this.subinterests.filter(
         (item) => item.category_id == this.$route.params.id
@@ -1742,11 +1755,11 @@ export default {
       this.inviteUsers.title = title;
       this.inviteUsers.url = this.message;
 
-      if (this.$store.getters.member.access_token) {
+      if (this.usertoken.access_token) {
         this.$http
           .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+              Authorization: `Bearer ${this.usertoken.access_token}`,
             },
           })
           .then((res) => {

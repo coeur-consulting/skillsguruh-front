@@ -1155,6 +1155,9 @@ export default {
       this.description = `I just joined a discussion, *${this.discussion.name}*  on Nzukoor and I’d like to hear your thoughts. `;
     }
   },
+  watch: {
+    $route: "getdiscussion",
+  },
   computed: {
     filteredDiscussion() {
       var res = this.posts.slice(
@@ -1578,7 +1581,7 @@ export default {
           }
           if (res.status == 200) {
             this.discussion.discussionvote.map((item) => {
-              if (item.member_id == this.$store.getters.member.id) {
+              if (item.user_id == this.$store.getters.member.id) {
                 return (item.vote = res.data.vote);
               }
             });
@@ -1606,7 +1609,7 @@ export default {
           }
           if (res.status == 200) {
             this.discussion.discussionvote.map((item) => {
-              if (item.member_id == this.$store.getters.member.id) {
+              if (item.user_id == this.$store.getters.member.id) {
                 return (item.vote = res.data.vote);
               }
             });

@@ -31,15 +31,11 @@
                       class="connection_name cursor-pointer"
                       @click="
                         $router.push(
-                          `/facilitator/profile/u/${item.facilitator_follower.id}`
+                          `/facilitator/profile/u/${item.user_follower.id}`
                         )
                       "
                     >
                       {{ item.user_follower.name }}
-                    </div>
-
-                    <div class="connection_email text-muted">
-                      {{ item.user_follower.email }}
                     </div>
                   </div>
                 </div>
@@ -76,10 +72,6 @@
                       class="connection_name cursor-pointer"
                     >
                       {{ item.facilitator_follower.name }}
-                    </div>
-
-                    <div class="connection_email text-muted">
-                      {{ item.facilitator_follower.email }}
                     </div>
                   </div>
                 </div>
@@ -134,11 +126,6 @@
                     class="connection_name cursor-pointer"
                     >{{ item.name }}</span
                   >
-
-                  <br />
-                  <span class="connection_email text-muted">{{
-                    item.email
-                  }}</span>
                 </div>
               </div>
 
