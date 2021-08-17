@@ -693,7 +693,7 @@
           network="facebook"
           :url="link"
           title="DISCUSSION INVITATION"
-          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on Nzukoor and I’d like to hear your thoughts. `"
+          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on Nzukoor and I’d like to hear your thoughts. Lets discuss!`"
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning"
         >
@@ -707,7 +707,7 @@
           network="twitter"
           :url="link"
           title="DISCUSSION INVITATION"
-          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on Nzukoor and I’d like to hear your thoughts. `"
+          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on Nzukoor and I’d like to hear your thoughts. Lets discuss!`"
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning"
         >
@@ -721,7 +721,7 @@
           network="whatsApp"
           :url="link"
           title="DISCUSSION INVITATION"
-          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on Nzukoor and I’d like to hear your thoughts. `"
+          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on Nzukoor and I’d like to hear your thoughts. Lets discuss!`"
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning"
         >
@@ -744,7 +744,7 @@
           network="Telegram"
           :url="link"
           title="DISCUSSION INVITATION"
-          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on Nzukoor and I’d like to hear your thoughts. `"
+          :description="`I just joined a discussion, ${discussion.name.toUpperCase()}  on Nzukoor and I’d like to hear your thoughts. Lets discuss!`"
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning"
         >

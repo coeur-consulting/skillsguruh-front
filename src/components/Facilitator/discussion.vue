@@ -1159,9 +1159,9 @@ export default {
       this.discussion.facilitator &&
       this.discussion.facilitator.id == this.$store.getters.facilitator.id
     ) {
-      this.description = `I just started a discussion, *${this.discussion.name}*  on Nzukoor and I’d like to hear your thoughts. `;
+      this.description = `I just started a discussion, *${this.discussion.name}*  on Nzukoor and I’d like to hear your thoughts. Let's discuss!`;
     } else {
-      this.description = `I just joined a discussion, *${this.discussion.name}*  on Nzukoor and I’d like to hear your thoughts. `;
+      this.description = `I just joined a discussion, *${this.discussion.name}*  on Nzukoor and I’d like to hear your thoughts. Let's discuss!`;
     }
   },
   watch: {
@@ -1485,6 +1485,14 @@ export default {
             this.rows = res.data.discussionmessage.length;
             window.document.title = `${res.data.name} | Nzukoor`;
             this.showdiscussion = true;
+             if (
+      this.discussion.user &&
+      this.discussion.facilitator.id == this.$store.getters.facilitator.id
+    ) {
+      this.description = `I just started a discussion, *${this.discussion.name}*  on Nzukoor and I’d like to hear your thoughts.  Let's discuss!`;
+    } else {
+      this.description = `I just joined a discussion, *${this.discussion.name}*  on Nzukoor and I’d like to hear your thoughts. Let's discuss!`;
+    }
           }
         })
         .catch((err) => {
