@@ -16,9 +16,9 @@
           <b-row>
             <b-col cols="12" class="mb-0 rounded pt-sm-2 px-1 px-sm-4 pb-2">
               <b-card no-body class="border-0" style="">
-                <b-row no-gutters class="top_h">
-                  <b-col cols="3" sm="3" class="prof_img">
-                    <b-card-img
+                <b-row no-gutters class="">
+                  <b-col cols="3" sm="3" class="top_h prof_img">
+                    <b-img
                       :src="
                         detail.profile
                           ? detail.profile
@@ -26,7 +26,7 @@
                       "
                       alt="Image"
                       class="rounded-0"
-                    ></b-card-img>
+                    ></b-img>
                   </b-col>
                   <b-col cols="9" sm="9" class="flex-1">
                     <b-card-body

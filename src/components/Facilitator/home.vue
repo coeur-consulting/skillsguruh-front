@@ -492,7 +492,18 @@
                       class="mr-2"
                     ></b-avatar>
                     <div class="text-left">
-                      <div class="fs13 text-capitalize text-left">
+                      <div
+                        class="fs13 text-capitalize text-left"
+                        v-if="user.qualifications"
+                        @click="$router.push(`/member/profile/f/${user.id}`)"
+                      >
+                        {{ user.name }}
+                      </div>
+                      <div
+                        class="fs13 text-capitalize text-left"
+                        v-else
+                        @click="$router.push(`/member/profile/f/${user.id}`)"
+                      >
                         {{ user.name }}
                       </div>
                     </div>
