@@ -875,10 +875,7 @@
             </h2>
           </div>
 
-          <b-row
-            class="justify-content-start pb-1"
-            v-if="mostenrolledcourse.length"
-          >
+          <b-row class="justify-content-start pb-1" v-if="courses.length">
             <b-col cols="12" class="mb-sm-4 px-sm-4">
               <carousel
                 :perPage="2"
@@ -889,28 +886,26 @@
                   [600, 2],
                   [768, 3],
                 ]"
-                v-if="mostenrolledcourse.length"
+                v-if="courses.length"
               >
                 <slide
                   class="p-2 pr-3"
-                  v-for="item in mostenrolledcourse.slice(0, 3)"
+                  v-for="item in courses.slice(0, 6)"
                   :key="item.id"
                 >
                   <div class="shadow-sm">
                     <div
                       class="course border rounded overflow-hidden"
                       @click="
-                        $router.push(
-                          `/explore/courses?course_id=${item.course.id}`
-                        )
+                        $router.push(`/explore/courses?course_id=${item.id}`)
                       "
                     >
                       <div
                         class="course_img"
                         :style="{
                           backgroundImage: `url(${
-                            item.course.cover
-                              ? item.course.cover
+                            item.cover
+                              ? item.cover
                               : require('@/assets/images/default.png')
                           })`,
                         }"
@@ -927,26 +922,24 @@
                             "
                             :style="{
                               backgroundColor: JSON.parse(
-                                item.course.courseoutline.knowledge_areas
+                                item.courseoutline.knowledge_areas
                               ).color,
                             }"
                           >
                             <b-icon
                               class="mr-2"
                               :icon="
-                                JSON.parse(
-                                  item.course.courseoutline.knowledge_areas
-                                ).icon
+                                JSON.parse(item.courseoutline.knowledge_areas)
+                                  .icon
                               "
                             ></b-icon>
                             <span>{{
-                              JSON.parse(
-                                item.course.courseoutline.knowledge_areas
-                              ).value
+                              JSON.parse(item.courseoutline.knowledge_areas)
+                                .value
                             }}</span></span
                           >
                           <span class="text-capitalize course_type">{{
-                            item.course.type
+                            item.type
                           }}</span>
                         </div>
                         <div class="pt-2 pb-1">
@@ -956,7 +949,7 @@
                               text-truncate text-truncate--2
                             "
                           >
-                            {{ item.course.title }}
+                            {{ item.title }}
                           </h6>
                           <div
                             class="
@@ -964,7 +957,7 @@
                               course_description
                             "
                           >
-                            {{ item.course.description }}
+                            {{ item.description }}
                           </div>
                         </div>
                         <div class="info fs12">
@@ -979,16 +972,14 @@
                                 style="color: gold"
                                 class="mr-1"
                               ></b-icon>
-                              <span
-                                >{{ item.course.review.length }} reviews</span
-                              >
+                              <span>{{ item.review.length }} reviews</span>
                             </div>
                           </div>
 
                           <b-avatar
                             size="sm"
                             variant="light"
-                            :src="item.course.cover"
+                            :src="item.cover"
                             class="course_avatar"
                           >
                           </b-avatar>

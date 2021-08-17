@@ -13,7 +13,7 @@
         <b-col>
           <b-card no-body class="">
             <b-row no-gutters>
-              <b-col md="8" class="text-left py-3 p-md-4 border-right">
+              <b-col md="8" class="text-left p-0 p-md-4 border-right">
                 <div
                   class="d-flex justify-content-between p-3 px-md-2 d-md-none"
                 >
