@@ -143,7 +143,7 @@
                           `/facilitator/profile/u/${discussion.user.id}`
                         )
                       "
-                      >{{ discussion.user.name }}</span
+                      >{{ discussion.user.username }}</span
                     >
                     <span
                       v-if="discussion.facilitator"
@@ -153,7 +153,7 @@
                         )
                       "
                       class="cursor-pointer text-dark-green hover_green"
-                      >{{ discussion.facilitator.name }}</span
+                      >{{ discussion.facilitator.username }}</span
                     >
                   </div>
                 </div>
@@ -353,7 +353,7 @@
                             )
                           "
                           class="fs12 cursor-pointer hover_green"
-                          >{{ item.user.name }}</span
+                          >{{ item.user.username }}</span
                         >
                         <span
                           v-if="item.facilitator"
@@ -363,7 +363,7 @@
                             )
                           "
                           class="fs12 cursor-pointer hover_green"
-                          >{{ item.facilitator.name }}</span
+                          >{{ item.facilitator.username }}</span
                         >
                       </div>
                       <span> {{ $moment(item.created_at).fromNow() }}</span>
@@ -447,12 +447,12 @@
                             <span
                               v-if="reply.facilitator"
                               class="message_comment_name mr-1"
-                              >{{ reply.facilitator.name }}</span
+                              >{{ reply.facilitator.username }}</span
                             >
                             <span
                               v-if="reply.user"
                               class="message_comment_name mr-1"
-                              >{{ reply.user.name }}</span
+                              >{{ reply.user.username }}</span
                             >
                             <span class="message_comment_text">
                               {{ reply.message }}
@@ -1022,7 +1022,7 @@
             v-if="comments.user"
             @click="$router.push(`/facilitator/profile/u/${comments.user.id}`)"
             class="fs12 cursor-pointer hover_green"
-            >{{ comments.user.name }}</span
+            >{{ comments.user.username }}</span
           >
           <span
             v-if="comments.facilitator"
@@ -1030,7 +1030,7 @@
               $router.push(`/facilitator/profile/f/${comments.facilitator.id}`)
             "
             class="fs12 cursor-pointer hover_green"
-            >{{ comments.facilitator.name }}</span
+            >{{ comments.facilitator.username }}</span
           >
         </div>
         <div v-html="comments.message"></div>
@@ -1065,10 +1065,10 @@
               <span
                 v-if="reply.facilitator"
                 class="message_comment_name mr-1"
-                >{{ reply.facilitator.name }}</span
+                >{{ reply.facilitator.username }}</span
               >
               <span v-if="reply.user" class="message_comment_name mr-1">{{
-                reply.user.name
+                reply.user.username
               }}</span>
               <span class="message_comment_text">
                 {{ reply.message }}
@@ -1145,7 +1145,8 @@ export default {
     var channel = this.$pusher.subscribe("adddiscussion");
 
     channel.bind("adddiscussion", (data) => {
-      this.posts.push(data.message);
+      this.$toast.success("Posted");
+      this.discussion.discussionmessage.unshift(data.message);
     });
     this.getdiscussion();
     this.addview();
@@ -1169,22 +1170,32 @@ export default {
   },
   computed: {
     filteredDiscussion() {
-      var res = this.posts.slice(
-        this.perPage * this.currentPage - this.perPage,
-        this.perPage * this.currentPage
-      );
+      var res = this.posts.slice();
       if (this.toggleview == "recent") {
-        return res.reverse();
+        return res.slice(
+          this.perPage * this.currentPage - this.perPage,
+          this.perPage * this.currentPage
+        );
       }
       if (this.toggleview == "oldest") {
-        return res;
+        return res
+          .reverse()
+          .slice(
+            this.perPage * this.currentPage - this.perPage,
+            this.perPage * this.currentPage
+          );
       }
-      return res.sort((a, b) => {
-        return (
-          Number(b.discussionmessagecomment.length) -
-          Number(a.discussionmessagecomment.length)
+      return res
+        .sort((a, b) => {
+          return (
+            Number(b.discussionmessagecomment.length) -
+            Number(a.discussionmessagecomment.length)
+          );
+        })
+        .slice(
+          this.perPage * this.currentPage - this.perPage,
+          this.perPage * this.currentPage
         );
-      });
     },
     thread() {
       var thread = this.discussion.discussionmessage.map((item) => {
@@ -1192,15 +1203,17 @@ export default {
           return `${item.admin.name}, ${this.toText(item.message)} ...  `;
         }
         if (item.facilitator) {
-          return `${item.facilitator.name}, ${this.toText(item.message)} ...  `;
+          return `${item.facilitator.username}, ${this.toText(
+            item.message
+          )} ...  `;
         }
         if (item.user) {
-          return `${item.user.name}, ${this.toText(item.message)} ...  `;
+          return `${item.user.username}, ${this.toText(item.message)} ...  `;
         }
       });
       if (this.discussion.admin) {
         thread.unshift(
-          `${this.discussion.name} by ${this.discussion.admin.name}. ${this.discussion.description} ... `
+          `${this.discussion.name} by ${this.discussion.admin.username}. ${this.discussion.description} ... `
         );
       }
       if (this.discussion.facilitator) {
@@ -1210,7 +1223,7 @@ export default {
       }
       if (this.discussion.user) {
         thread.unshift(
-          `${this.discussion.name} by ${this.discussion.user.name} . ${this.discussion.description} ...  `
+          `${this.discussion.name} by ${this.discussion.user.username} . ${this.discussion.description} ...  `
         );
       }
       return thread.toString();
@@ -1287,10 +1300,10 @@ export default {
           return `${item.admin.name}, ${item.message}...  `;
         }
         if (item.facilitator) {
-          return `${item.facilitator.name}, ${item.message}...  `;
+          return `${item.facilitator.username}, ${item.message}...  `;
         }
         if (item.user) {
-          return `${item.user.name}, ${item.message}...  `;
+          return `${item.user.username}, ${item.message}...  `;
         }
       });
 
@@ -1485,14 +1498,15 @@ export default {
             this.rows = res.data.discussionmessage.length;
             window.document.title = `${res.data.name} | Nzukoor`;
             this.showdiscussion = true;
-             if (
-      this.discussion.user &&
-      this.discussion.facilitator.id == this.$store.getters.facilitator.id
-    ) {
-      this.description = `I just started a discussion, *${this.discussion.name}*  on Nzukoor and I’d like to hear your thoughts.  Let's discuss!`;
-    } else {
-      this.description = `I just joined a discussion, *${this.discussion.name}*  on Nzukoor and I’d like to hear your thoughts. Let's discuss!`;
-    }
+            if (
+              this.discussion.user &&
+              this.discussion.facilitator.id ==
+                this.$store.getters.facilitator.id
+            ) {
+              this.description = `I just started a discussion, *${this.discussion.name}*  on Nzukoor and I’d like to hear your thoughts.  Let's discuss!`;
+            } else {
+              this.description = `I just joined a discussion, *${this.discussion.name}*  on Nzukoor and I’d like to hear your thoughts. Let's discuss!`;
+            }
           }
         })
         .catch((err) => {

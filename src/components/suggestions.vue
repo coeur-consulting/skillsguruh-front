@@ -53,7 +53,7 @@
                   class="name text-capitalize text-left mb-1 cursor-pointer"
                   @click="gotoprofile(item)"
                 >
-                  {{ item.name }}
+                  {{ item.username }}
                 </div>
 
                 <div class="fs11 mb-2">

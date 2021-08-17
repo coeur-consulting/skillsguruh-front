@@ -346,7 +346,7 @@
               size="30px"
             ></b-avatar>
             <span class="fs14 d-none d-sm-inline">{{
-              $store.getters.member.name
+              $store.getters.member.username
             }}</span>
           </template>
 

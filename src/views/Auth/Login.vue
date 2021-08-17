@@ -260,6 +260,7 @@ export default {
               .then((res) => {
                 authFacilitator.id = res.data.id;
                 authFacilitator.name = res.data.name;
+                authFacilitator.username = res.data.username;
                 authFacilitator.email = res.data.email;
                 authFacilitator.voice = res.data.voice;
                 authFacilitator.profile = res.data.profile;

@@ -35,7 +35,7 @@
                         )
                       "
                     >
-                      {{ item.user_follower.name }}
+                      {{ item.user_follower.username }}
                     </div>
                   </div>
                 </div>
@@ -71,7 +71,7 @@
                       "
                       class="connection_name cursor-pointer"
                     >
-                      {{ item.facilitator_follower.name }}
+                      {{ item.facilitator_follower.username }}
                     </div>
                   </div>
                 </div>
@@ -117,14 +117,14 @@
                     v-if="item.qualifications"
                     @click="$router.push(`/member/profile/f/${item.id}`)"
                     class="connection_name cursor-pointer fs13"
-                    >{{ item.name }}</span
+                    >{{ item.username }}</span
                   >
 
                   <span
                     v-else
                     @click="$router.push(`/member/profile/u/${item.id}`)"
                     class="connection_name cursor-pointer fs13"
-                    >{{ item.name }}</span
+                    >{{ item.username }}</span
                   >
                 </div>
               </div>

@@ -1,7 +1,7 @@
 /* eslint-disable vue/no-unused-vars */
 <template>
   <div class="bg-light">
-    <b-container fluid class="pt-sm-4">
+    <b-container fluid class="py-sm-5">
       <b-row v-if="showdiscussion">
         <b-col class="px-0 px-sm-3" sm="8">
           <div class="bg-white py-4 rounded">
@@ -334,7 +334,7 @@
                             )
                           "
                           class="fs13 cursor-pointer hover_green"
-                          >{{ item.user.name }}</span
+                          >{{ item.user.username }}</span
                         >
                         <span
                           v-if="item.facilitator"
@@ -344,7 +344,7 @@
                             )
                           "
                           class="fs13 cursor-pointer hover_green"
-                          >{{ item.facilitator.name }}</span
+                          >{{ item.facilitator.username }}</span
                         >
                       </div>
                       <span> {{ $moment(item.created_at).fromNow() }}</span>
@@ -1103,6 +1103,7 @@ export default {
       connections: [],
       emails: [],
       play: "",
+
       record: "",
       showdiscussion: false,
       comment_message: "",
@@ -1137,7 +1138,8 @@ export default {
     var channel = this.$pusher.subscribe("adddiscussion");
 
     channel.bind("adddiscussion", (data) => {
-      this.posts.push(data.message);
+      this.$toast.success("Posted");
+      this.discussion.discussionmessage.unshift(data.message);
     });
   },
   mounted() {
@@ -1163,22 +1165,32 @@ export default {
       return token;
     },
     filteredDiscussion() {
-      var res = this.posts.slice(
-        this.perPage * this.currentPage - this.perPage,
-        this.perPage * this.currentPage
-      );
+      var res = this.posts.slice();
       if (this.toggleview == "recent") {
-        return res.reverse();
+        return res.slice(
+          this.perPage * this.currentPage - this.perPage,
+          this.perPage * this.currentPage
+        );
       }
       if (this.toggleview == "oldest") {
-        return res;
+        return res
+          .reverse()
+          .slice(
+            this.perPage * this.currentPage - this.perPage,
+            this.perPage * this.currentPage
+          );
       }
-      return res.sort((a, b) => {
-        return (
-          Number(b.discussionmessagecomment.length) -
-          Number(a.discussionmessagecomment.length)
+      return res
+        .sort((a, b) => {
+          return (
+            Number(b.discussionmessagecomment.length) -
+            Number(a.discussionmessagecomment.length)
+          );
+        })
+        .slice(
+          this.perPage * this.currentPage - this.perPage,
+          this.perPage * this.currentPage
         );
-      });
     },
     thread() {
       var thread = this.discussion.discussionmessage.map((item) => {
@@ -1186,10 +1198,12 @@ export default {
           return `${item.admin.name}, ${this.toText(item.message)} ... `;
         }
         if (item.facilitator) {
-          return `${item.facilitator.name}, ${this.toText(item.message)} ... `;
+          return `${item.facilitator.username}, ${this.toText(
+            item.message
+          )} ... `;
         }
         if (item.user) {
-          return `${item.user.name}, ${this.toText(item.message)} ... `;
+          return `${item.user.username}, ${this.toText(item.message)} ... `;
         }
       });
       if (this.discussion.admin) {
@@ -1199,12 +1213,12 @@ export default {
       }
       if (this.discussion.facilitator) {
         thread.unshift(
-          `${this.discussion.name} by ${this.discussion.facilitator.name}. ${this.discussion.description} ... `
+          `${this.discussion.name} by ${this.discussion.facilitator.username}. ${this.discussion.description} ... `
         );
       }
       if (this.discussion.user) {
         thread.unshift(
-          `${this.discussion.name} by ${this.discussion.user.name}. ${this.discussion.description} ... `
+          `${this.discussion.name} by ${this.discussion.user.username}. ${this.discussion.description} ... `
         );
       }
       return thread.toString();
@@ -1270,10 +1284,10 @@ export default {
           return `${item.admin.name}, ${item.message}...  `;
         }
         if (item.facilitator) {
-          return `${item.facilitator.name}, ${item.message}...  `;
+          return `${item.facilitator.username}, ${item.message}...  `;
         }
         if (item.user) {
-          return `${item.user.name}, ${item.message}...  `;
+          return `${item.user.username}, ${item.message}...  `;
         }
       });
 
@@ -1291,7 +1305,7 @@ export default {
       this.reply.discussion_id = this.$route.params.id;
       this.$http
         .post(
-          `${this.$store.getters.url}/explore/discussion/message/replies`,
+          `${this.$store.getters.url}/discussion/message/replies`,
           this.reply,
           {
             headers: {
@@ -1497,6 +1511,7 @@ export default {
               discussion_id: null,
               publicId: null,
             };
+            //  this.posts.unshift(res);
           }
         })
         .catch((err) => {

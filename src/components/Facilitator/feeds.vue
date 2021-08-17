@@ -173,10 +173,10 @@
                   {{ allcomments.admin.name }}
                 </div>
                 <div class="name" v-if="allcomments.user">
-                  {{ allcomments.user.name }}
+                  {{ allcomments.user.username }}
                 </div>
                 <div class="name" v-if="allcomments.facilitator">
-                  {{ allcomments.facilitator.name }}
+                  {{ allcomments.facilitator.username }}
                 </div>
 
                 <div class="date fs11">
@@ -226,7 +226,7 @@
                     ></b-avatar>
                     <div>
                       <div class="comment_name">
-                        {{ item.user.name }}
+                        {{ item.user.username }}
                       </div>
                       <div class="comment_text">{{ item.comment }}</div>
                     </div>
@@ -246,7 +246,7 @@
                     ></b-avatar>
                     <div>
                       <div class="comment_name">
-                        {{ item.facilitator.name }}
+                        {{ item.facilitator.username }}
                       </div>
                       <div class="comment_text">{{ item.comment }}</div>
                     </div>
@@ -359,7 +359,7 @@
                         ></b-avatar>
                         <div>
                           <div style="line-height: 1">
-                            {{ feed.admin.name }} <br />
+                            {{ feed.admin.username }} <br />
                           </div>
                           <small
                             v-if="feed.admin.state"
@@ -383,7 +383,7 @@
                           class="hover_green"
                         >
                           <div style="line-height: 1.2">
-                            {{ feed.user.name }}
+                            {{ feed.user.username }}
                           </div>
                           <small
                             v-if="feed.user.state"
@@ -407,7 +407,7 @@
                           "
                         >
                           <div style="line-height: 1.2">
-                            {{ feed.facilitator.name }}
+                            {{ feed.facilitator.username }}
                           </div>
                           <small
                             v-if="feed.facilitator.state"
@@ -618,7 +618,7 @@
                             "
                             v-if="item.user"
                           >
-                            {{ item.user.name }}</span
+                            {{ item.user.username }}</span
                           >
                           <span
                             class="comment_name mr-2 hover_green"
@@ -629,7 +629,7 @@
                             "
                             v-if="item.facilitator"
                           >
-                            {{ item.facilitator.name }}</span
+                            {{ item.facilitator.username }}</span
                           >
 
                           <span class="comment_text">{{ item.comment }}</span>
@@ -819,10 +819,10 @@
                   {{ alllikes.admin.name }}
                 </div>
                 <div class="name" v-if="alllikes.user">
-                  {{ alllikes.user.name }}
+                  {{ alllikes.user.username }}
                 </div>
                 <div class="name" v-if="alllikes.facilitator">
-                  {{ alllikes.facilitator.name }}
+                  {{ alllikes.facilitator.username }}
                 </div>
 
                 <div class="date fs11">
@@ -870,7 +870,7 @@
                     ></b-avatar>
                     <div>
                       <div class="comment_name">
-                        {{ item.user.name }}
+                        {{ item.user.username }}
                       </div>
                     </div>
                   </div>
@@ -889,7 +889,7 @@
                     ></b-avatar>
                     <div>
                       <div class="comment_name">
-                        {{ item.facilitator.name }}
+                        {{ item.facilitator.username }}
                       </div>
                     </div>
                   </div>
@@ -1100,7 +1100,7 @@ export default {
             this.useraccess == "member" &&
             this.$store.getters.member.id == first.user.id
               ? "you"
-              : first.user.name
+              : first.user.username
           } </span>`;
           return result;
         }
@@ -1109,7 +1109,7 @@ export default {
             this.useraccess == "facilitator" &&
             this.$store.getters.facilitator.id == first.facilitator.id
               ? "you"
-              : first.facilitator.name
+              : first.facilitator.username
           } </span>`;
           return result;
         }
@@ -1133,13 +1133,13 @@ export default {
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
-                arr.length - 1 > 1 ? "others" : "other"
-              } `;
+              result = `Liked by  ${first.user.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.name} and  ${
+              result = `Liked by  ${first.facilitator.username} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
@@ -1163,13 +1163,13 @@ export default {
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
-                arr.length - 1 > 1 ? "others" : "other"
-              } `;
+              result = `Liked by  ${first.user.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.name} and  ${
+              result = `Liked by  ${first.facilitator.username} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
@@ -1191,13 +1191,13 @@ export default {
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
-                arr.length - 1 > 1 ? "others" : "other"
-              } `;
+              result = `Liked by  ${first.user.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.name} and  ${
+              result = `Liked by  ${first.facilitator.username} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
