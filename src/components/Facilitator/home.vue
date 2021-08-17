@@ -502,7 +502,7 @@
                       <div
                         class="fs13 text-capitalize text-left"
                         v-else
-                        @click="$router.push(`/member/profile/f/${user.id}`)"
+                        @click="$router.push(`/member/profile/u/${user.id}`)"
                       >
                         {{ user.name }}
                       </div>

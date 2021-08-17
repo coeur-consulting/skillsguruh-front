@@ -310,12 +310,13 @@
                                 feed.media &&
                                 img_ext.includes(getextension(feed.media))
                               "
-                              fluid-grow
+                              class="img_feed"
                               :src="feed.media"
                             ></b-img>
                             <video
                               controls
                               width="100%"
+                              height="500"
                               v-if="
                                 feed.media &&
                                 vid_ext.includes(getextension(feed.media))
@@ -1045,10 +1046,6 @@
                     <b-avatar class="mr-2" size="1.6rem"></b-avatar>
                     <div style="line-height: 1.2">
                       <span class="fs13">{{ item.user_follower.name }}</span>
-                      <br />
-                      <span class="fs12 text-muted">{{
-                        item.user_follower.email
-                      }}</span>
                     </div>
                   </div>
 
@@ -1079,11 +1076,7 @@
                     <b-avatar class="mr-2" size="1.6rem"></b-avatar>
                     <div style="line-height: 1.2">
                       <span class="fs13">{{
-                        item.facilitator_follower.name
-                      }}</span>
-                      <br />
-                      <span class="fs12 text-muted">{{
-                        item.facilitator_follower.email
+                        item.facilitator_follower.username
                       }}</span>
                     </div>
                   </div>

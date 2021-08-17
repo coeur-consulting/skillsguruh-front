@@ -1530,7 +1530,7 @@ export default {
     }
     this.gettrendingfeeds();
     this.mostenrolled();
-    this.getprograms();
+    this.getcourses();
     this.getmembers();
     this.getevents();
     this.getfacilitators();
@@ -1752,13 +1752,13 @@ export default {
         }
       });
     },
-    getprograms() {
-      this.$http.get(`${this.$store.getters.url}/guest/courses`).then((res) => {
-        if (res.status == 200) {
-          this.courses = res.data;
-        }
-      });
-    },
+    // getprograms() {
+    //   this.$http.get(`${this.$store.getters.url}/guest/courses`).then((res) => {
+    //     if (res.status == 200) {
+    //       this.courses = res.data;
+    //     }
+    //   });
+    // },
     getTrendingFeeds() {
       this.$http
         .get(`${this.$store.getters.url}/guest/trending/feeds`)
@@ -1781,10 +1781,24 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
+    getcourses() {
+      this.$http
+        .get(`${this.$store.getters.url}/guest/courses`)
+        .then((res) => {
+          if (res.status == 200) {
+            this.courses = res.data;
+            this.showCourse = true;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     getmembers() {
-      this.$http.get(`${this.$store.getters.url}/guest/members`).then((res) => {
+      this.$http.get(`${this.$store.getters.url}/get/members`).then((res) => {
         if (res.status == 200) {
           this.users = res.data;
+          this.rows = res.data.length;
         }
       });
     },
@@ -1809,6 +1823,7 @@ export default {
         return extension[0].toLowerCase();
       }
     },
+
     getUpload(val) {
       if (
         !this.img_ext.includes(this.getextension(val.secure_url)) &&

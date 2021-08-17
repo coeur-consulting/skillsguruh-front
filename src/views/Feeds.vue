@@ -465,6 +465,7 @@
                             feed.media &&
                             img_ext.includes(getextension(feed.media))
                           "
+                          class="img_feed"
                           :src="feed.media"
                         ></b-img>
 
@@ -1149,7 +1150,7 @@ export default {
               ? "you"
               : first.user.name
           } </span>`;
-           return result;
+          return result;
         }
         if (first.facilitator) {
           result = `<span>Liked by ${
@@ -1158,7 +1159,7 @@ export default {
               ? "you"
               : first.facilitator.name
           } </span>`;
-           return result;
+          return result;
         }
         if (first.admin) {
           result = `<span>Liked by ${
@@ -1167,7 +1168,7 @@ export default {
               ? "you"
               : first.admin.name
           } </span>`;
-           return result;
+          return result;
         }
       }
       if (arr.length > 1) {
@@ -1177,25 +1178,25 @@ export default {
           );
           if (check) {
             result = `Liked by you and ${arr.length - 1} others`;
-             return result;
+            return result;
           } else {
             if (first.user) {
               result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
                 arr.length - 1 > 1 ? "others" : "other"
               } `;
-               return result;
+              return result;
             }
             if (first.facilitator) {
               result = `Liked by  ${first.facilitator.name} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
-               return result;
+              return result;
             }
             if (first.admin) {
               result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
                 arr.length - 1 > 1 ? "others" : "other"
               } `;
-               return result;
+              return result;
             }
           }
         }
@@ -1207,25 +1208,25 @@ export default {
           );
           if (check) {
             result = `Liked by you and ${arr.length - 1} others`;
-             return result;
+            return result;
           } else {
             if (first.user) {
               result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
                 arr.length - 1 > 1 ? "others" : "other"
               } `;
-               return result;
+              return result;
             }
             if (first.facilitator) {
               result = `Liked by  ${first.facilitator.name} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
-               return result;
+              return result;
             }
             if (first.admin) {
               result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
                 arr.length - 1 > 1 ? "others" : "other"
               } `;
-               return result;
+              return result;
             }
           }
         }
@@ -1235,34 +1236,32 @@ export default {
           );
           if (check) {
             result = `Liked by you and ${arr.length - 1} others`;
-             return result;
+            return result;
           } else {
             if (first.user) {
               result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
                 arr.length - 1 > 1 ? "others" : "other"
               } `;
-               return result;
+              return result;
             }
             if (first.facilitator) {
               result = `Liked by  ${first.facilitator.name} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
-               return result;
+              return result;
             }
             if (first.admin) {
               result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
                 arr.length - 1 > 1 ? "others" : "other"
               } `;
-               return result;
+              return result;
             }
           }
         } else {
           result = `Liked by ${arr.length} people`;
-           return result;
+          return result;
         }
       }
-
-
     },
     sharenow(feed) {
       this.description = feed.message;

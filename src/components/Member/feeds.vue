@@ -130,6 +130,17 @@
               ><span class="ev">Video</span>
             </FeedUpload>
           </div>
+          <div
+            @click="$bvModal.show('feelings')"
+            class="d-flex align-items-center"
+          >
+            <b-img
+              :src="require('@/assets/images/feeling.png')"
+              width="18px"
+              class="mr-1 cursor-pointer"
+            ></b-img>
+            Feelings
+          </div>
         </div>
         <b-button @click="post" block variant="dark-green">Post</b-button>
       </b-modal>
@@ -425,9 +436,12 @@
                   ></b-img
                   >Video
                 </div>
-                <div @click="$bvModal.show('feelings')">
+                <div
+                  @click="$bvModal.show('feelings')"
+                  class="d-flex align-items-center"
+                >
                   <b-img
-                    :src="require('@/assets/images/advert.svg')"
+                    :src="require('@/assets/images/feeling.png')"
                     width="18px"
                     class="mr-1 cursor-pointer"
                   ></b-img>
@@ -985,11 +999,26 @@
         </ShareNetwork>
       </div>
     </b-modal>
+    <b-modal id="feelings" size="" hide-footer>
+      <div>
+        <b-container>
+          <h6>Feelings</h6>
+          <b-row>
+            <b-col cols="6" v-for="(item, id) in feelings.People" :key="id">
+              <div class="smiles rounded-pill py-2 text-center px-2">
+                <span class="pr-4">{{ id }}</span> <span>{{ item }}</span>
+              </div>
+            </b-col>
+          </b-row>
+        </b-container>
+      </div>
+    </b-modal>
   </b-container>
 </template>
 
 <script>
 import EmojiPicker from "@/components/emoji/EmojiPicker";
+import Emojis from "@/components/emoji/emojis.js";
 import FeedUpload from "../feedupload";
 import Message from "../messagecomponent";
 import { MultiSelect } from "vue-search-select";
@@ -999,6 +1028,7 @@ export default {
   data() {
     return {
       link: "",
+      feelings: null,
       description: "",
       recentfeeds: [],
       trendingfeeds: [],
@@ -1091,6 +1121,7 @@ export default {
     this.getcustomfeeds();
     this.gettrendingfeeds();
     this.getrecentfeeds();
+    this.feelings = Emojis;
   },
   directives: {
     focus: {
@@ -1105,7 +1136,7 @@ export default {
 
       this.$bvModal.show("alllikes");
     },
-   getlikes(item) {
+    getlikes(item) {
       var arr = item.filter((val) => val.like);
       var first = {};
       var check = null;
@@ -1119,7 +1150,7 @@ export default {
               ? "you"
               : first.user.name
           } </span>`;
-           return result;
+          return result;
         }
         if (first.facilitator) {
           result = `<span>Liked by ${
@@ -1128,7 +1159,7 @@ export default {
               ? "you"
               : first.facilitator.name
           } </span>`;
-           return result;
+          return result;
         }
         if (first.admin) {
           result = `<span>Liked by ${
@@ -1137,7 +1168,7 @@ export default {
               ? "you"
               : first.admin.name
           } </span>`;
-           return result;
+          return result;
         }
       }
       if (arr.length > 1) {
@@ -1147,25 +1178,25 @@ export default {
           );
           if (check) {
             result = `Liked by you and ${arr.length - 1} others`;
-             return result;
+            return result;
           } else {
             if (first.user) {
               result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
                 arr.length - 1 > 1 ? "others" : "other"
               } `;
-               return result;
+              return result;
             }
             if (first.facilitator) {
               result = `Liked by  ${first.facilitator.name} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
-               return result;
+              return result;
             }
             if (first.admin) {
               result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
                 arr.length - 1 > 1 ? "others" : "other"
               } `;
-               return result;
+              return result;
             }
           }
         }
@@ -1177,25 +1208,25 @@ export default {
           );
           if (check) {
             result = `Liked by you and ${arr.length - 1} others`;
-             return result;
+            return result;
           } else {
             if (first.user) {
               result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
                 arr.length - 1 > 1 ? "others" : "other"
               } `;
-               return result;
+              return result;
             }
             if (first.facilitator) {
               result = `Liked by  ${first.facilitator.name} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
-               return result;
+              return result;
             }
             if (first.admin) {
               result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
                 arr.length - 1 > 1 ? "others" : "other"
               } `;
-               return result;
+              return result;
             }
           }
         }
@@ -1205,34 +1236,32 @@ export default {
           );
           if (check) {
             result = `Liked by you and ${arr.length - 1} others`;
-             return result;
+            return result;
           } else {
             if (first.user) {
               result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
                 arr.length - 1 > 1 ? "others" : "other"
               } `;
-               return result;
+              return result;
             }
             if (first.facilitator) {
               result = `Liked by  ${first.facilitator.name} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
-               return result;
+              return result;
             }
             if (first.admin) {
               result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
                 arr.length - 1 > 1 ? "others" : "other"
               } `;
-               return result;
+              return result;
             }
           }
         } else {
           result = `Liked by ${arr.length} people`;
-           return result;
+          return result;
         }
       }
-
-
     },
     toggle(id) {
       console.log("🚀 ~ file: feeds.vue ~ line 967 ~ toggle ~ id", id);
@@ -1527,7 +1556,16 @@ export default {
 .stat {
   height: 50px;
 }
-
+.smiles {
+  background: rgb(252, 252, 252);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+.feelings {
+  height: 500px;
+  overflow-y: auto;
+}
 .text-post {
   width: 85%;
   margin-left: auto;
