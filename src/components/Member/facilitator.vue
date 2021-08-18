@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-container fluid>
+    <b-container>
       <b-row class="justify-content-sm-start">
         <b-col sm="8">
           <b-row>
@@ -1897,8 +1897,9 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.container-fluid {
-  padding-top: 30px;
+.container {
+  max-width: 1100px;
+  padding-top: 25px;
 }
 .shadow {
   box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;

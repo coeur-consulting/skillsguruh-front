@@ -130,17 +130,14 @@
               ><span class="ev">Video</span>
             </FeedUpload>
           </div>
-          <div
-            @click="$bvModal.show('feelings')"
-            class="d-flex align-items-center"
-          >
+          <Feelings user="member" @handleChange="handleChange">
             <b-img
               :src="require('@/assets/images/feeling.png')"
               width="18px"
               class="mr-1 cursor-pointer"
             ></b-img>
             Feelings
-          </div>
+          </Feelings>
         </div>
         <b-button @click="post" block variant="dark-green">Post</b-button>
       </b-modal>
@@ -436,17 +433,14 @@
                   ></b-img
                   >Video
                 </div>
-                <div
-                  @click="$bvModal.show('feelings')"
-                  class="d-flex align-items-center"
-                >
+                <Feelings user="member" @handleChange="handleChange">
                   <b-img
                     :src="require('@/assets/images/feeling.png')"
                     width="18px"
                     class="mr-1 cursor-pointer"
                   ></b-img>
                   Feelings
-                </div>
+                </Feelings>
               </div>
             </div>
             <div>
@@ -583,17 +577,32 @@
                     </div>
 
                     <div v-if="feed.media || feed.publicId">
-                      <div class="mb-4 position-relative w-100 media">
+                      <div class="mb-4 position-relative w-100 media bg-dark">
+                        <b-icon
+                          v-if="toggleOn == index"
+                          icon="heart-fill"
+                          variant="danger"
+                          class="
+                            heart
+                            animate__animated
+                            animate__fadeIn
+                            animate__fadeOut
+                            animate__slow
+                          "
+                        ></b-icon>
                         <cld-image
                           v-if="
                             feed.publicId &&
                             img_ext.includes(getextension(feed.media))
                           "
                           :publicId="feed.publicId"
+                          @click="toggleLike(feed.id, index)"
                         >
-                          <cld-transformation crop="fill" quality="auto" />
-                          <cld-transformation width="auto" crop="scale" />
-                          <cld-transformation dpr="auto" />
+                          <cld-transformation
+                            aspectRatio="1.0"
+                            height="500"
+                            crop="fill"
+                          />
                         </cld-image>
                         <b-img
                           v-if="
@@ -601,6 +610,8 @@
                             feed.media &&
                             img_ext.includes(getextension(feed.media))
                           "
+                          @click="toggleLike(feed.id, index)"
+                          class="img_feed"
                           :src="feed.media"
                         ></b-img>
 
@@ -681,6 +692,7 @@
                           feed.stars.filter((item) => item.star).length
                         }}</span>
                       </span>
+
                       <span
                         class="mr-3 cursor-pointer"
                         @click="toggleLike(feed.id, index)"
@@ -999,26 +1011,12 @@
         </ShareNetwork>
       </div>
     </b-modal>
-    <b-modal id="feelings" size="" hide-footer>
-      <div>
-        <b-container>
-          <h6>Feelings</h6>
-          <b-row>
-            <b-col cols="6" v-for="(item, id) in feelings.People" :key="id">
-              <div class="smiles rounded-pill py-2 text-center px-2">
-                <span class="pr-4">{{ id }}</span> <span>{{ item }}</span>
-              </div>
-            </b-col>
-          </b-row>
-        </b-container>
-      </div>
-    </b-modal>
   </b-container>
 </template>
 
 <script>
 import EmojiPicker from "@/components/emoji/EmojiPicker";
-import Emojis from "@/components/emoji/emojis.js";
+import Feelings from "@/components/feelings";
 import FeedUpload from "../feedupload";
 import Message from "../messagecomponent";
 import { MultiSelect } from "vue-search-select";
@@ -1027,8 +1025,9 @@ import Suggestions from "@/components/suggestions.vue";
 export default {
   data() {
     return {
+      toggleOn: null,
       link: "",
-      feelings: null,
+
       description: "",
       recentfeeds: [],
       trendingfeeds: [],
@@ -1065,6 +1064,7 @@ export default {
       showFeeds: false,
       page: 1,
       alllikes: null,
+      counter: 0,
     };
   },
   components: {
@@ -1073,12 +1073,13 @@ export default {
     FeedUpload,
     MultiSelect,
     Suggestions,
+    Feelings,
   },
   created() {
     var channel = this.$pusher.subscribe("addfeed");
 
     channel.bind("addfeed", (data) => {
-      this.feeds.unshift(data.message);
+      this.filteredFeeds.unshift(data.message);
     });
     this.options = Interest.map((item) => {
       item.text = item.value;
@@ -1121,7 +1122,6 @@ export default {
     this.getcustomfeeds();
     this.gettrendingfeeds();
     this.getrecentfeeds();
-    this.feelings = Emojis;
   },
   directives: {
     focus: {
@@ -1131,6 +1131,14 @@ export default {
     },
   },
   methods: {
+    handleChange() {},
+    likeimage(index) {
+      this.toggleOn = index;
+
+      setTimeout(() => {
+        this.toggleOn = null;
+      }, 1500);
+    },
     showlikes(likes) {
       this.alllikes = likes;
 
@@ -1487,9 +1495,11 @@ export default {
         )
         .then((res) => {
           if (res.status == 201) {
+            this.likeimage(index);
             this.filteredFeeds[index].likes.push(res.data);
           }
           if (res.status == 200) {
+            this.likeimage(index);
             this.filteredFeeds[index].likes.map((item) => {
               if (item.user_id == this.$store.getters.member.id) {
                 return (item.like = res.data.like);
@@ -1553,19 +1563,13 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.container {
+  max-width: 1000px;
+}
 .stat {
   height: 50px;
 }
-.smiles {
-  background: rgb(252, 252, 252);
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-}
-.feelings {
-  height: 500px;
-  overflow-y: auto;
-}
+
 .text-post {
   width: 85%;
   margin-left: auto;

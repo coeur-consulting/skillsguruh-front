@@ -404,7 +404,8 @@ export default {
 </script>
 <style scoped lang="scss">
 .container {
-  padding-top: 30px;
+  max-width: 1100px;
+  padding-top: 25px;
 }
 .event-container {
   width: 85%;

@@ -21,6 +21,7 @@ import VueWebSpeech from "vue-web-speech";
 import Cloudinary from "cloudinary-vue";
 import VueCompositionAPI from "@vue/composition-api";
 import InfiniteLoading from "vue-infinite-loading";
+import VueStar from "vue-star";
 
 import "vue-toast-notification/dist/theme-sugar.css";
 import "animate.css";
@@ -29,6 +30,7 @@ import "vue-search-select/dist/VueSearchSelect.css";
 import "./assets/scss/style.scss";
 import "./cloudinary.js";
 
+Vue.component("VueStar", VueStar);
 Vue.use(VueCompositionAPI);
 Vue.use(Cloudinary, {
   configuration: {

@@ -1,10 +1,12 @@
 <template>
   <div>
     <div>
-      <b-button size="sm" @click="$bvModal.show('addupload')"
-        >Click to upload</b-button
-      >
-      <div class="" v-if="uploadedFileUrl">
+      <div @click="$bvModal.show('addupload')">
+        <slot>
+          <b-button size="sm">Click to upload</b-button>
+        </slot>
+      </div>
+      <div class="" v-if="this.images.length">
         File Upload Successful
         <small class="text-dark-green truncate text-truncate link_url"
           ><em> {{ uploadedFileUrl }}</em></small
@@ -42,17 +44,18 @@
               </div>
             </div>
             <label class="form-group mb-0" for="logo">
-              <input
+              <b-form-file
+                multiple
+                v-model="files"
                 type="file"
                 class="form-control hidden"
                 id="logo"
                 aria-describedby="helpId"
                 placeholder
-                @change="handleFileChange($event)"
               />
 
               <div class="body p-3" v-show="show == 'computer'">
-                <span v-if="!uploadedFileUrl"
+                <span v-if="!images.length"
                   ><div class="mb-3 text-muted">Drag/Click to upload</div>
                   <b-icon
                     class="mb-2 text-muted"
@@ -67,11 +70,16 @@
                     label="Spinning"
                   ></b-spinner>
                 </div>
-                <b-img
-                  v-if="uploadedFileUrl"
-                  :src="uploadedFileUrl"
-                  blank-color="transparent"
-                ></b-img>
+                <b-row v-if="images.length">
+                  <b-col cols="4" v-for="(item, id) in images" :key="id">
+                    <b-img
+                      v-if="item.url"
+                      :src="item.url"
+                      blank-color="transparent"
+                      fluid-grow
+                    ></b-img>
+                  </b-col>
+                </b-row>
               </div>
               <div class="body p-3" v-show="show == 'url'">
                 <span v-if="!uploadedFileUrl"
@@ -135,6 +143,7 @@
 }
 label {
   height: 85%;
+  overflow-y: auto;
 }
 .body {
   height: 100%;
@@ -205,16 +214,22 @@ export default {
       filetype: "",
       uploadedFile: null,
       uploadedFileUrl: null,
+      files: [],
       cloudinary: {
         uploadPreset: "skillsguruh_preset",
         cloudName: "skillsguruh",
       },
       progress: 0,
       start: false,
+      images: [],
+      imageProgess: [],
     };
   },
 
   computed: {},
+  watch: {
+    files: "handleUpload",
+  },
   methods: {
     getextension(fileName) {
       if (fileName) {
@@ -224,25 +239,52 @@ export default {
         return extension[0].toLowerCase();
       }
     },
-    handleFileChange(event) {
-      this.file = event.target.files[0];
-      if (!this.img_ext.includes(this.getextension(this.file.name))) {
-        this.$toast.error("Unsupported content type !");
-        return;
-      }
 
-      this.filesSelectedLength = event.target.files.length;
-
-      this.loadFile();
-      this.processUpload();
-    },
-    loadFile() {
-      let reader = new FileReader();
-      reader.onload = (event) => {
-        this.uploadedFile = event.target.result;
+    async handleUpload() {
+      this.images = [];
+      var cloudName = this.cloudinary.cloudName;
+      var upload_preset = this.cloudinary.uploadPreset;
+      var url = "https://api.cloudinary.com/v1_1/" + cloudName + "/upload";
+      const config = {
+        onUploadProgress: (e) => {
+          if (e.lengthComputable) {
+            this.progress = Math.round((e.loaded / e.total) * 100) + "%";
+            this.start = true;
+          }
+        },
       };
-      reader.readAsDataURL(this.file);
+
+      await this.files.forEach((file, item) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("resource_type", "auto");
+        formData.append("upload_preset", upload_preset);
+
+        this.$http
+          .post(url, formData, config)
+          .then((res) => {
+            var obj = {};
+            obj.publiId = res.data.public_id;
+            obj.url = res.data.secure_url;
+            obj.file_name = res.data.original_filename;
+            this.images.push(obj);
+            this.start = false;
+            if (item == this.files.length - 1) {
+              this.sendImages();
+            }
+          })
+          .catch((err) => {
+            this.$toast.error(err);
+            this.images = [];
+            this.start = false;
+          });
+      });
     },
+    sendImages() {
+      this.$emit("getUpload", this.images);
+      console.log("count");
+    },
+
     processUpload() {
       let that = this;
       this.start = true;

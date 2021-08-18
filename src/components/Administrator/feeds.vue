@@ -424,7 +424,7 @@
                   </div>
 
                   <div v-if="feed.media || feed.publicId">
-                    <div class="mb-4 position-relative w-100 media">
+                    <div class="mb-4 position-relative w-100 media bg-dark">
                       <cld-image
                         v-if="
                           feed.publicId &&
@@ -432,9 +432,11 @@
                         "
                         :publicId="feed.publicId"
                       >
-                        <cld-transformation crop="fill" quality="auto" />
-                        <cld-transformation width="auto" crop="scale" />
-                        <cld-transformation dpr="auto" />
+                        <cld-transformation
+                          aspectRatio="1.0"
+                          height="500"
+                          crop="fill"
+                        />
                       </cld-image>
                       <b-img
                         v-if="
@@ -442,6 +444,7 @@
                           feed.media &&
                           img_ext.includes(getextension(feed.media))
                         "
+                        class="img_feed"
                         :src="feed.media"
                       ></b-img>
 
@@ -1411,6 +1414,10 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.container {
+  max-width: 1100px;
+  padding-top: 25px;
+}
 .stat {
   height: 50px;
 }

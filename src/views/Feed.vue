@@ -428,17 +428,32 @@
                     </div>
 
                     <div v-if="feed.media || feed.publicId">
-                      <div class="mb-4 position-relative w-100 media">
+                      <div class="mb-4 position-relative w-100 media bg-dark">
+                        <b-icon
+                          v-if="toggleOn == index"
+                          icon="heart-fill"
+                          variant="danger"
+                          class="
+                            heart
+                            animate__animated
+                            animate__fadeIn
+                            animate__fadeOut
+                            animate__slow
+                          "
+                        ></b-icon>
                         <cld-image
                           v-if="
                             feed.publicId &&
                             img_ext.includes(getextension(feed.media))
                           "
                           :publicId="feed.publicId"
+                          @click="toggleLike(feed.id, index)"
                         >
-                          <cld-transformation crop="fill" quality="auto" />
-                          <cld-transformation width="auto" crop="scale" />
-                          <cld-transformation dpr="auto" />
+                          <cld-transformation
+                            aspectRatio="1.0"
+                            height="500"
+                            crop="fill"
+                          />
                         </cld-image>
                         <b-img
                           v-if="
@@ -446,6 +461,8 @@
                             feed.media &&
                             img_ext.includes(getextension(feed.media))
                           "
+                          @click="toggleLike(feed.id, index)"
+                          class="img_feed"
                           :src="feed.media"
                         ></b-img>
 
@@ -1021,6 +1038,7 @@ export default {
       showFeeds: false,
       page: 1,
       alllikes: null,
+      toggleOn: null,
     };
   },
   components: {
@@ -1077,6 +1095,13 @@ export default {
     });
   },
   methods: {
+    likeimage(index) {
+      this.toggleOn = index;
+
+      setTimeout(() => {
+        this.toggleOn = null;
+      }, 1500);
+    },
     showlikes(likes) {
       this.alllikes = likes;
 
@@ -1380,9 +1405,11 @@ export default {
         )
         .then((res) => {
           if (res.status == 201) {
+            this.likeimage(index);
             this.feeds[index].likes.push(res.data);
           }
           if (res.status == 200) {
+            this.likeimage(index);
             this.filteredFeeds[index].likes.map((item) => {
               if (this.$store.getters.facilitator.access_token) {
                 if (item.facilitator_id == this.$store.getters.facilitator.id) {
@@ -1444,6 +1471,9 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.container {
+  max-width: 960px;
+}
 ::placeholder {
   text-align: left;
 }

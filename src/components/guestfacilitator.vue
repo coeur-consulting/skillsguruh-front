@@ -1,6 +1,6 @@
 <template>
   <div class="bg-light">
-    <b-container fluid class="pt-0 pt-sm-5">
+    <b-container class="pt-0 pt-sm-5">
       <b-row class="p-1 justify-content-between d-none d-sm-flex">
         <b-col cols="2">
           <span @click="$router.go(-1)" class="cursor-pointer back fs13">
@@ -12,7 +12,7 @@
         </b-col>
       </b-row>
       <b-row class="justify-content-center">
-        <b-col sm="7">
+        <b-col sm="9">
           <b-row>
             <b-col cols="12" class="mb-0 rounded pt-sm-2 px-1 px-sm-4 pb-2">
               <b-card no-body class="border-0" style="">
@@ -303,33 +303,60 @@
                             ></span
                           >
                         </div>
-                        <div>
-                          <div class="mb-4 position-relative">
+                        <div v-if="feed.media || feed.publicId">
+                          <div
+                            class="mb-4 position-relative w-100 media bg-dark"
+                          >
+                            <cld-image
+                              v-if="
+                                feed.publicId &&
+                                img_ext.includes(getextension(feed.media))
+                              "
+                              :publicId="feed.publicId"
+                            >
+                              <cld-transformation
+                                aspectRatio="1.0"
+                                height="500"
+                                crop="fill"
+                              />
+                            </cld-image>
                             <b-img
                               v-if="
+                                !feed.publicId &&
                                 feed.media &&
                                 img_ext.includes(getextension(feed.media))
                               "
                               class="img_feed"
                               :src="feed.media"
                             ></b-img>
-                            <video
+
+                            <cld-video
                               controls
+                              v-if="
+                                feed.publicId &&
+                                vid_ext.includes(getextension(feed.media))
+                              "
+                              :publicId="feed.publicId"
+                            >
+                              <cld-transformation crop="fill" height="500" />
+                            </cld-video>
+
+                            <audio
                               width="100%"
-                              height="500"
+                              controls
                               v-if="
                                 feed.media &&
-                                vid_ext.includes(getextension(feed.media))
+                                aud_ext.includes(getextension(feed.media))
                               "
                               :src="feed.media"
                               class="fluid-grow"
-                            ></video>
+                            ></audio>
                             <div
                               v-if="
                                 feed.media &&
                                 doc_ext.includes(getextension(feed.media))
                               "
-                              class="text-center p-3 bg-skills-grey"
+                              class="text-center p-3 p-sm-4 bg-skills-grey"
                             >
                               <b-icon icon="image" font-scale="3rem"></b-icon>
                             </div>
@@ -1906,6 +1933,9 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.container {
+  max-width: 960px;
+}
 .shadow {
   box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;

@@ -53,8 +53,7 @@
                   {{ item.username }}
                 </div>
                 <div class="text-muted fs13 text-capitalize f_detail">
-                  <span> {{ item.age ? item.age + " years" : "N/a" }}</span>
-                  <span v-if="item.gender"
+                  <span v-if="item.gender" class="f_detail"
                     >, {{ item.gender ? item.gender : "N/a" }}</span
                   >
                 </div>

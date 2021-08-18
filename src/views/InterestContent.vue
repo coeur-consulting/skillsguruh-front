@@ -137,20 +137,7 @@
                               <div
                                 class="f_name text-truncate text-truncate--1"
                               >
-                                {{ item.name }}
-                              </div>
-                              <div
-                                class="text-muted fs13 text-capitalize f_detail"
-                              >
-                                <span>
-                                  {{
-                                    item.age ? item.age + " years" : "N/a"
-                                  }}</span
-                                >
-                                <span v-if="item.gender"
-                                  >,
-                                  {{ item.gender ? item.gender : "N/a" }}</span
-                                >
+                                {{ item.username }}
                               </div>
 
                               <div
@@ -193,20 +180,7 @@
                               <div
                                 class="f_name text-truncate text-truncate--1"
                               >
-                                {{ item.name }}
-                              </div>
-                              <div
-                                class="text-muted fs13 text-capitalize f_detail"
-                              >
-                                <span>
-                                  {{
-                                    item.age ? item.age + " years" : "N/a"
-                                  }}</span
-                                >
-                                <span v-if="item.gender"
-                                  >,
-                                  {{ item.gender ? item.gender : "N/a" }}</span
-                                >
+                                {{ item.username }}
                               </div>
 
                               <div
@@ -346,24 +320,17 @@
                                 </div>
                               </div>
                             </div>
-                            <div
-                              class="
-                                interactions
-                                text-left
-                                px-3
-                                py-3
-                                border-bottom
-                                fs13
-                              "
-                            >
-                              <span class="mr-3 cursor-pointer">
+                            <div class="interactions text-left px-3 py-2">
+                              <span
+                                class="mr-3 cursor-pointer"
+                                @click="toggleStar(feed.id, index)"
+                              >
                                 <b-icon
                                   :icon="
                                     feed.stars.find(
                                       (item) =>
                                         item.star &&
-                                        item.facilitator_id ==
-                                          $store.getters.facilitator.id
+                                        item.user_id == $store.getters.member.id
                                     )
                                       ? 'star-fill'
                                       : 'star'
@@ -373,16 +340,17 @@
                                 <span>{{
                                   feed.stars.filter((item) => item.star).length
                                 }}</span>
-                                stars</span
-                              >
-                              <span class="mr-3 cursor-pointer"
+                              </span>
+
+                              <span
+                                class="mr-3 cursor-pointer"
+                                @click="toggleLike(feed.id, index)"
                                 ><b-icon
                                   :icon="
                                     feed.likes.find(
                                       (item) =>
                                         item.like &&
-                                        item.facilitator_id ==
-                                          $store.getters.facilitator.id
+                                        item.user_id == $store.getters.member.id
                                     )
                                       ? 'heart-fill'
                                       : 'heart'
@@ -392,8 +360,7 @@
                                 <span>{{
                                   feed.likes.filter((item) => item.like).length
                                 }}</span>
-                                likes</span
-                              >
+                              </span>
                               <span class="mr-3">
                                 <b-icon icon="chat-fill" class="mr-1"></b-icon>
                                 <span
@@ -411,6 +378,12 @@
                                 ></b-icon>
                               </span>
                             </div>
+                            <div
+                              class="liked_by px-3 border-bottom"
+                              @click="showlikes(feed)"
+                              v-html="getlikes(feed.likes)"
+                            ></div>
+
                             <div
                               class="comments px-3 pt-2 border-bottom text-left"
                               v-if="feed.comments.length"
@@ -447,7 +420,9 @@
                                     >
                                       {{ item.facilitator.username }}</span
                                     >
-                                    <span>{{ item.comment }}</span>
+                                    <span class="comment_text">{{
+                                      item.comment
+                                    }}</span>
                                   </div>
                                   <div>
                                     <span class="fs11">{{
@@ -517,16 +492,6 @@
                                 class="fs12"
                                 @click="$router.push(`/feed/view/${feed.id}`)"
                                 >View post</b-dropdown-item
-                              >
-
-                              <b-dropdown-item
-                                class="fs12"
-                                @click="drop(feed.id, index)"
-                                v-if="
-                                  feed.user &&
-                                  feed.user.id == $store.getters.member.id
-                                "
-                                >Delete</b-dropdown-item
                               >
                             </b-dropdown>
                             <div class="side_dis">
@@ -662,173 +627,164 @@
                   </div>
 
                   <div v-if="active == 3" class="pt-0 px-0">
-                    <div>
-                      <div v-if="courses.length">
-                        <b-container fluid class="main-course">
-                          <b-row>
-                            <b-col
-                              cols="6"
-                              :sm="sideOpen ? 4 : 3"
-                              class="mb-3 side_box p-0-rem px-sm-3"
-                              v-for="(item, index) in filteredCourse"
-                              :key="index"
-                            >
+                    <div v-if="showCourse">
+                      <b-container fluid class="main-course">
+                        <b-row>
+                          <b-col
+                            cols="6"
+                            sm="4 "
+                            class="mb-3 side_box"
+                            v-for="(item, index) in filteredCourse"
+                            :key="index"
+                          >
+                            <div class="course border cursor-pointer shadow-sm">
                               <div
-                                class="course border cursor-pointer shadow-sm"
-                                @click="showcourse(item)"
-                              >
-                                <div
-                                  class="course_img"
-                                  :style="{
-                                    backgroundImage: `url(${
-                                      item.cover
-                                        ? item.cover
-                                        : require('@/assets/images/default.png')
-                                    })`,
-                                  }"
-                                ></div>
-                                <div class="course_text">
-                                  <div class="d-flex justify-content-between">
-                                    <span
-                                      class="
-                                        px-2
-                                        py-1
-                                        rounded-pill
-                                        text-white
-                                        fs11
-                                        course_badge
-                                      "
-                                      :style="{
-                                        backgroundColor: JSON.parse(
-                                          item.courseoutline.knowledge_areas
-                                        ).color,
-                                      }"
-                                    >
-                                      <b-icon
-                                        class="mr-2"
-                                        :icon="
-                                          JSON.parse(
-                                            item.courseoutline.knowledge_areas
-                                          ).icon
-                                        "
-                                      ></b-icon>
-                                      <span>{{
+                                class="course_img"
+                                :style="{
+                                  backgroundImage: `url(${
+                                    item.cover
+                                      ? item.cover
+                                      : require('@/assets/images/default.png')
+                                  })`,
+                                }"
+                              ></div>
+                              <div class="course_text">
+                                <div class="d-flex justify-content-between">
+                                  <span
+                                    class="
+                                      px-2
+                                      py-1
+                                      rounded-pill
+                                      text-white
+                                      fs11
+                                      course_badge
+                                    "
+                                    :style="{
+                                      backgroundColor: JSON.parse(
+                                        item.courseoutline.knowledge_areas
+                                      ).color,
+                                    }"
+                                  >
+                                    <b-icon
+                                      class="mr-2"
+                                      :icon="
                                         JSON.parse(
                                           item.courseoutline.knowledge_areas
-                                        ).value
-                                      }}</span></span
-                                    >
-                                    <span class="text-capitalize fs11">{{
-                                      item.type
-                                    }}</span>
-                                  </div>
-                                  <div class="pt-3 pb-1 text-left">
-                                    <h6
-                                      class="
-                                        text-capitalize
-                                        overview-title
-                                        text-truncate text-truncate--2
-                                        mb-0
+                                        ).icon
                                       "
-                                    >
-                                      {{ item.title }}
-                                    </h6>
-                                    <div
-                                      class="
-                                        fs13
-                                        text-truncate text-truncate--2
-                                        course_desc
-                                      "
-                                    >
-                                      {{ item.description }}
-                                    </div>
-                                  </div>
-                                  <div class="info fs11">
-                                    <div class="d-flex">
-                                      <div class="mr-2">
-                                        <b-icon
-                                          icon="people"
-                                          class="mr-1"
-                                        ></b-icon>
-                                        <span
-                                          >{{
-                                            item.enroll ? item.enroll.count : 0
-                                          }}+</span
-                                        >
-                                      </div>
-                                      <div class="mr-3">
-                                        <b-icon
-                                          icon="eye"
-                                          class="mr-1"
-                                        ></b-icon>
-                                        <span
-                                          >{{
-                                            item.viewcount
-                                              ? item.viewcount.count
-                                              : 0
-                                          }}
-                                          +</span
-                                        >
-                                      </div>
-                                      <div>
-                                        <b-icon
-                                          icon="star-fill"
-                                          style="color: gold"
-                                          class="mr-1"
-                                        ></b-icon>
-                                        <span
-                                          >{{ item.review.length }}
-                                          <span class="d-none d-sm-inline"
-                                            >reviews</span
-                                          ></span
-                                        >
-                                      </div>
-                                    </div>
-
-                                    <b-avatar
-                                      size="sm"
-                                      class="course_avatar"
-                                      variant="light"
-                                      :src="item.cover"
-                                    >
-                                    </b-avatar>
+                                    ></b-icon>
+                                    <span>{{
+                                      JSON.parse(
+                                        item.courseoutline.knowledge_areas
+                                      ).value
+                                    }}</span></span
+                                  >
+                                  <span class="text-capitalize fs11">{{
+                                    item.type
+                                  }}</span>
+                                </div>
+                                <div class="pt-3 pb-1 text-left">
+                                  <h6
+                                    class="
+                                      text-capitalize
+                                      overview-title
+                                      text-truncate text-truncate--2
+                                      mb-0
+                                    "
+                                  >
+                                    {{ item.title }}
+                                  </h6>
+                                  <div
+                                    class="
+                                      fs13
+                                      text-truncate text-truncate--2
+                                      course_desc
+                                    "
+                                  >
+                                    {{ item.description }}
                                   </div>
                                 </div>
+                                <div class="info fs11">
+                                  <div class="d-flex">
+                                    <div class="mr-2">
+                                      <b-icon
+                                        icon="people"
+                                        class="mr-1"
+                                      ></b-icon>
+                                      <span
+                                        >{{
+                                          item.enroll ? item.enroll.count : 0
+                                        }}+</span
+                                      >
+                                    </div>
+                                    <div class="mr-3">
+                                      <b-icon icon="eye" class="mr-1"></b-icon>
+                                      <span
+                                        >{{
+                                          item.viewcount
+                                            ? item.viewcount.count
+                                            : 0
+                                        }}
+                                        +</span
+                                      >
+                                    </div>
+                                    <div>
+                                      <b-icon
+                                        icon="star-fill"
+                                        style="color: gold"
+                                        class="mr-1"
+                                      ></b-icon>
+                                      <span
+                                        >{{ item.review.length }}
+                                        <span class="d-none d-sm-inline"
+                                          >reviews</span
+                                        ></span
+                                      >
+                                    </div>
+                                  </div>
+
+                                  <b-avatar
+                                    size="sm"
+                                    class="course_avatar"
+                                    variant="light"
+                                    :src="item.cover"
+                                  >
+                                  </b-avatar>
+                                </div>
                               </div>
-                            </b-col>
-                          </b-row>
-                          <div
-                            class="p-3 d-flex justify-content-between"
-                            v-if="rows > 10"
-                          >
-                            <div class="fs12 text-muted">
-                              Showing
-                              {{ perPage * currentPage - perPage + 1 }}-{{
-                                perPage * currentPage
-                              }}
-                              of {{ courses.length }} items
                             </div>
-                            <b-pagination
-                              pills
-                              size="sm"
-                              variant="dark-green"
-                              align="right"
-                              v-model="currentPage"
-                              :total-rows="rows"
-                              :per-page="perPage"
-                            ></b-pagination>
+                          </b-col>
+                        </b-row>
+                        <div
+                          class="p-3 d-flex justify-content-between"
+                          v-if="rows > 10"
+                        >
+                          <div class="fs12 text-muted">
+                            Showing {{ perPage * currentPage - perPage + 1 }}-{{
+                              perPage * currentPage
+                            }}
+                            of {{ courses.length }} items
                           </div>
-                        </b-container>
-                      </div>
-                      <div v-else class="text-center admin_tab p-3 p-sm-5">
-                        <div>
-                          <b-img
-                            :src="require('@/assets/images/creator.svg')"
-                          ></b-img>
-                          <h6 class="text-muted my-3 fs14">
-                            No course available
-                          </h6>
+                          <b-pagination
+                            pills
+                            size="sm"
+                            variant="dark-green"
+                            align="right"
+                            v-model="currentPage"
+                            :total-rows="rows"
+                            :per-page="perPage"
+                          ></b-pagination>
                         </div>
+                      </b-container>
+                    </div>
+                    <div v-else class="text-center admin_tab p-3 p-sm-5">
+                      <div>
+                        <b-img
+                          :src="require('@/assets/images/creator.svg')"
+                        ></b-img>
+                        <h6 class="text-muted my-3 fs14">
+                          No course available
+                        </h6>
                       </div>
                     </div>
                   </div>
@@ -1479,6 +1435,258 @@
         </ShareNetwork>
       </div>
     </b-modal>
+    <b-modal
+      no-close-on-backdrop
+      id="allcomments"
+      hide-footer
+      centered
+      title="Comments"
+      size="md"
+    >
+      <div class="comments" v-if="allcomments">
+        <div class="mb-3">
+          <div class="d-flex mb-3 pt-3">
+            <div class="d-flex flex-1 text-left">
+              <div class="mr-2 mb-1" v-if="allcomments.admin">
+                <b-avatar
+                  class="mr-2"
+                  size="1.8rem"
+                  :src="allcomments.admin.profile"
+                ></b-avatar>
+              </div>
+              <div class="mr-2 mb-1" v-if="allcomments.user">
+                <b-avatar
+                  class="mr-2"
+                  size="1.8rem"
+                  :src="allcomments.user.profile"
+                ></b-avatar>
+              </div>
+              <div
+                class="comment_name mr-2 mb-1"
+                v-if="allcomments.facilitator"
+              >
+                <b-avatar
+                  class="mr-2"
+                  size="1.8rem"
+                  :src="allcomments.facilitator.profile"
+                ></b-avatar>
+              </div>
+              <div class="profile">
+                <div class="name" v-if="allcomments.admin">
+                  {{ allcomments.admin.name }}
+                </div>
+                <div class="name" v-if="allcomments.user">
+                  {{ allcomments.user.username }}
+                </div>
+                <div class="name" v-if="allcomments.facilitator">
+                  {{ allcomments.facilitator.username }}
+                </div>
+
+                <div class="date fs11">
+                  {{ allcomments.created_at | moment("ll") }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-left feed_text px-3 pb-3">
+            <span>{{ allcomments.message }}</span>
+          </div>
+        </div>
+        <div class="comments">
+          <div
+            class="comment d-flex text-left mb-2"
+            v-for="(item, index) in allcomments.comments"
+            :key="index"
+          >
+            <div class="flex-1">
+              <div class="flex-1 pr-2">
+                <div class="d-flex mb-1" v-if="item.admin">
+                  <div class="d-flex flex-1">
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.admin.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.admin.name }}
+                      </div>
+                      <div class="comment_text">{{ item.comment }}</div>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="comment_mins pl-2">{{
+                      $moment(item.created_at).fromNow()
+                    }}</span>
+                  </div>
+                </div>
+                <div class="d-flex mb-1" v-if="item.user">
+                  <div class="d-flex flex-1">
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.user.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.user.username }}
+                      </div>
+                      <div class="comment_text">{{ item.comment }}</div>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="comment_mins pl-2">{{
+                      $moment(item.created_at).fromNow()
+                    }}</span>
+                  </div>
+                </div>
+                <div class="d-flex mb-1" v-if="item.facilitator">
+                  <div class="d-flex flex-1">
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.facilitator.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.facilitator.username }}
+                      </div>
+                      <div class="comment_text">{{ item.comment }}</div>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="comment_mins pl-2">{{
+                      $moment(item.created_at).fromNow()
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+    </b-modal>
+
+    <b-modal
+      no-close-on-backdrop
+      id="alllikes"
+      hide-footer
+      centered
+      title="Likes"
+      size="sm"
+    >
+      <div class="comments" v-if="alllikes">
+        <div class="mb-3">
+          <div class="d-flex mb-3 pt-3">
+            <div class="d-flex flex-1 text-left">
+              <div class="mr-2 mb-1" v-if="alllikes.admin">
+                <b-avatar
+                  class="mr-2"
+                  size="1.8rem"
+                  :src="alllikes.admin.profile"
+                ></b-avatar>
+              </div>
+              <div class="mr-2 mb-1" v-if="alllikes.user">
+                <b-avatar
+                  class="mr-2"
+                  size="1.8rem"
+                  :src="alllikes.user.profile"
+                ></b-avatar>
+              </div>
+              <div class="comment_name mr-2 mb-1" v-if="alllikes.facilitator">
+                <b-avatar
+                  class="mr-2"
+                  size="1.8rem"
+                  :src="alllikes.facilitator.profile"
+                ></b-avatar>
+              </div>
+              <div class="profile">
+                <div class="name" v-if="alllikes.admin">
+                  {{ alllikes.admin.name }}
+                </div>
+                <div class="name" v-if="alllikes.user">
+                  {{ alllikes.user.username }}
+                </div>
+                <div class="name" v-if="alllikes.facilitator">
+                  {{ alllikes.facilitator.username }}
+                </div>
+
+                <div class="date fs11">
+                  {{ alllikes.created_at | moment("ll") }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-left feed_text pb-3">
+            <span>{{ alllikes.message }}</span>
+          </div>
+        </div>
+        <div class="comments">
+          <h6>Liked by</h6>
+          <div
+            class="comment d-flex text-left mb-2"
+            v-for="(item, index) in alllikes.likes.filter((val) => val.like)"
+            :key="index"
+          >
+            <div class="flex-1">
+              <div class="flex-1 pr-2">
+                <div class="d-flex mb-1" v-if="item.admin">
+                  <div class="d-flex flex-1">
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.admin.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.admin.name }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex mb-1" v-if="item.user">
+                  <div
+                    class="d-flex flex-1"
+                    @click="$router.push(`/member/profile/u/${item.user.id}`)"
+                  >
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.user.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.user.username }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex mb-1" v-if="item.facilitator">
+                  <div
+                    class="d-flex flex-1"
+                    @click="
+                      $router.push(`/member/profile/f/${item.facilitator.id}`)
+                    "
+                  >
+                    <b-avatar
+                      class="mr-2"
+                      size="sm"
+                      :src="item.facilitator.profile"
+                    ></b-avatar>
+                    <div>
+                      <div class="comment_name">
+                        {{ item.facilitator.username }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
 <script>
@@ -1489,6 +1697,7 @@ export default {
     return {
       id: this.$route.params.id,
       toggleNav: false,
+      description: "",
       subId: null,
       detail: [],
       active: 4,
@@ -1539,6 +1748,9 @@ export default {
       recent: false,
       trending: false,
       sending: false,
+      feed: null,
+      alllikes: null,
+      allcomments: null,
     };
   },
   created() {
@@ -1623,6 +1835,11 @@ export default {
   },
 
   methods: {
+    showlikes(likes) {
+      this.alllikes = likes;
+
+      this.$bvModal.show("alllikes");
+    },
     sharenow(feed) {
       this.description = feed.message;
       this.link = `https://nzukoor.com/explore/feed/view/${feed.id}?utf_medium=share`;
@@ -1692,6 +1909,133 @@ export default {
     showcomments(feed) {
       this.allcomments = feed;
       this.$bvModal.show("allcomments");
+    },
+    getlikes(item) {
+      var arr = item.filter((val) => val.like);
+      var first = {};
+      var check = null;
+      first = arr.slice().shift();
+      var result = "";
+      if (arr.length == 1) {
+        if (first.user) {
+          result = `<span>Liked by ${
+            this.useraccess == "member" &&
+            this.$store.getters.member.id == first.user.id
+              ? "you"
+              : first.user.username
+          } </span>`;
+          return result;
+        }
+        if (first.facilitator) {
+          result = `<span>Liked by ${
+            this.useraccess == "facilitator" &&
+            this.$store.getters.facilitator.id == first.facilitator.id
+              ? "you"
+              : first.facilitator.username
+          } </span>`;
+          return result;
+        }
+        if (first.admin) {
+          result = `<span>Liked by ${
+            this.useraccess == "admin" &&
+            this.$store.getters.admin.id == first.admin.id
+              ? "you"
+              : first.admin.name
+          } </span>`;
+          return result;
+        }
+      }
+      if (arr.length > 1) {
+        if (this.$store.getters.member.access_token) {
+          check = arr.some(
+            (val) => val.user_id && val.user.id == this.$store.getters.member.id
+          );
+          if (check) {
+            result = `Liked by you and ${arr.length - 1} others`;
+            return result;
+          } else {
+            if (first.user) {
+              result = `Liked by  ${first.user.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              return result;
+            }
+            if (first.facilitator) {
+              result = `Liked by  ${first.facilitator.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              return result;
+            }
+            if (first.admin) {
+              result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
+              return result;
+            }
+          }
+        }
+        if (this.$store.getters.facilitator.access_token) {
+          check = arr.some(
+            (val) =>
+              val.facilitator_id &&
+              val.facilitator.id == this.$store.getters.facilitator.id
+          );
+          if (check) {
+            result = `Liked by you and ${arr.length - 1} others`;
+            return result;
+          } else {
+            if (first.user) {
+              result = `Liked by  ${first.user.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              return result;
+            }
+            if (first.facilitator) {
+              result = `Liked by  ${first.facilitator.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              return result;
+            }
+            if (first.admin) {
+              result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
+              return result;
+            }
+          }
+        }
+        if (this.$store.getters.admin.access_token) {
+          check = arr.some(
+            (val) => val.admin && val.admin.id == this.$store.getters.admin.id
+          );
+          if (check) {
+            result = `Liked by you and ${arr.length - 1} others`;
+            return result;
+          } else {
+            if (first.user) {
+              result = `Liked by  ${first.user.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              return result;
+            }
+            if (first.facilitator) {
+              result = `Liked by  ${first.facilitator.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              return result;
+            }
+            if (first.admin) {
+              result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
+              return result;
+            }
+          }
+        } else {
+          result = `Liked by ${arr.length} people`;
+          return result;
+        }
+      }
     },
     getextension(fileName) {
       if (fileName) {
@@ -1872,7 +2216,7 @@ ul {
 }
 ul li {
   padding: 5px 10px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   cursor: pointer;
 }
 .activesub,

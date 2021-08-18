@@ -358,7 +358,7 @@
           </div>
 
           <b-row>
-            <b-col sm="8" class="mb-4 mb-sm-0">
+            <b-col sm="7" class="mb-4 mb-sm-0">
               <div v-if="showFeeds">
                 <div v-if="filteredFeeds.length">
                   <div
@@ -467,23 +467,33 @@
                       </b-dropdown>
                     </div>
 
-                    <div v-if="feed.media || feed.publicId" class="d-none">
-                      <div class="mb-4 position-relative w-100 media">
+                    <div v-if="feed.media || feed.publicId">
+                      <div class="mb-4 position-relative w-100 media bg-dark">
+                        <b-icon
+                          v-if="toggleOn == index"
+                          icon="heart-fill"
+                          variant="danger"
+                          class="
+                            heart
+                            animate__animated
+                            animate__fadeIn
+                            animate__fadeOut
+                            animate__slow
+                          "
+                        ></b-icon>
                         <cld-image
                           v-if="
                             feed.publicId &&
                             img_ext.includes(getextension(feed.media))
                           "
                           :publicId="feed.publicId"
+                          @click="toggleLike(feed.id, index)"
                         >
-                          <cld-transformation crop="fill" quality="auto" />
                           <cld-transformation
-                            width="auto"
+                            aspectRatio="1.0"
                             height="500"
-                            aspect_ratio="16:9"
                             crop="fill"
                           />
-                          <cld-transformation dpr="auto" />
                         </cld-image>
                         <b-img
                           v-if="
@@ -491,6 +501,8 @@
                             feed.media &&
                             img_ext.includes(getextension(feed.media))
                           "
+                          @click="toggleLike(feed.id, index)"
+                          class="img_feed"
                           :src="feed.media"
                         ></b-img>
 
@@ -1177,10 +1189,10 @@
                   {{ alllikes.admin.name }}
                 </div>
                 <div class="name" v-if="alllikes.user">
-                  {{ alllikes.user.name }}
+                  {{ alllikes.user.username }}
                 </div>
                 <div class="name" v-if="alllikes.facilitator">
-                  {{ alllikes.facilitator.name }}
+                  {{ alllikes.facilitator.username }}
                 </div>
 
                 <!-- <div class="date fs11">
@@ -1299,10 +1311,10 @@
                   {{ allcomments.admin.name }}
                 </div>
                 <div class="name" v-if="allcomments.user">
-                  {{ allcomments.user.name }}
+                  {{ allcomments.user.username }}
                 </div>
                 <div class="name" v-if="allcomments.facilitator">
-                  {{ allcomments.facilitator.name }}
+                  {{ allcomments.facilitator.username }}
                 </div>
 
                 <!-- <div class="date fs11">
@@ -1503,6 +1515,7 @@ export default {
       feeds: [],
       auth: false,
       alllikes: null,
+      toggleOn: null,
     };
   },
   directives: {
@@ -1585,6 +1598,13 @@ export default {
     },
   },
   methods: {
+    likeimage(index) {
+      this.toggleOn = index;
+
+      setTimeout(() => {
+        this.toggleOn = null;
+      }, 1500);
+    },
     showlikes(likes) {
       this.alllikes = likes;
 
@@ -1602,7 +1622,7 @@ export default {
             this.useraccess == "member" &&
             this.$store.getters.member.id == first.user.id
               ? "you"
-              : first.user.name
+              : first.user.username
           } </span>`;
           return result;
         }
@@ -1611,7 +1631,7 @@ export default {
             this.useraccess == "facilitator" &&
             this.$store.getters.facilitator.id == first.facilitator.id
               ? "you"
-              : first.facilitator.name
+              : first.facilitator.username
           } </span>`;
           return result;
         }
@@ -1635,13 +1655,13 @@ export default {
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
-                arr.length - 1 > 1 ? "others" : "other"
-              } `;
+              result = `Liked by  ${first.user.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.name} and  ${
+              result = `Liked by  ${first.facilitator.username} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
@@ -1665,13 +1685,13 @@ export default {
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
-                arr.length - 1 > 1 ? "others" : "other"
-              } `;
+              result = `Liked by  ${first.user.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.name} and  ${
+              result = `Liked by  ${first.facilitator.username} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
@@ -1693,13 +1713,13 @@ export default {
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
-                arr.length - 1 > 1 ? "others" : "other"
-              } `;
+              result = `Liked by  ${first.user.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.name} and  ${
+              result = `Liked by  ${first.facilitator.username} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
@@ -1891,9 +1911,11 @@ export default {
         )
         .then((res) => {
           if (res.status == 201) {
+            this.likeimage(index);
             this.filteredFeeds[index].likes.push(res.data);
           }
           if (res.status == 200) {
+            this.likeimage(index);
             this.filteredFeeds[index].likes.map((item) => {
               if (this.$store.getters.facilitator.access_token) {
                 if (item.facilitator_id == this.$store.getters.facilitator.id) {
