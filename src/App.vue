@@ -34,16 +34,14 @@
           rounded-pill
         "
       >
-        <b-icon
-          icon="bell-fill"
-          class="mr-1"
-          font-scale="1.4"
-          variant="white"
-        ></b-icon>
+        <b-icon icon="bell-fill" font-scale="1.4" variant="white"></b-icon>
 
-        <b-badge variant="secondary" v-if="unreadnotifications.length">{{
-          unreadnotifications.length
-        }}</b-badge>
+        <b-badge
+          variant="secondary"
+          class="ml-1"
+          v-if="unreadnotifications.length"
+          >{{ unreadnotifications.length }}</b-badge
+        >
       </div>
       <b-popover
         id="notification1"
