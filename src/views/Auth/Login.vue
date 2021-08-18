@@ -23,7 +23,7 @@
           sm="6"
           class="
             main
-            p-3 p-sm-5
+            p-3 p-sm-4
             d-flex
             justify-content-center
             align-items-center
