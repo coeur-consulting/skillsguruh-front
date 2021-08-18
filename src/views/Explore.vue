@@ -467,7 +467,7 @@
                       </b-dropdown>
                     </div>
 
-                    <div v-if="feed.media || feed.publicId">
+                    <!-- <div v-if="feed.media || feed.publicId">
                       <div class="mb-4 position-relative w-100 media bg-dark">
                         <b-icon
                           v-if="toggleOn == index"
@@ -537,7 +537,7 @@
                           <b-icon icon="image" font-scale="3rem"></b-icon>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                     <div class="text-left feed_text px-3">
                       <div class="mb-1" v-html="feed.message"></div>
 
@@ -1131,8 +1131,7 @@
               <div>
                 <b-img :src="require('@/assets/images/creator.svg')"></b-img>
                 <h6 class="text-muted my-3 fs14">
-                  It appears you have no event,
-                  <br class="d-none d-sm-block" />
+                  It appears there are no events available
                 </h6>
               </div>
             </div>

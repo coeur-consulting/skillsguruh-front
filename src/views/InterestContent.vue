@@ -122,7 +122,14 @@
                             @click="$router.push(`/profile/f/${item.id}`)"
                           >
                             <div
-                              class="facilitator shadow-sm position-relative"
+                              class="
+                                facilitator
+                                shadow-sm
+                                position-relative
+                                rounded
+                                overflow-hidden
+                                bg-white
+                              "
                             >
                               <b-img
                                 class="rounded-sm mb-4"
@@ -135,19 +142,36 @@
                                 style="object-fit: cover"
                               ></b-img>
                               <div
-                                class="f_name text-truncate text-truncate--1"
+                                class="
+                                  f_name
+                                  text-truncate text-truncate--1
+                                  px-3
+                                  mb-1
+                                "
                               >
                                 {{ item.username }}
                               </div>
 
                               <div
-                                class="text-muted fs13 text-capitalize f_detail"
+                                class="
+                                  text-muted
+                                  fs13
+                                  text-capitalize
+                                  f_detail
+                                  px-3
+                                "
                               >
                                 {{ item.state ? item.state : "Lagos" }},
                                 {{ item.country ? item.country : "NG" }}
                               </div>
                               <div
-                                class="text-muted fs12 text-capitalize f_detail"
+                                class="
+                                  text-muted
+                                  fs12
+                                  text-capitalize
+                                  f_detail
+                                  px-3
+                                "
                               >
                                 {{
                                   item.interests
@@ -165,7 +189,14 @@
                             @click="$router.push(`/profile/u/${item.id}`)"
                           >
                             <div
-                              class="facilitator shadow-sm position-relative"
+                              class="
+                                facilitator
+                                shadow-sm
+                                position-relative
+                                rounded
+                                overflow-hidden
+                                bg-white
+                              "
                             >
                               <b-img
                                 class="rounded-sm mb-4"
@@ -178,19 +209,36 @@
                                 style="object-fit: cover"
                               ></b-img>
                               <div
-                                class="f_name text-truncate text-truncate--1"
+                                class="
+                                  f_name
+                                  text-truncate text-truncate--1
+                                  px-3
+                                  mb-1
+                                "
                               >
                                 {{ item.username }}
                               </div>
 
                               <div
-                                class="text-muted fs13 text-capitalize f_detail"
+                                class="
+                                  text-muted
+                                  fs13
+                                  text-capitalize
+                                  f_detail
+                                  px-3
+                                "
                               >
                                 {{ item.state ? item.state : "Lagos" }},
                                 {{ item.country ? item.country : "NG" }}
                               </div>
                               <div
-                                class="text-muted fs12 text-capitalize f_detail"
+                                class="
+                                  text-muted
+                                  fs12
+                                  text-capitalize
+                                  f_detail
+                                  px-3
+                                "
                               >
                                 {{
                                   item.interests
@@ -689,7 +737,7 @@
                                       text-capitalize
                                       overview-title
                                       text-truncate text-truncate--2
-                                      mb-0
+                                      mb-1
                                     "
                                   >
                                     {{ item.title }}
