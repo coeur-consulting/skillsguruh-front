@@ -606,11 +606,6 @@
         </b-col>
         <b-col sm="4" class="d-none d-md-block">
           <div class="bg-white p-4 rounded">
-            <div class="text-center mb-4">
-              <b-button variant="dark-green" size="lg" class="px-3"
-                >Start a discussion</b-button
-              >
-            </div>
             <div
               class="py-3 text-left related_quest border"
               v-if="discussion.related"

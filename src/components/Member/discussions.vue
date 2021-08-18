@@ -452,16 +452,13 @@
       </div>
     </b-modal>
 
-    <b-button
-      variant="dark-green"
+    <b-icon
       class="mobile-add btn-circle btn-raised shadow"
-    >
-      <b-icon
-        icon="plus-circle"
-        @click="$bvModal.show('start')"
-        font-scale="2.5"
-      ></b-icon
-    ></b-button>
+      icon="plus-circle-fill"
+      @click="$bvModal.show('start')"
+      variant="dark-green"
+      font-scale="2.4"
+    ></b-icon>
   </div>
 </template>
 

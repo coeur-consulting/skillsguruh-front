@@ -169,7 +169,7 @@
       </b-container>
     </section>
 
-    <section id="facilitators">
+    <!-- <section id="facilitators">
       <h2 class="mb-5"><span>Our Top Facilitators</span></h2>
       <p class="mb-5">
         All our facilitators are awesome, but these ones really stand out in our
@@ -229,7 +229,7 @@
           </b-col>
         </b-row>
       </b-container>
-    </section>
+    </section> -->
     <section id="joinnow" class="bg-dark-green">
       <b-img class="eli1" :src="require('../assets/images/dot-im.png')"></b-img>
 

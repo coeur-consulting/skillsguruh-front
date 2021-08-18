@@ -740,6 +740,10 @@ ol.subquest {
 }
 .mobile-add {
   display: none;
+  opacity: 0.8;
+}
+.mobile-add:hover {
+  opacity: 1;
 }
 .btn-circle {
   border-radius: 50rem !important;
@@ -937,8 +941,8 @@ ol.subquest {
   .mobile-add {
     display: block;
     position: fixed;
-    right: 20px;
-    bottom: 40px;
+    right: 34px;
+    bottom: 100px;
   }
   .p-0-rem {
     padding: 0.1rem !important;

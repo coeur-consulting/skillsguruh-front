@@ -1405,16 +1405,13 @@
         </ul>
       </nav>
 
-      <b-button
+      <b-icon
         variant="dark-green"
         class="mobile-add btn-circle btn-raised shadow"
-      >
-        <b-icon
-          icon="plus-circle"
-          @click="toggleNav = !toggleNav"
-          font-scale="2.5"
-        ></b-icon
-      ></b-button>
+        icon="plus-circle-fill"
+        @click="toggleNav = !toggleNav"
+        font-scale="2"
+      ></b-icon>
     </div>
     <b-modal id="share" hide-footer centered size="lg">
       <div class="p-2 text-center">

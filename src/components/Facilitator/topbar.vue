@@ -227,7 +227,7 @@
     </div>
 
     <div class="d-flex align-items-center">
-      <div class="position-relative mr-4">
+      <div class="position-relative mr-4 d-none">
         <bell-icon
           size="1.5x"
           class="custom-class text-dark-green"

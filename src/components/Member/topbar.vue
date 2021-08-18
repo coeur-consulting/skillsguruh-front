@@ -198,7 +198,7 @@
     </div>
 
     <div class="d-flex align-items-center">
-      <div class="position-relative mr-4">
+      <div class="position-relative mr-4 d-none">
         <bell-icon
           size="1.5x"
           class="custom-class text-dark-green"
@@ -270,7 +270,7 @@
           No new notification !
         </div>
       </b-popover>
-      <div class="position-relative mr-4">
+      <div class="position-relative mr-2">
         <mail-icon
           size="1.5x"
           class="custom-class text-muted"
