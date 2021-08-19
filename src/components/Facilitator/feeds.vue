@@ -16,7 +16,7 @@
             class="rounded border-0"
             v-model="feed.message"
             :placeholder="
-              'Whats on your mind ' + $store.getters.facilitator.username + '?'
+              'Whats on your mind ' + $store.getters.facilitator.name + '?'
             "
           ></b-form-textarea>
         </div>
@@ -285,9 +285,7 @@
                 readonly
                 @click="$bvModal.show('feed')"
                 :placeholder="
-                  'Whats on your mind ' +
-                  $store.getters.facilitator.username +
-                  '?'
+                  'Whats on your mind ' + $store.getters.facilitator.name + '?'
                 "
               ></b-form-input>
             </div>
@@ -553,51 +551,48 @@
                       class="mr-3 cursor-pointer"
                       @click="toggleStar(feed.id, index)"
                     >
-                      <span class="mr-1">{{
-                        feed.stars.filter((item) => item.star).length
-                      }}</span>
                       <b-icon
                         :icon="
                           feed.stars.find(
                             (item) =>
                               item.star &&
-                              (item.user_id == $store.getters.member.id ||
-                                item.facilitator_id ==
-                                  $store.getters.facilitator.id)
+                              item.facilitator_id ==
+                                $store.getters.facilitator.id
                           )
                             ? 'star-fill'
                             : 'star'
                         "
-                        class="text-blue"
+                        class="text-blue mr-1"
                       ></b-icon>
+                      <span>{{
+                        feed.stars.filter((item) => item.star).length
+                      }}</span>
                     </span>
-
                     <span
                       class="mr-3 cursor-pointer"
                       @click="toggleLike(feed.id, index)"
-                    >
-                      <span class="mr-1">{{
-                        feed.likes.filter((item) => item.like).length
-                      }}</span>
-                      <b-icon
+                      ><b-icon
                         :icon="
                           feed.likes.find(
                             (item) =>
                               item.like &&
-                              (item.user_id == $store.getters.member.id ||
-                                item.facilitator_id ==
-                                  $store.getters.facilitator.id)
+                              item.facilitator_id ==
+                                $store.getters.facilitator.id
                           )
                             ? 'heart-fill'
                             : 'heart'
                         "
-                        class="text-danger"
+                        class="text-danger mr-1"
                       ></b-icon>
+                      <span>{{
+                        feed.likes.filter((item) => item.like).length
+                      }}</span>
                     </span>
                     <span class="mr-3">
-                      <span class="mr-1">{{ feed.comments.length }}</span>
                       <b-icon icon="chat-fill" class="mr-1"></b-icon>
-
+                      <span
+                        ><span>{{ feed.comments.length }}</span></span
+                      >
                       comments</span
                     >
                     <span class="cursor-pointer flex-1 text-right"
@@ -945,7 +940,6 @@
           <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
             ><b-icon class="mr-1" icon="facebook"></b-icon>
             <span class="d-none d-md-block">Facebook</span></b-button
-          >
           >
         </ShareNetwork>
         <ShareNetwork

@@ -183,10 +183,10 @@
                     allcomments.admin.name
                   }}</span>
                   <span class="name" v-if="allcomments.user">{{
-                    allcomments.user.username
+                    allcomments.user.name
                   }}</span>
                   <span class="name" v-if="allcomments.facilitator">{{
-                    allcomments.facilitator.username
+                    allcomments.facilitator.name
                   }}</span>
                   <br />
                   <span class="date fs11">{{
@@ -522,56 +522,51 @@
                         </b-row>
                       </div>
                     </div>
-                    <div class="interactions text-left px-3 py-2">
+                    <div class="interactions text-left px-3 py-2 border-bottom">
                       <span
                         class="mr-3 cursor-pointer"
                         @click="toggleStar(feed.id, index)"
                       >
-                        <span class="mr-1">{{
-                          feed.stars.filter((item) => item.star).length
-                        }}</span>
                         <b-icon
                           :icon="
                             feed.stars.find(
                               (item) =>
                                 item.star &&
-                                (item.user_id == $store.getters.member.id ||
-                                  item.facilitator_id ==
-                                    $store.getters.facilitator.id)
+                                item.user_id == $store.getters.member.id
                             )
                               ? 'star-fill'
                               : 'star'
                           "
-                          class="text-blue"
+                          class="text-blue mr-1"
                         ></b-icon>
+                        <span>{{
+                          feed.stars.filter((item) => item.star).length
+                        }}</span>
                       </span>
-
                       <span
                         class="mr-3 cursor-pointer"
                         @click="toggleLike(feed.id, index)"
-                      >
-                        <span class="mr-1">{{
-                          feed.likes.filter((item) => item.like).length
-                        }}</span>
-                        <b-icon
+                        ><b-icon
                           :icon="
                             feed.likes.find(
                               (item) =>
                                 item.like &&
-                                (item.user_id == $store.getters.member.id ||
-                                  item.facilitator_id ==
-                                    $store.getters.facilitator.id)
+                                item.user_id == $store.getters.member.id
                             )
                               ? 'heart-fill'
                               : 'heart'
                           "
-                          class="text-danger"
+                          class="text-danger mr-1"
                         ></b-icon>
+                        <span>{{
+                          feed.likes.filter((item) => item.like).length
+                        }}</span>
                       </span>
                       <span class="mr-3">
-                        <span class="mr-1">{{ feed.comments.length }}</span>
                         <b-icon icon="chat-fill" class="mr-1"></b-icon>
-
+                        <span
+                          ><span>{{ feed.comments.length }}</span></span
+                        >
                         comments</span
                       >
                       <span class="cursor-pointer flex-1 text-right"
@@ -580,7 +575,7 @@
                           icon="
                             share
                           "
-                          class=""
+                          class="mr-1"
                         ></b-icon>
                       </span>
                     </div>
@@ -847,10 +842,10 @@
                   {{ alllikes.admin.name }}
                 </div>
                 <div class="name" v-if="alllikes.user">
-                  {{ alllikes.user.username }}
+                  {{ alllikes.user.name }}
                 </div>
                 <div class="name" v-if="alllikes.facilitator">
-                  {{ alllikes.facilitator.username }}
+                  {{ alllikes.facilitator.name }}
                 </div>
 
                 <div class="date fs11">
@@ -943,7 +938,6 @@
           <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
             ><b-icon class="mr-1" icon="facebook"></b-icon>
             <span class="d-none d-md-block">Facebook</span></b-button
-          >
           >
         </ShareNetwork>
         <ShareNetwork
@@ -1127,7 +1121,7 @@ export default {
             this.useraccess == "member" &&
             this.$store.getters.member.id == first.user.id
               ? "you"
-              : first.user.username
+              : first.user.name
           } </span>`;
           return result;
         }
@@ -1136,7 +1130,7 @@ export default {
             this.useraccess == "facilitator" &&
             this.$store.getters.facilitator.id == first.facilitator.id
               ? "you"
-              : first.facilitator.username
+              : first.facilitator.name
           } </span>`;
           return result;
         }
@@ -1160,13 +1154,13 @@ export default {
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.username} and  ${
+              result = `Liked by  ${first.facilitator.name} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
@@ -1190,13 +1184,13 @@ export default {
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.username} and  ${
+              result = `Liked by  ${first.facilitator.name} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
@@ -1218,13 +1212,13 @@ export default {
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.username} and  ${
+              result = `Liked by  ${first.facilitator.name} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;

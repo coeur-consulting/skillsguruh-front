@@ -709,7 +709,6 @@
             ><b-icon class="mr-1" icon="facebook"></b-icon>
             <span class="d-none d-md-block">Facebook</span></b-button
           >
-          >
         </ShareNetwork>
         <ShareNetwork
           v-if="discussion.name"
@@ -1146,7 +1145,7 @@ export default {
     this.getvote();
     this.getconnections();
     this.link =
-      "https://nzukoor.com/member/discussion/" + this.$route.params.id;
+      "https://nzukoor.com/explore/discussion/" + this.$route.params.id;
   },
   computed: {
     filteredDiscussion() {
@@ -1373,7 +1372,7 @@ export default {
           "I just started a discussion, " +
           this.discussion.name.toUpperCase() +
           " and I’d like to hear your thoughts",
-        url: "https://nzukoor.com/member/discussion/" + this.discussion.id,
+        url: "https://nzukoor.com/explore/discussion/" + this.discussion.id,
       };
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {

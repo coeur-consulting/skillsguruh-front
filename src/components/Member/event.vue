@@ -322,7 +322,6 @@
             ><b-icon class="mr-1" icon="facebook"></b-icon>
             <span class="d-none d-md-block">Facebook</span></b-button
           >
-          >
         </ShareNetwork>
         <ShareNetwork
           v-if="event.title"
@@ -501,7 +500,7 @@ export default {
       this.getevent();
     });
     this.getconnections();
-    this.link = "https://nzukoor.com/member/event/" + this.$route.params.id;
+    this.link = "https://nzukoor.com/explore/event/" + this.$route.params.id;
   },
   computed: {
     filteredConnections() {
