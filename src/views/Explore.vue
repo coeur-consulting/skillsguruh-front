@@ -2115,7 +2115,7 @@ export default {
   max-height: 34px;
   overflow: hidden;
 }
-.comment_text p {
+.comment_text.text-truncate p {
   display: -webkit-box !important;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
