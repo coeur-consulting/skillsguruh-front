@@ -545,7 +545,6 @@
             ><b-icon class="mr-1" icon="facebook"></b-icon>
             <span class="d-none d-md-block">Facebook</span></b-button
           >
-          >
         </ShareNetwork>
         <ShareNetwork
           class="mr-3"

@@ -292,7 +292,6 @@
             ><b-icon class="mr-1" icon="facebook"></b-icon>
             <span class="d-none d-md-block">Facebook</span></b-button
           >
-          >
         </ShareNetwork>
         <ShareNetwork
           v-if="event.title"
@@ -521,7 +520,7 @@ export default {
           "Let’s attend the event, " +
           this.event.title.toUpperCase() +
           " together",
-        url: "https://nzukoor.com/member/event/" + this.event.id,
+        url: "https://nzukoor.com/explore/event/" + this.event.id,
       };
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {

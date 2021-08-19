@@ -711,7 +711,6 @@
             ><b-icon class="mr-1" icon="facebook"></b-icon>
             <span class="d-none d-md-block">Facebook</span></b-button
           >
-          >
         </ShareNetwork>
         <ShareNetwork
           v-if="discussion.name"
@@ -1471,7 +1470,7 @@ export default {
             "I just started a discussion, " +
             this.discussion.name.bold() +
             " and I’d like to hear your thoughts",
-          url: "https://nzukoor.com/member/discussion/" + this.discussion.id,
+          url: "https://nzukoor.com/explore/discussion/" + this.discussion.id,
         };
       } else {
         this.feed = {
@@ -1479,7 +1478,7 @@ export default {
             "I just joined a discussion, " +
             this.discussion.name.bold() +
             " and I’d like to hear your thoughts",
-          url: "https://nzukoor.com/member/discussion/" + this.discussion.id,
+          url: "https://nzukoor.com/explore/discussion/" + this.discussion.id,
         };
       }
       this.feed = {
@@ -1487,7 +1486,7 @@ export default {
           "I just started a discussion, " +
           this.discussion.name.toUpperCase() +
           " and I’d like to hear your thoughts",
-        url: "https://nzukoor.com/member/discussion/" + this.discussion.id,
+        url: "https://nzukoor.com/explore/discussion/" + this.discussion.id,
       };
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
