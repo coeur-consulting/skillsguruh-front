@@ -57,15 +57,19 @@
               <div>
                 <b-form-row class="mb-2">
                   <b-col class="pr-sm-3">
-                    <b-form-group label="Email" id="email" label-for="email">
+                    <b-form-group
+                      label="Email or Username"
+                      id="email"
+                      label-for="email"
+                    >
                       <b-form-input
                         size="lg"
                         required
                         v-model="user.email"
                         name="email"
                         :state="validation"
-                        type="email"
-                        placeholder="Enter email address"
+                        type="text"
+                        placeholder="Enter email address/ username"
                         aria-describedby="email-feedback"
                       ></b-form-input>
                     </b-form-group>
