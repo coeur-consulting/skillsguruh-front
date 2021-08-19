@@ -1176,7 +1176,7 @@ export default {
     this.getvote();
     this.getconnections();
     this.link =
-      "https://nzukoor.com/member/discussion/" + this.$route.params.id;
+      "https://nzukoor.com/explore/discussion/" + this.$route.params.id;
 
     var channel = this.$pusher.subscribe("adddiscussion");
 
