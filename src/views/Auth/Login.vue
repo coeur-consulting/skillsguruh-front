@@ -69,7 +69,7 @@
                         name="email"
                         :state="validation"
                         type="text"
-                        placeholder="Enter email address/ username"
+                        placeholder="Enter email address or username"
                         aria-describedby="email-feedback"
                       ></b-form-input>
                     </b-form-group>
