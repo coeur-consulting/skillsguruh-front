@@ -37,5 +37,13 @@
       "type": "image\/png",
       "density": "4.0"
     }
-  ]
+  ],
+  "start_url": "/",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#fff",
+  "theme_color": "#000",
+  "description": "Discover people, knowledge and opportunities for growth.Become your most authentic self",
+  "dir": "ltr",
+  "lang": "en-US"
 }
