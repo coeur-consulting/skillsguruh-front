@@ -87,8 +87,9 @@
                       {{ discussion.description }}
                     </div>
                     <div class="mt-2">
-                      <b-row class="justify-content-start">
+                      <b-row class="justify-content-start px-2">
                         <b-col
+                          class="px-1"
                           cols="auto"
                           v-for="(tag, id) in JSON.parse(discussion.tags)"
                           :key="id"
@@ -610,13 +611,13 @@
                 <div
                   class="d-flex p-2 px-3 cursor-pointer"
                   v-if="item.type == 'public'"
-                  @click="$router.push(`/member/discussion/${item.id}`)"
+                  @click="joindiscussion(item)"
                 >
-                  <div v-if="item.discussionmessage.length">
+                  <div>
                     <div>
-                      <span class="mr-3 related_count">
+                      <div class="mr-3 related_count">
                         {{ item.discussionmessage.length }}
-                      </span>
+                      </div>
                     </div>
                   </div>
                   <div class="related text-left">{{ item.name }}</div>
@@ -707,7 +708,9 @@
           hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
-            ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
+            ><b-icon class="mr-1" icon="facebook"></b-icon>
+            <span class="d-none d-md-block">Facebook</span></b-button
+          >
           >
         </ShareNetwork>
         <ShareNetwork
@@ -721,8 +724,9 @@
           hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
-            ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
-          >
+            ><b-icon class="mr-1" icon="twitter"></b-icon>
+            <span class="d-none d-md-block">Twitter</span>
+          </b-button>
         </ShareNetwork>
         <ShareNetwork
           v-if="discussion.name"
@@ -744,8 +748,8 @@
                 scale="0.5"
               ></b-icon>
             </b-iconstack>
-            Whatsapp</b-button
-          >
+            <span class="d-none d-md-block">Whatsapp</span>
+          </b-button>
         </ShareNetwork>
         <ShareNetwork
           v-if="discussion.name"
@@ -759,8 +763,8 @@
         >
           <b-button variant="outline-dark-green"
             ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
-            Telegram</b-button
-          >
+            <span class="d-none d-md-block">Telegram</span>
+          </b-button>
         </ShareNetwork>
         <b-button variant="outline-dark-green" @click="addToFeed">
           <b-icon icon="rss-fill" variant="dark-green"></b-icon>
@@ -835,7 +839,7 @@
                 <div class="d-flex align-items-center flex-1">
                   <b-avatar class="mr-2" size="1.3rem"></b-avatar>
                   <div class="text-left" style="line-height: 1.1">
-                    <span class="fs12">{{ item.user_follower.name }}</span>
+                    <span class="fs12">{{ item.user_follower.username }}</span>
                   </div>
                 </div>
               </b-form-checkbox>
@@ -849,7 +853,7 @@
                 <div class="d-flex align-items-center flex-1">
                   <b-avatar class="mr-2" size="1.3rem"></b-avatar>
                   <div>
-                    <span>{{ item.facilitator_follower.name }}</span>
+                    <span>{{ item.facilitator_follower.username }}</span>
                   </div>
                 </div>
               </b-form-checkbox>
@@ -1075,6 +1079,21 @@
         </div>
       </div>
     </b-modal>
+    <b-modal id="access" title="Request Access" hide-footer centered>
+      <div class="text-center">
+        <p class="mb-4 fs16">Do you wish to join this discussion?</p>
+        <b-button
+          variant="outline-secondary"
+          class="mr-3"
+          size="sm"
+          @click="$bvModal.hide('access')"
+          >Cancel</b-button
+        >
+        <b-button variant="secondary" size="sm" @click="requestAccess"
+          >Send a request</b-button
+        >
+      </div>
+    </b-modal>
 
     <b-modal
       id="edit"
@@ -1082,7 +1101,7 @@
       hide-footer
       title="Update Discussion Information"
     >
-      <EditDiscussion :information="discussion" user="member" />
+      <EditDiscussion :information="discussion" @refresh="refresh" />
     </b-modal>
   </div>
 </template>
@@ -1145,6 +1164,11 @@ export default {
     TextToSpeech,
     Editor,
     EditDiscussion,
+  },
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      vm.checkaccess(next);
+    });
   },
   created() {
     this.getdiscussion();
@@ -1272,7 +1296,7 @@ export default {
   methods: {
     requestAccess() {
       var data = {
-        discussion_id: this.discussion_id,
+        discussion_id: this.discussion.id,
       };
 
       this.$http
@@ -1291,6 +1315,62 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
+    checkaccess(next) {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/discussion/private/${this.$route.params.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            if (res.data.length) {
+              var result = res.data
+                .map((item) => item.user_id)
+                .includes(this.$store.getters.member.id);
+
+              if (result) {
+                next();
+              } else {
+                this.$bvModal.show("access");
+              }
+            }
+          }
+        });
+    },
+    joindiscussion(item) {
+      if (item.user && item.user.id == this.$store.getters.member.id) {
+        this.$router.push(`/member/discussion/${item.id}`);
+      } else {
+        this.$http
+          .get(`${this.$store.getters.url}/discussion/private/${item.id}`, {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          })
+          .then((res) => {
+            if (res.status == 200) {
+              var result = res.data
+                .map((item) => item.user_id)
+                .includes(this.$store.getters.member.id);
+
+              if (result) {
+                this.$router.push(`/member/discussion/${item.id}`);
+              } else {
+                this.discussion_id = item.id;
+                this.$bvModal.show("access");
+              }
+            }
+          });
+      }
+    },
+    refresh() {
+      this.getdiscussion;
+    },
+
     addmessagecomment(val, index) {
       this.index = index;
       this.reply.message_id = val.id;

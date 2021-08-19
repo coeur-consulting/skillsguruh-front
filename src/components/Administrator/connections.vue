@@ -160,8 +160,7 @@ export default {
       this.mini_info.name = name;
       this.mini_info.type = type;
       this.mini_info.profile = profile;
-      this.open = true;
-      this.showAll = true;
+      this.$store.dispatch("getChatter", this.mini_info);
     },
     async getconnections() {
       return this.$http

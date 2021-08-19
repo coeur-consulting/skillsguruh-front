@@ -457,7 +457,7 @@
       icon="plus-circle-fill"
       @click="$bvModal.show('start')"
       variant="dark-green"
-      font-scale="2.4"
+      font-scale="2"
     ></b-icon>
   </div>
 </template>
@@ -735,15 +735,17 @@ export default {
         .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Discussion created");
+            this.getdiscussions();
             this.getcustomdiscussions();
             this.getdiscussionsbyinterest();
             this.getdiscussionsbytrend();
             this.discussion = {
-              title: "",
+              name: "",
               description: "",
               type: "public",
               course: null,
               tags: [],
+              category: {},
             };
             this.$bvModal.hide("start");
           }

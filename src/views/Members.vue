@@ -50,11 +50,16 @@
               ></b-img>
               <div class="p-1">
                 <div class="f_name text-truncate text-truncate--1">
-                  {{ item.username }}
+                  {{ item.username ? item.username : `User-${item.id}` }}
                 </div>
-                <div class="text-muted fs13 text-capitalize f_detail">
-                  <span v-if="item.gender" class="f_detail"
-                    >, {{ item.gender ? item.gender : "N/a" }}</span
+                <div class="text-muted fs13 f_detail">
+                  <span class=""
+                    >{{
+                      item.age
+                        ? `${showInfo($store.getters.show_age, item.age)} yrs, `
+                        : "N/a"
+                    }}
+                    {{ item.gender ? item.gender : "" }}</span
                   >
                 </div>
 

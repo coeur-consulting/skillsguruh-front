@@ -21,24 +21,31 @@
                   </b-col>
                   <b-col cols="9" class="flex-1">
                     <b-card-body
-                      :title="detail.username"
-                      class="text-left text-capitalize"
+                      :title="
+                        detail.username ? detail.username : `User-${detail.id}`
+                      "
+                      class="text-left"
                     >
                       <b-card-text class="mb-1">
                         <span class="fs15 text-muted">
-                          {{ detail.bio ? detail.bio : "N/A" }}</span
+                          {{
+                            detail.bio ? detail.bio : "User bio unavailable"
+                          }}</span
                         >
                       </b-card-text>
                       <b-card-text
                         class="d-flex align-items-center mb-0"
                         style="line-height: 1.1"
-                        v-if="detail.age || detail.state || detail.country"
                       >
-                        <span
-                          class="fs11 text-muted cursor-pointer mr-2"
-                          v-if="detail.age"
-                        >
-                          {{ detail.age }} years ,</span
+                        <span class="fs11 text-muted cursor-pointer mr-2">
+                          {{
+                            detail.age
+                              ? `${showInfo(
+                                  $store.getters.show_age,
+                                  detail.age
+                                )} yrs, `
+                              : "N/a"
+                          }}</span
                         >
 
                         <span
@@ -127,7 +134,7 @@
                           @click="
                             getmessage(
                               detail.id,
-                              detail.name,
+                              detail.username,
                               'user',
                               detail.profile
                             )
@@ -141,7 +148,7 @@
                           @click="
                             getmessage(
                               detail.id,
-                              detail.name,
+                              detail.username,
                               'facilitator',
                               detail.profile
                             )
@@ -1191,7 +1198,9 @@
                   <div class="d-flex align-items-center flex-1">
                     <b-avatar class="mr-2" size="1.6rem"></b-avatar>
                     <div style="line-height: 1.2">
-                      <span class="fs13">{{ item.user_follower.name }}</span>
+                      <span class="fs13">{{
+                        item.user_follower.username
+                      }}</span>
                     </div>
                   </div>
 
@@ -1219,32 +1228,11 @@
                     <b-avatar class="mr-2" size="1.6rem"></b-avatar>
                     <div style="line-height: 1.2">
                       <span class="fs13">{{
-                        item.facilitator_follower.name
+                        item.facilitator_follower.username
                       }}</span>
                     </div>
                   </div>
 
-                  <!-- <div
-                    v-if="
-                      $store.getters.facilitator &&
-                      $store.getters.facilitator.id == $route.params.id
-                    "
-                  >
-                    <b-button
-                      variant="lighter-green"
-                      size="sm"
-                      class="mr-3 rounded-pill fs11"
-                      @click="
-                        getmessage(
-                          item.facilitator_follower.id,
-                          item.facilitator_follower.name,
-                          'facilitator',
-                          item.facilitator_follower.profile
-                        )
-                      "
-                      >Message</b-button
-                    >
-                  </div> -->
                   <div>
                     <b-button
                       v-if="item.qualifications"
@@ -1293,22 +1281,16 @@
         <div v-else class="text-center">No interest available</div>
       </div>
       <template #modal-footer="{ ok }">
-        <b-button size="sm" variant="dark-green" @click="ok()"> OK </b-button>
+        <b-button size="sm" variant="outline-secondary" @click="ok()">
+          OK
+        </b-button>
       </template>
     </b-modal>
-    <Minichat
-      class="minichats"
-      :user="'member'"
-      :mini_info="mini_info"
-      :open="open"
-      :showAll="showAll"
-      @togglechat="togglechat"
-    />
   </div>
 </template>
 <script>
 import Message from "../messagecomponent";
-import Minichat from "../minichat";
+
 export default {
   data() {
     return {
@@ -1348,7 +1330,6 @@ export default {
   },
   components: {
     Message,
-    Minichat,
   },
   computed: {
     useraccess() {
@@ -1686,8 +1667,7 @@ export default {
       this.mini_info.name = name;
       this.mini_info.type = type;
       this.mini_info.profile = profile;
-      this.open = true;
-      this.showAll = true;
+      this.$store.dispatch("getChatter", this.mini_info);
       this.$bvModal.hide("connections");
     },
     getFeeds() {
@@ -1826,6 +1806,11 @@ export default {
           if (res.status == 200 || res.status == 201) {
             this.$toast.success("Connected");
             this.getmyconnections();
+            this.$store.dispatch("newConnection", {
+              id,
+              type,
+              token: this.$store.getters.member.access_token,
+            });
           }
         })
         .catch((err) => {

@@ -11,9 +11,17 @@ export default new Vuex.Store({
     admin: JSON.parse(localStorage.getItem("authAdmin")) || {},
     facilitator: JSON.parse(localStorage.getItem("authFacilitator")) || {},
     member: JSON.parse(localStorage.getItem("authMember")) || {},
-    //url: "http://localhost:8000/v1",
+    // url: "http://localhost:8000/v1",
     url: "https://nzukoor-server.herokuapp.com/v1",
     inboxes: [],
+    isOpen: false,
+    isMinimise: false,
+    chatter: {
+      id: "",
+      name: "",
+      type: "",
+      profile: "",
+    },
   },
   mutations: {
     SET_NOTIFICATION(state, notifications) {
@@ -31,8 +39,35 @@ export default new Vuex.Store({
     SET_SPEECH(state, voices) {
       state.voices = voices;
     },
+    OPEN_CHAT(state, chat) {
+      state.isOpen = chat;
+    },
+    MIN_CHAT(state, chat) {
+      state.isMinimise = chat;
+    },
+    GET_CHATTER(state, chatter) {
+      state.chatter = chatter;
+    },
   },
   actions: {
+    newConnection({ state }, user) {
+      Vue.axios.post(`${state.url}/new/connection`, user, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+    },
+    getChatter({ commit }, data) {
+      commit("GET_CHATTER", data);
+      commit("OPEN_CHAT", true);
+      commit("MIN_CHAT", false);
+    },
+    toggleChat({ commit }, data) {
+      commit("OPEN_CHAT", data);
+    },
+    minChat({ commit }, data) {
+      commit("MIN_CHAT", data);
+    },
     getInbox({ commit, state }, user) {
       if (user == "organization") {
         Vue.axios
@@ -170,5 +205,8 @@ export default new Vuex.Store({
     notifications: (state) => state.notifications,
     inboxes: (state) => state.inboxes,
     voices: (state) => state.voices,
+    chatter: (state) => state.chatter,
+    isOpen: (state) => state.isOpen,
+    isMinimise: (state) => state.isMinimise,
   },
 });

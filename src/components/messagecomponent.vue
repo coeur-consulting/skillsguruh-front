@@ -28,7 +28,7 @@
         <div class="message_box py-3" v-if="chatter.length">
           <div v-for="(message, index) in chatter" :key="index">
             <div class="message px-3 py-3 d-flex border-bottom">
-              <b-avatar size="2.2rem" :src="message.profile"></b-avatar>
+              <b-avatar size="2rem" :src="message.profile"></b-avatar>
 
               <div
                 class="message_text flex-1 px-2"
@@ -171,19 +171,9 @@
         </div>
       </div>
     </div>
-    <div class="minichats">
-      <MiniBox
-        :user="user"
-        :mini_info="mini_info"
-        :open="open"
-        :showAll="showAll"
-        @togglechat="togglechat"
-      />
-    </div>
   </div>
 </template>
 <script>
-import MiniBox from "./minichat.vue";
 export default {
   props: ["user"],
   data() {
@@ -205,9 +195,6 @@ export default {
         type: "",
       },
     };
-  },
-  components: {
-    MiniBox,
   },
 
   computed: {
@@ -502,8 +489,7 @@ export default {
       this.mini_info.name = name;
       this.mini_info.type = type;
       this.mini_info.profile = profile;
-      this.open = true;
-      this.showAll = true;
+      this.$store.dispatch("getChatter", this.mini_info);
     },
   },
 };

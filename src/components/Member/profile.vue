@@ -55,7 +55,7 @@
         </div>
 
         <div
-          class="px-2 fs14 cursor-pointer d-flex"
+          class="px-2 mb-3 fs14 cursor-pointer d-flex"
           :class="{ 'font-weight-bold': type == 'security' }"
           @click="type = 'security'"
         >
@@ -64,6 +64,17 @@
             <span>Password & Security </span></span
           >
           <b-icon v-if="type == 'security'" icon="chevron-right"></b-icon>
+        </div>
+        <div
+          class="px-2 fs14 cursor-pointer d-flex"
+          :class="{ 'font-weight-bold': type == 'additional' }"
+          @click="type = 'additional'"
+        >
+          <span class="flex-1">
+            <b-icon class="mr-2" icon="gear"></b-icon>
+            <span>Additional Information </span></span
+          >
+          <b-icon v-if="type == 'additional'" icon="chevron-right"></b-icon>
         </div>
       </b-col>
       <b-col sm="9" class="sideB">
@@ -188,12 +199,17 @@
               v-for="item in notifications"
               :key="item.id"
             >
-              <b-icon
-                variant="dark-green"
-                icon="bell-fill"
-                class="mr-2 mt-1"
-              ></b-icon>
-              <span> {{ item.data.notification }}</span>
+              <span class="d-flex flex-1">
+                <b-icon
+                  variant="dark-green"
+                  icon="bell-fill"
+                  class="mr-2 mt-1"
+                ></b-icon>
+                <span> {{ item.data.notification }}</span></span
+              >
+              <div class="fs10 text-muted ml-2">
+                {{ item.created_at | moment("ll") }}
+              </div>
             </div>
           </div>
         </div>
@@ -274,6 +290,72 @@
             </div>
           </div>
         </div>
+        <div v-if="type == 'additional'" class="p-4">
+          <div class="notif text-left pt-4">
+            <h5 class="font-weight-bold mb-4">Additional Information</h5>
+
+            <b-form>
+              <b-form-row>
+                <b-col sm="6">
+                  <b-form-group>
+                    <b-form-checkbox
+                      size="sm"
+                      v-model="user.show_age"
+                      name="show_age"
+                      switch
+                    >
+                      <span class="d-flex"
+                        ><span class="mr-1">Age</span>
+                        <span class="form-text text-muted fs11">
+                          {{ user.show_age ? "visible" : "hidden" }}
+                        </span></span
+                      >
+                    </b-form-checkbox>
+                  </b-form-group>
+                </b-col>
+                <b-col sm="6">
+                  <b-form-group>
+                    <b-form-checkbox
+                      size="sm"
+                      v-model="user.show_name"
+                      name="show_name"
+                      switch
+                    >
+                      <span class="d-flex">
+                        <span class="mr-1"> Full name</span>
+                        <span class="form-text text-muted fs11">
+                          {{ user.show_name ? "visible" : "hidden" }}
+                        </span></span
+                      >
+                    </b-form-checkbox>
+                  </b-form-group>
+                </b-col>
+                <b-col sm="6">
+                  <b-form-group>
+                    <b-form-checkbox
+                      size="sm"
+                      v-model="user.show_email"
+                      name="show_email"
+                      switch
+                    >
+                      <span class="d-flex">
+                        <span class="mr-1"> Email</span>
+                        <span class="form-text text-muted fs12">
+                          {{ user.show_email ? "visible" : "hidden" }}
+                        </span></span
+                      >
+                    </b-form-checkbox>
+                  </b-form-group>
+                </b-col>
+              </b-form-row>
+              <b-form-group class="mt-5 text-center">
+                <b-button variant="dark-green" @click="updateinformation"
+                  >Save Information</b-button
+                >
+              </b-form-group>
+            </b-form>
+          </div>
+        </div>
       </b-col>
     </b-row>
   </b-container>
@@ -301,7 +383,12 @@ export default {
         state: "",
         verification: null,
         voice: null,
+        role_id: null,
+        show_age: false,
+        show_email: false,
+        show_name: false,
       },
+
       requests: [],
       detail: {
         old_password: "",
@@ -327,6 +414,31 @@ export default {
     },
   },
   methods: {
+    updateinformation() {
+      var userinformation = {
+        show_age: this.user.show_age,
+        show_email: this.user.show_age,
+        show_name: this.user.show_age,
+      };
+      this.$http
+        .post(
+          `${this.$store.getters.url}/update/information`,
+          userinformation,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          var authMember = JSON.parse(localStorage.getItem("authMember"));
+          authMember.showage = res.data.showage;
+          authMember.showemail = res.data.showname;
+          authMember.showname = res.data.showname;
+          localStorage.setItem("authMember", JSON.stringify(authMember));
+          this.$toast.success("Updated successfully");
+        });
+    },
     getrequests() {
       this.$http
         .get(`${this.$store.getters.url}/discussion/requests`, {

@@ -706,7 +706,9 @@
           hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
-            ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
+            ><b-icon class="mr-1" icon="facebook"></b-icon>
+            <span class="d-none d-md-block">Facebook</span></b-button
+          >
           >
         </ShareNetwork>
         <ShareNetwork
@@ -720,8 +722,9 @@
           hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
-            ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
-          >
+            ><b-icon class="mr-1" icon="twitter"></b-icon>
+            <span class="d-none d-md-block">Twitter</span>
+          </b-button>
         </ShareNetwork>
         <ShareNetwork
           v-if="discussion.name"
@@ -743,8 +746,8 @@
                 scale="0.5"
               ></b-icon>
             </b-iconstack>
-            Whatsapp</b-button
-          >
+            <span class="d-none d-md-block">Whatsapp</span>
+          </b-button>
         </ShareNetwork>
         <ShareNetwork
           v-if="discussion.name"
@@ -758,14 +761,14 @@
         >
           <b-button variant="outline-dark-green"
             ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
-            Telegram</b-button
-          >
+            <span class="d-none d-md-block">Telegram</span>
+          </b-button>
         </ShareNetwork>
         <b-button variant="outline-dark-green" @click="addToFeed">
           <b-icon icon="rss-fill" variant="dark-green"></b-icon>
 
-          Feed</b-button
-        >
+          <span class="d-none d-md-block">Feed</span>
+        </b-button>
       </div>
     </b-modal>
 

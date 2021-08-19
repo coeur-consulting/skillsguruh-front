@@ -157,13 +157,13 @@ export default {
     },
     useraccess() {
       var token = null;
-      if (this.$props.user == "admin") {
+      if (localStorage.getItem("authAdmin")) {
         return this.$store.getters.admin;
       }
-      if (this.$props.user == "facilitator") {
+      if (localStorage.getItem("authFacilitator")) {
         return this.$store.getters.facilitator;
       }
-      if (this.$props.user == "member") {
+      if (localStorage.getItem("authMember")) {
         return this.$store.getters.member;
       }
       return token;
@@ -215,15 +215,19 @@ export default {
 
     creatediscussion() {
       this.$http
-        .put(`${this.$store.getters.url}/discussions`, this.discussion, {
-          headers: {
-            Authorization: `Bearer ${this.useraccess.access_token}`,
-          },
-        })
+        .put(
+          `${this.$store.getters.url}/discussions/${this.discussion.id}`,
+          this.discussion,
+          {
+            headers: {
+              Authorization: `Bearer ${this.useraccess.access_token}`,
+            },
+          }
+        )
         .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Discussion created");
-
+            this.$emit("refresh");
             this.$bvModal.hide("start");
           }
         })

@@ -352,8 +352,11 @@
               </div>
 
               <div>
-                <span class="message_time fs11">
-                  {{ lastMessage(message).time | moment("LT") }}</span
+                <span v-if="lastMessage(message).message" class="text-muted">
+                  {{ lastMessage(message).message }}</span
+                >
+                <span v-else class="text-muted fs11"
+                  ><i>Sent attachment</i></span
                 >
               </div>
             </div>
@@ -460,8 +463,7 @@ export default {
       this.mini_info.name = name;
       this.mini_info.type = type;
       this.mini_info.profile = profile;
-      this.open = true;
-      this.showAll = true;
+      this.$store.dispatch("getChatter", this.mini_info);
     },
     lastMessage(info) {
       var mess = this.sortmessages.filter((item) => {

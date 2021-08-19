@@ -166,14 +166,14 @@ p {
 .googleplay,
 .appstore {
   width: 25%;
-  height: 40px;
+  max-height: 40px;
 }
 @media (max-width: 768px) {
   .black_brush {
-    width: 35%;
+    width: 25%;
   }
   .mustard_brush {
-    width: 35%;
+    width: 25%;
   }
 }
 @media (max-width: 600px) {
@@ -193,14 +193,14 @@ p {
 
   .googleplay,
   .appstore {
-    width: 30%;
+    width: 25%;
   }
   footer {
     padding-top: 3rem;
     padding-bottom: 2rem;
   }
   .logo {
-    width: 80px;
+    width: 40px;
   }
   .link h5 {
     font-size: 13px;

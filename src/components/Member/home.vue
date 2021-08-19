@@ -328,7 +328,7 @@
                 title-position="left"
               >
                 <template #day-popover="{ dayTitle, attributes }">
-                  <div class="text-xs text-gray-300 font-semibold text-center">
+                  <div class="text-xs font-semibold">
                     {{ dayTitle }}
                   </div>
                   <popover-row
@@ -338,10 +338,10 @@
                     class="border-bottom pb-2"
                   >
                     <div>
-                      <p class="fs11 mb-0 text-capitalize">
+                      <p class="fs11 mb-0 text-capitalize text-white">
                         <span class="mr-2"> {{ attr.customData.type }} </span>
                       </p>
-                      <p class="mb-1 text-capitalize">
+                      <p class="mb-1 text-capitalize text-white">
                         {{ attr.customData.title }}
                       </p>
                     </div>
@@ -765,6 +765,11 @@ export default {
           if (res.status == 201) {
             this.getsimilarusers();
             this.$toast.success("Connected");
+            this.$store.dispatch("newConnection", {
+              id,
+              type,
+              token: this.$store.getters.member.access_token,
+            });
           }
         })
         .catch((err) => {

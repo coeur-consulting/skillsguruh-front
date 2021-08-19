@@ -167,6 +167,11 @@ export default {
           if (res.status == 201) {
             this.getsimilarusers();
             this.$toast.success("Connected");
+             this.$store.dispatch("newConnection", {
+        id,
+        type,
+        token: this.$store.getters.member.access_token,
+      });
           }
         })
         .catch((err) => {

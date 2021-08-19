@@ -1,23 +1,26 @@
 <template>
-  <div class="reply_box bg-white shadow border" v-if="showAll">
+  <div
+    class="reply_box bg-white shadow border rounded overflow-hidden"
+    v-if="isOpen"
+  >
     <div
       class="d-flex px-2 py-2 align-items-center border-bottom bg-lighter-green"
     >
       <div class="d-flex flex-1 align-items-center">
-        <b-avatar size="2rem" :src="mini_info.profile" class="mr-2"></b-avatar>
+        <b-avatar size="2rem" :src="chatter.profile" class="mr-2"></b-avatar>
         <span
-          v-if="mini_info.type == 'user'"
+          v-if="chatter.type == 'user'"
           class="chat_name hover_green"
-          @click="$router.push(`/member/profile/u/${mini_info.id}`)"
-          >{{ mini_info.name }}</span
+          @click="$router.push(`/member/profile/u/${chatter.id}`)"
+          >{{ chatter.name }}</span
         >
         <span
-          v-else-if="mini_info.type == 'facilitator'"
+          v-else-if="chatter.type == 'facilitator'"
           class="chat_name hover_green"
-          @click="$router.push(`/member/profile/f/${mini_info.id}`)"
-          >{{ mini_info.name }}</span
+          @click="$router.push(`/member/profile/f/${chatter.id}`)"
+          >{{ chatter.name }}</span
         >
-        <span v-else class="chat_name">{{ mini_info.name }}</span>
+        <span v-else class="chat_name">{{ chatter.name }}</span>
       </div>
       <div class="d-flex align-items-center">
         <b-dropdown
@@ -32,17 +35,17 @@
 
           <Upload @getUpload="getUpload" :file_type="'image'" :id="'image'">
             <b-dropdown-text class="fs14 cursor-pointer">
-              Insert image
+              Image
             </b-dropdown-text>
           </Upload>
           <Upload @getUpload="getUpload" :file_type="'audio'" :id="'audio'">
             <b-dropdown-text class="fs14 cursor-pointer">
-              Insert audio
+              Audio
             </b-dropdown-text>
           </Upload>
           <Upload @getUpload="getUpload" :file_type="'video'" :id="'video'">
             <b-dropdown-text class="fs14 cursor-pointer">
-              Insert video
+              Video
             </b-dropdown-text>
           </Upload>
         </b-dropdown>
@@ -50,7 +53,7 @@
           class="mr-2 cursor-pointer"
           icon="arrows-angle-expand"
           font-scale=".9"
-          @click="open = !open"
+          @click="minimiseChat"
         ></b-icon>
         <b-icon
           font-scale="1.5"
@@ -60,7 +63,7 @@
         ></b-icon>
       </div>
     </div>
-    <div v-if="open">
+    <div v-if="!isMinimise">
       <ul
         class="reply py-3 text-left pl-0 mb-0"
         v-chat-scroll="{ always: false, smooth: true, scrollonremoved: true }"
@@ -152,8 +155,7 @@
                   item.attachment &&
                   img_ext.includes(getextension(item.attachment))
                 "
-                class="cursor-pointer"
-                fluid-grow
+                class="cursor-pointer chat_image"
                 :src="item.attachment"
               ></b-img>
               <div
@@ -316,8 +318,7 @@
                   item.attachment &&
                   img_ext.includes(getextension(item.attachment))
                 "
-                class="cursor-pointer"
-                fluid-grow
+                class="cursor-pointer chat_image"
                 :src="item.attachment"
               ></b-img>
               <div
@@ -643,7 +644,7 @@
 import Upload from "@/components/chatUpload";
 import EmojiPicker from "vue-emoji-picker";
 export default {
-  props: ["mini_info", "user", "open", "showAll"],
+  props: ["user"],
   data() {
     return {
       img_ext: ["jpg", "png", "jpeg", "gif"],
@@ -666,24 +667,25 @@ export default {
       },
     },
   },
-  mounted() {
-    // this.getinbox();
-  },
+
   components: {
     Upload,
     EmojiPicker,
   },
   watch: {
-    $route: "closeChat",
-    mini_info: {
-      handler() {
-        this.markMessagesRead();
-      },
-      deep: true,
-    },
+    isOpen: "markMessagesRead",
   },
 
   computed: {
+    isMinimise() {
+      return this.$store.getters.isMinimise;
+    },
+    isOpen() {
+      return this.$store.getters.isOpen;
+    },
+    chatter() {
+      return this.$store.getters.chatter;
+    },
     unreadmesages() {
       return this.messages.filter((item) => !item.status);
     },
@@ -692,31 +694,29 @@ export default {
     },
     useraccess() {
       var token = null;
-      if (this.$props.user == "admin") {
+      if (this.user == "admin") {
         return this.$store.getters.admin;
       }
-      if (this.$props.user == "facilitator") {
+      if (this.user == "facilitator") {
         return this.$store.getters.facilitator;
       }
-      if (this.$props.user == "member") {
+      if (this.user == "member") {
         return this.$store.getters.member;
       }
       return token;
     },
     messages() {
-      if (!this.$props.mini_info) {
+      if (!this.chatter) {
         return [];
       }
       return this.inboxes.filter((item) => {
         if (
-          (item.admin_id == this.$props.mini_info.id &&
-            this.$props.mini_info.type == "admin") ||
-          (item.user_id == this.$props.mini_info.id &&
-            this.$props.mini_info.type == "user") ||
-          (item.facilitator_id == this.$props.mini_info.id &&
-            this.$props.mini_info.type == "facilitator") ||
-          (item.receiver == this.$props.mini_info.type &&
-            item.receiver_id == this.$props.mini_info.id)
+          (item.admin_id == this.chatter.id && this.chatter.type == "admin") ||
+          (item.user_id == this.chatter.id && this.chatter.type == "user") ||
+          (item.facilitator_id == this.chatter.id &&
+            this.chatter.type == "facilitator") ||
+          (item.receiver == this.chatter.type &&
+            item.receiver_id == this.chatter.id)
         ) {
           return item;
         }
@@ -729,15 +729,15 @@ export default {
     },
 
     markMessagesRead() {
-      if (!this.unreadmesages.length) {
-        return;
-      }
+      // if (!this.unreadmesages.length) {
+      //   return;
+      // }
 
-      if (this.$props.user == "member") {
+      if (this.user == "member") {
         if (
           !this.unreadmesages.some(
             (item) =>
-              item.receiver == "member" &&
+              item.receiver == "user" &&
               item.receiver_id == this.$store.getters.member.id
           )
         ) {
@@ -745,7 +745,7 @@ export default {
         }
       }
 
-      if (this.$props.user == "facilitator") {
+      if (this.user == "facilitator") {
         if (
           !this.unreadmesages.some(
             (item) =>
@@ -757,7 +757,7 @@ export default {
         }
       }
 
-      if (this.$props.user == "admin") {
+      if (this.user == "admin") {
         if (
           !this.unreadmesages.some(
             (item) =>
@@ -775,15 +775,15 @@ export default {
         .post(`${this.$store.getters.url}/inboxes/mark/read`, data)
         .then((res) => {
           if (res.status == 200) {
-            if (this.$props.user == "member") {
+            if (this.user == "member") {
               this.$store.dispatch("getInbox", "member");
             }
 
-            if (this.$props.user == "facilitator") {
+            if (this.user == "facilitator") {
               this.$store.dispatch("getInbox", "facilitator");
             }
 
-            if (this.$props.user == "admin") {
+            if (this.user == "admin") {
               this.$store.dispatch("getInbox", "admin");
             }
           }
@@ -816,7 +816,10 @@ export default {
       this.$bvModal.show("media");
     },
     closeChat() {
-      this.$emit("togglechat");
+      this.$store.dispatch("toggleChat", false);
+    },
+    minimiseChat() {
+      this.$store.dispatch("minChat", !this.isMinimise);
     },
     getinbox() {
       this.$http
@@ -837,7 +840,7 @@ export default {
     async sortmessages(arr) {
       var inboxes = await arr.map((item) => {
         var info = {};
-        if (this.$props.user == "admin") {
+        if (this.user == "admin") {
           if (item.admin_id && item.admin_id == this.useraccess.id) {
             info.admin = item.admin_info || null;
             info.user = item.member_info || null;
@@ -856,7 +859,7 @@ export default {
             info.time = item.created_at || null;
           }
         }
-        if (this.$props.user == "facilitator") {
+        if (this.user == "facilitator") {
           if (
             item.facilitator_id &&
             item.facilitator_id == this.useraccess.id
@@ -878,7 +881,7 @@ export default {
             info.time = item.created_at || null;
           }
         }
-        if (this.$props.user == "member") {
+        if (this.user == "member") {
           if (item.user_id && item.user_id == this.useraccess.id) {
             info.admin = item.admin_info || null;
             info.user = item.member_info || null;
@@ -900,11 +903,11 @@ export default {
 
         return info;
       });
-      this.getChatters(inboxes);
+      this.getchatter(inboxes);
     },
     addinbox() {
-      this.inbox.receiver_id = this.$props.mini_info.id;
-      this.inbox.receiver = this.$props.mini_info.type;
+      this.inbox.receiver_id = this.chatter.id;
+      this.inbox.receiver = this.chatter.type;
       this.$http
         .post(`${this.$store.getters.url}/inboxes`, this.inbox, {
           headers: {
@@ -915,7 +918,7 @@ export default {
           if (res.status == 201) {
             this.$toast.success("Message sent ");
 
-            // this.inboxes.push(res.data);
+            this.inboxes.push(res.data);
             if (this.inbox.attachment) {
               this.$bvModal.hide("media");
             }
@@ -1034,6 +1037,9 @@ export default {
 audio {
   max-width: 200px;
   height: 44px;
+}
+.chat_image {
+  width: 60px;
 }
 @media (max-width: 600px) {
   .reply_box {

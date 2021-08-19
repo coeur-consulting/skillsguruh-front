@@ -83,9 +83,10 @@
                       {{ discussion.description }}
                     </div>
                     <div class="mt-2">
-                      <b-row>
+                      <b-row class="px-2">
                         <b-col
                           cols="auto"
+                          class="px-1"
                           v-for="(tag, id) in JSON.parse(discussion.tags)"
                           :key="id"
                         >
@@ -122,6 +123,15 @@
                     >
                   </div>
                   <div class="dis_set">
+                    <span
+                      class="mr-3"
+                      v-if="
+                        discussion.user &&
+                        discussion.user.id == this.useraccess.id
+                      "
+                      @click="$bvModal.show('edit')"
+                      >Edit</span
+                    >
                     <span> Created by </span>
                     <span
                       v-if="discussion.admin"
@@ -132,7 +142,7 @@
                       v-if="discussion.user"
                       class="cursor-pointer text-dark-green hover_green"
                       @click="$router.push(`/profile/u/${discussion.user.id}`)"
-                      >{{ discussion.user.name }}</span
+                      >{{ discussion.user.username }}</span
                     >
                     <span
                       v-if="discussion.facilitator"
@@ -140,7 +150,7 @@
                       @click="
                         $router.push(`/profile/f/${discussion.facilitator.id}`)
                       "
-                      >{{ discussion.facilitator.name }}</span
+                      >{{ discussion.facilitator.username }}</span
                     >
                   </div>
                 </div>
@@ -422,17 +432,17 @@
                             ><span
                               v-if="reply.admin"
                               class="message_comment_name mr-1"
-                              >{{ reply.admin.name }}</span
+                              >{{ reply.admin.username }}</span
                             >
                             <span
                               v-if="reply.facilitator"
                               class="message_comment_name mr-1"
-                              >{{ reply.facilitator.name }}</span
+                              >{{ reply.facilitator.username }}</span
                             >
                             <span
                               v-if="reply.user"
                               class="message_comment_name mr-1"
-                              >{{ reply.user.name }}</span
+                              >{{ reply.user.username }}</span
                             >
                             <span class="message_comment_text">
                               {{ reply.message }}
@@ -598,7 +608,7 @@
                 <div
                   class="d-flex p-2 px-3 cursor-pointer"
                   v-if="item.type == 'public'"
-                  @click="$router.push(`/explore/discussion/${item.id}`)"
+                  @click="joindiscussion(item)"
                 >
                   <div v-if="item.discussionmessage.length">
                     <div>
@@ -614,7 +624,7 @@
                   v-else
                   @click="$bvModal.show('access')"
                 >
-                  <div v-if="item.discussionmessage.length">
+                  <div>
                     <div class="mr-3 related_count">
                       {{ item.discussionmessage.length }}
                     </div>
@@ -676,10 +686,7 @@
           @click="$bvModal.hide('access')"
           >Cancel</b-button
         >
-        <b-button
-          variant="dark"
-          size="sm"
-          @click="$toast.success('Request sent succesfully')"
+        <b-button variant="dark" size="sm" @click="requestAccess"
           >Send a request</b-button
         >
       </div>
@@ -698,7 +705,9 @@
           hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
-            ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
+            ><b-icon class="mr-1" icon="facebook"></b-icon>
+            <span class="d-none d-md-block">Facebook</span></b-button
+          >
           >
         </ShareNetwork>
         <ShareNetwork
@@ -712,8 +721,9 @@
           hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
-            ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
-          >
+            ><b-icon class="mr-1" icon="twitter"></b-icon>
+            <span class="d-none d-md-block">Twitter</span>
+          </b-button>
         </ShareNetwork>
         <ShareNetwork
           v-if="discussion.name"
@@ -735,8 +745,8 @@
                 scale="0.5"
               ></b-icon>
             </b-iconstack>
-            Whatsapp</b-button
-          >
+            <span class="d-none d-md-block">Whatsapp</span>
+          </b-button>
         </ShareNetwork>
         <ShareNetwork
           v-if="discussion.name"
@@ -750,8 +760,8 @@
         >
           <b-button variant="outline-dark-green"
             ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
-            Telegram</b-button
-          >
+            <span class="d-none d-md-block">Telegram</span>
+          </b-button>
         </ShareNetwork>
         <b-button variant="outline-dark-green" @click="addToFeed">
           <b-icon icon="rss-fill" variant="dark-green"></b-icon>
@@ -826,7 +836,7 @@
                 <div class="d-flex align-items-center flex-1">
                   <b-avatar class="mr-2" size="1.3rem"></b-avatar>
                   <div class="text-left" style="line-height: 1.1">
-                    <span class="fs12">{{ item.user_follower.name }}</span>
+                    <span class="fs12">{{ item.user_follower.username }}</span>
                   </div>
                 </div>
               </b-form-checkbox>
@@ -840,7 +850,7 @@
                 <div class="d-flex align-items-center flex-1">
                   <b-avatar class="mr-2" size="1.3rem"></b-avatar>
                   <div>
-                    <span>{{ item.facilitator_follower.name }}</span>
+                    <span>{{ item.facilitator_follower.username }}</span>
                   </div>
                 </div>
               </b-form-checkbox>
@@ -1005,7 +1015,7 @@
             v-if="comments.user"
             @click="$router.push(`/facilitator/profile/u/${comments.user.id}`)"
             class="fs12 cursor-pointer hover_green"
-            >{{ comments.user.name }}</span
+            >{{ comments.user.username }}</span
           >
           <span
             v-if="comments.facilitator"
@@ -1013,7 +1023,7 @@
               $router.push(`/facilitator/profile/f/${comments.facilitator.id}`)
             "
             class="fs12 cursor-pointer hover_green"
-            >{{ comments.facilitator.name }}</span
+            >{{ comments.facilitator.username }}</span
           >
         </div>
         <div v-html="comments.message"></div>
@@ -1048,10 +1058,10 @@
               <span
                 v-if="reply.facilitator"
                 class="message_comment_name mr-1"
-                >{{ reply.facilitator.name }}</span
+                >{{ reply.facilitator.username }}</span
               >
               <span v-if="reply.user" class="message_comment_name mr-1">{{
-                reply.user.name
+                reply.user.username
               }}</span>
               <span class="message_comment_text">
                 {{ reply.message }}
@@ -1066,6 +1076,14 @@
         </div>
       </div>
     </b-modal>
+    <b-modal
+      id="edit"
+      size="lg"
+      hide-footer
+      title="Update Discussion Information"
+    >
+      <EditDiscussion :information="discussion" @refresh="refresh" />
+    </b-modal>
   </div>
 </template>
 
@@ -1075,6 +1093,7 @@ import Attachment from "@/components/miniupload";
 import Editor from "@tinymce/tinymce-vue";
 import SpeechToText from "@/components/speechToText";
 import TextToSpeech from "@/components/textToSpeech";
+import EditDiscussion from "@/components/editdiscussion";
 
 export default {
   data() {
@@ -1126,6 +1145,7 @@ export default {
     SpeechToText,
     TextToSpeech,
     Editor,
+    EditDiscussion,
   },
   created() {
     this.getdiscussion();
@@ -1153,13 +1173,13 @@ export default {
   computed: {
     useraccess() {
       var token = null;
-      if (this.$store.getters.admin.access_token) {
+      if (localStorage.getItem("authAdmin")) {
         return this.$store.getters.admin;
       }
-      if (this.$store.getters.facilitator.access_token) {
+      if (localStorage.getItem("authFacilitator")) {
         return this.$store.getters.facilitator;
       }
-      if (this.$store.getters.member.access_token) {
+      if (localStorage.getItem("authMember")) {
         return this.$store.getters.member;
       }
       return token;
@@ -1268,6 +1288,67 @@ export default {
     },
   },
   methods: {
+    requestAccess() {
+      var data = {
+        discussion_id: this.discussion.id,
+      };
+
+      this.$http
+        .post(`${this.$store.getters.url}/join-discussion`, data, {
+          headers: {
+            Authorization: `Bearer ${this.useraccess.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.$toast.info("Your request has been sent");
+            this.$bvModal.hide("access");
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    joindiscussion(item) {
+      if (
+        (item.user && item.user.id == this.$store.getters.member.id) ||
+        (item.facilitator &&
+          item.facilitator_id.id == this.$store.getters.facilitator.id)
+      ) {
+        this.$router.push(`/discussion/${item.id}`);
+      } else {
+        this.$http
+          .get(`${this.$store.getters.url}/discussion/private/${item.id}`, {
+            headers: {
+              Authorization: `Bearer ${this.useraccess.access_token}`,
+            },
+          })
+          .then((res) => {
+            if (res.status == 200) {
+              var result;
+              if (item.user) {
+                result = res.data
+                  .map((item) => item.user_id)
+                  .includes(this.useraccess.id);
+              }
+              if (item.facilitator) {
+                result = res.data
+                  .map((item) => item.facilitator_id)
+                  .includes(this.useraccess.id);
+              }
+              if (result) {
+                this.$router.push(`/discussion/${item.id}`);
+              } else {
+                this.discussion_id = item.id;
+                this.$bvModal.show("access");
+              }
+            }
+          });
+      }
+    },
+    refresh() {
+      this.getdiscussion;
+    },
     addmessagecomment(val, index) {
       this.index = index;
       this.reply.message_id = val.id;

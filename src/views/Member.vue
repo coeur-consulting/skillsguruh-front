@@ -41,17 +41,6 @@ export default {
     $route: "getnotification",
   },
 
-  created() {
-    var channel = this.$pusher.subscribe("inbox");
-    var notificationChannel = this.$pusher.subscribe("notifications");
-
-    channel.bind("inboxSent", (data) => {
-      this.$store.commit("ADD_MESSAGE", data);
-    });
-    notificationChannel.bind("notificationSent", () => {
-      this.$store.dispatch("getNotifications", "member");
-    });
-  },
   mounted() {
     this.getnotification();
     this.getloginhistory();

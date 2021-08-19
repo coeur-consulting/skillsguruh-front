@@ -49,7 +49,7 @@
                       @click="
                         getmessage(
                           item.user_follower.id,
-                          item.user_follower.name,
+                          item.user_follower.username,
                           'user',
                           item.user_follower.profile
                         )
@@ -85,7 +85,7 @@
                       @click="
                         getmessage(
                           item.facilitator_follower.id,
-                          item.facilitator_follower.name,
+                          item.facilitator_follower.username,
                           'facilitator',
                           item.facilitator_follower.profile
                         )
@@ -271,6 +271,11 @@ export default {
           if (res.status == 200 || res.status == 201) {
             this.$toast.success("Successful");
             this.getconnections();
+            this.$store.dispatch("newConnection", {
+              id,
+              type,
+              token: this.$store.getters.member.access_token,
+            });
           }
         })
         .catch((err) => {
@@ -292,8 +297,7 @@ export default {
       this.mini_info.name = name;
       this.mini_info.type = type;
       this.mini_info.profile = profile;
-      this.open = true;
-      this.showAll = true;
+      this.$store.dispatch("getChatter", this.mini_info);
     },
     async getconnections() {
       return this.$http

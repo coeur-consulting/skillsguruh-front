@@ -2,7 +2,7 @@
   <div class="py-4 bg-light">
     <b-container>
       <b-row class="justify-content-center">
-        <b-col sm="9">
+        <b-col sm="8">
           <div class="border bg-white py-4 rounded">
             <div
               class="
@@ -147,7 +147,7 @@
                     <div>
                       <span
                         v-if="item.type == 'public'"
-                        @click="$router.push(`/discussion/${item.id}`)"
+                        @click="$router.push(`/explore/discussion/${item.id}`)"
                         class="text-dark-green font-weight-bold cursor-pointer"
                         >Join Discussion</span
                       >
@@ -226,12 +226,182 @@
             </div>
           </div>
         </b-col>
+        <b-col sm="4" class="d-none d-md-block" v-if="usertoken">
+          <div class="shadow-sm bg-white p-4 rounded">
+            <div class="text-center mb-4">
+              <b-button
+                variant="dark-green"
+                size="lg"
+                class="px-3"
+                @click="$bvModal.show('start')"
+                >Start a discussion</b-button
+              >
+            </div>
+            <div class="py-3 text-left related_quest border">
+              <h6 class="mb-3 px-3">Other Discussions</h6>
+              <div v-if="showOther">
+                <div v-if="otherdiscussion">
+                  <div
+                    class="d-flex p-2 px-3"
+                    v-for="(dis, id) in otherdiscussion.slice(0, 6)"
+                    :key="id"
+                  >
+                    <div>
+                      <div class="mr-3 related_count">
+                        {{ dis.discussionmessage.length }}
+                      </div>
+                    </div>
+                    <span
+                      @click="$router.push(`/explore/discussion/${dis.id}`)"
+                      class="related text-left text-capitalize font-weight-bold"
+                      >{{ dis.name }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div v-else class="p-2 p-sm-3 w-100">
+                <div class="d-flex w-100 mb-3">
+                  <div class="mr-2 w-25">
+                    <b-skeleton animation="wave" width="100%"></b-skeleton>
+                  </div>
+                  <div class="w-75">
+                    <b-skeleton animation="wave" width="100%"></b-skeleton>
+                  </div>
+                </div>
+                <div class="d-flex w-100 mb-3">
+                  <div class="mr-2 w-25">
+                    <b-skeleton animation="wave" width="100%"></b-skeleton>
+                  </div>
+                  <div class="w-75">
+                    <b-skeleton animation="wave" width="100%"></b-skeleton>
+                  </div>
+                </div>
+                <div class="d-flex w-100 mb-3">
+                  <div class="mr-2 w-25">
+                    <b-skeleton animation="wave" width="100%"></b-skeleton>
+                  </div>
+                  <div class="w-75">
+                    <b-skeleton animation="wave" width="100%"></b-skeleton>
+                  </div>
+                </div>
+                <div class="d-flex w-100 mb-3">
+                  <div class="mr-2 w-25">
+                    <b-skeleton animation="wave" width="100%"></b-skeleton>
+                  </div>
+                  <div class="w-75">
+                    <b-skeleton animation="wave" width="100%"></b-skeleton>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </b-col>
       </b-row>
     </b-container>
+    <b-modal
+      no-close-on-backdrop
+      id="start"
+      hide-footer
+      centered
+      title="Create a Discussion"
+    >
+      <b-form @submit.prevent="creatediscussion">
+        <b-form-group label="Title">
+          <b-form-input
+            placeholder="Give a title"
+            v-model="discussion.name"
+            required
+          ></b-form-input>
+        </b-form-group>
+
+        <b-form-group label="Description">
+          <b-form-textarea
+            required
+            v-model="discussion.description"
+            placeholder="Write a brief Description"
+          ></b-form-textarea
+        ></b-form-group>
+
+        <b-form-row>
+          <b-col sm="6">
+            <b-form-group label="Type">
+              <b-form-select v-model="discussion.type">
+                <b-form-select-option value="private"
+                  >Private</b-form-select-option
+                >
+                <b-form-select-option value="public"
+                  >Public</b-form-select-option
+                >
+              </b-form-select>
+            </b-form-group>
+          </b-col>
+          <b-col sm="6" v-if="discussion.type == 'private'">
+            <b-form-group label="Select course">
+              <model-list-select
+                :list="courses"
+                v-model="discussion.course_id"
+                option-value="id"
+                option-text="title"
+                placeholder="Select course"
+              >
+              </model-list-select>
+            </b-form-group>
+          </b-col>
+        </b-form-row>
+
+        <b-form-group label="Category">
+          <model-list-select
+            :list="category"
+            v-model="discussion.category"
+            option-value="value"
+            option-text="value"
+            placeholder="select category"
+          >
+          </model-list-select>
+        </b-form-group>
+
+        <b-form-group label="Interests">
+          <multi-select
+            :options="filteredinterests"
+            :selected-options="discussion.tags"
+            placeholder="select interests"
+            @select="onSelect"
+          >
+          </multi-select>
+        </b-form-group>
+
+        <b-button
+          size="lg"
+          variant="dark-green"
+          type="submit"
+          class="d-none d-sm-block px-3"
+          >Create</b-button
+        >
+        <b-button
+          size="lg"
+          variant="dark-green"
+          type="submit"
+          class="d-sm-none"
+          block
+          >Create</b-button
+        >
+      </b-form>
+    </b-modal>
+    <b-icon
+      class="mobile-add btn-circle btn-raised shadow"
+      icon="plus-circle-fill"
+      @click="$bvModal.show('start')"
+      variant="dark-green"
+      font-scale="2.4"
+    ></b-icon>
   </div>
 </template>
 
 <script>
+import { MultiSelect } from "vue-search-select";
+import { ModelListSelect } from "vue-search-select";
+import Interest from "@/components/helpers/subcategory.js";
+import Category from "@/components/helpers/category.js";
 export default {
   data() {
     return {
@@ -241,13 +411,6 @@ export default {
       showDiscussion: false,
       showOther: false,
       recentdiscussions: [],
-      discussion: {
-        name: "",
-        description: "",
-        type: "public",
-        course: null,
-        tags: [],
-      },
       courses: [],
       tag: "",
       tags: [],
@@ -257,11 +420,38 @@ export default {
       currentPage: 1,
       rows: null,
       perPage: 10,
+      customdiscussions: [],
+
+      discussion: {
+        name: "",
+        description: "",
+        type: "public",
+        course: null,
+        tags: [],
+        category: {},
+      },
+
+      options: [],
+      searchText: "", // If value is falsy, reset searchText & searchItem
+      items: [],
+      lastSelectItem: {},
+      category: [],
     };
+  },
+  components: {
+    MultiSelect,
+    ModelListSelect,
   },
 
   mounted() {
+    this.getothers();
     this.getdiscussions();
+    this.mytags = Interest.map((item) => {
+      item.text = item.value;
+
+      return item;
+    });
+    this.category = Category;
   },
   computed: {
     filtered() {
@@ -320,8 +510,17 @@ export default {
       }
       return token;
     },
+    filteredinterests() {
+      return this.mytags.filter(
+        (item) => item.category_id == this.discussion.category.id
+      );
+    },
   },
   methods: {
+    onSelect(items, lastSelectItem) {
+      this.discussion.tags = items;
+      this.lastSelectItem = lastSelectItem;
+    },
     vote(val) {
       var positive = val.filter((item) => item.vote).length;
       var negative = val.filter((item) => !item.vote).length;
@@ -349,7 +548,34 @@ export default {
         });
     },
     joindiscussion(item) {
-      this.$router.push(`/discussion/${item.id}`);
+      if (item.status == "public") {
+        this.$router.push(`/explore/discussion/${item.id}`);
+      } else {
+        if (item.user && item.user.id == this.usertoken.id) {
+          this.$router.push(`/explore/discussion/${item.id}`);
+        } else {
+          this.$http
+            .get(`${this.$store.getters.url}/discussion/private/${item.id}`, {
+              headers: {
+                Authorization: `Bearer ${this.$store.usertoken.access_token}`,
+              },
+            })
+            .then((res) => {
+              if (res.status == 200) {
+                var result = res.data
+                  .map((item) => item.user_id)
+                  .includes(this.usertoken.id);
+
+                if (result) {
+                  this.$router.push(`/explore/discussion/${item.id}`);
+                } else {
+                  this.discussion_id = item.id;
+                  this.$bvModal.show("access");
+                }
+              }
+            });
+        }
+      }
     },
 
     getdiscussions() {
@@ -360,6 +586,52 @@ export default {
             this.discussions = res.data;
             this.showDiscussion = true;
             this.rows = res.data.length;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    creatediscussion() {
+      this.$http
+        .post(`${this.$store.getters.url}/discussions`, this.discussion, {
+          headers: {
+            Authorization: `Bearer ${this.usertoken.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 201 || res.status == 200) {
+            this.$toast.success("Discussion created");
+            this.getdiscussions();
+            this.getcustomdiscussions();
+            this.getdiscussionsbyinterest();
+            this.getdiscussionsbytrend();
+            this.discussion = {
+              name: "",
+              description: "",
+              type: "public",
+              course: null,
+              tags: [],
+              category: {},
+            };
+            this.$bvModal.hide("start");
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    getothers() {
+      this.$http
+        .get(`${this.$store.getters.url}/other-discussions`, {
+          headers: {
+            Authorization: `Bearer ${this.usertoken.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.otherdiscussion = res.data;
+            this.showOther = true;
           }
         })
         .catch((err) => {

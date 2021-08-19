@@ -90,8 +90,9 @@
                       {{ discussion.description }}
                     </div>
                     <div class="mt-2">
-                      <b-row>
+                      <b-row class="px-2">
                         <b-col
+                          class="px-1"
                           cols="auto"
                           v-for="(tag, id) in JSON.parse(discussion.tags)"
                           :key="id"
@@ -129,6 +130,15 @@
                     >
                   </div>
                   <div class="dis_set">
+                    <span
+                      class="mr-3"
+                      v-if="
+                        discussion.user &&
+                        discussion.user.id == $store.getters.facilitator.id
+                      "
+                      @click="$bvModal.show('edit')"
+                      >Edit</span
+                    >
                     <span> Created by </span>
                     <span
                       v-if="discussion.admin"
@@ -710,7 +720,9 @@
           hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
-            ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
+            ><b-icon class="mr-1" icon="facebook"></b-icon>
+            <span class="d-none d-md-block">Facebook</span></b-button
+          >
           >
         </ShareNetwork>
         <ShareNetwork
@@ -724,8 +736,9 @@
           hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
-            ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
-          >
+            ><b-icon class="mr-1" icon="twitter"></b-icon>
+            <span class="d-none d-md-block">Twitter</span>
+          </b-button>
         </ShareNetwork>
         <ShareNetwork
           v-if="discussion.name"
@@ -747,8 +760,8 @@
                 scale="0.5"
               ></b-icon>
             </b-iconstack>
-            Whatsapp</b-button
-          >
+            <span class="d-none d-md-block">Whatsapp</span>
+          </b-button>
         </ShareNetwork>
         <ShareNetwork
           v-if="discussion.name"
@@ -762,14 +775,14 @@
         >
           <b-button variant="outline-dark-green"
             ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
-            Telegram</b-button
-          >
+            <span class="d-none d-md-block">Telegram</span>
+          </b-button>
         </ShareNetwork>
         <b-button variant="outline-dark-green" @click="addToFeed">
           <b-icon icon="rss-fill" variant="dark-green"></b-icon>
 
-          Feed</b-button
-        >
+          <span class="d-none d-md-block">Feed</span>
+        </b-button>
       </div>
     </b-modal>
 
@@ -1078,6 +1091,14 @@
         </div>
       </div>
     </b-modal>
+    <b-modal
+      id="edit"
+      size="lg"
+      hide-footer
+      title="Update Discussion Information"
+    >
+      <EditDiscussion :information="discussion" @refresh="refresh" />
+    </b-modal>
   </div>
 </template>
 
@@ -1087,7 +1108,7 @@ import Attachment from "../miniupload";
 import SpeechToText from "@/components/speechToText";
 import TextToSpeech from "@/components/textToSpeech";
 import Editor from "@tinymce/tinymce-vue";
-
+import EditDiscussion from "@/components/editdiscussion";
 export default {
   data() {
     return {
@@ -1135,6 +1156,7 @@ export default {
     SpeechToText,
     TextToSpeech,
     Editor,
+    EditDiscussion,
   },
   created() {
     var channel = this.$pusher.subscribe("adddiscussion");
@@ -1164,6 +1186,19 @@ export default {
     $route: "getdiscussion",
   },
   computed: {
+    useraccess() {
+      var token = null;
+      if (localStorage.getItem("authAdmin")) {
+        return this.$store.getters.admin;
+      }
+      if (localStorage.getItem("authFacilitator")) {
+        return this.$store.getters.facilitator;
+      }
+      if (localStorage.getItem("authMember")) {
+        return this.$store.getters.member;
+      }
+      return token;
+    },
     filteredDiscussion() {
       var res = this.posts.slice();
       if (this.toggleview == "recent") {

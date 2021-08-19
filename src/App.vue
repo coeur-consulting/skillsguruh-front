@@ -2,11 +2,15 @@
   <div id="app" class="position-relative">
     <router-view name="header" />
 
-    <router-view />
+    <router-view class="bod" />
 
-    <router-view name="footer" />
+    <router-view name="footer" class="foot" />
 
-    <div class="d-flex align-items-center mainnotification" id="bell">
+    <div
+      class="d-flex align-items-center mainnotification cursor-pointer"
+      id="bell"
+      v-if="useraccess"
+    >
       <div
         class="
           position-relative
@@ -17,7 +21,7 @@
           rounded-pill
         "
       >
-        <b-icon icon="bell-fill" font-scale="1.3" variant="white"></b-icon>
+        <b-icon icon="bell-fill" font-scale="1.2" variant="white"></b-icon>
         <small class="notify_badge">
           <b-badge variant="secondary" v-if="unreadnotifications.length">{{
             unreadnotifications.length
@@ -34,7 +38,13 @@
           rounded-pill
         "
       >
-        <b-icon icon="bell-fill" font-scale="1.4" variant="white"></b-icon>
+        <b-icon
+          icon="bell-fill"
+          :class="unreadnotifications.length ? 'animate__animated' : ''"
+          class="animate__slower animate__shakeX animate__infinite infinite"
+          font-scale="1.2"
+          variant="white"
+        ></b-icon>
 
         <b-badge
           variant="secondary"
@@ -88,7 +98,7 @@
               </div>
             </div>
           </div>
-          <div class="text-center py-1 border-top text-lighter-green fs11">
+          <div class="text-center py-1 border-top text-dark-green fs11">
             <span
               class="cursor-pointer"
               @click="$store.dispatch('markNotifications', useraccess)"
@@ -102,29 +112,82 @@
         </div>
       </b-popover>
     </div>
+    <Chat
+      :user="user"
+      :mini_info="mini_info"
+      :open="open"
+      :showAll="showAll"
+      @togglechat="togglechat"
+    />
   </div>
 </template>
 
 <script>
-// import { BellIcon } from "vue-feather-icons";
+import Chat from "@/components/minichat";
 export default {
+  data() {
+    return {
+      user: null,
+      showMessage: true,
+      toggleMessage: true,
+
+      chatters: [],
+      open: true,
+      showAll: true,
+      mini_info: {
+        id: "",
+        name: "",
+        type: "",
+        profile: "",
+      },
+      auth: false,
+    };
+  },
   watch: {
     $route: "getnotification",
   },
 
-  created() {
-    var channel = this.$pusher.subscribe("inbox");
-    var notificationChannel = this.$pusher.subscribe("notifications");
-
-    channel.bind("inboxSent", (data) => {
-      this.$store.commit("ADD_MESSAGE", data);
-    });
-    notificationChannel.bind("notificationSent", () => {
-      this.$store.dispatch("getNotifications", "member");
-    });
-  },
   components: {
-    // BellIcon,
+    Chat,
+  },
+  mounted() {
+    if (localStorage.getItem("authAdmin")) {
+      this.user = "admin";
+      this.auth = true;
+    }
+    if (localStorage.getItem("authFacilitator")) {
+      this.user = "facilitator";
+      this.auth = true;
+    }
+    if (localStorage.getItem("authMember")) {
+      this.user = "member";
+      this.auth = true;
+    }
+    if (this.auth) {
+      var channel = this.$pusher.subscribe(`inbox.${this.useraccess.id}`);
+      var notificationChannel = this.$pusher.subscribe("notifications");
+
+      channel.bind("inboxSent", (data) => {
+        this.$store.commit("ADD_MESSAGE", data);
+        var user;
+        if (data.user.qualifications) {
+          user = "facilitator";
+        } else {
+          user = "user";
+        }
+
+        this.getmessage(
+          data.user.id,
+          data.user.username,
+          user,
+          data.user.profile
+        );
+      });
+      notificationChannel.bind("notificationSent", () => {
+        this.$store.dispatch("getNotifications", this.user);
+      });
+      this.getnotification();
+    }
   },
   computed: {
     notifications() {
@@ -147,10 +210,25 @@ export default {
       return token;
     },
   },
-  mounted() {
-    this.getnotification();
-  },
+
   methods: {
+    togglechat() {
+      this.mini_info = {
+        id: "",
+        name: "",
+        type: "",
+        profile: "",
+      };
+      this.open = false;
+      this.showAll = false;
+    },
+    getmessage(id, name, type, profile) {
+      this.mini_info.id = id;
+      this.mini_info.name = name;
+      this.mini_info.type = type;
+      this.mini_info.profile = profile;
+      this.$store.dispatch("getChatter", this.mini_info);
+    },
     getnotification() {
       if (localStorage.getItem("authAdmin")) {
         this.$store.dispatch("getNotifications", "admin");

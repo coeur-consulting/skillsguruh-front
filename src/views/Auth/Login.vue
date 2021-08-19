@@ -322,14 +322,10 @@ export default {
                   authMember.profile = res.data.profile;
                   authMember.voice = res.data.voice;
                   authMember.interests = res.data.interests;
-                  // if (!res.data.organization) {
-                  //   authMember.org_profile = require("@/assets/images/logo.png");
-                  //   authMember.org_name = "Nzukoor";
-                  // } else {
-                  //   authMember.org_profile = res.data.organization.logo;
-                  //   authMember.org_name = res.data.organization.name;
-                  // }
-
+                  authMember.show_age = res.data.show_age;
+                  authMember.show_email = res.data.show_name;
+                  authMember.show_name = res.data.show_name;
+                  authMember.role_id = res.data.role.id;
                   authMember.referral = res.data.referral_code;
 
                   localStorage.setItem(

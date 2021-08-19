@@ -884,7 +884,9 @@
           hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
-            ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
+            ><b-icon class="mr-1" icon="facebook"></b-icon>
+            <span class="d-none d-md-block">Facebook</span></b-button
+          >
           >
         </ShareNetwork>
         <ShareNetwork
@@ -897,8 +899,9 @@
           hashtags="Nzukoor,  Social learning"
         >
           <b-button variant="outline-dark-green"
-            ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
-          >
+            ><b-icon class="mr-1" icon="twitter"></b-icon>
+            <span class="d-none d-md-block">Twitter</span>
+          </b-button>
         </ShareNetwork>
         <ShareNetwork
           class="mr-3"
@@ -919,8 +922,8 @@
                 scale="0.5"
               ></b-icon>
             </b-iconstack>
-            Whatsapp</b-button
-          >
+            <span class="d-none d-md-block">Whatsapp</span>
+          </b-button>
         </ShareNetwork>
         <ShareNetwork
           class="mr-3"
@@ -933,8 +936,8 @@
         >
           <b-button variant="outline-dark-green"
             ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
-            Telegram</b-button
-          >
+            <span class="d-none d-md-block">Telegram</span>
+          </b-button>
         </ShareNetwork>
       </div>
     </b-modal>
@@ -1426,7 +1429,9 @@
           hashtags="Nzukoor,  Social learning"
         >
           <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
-            ><b-icon class="mr-1" icon="facebook"></b-icon> Facebook</b-button
+            ><b-icon class="mr-1" icon="facebook"></b-icon>
+            <span class="d-none d-md-block">Facebook</span></b-button
+          >
           >
         </ShareNetwork>
         <ShareNetwork
@@ -1439,8 +1444,9 @@
           hashtags="Nzukoor,  Social learning"
         >
           <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
-            ><b-icon class="mr-1" icon="twitter"></b-icon> Twitter</b-button
-          >
+            ><b-icon class="mr-1" icon="twitter"></b-icon>
+            <span class="d-none d-md-block">Twitter</span>
+          </b-button>
         </ShareNetwork>
         <ShareNetwork
           class="mr-3"
@@ -1461,8 +1467,8 @@
                 scale="0.5"
               ></b-icon>
             </b-iconstack>
-            Whatsapp</b-button
-          >
+            <span class="d-none d-md-block">Whatsapp</span>
+          </b-button>
         </ShareNetwork>
         <ShareNetwork
           class="mr-3"
@@ -1475,8 +1481,8 @@
         >
           <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
             ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
-            Telegram</b-button
-          >
+            <span class="d-none d-md-block">Telegram</span>
+          </b-button>
         </ShareNetwork>
       </div>
     </b-modal>
@@ -1886,7 +1892,7 @@ export default {
       this.$bvModal.show("alllikes");
     },
     sharenow(feed) {
-      this.description = feed.message;
+      this.description = this.toText(feed.message);
       this.link = `https://nzukoor.com/explore/feed/view/${feed.id}?utf_medium=share`;
       this.$bvModal.show("share");
     },

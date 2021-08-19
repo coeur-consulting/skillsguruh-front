@@ -198,78 +198,6 @@
     </div>
 
     <div class="d-flex align-items-center">
-      <div class="position-relative mr-4 d-none">
-        <bell-icon
-          size="1.5x"
-          class="custom-class text-dark-green"
-          id="bell"
-        ></bell-icon>
-        <small class="notify_badge">
-          <b-badge variant="danger" v-if="unreadnotifications.length">{{
-            unreadnotifications.length
-          }}</b-badge></small
-        >
-      </div>
-      <b-popover
-        id="notification1"
-        target="bell"
-        triggers="hover"
-        placement="bottom"
-      >
-        <template #title>Notifications</template>
-        <div class="notifications" v-if="notifications.length">
-          <div class="notification_container">
-            <div
-              class="notify border-bottom"
-              v-for="(item, id) in notifications"
-              :key="id"
-            >
-              <div
-                v-if="!item.read_at"
-                @click="
-                  $store.dispatch('markNotification', {
-                    id: item.id,
-                    user: $store.getters.member,
-                  })
-                "
-              >
-                <div
-                  class="fs12"
-                  :class="{ 'font-weight-bold': !item.read_at }"
-                >
-                  {{ item.data.notification }}
-                </div>
-
-                <div class="fs11 text-right">
-                  {{ item.created_at | moment("calendar") }}
-                </div>
-              </div>
-              <div v-else>
-                <span :class="{ 'font-weight-bold': !item.read_at }">
-                  {{ item.data.notification }}</span
-                >
-                <br />
-                <span class="fs11">{{
-                  item.created_at | moment("calendar")
-                }}</span>
-              </div>
-            </div>
-          </div>
-          <div class="text-center py-1 border-top text-lighter-green fs11">
-            <span
-              class="cursor-pointer"
-              @click="
-                $store.dispatch('markNotifications', $store.getters.member)
-              "
-            >
-              Mark all as read</span
-            >
-          </div>
-        </div>
-        <div v-else class="text-center text-muted notify px-2">
-          No new notification !
-        </div>
-      </b-popover>
       <div class="position-relative mr-2">
         <mail-icon
           size="1.5x"
@@ -316,7 +244,12 @@
                       : ''
                   "
                 >
-                  {{ lastMessage(message).message }}
+                  <span v-if="lastMessage(message).message" class="text-muted">
+                    {{ lastMessage(message).message }}</span
+                  >
+                  <span v-else class="text-muted fs11"
+                    ><i>Sent attachment</i></span
+                  >
                 </div>
               </div>
 
@@ -358,21 +291,12 @@
         </b-dropdown>
       </span>
     </div>
-
-    <Minichat
-      class="minichats"
-      :user="'member'"
-      :mini_info="mini_info"
-      :open="open"
-      :showAll="showAll"
-      @togglechat="togglechat"
-    />
   </div>
 </template>
 <script>
 import { PushRotate } from "vue-burger-menu";
-import { MailIcon, BellIcon } from "vue-feather-icons";
-import Minichat from "../minichat";
+import { MailIcon } from "vue-feather-icons";
+
 import {
   HomeIcon,
   CalendarIcon,
@@ -389,9 +313,9 @@ import {
 export default {
   components: {
     PushRotate,
-    Minichat,
+
     MailIcon,
-    BellIcon,
+
     HomeIcon,
     CalendarIcon,
     FolderIcon,
@@ -441,8 +365,6 @@ export default {
         type: "",
         profile: "",
       };
-      this.open = false;
-      this.showAll = false;
     },
     logout() {
       localStorage.removeItem("authMember");
@@ -481,8 +403,7 @@ export default {
       this.mini_info.name = name;
       this.mini_info.type = type;
       this.mini_info.profile = profile;
-      this.open = true;
-      this.showAll = true;
+      this.$store.dispatch("getChatter", this.mini_info);
     },
     getinbox() {
       this.$http
@@ -507,7 +428,7 @@ export default {
         (item) =>
           !item.status &&
           item.receiver_id == this.$store.getters.member.id &&
-          item.receiver == "member"
+          item.receiver == "user"
       );
     },
     inboxes() {

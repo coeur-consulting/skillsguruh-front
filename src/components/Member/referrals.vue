@@ -107,6 +107,7 @@
               </b-col>
             </b-row>
             <div class="p-3 text-center mb-4">
+              <h6>Your referral link</h6>
               <div
                 class="px-3 py-2 d-flex align-items-center search bg-light mb-3"
               >

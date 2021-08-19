@@ -31,23 +31,26 @@
                   <b-col cols="9" sm="9" class="flex-1">
                     <b-card-body
                       :title="detail.username"
-                      class="text-left text-capitalize"
+                      class="text-left"
                     >
-                      <b-card-text class="mb-1" v-if="detail.bio">
+                      <b-card-text class="mb-1" >
                         <span class="fs14 text-muted">
-                          {{ detail.bio ? detail.bio : "N/a" }}</span
+                          {{
+                            detail.bio ? detail.bio : "User bio unavailable "
+                          }}</span
                         >
                       </b-card-text>
                       <b-card-text
                         class="d-flex align-items-center mb-0"
                         style="line-height: 1.1"
-                        v-if="detail.age || detail.state || detail.country"
                       >
-                        <span
-                          class="fs11 text-muted cursor-pointer mr-2"
-                          v-if="detail.age"
-                        >
-                          {{ detail.age }} years ,</span
+                        <span class="fs11 text-muted cursor-pointer mr-2">
+                          {{
+                            `${showInfo(
+                              $store.getters.show_age,
+                              detail.age
+                            )} yrs, `
+                          }}</span
                         >
 
                         <span
@@ -135,7 +138,7 @@
                           @click="
                             getmessage(
                               detail.id,
-                              detail.name,
+                              detail.username,
                               'user',
                               detail.profile
                             )
@@ -149,7 +152,7 @@
                           @click="
                             getmessage(
                               detail.id,
-                              detail.name,
+                              detail.username,
                               'facilitator',
                               detail.profile
                             )
@@ -1089,7 +1092,7 @@
                       @click="
                         getmessage(
                           item.user_follower.id,
-                          item.user_follower.name,
+                          item.user_follower.username,
                           'user',
                           item.user_follower.profile
                         )
@@ -1609,6 +1612,11 @@ export default {
           if (res.status == 200 || res.status == 201) {
             this.$toast.success("Connected");
             this.getmyconnections();
+            this.$store.dispatch("newConnection", {
+              id,
+              type,
+              token: this.$store.getters.member.access_token,
+            });
           }
         })
         .catch((err) => {
@@ -1768,12 +1776,12 @@ export default {
         this.$toast.error("Login to complete action");
         return;
       }
+
       this.mini_info.id = id;
       this.mini_info.name = name;
       this.mini_info.type = type;
       this.mini_info.profile = profile;
-      this.open = true;
-      this.showAll = true;
+      this.$store.dispatch("getChatter", this.mini_info);
       this.$bvModal.hide("connections");
     },
     getFeeds() {

@@ -44,38 +44,37 @@
                 "
                 style="object-fit: cover"
               ></b-img>
-              <div class="f_name text-truncate text-truncate--1">
-                {{ item.name }}
-              </div>
-              <div class="text-muted fs13 text-capitalize f_detail">
-                <span> {{ item.age ? item.age + " years" : "N/a" }}</span>
-                <span v-if="item.gender"
-                  >, {{ item.gender ? item.gender : "N/a" }}</span
-                >
-              </div>
+              <div class="p-1">
+                <div class="f_name text-truncate text-truncate--1">
+                  {{ item.username ? item.username : `User-${item.id}` }}
+                </div>
+                <div class="text-muted fs13 f_detail">
+                  <span class=""
+                    >{{
+                      item.age
+                        ? `${showInfo($store.getters.show_age, item.age)} yrs, `
+                        : "N/a"
+                    }}
+                    {{ item.gender ? item.gender : "" }}</span
+                  >
+                </div>
 
-              <div class="text-muted fs13 text-capitalize f_detail">
-                {{ item.state ? item.state : "Lagos" }},
-                {{ item.country ? item.country : "NG" }}
-              </div>
-              <div class="text-muted fs12 text-capitalize f_detail">
-                {{
-                  item.interests
-                    ? JSON.parse(item.interests).length + " interests"
-                    : "0 intersts"
-                }},
-              </div>
+                <div class="text-muted fs13 text-capitalize f_detail">
+                  {{ item.state ? item.state : "Lagos" }},
+                  {{ item.country ? item.country : "NG" }}
+                </div>
+                <div class="text-muted fs12 text-capitalize f_detail">
+                  {{
+                    item.interests
+                      ? JSON.parse(item.interests).length + " interests"
+                      : "0 intersts"
+                  }}
+                </div>
 
-              <div class="text-muted">
-                <small class="f_detail">Facilitator</small>
+                <div class="text-muted" v-if="item.qualifications">
+                  <small class="f_detail role">Facilitator</small>
+                </div>
               </div>
-              <!-- <div>
-              <b-icon class="text-gold" icon="star-fill"></b-icon>
-              <b-icon class="text-gold" icon="star-fill"></b-icon>
-              <b-icon class="text-gold" icon="star-fill"></b-icon>
-              <b-icon class="text-gold" icon="star-fill"></b-icon>
-              <b-icon class="text-gold" icon="star-fill"></b-icon>
-            </div> -->
             </div>
             <span class="hover_box"></span>
           </div>

@@ -84,6 +84,24 @@ Vue.use(InfiniteLoading, {
     noMore: "No more message", // you can pass a string value
   },
 });
+Vue.mixin({
+  methods: {
+    toText: function(HTML) {
+      if (!HTML) return;
+      var input = HTML;
+
+      return input
+        .replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi, "")
+        .replace(/<[^>]+?>/g, "")
+        .replace(/\s+/g, " ")
+        .replace(/ /g, " ")
+        .replace(/>/g, " ");
+    },
+    showInfo: function(key, value) {
+      return key ? value : "**********";
+    },
+  },
+});
 
 Vue.config.productionTip = false;
 
