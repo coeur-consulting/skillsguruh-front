@@ -383,7 +383,7 @@
               </b-form-select>
             </b-form-group>
           </b-col>
-          <b-col sm="6" v-if="discussion.type == 'private'">
+          <!-- <b-col sm="6" v-if="discussion.type == 'private'">
             <b-form-group label="Select course">
               <model-list-select
                 :list="courses"
@@ -394,7 +394,7 @@
               >
               </model-list-select>
             </b-form-group>
-          </b-col>
+          </b-col> -->
         </b-form-row>
 
         <b-form-group label="Category">
@@ -565,6 +565,7 @@ export default {
       return [];
     },
     filteredinterests() {
+      if (!this.discussion.category) return [];
       return this.mytags.filter(
         (item) => item.category_id == this.discussion.category.id
       );
@@ -726,6 +727,10 @@ export default {
         });
     },
     creatediscussion() {
+      if (!this.discussion.category || !this.discussion.tags.length) {
+        this.$toast.error("Fill all fields");
+        return;
+      }
       this.$http
         .post(`${this.$store.getters.url}/discussions`, this.discussion, {
           headers: {
@@ -751,7 +756,9 @@ export default {
           }
         })
         .catch((err) => {
-          this.$toast.error(err.response.data.message);
+          err.response.data.errors.forEach((element) => {
+            this.$toast.error(element);
+          });
         });
     },
     addtag() {
