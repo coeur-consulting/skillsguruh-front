@@ -57,19 +57,15 @@
               <div>
                 <b-form-row class="mb-2">
                   <b-col class="pr-sm-3">
-                    <b-form-group
-                      label="Email or Username"
-                      id="email"
-                      label-for="email"
-                    >
+                    <b-form-group label="Email" id="email" label-for="email">
                       <b-form-input
                         size="lg"
                         required
                         v-model="user.email"
                         name="email"
                         :state="validation"
-                        type="text"
-                        placeholder="Enter username/email address"
+                        type="email"
+                        placeholder="Enter email address"
                         aria-describedby="email-feedback"
                       ></b-form-input>
                     </b-form-group>
@@ -251,7 +247,7 @@ export default {
           password: this.user.password,
         };
         this.$http
-          .post("https://nzukoor-server.herokuapp.com", data)
+          .post("https://nzukoor-server.herokuapp.com/oauth/token", data)
           .then((res) => {
             authFacilitator.access_token = res.data.access_token;
             authFacilitator.refresh_token = res.data.refresh_token;
@@ -307,7 +303,7 @@ export default {
           password: this.user.password,
         };
         this.$http
-          .post("https://nzukoor-server.herokuapp.com", data)
+          .post("https://nzukoor-server.herokuapp.com/oauth/token", data)
           .then((res) => {
             authMember.access_token = res.data.access_token;
             authMember.refresh_token = res.data.refresh_token;
