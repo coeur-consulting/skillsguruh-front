@@ -450,7 +450,7 @@
                 <div class="d-flex align-items-center flex-1">
                   <b-avatar class="mr-2" size="1.3rem"></b-avatar>
                   <div class="text-left" style="line-height: 1.1">
-                    <span class="fs12">{{ item.user_follower.name }}</span>
+                    <span class="fs12">{{ item.user_follower.username }}</span>
                   </div>
                 </div>
               </b-form-checkbox>
@@ -464,7 +464,7 @@
                 <div class="d-flex align-items-center flex-1">
                   <b-avatar class="mr-2" size="1.3rem"></b-avatar>
                   <div>
-                    <span>{{ item.facilitator_follower.name }}</span>
+                    <span>{{ item.facilitator_follower.username }}</span>
                   </div>
                 </div>
               </b-form-checkbox>

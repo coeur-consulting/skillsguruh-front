@@ -27,10 +27,7 @@
               <div class="d-flex align-items-center flex-1">
                 <b-avatar class="mr-2" size="2.8rem"></b-avatar>
                 <div>
-                  <span>{{ item.user_follower.name }}</span> <br />
-                  <span class="fs14 text-muted">{{
-                    item.user_follower.email
-                  }}</span>
+                  <span>{{ item.user_follower.username }}</span>
                 </div>
               </div>
 
@@ -42,7 +39,7 @@
                   @click="
                     getmessage(
                       item.user_follower.id,
-                      item.user_follower.name,
+                      item.user_follower.username,
                       'user',
                       item.user_follower.profile
                     )
@@ -133,7 +130,7 @@ export default {
   computed: {
     filteredConnections() {
       return this.connections.filter((item) =>
-        item.user_follower.name
+        item.user_follower.username
           .toLowerCase()
           .includes(this.search.toLowerCase())
       );

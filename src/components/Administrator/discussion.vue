@@ -142,7 +142,7 @@
                           `/administrator/profile/u/${discussion.user.id}`
                         )
                       "
-                      >{{ discussion.user.name }}</span
+                      >{{ discussion.user.username }}</span
                     >
                     <span
                       v-if="discussion.facilitator"
@@ -152,7 +152,7 @@
                         )
                       "
                       class="cursor-pointer text-dark-green"
-                      >{{ discussion.facilitator.name }}</span
+                      >{{ discussion.facilitator.username }}</span
                     >
                   </div>
                 </div>
@@ -438,12 +438,12 @@
                             <span
                               v-if="reply.facilitator"
                               class="message_comment_name mr-1"
-                              >{{ reply.facilitator.name }}</span
+                              >{{ reply.facilitator.username }}</span
                             >
                             <span
                               v-if="reply.user"
                               class="message_comment_name mr-1"
-                              >{{ reply.user.name }}</span
+                              >{{ reply.user.username }}</span
                             >
                             <span class="message_comment_text">
                               {{ reply.message }}
@@ -1016,7 +1016,7 @@
             v-if="comments.user"
             @click="$router.push(`/facilitator/profile/u/${comments.user.id}`)"
             class="fs12 cursor-pointer hover_green"
-            >{{ comments.user.name }}</span
+            >{{ comments.user.username }}</span
           >
           <span
             v-if="comments.facilitator"
@@ -1024,7 +1024,7 @@
               $router.push(`/facilitator/profile/f/${comments.facilitator.id}`)
             "
             class="fs12 cursor-pointer hover_green"
-            >{{ comments.facilitator.name }}</span
+            >{{ comments.facilitator.username }}</span
           >
         </div>
         <div v-html="comments.message"></div>
@@ -1059,10 +1059,10 @@
               <span
                 v-if="reply.facilitator"
                 class="message_comment_name mr-1"
-                >{{ reply.facilitator.name }}</span
+                >{{ reply.facilitator.username }}</span
               >
               <span v-if="reply.user" class="message_comment_name mr-1">{{
-                reply.user.name
+                reply.user.username
               }}</span>
               <span class="message_comment_text">
                 {{ reply.message }}
@@ -1240,12 +1240,12 @@ export default {
     filteredConnections() {
       return this.connections.filter((item) => {
         if (item.user_follower) {
-          return item.user_follower.name
+          return item.user_follower.username
             .toLowerCase()
             .includes(this.search.toLowerCase());
         }
         if (item.facilitator_follower) {
-          return item.facilitator_follower.name
+          return item.facilitator_follower.username
             .toLowerCase()
             .includes(this.search.toLowerCase());
         }

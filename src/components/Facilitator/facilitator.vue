@@ -326,54 +326,70 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="interactions text-left px-3 py-3">
-                              <span class="mr-3 cursor-pointer">
+                            <div class="interactions text-left px-3 py-2">
+                              <span
+                                class="mr-3 cursor-pointer"
+                                @click="toggleStar(feed.id, index)"
+                              >
+                                <span class="mr-1">{{
+                                  feed.stars.filter((item) => item.star).length
+                                }}</span>
                                 <b-icon
                                   :icon="
                                     feed.stars.find(
                                       (item) =>
                                         item.star &&
-                                        item.facilitator_id ==
-                                          $store.getters.facilitator.id
+                                        (item.user_id ==
+                                          $store.getters.member.id ||
+                                          item.facilitator_id ==
+                                            $store.getters.facilitator.id)
                                     )
                                       ? 'star-fill'
                                       : 'star'
                                   "
-                                  class="text-blue mr-1"
+                                  class="text-blue"
                                 ></b-icon>
-                                <span>{{
-                                  feed.stars.filter((item) => item.star).length
-                                }}</span>
-                                stars</span
+                              </span>
+
+                              <span
+                                class="mr-3 cursor-pointer"
+                                @click="toggleLike(feed.id, index)"
                               >
-                              <span class="mr-3 cursor-pointer"
-                                ><b-icon
+                                <span class="mr-1">{{
+                                  feed.likes.filter((item) => item.like).length
+                                }}</span>
+                                <b-icon
                                   :icon="
                                     feed.likes.find(
                                       (item) =>
                                         item.like &&
-                                        item.facilitator_id ==
-                                          $store.getters.facilitator.id
+                                        (item.user_id ==
+                                          $store.getters.member.id ||
+                                          item.facilitator_id ==
+                                            $store.getters.facilitator.id)
                                     )
                                       ? 'heart-fill'
                                       : 'heart'
                                   "
-                                  class="text-danger mr-1"
+                                  class="text-danger"
                                 ></b-icon>
-                                <span>{{
-                                  feed.likes.filter((item) => item.like).length
-                                }}</span>
-                                likes</span
-                              >
+                              </span>
                               <span class="mr-3">
+                                <span class="mr-1">{{
+                                  feed.comments.length
+                                }}</span>
                                 <b-icon icon="chat-fill" class="mr-1"></b-icon>
-                                <span
-                                  ><span>{{ feed.comments.length }}</span></span
-                                >
+
                                 comments</span
                               >
-                              <span class="cursor-pointer">
-                                <b-icon icon="share"></b-icon>
+                              <span class="cursor-pointer flex-1 text-right"
+                                ><b-icon
+                                  @click="sharenow(feed)"
+                                  icon="
+                            share
+                          "
+                                  class=""
+                                ></b-icon>
                               </span>
                             </div>
                             <div
@@ -1063,7 +1079,9 @@
                   <div class="d-flex align-items-center flex-1">
                     <b-avatar class="mr-2" size="1.6rem"></b-avatar>
                     <div style="line-height: 1.2">
-                      <span class="fs13">{{ item.user_follower.name }}</span>
+                      <span class="fs13">{{
+                        item.user_follower.username
+                      }}</span>
                       <br />
                       <span class="fs12 text-muted">{{
                         item.user_follower.email
@@ -1098,7 +1116,7 @@
                     <b-avatar class="mr-2" size="1.6rem"></b-avatar>
                     <div style="line-height: 1.2">
                       <span class="fs13">{{
-                        item.facilitator_follower.name
+                        item.facilitator_follower.username
                       }}</span>
                       <br />
                       <span class="fs12 text-muted">{{
@@ -1422,12 +1440,12 @@ export default {
       }
       return this.connections.filter((item) => {
         if (item.user_follower) {
-          return item.user_follower.name
+          return item.user_follower.username
             .toLowerCase()
             .includes(this.search.toLowerCase());
         }
         if (item.facilitator_follower) {
-          return item.facilitator_follower.name
+          return item.facilitator_follower.username
             .toLowerCase()
             .includes(this.search.toLowerCase());
         }

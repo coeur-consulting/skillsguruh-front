@@ -440,7 +440,7 @@
                         ></b-avatar>
                         <div>
                           <span class="fs12 font-weight-bold">{{
-                            review.user.name
+                            review.user.username
                           }}</span>
                           <p class="fs15 mb-1">{{ review.review }}</p>
                           <star-rating

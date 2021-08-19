@@ -96,13 +96,13 @@
               <span
                 class="chatting_name font-weight-bold mr-3"
                 v-if="item.user"
-                >{{ item.user.name }}</span
+                >{{ item.user.username }}</span
               >
 
               <span
                 class="chatting_name font-weight-bold mr-3"
                 v-if="item.facilitator"
-                >{{ item.facilitator.name }}</span
+                >{{ item.facilitator.username }}</span
               >
               <span class="text-muted fs11">
                 {{ item.created_at | moment("LT") }}</span
@@ -137,13 +137,13 @@
               <span
                 class="chatting_name font-weight-bold mr-3"
                 v-if="item.user"
-                >{{ item.user.name }}</span
+                >{{ item.user.username }}</span
               >
 
               <span
                 class="chatting_name font-weight-bold mr-3"
                 v-if="item.facilitator"
-                >{{ item.facilitator.name }}</span
+                >{{ item.facilitator.username }}</span
               >
               <span class="text-muted fs11">
                 {{ item.created_at | moment("LT") }}</span
@@ -300,13 +300,13 @@
               <span
                 class="chatting_name font-weight-bold mr-3"
                 v-if="item.user"
-                >{{ item.user.name }}</span
+                >{{ item.user.username }}</span
               >
 
               <span
                 class="chatting_name font-weight-bold mr-3"
                 v-if="item.facilitator"
-                >{{ item.facilitator.name }}</span
+                >{{ item.facilitator.username }}</span
               >
               <span class="text-muted fs11">
                 {{ item.created_at | moment("LT") }}</span

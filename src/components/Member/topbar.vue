@@ -477,7 +477,7 @@ export default {
         if (item.user && item.user.id != this.$store.getters.member.id) {
           checkers.id = item.user.id;
           checkers.type = "user";
-          checkers.name = item.user.name;
+          checkers.name = item.user.username;
           checkers.message = item.message;
           checkers.time = item.time;
           checkers.profile = item.user.profile;
@@ -497,7 +497,7 @@ export default {
         if (item.facilitator) {
           checkers.id = item.facilitator.id;
           checkers.type = "facilitator";
-          checkers.name = item.facilitator.name;
+          checkers.name = item.facilitator.username;
           checkers.message = item.message;
           checkers.time = item.time;
           checkers.profile = item.facilitator.profile;

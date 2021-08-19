@@ -16,7 +16,7 @@
             class="rounded border-0"
             v-model="feed.message"
             :placeholder="
-              'Whats on your mind ' + $store.getters.facilitator.name + '?'
+              'Whats on your mind ' + $store.getters.facilitator.username + '?'
             "
           ></b-form-textarea>
         </div>
@@ -285,7 +285,9 @@
                 readonly
                 @click="$bvModal.show('feed')"
                 :placeholder="
-                  'Whats on your mind ' + $store.getters.facilitator.name + '?'
+                  'Whats on your mind ' +
+                  $store.getters.facilitator.username +
+                  '?'
                 "
               ></b-form-input>
             </div>
@@ -468,7 +470,7 @@
                       <cld-image
                         v-if="
                           feed.publicId &&
-                            img_ext.includes(getextension(feed.media))
+                          img_ext.includes(getextension(feed.media))
                         "
                         :publicId="feed.publicId"
                         @dblclick="toggleLike(feed.id, index)"
@@ -482,8 +484,8 @@
                       <b-img
                         v-if="
                           !feed.publicId &&
-                            feed.media &&
-                            img_ext.includes(getextension(feed.media))
+                          feed.media &&
+                          img_ext.includes(getextension(feed.media))
                         "
                         @dblclick="toggleLike(feed.id, index)"
                         class="img_feed"
@@ -494,7 +496,7 @@
                         controls
                         v-if="
                           feed.publicId &&
-                            vid_ext.includes(getextension(feed.media))
+                          vid_ext.includes(getextension(feed.media))
                         "
                         :publicId="feed.publicId"
                       >
@@ -506,7 +508,7 @@
                         controls
                         v-if="
                           feed.media &&
-                            aud_ext.includes(getextension(feed.media))
+                          aud_ext.includes(getextension(feed.media))
                         "
                         :src="feed.media"
                         class="fluid-grow"
@@ -514,7 +516,7 @@
                       <div
                         v-if="
                           feed.media &&
-                            doc_ext.includes(getextension(feed.media))
+                          doc_ext.includes(getextension(feed.media))
                         "
                         class="text-center p-3 p-sm-4 bg-skills-grey"
                       >
@@ -551,48 +553,51 @@
                       class="mr-3 cursor-pointer"
                       @click="toggleStar(feed.id, index)"
                     >
+                      <span class="mr-1">{{
+                        feed.stars.filter((item) => item.star).length
+                      }}</span>
                       <b-icon
                         :icon="
                           feed.stars.find(
-                            item =>
+                            (item) =>
                               item.star &&
-                              item.facilitator_id ==
-                                $store.getters.facilitator.id
+                              (item.user_id == $store.getters.member.id ||
+                                item.facilitator_id ==
+                                  $store.getters.facilitator.id)
                           )
                             ? 'star-fill'
                             : 'star'
                         "
-                        class="text-blue mr-1"
+                        class="text-blue"
                       ></b-icon>
-                      <span>{{
-                        feed.stars.filter(item => item.star).length
-                      }}</span>
                     </span>
+
                     <span
                       class="mr-3 cursor-pointer"
                       @click="toggleLike(feed.id, index)"
-                      ><b-icon
+                    >
+                      <span class="mr-1">{{
+                        feed.likes.filter((item) => item.like).length
+                      }}</span>
+                      <b-icon
                         :icon="
                           feed.likes.find(
-                            item =>
+                            (item) =>
                               item.like &&
-                              item.facilitator_id ==
-                                $store.getters.facilitator.id
+                              (item.user_id == $store.getters.member.id ||
+                                item.facilitator_id ==
+                                  $store.getters.facilitator.id)
                           )
                             ? 'heart-fill'
                             : 'heart'
                         "
-                        class="text-danger mr-1"
+                        class="text-danger"
                       ></b-icon>
-                      <span>{{
-                        feed.likes.filter(item => item.like).length
-                      }}</span>
                     </span>
                     <span class="mr-3">
+                      <span class="mr-1">{{ feed.comments.length }}</span>
                       <b-icon icon="chat-fill" class="mr-1"></b-icon>
-                      <span
-                        ><span>{{ feed.comments.length }}</span></span
-                      >
+
                       comments</span
                     >
                     <span class="cursor-pointer flex-1 text-right"
@@ -864,7 +869,7 @@
           <h6>Liked by</h6>
           <div
             class="comment d-flex text-left mb-2"
-            v-for="(item, index) in alllikes.likes.filter(val => val.like)"
+            v-for="(item, index) in alllikes.likes.filter((val) => val.like)"
             :key="index"
           >
             <div class="flex-1">
@@ -1028,7 +1033,7 @@ export default {
         media: "",
         message: "",
         publicId: "",
-        tags: []
+        tags: [],
       },
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp"],
@@ -1036,17 +1041,17 @@ export default {
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       comment: {
         comment: "",
-        id: ""
+        id: "",
       },
       mini_info: {
         id: "",
         name: "",
         type: "",
-        profile: ""
+        profile: "",
       },
       page: 1,
       alllikes: null,
-      toggleOn: null
+      toggleOn: null,
     };
   },
   components: {
@@ -1056,15 +1061,15 @@ export default {
     FeedUpload,
     MultiSelect,
     Suggestions,
-    Feelings
+    Feelings,
   },
   created() {
     var channel = this.$pusher.subscribe("addfeed");
 
-    channel.bind("addfeed", data => {
+    channel.bind("addfeed", (data) => {
       this.feeds.unshift(data.message);
     });
-    this.options = Interest.map(item => {
+    this.options = Interest.map((item) => {
       item.text = item.value;
 
       return item;
@@ -1097,7 +1102,7 @@ export default {
         return "member";
       }
       return token;
-    }
+    },
   },
   mounted() {
     // this.getfeeds();
@@ -1110,8 +1115,8 @@ export default {
     focus: {
       inserted(el) {
         el.focus();
-      }
-    }
+      },
+    },
   },
   methods: {
     likeimage(index) {
@@ -1127,7 +1132,7 @@ export default {
       this.$bvModal.show("alllikes");
     },
     getlikes(item) {
-      var arr = item.filter(val => val.like);
+      var arr = item.filter((val) => val.like);
       var first = {};
       var check = null;
       first = arr.slice().shift();
@@ -1164,23 +1169,22 @@ export default {
       if (arr.length > 1) {
         if (this.$store.getters.member.access_token) {
           check = arr.some(
-            val => val.user_id && val.user.id == this.$store.getters.member.id
+            (val) => val.user_id && val.user.id == this.$store.getters.member.id
           );
           if (check) {
             result = `Liked by you and ${arr.length - 1} others`;
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${arr.length -
-                1} ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${first.user.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${
-                first.facilitator.username
-              } and  ${arr.length - 1} ${
-                arr.length - 1 > 1 ? "others" : "other"
-              } `;
+              result = `Liked by  ${first.facilitator.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.admin) {
@@ -1193,7 +1197,7 @@ export default {
         }
         if (this.$store.getters.facilitator.access_token) {
           check = arr.some(
-            val =>
+            (val) =>
               val.facilitator_id &&
               val.facilitator.id == this.$store.getters.facilitator.id
           );
@@ -1202,16 +1206,15 @@ export default {
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${arr.length -
-                1} ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${first.user.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${
-                first.facilitator.username
-              } and  ${arr.length - 1} ${
-                arr.length - 1 > 1 ? "others" : "other"
-              } `;
+              result = `Liked by  ${first.facilitator.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.admin) {
@@ -1224,23 +1227,22 @@ export default {
         }
         if (this.$store.getters.admin.access_token) {
           check = arr.some(
-            val => val.admin && val.admin.id == this.$store.getters.admin.id
+            (val) => val.admin && val.admin.id == this.$store.getters.admin.id
           );
           if (check) {
             result = `Liked by you and ${arr.length - 1} others`;
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${arr.length -
-                1} ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${first.user.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${
-                first.facilitator.username
-              } and  ${arr.length - 1} ${
-                arr.length - 1 > 1 ? "others" : "other"
-              } `;
+              result = `Liked by  ${first.facilitator.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.admin) {
@@ -1265,15 +1267,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/trending/feeds`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.trendingfeeds = res.data.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1281,15 +1283,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/custom/feeds`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.customfeeds = res.data.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1297,16 +1299,16 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/recent/feeds`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.recentfeeds = res.data.data;
             this.showFeeds = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1314,10 +1316,10 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/feeds?page=${this.page}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.data.data.length) {
             this.page += 1;
             this.feeds.push(...res.data.data);
@@ -1331,15 +1333,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/get/feeds/tags`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.feedTags = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1404,16 +1406,16 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/feeds`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.feeds = res.data.data;
             this.showFeeds = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1421,10 +1423,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Feed Updated ");
             this.$bvModal.hide("feed");
@@ -1433,11 +1435,11 @@ export default {
               media: "",
               message: "",
               publicId: "",
-              tags: []
+              tags: [],
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1452,10 +1454,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/feed-comments`, this.comment, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.$toast.success("Comment updated ");
 
@@ -1464,11 +1466,11 @@ export default {
 
             this.comment = {
               comment: "",
-              id: ""
+              id: "",
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1479,25 +1481,25 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.likeimage(index);
             this.filteredFeeds[index].likes.push(res.data);
           }
           if (res.status == 200) {
             this.likeimage(index);
-            this.filteredFeeds[index].likes.map(item => {
+            this.filteredFeeds[index].likes.map((item) => {
               if (item.facilitator_id == this.$store.getters.facilitator.id) {
                 return (item.like = res.data.like);
               }
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1508,48 +1510,48 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.filteredFeeds[index].stars.push(res.data);
           }
           if (res.status == 200) {
-            this.filteredFeeds[index].stars.map(item => {
+            this.filteredFeeds[index].stars.map((item) => {
               if (item.facilitator_id == this.$store.getters.facilitator.id) {
                 return (item.star = res.data.star);
               }
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/feeds/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
-              }
+                Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+              },
             })
-            .then(res => {
+            .then((res) => {
               if (res.status == 200) {
                 this.$toast.success("Feed deleted");
                 this.filteredFeeds.splice(index, 1);
               }
             })
-            .catch(err => {
+            .catch((err) => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped lang="scss">

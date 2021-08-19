@@ -35,7 +35,7 @@
                         )
                       "
                     >
-                      {{ item.user_follower.name }}
+                      {{ item.user_follower.username }}
                     </div>
                   </div>
                 </div>
@@ -71,7 +71,7 @@
                       "
                       class="connection_name cursor-pointer"
                     >
-                      {{ item.facilitator_follower.name }}
+                      {{ item.facilitator_follower.username }}
                     </div>
                   </div>
                 </div>
@@ -202,12 +202,12 @@ export default {
       }
       return this.connections.filter((item) => {
         if (item.user_follower) {
-          return item.user_follower.name
+          return item.user_follower.username
             .toLowerCase()
             .includes(this.search.toLowerCase());
         }
         if (item.facilitator_follower) {
-          return item.facilitator_follower.name
+          return item.facilitator_follower.username
             .toLowerCase()
             .includes(this.search.toLowerCase());
         }

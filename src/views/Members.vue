@@ -121,7 +121,9 @@ export default {
   },
   computed: {
     filteredName() {
-      var name = this.members.filter((item) => item.name.includes(this.search));
+      var name = this.members.filter((item) =>
+        item.username.includes(this.search)
+      );
       return name.slice(
         this.perPage * this.currentPage - this.perPage,
         this.perPage * this.currentPage

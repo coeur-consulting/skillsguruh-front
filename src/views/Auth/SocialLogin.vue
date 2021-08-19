@@ -185,12 +185,15 @@ export default {
               if (res.status == 200) {
                 authMember.id = res.data.id;
                 authMember.name = res.data.name;
+                authMember.username = res.data.username;
                 authMember.email = res.data.email;
                 authMember.profile = res.data.profile;
                 authMember.voice = res.data.voice;
                 authMember.interests = res.data.interests;
-                authMember.org_profile = res.data.organization.logo;
-                authMember.org_name = res.data.organization.name;
+                authMember.show_age = res.data.show_age;
+                authMember.show_email = res.data.show_name;
+                authMember.show_name = res.data.show_name;
+                authMember.role_id = res.data.role.id;
                 authMember.referral = res.data.referral_code;
 
                 localStorage.setItem("authMember", JSON.stringify(authMember));
