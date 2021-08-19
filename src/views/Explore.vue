@@ -115,7 +115,7 @@
                     <b-badge
                       class="text-white d-flex align-items-center"
                       :style="{
-                        backgroundColor: JSON.parse(item.category).color
+                        backgroundColor: JSON.parse(item.category).color,
                       }"
                     >
                       <b-icon
@@ -255,7 +255,7 @@
                       <b-badge
                         class="text-white d-flex align-items-center"
                         :style="{
-                          backgroundColor: JSON.parse(item.category).color
+                          backgroundColor: JSON.parse(item.category).color,
                         }"
                       >
                         <b-icon
@@ -463,7 +463,7 @@
                           @click="drop(feed.id, index)"
                           v-if="
                             feed.user &&
-                              feed.user.id == $store.getters.member.id
+                            feed.user.id == $store.getters.member.id
                           "
                           >Delete</b-dropdown-item
                         >
@@ -573,7 +573,7 @@
                         <b-icon
                           :icon="
                             feed.stars.find(
-                              item =>
+                              (item) =>
                                 item.star &&
                                 item.user_id == $store.getters.member.id
                             )
@@ -583,7 +583,7 @@
                           class="text-blue mr-1"
                         ></b-icon>
                         <span>{{
-                          feed.stars.filter(item => item.star).length
+                          feed.stars.filter((item) => item.star).length
                         }}</span>
                       </span>
                       <span
@@ -592,7 +592,7 @@
                         ><b-icon
                           :icon="
                             feed.likes.find(
-                              item =>
+                              (item) =>
                                 item.like &&
                                 item.user_id == $store.getters.member.id
                             )
@@ -602,7 +602,7 @@
                           class="text-danger mr-1"
                         ></b-icon>
                         <span>{{
-                          feed.likes.filter(item => item.like).length
+                          feed.likes.filter((item) => item.like).length
                         }}</span>
                       </span>
                       <span class="mr-3">
@@ -747,8 +747,9 @@
                                       <h5>{{ category }}</h5>
                                       <div class="emojis">
                                         <span
-                                          v-for="(emoji,
-                                          emojiName) in emojiGroup"
+                                          v-for="(
+                                            emoji, emojiName
+                                          ) in emojiGroup"
                                           :key="emojiName"
                                           @click="insert(emoji)"
                                           :title="emojiName"
@@ -898,7 +899,7 @@
                 :spacePadding="8"
                 :perPageCustom="[
                   [600, 2],
-                  [768, 3]
+                  [768, 3],
                 ]"
                 v-if="courses.length"
               >
@@ -921,7 +922,7 @@
                             item.cover
                               ? item.cover
                               : require('@/assets/images/default.png')
-                          })`
+                          })`,
                         }"
                       ></div>
                       <div class="course_text bg-white p-2 p-sm-3">
@@ -937,7 +938,7 @@
                             :style="{
                               backgroundColor: JSON.parse(
                                 item.courseoutline.knowledge_areas
-                              ).color
+                              ).color,
                             }"
                           >
                             <b-icon
@@ -1028,7 +1029,7 @@
           <div v-if="showEvents">
             <div
               class="events"
-              v-if="events.filter(item => item.status !== 'expired').length"
+              v-if="events.filter((item) => item.status !== 'expired').length"
             >
               <carousel
                 :perPage="1"
@@ -1041,7 +1042,7 @@
               >
                 <slide
                   v-for="item in events
-                    .filter(item => item.status !== 'expired')
+                    .filter((item) => item.status !== 'expired')
                     .slice(0, 4)"
                   :key="item.id"
                   class="p-3"
@@ -1210,7 +1211,7 @@
           <h6>Liked by</h6>
           <div
             class="comment d-flex text-left mb-2"
-            v-for="(item, index) in alllikes.likes.filter(val => val.like)"
+            v-for="(item, index) in alllikes.likes.filter((val) => val.like)"
             :key="index"
           >
             <div class="flex-1">
@@ -1496,7 +1497,7 @@ export default {
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       comment: {
         comment: "",
-        id: ""
+        id: "",
       },
       search: "",
       showEnrolled: false,
@@ -1518,15 +1519,15 @@ export default {
       feeds: [],
       auth: false,
       alllikes: null,
-      toggleOn: null
+      toggleOn: null,
     };
   },
   directives: {
     focus: {
       inserted(el) {
         el.focus();
-      }
-    }
+      },
+    },
   },
   mounted() {
     if (
@@ -1549,7 +1550,7 @@ export default {
   },
   components: {
     EmojiPicker,
-    VueSlickCarousel
+    VueSlickCarousel,
   },
   computed: {
     useraccess() {
@@ -1580,7 +1581,7 @@ export default {
     },
     trending() {
       return this.discussions
-        .filter(item => item.type == "public")
+        .filter((item) => item.type == "public")
         .sort((a, b) => {
           return (
             (b.discussionview ? b.discussionview.view : 0) -
@@ -1598,7 +1599,7 @@ export default {
     },
     filteredFeeds() {
       return this.feeds.slice(0, 3);
-    }
+    },
   },
   methods: {
     likeimage(index) {
@@ -1614,7 +1615,7 @@ export default {
       this.$bvModal.show("alllikes");
     },
     getlikes(item) {
-      var arr = item.filter(val => val.like);
+      var arr = item.filter((val) => val.like);
       var first = {};
       var check = null;
       first = arr.slice().shift();
@@ -1651,23 +1652,22 @@ export default {
       if (arr.length > 1) {
         if (this.$store.getters.member.access_token) {
           check = arr.some(
-            val => val.user_id && val.user.id == this.$store.getters.member.id
+            (val) => val.user_id && val.user.id == this.$store.getters.member.id
           );
           if (check) {
             result = `Liked by you and ${arr.length - 1} others`;
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${arr.length -
-                1} ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${first.user.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${
-                first.facilitator.username
-              } and  ${arr.length - 1} ${
-                arr.length - 1 > 1 ? "others" : "other"
-              } `;
+              result = `Liked by  ${first.facilitator.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.admin) {
@@ -1680,7 +1680,7 @@ export default {
         }
         if (this.$store.getters.facilitator.access_token) {
           check = arr.some(
-            val =>
+            (val) =>
               val.facilitator_id &&
               val.facilitator.id == this.$store.getters.facilitator.id
           );
@@ -1689,16 +1689,15 @@ export default {
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${arr.length -
-                1} ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${first.user.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${
-                first.facilitator.username
-              } and  ${arr.length - 1} ${
-                arr.length - 1 > 1 ? "others" : "other"
-              } `;
+              result = `Liked by  ${first.facilitator.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.admin) {
@@ -1711,23 +1710,22 @@ export default {
         }
         if (this.$store.getters.admin.access_token) {
           check = arr.some(
-            val => val.admin && val.admin.id == this.$store.getters.admin.id
+            (val) => val.admin && val.admin.id == this.$store.getters.admin.id
           );
           if (check) {
             result = `Liked by you and ${arr.length - 1} others`;
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${arr.length -
-                1} ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${first.user.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${
-                first.facilitator.username
-              } and  ${arr.length - 1} ${
-                arr.length - 1 > 1 ? "others" : "other"
-              } `;
+              result = `Liked by  ${first.facilitator.username} and  ${
+                arr.length - 1
+              } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.admin) {
@@ -1750,20 +1748,20 @@ export default {
     },
     loadCourse() {
       this.course = this.courses.find(
-        item => item.id == this.$route.query.course_id
+        (item) => item.id == this.$route.query.course_id
       );
     },
     mostenrolled() {
       this.$http
         .get(`${this.$store.getters.url}/guest/mostenrolled`)
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.mostenrolledcourse = res.data;
           }
         });
     },
     getcontributors() {
-      this.$http.get(`${this.$store.getters.url}/contributors`).then(res => {
+      this.$http.get(`${this.$store.getters.url}/contributors`).then((res) => {
         if (res.status == 200) {
           this.contributors = res.data;
         }
@@ -1779,7 +1777,7 @@ export default {
     getTrendingFeeds() {
       this.$http
         .get(`${this.$store.getters.url}/guest/trending/feeds`)
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.trendingFeed = res.data;
           }
@@ -1788,31 +1786,31 @@ export default {
     gettrendingfeeds() {
       this.$http
         .get(`${this.$store.getters.url}/trending/feeds`)
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.feeds = res.data.data;
             this.showFeeds = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
     getcourses() {
       this.$http
         .get(`${this.$store.getters.url}/guest/courses`)
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.courses = res.data;
             this.showCourse = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
     getmembers() {
-      this.$http.get(`${this.$store.getters.url}/get/members`).then(res => {
+      this.$http.get(`${this.$store.getters.url}/get/members`).then((res) => {
         if (res.status == 200) {
           this.users = res.data;
           this.rows = res.data.length;
@@ -1822,7 +1820,7 @@ export default {
     getfacilitators() {
       this.$http
         .get(`${this.$store.getters.url}/guest/facilitators`)
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
@@ -1881,10 +1879,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/feed-comments`, this.comment, {
           headers: {
-            Authorization: `Bearer ${this.usertoken.access_token}`
-          }
+            Authorization: `Bearer ${this.usertoken.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.$toast.success("Comment updated ");
             this.filteredFeeds[index].comments.unshift(res.data);
@@ -1892,11 +1890,11 @@ export default {
 
             this.comment = {
               comment: "",
-              id: ""
+              id: "",
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1911,18 +1909,18 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.usertoken.access_token}`
-            }
+              Authorization: `Bearer ${this.usertoken.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.likeimage(index);
             this.filteredFeeds[index].likes.push(res.data);
           }
           if (res.status == 200) {
             this.likeimage(index);
-            this.filteredFeeds[index].likes.map(item => {
+            this.filteredFeeds[index].likes.map((item) => {
               if (this.$store.getters.facilitator.access_token) {
                 if (item.facilitator_id == this.$store.getters.facilitator.id) {
                   return (item.like = res.data.like);
@@ -1936,7 +1934,7 @@ export default {
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1951,16 +1949,16 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.usertoken.access_token}`
-            }
+              Authorization: `Bearer ${this.usertoken.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.filteredFeeds[index].stars.push(res.data);
           }
           if (res.status == 200) {
-            this.filteredFeeds[index].stars.map(item => {
+            this.filteredFeeds[index].stars.map((item) => {
               if (this.$store.getters.facilitator.access_token) {
                 if (item.facilitator_id == this.$store.getters.facilitator.id) {
                   return (item.like = res.data.like);
@@ -1974,12 +1972,12 @@ export default {
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
     getevents() {
-      this.$http.get(`${this.$store.getters.url}/guest/events`).then(res => {
+      this.$http.get(`${this.$store.getters.url}/guest/events`).then((res) => {
         if (res.status == 200) {
           this.events = res.data;
           this.showEvents = true;
@@ -1989,13 +1987,13 @@ export default {
     getdiscussions() {
       this.$http
         .get(`${this.$store.getters.url}/guest/discussions`)
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.discussions = res.data;
           }
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -2092,6 +2090,7 @@ export default {
 .comment_container {
   background: #fff;
   border-radius: 10px;
+  max-height: 90px;
 }
 .comment_image {
   width: 25%;
@@ -2113,6 +2112,14 @@ export default {
 .comment_text {
   font-size: 0.7rem;
   color: rgba($color: #000000, $alpha: 0.64);
+  max-height: 34px;
+  overflow: hidden;
+}
+.comment_text p {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: normal;
 }
 .comment_details {
   font-size: 0.6rem;
