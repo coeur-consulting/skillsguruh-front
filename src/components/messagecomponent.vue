@@ -126,7 +126,7 @@
         </div>
         <div class="d-flex w-100 mb-3">
           <div class="mr-2">
-            <b-skeleton type="avatar"></b-skeleton>
+            <b-skeleton type="avatar"></b-skeleton>gin
           </div>
           <div class="w-100">
             <b-skeleton animation="wave" width="85%"></b-skeleton>
