@@ -474,7 +474,7 @@
                             img_ext.includes(getextension(feed.media))
                           "
                           :publicId="feed.publicId"
-                          @click="toggleLike(feed.id, index)"
+                          @dblclick="toggleLike(feed.id, index)"
                         >
                           <cld-transformation
                             aspectRatio="1.0"
@@ -488,7 +488,7 @@
                             feed.media &&
                             img_ext.includes(getextension(feed.media))
                           "
-                          @click="toggleLike(feed.id, index)"
+                          @dblclick="toggleLike(feed.id, index)"
                           class="img_feed"
                           :src="feed.media"
                         ></b-img>
