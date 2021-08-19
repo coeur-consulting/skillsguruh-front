@@ -35,6 +35,13 @@ p {
 ::placeholder {
   font-size: 0.75rem;
 }
+.connect_tab div ul li a {
+  font-size: 14px;
+  color: rgba($color: #000000, $alpha: 0.44);
+}
+
+.connect_tab div ul li.active {
+}
 .nav-left {
   position: absolute;
   left: -28px;
