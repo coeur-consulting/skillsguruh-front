@@ -507,12 +507,12 @@ export default {
     filteredConnections() {
       return this.connections.filter((item) => {
         if (item.user_follower) {
-          return item.user_follower.name
+          return item.user_follower.username
             .toLowerCase()
             .includes(this.search.toLowerCase());
         }
         if (item.facilitator_follower) {
-          return item.facilitator_follower.name
+          return item.facilitator_follower.username
             .toLowerCase()
             .includes(this.search.toLowerCase());
         }
