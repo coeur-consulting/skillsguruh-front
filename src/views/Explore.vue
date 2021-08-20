@@ -284,39 +284,39 @@
                       >
                         <div class="comment_image">
                           <b-img
-                            v-if="item.admin"
+                            v-if="message.admin"
                             :src="
-                              item.admin.proflle
-                                ? item.admin.profile
+                              message.admin.proflle
+                                ? message.admin.profile
                                 : require('@/assets/images/default.jpeg')
                             "
                           ></b-img>
                           <b-img
-                            v-if="item.facilitator"
+                            v-if="message.facilitator"
                             :src="
-                              item.facilitator.proflle
-                                ? item.facilitator.profile
+                              message.facilitator.proflle
+                                ? message.facilitator.profile
                                 : require('@/assets/images/default.jpeg')
                             "
                           ></b-img>
                           <b-img
-                            v-if="item.user"
+                            v-if="message.user"
                             :src="
-                              item.user.proflle
-                                ? item.user.profile
+                              message.user.proflle
+                                ? message.user.profile
                                 : require('@/assets/images/default.jpeg')
                             "
                           ></b-img>
                         </div>
                         <div class="comment_box">
-                          <div class="comment_name" v-if="item.admin">
-                            {{ item.admin.name }}
+                          <div class="comment_name" v-if="message.admin">
+                            {{ message.admin.name }}
                           </div>
-                          <div class="comment_name" v-if="item.facilitator">
-                            {{ item.facilitator.username }}
+                          <div class="comment_name" v-if="message.facilitator">
+                            {{ message.facilitator.username }}
                           </div>
-                          <div class="comment_name" v-if="item.user">
-                            {{ item.user.username }}
+                          <div class="comment_name" v-if="message.user">
+                            {{ message.user.username }}
                           </div>
                           <div class="comment_details">
                             <!-- <span class="mr-2">{{

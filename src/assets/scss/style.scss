@@ -937,6 +937,9 @@ ol.subquest {
   font-weight: 500;
 }
 @media (max-width: 600px) {
+  p {
+    font-size: 0.85rem;
+  }
   .media img,
   .media video,
   .media audio {
@@ -1327,9 +1330,7 @@ ol.subquest {
   h4.event_title {
     font-size: 0.85rem;
   }
-  p {
-    font-size: 0.85rem;
-  }
+
   .connection_name {
     font-size: 0.8rem;
   }
