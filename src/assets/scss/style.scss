@@ -937,6 +937,9 @@ ol.subquest {
   font-weight: 500;
 }
 @media (max-width: 600px) {
+  .mob-carousel .VueCarousel-wrapper {
+    padding-bottom: 15px;
+  }
   p {
     font-size: 0.85rem;
   }

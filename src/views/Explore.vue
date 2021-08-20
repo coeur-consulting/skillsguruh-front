@@ -210,7 +210,7 @@
             </b-col>
           </b-row>
           <div class="py-4 d-sm-none px-3">
-            <carousel :perPage="1">
+            <carousel :perPage="1" class="mob-carousel">
               <slide
                 v-for="(item, id) in trending.slice(0, 6)"
                 :key="id"
@@ -280,6 +280,7 @@
                           comment_container
                           mb-3
                           overflow-hidden
+                          shadow-sm
                         "
                       >
                         <div class="comment_image">
