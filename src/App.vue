@@ -1,5 +1,13 @@
 <template>
   <div id="app" class="position-relative">
+    <b-button
+      id="refresh-button"
+      variant="dark-green"
+      v-if="updateExists"
+      @click="refreshApp"
+    >
+      <i class="fa fa-refresh"></i> Click to update!
+    </b-button>
     <router-view name="header" />
 
     <router-view class="bod" />
@@ -141,6 +149,9 @@ export default {
         profile: "",
       },
       auth: false,
+      refreshing: false,
+      registration: null,
+      updateExists: false,
     };
   },
   watch: {
@@ -149,6 +160,20 @@ export default {
 
   components: {
     Chat,
+  },
+  created() {
+    // ---
+    // Custom code to let user update the app
+    // when a new service worker is available
+    // ---
+    document.addEventListener("swUpdated", this.showRefreshUI, { once: true });
+
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (this.refreshing) return;
+      this.refreshing = true;
+      // Here the actual reload of the page occurs
+      window.location.reload();
+    });
   },
   mounted() {
     if (localStorage.getItem("authAdmin")) {
@@ -190,6 +215,9 @@ export default {
     }
   },
   computed: {
+    version() {
+      return process.env.VUE_APP_VERSION;
+    },
     notifications() {
       return this.$store.getters.notifications;
     },
@@ -212,6 +240,16 @@ export default {
   },
 
   methods: {
+    showRefreshUI(e) {
+      this.registration = e.detail;
+      this.updateExists = true;
+    },
+    refreshApp() {
+      this.updateExists = false;
+      if (!this.registration || !this.registration.waiting) return;
+      // send message to SW to skip the waiting and activate the new SW
+      this.registration.waiting.postMessage("skipWaiting");
+    },
     togglechat() {
       this.mini_info = {
         id: "",

@@ -326,54 +326,94 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="interactions text-left px-3 py-3">
-                              <span class="mr-3 cursor-pointer">
-                                <b-icon
-                                  :icon="
-                                    feed.stars.find(
-                                      (item) =>
-                                        item.star &&
-                                        item.facilitator_id ==
-                                          $store.getters.facilitator.id
-                                    )
-                                      ? 'star-fill'
-                                      : 'star'
-                                  "
-                                  class="text-blue mr-1"
-                                ></b-icon>
-                                <span>{{
-                                  feed.stars.filter((item) => item.star).length
-                                }}</span>
-                                stars</span
+                            <div class="interactions text-left px-3 py-2">
+                              <span
+                                class="mr-3 cursor-pointer"
+                                @click="toggleLike(feed.id, index)"
                               >
-                              <span class="mr-3 cursor-pointer"
-                                ><b-icon
+                                <b-icon
+                                  font-scale="1.3"
                                   :icon="
-                                    feed.likes.find(
-                                      (item) =>
-                                        item.like &&
-                                        item.facilitator_id ==
-                                          $store.getters.facilitator.id
-                                    )
+                                    feed.likes
+                                      .filter((item) => item.like)
+                                      .find(
+                                        (item) =>
+                                          item.user_id ==
+                                          $store.getters.member.id
+                                      )
                                       ? 'heart-fill'
                                       : 'heart'
                                   "
-                                  class="text-danger mr-1"
+                                  class="mr-1"
+                                  :class="
+                                    feed.likes
+                                      .filter((item) => item.like)
+                                      .find(
+                                        (item) =>
+                                          item.user_id ==
+                                          $store.getters.member.id
+                                      )
+                                      ? 'text-danger'
+                                      : ''
+                                  "
                                 ></b-icon>
-                                <span>{{
-                                  feed.likes.filter((item) => item.like).length
-                                }}</span>
-                                likes</span
+                              </span>
+                              <span
+                                class="mr-3 cursor-pointer"
+                                @click="toggleStar(feed.id, index)"
                               >
+                                <span class="mr-1">{{
+                                  feed.stars.filter((item) => item.star).length
+                                }}</span>
+                                <b-icon
+                                  font-scale="1.3"
+                                  :icon="
+                                    feed.stars
+                                      .filter((item) => item.star)
+                                      .find(
+                                        (item) =>
+                                          item.star &&
+                                          item.user_id ==
+                                            $store.getters.member.id
+                                      )
+                                      ? 'star-fill'
+                                      : 'star'
+                                  "
+                                  :class="
+                                    feed.stars
+                                      .filter((item) => item.star)
+                                      .find(
+                                        (item) =>
+                                          item.star &&
+                                          item.user_id ==
+                                            $store.getters.member.id
+                                      )
+                                      ? 'text-blue'
+                                      : ''
+                                  "
+                                  class="mr-1"
+                                ></b-icon>
+                              </span>
+
                               <span class="mr-3">
-                                <b-icon icon="chat-fill" class="mr-1"></b-icon>
+                                <b-icon
+                                  font-scale="1.3"
+                                  icon="chat-fill"
+                                  class="mr-1"
+                                ></b-icon>
                                 <span
                                   ><span>{{ feed.comments.length }}</span></span
                                 >
                                 comments</span
                               >
-                              <span class="cursor-pointer">
-                                <b-icon icon="share"></b-icon>
+                              <span class="cursor-pointer flex-1 text-right"
+                                ><b-icon
+                                  @click="sharenow(feed)"
+                                  icon="
+                            share
+                          "
+                                  class=""
+                                ></b-icon>
                               </span>
                             </div>
                             <div

@@ -10,6 +10,14 @@ if (process.env.NODE_ENV === "production") {
           "For more details, visit https://goo.gl/AFskqB"
       );
     },
+    registered(registration) {
+      console.log("Service worker has been registered.");
+
+      // Routinely check for app updates by testing for a new service worker.
+      setInterval(() => {
+        registration.update();
+      }, 1000 * 60 * 60); // hourly checks
+    },
     cached() {
       console.log("Content has been cached for offline use.");
     },

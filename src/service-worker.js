@@ -50,10 +50,6 @@ if (workbox) {
 
 // Listen to Push
 self.addEventListener("push", (e) => {
-  console.log(
-    "🚀 ~ file: service-worker.js ~ line 69 ~ self.addEventListener ~ e Push",
-    e
-  );
   let data;
   if (e.data) {
     data = e.data.json();
@@ -61,10 +57,15 @@ self.addEventListener("push", (e) => {
 
   const options = {
     body: data.body,
-    icon: "/img/icons/android-chrome-192x192.png",
-    image: "/img/autumn-forest.png",
+    icon: data.image,
+    image: data.image ? data.image : "/img/icons/android-icon-96x96.png",
     vibrate: [300, 200, 300],
-    badge: "/img/icons/plint-badge-96x96.png",
+    badge: "/img/icons/android-icon-96x96.png",
+    actions: [
+      // { action: "like", title: "👍Like" },
+      { action: "reply", title: "⤻ Reply" },
+    ],
+    data: data.data,
   };
 
   e.waitUntil(self.registration.showNotification(data.title, options));
@@ -72,10 +73,6 @@ self.addEventListener("push", (e) => {
 
 // This code listens for the user's confirmation to update the app.
 self.addEventListener("message", (e) => {
-  console.log(
-    "🚀 ~ file: service-worker.js ~ line 53 ~ self.addEventListener ~ e Message",
-    e
-  );
   if (!e.data) {
     return;
   }
@@ -89,3 +86,20 @@ self.addEventListener("message", (e) => {
       break;
   }
 });
+self.addEventListener(
+  "notificationclick",
+  function(event) {
+    var url = event.notification.data;
+
+    event.notification.close();
+
+    if (event.action === "like") {
+      // silentlyLikeItem();
+    } else if (event.action === "reply") {
+      clients.openWindow(url);
+    } else {
+      clients.openWindow("/member");
+    }
+  },
+  false
+);
