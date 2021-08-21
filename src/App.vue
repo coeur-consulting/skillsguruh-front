@@ -127,11 +127,13 @@
       :showAll="showAll"
       @togglechat="togglechat"
     />
+    <Notify />
   </div>
 </template>
 
 <script>
 import Chat from "@/components/minichat";
+import Notify from "./views/notification.vue";
 export default {
   data() {
     return {
@@ -160,6 +162,7 @@ export default {
 
   components: {
     Chat,
+    Notify,
   },
   created() {
     // ---
