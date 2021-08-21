@@ -17,7 +17,7 @@
               class="rounded border-0"
               v-model="feed.message"
               :placeholder="
-                'Whats on your mind ' + $store.getters.member.username + '?'
+                'Whats on your mind ' + $store.getters.member.name + '?'
               "
             ></b-form-textarea>
           </div>
@@ -411,7 +411,7 @@
                   readonly
                   @click="$bvModal.show('feed')"
                   :placeholder="
-                    'Whats on your mind ' + $store.getters.member.username + '?'
+                    'Whats on your mind ' + $store.getters.member.name + '?'
                   "
                 ></b-form-input>
               </div>
@@ -577,7 +577,7 @@
                     </div>
 
                     <div v-if="feed.media || feed.publicId">
-                      <div class="mb-4 position-relative w-100 media bg-dark">
+                      <div class="mb-4 position-relative w-100 media bg-white">
                         <b-icon
                           v-if="toggleOn == index"
                           icon="heart-fill"
@@ -671,56 +671,46 @@
                         </b-row>
                       </div>
                     </div>
-                    <div class="interactions text-left px-3 py-2">
+                    <div class="interactions text-left px-3 py-1">
                       <span
-                        class="mr-3 cursor-pointer"
-                        @click="toggleStar(feed.id, index)"
-                      >
-                        <span class="mr-1">{{
-                          feed.stars.filter((item) => item.star).length
-                        }}</span>
-                        <b-icon
-                          :icon="
-                            feed.stars.find(
-                              (item) =>
-                                item.star &&
-                                (item.user_id == $store.getters.member.id ||
-                                  item.facilitator_id ==
-                                    $store.getters.facilitator.id)
-                            )
-                              ? 'star-fill'
-                              : 'star'
-                          "
-                          class="text-blue"
-                        ></b-icon>
-                      </span>
-
-                      <span
-                        class="mr-3 cursor-pointer"
+                        class="mr-3 cursor-pointer d-flex"
                         @click="toggleLike(feed.id, index)"
                       >
-                        <span class="mr-1">{{
-                          feed.likes.filter((item) => item.like).length
-                        }}</span>
                         <b-icon
+                          font-scale="1.3"
                           :icon="
-                            feed.likes.find(
-                              (item) =>
-                                item.like &&
-                                (item.user_id == $store.getters.member.id ||
-                                  item.facilitator_id ==
-                                    $store.getters.facilitator.id)
-                            )
+                            feed.likes
+                              .filter((item) => item.like)
+                              .find(
+                                (item) =>
+                                  item.user_id == $store.getters.member.id
+                              )
                               ? 'heart-fill'
                               : 'heart'
                           "
-                          class="text-danger"
+                          :class="
+                            feed.likes
+                              .filter((item) => item.like)
+                              .find(
+                                (item) =>
+                                  item.user_id == $store.getters.member.id
+                              )
+                              ? 'text-danger'
+                              : ''
+                          "
                         ></b-icon>
                       </span>
-                      <span class="mr-3">
-                        <span class="mr-1">{{ feed.comments.length }}</span>
-                        <b-icon icon="chat-fill" class="mr-1"></b-icon>
 
+
+                      <span class="mr-3">
+                        <b-icon
+                          font-scale="1.3"
+                          icon="chat-fill"
+                          class="mr-1"
+                        ></b-icon>
+                        <span
+                          ><span>{{ feed.comments.length }}</span></span
+                        >
                         comments</span
                       >
                       <span class="cursor-pointer flex-1 text-right"
@@ -733,11 +723,13 @@
                         ></b-icon>
                       </span>
                     </div>
-                    <div
-                      class="liked_by px-3 border-bottom"
-                      @click="showlikes(feed)"
-                      v-html="getlikes(feed.likes)"
-                    ></div>
+                    <div class="d-flex align-items-center">
+                      <div
+                        class="liked_by px-3 border-bottom"
+                        @click="showlikes(feed)"
+                        v-html="getlikes(feed.likes)"
+                      ></div>
+                    </div>
 
                     <div
                       class="comments px-3 pt-2 border-bottom text-left"

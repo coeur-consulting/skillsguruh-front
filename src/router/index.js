@@ -143,6 +143,21 @@ const routes = [
     },
   },
   {
+    path: "/notification",
+    name: "notification",
+    components: {
+      header: Header,
+      default: () =>
+        import(
+          /* webpackChunkName: "notification" */ "../views/notification.vue"
+        ),
+      footer: Footer,
+    },
+    meta: {
+      title: "notification | Nzukoor",
+    },
+  },
+  {
     path: "/transaction",
     name: " transaction",
     components: {

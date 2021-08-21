@@ -329,57 +329,81 @@
                             <div class="interactions text-left px-3 py-2">
                               <span
                                 class="mr-3 cursor-pointer"
+                                @click="toggleLike(feed.id, index)"
+                              >
+                                <b-icon
+                                  font-scale="1.3"
+                                  :icon="
+                                    feed.likes
+                                      .filter((item) => item.like)
+                                      .find(
+                                        (item) =>
+                                          item.user_id ==
+                                          $store.getters.member.id
+                                      )
+                                      ? 'heart-fill'
+                                      : 'heart'
+                                  "
+                                  class="mr-1"
+                                  :class="
+                                    feed.likes
+                                      .filter((item) => item.like)
+                                      .find(
+                                        (item) =>
+                                          item.user_id ==
+                                          $store.getters.member.id
+                                      )
+                                      ? 'text-danger'
+                                      : ''
+                                  "
+                                ></b-icon>
+                              </span>
+                              <span
+                                class="mr-3 cursor-pointer"
                                 @click="toggleStar(feed.id, index)"
                               >
                                 <span class="mr-1">{{
                                   feed.stars.filter((item) => item.star).length
                                 }}</span>
                                 <b-icon
+                                  font-scale="1.3"
                                   :icon="
-                                    feed.stars.find(
-                                      (item) =>
-                                        item.star &&
-                                        (item.user_id ==
-                                          $store.getters.member.id ||
-                                          item.facilitator_id ==
-                                            $store.getters.facilitator.id)
-                                    )
+                                    feed.stars
+                                      .filter((item) => item.star)
+                                      .find(
+                                        (item) =>
+                                          item.star &&
+                                          item.user_id ==
+                                            $store.getters.member.id
+                                      )
                                       ? 'star-fill'
                                       : 'star'
                                   "
-                                  class="text-blue"
-                                ></b-icon>
-                              </span>
-
-                              <span
-                                class="mr-3 cursor-pointer"
-                                @click="toggleLike(feed.id, index)"
-                              >
-                                <span class="mr-1">{{
-                                  feed.likes.filter((item) => item.like).length
-                                }}</span>
-                                <b-icon
-                                  :icon="
-                                    feed.likes.find(
-                                      (item) =>
-                                        item.like &&
-                                        (item.user_id ==
-                                          $store.getters.member.id ||
-                                          item.facilitator_id ==
-                                            $store.getters.facilitator.id)
-                                    )
-                                      ? 'heart-fill'
-                                      : 'heart'
+                                  :class="
+                                    feed.stars
+                                      .filter((item) => item.star)
+                                      .find(
+                                        (item) =>
+                                          item.star &&
+                                          item.user_id ==
+                                            $store.getters.member.id
+                                      )
+                                      ? 'text-blue'
+                                      : ''
                                   "
-                                  class="text-danger"
+                                  class="mr-1"
                                 ></b-icon>
                               </span>
-                              <span class="mr-3">
-                                <span class="mr-1">{{
-                                  feed.comments.length
-                                }}</span>
-                                <b-icon icon="chat-fill" class="mr-1"></b-icon>
 
+                              <span class="mr-3">
+                                <b-icon
+                                  font-scale="1.3"
+                                  icon="chat-fill"
+                                  class="mr-1"
+                                ></b-icon>
+                                <span
+                                  ><span>{{ feed.comments.length }}</span></span
+                                >
                                 comments</span
                               >
                               <span class="cursor-pointer flex-1 text-right"
@@ -1079,9 +1103,7 @@
                   <div class="d-flex align-items-center flex-1">
                     <b-avatar class="mr-2" size="1.6rem"></b-avatar>
                     <div style="line-height: 1.2">
-                      <span class="fs13">{{
-                        item.user_follower.username
-                      }}</span>
+                      <span class="fs13">{{ item.user_follower.name }}</span>
                       <br />
                       <span class="fs12 text-muted">{{
                         item.user_follower.email
@@ -1116,7 +1138,7 @@
                     <b-avatar class="mr-2" size="1.6rem"></b-avatar>
                     <div style="line-height: 1.2">
                       <span class="fs13">{{
-                        item.facilitator_follower.username
+                        item.facilitator_follower.name
                       }}</span>
                       <br />
                       <span class="fs12 text-muted">{{
@@ -1440,12 +1462,12 @@ export default {
       }
       return this.connections.filter((item) => {
         if (item.user_follower) {
-          return item.user_follower.username
+          return item.user_follower.name
             .toLowerCase()
             .includes(this.search.toLowerCase());
         }
         if (item.facilitator_follower) {
-          return item.facilitator_follower.username
+          return item.facilitator_follower.name
             .toLowerCase()
             .includes(this.search.toLowerCase());
         }

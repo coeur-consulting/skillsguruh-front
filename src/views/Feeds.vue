@@ -455,7 +455,7 @@
                     </div>
 
                     <div v-if="feed.media || feed.publicId">
-                      <div class="mb-4 position-relative w-100 media bg-dark">
+                      <div class="mb-4 position-relative w-100 media bg-white">
                         <b-icon
                           v-if="toggleOn == index"
                           icon="heart-fill"
@@ -552,53 +552,44 @@
                     <div class="interactions text-left px-3 py-2">
                       <span
                         class="mr-3 cursor-pointer"
-                        @click="toggleStar(feed.id, index)"
-                      >
-                        <span class="mr-1">{{
-                          feed.stars.filter((item) => item.star).length
-                        }}</span>
-                        <b-icon
-                          :icon="
-                            feed.stars.find(
-                              (item) =>
-                                item.star &&
-                                (item.user_id == $store.getters.member.id ||
-                                  item.facilitator_id ==
-                                    $store.getters.facilitator.id)
-                            )
-                              ? 'star-fill'
-                              : 'star'
-                          "
-                          class="text-blue"
-                        ></b-icon>
-                      </span>
-
-                      <span
-                        class="mr-3 cursor-pointer"
                         @click="toggleLike(feed.id, index)"
                       >
-                        <span class="mr-1">{{
-                          feed.likes.filter((item) => item.like).length
-                        }}</span>
                         <b-icon
+                          font-scale="1.3"
                           :icon="
-                            feed.likes.find(
-                              (item) =>
-                                item.like &&
-                                (item.user_id == $store.getters.member.id ||
-                                  item.facilitator_id ==
-                                    $store.getters.facilitator.id)
-                            )
+                            feed.likes
+                              .filter((item) => item.like)
+                              .find(
+                                (item) =>
+                                  item.user_id == $store.getters.member.id
+                              )
                               ? 'heart-fill'
                               : 'heart'
                           "
-                          class="text-danger"
+                          class=" mr-1"
+                          :class="
+                            feed.likes
+                              .filter((item) => item.like)
+                              .find(
+                                (item) =>
+                                  item.user_id == $store.getters.member.id
+                              )
+                              ? 'text-danger'
+                              : ''
+                          "
                         ></b-icon>
                       </span>
-                      <span class="mr-3">
-                        <span class="mr-1">{{ feed.comments.length }}</span>
-                        <b-icon icon="chat-fill" class="mr-1"></b-icon>
 
+
+                      <span class="mr-3">
+                        <b-icon
+                          font-scale="1.3"
+                          icon="chat-fill"
+                          class="mr-1"
+                        ></b-icon>
+                        <span
+                          ><span>{{ feed.comments.length }}</span></span
+                        >
                         comments</span
                       >
                       <span class="cursor-pointer flex-1 text-right"
@@ -1165,7 +1156,6 @@ export default {
     },
   },
   methods: {
-    handleChange() {},
     likeimage(index) {
       this.toggleOn = index;
 
@@ -1190,7 +1180,7 @@ export default {
             this.useraccess == "member" &&
             this.$store.getters.member.id == first.user.id
               ? "you"
-              : first.user.username
+              : first.user.name
           } </span>`;
           return result;
         }
@@ -1199,7 +1189,7 @@ export default {
             this.useraccess == "facilitator" &&
             this.$store.getters.facilitator.id == first.facilitator.id
               ? "you"
-              : first.facilitator.username
+              : first.facilitator.name
           } </span>`;
           return result;
         }
@@ -1223,13 +1213,13 @@ export default {
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.username} and  ${
+              result = `Liked by  ${first.facilitator.name} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
@@ -1253,13 +1243,13 @@ export default {
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.username} and  ${
+              result = `Liked by  ${first.facilitator.name} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
@@ -1281,13 +1271,13 @@ export default {
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${first.user.name} and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.username} and  ${
+              result = `Liked by  ${first.facilitator.name} and  ${
                 arr.length - 1
               } ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;

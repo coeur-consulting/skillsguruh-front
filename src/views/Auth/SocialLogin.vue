@@ -171,7 +171,7 @@ export default {
         access_token: this.access_token, // access token issued by specified provider
       };
       this.$http
-        .post("https://nzukoor-server.herokuapp.com/oauth/token", data)
+        .post(`${process.env.VUE_APP_API_URL}/oauth/token`, data)
         .then((res) => {
           authMember.access_token = res.data.access_token;
           authMember.refresh_token = res.data.refresh_token;
