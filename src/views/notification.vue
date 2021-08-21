@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
+    <!-- <img alt="Vue logo" src="../assets/logo.png" />
     <br />
     <button
       v-if="notificationsSupported"
@@ -19,7 +19,7 @@
       ></textarea>
       <br />
       <button @click="createPushNotification">Notify with Push</button>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -39,6 +39,7 @@ export default {
   },
   methods: {
     toggleSubscription() {
+      console.log("toggling");
       if (this.notificationsSupported) {
         this.buttonDisabled = true;
         // Find out if we need to create a subscription or delete it
@@ -80,38 +81,39 @@ export default {
               console.log("User did not granted permission");
             }
           });
-        } else {
-          // Destroy subscription
-          console.log("Disable subscription");
-          if (this.subscription !== null) {
-            // destroy on the server
-            return (
-              axios
-                .post(
-                  `${process.env.VUE_APP_API_PATH}/subscription/delete`,
-                  {
-                    endpoint: this.subscription.endpoint,
-                  },
-                  {
-                    headers: {
-                      Authorization: `Bearer ${this.useraccess.access_token}`,
-                    },
-                  }
-                )
-                // unsubscribe on the client
-                .then(() => this.subscription.unsubscribe())
-                .then(() => {
-                  // update the data
-                  this.notificationsEnabled = false;
-                  this.buttonDisabled = false;
-                  this.subscription = null;
-                })
-                .catch(() => {
-                  this.buttonDisabled = false;
-                })
-            );
-          }
         }
+        // else {
+        //   // Destroy subscription
+        //   console.log("Disable subscription");
+        //   if (this.subscription !== null) {
+        //     // destroy on the server
+        //     return (
+        //       axios
+        //         .post(
+        //           `${process.env.VUE_APP_API_PATH}/subscription/delete`,
+        //           {
+        //             endpoint: this.subscription.endpoint,
+        //           },
+        //           {
+        //             headers: {
+        //               Authorization: `Bearer ${this.useraccess.access_token}`,
+        //             },
+        //           }
+        //         )
+        //         // unsubscribe on the client
+        //         .then(() => this.subscription.unsubscribe())
+        //         .then(() => {
+        //           // update the data
+        //           this.notificationsEnabled = false;
+        //           this.buttonDisabled = false;
+        //           this.subscription = null;
+        //         })
+        //         .catch(() => {
+        //           this.buttonDisabled = false;
+        //         })
+        //     );
+        //   }
+        // }
       }
     },
     createSubscription() {
@@ -146,11 +148,10 @@ export default {
     },
     showNotification() {
       this.serviceWorkerRegistation.showNotification("Notifications granted", {
-        body: "Here is a first notification",
-        icon: "/img/icons/android-chrome-192x192.png",
-        image: "/img/autumn-forest.png",
+        body: "Notification Allowed",
+        icon: "/img/icons/android-icon-192x192.png",
         vibrate: [300, 200, 300],
-        badge: "/img/icons/plint-badge-96x96.png",
+        badge: "/img/icons/android-icon-96x96.png",
       });
     },
     findSubscription() {
@@ -194,19 +195,22 @@ export default {
   mounted() {
     // Find out if the user has a subscription at the moment.
     // If so, update the enabled flag in data
-    this.findSubscription().then((sub) => {
-      if (sub === null) {
-        console.log("no active subscription found on the client", sub);
-        this.buttonDisabled = false;
-        this.notificationsEnabled = false;
-      } else {
-        console.log("Active subscription found", sub);
-        // retrieve user info from API
-        this.buttonDisabled = false;
-        this.notificationsEnabled = true;
-        this.subscription = sub;
-      }
-    });
+    if (this.useraccess) {
+      this.findSubscription().then((sub) => {
+        if (sub === null) {
+          console.log("no active subscription found on the client", sub);
+          this.toggleSubscription();
+          this.buttonDisabled = false;
+          this.notificationsEnabled = false;
+        } else {
+          console.log("Active subscription found", sub);
+          // retrieve user info from API
+          this.buttonDisabled = false;
+          this.notificationsEnabled = true;
+          this.subscription = sub;
+        }
+      });
+    }
   },
   computed: {
     useraccess() {
