@@ -206,9 +206,9 @@ export default {
 
         this.getmessage(
           data.message.user.id,
-          data.user.username,
+          data.message.user.username,
           user,
-          data.user.profile
+          data.message.user.profile
         );
       });
       notificationChannel.bind("notificationSent", () => {
