@@ -198,14 +198,14 @@ export default {
       channel.bind("inboxSent", (data) => {
         this.$store.commit("ADD_MESSAGE", data);
         var user;
-        if (data.user.qualifications) {
+        if (data.message.user.qualifications) {
           user = "facilitator";
         } else {
           user = "user";
         }
 
         this.getmessage(
-          data.user.id,
+          data.message.user.id,
           data.user.username,
           user,
           data.user.profile
