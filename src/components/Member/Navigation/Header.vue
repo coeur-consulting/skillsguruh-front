@@ -155,7 +155,7 @@
         </div>
         <hr />
         <div id="sidebar" class="py-4">
-          <div class="side_tab_1" v-if="$route.meta.showtribe && tribe">
+          <div class="side_tab_1" v-if="!$route.meta.showtribe && tribe">
             <nav class="mb-3 class text-left">
               <b-nav vertical>
                 <b-nav-item to="/member/tribe">

@@ -204,7 +204,7 @@
                 </div>
               </div>
             </b-tab>
-            <b-tab title="Tribes" lazy>
+            <b-tab title="My Tribes" lazy>
               <Tribes />
             </b-tab>
           </b-tabs>
