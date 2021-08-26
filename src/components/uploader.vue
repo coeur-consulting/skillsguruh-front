@@ -282,7 +282,6 @@ export default {
     },
     sendImages() {
       this.$emit("getUpload", this.images);
-      console.log("count");
     },
 
     processUpload() {

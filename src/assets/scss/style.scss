@@ -84,14 +84,20 @@ p {
 label {
   font-size: 0.9rem;
 }
+.d-grid {
+  display: grid;
+}
+.tribe_name {
+  font-weight: 500;
+}
 @media (min-width: 1300px) {
-  .container,
-  .container-sm,
-  .container-md,
-  .container-lg,
-  .container-xl {
-    max-width: 1200px;
-  }
+  // .container,
+  // .container-sm,
+  // .container-md,
+  // .container-lg,
+  // .container-xl {
+  //   max-width: 1200px;
+  // }
 }
 .line-height-1_2 {
   line-height: 1.2;
@@ -157,6 +163,45 @@ label {
 //   font-family: "system";
 //   padding: 24px !important;
 // }
+.tribe_box {
+  height: 200px;
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0.125rem 0.25rem rgba(189, 231, 201, 0.35%) !important;
+  cursor: pointer;
+}
+.tribe_box:hover {
+  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35%) !important;
+}
+.tribe_box div:nth-child(1) {
+  height: 70%;
+  background: var(--dark-green);
+  width: 100%;
+}
+.tribe_member_container {
+  height: 30%;
+  background: white;
+  width: 100%;
+  padding: 20px 14px;
+}
+.tribe_circle {
+  position: absolute;
+  width: 65px;
+  height: 65px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50rem;
+  background: white;
+  bottom: 23%;
+}
+.tribe_members span {
+  font-size: 0.8em;
+}
 .input-group-text {
   height: 100%;
 }

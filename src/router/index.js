@@ -210,12 +210,25 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Explore Members| Nzukoor",
+      title: "Explore Members | Nzukoor",
+    },
+  },
+  {
+    path: "/explore/tribes",
+    name: "Explore Tribes",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "exploretribes" */ "../views/Tribes.vue"),
+      footer: Footer,
+    },
+    meta: {
+      title: "Explore Tribes | Nzukoor",
     },
   },
   {
     path: "/explore/courses",
-    name: "ExploreCourses",
+    name: "Explore Courses",
     components: {
       header: Header,
       default: () =>
@@ -1516,6 +1529,89 @@ const routes = [
           title: "Home | Member",
         },
       },
+
+      {
+        path: "tribe",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Memberdashboard" */ "@/components/Member/Tribe/index.vue"
+            ),
+        },
+        children: [
+          {
+            path: "feed/:id",
+            name: "tribe feeds",
+            components: {
+              default: () =>
+                import(
+                  /* webpackChunkName: "tribefeeds" */ "@/components/Member/Tribe/feeds.vue"
+                ),
+            },
+            meta: {
+              routetype: "feeds",
+              showtribe: true,
+            },
+          },
+          {
+            path: "events/:id",
+            name: "tribe events",
+            components: {
+              default: () =>
+                import(
+                  /* webpackChunkName: "tribeevents" */ "@/components/Member/Tribe/events.vue"
+                ),
+            },
+            meta: {
+              routetype: "events",
+              showtribe: true,
+            },
+          },
+          {
+            path: "discussions/:id",
+            name: "tribe discussions",
+            components: {
+              default: () =>
+                import(
+                  /* webpackChunkName: "tribediscussions" */ "@/components/Member/Tribe/discussions.vue"
+                ),
+            },
+            meta: {
+              routetype: "discussions",
+              showtribe: true,
+            },
+          },
+          {
+            path: "courses/:id",
+            name: "tribe courses",
+            components: {
+              default: () =>
+                import(
+                  /* webpackChunkName: "tribecourses" */ "@/components/Member/Tribe/courses.vue"
+                ),
+            },
+            meta: {
+              routetype: "courses",
+              showtribe: true,
+            },
+          },
+          {
+            path: "feeds",
+            name: "tribe feeds",
+            components: {
+              default: () =>
+                import(
+                  /* webpackChunkName: "Memberdashboard" */ "@/components/Member/Tribe/feeds.vue"
+                ),
+            },
+            meta: {
+              routetype: "feeds",
+              showtribe: true,
+            },
+          },
+        ],
+      },
+
       {
         path: "feed/view/:id",
         name: "View member Feed",
@@ -1530,8 +1626,39 @@ const routes = [
         meta: {
           typeMember: true,
           title: "Feed | Nzukoor",
+          routetype: "feed",
         },
       },
+      {
+        path: "tribes",
+        name: "Member tribes",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "membertribes" */ "@/components/Member/Tribe/tribes.vue"
+            ),
+        },
+        meta: {
+          typeMember: true,
+          title: "Tribes | Member",
+          routetype: "mytribes",
+        },
+      },
+      // {
+      //   path: "community",
+      //   name: "Member community",
+      //   components: {
+      //     default: () =>
+      //       import(
+      //         /* webpackChunkName: "membercommunity" */ "@/components/Member/Tribe/community.vue"
+      //       ),
+      //   },
+      //   meta: {
+      //     typeMember: true,
+      //     title: "Tribes | Member",
+      //     routetype: "community",
+      //   },
+      // },
       {
         path: "facilitators",
         name: "Member facilitators",
@@ -1754,8 +1881,10 @@ const routes = [
         meta: {
           typeMember: true,
           title: "Discussions | Member",
+          routetype: "discussions",
         },
       },
+
       {
         path: "discussion/:id",
         name: "Member discussion",
@@ -1768,6 +1897,7 @@ const routes = [
         meta: {
           typeMember: true,
           title: "Discussion | Member",
+          routetype: "discussion",
         },
       },
       {
@@ -1782,6 +1912,7 @@ const routes = [
         meta: {
           typeMember: true,
           title: "Feeds | Member",
+          routetype: "feeds",
         },
       },
       {
@@ -1790,12 +1921,13 @@ const routes = [
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Membercourses" */ "@/components/Member/courses.vue"
+              /* webpackChunkName: "Membercourses" */ "@/components/Member/Course/index.vue"
             ),
         },
         meta: {
           typeMember: true,
           title: "Courses | Member",
+          routetype: "courses",
         },
       },
       {
@@ -1810,6 +1942,7 @@ const routes = [
         meta: {
           typeMember: true,
           title: "Course | Member",
+          routetype: "course",
         },
       },
 
@@ -1847,12 +1980,13 @@ const routes = [
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Memberevents" */ "@/components/Member/events.vue"
+              /* webpackChunkName: "Memberevents" */ "@/components/Member/scheduler.vue"
             ),
         },
         meta: {
           typeMember: true,
           title: "Events | Member",
+          routetype: "events",
         },
       },
       {
@@ -1867,20 +2001,22 @@ const routes = [
         meta: {
           typeMember: true,
           title: "Event | Member",
+          routetype: "event",
         },
       },
       {
-        path: "connections",
-        name: "Member connections",
+        path: "community",
+        name: "Member community",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Memberconnections" */ "@/components/Member/connections.vue"
+              /* webpackChunkName: "Membercommunity" */ "@/components/Member/connections.vue"
             ),
         },
         meta: {
           typeMember: true,
-          title: "Connections | Member",
+          title: "Community | Member",
+          routetype: "community",
         },
       },
       {

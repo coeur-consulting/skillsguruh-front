@@ -29,23 +29,24 @@
               <div
                 class="border-bottom py-3 d-flex mb-4 justify-content-between"
               >
-                <div class="d-flex">
+                <div class="d-flex w-100 justify-content-between">
                   <span
                     class="
                       mr-4
                       d-flex
                       align-items-center
-                      cursor-pointer cursor-pointer
+                      cursor-pointer
                       event_title
                     "
                     @click="showing = 'ongoing'"
                     ><b-icon
-                      :icon="showing == 'ongoing' ? 'circle-fill' : 'circle'"
-                      font-scale=".7rem"
-                      variant="dark-green"
+                      icon="circle-fill"
+                      font-scale=".6rem"
+                      :variant="showing == 'ongoing' ? 'dark-green' : ''"
+                      :class="showing == 'ongoing' ? '' : 'text-muted'"
                       class="mr-1"
                     ></b-icon>
-                    Ongoing Events</span
+                    Ongoing</span
                   >
                   <span
                     class="
@@ -55,14 +56,15 @@
                       cursor-pointer cursor-pointer
                       event_title
                     "
+                    :class="showing == 'upcoming' ? '' : 'text-muted'"
                     @click="showing = 'upcoming'"
                     ><b-icon
-                      :icon="showing == 'upcoming' ? 'circle-fill' : 'circle'"
-                      font-scale=".7rem"
-                      variant="dark-green"
+                      icon="circle-fill"
+                      font-scale=".6rem"
+                      :variant="showing == 'upcoming' ? 'dark-green' : ''"
                       class="mr-1"
                     ></b-icon>
-                    Upcoming Events</span
+                    Upcoming</span
                   >
                   <span
                     @click="showing = 'past'"
@@ -72,13 +74,14 @@
                       cursor-pointer cursor-pointer
                       event_title
                     "
+                    :class="showing == 'past' ? '' : 'text-muted'"
                     ><b-icon
-                      :icon="showing == 'past' ? 'circle-fill' : 'circle'"
+                      icon="circle-fill"
                       class="mr-1"
-                      font-scale=".7rem"
-                      variant="dark-green"
+                      font-scale=".6rem"
+                      :variant="showing == 'past' ? 'dark-green' : ''"
                     ></b-icon>
-                    Past Events</span
+                    Past</span
                   >
                 </div>
               </div>

@@ -1,5 +1,5 @@
 <template>
-  <footer class="position-relative">
+  <footer class="position-relative border-top">
     <b-container>
       <b-row>
         <b-col cols="12" md="6" class="text-center text-sm-left mb-4 mb-md-0">

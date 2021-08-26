@@ -1,11 +1,6 @@
 <template>
   <div>
     <b-container fluid>
-      <b-row class="mb-3">
-        <b-col class="mybg-white p-3 text-left">
-          <h5>Assessments</h5>
-        </b-col>
-      </b-row>
       <b-row>
         <b-col sm="4" class="mb-4">
           <div

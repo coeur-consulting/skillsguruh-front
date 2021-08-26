@@ -2,15 +2,18 @@
   <div>
     <b-container fluid class="main">
       <b-row>
-        <b-col sm="2" class="p-0 d-none d-sm-block"> <SideBar /></b-col>
-        <b-col sm="10" class="p-0">
+        <b-col class="px-0"> <TopBar /></b-col>
+      </b-row>
+      <b-row>
+        <b-col sm="3" class="p-0 d-none d-sm-block"> <SideBar /></b-col>
+        <b-col sm="6" class="p-0">
           <div class="content">
-            <TopBar />
             <main id="page-wrap" class="pb-5">
               <router-view></router-view>
             </main>
           </div>
         </b-col>
+        <b-col sm="3"> <RightBar /></b-col>
       </b-row>
     </b-container>
     <b-modal id="insight" size="xl" hide-footer>
@@ -20,11 +23,13 @@
 </template>
 <script>
 import SideBar from "@/components/Member/sidebar.vue";
-import TopBar from "@/components/Member/topbar.vue";
+import RightBar from "@/components/Member/Navigation/RightTab.vue";
+import TopBar from "@/components/Member/Navigation/Header.vue";
 import Insight from "@/components/InterestComponent";
 export default {
   components: {
     SideBar,
+    RightBar,
     TopBar,
     Insight,
   },

@@ -11,8 +11,7 @@ export default new Vuex.Store({
     admin: JSON.parse(localStorage.getItem("authAdmin")) || {},
     facilitator: JSON.parse(localStorage.getItem("authFacilitator")) || {},
     member: JSON.parse(localStorage.getItem("authMember")) || {},
-     url: "http://localhost:8000/v1",
-    //url: "https://nzukoor-server.herokuapp.com/v1",
+    url: process.env.VUE_APP_API_PATH,
     inboxes: [],
     isOpen: false,
     isMinimise: false,
@@ -22,8 +21,12 @@ export default new Vuex.Store({
       type: "",
       profile: "",
     },
+    course: {},
   },
   mutations: {
+    SET_COURSE(state, course) {
+      state.course = course;
+    },
     SET_NOTIFICATION(state, notifications) {
       state.notifications = notifications;
     },
@@ -50,6 +53,27 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    async checkTribe({ state }, detail) {
+      return Vue.axios.get(`${state.url}/check/tribe/${detail.tribe_id}`, {
+        headers: {
+          Authorization: `Bearer ${detail.user.access_token}`,
+        },
+      });
+    },
+    async joinTribe({ state }, detail) {
+      return Vue.axios.get(`${state.url}/join/tribe/${detail.tribe_id}`, {
+        headers: {
+          Authorization: `Bearer ${detail.user.access_token}`,
+        },
+      });
+    },
+    async leaveTribe({ state }, detail) {
+      return Vue.axios.get(`${state.url}/leave/tribe/${detail.tribe_id}`, {
+        headers: {
+          Authorization: `Bearer ${detail.user.access_token}`,
+        },
+      });
+    },
     newConnection({ state }, user) {
       Vue.axios.post(`${state.url}/new/connection`, user, {
         headers: {
@@ -208,5 +232,6 @@ export default new Vuex.Store({
     chatter: (state) => state.chatter,
     isOpen: (state) => state.isOpen,
     isMinimise: (state) => state.isMinimise,
+    course: (state) => state.course,
   },
 });

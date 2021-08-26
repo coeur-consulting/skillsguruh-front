@@ -1,175 +1,97 @@
 <template>
-  <div id="sidebar">
-    <div class="logo_bar">
-      <b-img
-        @click="$router.push('/')"
-        class="mr-2"
-        width="100"
-        :src="require('@/assets/images/logo.png')"
-        style="object-fit: contain"
-      ></b-img>
-    </div>
-    <div class="side_items">
-      <div>
-        <router-link to="/member">
-          <div class="side_item py-2">
-            <home-icon size="1.2x" class="custom-class"></home-icon>
-            <span class="side-link p-3">Dashboard</span>
-          </div>
-        </router-link>
-        <router-link to="/member/connections">
-          <div class="side_item py-2">
-            <link-icon size="1.2x" class="custom-class"></link-icon>
-            <span class="side-link p-3">Connections</span>
-          </div>
-        </router-link>
-
-        <div>
-          <div
-            class="side_item d-flex align-items-center py-2"
-            @click="switchTab('two')"
-          >
-            <span class="flex-1">
-              <folder-icon size="1.2x" class="custom-class mr-3"></folder-icon>
-              <span class="side-link">Community</span></span
+  <div id="sidebar" class="py-4 d-grid">
+    <div>
+      <div class="side_tab_1" v-if="!$route.meta.showtribe">
+        <nav class="mb-3 class text-left">
+          <b-nav vertical>
+            <b-nav-item to="/member/tribes">
+              <b-img
+                :src="require('@/assets/images/mask.png')"
+                class="imgtribe mr-2"
+                alt="tribe"
+              />
+              Tribes</b-nav-item
             >
-            <b-icon
-              :icon="toggleCommunity ? 'chevron-down' : 'chevron-right'"
-            ></b-icon>
-          </div>
-          <div
-            class="px-3 py-1 animate__slideInDown animate__slideInUp"
-            v-if="toggleCommunity"
-          >
-            <router-link to="/member/feeds">
-              <div class="side_item py-1">
-                <rss-icon size="1.2x" class="custom-class"></rss-icon>
-                <span class="side-link p-3"
-                  ><span class="mr-5">Feed</span>
-                </span>
-              </div>
-            </router-link>
-            <router-link to="/member/discussions">
-              <div class="side_item py-1">
-                <twitch-icon size="1.2x" class="custom-class"></twitch-icon>
-                <span class="side-link p-3">Discussions</span>
-              </div>
-            </router-link>
-
-            <router-link to="/member/events">
-              <div class="side_item py-1">
-                <bookmark-icon size="1.2x" class="custom-class"></bookmark-icon>
-                <span class="side-link p-3">
-                  <span class="mr-5">Events</span>
-                </span>
-              </div>
-            </router-link>
-          </div>
-        </div>
-
-        <div>
-          <div
-            class="side_item d-flex align-items-center py-2"
-            @click="switchTab('one')"
-          >
-            <span class="flex-1">
-              <calendar-icon
-                size="1.2x"
-                class="custom-class mr-3"
-              ></calendar-icon>
-              <span class="side-link">Course</span>
-            </span>
-            <b-icon
-              :icon="toggleCourse ? 'chevron-down' : 'chevron-right'"
-            ></b-icon>
-          </div>
-
-          <div
-            class="
-              px-3
-              py-1
-              animate__slideInDown animate__slideInUp animate__slow
-            "
-            v-if="toggleCourse"
-          >
-            <router-link to="/member/courses">
-              <div class="side_item py-1">
-                <folder-icon size="1.2x" class="custom-class"></folder-icon>
-                <span class="side-link p-3">Courses</span>
-              </div>
-            </router-link>
-            <router-link to="/member/assessments">
-              <div class="side_item py-1">
-                <database-icon size="1x" class="custom-class"></database-icon>
-                <span class="side-link p-3">Assessments</span>
-              </div>
-            </router-link>
-            <router-link to="/member/library">
-              <div class="side_item py-1">
-                <book-icon size="1.2x" class="custom-class"></book-icon>
-                <span class="side-link p-3">Library</span>
-              </div>
-            </router-link>
-          </div>
-        </div>
-
-        <div>
-          <div
-            class="side_item d-flex align-items-center py-2"
-            @click="switchTab('three')"
-          >
-            <span class="flex-1">
-              <b-icon icon="tools" class="mr-3"></b-icon>
-              <span class="side-link">Tools</span>
-            </span>
-            <b-icon
-              :icon="toggleSchedule ? 'chevron-down' : 'chevron-right'"
-            ></b-icon>
-          </div>
-          <div
-            class="px-3 py-1 animate__slideInDown animate__slideInUp"
-            v-if="toggleSchedule"
-          >
-            <router-link to="/member/schedule">
-              <div class="side_item py-1">
-                <calendar-icon size="1.2x" class="custom-class"></calendar-icon>
-                <span class="side-link p-3">Schedule</span>
-              </div>
-            </router-link>
-          </div>
-        </div>
-
-        <router-link to="/member/referrals">
-          <div class="side_item py-2">
-            <credit-card-icon
-              size="1.2x"
-              class="custom-class"
-            ></credit-card-icon>
-            <span class="side-link p-3">Bonuses</span>
-          </div>
-        </router-link>
+            <b-nav-item to="/member/community">
+              <b-img
+                :src="require('@/assets/images/globe.png')"
+                alt="community"
+                class="imgtribe mr-2"
+              />
+              Community</b-nav-item
+            >
+          </b-nav>
+        </nav>
       </div>
 
-      <hr />
-      <div class="mt-4">
+      <div class="side_tab_1 text-left" v-if="$route.meta.showtribe && tribe">
+        <div class="mb-4 text-muted">
+          <small
+            @click="$router.push('/member/tribes')"
+            class="pl-3 cursor-pointer back"
+          >
+            <span class="mr-2">
+              <b-icon icon="arrow-left" class=""></b-icon
+            ></span>
+            <span>Back</span>
+          </small>
+        </div>
+        <div class="d-flex justify-content-start align-items-center tribe_name">
+          <b-avatar size="sm" :src="tribe.cover" class="mr-2"></b-avatar>
+          <span class="">{{ tribe.name }} Tribe</span>
+        </div>
+        <nav class="mb-3 class text-left">
+          <b-nav vertical>
+            <b-nav-item :to="`/member/tribe/feed/${$route.params.id}`"
+              ><font-awesome-icon
+                :icon="rss"
+                class="icon mr-3"
+              />Feeds</b-nav-item
+            >
+            <b-nav-item :to="`/member/tribe/discussions/${$route.params.id}`">
+              <font-awesome-icon
+                :icon="comments"
+                class="icon mr-3"
+              />Discussions</b-nav-item
+            >
+            <b-nav-item :to="`/member/tribe/courses/${$route.params.id}`">
+              <font-awesome-icon
+                :icon="bookopen"
+                class="icon mr-3"
+              />Courses</b-nav-item
+            >
+            <b-nav-item :to="`/member/tribe/events/${$route.params.id}`">
+              <font-awesome-icon
+                :icon="calendar"
+                class="icon mr-3"
+              />Events</b-nav-item
+            >
+          </b-nav>
+        </nav>
+      </div>
+    </div>
+
+    <div class="mt-auto">
+      <div
+        class="side_item my-3"
+        @click="leavetribe"
+        v-if="$route.meta.showtribe"
+      >
+        <log-out-icon size="1x" class="custom-class"></log-out-icon>
+        <span class="side-link p-2">Leave tribe</span>
+      </div>
+
+      <div class="border-top">
         <router-link to="/explore">
           <div class="side_item mt-1">
-            <b-icon
-              icon="app-indicator"
-              font-scale="1.1"
-              class="custom-class"
-            ></b-icon>
-            <span class="side-link p-2">Explore</span>
+            <b-icon icon="app-indicator" font-scale="1.1" class="mr-2"></b-icon>
+            <span class="side-link">Explore</span>
           </div></router-link
         >
         <router-link to="/">
           <div class="side_item mt-1">
-            <b-icon
-              icon="arrow-left"
-              font-scale="1.1"
-              class="custom-class"
-            ></b-icon>
-            <span class="side-link p-2">Back to Home</span>
+            <b-icon icon="arrow-left" font-scale="1.1" class="mr-2"></b-icon>
+            <span class="side-link">Back to Home</span>
           </div>
         </router-link>
         <div class="side_item mt-1" @click="logout">
@@ -182,30 +104,19 @@
 </template>
 <script>
 import {
-  HomeIcon,
-  CalendarIcon,
-  FolderIcon,
-  BookIcon,
-  RssIcon,
-  TwitchIcon,
-  LinkIcon,
-  BookmarkIcon,
-  DatabaseIcon,
-  CreditCardIcon,
-  LogOutIcon,
-} from "vue-feather-icons";
+  faCircle,
+  faBell,
+  faCaretDown,
+  faCaretUp,
+  faUsers,
+  faRss,
+  faBookOpen,
+  faComments,
+  faCalendar,
+} from "@fortawesome/free-solid-svg-icons";
+import { LogOutIcon } from "vue-feather-icons";
 export default {
   components: {
-    HomeIcon,
-    CalendarIcon,
-    FolderIcon,
-    BookIcon,
-    RssIcon,
-    TwitchIcon,
-    DatabaseIcon,
-    LinkIcon,
-    BookmarkIcon,
-    CreditCardIcon,
     LogOutIcon,
   },
   data() {
@@ -214,21 +125,67 @@ export default {
       toggleCourse: false,
       toggleCommunity: false,
       toggleSchedule: false,
+      circle: faCircle,
+      bell: faBell,
+      caretDown: faCaretDown,
+      caretUp: faCaretUp,
+      users: faUsers,
+      comments: faComments,
+      bookopen: faBookOpen,
+      calendar: faCalendar,
+      rss: faRss,
+      tribe: {},
     };
+  },
+  watch: {
+    $route: "handletribe",
   },
   computed: {
     activeaccount() {
       return this.events.filter((item) => item.status == "active").length;
     },
   },
-  watch: {
-    $route: "handleTab",
-  },
+  created() {},
+
   methods: {
-    handleTab() {
-      // if(){
-      //   this.switchTab()
-      // }
+    leavetribe() {
+      var details = {
+        tribe_id: this.$route.params.id,
+        user: this.$store.getters.member,
+      };
+      this.$bvModal
+        .msgBoxConfirm("Do you wish to leave this tribe?")
+        .then((val) => {
+          if (val) {
+            this.$store.dispatch("leaveTribe", details).then((res) => {
+              if (res.status == 200 && res.data.message == "successful") {
+                this.$router.push(`/member/community`);
+                this.$toast.success("You have left the tribe");
+              }
+            });
+          }
+        });
+    },
+    handletribe() {
+      if (this.$route.params.id) {
+        this.gettribe();
+      }
+    },
+    gettribe() {
+      this.$http
+        .get(`${this.$store.getters.url}/tribes/${this.$route.params.id}`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.tribe = res.data.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
     },
     switchTab(data) {
       switch (data) {
@@ -290,10 +247,11 @@ export default {
 </script>
 <style scoped>
 #sidebar {
-  height: 100vh;
+  height: 90vh;
   overflow: hidden;
+  width: 80%;
   color: var(--dark-green) !important;
-  background: white;
+  background: transparent;
   border-right: 1px solid #f7f8fa;
 }
 .logo_bar {
@@ -301,6 +259,16 @@ export default {
   justify-content: flex-start;
   align-items: center;
   padding: 30px 0 0 30px;
+}
+.imgtribe {
+  width: 30px;
+}
+nav .nav li {
+  text-align: left;
+}
+nav .nav li a {
+  color: #777777;
+  font-weight: 500;
 }
 .side_items {
   padding: 40px 0;
@@ -328,16 +296,16 @@ export default {
   color: var(--dark-green);
   border-right: 2px solid #388087;
 }
-
-/* .router-link-exact-active.router-link-active .side_item .b-icon.bi {
-  color: white !important;
+.icon {
+  width: 25px;
 }
-.side_item:hover .b-icon.bi {
-  color: white !important;
-} */
-/* .side_item:hover {
-  background: rgba(56, 128, 135, 0.17);
+.nav-item .nav-link.router-link-exact-active.router-link-active {
   color: var(--dark-green);
-
-} */
+  background: #f4f4f8;
+  border-right: 2px solid var(--dark-green);
+}
+.tribe_name {
+  font-weight: bold;
+  padding: 15px;
+}
 </style>

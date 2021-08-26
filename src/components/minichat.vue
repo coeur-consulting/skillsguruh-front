@@ -3,9 +3,7 @@
     class="reply_box bg-white shadow border rounded overflow-hidden"
     v-if="isOpen"
   >
-    <div
-      class="d-flex px-2 py-2 align-items-center border-bottom bg-lighter-green"
-    >
+    <div class="d-flex px-2 py-2 align-items-center border-bottom">
       <div class="d-flex flex-1 align-items-center">
         <b-avatar size="2rem" :src="chatter.profile" class="mr-2"></b-avatar>
         <span
@@ -23,36 +21,10 @@
         <span v-else class="chat_name">{{ chatter.name }}</span>
       </div>
       <div class="d-flex align-items-center">
-        <b-dropdown
-          size="sm"
-          variant="transparent"
-          no-caret
-          class="no-focus mr-1"
-        >
-          <template #button-content>
-            <b-icon font-scale="1" icon="paperclip"></b-icon>
-          </template>
-
-          <Upload @getUpload="getUpload" :file_type="'image'" :id="'image'">
-            <b-dropdown-text class="fs14 cursor-pointer">
-              Image
-            </b-dropdown-text>
-          </Upload>
-          <Upload @getUpload="getUpload" :file_type="'audio'" :id="'audio'">
-            <b-dropdown-text class="fs14 cursor-pointer">
-              Audio
-            </b-dropdown-text>
-          </Upload>
-          <Upload @getUpload="getUpload" :file_type="'video'" :id="'video'">
-            <b-dropdown-text class="fs14 cursor-pointer">
-              Video
-            </b-dropdown-text>
-          </Upload>
-        </b-dropdown>
         <b-icon
           class="mr-2 cursor-pointer"
-          icon="arrows-angle-expand"
-          font-scale=".9"
+          icon="dash"
+          font-scale="1.4"
           @click="minimiseChat"
         ></b-icon>
         <b-icon
@@ -438,11 +410,27 @@
           </div>
         </li>
       </ul>
-      <div class="text-left py-2 bg-light mb-1">
+      <div class="text-left py-2 mb-1">
         <b-input-group class="mt-1">
           <template #append>
-            <b-input-group-text class="border-0 bg-transparent">
+            <b-input-group-text class="border-0 bg-transparent py-0">
+              <b-iconstack class="cursor-pointer mr-2" v-if="!inbox.message">
+                <b-icon
+                  stacked
+                  font-scale="1.3"
+                  icon="circle-fill"
+                  :variant="record ? 'dark-green' : 'lighter-green'"
+                ></b-icon>
+                <b-icon
+                  stacked
+                  icon="mic-fill"
+                  :variant="record ? 'white' : 'grey'"
+                  scale="0.5"
+                ></b-icon>
+              </b-iconstack>
+
               <b-icon
+                v-else
                 @click="addinbox"
                 font-scale="1"
                 icon="cursor-fill"
@@ -452,7 +440,7 @@
           </template>
           <template #prepend>
             <b-input-group-text
-              class="border-0 bg-transparent d-none d-md-block"
+              class="border-0 bg-transparent d-flex align-item-center py-0 pr-0"
             >
               <emoji-picker @emoji="insert" :search="search">
                 <div
@@ -498,14 +486,52 @@
                   </div>
                 </div>
               </emoji-picker>
+              <b-dropdown
+                size="sm"
+                variant="transparent"
+                no-caret
+                class="no-focus"
+              >
+                <template #button-content>
+                  <b-icon font-scale="1" icon="paperclip"></b-icon>
+                </template>
+
+                <Upload
+                  @getUpload="getUpload"
+                  :file_type="'image'"
+                  :id="'image'"
+                >
+                  <b-dropdown-text class="fs14 cursor-pointer">
+                    Image
+                  </b-dropdown-text>
+                </Upload>
+                <Upload
+                  @getUpload="getUpload"
+                  :file_type="'audio'"
+                  :id="'audio'"
+                >
+                  <b-dropdown-text class="fs14 cursor-pointer">
+                    Audio
+                  </b-dropdown-text>
+                </Upload>
+                <Upload
+                  @getUpload="getUpload"
+                  :file_type="'video'"
+                  :id="'video'"
+                >
+                  <b-dropdown-text class="fs14 cursor-pointer">
+                    Video
+                  </b-dropdown-text>
+                </Upload>
+              </b-dropdown>
             </b-input-group-text>
           </template>
           <b-form-input
             @keyup.enter="addinbox"
             v-model="inbox.message"
             type="text"
-            placeholder="Type here ..."
-            class="border-0 no-focus rounded-pill fs13"
+            placeholder="Type a message ..."
+            class="border-0 no-focus rounded-pill bg-light"
           ></b-form-input>
         </b-input-group>
       </div>
@@ -571,7 +597,7 @@
       </div>
       <b-input-group class="mt-1">
         <template #append>
-          <b-input-group-text class="border-0 bg-transparent">
+          <b-input-group-text class="border-0 bg-transparent py-0">
             <b-icon
               @click="addinbox"
               font-scale="1"
@@ -581,7 +607,7 @@
           </b-input-group-text>
         </template>
         <template #prepend>
-          <b-input-group-text class="border-0 bg-transparent d-none d-md-block">
+          <b-input-group-text class="border-0 bg-transparent py-0">
             <emoji-picker @emoji="insert" :search="search">
               <div
                 class="emoji-invoker2"
@@ -633,7 +659,7 @@
           v-model="inbox.message"
           autocomplete="off"
           autocorrect="off"
-          placeholder="Type here .."
+          placeholder="Type a message .."
           class="border-0 no-focus rounded-pill fs13"
         ></b-form-input>
       </b-input-group>
@@ -651,6 +677,7 @@ export default {
       vid_ext: ["mp4", "3gp", "mov", "flv"],
       aud_ext: ["mp3", "aac"],
       doc_ext: ["docx", "pdf", "ppt", "zip"],
+      record: false,
       inbox: {
         message: "",
         attachment: "",
@@ -906,6 +933,9 @@ export default {
       this.getchatter(inboxes);
     },
     addinbox() {
+      if (this.inbox.attachment && this.inbox.message) {
+        return this.$toast.info("Cannotbe empty");
+      }
       this.inbox.receiver_id = this.chatter.id;
       this.inbox.receiver = this.chatter.type;
       this.$http
@@ -964,13 +994,13 @@ export default {
 }
 
 .reply_box {
+  transition: all 0.5s;
   position: fixed;
-  bottom: 0;
-  width: 330px;
-  left: 50%;
+  bottom: 5px;
+  width: 360px;
+  right: 30px;
   border-radius: 10px 10px 0 0;
   z-index: 999;
-  margin-left: -165px;
 }
 .reply {
   height: 360px;
