@@ -1,182 +1,8 @@
 <template>
   <div>
     <b-container fluid class="py-3 py-sm-5">
-      <h5 class="text-left mb-4">Your Library</h5>
-      <b-row class="flex-column-reverse flex-sm-row">
-        <b-col sm="4" class="text-left pr-4">
-          <div class="bg-white w-100 h-100 p-3 border rounded">
-            <h6 class="px-0 mb-3 text-muted">Worksheets</h6>
-            <div v-if="showRecent">
-              <div>
-                <div
-                  class="accordion"
-                  role="tablist"
-                  v-if="sortWorksheet.length"
-                >
-                  <b-card
-                    no-body
-                    class="mb-1"
-                    v-for="(item, id) in sortWorksheet"
-                    :key="id"
-                  >
-                    <b-card-header
-                      header-tag="header"
-                      class="p-1 bg-light rounded"
-                      role="tab"
-                    >
-                      <div v-b-toggle="'module' + id" variant="info">
-                        {{ item.course.title }}
-                      </div>
-                    </b-card-header>
-                    <b-collapse
-                      :id="'module' + id"
-                      accordion="my-accordion"
-                      role="tabpanel"
-                    >
-                      <div
-                        v-for="(mods, idx) in item.course.modules"
-                        :key="idx"
-                        class="py-2"
-                      >
-                        <b-card-body
-                          v-if="
-                            JSON.parse(mods.modules).filter(
-                              (ite) => ite.file_type == 'worksheet'
-                            ) &&
-                            JSON.parse(mods.modules).filter(
-                              (ite) => ite.file_type == 'worksheet'
-                            ).length
-                          "
-                          class="px-2 py-0 mb-2"
-                        >
-                          <h6 class="text-capitalize">{{ mods.module }}</h6>
-                          <b-card-body
-                            class="worksheet"
-                            v-for="(mod, index) in JSON.parse(
-                              mods.modules
-                            ).filter((item) => item.file_type == 'worksheet')"
-                            :key="index"
-                          >
-                            <b-card-text
-                              class="
-                                d-flex
-                                text-capitalize
-                                align-items-center
-                                mb-2
-                              "
-                            >
-                              <div
-                                class="flex-1 fs14"
-                                @click="play(item.course.id, mod, mods.id)"
-                              >
-                                {{ mod.title }}
-                              </div>
-
-                              <b-icon
-                                v-b-popover.hover.top="'Submitted'"
-                                v-if="
-                                  myquestionnaire.find(
-                                    (it) =>
-                                      it.question_template_id ==
-                                        mod.template.id &&
-                                      it.course_id == item.course.id
-                                  ) &&
-                                  myquestionnaire.find(
-                                    (it) =>
-                                      it.question_template_id ==
-                                        mod.template.id &&
-                                      it.course_id == item.course.id
-                                  ).status == 'submitted'
-                                "
-                                variant="dark-green"
-                                icon="check-circle-fill"
-                              ></b-icon>
-                              <b-icon
-                                v-b-popover.hover.top="'Draft'"
-                                v-if="
-                                  myquestionnaire.find(
-                                    (it) =>
-                                      it.question_template_id ==
-                                        mod.template.id &&
-                                      it.course_id == item.course.id
-                                  ) &&
-                                  myquestionnaire.find(
-                                    (it) =>
-                                      it.question_template_id ==
-                                        mod.template.id &&
-                                      it.course_id == item.course.id
-                                  ).status == 'draft'
-                                "
-                                variant="warning"
-                                icon="stop-circle-fill"
-                              ></b-icon>
-                              <b-icon
-                                v-b-popover.hover.top="'Begin'"
-                                v-if="
-                                  !myquestionnaire.find(
-                                    (it) =>
-                                      it.question_template_id ==
-                                        mod.template.id &&
-                                      it.course_id == item.course.id
-                                  )
-                                "
-                                icon="play-circle-fill"
-                              ></b-icon>
-                            </b-card-text>
-                          </b-card-body>
-                        </b-card-body>
-                      </div>
-                    </b-collapse>
-                  </b-card>
-                </div>
-                <b-alert class="fs13" show v-else>
-                  <b-icon icon="info-circle"></b-icon> No worksheet
-                  available</b-alert
-                >
-              </div>
-            </div>
-            <div v-else>
-              <div class="mb-4 d-flex w-100">
-                <div class="mb-3 w-50 mr-3">
-                  <b-skeleton-img></b-skeleton-img>
-                </div>
-                <div class="w-50">
-                  <b-skeleton
-                    animation="fade"
-                    class="mb-2"
-                    width="65%"
-                  ></b-skeleton>
-                  <b-skeleton
-                    animation="fade"
-                    class="mb-2"
-                    width="55%"
-                  ></b-skeleton>
-                  <b-skeleton animation="fade" width="59%"></b-skeleton>
-                </div>
-              </div>
-              <div class="mb-4 d-flex w-100">
-                <div class="mb-3 w-50 mr-3">
-                  <b-skeleton-img></b-skeleton-img>
-                </div>
-                <div class="w-50">
-                  <b-skeleton
-                    animation="fade"
-                    class="mb-2"
-                    width="65%"
-                  ></b-skeleton>
-                  <b-skeleton
-                    animation="fade"
-                    class="mb-2"
-                    width="55%"
-                  ></b-skeleton>
-                  <b-skeleton animation="fade" width="59%"></b-skeleton>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div></div>
-        </b-col>
-        <b-col sm="8" class="p-3 bg-light border rounded mb-5 mb-sm-0">
+      <b-row class="">
+        <b-col cols="12" class="p-3 bg-light border rounded mb-5 mb-sm-0">
           <div class="text-sm-right mb-3">
             <div class="d-flex align-items-center">
               <div class="search align-items-center mr-3">
@@ -449,6 +275,179 @@
               </b-col>
             </b-row>
           </div>
+        </b-col>
+        <b-col cols="12" class="text-left pr-4">
+          <div class="bg-white w-100 h-100 p-3 border rounded">
+            <h6 class="px-0 mb-3 text-muted">Worksheets</h6>
+            <div v-if="showRecent">
+              <div>
+                <div
+                  class="accordion"
+                  role="tablist"
+                  v-if="sortWorksheet.length"
+                >
+                  <b-card
+                    no-body
+                    class="mb-1"
+                    v-for="(item, id) in sortWorksheet"
+                    :key="id"
+                  >
+                    <b-card-header
+                      header-tag="header"
+                      class="p-1 bg-light rounded"
+                      role="tab"
+                    >
+                      <div v-b-toggle="'module' + id" variant="info">
+                        {{ item.course.title }}
+                      </div>
+                    </b-card-header>
+                    <b-collapse
+                      :id="'module' + id"
+                      accordion="my-accordion"
+                      role="tabpanel"
+                    >
+                      <div
+                        v-for="(mods, idx) in item.course.modules"
+                        :key="idx"
+                        class="py-2"
+                      >
+                        <b-card-body
+                          v-if="
+                            JSON.parse(mods.modules).filter(
+                              (ite) => ite.file_type == 'worksheet'
+                            ) &&
+                            JSON.parse(mods.modules).filter(
+                              (ite) => ite.file_type == 'worksheet'
+                            ).length
+                          "
+                          class="px-2 py-0 mb-2"
+                        >
+                          <h6 class="text-capitalize">{{ mods.module }}</h6>
+                          <b-card-body
+                            class="worksheet"
+                            v-for="(mod, index) in JSON.parse(
+                              mods.modules
+                            ).filter((item) => item.file_type == 'worksheet')"
+                            :key="index"
+                          >
+                            <b-card-text
+                              class="
+                                d-flex
+                                text-capitalize
+                                align-items-center
+                                mb-2
+                              "
+                            >
+                              <div
+                                class="flex-1 fs14"
+                                @click="play(item.course.id, mod, mods.id)"
+                              >
+                                {{ mod.title }}
+                              </div>
+
+                              <b-icon
+                                v-b-popover.hover.top="'Submitted'"
+                                v-if="
+                                  myquestionnaire.find(
+                                    (it) =>
+                                      it.question_template_id ==
+                                        mod.template.id &&
+                                      it.course_id == item.course.id
+                                  ) &&
+                                  myquestionnaire.find(
+                                    (it) =>
+                                      it.question_template_id ==
+                                        mod.template.id &&
+                                      it.course_id == item.course.id
+                                  ).status == 'submitted'
+                                "
+                                variant="dark-green"
+                                icon="check-circle-fill"
+                              ></b-icon>
+                              <b-icon
+                                v-b-popover.hover.top="'Draft'"
+                                v-if="
+                                  myquestionnaire.find(
+                                    (it) =>
+                                      it.question_template_id ==
+                                        mod.template.id &&
+                                      it.course_id == item.course.id
+                                  ) &&
+                                  myquestionnaire.find(
+                                    (it) =>
+                                      it.question_template_id ==
+                                        mod.template.id &&
+                                      it.course_id == item.course.id
+                                  ).status == 'draft'
+                                "
+                                variant="warning"
+                                icon="stop-circle-fill"
+                              ></b-icon>
+                              <b-icon
+                                v-b-popover.hover.top="'Begin'"
+                                v-if="
+                                  !myquestionnaire.find(
+                                    (it) =>
+                                      it.question_template_id ==
+                                        mod.template.id &&
+                                      it.course_id == item.course.id
+                                  )
+                                "
+                                icon="play-circle-fill"
+                              ></b-icon>
+                            </b-card-text>
+                          </b-card-body>
+                        </b-card-body>
+                      </div>
+                    </b-collapse>
+                  </b-card>
+                </div>
+                <b-alert class="fs13" show v-else>
+                  <b-icon icon="info-circle"></b-icon> No worksheet
+                  available</b-alert
+                >
+              </div>
+            </div>
+            <div v-else>
+              <div class="mb-4 d-flex w-100">
+                <div class="mb-3 w-50 mr-3">
+                  <b-skeleton-img></b-skeleton-img>
+                </div>
+                <div class="w-50">
+                  <b-skeleton
+                    animation="fade"
+                    class="mb-2"
+                    width="65%"
+                  ></b-skeleton>
+                  <b-skeleton
+                    animation="fade"
+                    class="mb-2"
+                    width="55%"
+                  ></b-skeleton>
+                  <b-skeleton animation="fade" width="59%"></b-skeleton>
+                </div>
+              </div>
+              <div class="mb-4 d-flex w-100">
+                <div class="mb-3 w-50 mr-3">
+                  <b-skeleton-img></b-skeleton-img>
+                </div>
+                <div class="w-50">
+                  <b-skeleton
+                    animation="fade"
+                    class="mb-2"
+                    width="65%"
+                  ></b-skeleton>
+                  <b-skeleton
+                    animation="fade"
+                    class="mb-2"
+                    width="55%"
+                  ></b-skeleton>
+                  <b-skeleton animation="fade" width="59%"></b-skeleton>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div></div>
         </b-col>
       </b-row>
     </b-container>

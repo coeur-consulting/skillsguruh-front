@@ -26,15 +26,17 @@
           <b-nav-item to="/" class="mr-sm-4">Home</b-nav-item>
           <b-nav-item to="/explore" class="mr-sm-4">Explore</b-nav-item>
           <b-nav-item to="/about" class="mr-sm-4">About</b-nav-item>
-
-          <b-nav-item to="/contact">Contact</b-nav-item>
+          <b-nav-item to="/member/community" v-if="authMember"
+            >Community</b-nav-item
+          >
+          <b-nav-item to="/tribes" v-if="authMember">Tribes</b-nav-item>
 
           <b-nav-item
             v-if="authMember"
             class="px-4"
-            @click="$router.push('/member')"
+            @click="$router.push('/member/feeds')"
           >
-            Dashboard</b-nav-item
+            Enter Nzukoor</b-nav-item
           >
 
           <b-nav-item

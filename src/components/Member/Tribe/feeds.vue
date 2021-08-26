@@ -447,7 +447,7 @@
               <Suggestions user="member" />
             </div>
 
-            <div class="d-flex justify-content-center justify-content-md-end">
+            <!-- <div class="d-flex justify-content-center justify-content-md-end">
               <div class="d-flex align-items-center pl-3 mb-1">
                 <div
                   class="pr-2 fs12 font-weight-bold cursor-pointer"
@@ -473,13 +473,13 @@
                   Custom
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <div v-if="showFeeds">
-              <div v-if="filteredFeeds.length">
+              <div v-if="feeds.length">
                 <div class="feed-content">
                   <div
-                    v-for="(feed, index) in filteredFeeds"
+                    v-for="(feed, index) in feeds"
                     :key="index"
                     class="border bg-white rounded-8 mb-3"
                   >
@@ -1014,10 +1014,10 @@
 <script>
 import EmojiPicker from "@/components/emoji/EmojiPicker";
 import Feelings from "@/components/feelings";
-import FeedUpload from "../feedupload";
+import FeedUpload from "@/components/feedupload";
 // import Message from "../messagecomponent";
 import { MultiSelect } from "vue-search-select";
-import Interest from "../helpers/subcategory.js";
+import Interest from "@/components/helpers/subcategory.js";
 import Suggestions from "@/components/suggestions.vue";
 export default {
   data() {
@@ -1043,6 +1043,7 @@ export default {
         message: "",
         publicId: "",
         tags: [],
+        tribe_id:this.$route.params.id
       },
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp", "flv", "mov"],
@@ -1085,20 +1086,20 @@ export default {
     });
   },
   computed: {
-    filteredFeeds() {
-      var feeds = [];
-      if (this.feedShown == "recent") {
-        feeds = this.recentfeeds;
-      }
-      if (this.feedShown == "trending") {
-        feeds = this.trendingfeeds;
-      }
-      if (this.feedShown == "custom") {
-        feeds = this.customfeeds;
-      }
+    // filteredFeeds() {
+    //   var feeds = [];
+    //   if (this.feedShown == "recent") {
+    //     feeds = this.recentfeeds;
+    //   }
+    //   if (this.feedShown == "trending") {
+    //     feeds = this.trendingfeeds;
+    //   }
+    //   if (this.feedShown == "custom") {
+    //     feeds = this.customfeeds;
+    //   }
 
-      return feeds;
-    },
+    //   return feeds;
+    // },
     useraccess() {
       var token = null;
       if (this.$store.getters.admin.access_token) {
@@ -1116,9 +1117,10 @@ export default {
   mounted() {
     // this.getfeeds();
     // this.getmyfeeds();
-    this.getcustomfeeds();
-    this.gettrendingfeeds();
-    this.getrecentfeeds();
+    //this.getcustomfeeds();
+    // this.gettrendingfeeds();
+    // this.getrecentfeeds();
+    this.infiniteHandler();
   },
   directives: {
     focus: {
@@ -1278,12 +1280,16 @@ export default {
     },
     infiniteHandler($state) {
       this.$http
-        .get(`${this.$store.getters.url}/feeds?page=${this.page}`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
-        })
+        .get(
+          `${this.$store.getters.url}/get/tribe/feeds/${this.$route.params.id}?page=${this.page}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
         .then((res) => {
+          this.showFeeds = true;
           if (res.data.data.length) {
             this.page += 1;
             this.feeds.push(...res.data.data);
@@ -1441,6 +1447,7 @@ export default {
               message: "",
               publicId: "",
               tags: [],
+               tribe_id:this.$route.params.id
             };
           }
         })

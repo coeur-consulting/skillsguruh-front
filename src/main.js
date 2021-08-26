@@ -19,8 +19,12 @@ import VueCountdownTimer from "vuejs-countdown-timer";
 import VueSocialauth from "vue-social-auth";
 import VueWebSpeech from "vue-web-speech";
 import Cloudinary from "cloudinary-vue";
-import VueCompositionAPI from "@vue/composition-api";
 import InfiniteLoading from "vue-infinite-loading";
+import {
+  FontAwesomeIcon,
+  FontAwesomeLayers,
+  FontAwesomeLayersText,
+} from "@fortawesome/vue-fontawesome";
 
 import "vue-toast-notification/dist/theme-sugar.css";
 import "animate.css";
@@ -29,7 +33,9 @@ import "vue-search-select/dist/VueSearchSelect.css";
 import "./assets/scss/style.scss";
 import "./cloudinary.js";
 
-Vue.use(VueCompositionAPI);
+Vue.component("font-awesome-icon", FontAwesomeIcon);
+Vue.component("font-awesome-layers", FontAwesomeLayers);
+Vue.component("font-awesome-layers-text", FontAwesomeLayersText);
 Vue.use(Cloudinary, {
   configuration: {
     cloudName: "skillsguruh",
@@ -81,7 +87,7 @@ Vue.use(require("vue-pusher"), {
 });
 Vue.use(InfiniteLoading, {
   slots: {
-    noMore: "No more message", // you can pass a string value
+    noMore: "No more data", // you can pass a string value
   },
 });
 Vue.mixin({

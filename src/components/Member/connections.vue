@@ -1,8 +1,8 @@
 <template>
-  <b-container class="p-3 p-sm-5 text-left">
+  <b-container class="py-5 text-left">
     <b-row>
-      <b-col sm="7" class="mb-5">
-        <div class="box px-2 py-4 p-sm-5">
+      <b-col class="mb-5">
+        <div class="box py-4 px-3">
           <h6 class="mb-3">{{ filteredConnections.length }} Connections</h6>
           <div class="px-3 py-2 d-flex align-items-center search bg-light">
             <b-icon icon="search"></b-icon>
@@ -107,7 +107,7 @@
               </div>
               <div v-else class="text-center p-4">No connection available</div>
             </b-tab>
-            <b-tab title="Connected to you">
+            <b-tab title="Connected to you" lazy>
               <div
                 class="py-4 connection_box"
                 v-if="filteredmyconnections.length"
@@ -204,79 +204,18 @@
                 </div>
               </div>
             </b-tab>
+            <b-tab title="Tribes" lazy>
+              <Tribes />
+            </b-tab>
           </b-tabs>
         </div>
       </b-col>
-      <b-col sm="5">
-        <div class="box p-2 p-sm-4 mb-5">
-          <h6 class="mb-3">Suggested</h6>
-
-          <div class="py-1 suggestion_box" v-if="similarconnections.length">
-            <div
-              class="d-flex align-items-end mb-3"
-              v-for="(item, id) in similarconnections.slice(0, 9)"
-              :key="id"
-            >
-              <div class="d-flex align-items-center flex-1">
-                <b-avatar class="mr-2" size="sm"></b-avatar>
-                <div style="line-height: 1.2">
-                  <span
-                    v-if="item.qualifications"
-                    @click="$router.push(`/member/profile/f/${item.id}`)"
-                    class="connection_name cursor-pointer fs13"
-                    >{{ item.username }}</span
-                  >
-
-                  <span
-                    v-else
-                    @click="$router.push(`/member/profile/u/${item.id}`)"
-                    class="connection_name cursor-pointer fs13"
-                    >{{ item.username }}</span
-                  >
-                </div>
-              </div>
-
-              <div>
-                <b-button
-                  v-if="item.qualifications"
-                  @click="addconnections(item.id, 'facilitator')"
-                  variant="outline-dark-green"
-                  size="sm"
-                  class="rounded-pill fs9"
-                  style="padding-top: 0.15rem; padding-bottom: 0.15rem"
-                  ><span>Connect</span></b-button
-                >
-                <b-button
-                  v-else
-                  @click="addconnections(item.id, 'user')"
-                  variant="outline-dark-green"
-                  size="sm"
-                  class="rounded-pill fs9"
-                  style="padding-top: 0.15rem; padding-bottom: 0.15rem"
-                  >Connect</b-button
-                >
-              </div>
-            </div>
-          </div>
-          <div v-else class="p-3">
-            <h6 class="text-muted text-center">Not available</h6>
-          </div>
-        </div>
-      </b-col>
     </b-row>
-    <Minichat
-      class="minichats"
-      :user="'member'"
-      :mini_info="mini_info"
-      :open="open"
-      :showAll="showAll"
-      @togglechat="togglechat"
-    />
   </b-container>
 </template>
 
 <script>
-import Minichat from "../minichat";
+import Tribes from "./Tribe/components/mytribes.vue";
 export default {
   data() {
     return {
@@ -298,7 +237,7 @@ export default {
     };
   },
   components: {
-    Minichat,
+    Tribes,
   },
   mounted() {
     this.getconnections();

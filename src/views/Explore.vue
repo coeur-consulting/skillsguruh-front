@@ -5,7 +5,7 @@
     <div class="bg-white">
       <section>
         <b-container class="pb-5">
-          <b-row class="justify-content-around p-2 py-sm-5">
+          <b-row class="justify-content-center p-2 p-sm-5">
             <b-col cols="4">
               <span
                 class="d-flex align-items-center justify-content-start tpp"
@@ -24,8 +24,8 @@
             </b-col>
             <b-col cols="4">
               <span
-                class="d-flex align-items-center tpp"
-                @click="$router.push('/explore/courses')"
+                class="d-flex align-items-center tpp justify-content-start"
+                @click="$router.push('/explore/discussions')"
               >
                 <b-img
                   class="mr-2 tp"
@@ -34,24 +34,169 @@
                 ></b-img>
                 <span>
                   <span class="">{{ courses.length }}+</span> <br />
-                  <span class="">Online Courses</span>
+                  <span class="">Online Discussions</span>
                 </span>
               </span>
             </b-col>
             <b-col cols="4">
               <span
-                class="d-flex align-items-center justify-content-end tpp"
-                @click="$router.push('/explore/facilitators')"
+                class="d-flex align-items-center justify-content-start tpp"
+                @click="$router.push('/explore/tribes')"
               >
                 <b-img class="mr-2 tp" size="2.5rem" src="/img/grp.png"></b-img>
                 <span>
-                  <span class="">{{ facilitators.length }}+</span>
+                  <span class="">{{ tribes.length }}+</span>
                   <br />
-                  <span class="">Facilitators Onboard</span>
+                  <span class=""> Active Tribes </span>
                 </span>
               </span>
             </b-col>
           </b-row>
+        </b-container>
+      </section>
+      <section class="py-5">
+        <b-container>
+          <div class="d-flex justify-content-center trending mb-5">
+            <h2 class="">
+              <span> Popular Tribes</span>
+            </h2>
+          </div>
+
+          <b-container>
+            <b-row class="d-none d-md-flex">
+              <b-col
+                sm="4"
+                v-for="(n, id) in tribes.slice(0, 6)"
+                :key="id"
+                class="mb-4"
+              >
+                <b-popover :target="`popover-${id}`" triggers="hover">
+                  <template #title> {{ n.name }} tribe</template>
+
+                  {{ n.description }}
+                </b-popover>
+                <div class="tribe_box rounded" :id="`popover-${id}`">
+                  <div class="d-flex align-items-center justify-content-center">
+                    <span class="tribe_name text-white">{{ n.name }}</span>
+                  </div>
+
+                  <div
+                    class="
+                      d-flex
+                      justify-content-between
+                      align-items-center
+                      bg-white
+                      tribe_member_container
+                    "
+                  >
+                    <span class="d-flex align-items-center">
+                      <span class="mr-1">{{ n.users.length }}</span>
+                      <span>
+                        {{ n.users.length > 1 ? "members" : "member" }}</span
+                      >
+                    </span>
+                    <b-dropdown
+                      size="sm"
+                      variant="transparent"
+                      no-caret
+                      class="no-focus"
+                    >
+                      <template #button-content>
+                        <b-icon
+                          icon="three-dots-vertical"
+                          font-scale=".8"
+                        ></b-icon>
+                      </template>
+                      <b-dropdown-item class="fs12">Join</b-dropdown-item>
+                    </b-dropdown>
+                  </div>
+                  <span
+                    class="tribe_circle cursor-pointer"
+                    @click="$router.push(`/member/tribe/feed/${n.id}`)"
+                  >
+                    <b-avatar size="lg" :src="n.cover"></b-avatar>
+                  </span>
+                </div>
+              </b-col>
+            </b-row>
+            <b-row class="d-md-none">
+              <carousel
+                :perPage="2"
+                :scrollPerPage="true"
+                :paginationEnabled="true"
+                :spacePadding="15"
+                :perPageCustom="[
+                  [600, 2],
+                  [768, 3],
+                ]"
+                v-if="courses.length"
+              >
+                <slide
+                  v-for="(n, id) in tribes.slice(0, 6)"
+                  :key="id"
+                  class="mb-4 px-3"
+                >
+                  <b-popover :target="`popover-${id}`" triggers="hover">
+                    <template #title> {{ n.name }} tribe</template>
+
+                    {{ n.description }}
+                  </b-popover>
+                  <div class="tribe_box rounded" :id="`popover-${id}`">
+                    <div
+                      class="d-flex align-items-center justify-content-center"
+                    >
+                      <span class="tribe_name text-white">{{ n.name }}</span>
+                    </div>
+
+                    <div
+                      class="
+                        d-flex
+                        justify-content-between
+                        align-items-center
+                        bg-white
+                        tribe_member_container
+                      "
+                    >
+                      <span class="d-flex align-items-center">
+                        <span class="mr-1">{{ n.users.length }}</span>
+                        <span>
+                          {{ n.users.length > 1 ? "members" : "member" }}</span
+                        >
+                      </span>
+                      <b-dropdown
+                        size="sm"
+                        variant="transparent"
+                        no-caret
+                        class="no-focus"
+                      >
+                        <template #button-content>
+                          <b-icon
+                            icon="three-dots-vertical"
+                            font-scale=".8"
+                          ></b-icon>
+                        </template>
+                        <b-dropdown-item class="fs12">Join</b-dropdown-item>
+                      </b-dropdown>
+                    </div>
+                    <span
+                      class="tribe_circle cursor-pointer"
+                      @click="$router.push(`/member/tribe/feed/${n.id}`)"
+                    >
+                      <b-avatar size="lg" :src="n.cover"></b-avatar>
+                    </span>
+                  </div>
+                </slide>
+              </carousel>
+            </b-row>
+          </b-container>
+
+          <div class="text-center text-dark-green fs12">
+            <span
+              @click="$router.push('/explore/tribes')"
+              class="cursor-pointer"
+              >Load more...</span
+            >
+          </div>
         </b-container>
       </section>
       <section class="py-3 py-sm-4 mb-2 mb-sm-5">
@@ -596,7 +741,6 @@
                           "
                         ></b-icon>
                       </span>
-
 
                       <span class="mr-3">
                         <b-icon
@@ -1517,6 +1661,8 @@ export default {
       auth: false,
       alllikes: null,
       toggleOn: null,
+      tribes: [],
+      showTribes: false,
     };
   },
   directives: {
@@ -1536,6 +1682,7 @@ export default {
     this.gettrendingfeeds();
     this.mostenrolled();
     this.getcourses();
+    this.gettribes();
     this.getmembers();
     this.getevents();
     this.getfacilitators();
@@ -1806,6 +1953,19 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
+    gettribes() {
+      this.$http
+        .get(`${this.$store.getters.url}/tribes`)
+        .then((res) => {
+          if (res.status == 200) {
+            this.tribes = res.data.data;
+            this.showTribes = true;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     getmembers() {
       this.$http.get(`${this.$store.getters.url}/get/members`).then((res) => {
         if (res.status == 200) {
@@ -1995,6 +2155,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.container {
+  max-width: 1000px;
+}
 .main_c {
   /* The image used */
   background-image: url("../assets/images/mountain.svg");

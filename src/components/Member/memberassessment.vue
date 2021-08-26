@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-container fluid>
+    <b-container fluid class="py-4">
       <b-row class="mb-3">
         <b-col class="bg-white p-3 text-left d-flex justify-content-between">
           <h5 class="text-capitalize">{{ $route.params.type }}</h5>

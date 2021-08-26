@@ -1,5 +1,1211 @@
 <template>
   <div>
+    <b-modal
+      no-close-on-backdrop
+      size="lg"
+      id="addcourse"
+      centered
+      hide-footer
+      title="Create a new course"
+    >
+      <b-form @submit.prevent="createcourse">
+        <div class="mb-3 border-bottom">
+          <b-container class="pb-2 d-flex align-items-center">
+            <span
+              class="mr-5 d-flex align-items-center fs13 cursor-pointer"
+              :class="{ 'text-dark-green': type == 1 }"
+              @click="type = 1"
+              ><b-icon
+                icon="circle-fill"
+                class="mr-1"
+                font-scale=".45rem"
+              ></b-icon>
+              General</span
+            >
+            <span
+              class="mr-5 d-flex align-items-center fs13 cursor-pointer"
+              :class="{ 'text-dark-green': type == 2 }"
+              @click="type = 2"
+              ><b-icon
+                icon="circle-fill"
+                class="mr-1"
+                font-scale=".45rem"
+              ></b-icon>
+              Course Outline</span
+            >
+            <span
+              class="mr-5 d-flex align-items-center fs13 cursor-pointer"
+              :class="{ 'text-dark-green': type == 3 }"
+              @click="type = 3"
+            >
+              <b-icon
+                icon="circle-fill"
+                class="mr-1"
+                font-scale=".45rem"
+              ></b-icon
+              >Course Schedule</span
+            >
+          </b-container>
+        </div>
+        <div class="px-4">
+          <b-alert show><span class="fs10">Fill all (*) fields</span></b-alert>
+        </div>
+        <b-container v-show="type == 1">
+          <b-form-row>
+            <b-col sm="6" class="mb-3 px-3">
+              <b-form-group label="Course title*" label-for="title" id="title">
+                <b-form-input
+                  placeholder="Enter course title"
+                  v-model="detail.general.title"
+                  :state="validateState('general', 'title')"
+                  name="title"
+                  aria-describedby="title-feedback"
+                ></b-form-input>
+                <b-form-invalid-feedback id="title-feedback">
+                  Title is required
+                </b-form-invalid-feedback>
+              </b-form-group>
+            </b-col>
+            <b-col sm="6" class="mb-3 px-3">
+              <b-form-group label="Course code (optional)">
+                <b-form-input
+                  v-model="detail.general.code"
+                  placeholder="Enter course code (optional)"
+                ></b-form-input>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+
+          <b-form-row>
+            <b-col sm="6" class="mb-3 px-3">
+              <b-form-group label="Course Type">
+                <b-form-radio-group
+                  size="sm"
+                  id="radio-group-2"
+                  v-model="detail.general.type"
+                  name="radio-sub-component"
+                >
+                  <b-form-radio value="paid">Paid</b-form-radio>
+                  <b-form-radio value="group">Group</b-form-radio>
+                </b-form-radio-group>
+              </b-form-group>
+            </b-col>
+            <b-col
+              sm="6"
+              class="mb-3 px-3"
+              v-if="detail.general.type == 'paid'"
+            >
+              <b-form-group label="Course amount*">
+                <b-form-input
+                  :state="validateState('general', 'amount')"
+                  name="amount"
+                  size="sm"
+                  type="number"
+                  v-model="detail.general.amount"
+                  placeholder=""
+                  aria-describedby="amount-feedback"
+                ></b-form-input>
+                <b-form-invalid-feedback id="title-feedback">
+                  Field is required
+                </b-form-invalid-feedback>
+              </b-form-group>
+            </b-col>
+
+            <b-col
+              sm="6"
+              class="mb-3 px-3"
+              v-if="detail.general.type == 'group'"
+            >
+              <b-form-group label="No of participants*">
+                <b-form-select
+                  size="sm"
+                  :state="validateState('general', 'amount')"
+                  v-model="detail.general.amount"
+                  aria-describedby="amount-feedback"
+                >
+                  <b-form-select-option :value="null"
+                    >Select a number</b-form-select-option
+                  >
+                  <b-form-select-option v-for="n in 100" :key="n" :value="n">{{
+                    n
+                  }}</b-form-select-option>
+                </b-form-select>
+                <b-form-invalid-feedback id="amount-feedback">
+                  Field is required
+                </b-form-invalid-feedback>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+          <b-form-row>
+            <b-col sm="6" class="mb-3 px-3">
+              <b-form-group label="Course Description*">
+                <b-form-textarea
+                  v-model="detail.general.description"
+                  name="desc"
+                  :state="validateState('general', 'description')"
+                  rows="5"
+                  placeholder="Enter Description"
+                  aria-describedby="desc-feedback"
+                ></b-form-textarea>
+                <b-form-invalid-feedback id="desc-feedback">
+                  Description is required
+                </b-form-invalid-feedback>
+              </b-form-group>
+            </b-col>
+            <b-col sm="6" class="mb-3 px-3">
+              <b-form-group label="Course Cover*">
+                <Upload
+                  @getUpload="getUpload"
+                  :id="'image'"
+                  :type="'image'"
+                  :file_type="'image'"
+                >
+                  <div class="text-center">
+                    <b-icon
+                      icon="image"
+                      class="text-muted"
+                      font-scale="6rem"
+                    ></b-icon>
+                  </div>
+                </Upload>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+        </b-container>
+        <b-container v-show="type == 2">
+          <b-form-row class="px-1">
+            <b-col class="mb-2 px-3">
+              <b-form-group label="Overview*">
+                <editor
+                  api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
+                  v-model="detail.outline.overview"
+                  :init="{
+                    selector: 'textarea',
+                    height: 150,
+                    menubar: false,
+                    font_formats: 'Poppins',
+                    toolbar: ' styleselect   | fontsizeselect | bold italic ',
+                    content_style: font,
+                  }"
+                  aria-describedby="overview-feedback"
+                />
+                <b-form-textarea
+                  class="d-none"
+                  v-model="detail.outline.overview"
+                  aria-describedby="overview-feedback"
+                  :state="validateState('outline', 'overview')"
+                ></b-form-textarea>
+                <b-form-invalid-feedback id="overview-feedback">
+                  Overview is required
+                </b-form-invalid-feedback>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+          <b-form-row class="px-1">
+            <b-col sm="6" class="mb-3 px-3">
+              <b-form-group label="Knowledge area*">
+                <model-list-select
+                  :list="options"
+                  v-model="detail.outline.knowledge_area"
+                  option-value="value"
+                  option-text="value"
+                  placeholder="select area"
+                >
+                </model-list-select>
+                <b-form-select
+                  v-model="detail.outline.knowledge_area"
+                  class="d-none"
+                  aria-describedby="area-feedback"
+                  :state="validateState('outline', 'knowledge_area')"
+                ></b-form-select>
+                <b-form-invalid-feedback id="area-feedback">
+                  Knowledge area is required
+                </b-form-invalid-feedback>
+              </b-form-group>
+            </b-col>
+            <b-col sm="6" class="mb-3 px-3">
+              <b-form-group label="Duration*">
+                <b-form-input
+                  :state="validateState('outline', 'duration')"
+                  v-model="detail.outline.duration"
+                  placeholder="Enter course duration"
+                ></b-form-input>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+          <div>
+            <div class="mb-3 px-3">
+              <div class="border rounded p-2">
+                <b-form-group label="Modules*">
+                  <b-input-group class="addmodule mb-3">
+                    <b-form-input
+                      aria-describedby="modules-feedback"
+                      v-model="newmodule"
+                      :state="validateState('outline', 'modules')"
+                    ></b-form-input>
+                    <b-input-group-append>
+                      <b-button variant="dark-green" @click="addmodule"
+                        >Add</b-button
+                      >
+                    </b-input-group-append>
+                  </b-input-group>
+                  <b-form-invalid-feedback id="modules-feedback">
+                    Modules are required
+                  </b-form-invalid-feedback>
+                  <div>
+                    <b-row>
+                      <draggable
+                        v-model="detail.outline.modules"
+                        v-bind="dragOptions"
+                        :move="onMove"
+                        @start="isDragging = true"
+                        @end="isDragging = false"
+                        class=""
+                      >
+                        <transition-group
+                          type="transition"
+                          :name="'flip-list'"
+                          class="d-flex flex-wrap"
+                        >
+                          <b-col
+                            v-for="(item, id) in detail.outline.modules"
+                            :key="id + 1"
+                            cols="auto"
+                          >
+                            <div
+                              class="
+                                rounded-pill
+                                module_border
+                                mb-2
+                                d-flex
+                                justify-content-between
+                                align-items-center
+                              "
+                            >
+                              <div class="fs14 px-3 py-1">
+                                {{ item.module }}
+                              </div>
+                              <div
+                                class="module_border_left text-center py-1 px-1"
+                              >
+                                <b-icon
+                                  icon="x"
+                                  @click="detail.outline.modules.splice(id, 1)"
+                                ></b-icon>
+                              </div>
+                            </div>
+                          </b-col>
+                        </transition-group>
+                      </draggable>
+                    </b-row>
+                  </div>
+                </b-form-group>
+              </div>
+            </div>
+          </div>
+
+          <div class="px-3 mb-3">
+            <div class="p-2 border rounded">
+              <label class="d-flex justify-content-between">
+                <span>Faqs</span>
+                <span>
+                  <b-button size="sm" @click="addfaq">Add</b-button>
+                </span>
+              </label>
+              <b-form-row>
+                <b-col
+                  sm="6"
+                  v-for="(item, id) in detail.outline.faqs"
+                  :key="id"
+                  class="d-flex"
+                >
+                  <b-form-group class="flex-1">
+                    <div class="mb-1">
+                      <b-form-input
+                        placeholder="Enter question"
+                        v-model="item.question"
+                      ></b-form-input>
+                    </div>
+                    <div>
+                      <b-form-input
+                        placeholder="Enter answer"
+                        v-model="item.answer"
+                      ></b-form-input>
+                    </div>
+                  </b-form-group>
+                  <div class="ml-1">
+                    <b-button
+                      size="sm"
+                      @click="detail.outline.faqs.splice(id, 1)"
+                      ><b-icon icon="x"></b-icon
+                    ></b-button>
+                  </div>
+                  <div></div>
+                </b-col>
+              </b-form-row>
+            </div>
+          </div>
+
+          <b-form-row class="px-1">
+            <b-col sm="6" class="mb-3 px-3">
+              <b-form-group label="Certification">
+                <b-form-row>
+                  <b-col sm="3">
+                    <b-form-radio
+                      size="sm"
+                      value="yes"
+                      v-model="detail.outline.certification"
+                      >Yes</b-form-radio
+                    >
+                  </b-col>
+                  <b-col>
+                    <b-form-radio
+                      size="sm"
+                      v-model="detail.outline.certification"
+                      value="no"
+                      sm="3"
+                      >No</b-form-radio
+                    ></b-col
+                  >
+                </b-form-row>
+              </b-form-group>
+            </b-col>
+            <b-col sm="6" class="mb-3 px-3"> </b-col>
+          </b-form-row>
+          <b-form-row>
+            <b-col class="mb-3 px-3">
+              <b-form-group label="Additional Note">
+                <b-form-textarea
+                  v-model="detail.outline.additional_info"
+                  rows="2"
+                  placeholder="Enter Description"
+                ></b-form-textarea>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+        </b-container>
+        <b-container v-show="type == 3">
+          <div class="mb-3" v-for="(item, id) in detail.schedule" :key="id">
+            <div
+              class="
+                border
+                p-3
+                rounded
+                d-flex
+                justify-content-between
+                shadow-sm
+                bg-light
+              "
+              v-if="id != current_schedule"
+            >
+              <div>
+                <span class="mr-3"
+                  >Start :
+                  {{
+                    item.start_time | moment("dddd, MMMM D YYYY, h:mm a")
+                  }}</span
+                >
+                <br />
+                <span class="mr-3"
+                  >End :
+                  {{
+                    item.end_time | moment("dddd, MMMM D YYYY, h:mm a")
+                  }}</span
+                >
+              </div>
+              <div>
+                <b-iconstack
+                  font-scale="1.3"
+                  class="mr-2"
+                  @click="current_schedule = id"
+                >
+                  <b-icon stacked icon="circle-fill" variant="warning"></b-icon>
+                  <b-icon icon="pencil" stacked scale="0.5"></b-icon>
+                </b-iconstack>
+
+                <b-iconstack
+                  font-scale="1.3"
+                  v-if="detail.schedule.length > 1"
+                  @click="detail.schedule.splice(id, 1)"
+                >
+                  <b-icon stacked icon="circle-fill" variant="danger"></b-icon>
+                  <b-icon
+                    icon="trash2-fill"
+                    stacked
+                    scale="0.5"
+                    variant="white"
+                  ></b-icon>
+                </b-iconstack>
+              </div>
+            </div>
+            <div v-if="id == current_schedule" class="bg-light">
+              <div class="text-right px-3">
+                <b-icon
+                  icon="chevron-up"
+                  @click="current_schedule = null"
+                ></b-icon>
+              </div>
+              <b-form-row>
+                <b-col sm="6" class="mb-3 px-3">
+                  <b-form-group label="Choose Facilitator">
+                    <!-- <b-form-select v-model="item.facilitator_id">
+                      <b-form-select-option :value="null"
+                        >None</b-form-select-option
+                      >
+                      <b-form-select-option
+                        :value="item.id"
+                        v-for="(item, id) in facilitators"
+                        :key="id"
+                        >{{ item.name }}</b-form-select-option
+                      ></b-form-select
+                    > -->
+                    <model-list-select
+                      :list="facilitators"
+                      v-model="item.facilitator_id"
+                      option-value="id"
+                      option-text="name"
+                      placeholder="select facilitator"
+                    >
+                    </model-list-select>
+                  </b-form-group>
+                </b-col>
+              </b-form-row>
+              <b-form-row>
+                <b-col sm="6" class="mb-3 px-3">
+                  <b-form-group label="Venue">
+                    <b-form-input
+                      v-model="item.venue"
+                      placeholder="Enter course Venue"
+                    ></b-form-input>
+                  </b-form-group>
+                </b-col>
+                <b-col sm="6" class="mb-3 px-3">
+                  <b-form-group label="Url(optional)">
+                    <b-form-input
+                      v-model="item.url"
+                      type="url"
+                      placeholder="Enter url link (optional)"
+                    ></b-form-input>
+                  </b-form-group>
+                </b-col>
+              </b-form-row>
+
+              <b-form-row>
+                <b-col class="mb-3 px-3">
+                  <b-form-group label="Choose modules">
+                    <b-form-checkbox
+                      v-if="detail.outline.modules.length"
+                      size="sm"
+                      @change="selectall(id, item.all, detail.outline.modules)"
+                      v-model="item.all"
+                      >Select all</b-form-checkbox
+                    >
+                    <b-form-checkbox-group
+                      id="checkbox-group-1"
+                      v-model="item.modules"
+                      :options="detail.outline.modules"
+                      name="modules"
+                      value-field="module"
+                      text-field="module"
+                    ></b-form-checkbox-group>
+                  </b-form-group>
+                </b-col>
+              </b-form-row>
+              <b-form-row>
+                <b-col sm="6" class="mb-3 px-3">
+                  <b-form-group label="Start time">
+                    <vc-date-picker
+                      placeholder="Choose start time"
+                      v-model="item.start_time"
+                      mode="dateTime"
+                      :is24hr="false"
+                    >
+                      <template v-slot="{ inputValue, inputEvents }">
+                        <input
+                          class="
+                            px-2
+                            py-1
+                            border
+                            rounded
+                            focus:outline-none
+                            focus:border-blue-300
+                          "
+                          :value="inputValue"
+                          v-on="inputEvents"
+                        />
+                      </template>
+                    </vc-date-picker>
+                  </b-form-group>
+                </b-col>
+                <b-col sm="6" class="mb-3 px-3">
+                  <b-form-group label="End time">
+                    <vc-date-picker
+                      placeholder="Choose start time"
+                      v-model="item.end_time"
+                      mode="dateTime"
+                      :is24hr="false"
+                    >
+                      <template v-slot="{ inputValue, inputEvents }">
+                        <input
+                          class="
+                            px-2
+                            py-1
+                            border
+                            rounded
+                            focus:outline-none
+                            focus:border-blue-300
+                          "
+                          :value="inputValue"
+                          v-on="inputEvents"
+                        />
+                      </template>
+                    </vc-date-picker>
+                  </b-form-group>
+                </b-col>
+              </b-form-row>
+
+              <div>
+                <b-button
+                  variant="outline-dark-green"
+                  class="my-2 mr-2"
+                  size="sm"
+                  @click="detail.schedule.splice(id, 1)"
+                  v-if="detail.schedule.length > 1"
+                  >Delete schedule</b-button
+                >
+              </div>
+            </div>
+          </div>
+          <div class="text-center">
+            <b-icon
+              icon="plus-circle-fill"
+              variant="dark-green"
+              class="my-2"
+              font-scale="1.4"
+              @click="addschedule"
+            ></b-icon>
+          </div>
+        </b-container>
+
+        <div class="text-center py-3">
+          <b-button
+            size="lg"
+            class="px-5"
+            type="button"
+            @click="toggleView"
+            v-show="type <= 2"
+            variant="secondary"
+            >Next</b-button
+          >
+          <b-button
+            size="lg"
+            class="px-5"
+            type="submit"
+            v-show="type === 3"
+            variant="secondary"
+            :disabled="disable"
+            >Create course</b-button
+          >
+        </div>
+      </b-form>
+    </b-modal>
+
+    <b-modal
+      no-close-on-backdrop
+      size="lg"
+      id="update"
+      centered
+      hide-footer
+      title="Update  course"
+    >
+      <b-form @submit.prevent="updatecourse">
+        <div class="mb-3 border-bottom">
+          <b-container class="pb-2 d-flex align-items-center">
+            <span
+              class="mr-5 d-flex align-items-center fs13 cursor-pointer"
+              :class="{ 'text-dark-green': type == 1 }"
+              @click="type = 1"
+              ><b-icon
+                icon="circle-fill"
+                class="mr-1"
+                font-scale=".45rem"
+              ></b-icon>
+              General</span
+            >
+            <span
+              class="mr-5 d-flex align-items-center fs13 cursor-pointer"
+              :class="{ 'text-dark-green': type == 2 }"
+              @click="type = 2"
+              ><b-icon
+                icon="circle-fill"
+                class="mr-1"
+                font-scale=".45rem"
+              ></b-icon>
+              Course Outline</span
+            >
+            <span
+              class="mr-5 d-flex align-items-center fs13 cursor-pointer"
+              :class="{ 'text-dark-green': type == 3 }"
+              @click="type = 3"
+            >
+              <b-icon
+                icon="circle-fill"
+                class="mr-1"
+                font-scale=".45rem"
+              ></b-icon
+              >Course Schedule</span
+            >
+          </b-container>
+        </div>
+        <div class="px-4">
+          <b-alert show><span class="fs10">Fill all (*) fields</span></b-alert>
+        </div>
+        <b-container v-show="type == 1">
+          <b-form-row>
+            <b-col sm="6" class="mb-3 px-3">
+              <b-form-group label="Course title*" label-for="title" id="title">
+                <b-form-input
+                  placeholder="Enter course title"
+                  v-model="detail.general.title"
+                  :state="validateState('general', 'title')"
+                  name="title"
+                  aria-describedby="title-feedback"
+                ></b-form-input>
+                <b-form-invalid-feedback id="title-feedback">
+                  Title is required
+                </b-form-invalid-feedback>
+              </b-form-group>
+            </b-col>
+            <b-col sm="6" class="mb-3 px-3">
+              <b-form-group label="Course code (optional)">
+                <b-form-input
+                  v-model="detail.general.code"
+                  placeholder="Enter course code (optional)"
+                ></b-form-input>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+
+          <b-form-row>
+            <b-col sm="6" class="mb-3 px-3">
+              <b-form-group label="Course Type">
+                <b-form-radio-group
+                  size="sm"
+                  id="radio-group-2"
+                  v-model="detail.general.type"
+                  name="radio-sub-component"
+                >
+                  <b-form-radio value="paid">Paid</b-form-radio>
+                  <b-form-radio value="group">Group</b-form-radio>
+                </b-form-radio-group>
+              </b-form-group>
+            </b-col>
+            <b-col
+              sm="6"
+              class="mb-3 px-3"
+              v-if="detail.general.type == 'paid'"
+            >
+              <b-form-group label="Course amount*">
+                <b-form-input
+                  :state="validateState('general', 'amount')"
+                  name="amount"
+                  size="sm"
+                  type="number"
+                  v-model="detail.general.amount"
+                  placeholder=""
+                  aria-describedby="amount-feedback"
+                ></b-form-input>
+                <b-form-invalid-feedback id="title-feedback">
+                  Field is required
+                </b-form-invalid-feedback>
+              </b-form-group>
+            </b-col>
+
+            <b-col
+              sm="6"
+              class="mb-3 px-3"
+              v-if="detail.general.type == 'group'"
+            >
+              <b-form-group label="No of participants*">
+                <b-form-select
+                  size="sm"
+                  :state="validateState('general', 'amount')"
+                  v-model="detail.general.amount"
+                  aria-describedby="amount-feedback"
+                >
+                  <b-form-select-option :value="null"
+                    >Select a number</b-form-select-option
+                  >
+                  <b-form-select-option v-for="n in 100" :key="n" :value="n">{{
+                    n
+                  }}</b-form-select-option>
+                </b-form-select>
+                <b-form-invalid-feedback id="amount-feedback">
+                  Field is required
+                </b-form-invalid-feedback>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+          <b-form-row>
+            <b-col sm="6" class="mb-3 px-3">
+              <b-form-group label="Course Description*">
+                <b-form-textarea
+                  v-model="detail.general.description"
+                  name="desc"
+                  :state="validateState('general', 'description')"
+                  rows="5"
+                  placeholder="Enter Description"
+                  aria-describedby="desc-feedback"
+                ></b-form-textarea>
+                <b-form-invalid-feedback id="desc-feedback">
+                  Description is required
+                </b-form-invalid-feedback>
+              </b-form-group>
+            </b-col>
+            <b-col sm="6" class="mb-3 px-3">
+              <b-form-group label="Course Cover*">
+                <Upload
+                  @getUpload="getUpload"
+                  :id="'image'"
+                  :type="'image'"
+                  :file_type="'image'"
+                >
+                  <div class="text-center">
+                    <b-icon
+                      icon="image"
+                      class="text-muted"
+                      font-scale="6rem"
+                    ></b-icon>
+                  </div>
+                </Upload>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+        </b-container>
+        <b-container v-show="type == 2">
+          <b-form-row class="px-1">
+            <b-col class="mb-2 px-3">
+              <b-form-group label="Overview*">
+                <editor
+                  api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
+                  v-model="detail.outline.overview"
+                  :init="{
+                    selector: 'textarea',
+                    height: 150,
+                    menubar: false,
+                    font_formats: 'Poppins',
+                    toolbar: ' styleselect   | fontsizeselect | bold italic ',
+                    content_style: font,
+                  }"
+                  aria-describedby="overview-feedback"
+                />
+                <b-form-textarea
+                  class="d-none"
+                  aria-describedby="overview-feedback"
+                  :state="validateState('outline', 'overview')"
+                ></b-form-textarea>
+                <b-form-invalid-feedback id="overview-feedback">
+                  Overview is required
+                </b-form-invalid-feedback>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+          <b-form-row class="px-1">
+            <b-col sm="6" class="mb-3 px-3">
+              <b-form-group label="Knowledge area*">
+                <model-list-select
+                  :list="options"
+                  v-model="detail.outline.knowledge_area"
+                  option-value="value"
+                  option-text="value"
+                  placeholder="select area"
+                >
+                </model-list-select>
+                <b-form-input
+                  class="d-none"
+                  aria-describedby="area-feedback"
+                  :state="validateState('outline', 'knowledge_area')"
+                ></b-form-input>
+                <b-form-invalid-feedback id="area-feedback">
+                  Knowledge area is required
+                </b-form-invalid-feedback>
+              </b-form-group>
+            </b-col>
+            <b-col sm="6" class="mb-3 px-3">
+              <b-form-group label="Duration*">
+                <b-form-input
+                  :state="validateState('outline', 'duration')"
+                  v-model="detail.outline.duration"
+                  placeholder="Enter course duration"
+                ></b-form-input>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+          <div>
+            <div class="mb-3 px-3">
+              <div class="border rounded p-2">
+                <b-form-group label="Modules*">
+                  <b-input-group class="addmodule mb-3">
+                    <b-form-input
+                      aria-describedby="modules-feedback"
+                      v-model="newmodule"
+                      :state="validateState('outline', 'modules')"
+                    ></b-form-input>
+                    <b-input-group-append>
+                      <b-button variant="dark-green" @click="addmodule"
+                        >Add</b-button
+                      >
+                    </b-input-group-append>
+                  </b-input-group>
+                  <b-form-invalid-feedback id="modules-feedback">
+                    Modules are required
+                  </b-form-invalid-feedback>
+                  <div>
+                    <b-row>
+                      <draggable
+                        v-model="detail.outline.modules"
+                        v-bind="dragOptions"
+                        :move="onMove"
+                        @start="isDragging = true"
+                        @end="isDragging = false"
+                        class=""
+                      >
+                        <transition-group
+                          type="transition"
+                          :name="'flip-list'"
+                          class="d-flex flex-wrap"
+                        >
+                          <b-col
+                            v-for="(item, id) in detail.outline.modules"
+                            :key="id + 1"
+                            cols="auto"
+                          >
+                            <div
+                              class="
+                                rounded-pill
+                                module_border
+                                mb-2
+                                d-flex
+                                justify-content-between
+                                align-items-center
+                              "
+                            >
+                              <div class="fs14 px-3 py-1">
+                                {{ item.module }}
+                              </div>
+                              <div
+                                class="module_border_left text-center py-1 px-1"
+                              >
+                                <b-icon
+                                  icon="x"
+                                  @click="detail.outline.modules.splice(id, 1)"
+                                ></b-icon>
+                              </div>
+                            </div>
+                          </b-col>
+                        </transition-group>
+                      </draggable>
+                    </b-row>
+                  </div>
+                </b-form-group>
+              </div>
+            </div>
+          </div>
+
+          <div class="px-3 mb-3">
+            <div class="p-2 border rounded">
+              <label class="d-flex justify-content-between">
+                <span>Faqs</span>
+                <span>
+                  <b-button size="sm" @click="addfaq">Add</b-button>
+                </span>
+              </label>
+              <b-form-row>
+                <b-col
+                  sm="6"
+                  v-for="(item, id) in detail.outline.faqs"
+                  :key="id"
+                  class="d-flex"
+                >
+                  <b-form-group class="flex-1">
+                    <div class="mb-1">
+                      <b-form-input
+                        placeholder="Enter question"
+                        v-model="item.question"
+                      ></b-form-input>
+                    </div>
+                    <div>
+                      <b-form-input
+                        placeholder="Enter answer"
+                        v-model="item.answer"
+                      ></b-form-input>
+                    </div>
+                  </b-form-group>
+                  <div class="ml-1">
+                    <b-button
+                      size="sm"
+                      @click="detail.outline.faqs.splice(id, 1)"
+                      ><b-icon icon="x"></b-icon
+                    ></b-button>
+                  </div>
+                  <div></div>
+                </b-col>
+              </b-form-row>
+            </div>
+          </div>
+
+          <b-form-row class="px-1">
+            <b-col sm="6" class="mb-3 px-3">
+              <b-form-group label="Certification">
+                <b-form-row>
+                  <b-col sm="3">
+                    <b-form-radio
+                      size="sm"
+                      value="yes"
+                      v-model="detail.outline.certification"
+                      >Yes</b-form-radio
+                    >
+                  </b-col>
+                  <b-col>
+                    <b-form-radio
+                      size="sm"
+                      v-model="detail.outline.certification"
+                      value="no"
+                      sm="3"
+                      >No</b-form-radio
+                    ></b-col
+                  >
+                </b-form-row>
+              </b-form-group>
+            </b-col>
+            <b-col sm="6" class="mb-3 px-3"> </b-col>
+          </b-form-row>
+          <b-form-row>
+            <b-col class="mb-3 px-3">
+              <b-form-group label="Additional Note">
+                <b-form-textarea
+                  v-model="detail.outline.additional_info"
+                  rows="2"
+                  placeholder="Enter Description"
+                ></b-form-textarea>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+        </b-container>
+        <b-container v-show="type == 3">
+          <div class="mb-3" v-for="(item, id) in detail.schedule" :key="id">
+            <div
+              class="
+                border
+                p-3
+                rounded
+                d-flex
+                justify-content-between
+                shadow-sm
+                bg-light
+              "
+              v-if="id != current_schedule"
+            >
+              <div>
+                <span class="mr-3"
+                  >Start :
+                  {{
+                    item.start_time | moment("dddd, MMMM D YYYY, h:mm a")
+                  }}</span
+                >
+                <br />
+                <span class="mr-3"
+                  >End :
+                  {{
+                    item.end_time | moment("dddd, MMMM D YYYY, h:mm a")
+                  }}</span
+                >
+              </div>
+              <div>
+                <b-iconstack
+                  font-scale="1.3"
+                  class="mr-2"
+                  @click="current_schedule = id"
+                >
+                  <b-icon stacked icon="circle-fill" variant="warning"></b-icon>
+                  <b-icon icon="pencil" stacked scale="0.5"></b-icon>
+                </b-iconstack>
+
+                <b-iconstack
+                  font-scale="1.3"
+                  v-if="detail.schedule.length > 1"
+                  @click="detail.schedule.splice(id, 1)"
+                >
+                  <b-icon stacked icon="circle-fill" variant="danger"></b-icon>
+                  <b-icon
+                    icon="trash2-fill"
+                    stacked
+                    scale="0.5"
+                    variant="white"
+                  ></b-icon>
+                </b-iconstack>
+              </div>
+            </div>
+            <div v-if="id == current_schedule" class="bg-light">
+              <div class="text-right px-3">
+                <b-icon
+                  icon="chevron-up"
+                  @click="current_schedule = null"
+                ></b-icon>
+              </div>
+              <b-form-row>
+                <b-col sm="6" class="mb-3 px-3">
+                  <b-form-group label="Choose Facilitator">
+                    <model-list-select
+                      :list="facilitators"
+                      v-model="item.facilitator_id"
+                      option-value="id"
+                      option-text="name"
+                      placeholder="select facilitator"
+                    >
+                    </model-list-select>
+                  </b-form-group>
+                </b-col>
+              </b-form-row>
+              <b-form-row>
+                <b-col sm="6" class="mb-3 px-3">
+                  <b-form-group label="Venue">
+                    <b-form-input
+                      v-model="item.venue"
+                      placeholder="Enter course Venue"
+                    ></b-form-input>
+                  </b-form-group>
+                </b-col>
+                <b-col sm="6" class="mb-3 px-3">
+                  <b-form-group label="Url(optional)">
+                    <b-form-input
+                      v-model="item.url"
+                      type="url"
+                      placeholder="Enter url link (optional)"
+                    ></b-form-input>
+                  </b-form-group>
+                </b-col>
+              </b-form-row>
+
+              <b-form-row>
+                <b-col class="mb-3 px-3">
+                  <b-form-group label="Choose modules">
+                    <b-form-checkbox
+                      v-if="detail.outline.modules.length"
+                      size="sm"
+                      @change="selectall(id, item.all, detail.outline.modules)"
+                      v-model="item.all"
+                      >Select all</b-form-checkbox
+                    >
+                    <b-form-checkbox-group
+                      id="checkbox-group-1"
+                      v-model="item.modules"
+                      :options="detail.outline.modules"
+                      name="modules"
+                      value-field="module"
+                      text-field="module"
+                    ></b-form-checkbox-group>
+                  </b-form-group>
+                </b-col>
+              </b-form-row>
+              <b-form-row>
+                <b-col sm="6" class="mb-3 px-3">
+                  <b-form-group label="Start time">
+                    <vc-date-picker
+                      placeholder="Choose start time"
+                      v-model="item.start_time"
+                      mode="dateTime"
+                      :is24hr="false"
+                    >
+                      <template v-slot="{ inputValue, inputEvents }">
+                        <input
+                          class="
+                            px-2
+                            py-1
+                            border
+                            rounded
+                            focus:outline-none
+                            focus:border-blue-300
+                          "
+                          :value="inputValue"
+                          v-on="inputEvents"
+                        />
+                      </template>
+                    </vc-date-picker>
+                  </b-form-group>
+                </b-col>
+                <b-col sm="6" class="mb-3 px-3">
+                  <b-form-group label="End time">
+                    <vc-date-picker
+                      placeholder="Choose start time"
+                      v-model="item.end_time"
+                      mode="dateTime"
+                      :is24hr="false"
+                    >
+                      <template v-slot="{ inputValue, inputEvents }">
+                        <input
+                          class="
+                            px-2
+                            py-1
+                            border
+                            rounded
+                            focus:outline-none
+                            focus:border-blue-300
+                          "
+                          :value="inputValue"
+                          v-on="inputEvents"
+                        />
+                      </template>
+                    </vc-date-picker>
+                  </b-form-group>
+                </b-col>
+              </b-form-row>
+
+              <div>
+                <b-button
+                  variant="outline-dark-green"
+                  class="my-2 mr-2"
+                  size="sm"
+                  @click="detail.schedule.splice(id, 1)"
+                  v-if="detail.schedule.length > 1"
+                  >Delete schedule</b-button
+                >
+              </div>
+            </div>
+          </div>
+          <div class="text-center">
+            <b-icon
+              icon="plus-circle-fill"
+              variant="dark-green"
+              class="my-2"
+              font-scale="1.4"
+              @click="addschedule"
+            ></b-icon>
+          </div>
+        </b-container>
+
+        <div class="text-center py-3">
+          <b-button
+            size="lg"
+            class="px-5"
+            type="button"
+            @click="toggleView"
+            v-show="type <= 2"
+            variant="secondary"
+            >Next</b-button
+          >
+          <b-button
+            size="lg"
+            class="px-5"
+            type="submit"
+            v-show="type === 3"
+            variant="secondary"
+            :disabled="disable"
+            >Update course</b-button
+          >
+        </div>
+      </b-form>
+    </b-modal>
     <b-container fluid class="px-0">
       <b-row class="" v-if="courses.length">
         <b-col class="my_courses main_box px-0">
@@ -58,14 +1264,7 @@
               ></b-icon>
               <div class="search">
                 <b-input-group class="topbar_search bg-white">
-                  <b-form-input
-                    placeholder="Search by title, interest"
-                    class="no-focus border-0"
-                    type="search"
-                    aria-label="Text input "
-                    v-model="search"
-                  ></b-form-input>
-                  <b-input-group-append is-text>
+                  <b-input-group-prepend is-text>
                     <b-iconstack font-scale="1.4" class="">
                       <b-icon
                         stacked
@@ -79,6 +1278,20 @@
                         variant="dark-green"
                       ></b-icon>
                     </b-iconstack>
+                  </b-input-group-prepend>
+                  <b-form-input
+                    placeholder="Search by title, interest"
+                    class="no-focus border-0"
+                    type="search"
+                    aria-label="Text input "
+                    v-model="search"
+                  ></b-form-input>
+                  <b-input-group-append>
+                    <b-button
+                      variant="dark-green"
+                      @click="$bvModal.show('addcourse')"
+                      ><b-icon icon="plus"></b-icon
+                    ></b-button>
                   </b-input-group-append>
                 </b-input-group>
               </div>
@@ -449,6 +1662,11 @@
             :src="require('@/assets/images/creator.svg')"
           ></b-img>
           <p class="mb-3">There appears to be no course available</p>
+          <br />
+
+          <b-button @click="$bvModal.show('addcourse')" variant="dark-green"
+            >Add course</b-button
+          >
         </b-col>
       </b-row>
     </b-container>
@@ -1150,15 +2368,34 @@
   </div>
 </template>
 <script>
+import Upload from "@/components/fileupload.vue";
+import Interest from "@/components/helpers/subcategory.js";
+import Editor from "@tinymce/tinymce-vue";
+import draggable from "vuedraggable";
+import { ModelListSelect } from "vue-search-select";
+import { validationMixin } from "vuelidate";
+import { required } from "vuelidate/lib/validators";
+
 export default {
+  mixins: [validationMixin],
   data() {
     return {
-      allcourses: [],
-      mostenrolledcourse: [],
-      courseShown: "recent",
+      options: [],
+      searchText: "", // If value is falsy, reset searchText & searchItem
+      items: [],
+      lastSelectItem: {},
+      editable: true,
+      isDragging: false,
+      delayedDragging: false,
       sideOpen: true,
-      sending: false,
+      current_schedule: 0,
+      search: "",
+      interest: [],
+      courses: [],
+      course: null,
+      type: 1,
       link: "",
+
       inviteUsers: {
         code: "",
         title: "",
@@ -1169,49 +2406,124 @@ export default {
           },
         ],
       },
-      courses: [],
-      search: "",
-      course: null,
-      type: 1,
+      sending: false,
+      disable: false,
+      message: "",
       newmodule: "",
       facilitators: [],
       toggleCourse: 1,
-      library: [],
-      communitylink: [],
-      course_link: "",
-      message: "",
+      showCourse: false,
+      detail: {
+        general: {
+          title: "",
+          code: "",
+          description: "",
+          cover: "",
+          type: "group",
+          amount: null,
+          tribe_id: this.$route.params.id,
+        },
+        outline: {
+          overview: "",
+          knowledge_area: {},
+          duration: "",
+          modules: [],
+          faqs: [
+            {
+              question: "",
+              answer: "",
+            },
+          ],
+          certification: false,
+          additional_info: "",
+        },
+        schedule: [
+          {
+            all: false,
+            type: "course",
+            event_type: "class",
+            url: "",
+            venue: "",
+            day: "monday",
+            modules: [],
+            start_time: new Date(),
+            end_time: new Date(),
+            facilitator_id: null,
+          },
+        ],
+      },
+
       course_type: "",
       recent: false,
       trending: false,
       alpha: false,
-      showCourse: false,
       currentPage: 1,
       rows: null,
       perPage: 12,
-      description: "",
+      font: "@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200&display=swap');body{font-family:Poppins;font-size:13px}",
     };
   },
-  components: {},
+  components: {
+    Upload,
+    Editor,
+    draggable,
+    ModelListSelect,
+  },
+  validations: {
+    detail: {
+      general: {
+        title: { required },
+        description: { required },
+        amount: { required },
+      },
+      outline: {
+        overview: { required },
+        knowledge_area: { required },
+        duration: { required },
+        modules: { required },
+      },
+    },
+  },
   mounted() {
     this.getcourses();
     this.getmostenrolled();
-    this.getfacilitators();
     this.getLibrary();
     this.getCommunity();
+    this.getfacilitators();
+    this.interest = Interest;
+    this.options = Interest.map((item) => {
+      item.text = item.value;
+
+      return item;
+    });
+    this.$root.$on("bv::modal::hide", (bvEvent, modalId) => {
+      if (modalId == "addcourse" || modalId == "update") {
+        this.type = 1;
+      }
+    });
+  },
+  watch: {
+    isDragging(newValue) {
+      if (newValue) {
+        this.delayedDragging = true;
+        return;
+      }
+      this.$nextTick(() => {
+        this.delayedDragging = false;
+      });
+    },
   },
   computed: {
+    dragOptions() {
+      return {
+        animation: 0,
+        group: "description",
+        disabled: !this.editable,
+        ghostClass: "ghost",
+      };
+    },
     filteredCourse() {
-      var courses = [];
-      if (this.courseShown == "recent") {
-        courses = this.courses;
-      }
-      if (this.courseShown == "trending") {
-        courses = this.mostenrolledcourse.map((item) => item.course);
-      }
-      if (this.courseShown == "enrolled" && this.library.length) {
-        courses = this.library.map((item) => item.course);
-      }
-      var title = courses
+      var title = this.courses
         .slice(
           this.perPage * this.currentPage - this.perPage,
           this.perPage * this.currentPage
@@ -1245,7 +2557,45 @@ export default {
       return courseType;
     },
   },
+
   methods: {
+    toggleView() {
+      if (this.type == 1) {
+        this.$v.detail.general.$touch();
+        if (this.$v.detail.general.$anyError) {
+          return;
+        }
+      }
+
+      if (this.type == 2) {
+        this.$v.detail.outline.$touch();
+        if (this.$v.detail.outline.$anyError) {
+          return;
+        }
+      }
+      this.type++;
+    },
+
+    validateState(type, name) {
+      const { $dirty, $error } = this.$v.detail[type][name];
+
+      return $dirty ? !$error : null;
+    },
+    onMove({ relatedContext, draggedContext }) {
+      const relatedElement = relatedContext.element;
+      const draggedElement = draggedContext.element;
+      return (
+        (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
+      );
+    },
+
+    selectall(id, val, arr) {
+      if (val) {
+        this.detail.schedule[id].modules = arr.map((item) => item.module);
+      } else {
+        this.detail.schedule[id].modules = [];
+      }
+    },
     socialShare(course) {
       if (this.library.some((item) => item.id == course.id)) {
         this.description = `I just enrolled for the course titled, *${course.title}*. Check it out here!`;
@@ -1644,19 +2994,28 @@ export default {
     },
     addschedule() {
       this.detail.schedule.push({
-        day: "",
+        all: false,
+        type: "course",
+        event_type: "class",
         url: "",
-        start_time: "",
-        end_time: "",
+        venue: "",
+        day: "monday",
+        modules: [],
+        start_time: new Date(),
+        end_time: new Date(),
         facilitator_id: null,
       });
+      this.current_schedule = this.detail.schedule.length - 1;
     },
     addmodule() {
       if (!this.newmodule) {
         this.$toast.info("Cannot be empty!");
         return;
       }
-      this.detail.outline.modules.push(this.newmodule);
+      this.detail.outline.modules.push({
+        fixed: false,
+        module: this.newmodule,
+      });
       this.newmodule = "";
     },
 
@@ -1686,11 +3045,14 @@ export default {
 
     getcourses() {
       this.$http
-        .get(`${this.$store.getters.url}/interest-courses`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
-        })
+        .get(
+          `${this.$store.getters.url}/get/tribe/courses/${this.$route.params.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
         .then((res) => {
           if (res.status == 200) {
             this.courses = res.data;
@@ -1720,6 +3082,17 @@ export default {
         });
     },
     createcourse() {
+      this.disable = true;
+      if (
+        !this.detail.general.title ||
+        !this.detail.general.description ||
+        !this.detail.general.amount ||
+        !this.detail.outline.overview
+      ) {
+        this.$toast.info("Fill all (*) fields!");
+        this.disable = false;
+        return;
+      }
       this.$http
         .post(`${this.$store.getters.url}/courses`, this.detail, {
           headers: {
@@ -1729,6 +3102,7 @@ export default {
         .then((res) => {
           if (res.status == 201) {
             this.$toast.success("Course created");
+            this.disable = false;
             this.courses.unshift(res.data);
             this.$bvModal.hide("addcourse");
             this.detail = {
@@ -1737,10 +3111,13 @@ export default {
                 code: "",
                 description: "",
                 cover: "",
+                type: "group",
+                amount: null,
+                tribe_id: this.$route.params.id,
               },
               outline: {
                 overview: "",
-                knowledge_area: "",
+                knowledge_area: {},
                 duration: "",
                 modules: [],
                 faqs: [
@@ -1754,12 +3131,15 @@ export default {
               },
               schedule: [
                 {
+                  all: false,
                   type: "course",
                   event_type: "class",
                   url: "",
-                  day: "",
-                  start_time: "",
-                  end_time: "",
+                  venue: "",
+                  day: "monday",
+                  modules: [],
+                  start_time: new Date(),
+                  end_time: new Date(),
                   facilitator_id: null,
                 },
               ],
@@ -1767,6 +3147,7 @@ export default {
           }
         })
         .catch((err) => {
+          this.disable = false;
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1774,24 +3155,52 @@ export default {
       this.detail = {
         general: {
           title: val.title,
-          code: val.code,
+          code: val.course_code,
           description: val.description,
           cover: val.cover,
+          type: val.type,
+          amount: val.amount,
         },
         outline: {
           overview: val.courseoutline.overview,
-          knowledge_area: val.courseoutline.knowledge_areas,
+          knowledge_area: JSON.parse(val.courseoutline.knowledge_areas),
           duration: val.courseoutline.duration,
           modules: JSON.parse(val.courseoutline.modules),
           faqs: JSON.parse(val.courseoutline.faqs),
           certification: val.courseoutline.certification,
           additional_info: val.courseoutline.additional_info,
         },
-        schedule: val.courseschedule,
+        schedule: val.courseschedule.map((item) => {
+          return {
+            id: item.id,
+            all: item.all,
+            type: item.type,
+            event_type: item.event_type,
+            url: item.url,
+            venue: item.venue,
+            day: item.day,
+            modules: JSON.parse(item.modules),
+            start_time: item.start_time,
+            end_time: item.end_time,
+            facilitator_id: item.facilitator_id,
+          };
+        }),
       };
+
       this.$bvModal.show("update");
     },
     updatecourse() {
+      this.disable = true;
+      if (
+        !this.detail.general.title ||
+        !this.detail.general.description ||
+        !this.detail.general.amount ||
+        !this.detail.outline.overview
+      ) {
+        this.$toast.info("Fill all (*) fields!");
+        this.disable = false;
+        return;
+      }
       this.$http
         .put(
           `${this.$store.getters.url}/courses/${this.course.id}`,
@@ -1806,6 +3215,7 @@ export default {
           if (res.status == 200) {
             this.$toast.success("Update successful");
             this.$bvModal.hide("update");
+            this.disable = false;
             this.getcourses();
             this.type = 1;
             this.detail = {
@@ -1814,10 +3224,12 @@ export default {
                 code: "",
                 description: "",
                 cover: "",
+                type: "group",
+                cost: "",
               },
               outline: {
                 overview: "",
-                knowledge_area: "",
+                knowledge_area: {},
                 duration: "",
                 modules: [],
                 faqs: [
@@ -1831,12 +3243,15 @@ export default {
               },
               schedule: [
                 {
+                  all: false,
                   type: "course",
                   event_type: "class",
                   url: "",
-                  day: "",
-                  start_time: "",
-                  end_time: "",
+                  venue: "",
+                  day: "monday",
+                  modules: [],
+                  start_time: new Date(),
+                  end_time: new Date(),
                   facilitator_id: null,
                 },
               ],
@@ -1844,6 +3259,7 @@ export default {
           }
         })
         .catch((err) => {
+          this.disable = false;
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1863,6 +3279,7 @@ export default {
               }
             })
             .catch((err) => {
+              this.disable = false;
               this.$toast.error(err.response.data.message);
             });
         }

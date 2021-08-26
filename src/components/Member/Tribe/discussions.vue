@@ -24,25 +24,39 @@
                   <b-icon icon="arrow-left" class=""></b-icon
                 ></span>
               </span>
-              <b-input-group>
-                <b-form-input
-                  class=""
-                  placeholder="Find a discussion"
-                  type="search"
-                  v-model="search"
-                ></b-form-input>
-
-                <template #append>
-                  <b-input-group-append>
-                    <b-button variant="dark-green">
+              <div class="search">
+                <b-input-group class="topbar_search bg-white">
+                  <b-input-group-prepend is-text>
+                    <b-iconstack font-scale="1.4" class="">
                       <b-icon
-                        @click="$bvModal.show('start')"
-                        icon="plus-circle-fill"
-                      ></b-icon
+                        stacked
+                        icon="circle-fill"
+                        variant="lighter-green"
+                      ></b-icon>
+                      <b-icon
+                        stacked
+                        icon="search"
+                        scale="0.5"
+                        variant="dark-green"
+                      ></b-icon>
+                    </b-iconstack>
+                  </b-input-group-prepend>
+                  <b-form-input
+                    placeholder="Find a discussion"
+                    class="no-focus border-0"
+                    type="search"
+                    aria-label="Text input "
+                    v-model="search"
+                  ></b-form-input>
+                  <b-input-group-append>
+                    <b-button
+                      variant="dark-green"
+                      @click="$bvModal.show('start')"
+                      ><b-icon icon="plus"></b-icon
                     ></b-button>
                   </b-input-group-append>
-                </template>
-              </b-input-group>
+                </b-input-group>
+              </div>
             </div>
           </div>
           <div class="border bg-white py-4 rounded">
@@ -68,12 +82,6 @@
                 @click="show = 'trending'"
               >
                 Trending
-              </div>
-              <div
-                :class="{ active: show == 'private' }"
-                @click="show = 'private'"
-              >
-                Custom
               </div>
             </div>
             <div v-if="showDiscussion">
@@ -284,76 +292,6 @@
             </div>
           </div>
         </b-col>
-        <!-- <b-col sm="4" class="d-none d-md-block">
-          <div class="shadow-sm bg-white p-4 rounded">
-            <div class="text-center mb-4">
-              <b-button
-                variant="dark-green"
-                size="lg"
-                class="px-3"
-                @click="$bvModal.show('start')"
-                >Start a discussion</b-button
-              >
-            </div>
-            <div class="py-3 text-left related_quest border">
-              <h6 class="mb-3 px-3">Other Discussions</h6>
-              <div v-if="showOther">
-                <div v-if="otherdiscussion">
-                  <div
-                    class="d-flex p-2 px-3"
-                    v-for="(dis, id) in otherdiscussion.slice(0, 6)"
-                    :key="id"
-                  >
-                    <div>
-                      <div class="mr-3 related_count">
-                        {{ dis.discussionmessage.length }}
-                      </div>
-                    </div>
-                    <span
-                      @click="$router.push(`/member/discussion/${dis.id}`)"
-                      class="related text-left text-capitalize font-weight-bold"
-                      >{{ dis.name }}</span
-                    >
-                  </div>
-                </div>
-              </div>
-              <div v-else class="p-2 p-sm-3 w-100">
-                <div class="d-flex w-100 mb-3">
-                  <div class="mr-2 w-25">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                  <div class="w-75">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                </div>
-                <div class="d-flex w-100 mb-3">
-                  <div class="mr-2 w-25">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                  <div class="w-75">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                </div>
-                <div class="d-flex w-100 mb-3">
-                  <div class="mr-2 w-25">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                  <div class="w-75">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                </div>
-                <div class="d-flex w-100 mb-3">
-                  <div class="mr-2 w-25">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                  <div class="w-75">
-                    <b-skeleton animation="wave" width="100%"></b-skeleton>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </b-col> -->
       </b-row>
     </b-container>
 
@@ -476,8 +414,8 @@
 <script>
 import { MultiSelect } from "vue-search-select";
 import { ModelListSelect } from "vue-search-select";
-import Interest from "../helpers/subcategory.js";
-import Category from "../helpers/category.js";
+import Interest from "@/components/helpers/subcategory.js";
+import Category from "@/components/helpers/category.js";
 export default {
   data() {
     return {
@@ -497,6 +435,7 @@ export default {
         course: null,
         tags: [],
         category: {},
+        tribe_id: this.$route.params.id,
       },
       courses: [],
       tag: "",
@@ -518,8 +457,6 @@ export default {
 
   mounted() {
     this.getdiscussions();
-    this.getcustomdiscussions();
-    this.getdiscussionsbyinterest();
     this.getdiscussionsbytrend();
     this.mytags = Interest.map((item) => {
       item.text = item.value;
@@ -534,7 +471,7 @@ export default {
     filteredData() {
       if (this.show == "recent") {
         return (
-          this.interestdiscussions
+          this.discussions
             .slice()
             // .filter((item) => item.type == "public")
             .filter((item) =>
@@ -675,11 +612,14 @@ export default {
     },
     getdiscussions() {
       this.$http
-        .get(`${this.$store.getters.url}/discussions`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
-        })
+        .get(
+          `${this.$store.getters.url}/get/tribe/discussions/${this.$route.params.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
         .then((res) => {
           if (res.status == 200) {
             this.discussions = res.data;
@@ -690,43 +630,12 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
-    getcustomdiscussions() {
-      this.$http
-        .get(`${this.$store.getters.url}/custom/discussions`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 200) {
-            this.customdiscussions = res.data;
-            this.showDiscussion = true;
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
-    },
-    getdiscussionsbyinterest() {
-      this.$http
-        .get(`${this.$store.getters.url}/interest/discussions`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 200) {
-            this.interestdiscussions = res.data;
-            this.showDiscussion = true;
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
-    },
+
     getdiscussionsbytrend() {
       this.$http
-        .get(`${this.$store.getters.url}/trending/discussions`)
+        .get(
+          `${this.$store.getters.url}/trending/discussions/${this.$route.params.id}`
+        )
         .then((res) => {
           if (res.status == 200) {
             this.trenddiscussions = res.data;
@@ -749,11 +658,10 @@ export default {
           },
         })
         .then((res) => {
-          if (res.status == 201 || res.status == 200) {
+          if (res.status == 201) {
             this.$toast.success("Discussion created");
             this.getdiscussions();
-            this.getcustomdiscussions();
-            this.getdiscussionsbyinterest();
+
             this.getdiscussionsbytrend();
             this.discussion = {
               name: "",
@@ -762,6 +670,7 @@ export default {
               course: null,
               tags: [],
               category: {},
+              tribe_id:this.$route.params.id
             };
             this.$bvModal.hide("start");
           }

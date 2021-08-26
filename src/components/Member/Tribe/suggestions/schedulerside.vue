@@ -1,290 +1,8 @@
 <template>
   <div>
-    <b-container class="">
+    <b-container class="p-0">
       <b-row>
-        <b-col>
-          <b-row class="mb-4 mb-sm-5">
-            <b-col class="position-relative" v-if="showEvent">
-              <carousel
-                :perPage="1"
-                :paginationEnabled="false"
-                :autoplay="true"
-                :speed="1000"
-                :autoplayTimeout="5000"
-                :loop="true"
-                v-if="comingevents.length"
-              >
-                <slide v-for="item in comingevents" :key="item.id">
-                  <div
-                    class="
-                      box
-                      top_box
-                      flex-sm-row flex-column-reverse
-                      p-0
-                      position-relative
-                    "
-                  >
-                    <div
-                      class="upcoming text-capitalize"
-                      :class="{
-                        'bg-dark': item.status == 'ongoing',
-                        'bg-danger': item.status == 'expired',
-                        'bg-info': item.status == 'pending',
-                      }"
-                    >
-                      {{ item.status }} event
-                    </div>
-                    <b-col sm="5" class="h-100">
-                      <div
-                        class="
-                          p-3
-                          d-flex
-                          flex-column
-                          justify-content-center
-                          h-100
-                        "
-                      >
-                        <div
-                          class="mb-3 h3 fs16 text-dark-green"
-                          v-if="item.title"
-                        >
-                          {{ item.title }}
-                        </div>
-                        <div class="mb-1 fs13 overview">
-                          {{ item.description }}
-                        </div>
-                        <div class="mb-1 fs13">
-                          Duration : {{ item.schedule }}
-                        </div>
-                        <div class="mb-1 fs12">
-                          Time : {{ item.start | moment("ll") }} -
-                          {{ item.end | moment("ll") }}
-                        </div>
-
-                        <div class="mt-3">
-                          <b-button
-                            v-if="
-                              $moment().isBefore(item.start) ||
-                              $moment().isAfter(item.end)
-                            "
-                            pill
-                            size="sm"
-                            variant="outline-dark-green"
-                            @click="$router.push(`/member/event/${item.id}`)"
-                            >View Event</b-button
-                          >
-                          <div v-else>
-                            <b-button
-                              class="mr-3"
-                              pill
-                              size="sm"
-                              variant="outline-dark-green"
-                              @click="$router.push(`/member/event/${item.id}`)"
-                              >View Event</b-button
-                            >
-                            <a :href="item.url" target="_blank">
-                              <b-button
-                                pill
-                                size="sm"
-                                variant="lighter-green"
-                                class="text-dark-green"
-                                >Attend event</b-button
-                              ></a
-                            >
-                          </div>
-                        </div>
-                      </div>
-                    </b-col>
-                    <b-col sm="7" class="text-right p-0 brad">
-                      <b-img :src="item.cover" fluid-grow></b-img>
-                    </b-col>
-                  </div>
-                </slide>
-              </carousel>
-              <div class="box top_box flex-row p-0" v-else>
-                <h3 class="text-muted py-5 text-center">
-                  No Upcoming Event Available !
-                </h3>
-              </div>
-            </b-col>
-            <b-col class="w-100" v-else>
-              <div class="box p-4">
-                <b-row class="w-100">
-                  <b-col cols="4">
-                    <div class="p-1">
-                      <b-skeleton animation="wave" width="100%"></b-skeleton>
-                      <b-skeleton animation="wave" width="25%"></b-skeleton>
-                    </div>
-                    <div class="p-1">
-                      <b-skeleton animation="wave" width="100%"></b-skeleton>
-                      <b-skeleton animation="wave" width="25%"></b-skeleton>
-                    </div>
-                    <div class="p-1">
-                      <b-skeleton animation="wave" width="100%"></b-skeleton>
-                      <b-skeleton animation="wave" width="25%"></b-skeleton>
-                    </div>
-                  </b-col>
-
-                  <b-col cols="8" class="">
-                    <b-skeleton-img no-aspect height="150px"></b-skeleton-img>
-                  </b-col>
-                </b-row>
-              </div>
-            </b-col>
-          </b-row>
-
-          <b-row v-if="showTable">
-            <b-col>
-              <div class="box" v-if="schedules.length">
-                <div
-                  class="
-                    d-flex
-                    justify-content-between
-                    align-items-center
-                    p-3
-                    w-100
-                    border-bottom
-                  "
-                >
-                  <span>{{ new Date() | moment("LL") }}</span>
-                </div>
-
-                <div class="w-100 p-3">
-                  <b-table-simple responsive borderless>
-                    <b-tbody>
-                      <b-tr v-for="day in days" :key="day">
-                        <b-th
-                          sticky-column
-                          class="text-capitalize"
-                          v-if="daySchedule(day).length"
-                          >{{ day }}</b-th
-                        >
-                        <b-td v-if="daySchedule(day).length">
-                          <div class="d-flex tabl">
-                            <b-card
-                              no-body
-                              v-for="(item, id) in daySchedule(day)"
-                              :key="id"
-                              class="mr-3 text-white"
-                              style="width: 250px"
-                              :style="{
-                                'background-color': item.customData.color,
-                              }"
-                            >
-                              <b-card-header
-                                class="
-                                  d-flex
-                                  justify-content-between
-                                  w-100
-                                  align-items-center
-                                  px-3
-                                "
-                              >
-                                <span
-                                  class="
-                                    text-capitalize
-                                    font-weight-bold
-                                    schedule_type
-                                  "
-                                  >{{ item.customData.type }}</span
-                                >
-                                <div
-                                  class="
-                                    rounded-pill
-                                    px-2
-                                    py-1
-                                    bg-light
-                                    schedule_dates
-                                  "
-                                >
-                                  {{
-                                    duration(item.dates.start, item.dates.end)
-                                  }}
-                                </div>
-                              </b-card-header>
-                              <b-card-text
-                                class="text-white schedule_title mb-1 px-3"
-                                v-if="item.customData.title"
-                              >
-                                {{ item.customData.title }}
-                              </b-card-text>
-                              <b-card-text
-                                class="text-white schedule_date mb-1 px-3"
-                              >
-                                {{
-                                  item.customData.facilitator
-                                    ? item.customData.facilitator
-                                    : "N/A"
-                                }}
-                              </b-card-text>
-                              <b-card-text
-                                class="text-white schedule_date mb-1 px-3"
-                              >
-                                {{ item.dates.start | moment("LT") }}
-                              </b-card-text>
-                              <b-card-footer
-                                class="
-                                  schedule_date
-                                  d-flex
-                                  text-white
-                                  justify-content-between
-                                  py-1
-                                  px-3
-                                "
-                                v-if="item.dates.start"
-                              >
-                                {{ item.dates.start | moment(" MMMM Do") }}
-                                <span class="mx-3">-</span>
-                                {{ item.dates.end | moment(" MMMM Do") }}
-                              </b-card-footer>
-                            </b-card>
-                          </div>
-                        </b-td>
-                      </b-tr>
-                    </b-tbody>
-                  </b-table-simple>
-                </div>
-              </div>
-              <div class="box text-center p-3 w-100" v-else>
-                <div class="mx-auto">
-                  <b-img :src="require('@/assets/images/creator.svg')"></b-img>
-                  <h6 class="text-muted my-3 fs14">
-                    It appears you havent added any Schedule yet,
-                    <br class="d-none d-sm-block" />
-
-                    Have you set up your courses ?
-                    <span
-                      ><router-link
-                        class="text-dark-green"
-                        to="/member/courses?action=setupcourse"
-                        >Set up Now</router-link
-                      ></span
-                    >
-                    <br />
-                    If You have <br />
-                    <b-button
-                      variant="dark-green"
-                      class="mt-4"
-                      size="sm"
-                      @click="$bvModal.show('addopen')"
-                      >Add a schedule now
-                    </b-button>
-                  </h6>
-                </div>
-              </div>
-            </b-col>
-          </b-row>
-
-          <div class="box p-5" v-else>
-            <b-skeleton-table
-              :rows="5"
-              :columns="3"
-              :table-props="{ bordered: true, striped: true }"
-            ></b-skeleton-table>
-          </div>
-        </b-col>
-
-        <!-- <b-col sm="3" class="text-left">
+        <b-col class="text-left">
           <div class="turn_over_box">
             <div class="tob_1 mb-4">
               <vc-calendar
@@ -410,12 +128,14 @@
               </div>
             </div>
           </div>
-        </b-col> -->
+        </b-col>
       </b-row>
     </b-container>
   </div>
 </template>
 <script>
+import PopoverRow from "v-calendar/lib/components/popover-row.umd.min";
+
 export default {
   data() {
     return {
@@ -472,7 +192,9 @@ export default {
       lastSelectItem: {},
     };
   },
-  components: {},
+  components: {
+    PopoverRow,
+  },
   watch: {},
   created() {
     this.getcourses().then(() => {
@@ -782,9 +504,6 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.container {
-  padding-top: 30px;
-}
 th {
   font-size: 14px;
   font-weight: 500;
