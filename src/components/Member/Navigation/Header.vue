@@ -445,7 +445,7 @@ export default {
         });
     },
     getnotification() {
-      if (this.$route.params.id) {
+      if (this.$route.params.id && !this.$route.meta.showtribe) {
         this.gettribe();
       }
       if (localStorage.getItem("authAdmin")) {

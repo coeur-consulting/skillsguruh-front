@@ -167,7 +167,7 @@ export default {
         });
     },
     handletribe() {
-      if (this.$route.params.id) {
+      if (this.$route.params.id && !this.$route.meta.showtribe) {
         this.gettribe();
       }
     },
