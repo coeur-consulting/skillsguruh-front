@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid class="px-0" v-if="suggestions.length">
+  <b-container fluid class="px-sm-0" v-if="suggestions.length">
     <div class="my-3 position-relative">
       <h6 class="mb-3 text-left text-muted">Some connection suggestions</h6>
       <b-iconstack
@@ -167,11 +167,11 @@ export default {
           if (res.status == 201) {
             this.getsimilarusers();
             this.$toast.success("Connected");
-             this.$store.dispatch("newConnection", {
-        id,
-        type,
-        token: this.$store.getters.member.access_token,
-      });
+            this.$store.dispatch("newConnection", {
+              id,
+              type,
+              token: this.$store.getters.member.access_token,
+            });
           }
         })
         .catch((err) => {
