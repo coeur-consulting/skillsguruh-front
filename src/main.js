@@ -165,6 +165,26 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
+
+  if (to.matched.some((record) => record.meta.showtribe)) {
+    var user = JSON.parse(localStorage.getItem("authMember"));
+    Vue.axios
+      .get(`${process.env.VUE_APP_API_PATH}/check/tribe/${to.params.tribe}`, {
+        headers: {
+          Authorization: `Bearer ${user.access_token}`,
+        },
+      })
+      .then((res) => {
+        if (res.status == 200 && res.data.message == "found") {
+          next();
+        } else {
+          Vue.$toast.error("Unauthorised access");
+          next("/member/tribes");
+        }
+      });
+  } else {
+    next();
+  }
 });
 
 new Vue({

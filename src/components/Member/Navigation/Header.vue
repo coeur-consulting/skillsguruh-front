@@ -6,7 +6,7 @@
     sticky
     class="shadow-sm py-2"
   >
-    <b-col cols="4" sm="3" class="text-left d-flex align-items-center"
+    <b-col cols="4" sm="4" class="text-left d-flex align-items-center"
       ><b-navbar-brand href="/" class="mr-4"
         ><b-img class="logo" src="/icon.png"></b-img
       ></b-navbar-brand>
@@ -21,7 +21,7 @@
       </div>
     </b-col>
 
-    <b-col cols="2" sm="6" class="d-flex align-items-center">
+    <b-col cols="2" sm="4" class="d-flex align-items-center">
       <b-navbar-toggle
         target="sidebar-right"
         v-b-toggle.sidebar-right
@@ -67,20 +67,9 @@
       </b-collapse>
     </b-col>
 
-    <b-col cols="5" sm="3">
+    <b-col cols="5" sm="4">
       <b-navbar-nav class="align-items-center justify-content-end flex-row">
-        <b-nav-item class="mr-1">
-          <b-avatar
-            :src="$store.getters.member.profile"
-            id="profile"
-            class="cursor-pointer mr-2"
-            size="30px"
-          ></b-avatar>
-          <span class="fs14 d-none d-sm-inline">{{
-            $store.getters.member.username
-          }}</span>
-        </b-nav-item>
-        <b-nav-item class="mr-1 position-relative">
+        <b-nav-item class="position-relative">
           <span style="padding: 0.25rem 0.5rem; font-size: 0.875rem">
             <font-awesome-layers class="fa-3x" id="notifybell">
               <font-awesome-icon :icon="circle" class="text-lighter-green" />
@@ -90,27 +79,126 @@
                 class="text-dark-green"
               />
             </font-awesome-layers>
-            <b-icon
-              v-if="unreadnotifications.length"
-              icon="circle-fill"
-              variant="danger"
-              font-scale=".8"
-              class="notifier"
-            ></b-icon>
+            <span class="notifier">
+              <b-icon
+                v-if="unreadnotifications.length"
+                icon="circle-fill"
+                variant="danger"
+                font-scale=".8"
+              ></b-icon>
+            </span>
           </span>
+        </b-nav-item>
+        <b-nav-item>
+          <div class="position-relative">
+            <font-awesome-layers class="fa-3x" id="inbox">
+              <font-awesome-icon :icon="circle" class="text-lighter-green" />
+              <font-awesome-icon
+                :icon="envelope"
+                transform="shrink-8"
+                class="text-dark-green"
+              />
+            </font-awesome-layers>
+            <small class="unread">
+              <b-badge variant="danger" v-if="unreadmesages.length">{{
+                unreadmesages.length
+              }}</b-badge></small
+            >
+          </div>
+
+          <b-popover
+            id="inbox1"
+            target="inbox"
+            triggers="hover"
+            placement="bottom"
+          >
+            <template #title>Inbox</template>
+            <div class="inbox" v-if="chatter.length">
+              <div
+                class="inbox_message"
+                v-for="(message, index) in chatter"
+                :key="index"
+              >
+                <div class="px-3 py-1 d-flex border-bottom">
+                  <b-avatar size="1.8rem" :src="message.profile"></b-avatar>
+
+                  <div
+                    class="message_text flex-1 px-2"
+                    @click="
+                      getmessage(
+                        message.id,
+                        message.name,
+                        message.type,
+                        message.profile
+                      )
+                    "
+                  >
+                    <span class="message_name fs12">{{ message.name }}</span>
+                    <br />
+                    <div
+                      class="last_message fs11"
+                      :class="
+                        !lastMessage(message).status &&
+                        lastMessage(message).user_id != $store.getters.member.id
+                          ? 'font-weight-bold'
+                          : ''
+                      "
+                    >
+                      <span
+                        v-if="lastMessage(message).message"
+                        class="text-muted"
+                      >
+                        {{ lastMessage(message).message }}</span
+                      >
+                      <span v-else class="text-muted fs11"
+                        ><i>Sent attachment</i></span
+                      >
+                    </div>
+                  </div>
+
+                  <div>
+                    <span class="message_time fs11">
+                      {{ lastMessage(message).time | moment("LT") }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              v-else
+              class="
+                inbox
+                d-flex
+                justify-content-center
+                align-content-center
+                p-5
+              "
+            >
+              <div class="text-muted">No Message Available</div>
+            </div>
+          </b-popover>
         </b-nav-item>
 
         <b-nav-item>
           <b-dropdown size="sm" variant="transparent" no-caret class="no-focus">
             <template #button-content>
-              <font-awesome-layers class="fa-3x">
+              <!-- <font-awesome-layers class="fa-3x">
                 <font-awesome-icon :icon="circle" class="text-lighter-green" />
                 <font-awesome-icon
                   :icon="caretDown"
                   transform="shrink-6"
                   class="text-dark-green"
                 />
-              </font-awesome-layers>
+              </font-awesome-layers> -->
+              <b-avatar
+                :src="$store.getters.member.profile"
+                id="profile"
+                class="cursor-pointer mr-2"
+                size="30px"
+              ></b-avatar>
+              <span class="fs14 d-none d-sm-inline">{{
+                $store.getters.member.username
+              }}</span>
             </template>
 
             <b-dropdown-item
@@ -337,6 +425,133 @@
         No new notification !
       </div>
     </b-popover>
+    <b-modal id="sharecourse" centered hide-footer>
+      <div class="box p-3 text-center">
+        <h6 class="text-center">Invite your friends</h6>
+        <div>
+          <div
+            v-for="(item, id) in inviteUsers"
+            :key="id"
+            class="mb-1 text-center"
+          >
+            <b-input-group size="sm" class="">
+              <template #append>
+                <b-button @click="inviteUsers.splice(id, 1)"
+                  ><strong>x</strong></b-button
+                >
+              </template>
+              <b-form-input
+                type="email"
+                v-model="item.email"
+                placeholder="Enter email address"
+              ></b-form-input>
+            </b-input-group>
+          </div>
+          <div class="text-center mt-3">
+            <b-button
+              size="sm"
+              class="mr-3"
+              variant="lighter-green"
+              @click="addinvite"
+            >
+              <b-icon icon="plus" font-scale="1.4"></b-icon> Add email</b-button
+            >
+            <b-button
+              size="sm"
+              variant="dark-green"
+              @click="sendinvite"
+              :disabled="sending"
+            >
+              Send Invite
+            </b-button>
+          </div>
+        </div>
+        <div class="p-2 text-center">
+          <h6 class="font-weight-bold mb-3">Share</h6>
+          <ShareNetwork
+            class="mr-3"
+            network="facebook"
+            :url="link"
+            title="Come Join my tribe on Nzùkóór:"
+            :description="description"
+            quote="Nzukoor"
+            hashtags="Nzukoor,  Social learning"
+          >
+            <b-button
+              size="sm"
+              class="mb-2 mb-sm-0"
+              variant="outline-dark-green"
+              ><b-icon class="mr-1" icon="facebook"></b-icon>
+              <span class="d-none d-md-block">Facebook</span></b-button
+            >
+          </ShareNetwork>
+          <ShareNetwork
+            class="mr-3"
+            network="twitter"
+            :url="link"
+            title="Come Join my tribe on Nzùkóór:"
+            :description="description"
+            quote="Nzukoor"
+            hashtags="Nzukoor,  Social learning"
+          >
+            <b-button
+              size="sm"
+              class="mb-2 mb-sm-0"
+              variant="outline-dark-green"
+              ><b-icon class="mr-1" icon="twitter"></b-icon>
+              <span class="d-none d-md-block">Twitter</span>
+            </b-button>
+          </ShareNetwork>
+          <ShareNetwork
+            class="mr-3"
+            network="whatsApp"
+            :url="link"
+            title="Come Join my tribe on Nzùkóór:"
+            :description="description"
+            quote="Nzukoor"
+            hashtags="Nzukoor,  Social learning"
+          >
+            <b-button
+              size="sm"
+              class="mb-2 mb-sm-0"
+              variant="outline-dark-green"
+            >
+              <b-iconstack>
+                <b-icon
+                  stacked
+                  icon="circle-fill"
+                  variant="dark-green"
+                ></b-icon>
+                <b-icon
+                  stacked
+                  icon="telephone-plus"
+                  variant="light"
+                  scale="0.5"
+                ></b-icon>
+              </b-iconstack>
+              <span class="d-none d-md-block">Whatsapp</span>
+            </b-button>
+          </ShareNetwork>
+          <ShareNetwork
+            class="mr-3"
+            network="Telegram"
+            :url="link"
+            title="Come Join my tribe on Nzùkóór:"
+            :description="description"
+            quote="Nzukoor"
+            hashtags="Nzukoor,  Social learning, Feeds"
+          >
+            <b-button
+              size="sm"
+              class="mb-2 mb-sm-0"
+              variant="outline-dark-green"
+              ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
+              <span class="d-none d-md-block">Telegram</span>
+            </b-button>
+          </ShareNetwork>
+        </div>
+      </div>
+    </b-modal>
   </b-navbar>
 </template>
 <script>
@@ -350,6 +565,7 @@ import {
   faBookOpen,
   faComments,
   faCalendar,
+  faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
 import { LogOutIcon } from "vue-feather-icons";
 
@@ -372,7 +588,17 @@ export default {
       bookopen: faBookOpen,
       calendar: faCalendar,
       rss: faRss,
+      envelope: faEnvelope,
       tribe: {},
+      inviteUsers: [
+        {
+          email: "",
+        },
+      ],
+
+      sending: false,
+      link: "",
+      description: "",
     };
   },
   components: {
@@ -387,6 +613,9 @@ export default {
   },
 
   mounted() {
+    this.link = `https://nzukoor.com/register?tribe_id=${this.$route.params.tribe}`;
+
+    this.gettribe();
     if (localStorage.getItem("authMember")) {
       this.authMember = true;
     } else if (localStorage.getItem("authFacilitator")) {
@@ -422,8 +651,162 @@ export default {
       }
       return token;
     },
+    unreadmesages() {
+      return this.inboxes.filter(
+        (item) =>
+          !item.status &&
+          item.receiver_id == this.$store.getters.member.id &&
+          item.receiver == "user"
+      );
+    },
+    inboxes() {
+      return this.$store.getters.inboxes;
+    },
+
+    sortmessages() {
+      return this.inboxes.map((item) => {
+        var info = {};
+
+        if (item.user_id && item.user_id == this.$store.getters.member.id) {
+          info.admin = item.admin_info || null;
+          info.user = item.member_info || null;
+          info.facilitator = item.facilitator_info || null;
+          info.message = item.message || null;
+          info.time = item.created_at || null;
+          info.status = item.status;
+          info.id = item.id;
+          info.user_id = item.user_id;
+        }
+        if (
+          item.receiver == "user" &&
+          item.receiver_id == this.$store.getters.member.id
+        ) {
+          info.admin = item.admin || null;
+          info.user = item.user || null;
+          info.facilitator = item.facilitator || null;
+          info.message = item.message || null;
+          info.time = item.created_at || null;
+          info.status = item.status;
+          info.id = item.id;
+        }
+
+        return info;
+      });
+    },
+    chatter() {
+      var allnames = this.sortmessages.map((item) => {
+        var checkers = {};
+
+        if (item.user && item.user.id != this.$store.getters.member.id) {
+          checkers.id = item.user.id;
+          checkers.type = "user";
+          checkers.name = item.user.name;
+          checkers.message = item.message;
+          checkers.time = item.time;
+          checkers.profile = item.user.profile;
+
+          return checkers;
+        }
+        if (item.admin) {
+          checkers.id = item.admin.id;
+          checkers.type = "admin";
+          checkers.name = item.admin.name;
+          checkers.message = item.message;
+          checkers.time = item.time;
+          checkers.profile = item.admin.profile;
+
+          return checkers;
+        }
+        if (item.facilitator) {
+          checkers.id = item.facilitator.id;
+          checkers.type = "facilitator";
+          checkers.name = item.facilitator.name;
+          checkers.message = item.message;
+          checkers.time = item.time;
+          checkers.profile = item.facilitator.profile;
+
+          return checkers;
+        }
+      });
+      return [
+        ...new Set(
+          allnames
+            .filter((item) => item)
+            .map((item) => {
+              return JSON.stringify({
+                name: item.name,
+                id: item.id,
+                type: item.type,
+                profile: item.profile,
+              });
+            })
+        ),
+      ].map((item) => JSON.parse(item));
+    },
   },
   methods: {
+    lastMessage(info) {
+      var mess = this.sortmessages.filter((item) => {
+        if (info.type == "user" && item.user && item.user.id == info.id) {
+          return item;
+        }
+        if (info.type == "admin" && item.admin && item.admin.id == info.id) {
+          return item;
+        }
+        if (
+          info.type == "facilitator" &&
+          item.facilitator &&
+          item.facilitator.id == info.id
+        ) {
+          return item;
+        }
+      });
+
+      return mess.pop();
+    },
+    getmessage(id, name, type, profile) {
+      this.current.id = id;
+      this.current.type = type;
+      this.mini_info.id = id;
+      this.mini_info.name = name;
+      this.mini_info.type = type;
+      this.mini_info.profile = profile;
+      this.$store.dispatch("getChatter", this.mini_info);
+    },
+    addinvite() {
+      this.inviteUsers.push({
+        email: "",
+      });
+    },
+    sendinvite() {
+      this.sending = true;
+      var data = {
+        emails: this.inviteUsers,
+        id: this.$route.params.tribe,
+      };
+      this.$http
+        .post(`${this.$store.getters.url}/tribe/invite`, data, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.$toast.success("Invite Sent");
+            this.sending = false;
+            this.$bvModal.hide("sharecourse");
+            this.inviteUsers = [
+              {
+                email: "",
+              },
+            ];
+          }
+        })
+        .catch(() => {
+          this.sending = false;
+          this.$toast.error("Sending failed!");
+        });
+    },
     invitetotribe() {},
     leavetribe() {
       var details = {
@@ -444,6 +827,9 @@ export default {
         });
     },
     gettribe() {
+      if (!this.$route.params.tribe || !this.$route.meta.showtribe) {
+        return;
+      }
       this.$http
         .get(`${this.$store.getters.url}/tribes/${this.$route.params.tribe}`, {
           headers: {
@@ -453,6 +839,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.tribe = res.data.data;
+            this.description = this.tribe.description;
           }
         })
         .catch((err) => {
@@ -460,7 +847,7 @@ export default {
         });
     },
     getnotification() {
-      if (this.$route.params.tribe && !this.$route.meta.showtribe) {
+      if (this.$route.params.tribe && this.$route.meta.showtribe) {
         this.gettribe();
       }
       if (localStorage.getItem("authAdmin")) {
@@ -601,8 +988,8 @@ nav .nav li a {
 }
 .notifier {
   position: absolute;
-  top: 8px;
-  right: 10px;
+  top: 1px;
+  right: 1px;
 }
 
 @media (max-width: 600px) {
