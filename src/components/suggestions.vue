@@ -31,7 +31,6 @@
         :scrollPerPage="true"
         :paginationEnabled="false"
         :navigationEnabled="false"
-        :spacePaddingMaxOffsetFactor="20"
         :navigateTo="index"
       >
         <slide v-for="(item, id) in suggestions" :key="id">

@@ -1540,7 +1540,7 @@ const routes = [
         },
         children: [
           {
-            path: "feed/:id",
+            path: "feed/:tribe",
             name: "tribe feeds",
             components: {
               default: () =>
@@ -1554,7 +1554,7 @@ const routes = [
             },
           },
           {
-            path: "events/:id",
+            path: "events/:tribe",
             name: "tribe events",
             components: {
               default: () =>
@@ -1568,7 +1568,7 @@ const routes = [
             },
           },
           {
-            path: "discussions/:id",
+            path: "discussions/:tribe",
             name: "tribe discussions",
             components: {
               default: () =>
@@ -1582,7 +1582,21 @@ const routes = [
             },
           },
           {
-            path: "courses/:id",
+            path: "discussion/:id",
+            name: "tribe discussion",
+            components: {
+              default: () =>
+                import(
+                  /* webpackChunkName: "tribediscussion" */ "@/components/Member/Tribe/discussion.vue"
+                ),
+            },
+            meta: {
+              routetype: "discussions",
+              showtribe: true,
+            },
+          },
+          {
+            path: "courses/:tribe",
             name: "tribe courses",
             components: {
               default: () =>
@@ -1595,6 +1609,7 @@ const routes = [
               showtribe: true,
             },
           },
+
           {
             path: "feeds",
             name: "tribe feeds",

@@ -53,6 +53,37 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    async highlightText({ state }, text) {
+      var part = text.substring(text.indexOf("@") + 1, text.lastIndexOf(""));
+      console.log(part);
+      var trimmpart = part
+        .replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi, "")
+        .replace(/<[^>]+?>/g, "")
+        .replace(/\s+/g, " ")
+        .replace(/ /g, " ")
+        .replace(/>/g, " ");
+      if (part.length) {
+        var result = await Vue.axios
+          .get(`${state.url}/get/userprofile/${trimmpart}`, {
+            headers: {
+              Authorization: `Bearer ${state.member.access_token}`,
+            },
+          })
+          .then((res) => {
+            if (res.status == 200 && res.data.message == "found") {
+              return text.replace(
+                `@${part}`,
+                `<a  href='/member/profile/u/${res.data.data.id}'><span class='highlight'>@${trimmpart}</span></a>`
+              );
+            } else {
+              return text;
+            }
+          });
+
+        return result;
+      }
+      return text;
+    },
     async checkTribe({ state }, detail) {
       return Vue.axios.get(`${state.url}/check/tribe/${detail.tribe_id}`, {
         headers: {

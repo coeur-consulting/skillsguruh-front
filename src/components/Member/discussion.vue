@@ -206,7 +206,7 @@
                       <p
                         class="discusion_text"
                         v-if="item.message"
-                        v-html="item.message"
+                        v-html="highlightText(item.message)"
                       ></p>
                       <div
                         class="text-center"
@@ -347,9 +347,7 @@
                           c
                           v-if="item.user"
                           @click="
-                            $router.push(
-                              `/facilitator/profile/u/${item.user.id}`
-                            )
+                            $router.push(`/member/profile/u/${item.user.id}`)
                           "
                           class="fs13 cursor-pointer hover_green"
                           >{{ item.user.username }}</span
@@ -358,7 +356,7 @@
                           v-if="item.facilitator"
                           @click="
                             $router.push(
-                              `/facilitator/profile/f/${item.facilitator.id}`
+                              `/member/profile/f/${item.facilitator.id}`
                             )
                           "
                           class="fs13 cursor-pointer hover_green"
@@ -411,13 +409,13 @@
                         ></text-to-speech
                       ></span>
                       <div
-                        v-for="(reply, index) in item.discussionmessagecomment
-                          .slice(0, 2)
-                          .reverse()"
+                        v-for="(
+                          reply, index
+                        ) in item.discussionmessagecomment.slice(0, 2)"
                         :key="index"
-                        class="mb-2"
+                        class="mb-1 d-flex align-items-start"
                       >
-                        <div class="d-flex">
+                        <div class="d-flex flex-1">
                           <b-avatar
                             v-if="reply.admin"
                             size="sm"
@@ -449,13 +447,20 @@
                             >
                             <span
                               v-if="reply.user"
+                              @click="
+                                $router.push(
+                                  `/member/profile/u/${reply.user.id}`
+                                )
+                              "
                               class="message_comment_name mr-1"
                               >{{ reply.user.username }}</span
                             >
-                            <span class="message_comment_text">
-                              {{ reply.message }}
-                            </span></span
-                          >
+                            <span
+                              class="message_comment_text"
+                              v-html="highlightText(reply.message)"
+                            >
+                            </span
+                          ></span>
                         </div>
                         <div class="text-right">
                           <span class="message_comment_date">{{
@@ -464,7 +469,7 @@
                         </div>
                       </div>
                       <small
-                        v-if="item.discussionmessagecomment.length > 3"
+                        v-if="item.discussionmessagecomment.length > 2"
                         class="cursor-pointer mr-2"
                         @click="viewmessagecomment(item)"
                         >View all comments
@@ -732,9 +737,8 @@
         </ShareNetwork>
         <b-button variant="outline-dark-green" @click="addToFeed">
           <b-icon icon="rss-fill" variant="dark-green"></b-icon>
-
-          Feeds</b-button
-        >
+          <span class="d-none d-md-block">Feeds</span>
+        </b-button>
       </div>
     </b-modal>
 
@@ -980,26 +984,29 @@
           }}</span>
           <span
             v-if="comments.user"
-            @click="$router.push(`/facilitator/profile/u/${comments.user.id}`)"
+            @click="$router.push(`/member/profile/u/${comments.user.id}`)"
             class="fs12 cursor-pointer hover_green"
             >{{ comments.user.username }}</span
           >
           <span
             v-if="comments.facilitator"
             @click="
-              $router.push(`/facilitator/profile/f/${comments.facilitator.id}`)
+              $router.push(`/member/profile/f/${comments.facilitator.id}`)
             "
             class="fs12 cursor-pointer hover_green"
             >{{ comments.facilitator.username }}</span
           >
         </div>
-        <div v-html="comments.message"></div>
+        <div
+          v-if="comments.message"
+          v-html="highlightText(comments.message)"
+        ></div>
         <div
           v-for="(reply, index) in comments.discussionmessagecomment"
           :key="index"
-          class="mb-2"
+          class="mb-1 d-flex align-items-start"
         >
-          <div class="d-flex align-items-baseline">
+          <div class="d-flex flex-1">
             <b-avatar
               v-if="reply.admin"
               size="sm"
@@ -1081,6 +1088,7 @@ import EditDiscussion from "@/components/editdiscussion";
 export default {
   data() {
     return {
+      members: [],
       description: "",
       index: null,
       img_ext: ["jpg", "png", "jpeg", "gif"],
@@ -1103,11 +1111,11 @@ export default {
         users: [],
       },
       connections: [],
-      emails: [],
       play: "",
       record: "",
       showdiscussion: false,
       comment_message: "",
+      emails: [],
       reply: {
         message: "",
         message_id: null,
@@ -1149,7 +1157,9 @@ export default {
       this.discussion.discussionmessage.unshift(data.message);
     });
   },
-  mounted() {},
+  mounted() {
+    this.getmembers();
+  },
   watch: {
     $route: "getdiscussion",
   },
@@ -1258,6 +1268,40 @@ export default {
     },
   },
   methods: {
+    getmembers() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/get/discussion/members/${this.$route.params.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          this.members = res.data;
+        });
+    },
+    highlightText(text) {
+      var part = this.toText(
+        text.substring(text.lastIndexOf("@") + 1, text.lastIndexOf(""))
+      )
+        .replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi, "")
+        .replace(/<[^>]+?>/g, "")
+        .replace(/\s+/g, " ")
+        .replace(/ /g, " ")
+        .replace(/>/g, " ");
+
+      var val = this.members.find((res) => res.username == part);
+      if (val) {
+        return text.replace(
+          `@${part}`,
+          `<a  href='/member/profile/u/${val.id}'><span class='highlight'>@${part}</span></a>`
+        );
+      } else {
+        return text;
+      }
+    },
     requestAccess() {
       var data = {
         discussion_id: this.discussion.id,

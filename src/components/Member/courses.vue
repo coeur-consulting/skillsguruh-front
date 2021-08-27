@@ -1143,7 +1143,7 @@
         >
           <b-icon icon="rss-fill" variant="dark-green"></b-icon>
 
-          Feeds</b-button
+          <span class="d-none d-md-block">Feeds</span></b-button
         >
       </div>
     </b-modal>

@@ -2361,7 +2361,7 @@
         >
           <b-icon icon="rss-fill" variant="dark-green"></b-icon>
 
-          Feeds</b-button
+          <span class="d-none d-md-block">Feeds</span></b-button
         >
       </div>
     </b-modal>
@@ -2421,7 +2421,7 @@ export default {
           cover: "",
           type: "group",
           amount: null,
-          tribe_id: this.$route.params.id,
+            tribe_id:this.$route.params.tribe
         },
         outline: {
           overview: "",
@@ -3046,7 +3046,7 @@ export default {
     getcourses() {
       this.$http
         .get(
-          `${this.$store.getters.url}/get/tribe/courses/${this.$route.params.id}`,
+          `${this.$store.getters.url}/get/tribe/courses/${this.$route.params.tribe}`,
           {
             headers: {
               Authorization: `Bearer ${this.$store.getters.member.access_token}`,
@@ -3113,7 +3113,7 @@ export default {
                 cover: "",
                 type: "group",
                 amount: null,
-                tribe_id: this.$route.params.id,
+                 tribe_id:this.$route.params.tribe
               },
               outline: {
                 overview: "",

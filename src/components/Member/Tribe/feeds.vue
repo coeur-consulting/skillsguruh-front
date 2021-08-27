@@ -1043,7 +1043,7 @@ export default {
         message: "",
         publicId: "",
         tags: [],
-        tribe_id:this.$route.params.id
+          tribe_id:this.$route.params.tribe
       },
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp", "flv", "mov"],
@@ -1281,7 +1281,7 @@ export default {
     infiniteHandler($state) {
       this.$http
         .get(
-          `${this.$store.getters.url}/get/tribe/feeds/${this.$route.params.id}?page=${this.page}`,
+          `${this.$store.getters.url}/get/tribe/feeds/${this.$route.params.tribe}?page=${this.page}`,
           {
             headers: {
               Authorization: `Bearer ${this.$store.getters.member.access_token}`,
@@ -1447,7 +1447,7 @@ export default {
               message: "",
               publicId: "",
               tags: [],
-               tribe_id:this.$route.params.id
+               tribe_id:this.$route.params.tribe
             };
           }
         })
