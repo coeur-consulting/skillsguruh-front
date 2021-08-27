@@ -15,7 +15,22 @@
           <b-popover :target="`popover-${id}`" triggers="hover">
             <template #title> {{ n.name }} tribe</template>
 
-            {{ n.description }}
+            <p class="fs13">{{ n.description }}</p>
+            <p class="fs13 text-muted mb-1">{{ n.users.length }} users</p>
+            <p class="fs13 text-muted mb-1">
+              {{ n.discussions.length }} discussions
+            </p>
+
+            <p class="fs13 text-muted mb-3">
+              {{ n.events.length }} active events
+            </p>
+            <b-button
+              block
+              size="sm"
+              variant="lighter-green"
+              @click="$router.push(`/member/tribe/feed/${n.id}`)"
+              >Join</b-button
+            >
           </b-popover>
           <div class="tribe_box rounded" :id="`popover-${id}`">
             <div class="d-flex align-items-center justify-content-center">

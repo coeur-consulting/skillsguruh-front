@@ -13,6 +13,9 @@
       />
       <other-discussion v-else-if="$route.meta.routetype == 'discussion'" />
       <Schedule v-else-if="$route.meta.routetype == 'events'" />
+      <tribe-members
+        v-else-if="$route.meta.routetype == 'feeds' && $route.params.tribe"
+      />
       <suggested-connections v-else />
     </div>
   </div>
@@ -22,6 +25,7 @@
 import SuggestedTribe from "../Tribe/suggestions/tribesugesstions.vue";
 import SuggestedConnections from "../Tribe/suggestions/connectionsuggestion.vue";
 import Schedule from "../Tribe/suggestions/schedulerside.vue";
+import TribeMembers from "../Tribe/suggestions/tribemembers.vue";
 import ViewCourse from "../components/course.vue";
 import OtherDiscussion from "../components/otherdiscussions.vue";
 export default {
@@ -32,6 +36,7 @@ export default {
     ViewCourse,
     OtherDiscussion,
     Schedule,
+    TribeMembers,
   },
   data() {
     return {

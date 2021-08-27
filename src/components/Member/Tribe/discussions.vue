@@ -220,7 +220,9 @@
                     <div>
                       <span
                         v-if="item.type == 'public'"
-                        @click="$router.push(`/member/discussion/${item.id}`)"
+                        @click="
+                          $router.push(`/member/tribe/discussion/${item.id}`)
+                        "
                         class="
                           text-dark-green
                           font-weight-bold
@@ -435,7 +437,7 @@ export default {
         course: null,
         tags: [],
         category: {},
-        tribe_id: this.$route.params.id,
+           tribe_id:this.$route.params.tribe
       },
       courses: [],
       tag: "",
@@ -547,7 +549,7 @@ export default {
     },
     joindiscussion(item) {
       if (item.user && item.user.id == this.$store.getters.member.id) {
-        this.$router.push(`/member/discussion/${item.id}`);
+        this.$router.push(`/member/tribe/discussion/${item.id}`);
       } else {
         this.$http
           .get(`${this.$store.getters.url}/discussion/private/${item.id}`, {
@@ -562,7 +564,7 @@ export default {
                 .includes(this.$store.getters.member.id);
 
               if (result) {
-                this.$router.push(`/member/discussion/${item.id}`);
+                this.$router.push(`/member/tribe/discussion/${item.id}`);
               } else {
                 this.discussion_id = item.id;
                 this.$bvModal.show("access");
@@ -613,7 +615,7 @@ export default {
     getdiscussions() {
       this.$http
         .get(
-          `${this.$store.getters.url}/get/tribe/discussions/${this.$route.params.id}`,
+          `${this.$store.getters.url}/get/tribe/discussions/${this.$route.params.tribe}`,
           {
             headers: {
               Authorization: `Bearer ${this.$store.getters.member.access_token}`,
@@ -634,7 +636,7 @@ export default {
     getdiscussionsbytrend() {
       this.$http
         .get(
-          `${this.$store.getters.url}/trending/discussions/${this.$route.params.id}`
+          `${this.$store.getters.url}/trending/discussions/${this.$route.params.tribe}`
         )
         .then((res) => {
           if (res.status == 200) {
@@ -670,7 +672,7 @@ export default {
               course: null,
               tags: [],
               category: {},
-              tribe_id:this.$route.params.id
+                tribe_id:this.$route.params.tribe
             };
             this.$bvModal.hide("start");
           }

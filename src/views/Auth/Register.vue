@@ -289,6 +289,7 @@ export default {
         referral_type: "",
         agree: null,
         username: "",
+        tribe_id: null,
       },
     };
   },
@@ -296,6 +297,10 @@ export default {
     if (this.$route.query.invite) {
       this.user.referral = this.$route.query.invite;
       this.user.referral_type = "normal";
+    }
+
+    if (this.$route.query.tribe_id) {
+      this.user.tribe_id = this.$route.query.tribe_id;
     }
   },
   components: {
@@ -316,6 +321,7 @@ export default {
       },
     },
   },
+
   methods: {
     validateState(name) {
       const { $dirty, $error } = this.$v.user[name];

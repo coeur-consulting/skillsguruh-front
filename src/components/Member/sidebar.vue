@@ -42,25 +42,27 @@
         </div>
         <nav class="mb-3 class text-left">
           <b-nav vertical>
-            <b-nav-item :to="`/member/tribe/feed/${$route.params.id}`"
+            <b-nav-item :to="`/member/tribe/feed/${$route.params.tribe}`"
               ><font-awesome-icon
                 :icon="rss"
                 class="icon mr-3"
               />Feeds</b-nav-item
             >
-            <b-nav-item :to="`/member/tribe/discussions/${$route.params.id}`">
+            <b-nav-item
+              :to="`/member/tribe/discussions/${$route.params.tribe}`"
+            >
               <font-awesome-icon
                 :icon="comments"
                 class="icon mr-3"
               />Discussions</b-nav-item
             >
-            <b-nav-item :to="`/member/tribe/courses/${$route.params.id}`">
+            <b-nav-item :to="`/member/tribe/courses/${$route.params.tribe}`">
               <font-awesome-icon
                 :icon="bookopen"
                 class="icon mr-3"
               />Courses</b-nav-item
             >
-            <b-nav-item :to="`/member/tribe/events/${$route.params.id}`">
+            <b-nav-item :to="`/member/tribe/events/${$route.params.tribe}`">
               <font-awesome-icon
                 :icon="calendar"
                 class="icon mr-3"
@@ -72,6 +74,14 @@
     </div>
 
     <div class="mt-auto">
+      <div
+        class="side_item my-3"
+        @click="invitetotribe"
+        v-if="$route.meta.showtribe"
+      >
+        <b-icon icon="person-plus" font-scale="" class="custom-class"></b-icon>
+        <span class="side-link p-2">Invite members</span>
+      </div>
       <div
         class="side_item my-3"
         @click="leavetribe"
@@ -100,6 +110,49 @@
         </div>
       </div>
     </div>
+    <b-modal no-close-on-backdrop id="sharecourse" centered hide-footer>
+      <div class="box p-3 text-center">
+        <h6 class="text-center">Invite your friends</h6>
+        <div>
+          <div
+            v-for="(item, id) in inviteUsers"
+            :key="id"
+            class="mb-1 text-center"
+          >
+            <b-input-group size="sm" class="">
+              <template #append>
+                <b-button @click="inviteUsers.splice(id, 1)"
+                  ><strong>x</strong></b-button
+                >
+              </template>
+              <b-form-input
+                type="email"
+                v-model="item.email"
+                placeholder="Enter email address"
+              ></b-form-input>
+            </b-input-group>
+          </div>
+          <div class="text-center mt-3">
+            <b-button
+              size="sm"
+              class="mr-3"
+              variant="lighter-green"
+              @click="addinvite"
+            >
+              <b-icon icon="plus" font-scale="1.4"></b-icon> Add email</b-button
+            >
+            <b-button
+              size="sm"
+              variant="dark-green"
+              @click="sendinvite"
+              :disabled="sending"
+            >
+              Send Invite
+            </b-button>
+          </div>
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
 <script>
@@ -135,6 +188,13 @@ export default {
       calendar: faCalendar,
       rss: faRss,
       tribe: {},
+      inviteUsers: [
+        {
+          email: "",
+        },
+      ],
+
+      sending: false,
     };
   },
   watch: {
@@ -148,9 +208,46 @@ export default {
   created() {},
 
   methods: {
+    addinvite() {
+      this.inviteUsers.push({
+        email: "",
+      });
+    },
+    sendinvite() {
+      this.sending = true;
+      var data = {
+        emails: this.inviteUsers,
+        id: this.$route.params.tribe,
+      };
+      this.$http
+        .post(`${this.$store.getters.url}/tribe/invite`, data, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.$toast.success("Invite Sent");
+            this.sending = false;
+            this.$bvModal.hide("sharecourse");
+            this.inviteUsers = [
+              {
+                email: "",
+              },
+            ];
+          }
+        })
+        .catch(() => {
+          this.sending = false;
+          this.$toast.error("Sending failed!");
+        });
+    },
+    invitetotribe() {
+      this.$bvModal.show("sharecourse");
+    },
     leavetribe() {
       var details = {
-        tribe_id: this.$route.params.id,
+        tribe_id: this.$route.params.tribe,
         user: this.$store.getters.member,
       };
       this.$bvModal
@@ -167,13 +264,13 @@ export default {
         });
     },
     handletribe() {
-      if (this.$route.params.id && !this.$route.meta.showtribe) {
+      if (this.$route.params.tribe && !this.$route.meta.showtribe) {
         this.gettribe();
       }
     },
     gettribe() {
       this.$http
-        .get(`${this.$store.getters.url}/tribes/${this.$route.params.id}`, {
+        .get(`${this.$store.getters.url}/tribes/${this.$route.params.tribe}`, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.member.access_token}`,
           },

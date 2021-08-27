@@ -403,13 +403,13 @@
                         ></text-to-speech
                       ></span>
                       <div
-                        v-for="(reply, index) in item.discussionmessagecomment
-                          .slice(0, 2)
-                          .reverse()"
+                        v-for="(
+                          reply, index
+                        ) in item.discussionmessagecomment.slice(0, 2)"
                         :key="index"
-                        class="mb-2"
+                        class="mb-1 d-flex align-items-start"
                       >
-                        <div class="d-flex">
+                        <div class="d-flex flex-1">
                           <b-avatar
                             v-if="reply.admin"
                             size="sm"
@@ -456,7 +456,7 @@
                         </div>
                       </div>
                       <small
-                        v-if="item.discussionmessagecomment.length > 3"
+                        v-if="item.discussionmessagecomment.length > 2"
                         class="cursor-pointer mr-2"
                         @click="viewmessagecomment(item)"
                         >View all comments
@@ -765,7 +765,7 @@
         <b-button variant="outline-dark-green" @click="addToFeed">
           <b-icon icon="rss-fill" variant="dark-green"></b-icon>
 
-          Feeds</b-button
+          <span class="d-none d-md-block">Feeds</span></b-button
         >
       </div>
     </b-modal>
@@ -1025,13 +1025,16 @@
             >{{ comments.facilitator.username }}</span
           >
         </div>
-        <div v-html="comments.message"></div>
+        <div
+          v-if="comments.message"
+          v-html="highlightText(comments.message)"
+        ></div>
         <div
           v-for="(reply, index) in comments.discussionmessagecomment"
           :key="index"
-          class="mb-2"
+          class="mb-1 d-flex align-items-start"
         >
-          <div class="d-flex align-items-baseline">
+          <div class="d-flex flex-1">
             <b-avatar
               v-if="reply.admin"
               size="sm"
@@ -1287,6 +1290,26 @@ export default {
     },
   },
   methods: {
+    highlightText(text) {
+      var part = this.toText(
+        text.substring(text.lastIndexOf("@") + 1, text.lastIndexOf(""))
+      )
+        .replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi, "")
+        .replace(/<[^>]+?>/g, "")
+        .replace(/\s+/g, " ")
+        .replace(/ /g, " ")
+        .replace(/>/g, " ");
+
+      var val = this.members.find((res) => res.username == part);
+      if (val) {
+        return text.replace(
+          `@${part}`,
+          `<a  href='/member/profile/u/${val.id}'><span class='highlight'>@${part}</span></a>`
+        );
+      } else {
+        return text;
+      }
+    },
     requestAccess() {
       var data = {
         discussion_id: this.discussion.id,

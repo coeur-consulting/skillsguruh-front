@@ -4,7 +4,7 @@
     <ul class="ml-0 pl-0 suggestion">
       <li class="d-flex mb-3" v-for="n in tribes" :key="n.id">
         <b-avatar class="mr-2"></b-avatar>
-        <div class="text-left">
+        <div class="text-left" :id="`popover-${id}`">
           <div class="tribe_name">{{ n.name }} Tribe</div>
           <div class="tribe_members">
             <span class="d-flex align-items-center"
@@ -13,6 +13,25 @@
             </span>
           </div>
         </div>
+        <b-popover :target="`popover-${id}`" triggers="hover">
+          <template #title> {{ n.name }} tribe</template>
+
+          <p class="fs13">{{ n.description }}</p>
+          <p class="fs13 text-muted mb-1">{{ n.users.length }} users</p>
+          <p class="fs13 text-muted mb-1">
+            {{ n.discussions.length }} discussions
+          </p>
+          <p class="fs13 text-muted mb-3">
+            {{ n.events.length }} active events
+          </p>
+          <b-button
+            block
+            variant="lighter-green"
+            size="sm"
+            @click="entertribe(n.id)"
+            >Join</b-button
+          >
+        </b-popover>
       </li>
     </ul>
   </div>
@@ -29,6 +48,31 @@ export default {
     this.getsuggestions();
   },
   methods: {
+    entertribe(id) {
+      var details = {
+        tribe_id: id,
+        user: this.$store.getters.member,
+      };
+      this.$store.dispatch("checkTribe", details).then((res) => {
+        if (res.status == 200 && res.data.message == "found") {
+          this.$router.push(`/member/tribe/feed/${id}`);
+        } else {
+          this.$bvModal
+            .msgBoxConfirm("Do you wish to join this tribe?")
+            .then((val) => {
+              if (val) {
+                this.$store.dispatch("joinTribe", details).then((res) => {
+                  if (res.status == 200 && res.data.message == "successful") {
+                    this.$toast.success("Joined successfully");
+                    this.$router.push(`/member/tribe/feed/${id}`);
+                  }
+                });
+              }
+            });
+        }
+      });
+    },
+
     async getsuggestions() {
       return this.$http
         .get(`${this.$store.getters.url}/tribe/suggestions`, {

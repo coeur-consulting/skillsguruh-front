@@ -755,7 +755,7 @@ export default {
     getevents() {
       this.$http
         .get(
-          `${this.$store.getters.url}/get/tribe/events/${this.$route.params.id}`,
+          `${this.$store.getters.url}/get/tribe/events/${this.$route.params.tribe}`,
           {
             headers: {
               Authorization: `Bearer ${this.$store.getters.member.access_token}`,
@@ -800,7 +800,7 @@ export default {
               end: "",
               resource: "",
               facilitators: [],
-              tribe_id: this.$route.params.id,
+                tribe_id:this.$route.params.tribe
             };
           }
         })

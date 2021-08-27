@@ -2,7 +2,7 @@
   <div>
     <b-container>
       <b-row class="justify-content-sm-start">
-        <b-col sm="8">
+        <b-col>
           <b-row>
             <b-col cols="12" class="mb-0 rounded px-1 pt-sm-2 px-sm-4 pb-2">
               <b-card no-body class="overflow-hidden border-0 top_h" style="">
@@ -946,13 +946,13 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col class="d-none d-sm-block" cols="3">
+        <!-- <b-col class="d-none d-sm-block" cols="3">
           <Message
             class="d-none d-md-block"
             @getmessage="getmessage"
             :user="'member'"
           />
-        </b-col>
+        </b-col> -->
       </b-row>
     </b-container>
     <b-modal
@@ -1329,7 +1329,7 @@
   </div>
 </template>
 <script>
-import Message from "../messagecomponent";
+// import Message from "../messagecomponent";
 
 export default {
   data() {
@@ -1369,7 +1369,7 @@ export default {
     };
   },
   components: {
-    Message,
+    //Message,
   },
   computed: {
     useraccess() {

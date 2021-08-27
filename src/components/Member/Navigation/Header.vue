@@ -200,27 +200,29 @@
             </div>
             <nav class="mb-3 class text-left">
               <b-nav vertical>
-                <b-nav-item :to="`/member/tribe/feed/${$route.params.id}`"
+                <b-nav-item :to="`/member/tribe/feed/${$route.params.tribe}`"
                   ><font-awesome-icon
                     :icon="rss"
                     class="icon mr-3"
                   />Feeds</b-nav-item
                 >
                 <b-nav-item
-                  :to="`/member/tribe/discussions/${$route.params.id}`"
+                  :to="`/member/tribe/discussions/${$route.params.tribe}`"
                 >
                   <font-awesome-icon
                     :icon="comments"
                     class="icon mr-3"
                   />Discussions</b-nav-item
                 >
-                <b-nav-item :to="`/member/tribe/courses/${$route.params.id}`">
+                <b-nav-item
+                  :to="`/member/tribe/courses/${$route.params.tribe}`"
+                >
                   <font-awesome-icon
                     :icon="bookopen"
                     class="icon mr-3"
                   />Courses</b-nav-item
                 >
-                <b-nav-item :to="`/member/tribe/events/${$route.params.id}`">
+                <b-nav-item :to="`/member/tribe/events/${$route.params.tribe}`">
                   <font-awesome-icon
                     :icon="calendar"
                     class="icon mr-3"
@@ -230,6 +232,18 @@
             </nav>
           </div>
           <div class="mt-auto">
+            <div
+              class="side_item my-3"
+              @click="invitetotribe"
+              v-if="$route.meta.showtribe"
+            >
+              <b-icon
+                icon="person-plus"
+                font-scale=""
+                class="custom-class"
+              ></b-icon>
+              <span class="side-link p-2">Invite members</span>
+            </div>
             <div
               class="side_item my-3"
               @click="leavetribe"
@@ -410,9 +424,10 @@ export default {
     },
   },
   methods: {
+    invitetotribe() {},
     leavetribe() {
       var details = {
-        tribe_id: this.$route.params.id,
+        tribe_id: this.$route.params.tribe,
         user: this.$store.getters.member,
       };
       this.$bvModal
@@ -430,7 +445,7 @@ export default {
     },
     gettribe() {
       this.$http
-        .get(`${this.$store.getters.url}/tribes/${this.$route.params.id}`, {
+        .get(`${this.$store.getters.url}/tribes/${this.$route.params.tribe}`, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.member.access_token}`,
           },
@@ -445,7 +460,7 @@ export default {
         });
     },
     getnotification() {
-      if (this.$route.params.id && !this.$route.meta.showtribe) {
+      if (this.$route.params.tribe && !this.$route.meta.showtribe) {
         this.gettribe();
       }
       if (localStorage.getItem("authAdmin")) {

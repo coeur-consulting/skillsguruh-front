@@ -80,7 +80,7 @@
                 {{ item.created_at | moment("LT") }}</span
               >
             </div>
-            <div class="pt-2">{{ item.message }}</div>
+            <div class="pt-2" v-html="item.message"></div>
           </div>
           <div
             v-if="item.user_id"
@@ -243,7 +243,7 @@
                 </div>
               </div>
             </a>
-            <div class="pt-2">{{ item.message }}</div>
+            <div class="pt-2" v-html="item.message"></div>
           </div>
           <div
             v-if="item.facilitator_id"
@@ -406,7 +406,7 @@
                 </div>
               </div>
             </a>
-            <div class="pt-2">{{ item.message }}</div>
+            <div class="pt-2" v-html="item.message"></div>
           </div>
         </li>
       </ul>
