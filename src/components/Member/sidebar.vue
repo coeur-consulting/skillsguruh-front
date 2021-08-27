@@ -110,7 +110,7 @@
         </div>
       </div>
     </div>
-    <b-modal no-close-on-backdrop id="sharecourse" centered hide-footer>
+    <b-modal id="sharecourse" centered hide-footer>
       <div class="box p-3 text-center">
         <h6 class="text-center">Invite your friends</h6>
         <div>
@@ -150,6 +150,100 @@
               Send Invite
             </b-button>
           </div>
+        </div>
+        <div class="p-2 text-center">
+          <h6 class="font-weight-bold mb-3">Share</h6>
+          <ShareNetwork
+            class="mr-3"
+            network="facebook"
+            :url="link"
+            title="Come Join my tribe on Nzùkóór:"
+            :description="description"
+            quote="Nzukoor"
+            hashtags="Nzukoor,  Social learning"
+          >
+            <b-button
+              size="sm"
+              class="mb-2 mb-sm-0"
+              variant="outline-dark-green"
+              ><b-icon class="mr-1" icon="facebook"></b-icon>
+              <span class="d-none d-md-block">Facebook</span></b-button
+            >
+          </ShareNetwork>
+          <ShareNetwork
+            class="mr-3"
+            network="twitter"
+            :url="link"
+            title="Come Join my tribe on Nzùkóór:"
+            :description="description"
+            quote="Nzukoor"
+            hashtags="Nzukoor,  Social learning"
+          >
+            <b-button
+              size="sm"
+              class="mb-2 mb-sm-0"
+              variant="outline-dark-green"
+              ><b-icon class="mr-1" icon="twitter"></b-icon>
+              <span class="d-none d-md-block">Twitter</span>
+            </b-button>
+          </ShareNetwork>
+          <ShareNetwork
+            class="mr-3"
+            network="whatsApp"
+            :url="link"
+            title="Come Join my tribe on Nzùkóór:"
+            :description="description"
+            quote="Nzukoor"
+            hashtags="Nzukoor,  Social learning"
+          >
+            <b-button
+              size="sm"
+              class="mb-2 mb-sm-0"
+              variant="outline-dark-green"
+            >
+              <b-iconstack>
+                <b-icon
+                  stacked
+                  icon="circle-fill"
+                  variant="dark-green"
+                ></b-icon>
+                <b-icon
+                  stacked
+                  icon="telephone-plus"
+                  variant="light"
+                  scale="0.5"
+                ></b-icon>
+              </b-iconstack>
+              <span class="d-none d-md-block">Whatsapp</span>
+            </b-button>
+          </ShareNetwork>
+          <ShareNetwork
+            class="mr-3"
+            network="Telegram"
+            :url="link"
+            title="Come Join my tribe on Nzùkóór:"
+            :description="description"
+            quote="Nzukoor"
+            hashtags="Nzukoor,  Social learning, Feeds"
+          >
+            <b-button
+              size="sm"
+              class="mb-2 mb-sm-0"
+              variant="outline-dark-green"
+              ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
+              <span class="d-none d-md-block">Telegram</span>
+            </b-button>
+          </ShareNetwork>
+          <b-button
+            size="sm"
+            class="mb-2 mb-sm-0"
+            variant="outline-dark-green"
+            @click="addToFeed"
+          >
+            <b-icon icon="rss-fill" variant="dark-green"></b-icon>
+
+            <span class="d-none d-md-block">Feeds</span></b-button
+          >
         </div>
       </div>
     </b-modal>
@@ -195,6 +289,8 @@ export default {
       ],
 
       sending: false,
+      link: "",
+      description: "",
     };
   },
   watch: {
@@ -205,9 +301,41 @@ export default {
       return this.events.filter((item) => item.status == "active").length;
     },
   },
-  created() {},
-
+  created() {
+    this.gettribe();
+  },
+  mounted() {
+    this.link = `https://nzukoor.com/register?tribe_id=${this.$route.params.tribe}`;
+  },
   methods: {
+    addToFeed() {
+      this.feed = {
+        message: `Come join my tribe - ${this.tribe.name} <br> ${this.description}`,
+        url: "https://nzukoor.com/member/tribes/?tribe=" + this.tribe.name,
+        media: this.tribe.cover,
+      };
+
+      this.$http
+        .post(`${this.$store.getters.url}/feeds`, this.feed, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 201 || res.status == 200) {
+            this.$toast.success("Added to feeds ");
+            this.$bvModal.hide("share");
+
+            this.feed = {
+              media: "",
+              message: "",
+            };
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     addinvite() {
       this.inviteUsers.push({
         email: "",
@@ -264,11 +392,14 @@ export default {
         });
     },
     handletribe() {
-      if (this.$route.params.tribe && !this.$route.meta.showtribe) {
+      if (this.$route.params.tribe && this.$route.meta.showtribe) {
         this.gettribe();
       }
     },
     gettribe() {
+      if (!this.$route.params.tribe || !this.$route.meta.showtribe) {
+        return;
+      }
       this.$http
         .get(`${this.$store.getters.url}/tribes/${this.$route.params.tribe}`, {
           headers: {
@@ -278,6 +409,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.tribe = res.data.data;
+            this.description = this.tribe.description;
           }
         })
         .catch((err) => {

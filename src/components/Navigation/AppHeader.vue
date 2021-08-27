@@ -23,23 +23,40 @@
       </b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto align-items-center">
-          <b-nav-item to="/" class="mr-sm-4">Home</b-nav-item>
           <b-nav-item to="/explore" class="mr-sm-4">Explore</b-nav-item>
           <b-nav-item to="/about" class="mr-sm-4">About</b-nav-item>
-          <b-nav-item to="/member/community" v-if="authMember"
-            >Community</b-nav-item
-          >
-          <b-nav-item to="/tribes" v-if="authMember">Tribes</b-nav-item>
 
-          <b-nav-item
-            v-if="authMember"
-            class="px-4"
-            @click="$router.push('/member/feeds')"
-          >
-            Enter Nzukoor</b-nav-item
-          >
+          <b-nav-item v-if="authMember">
+            <b-dropdown
+              size="sm"
+              variant="transparent"
+              no-caret
+              class="no-focus"
+            >
+              <template #button-content>
+                <span class="d-flex align-items-center">
+                  <b-avatar
+                    :src="$store.getters.member.profile"
+                    id="profile"
+                    class="cursor-pointer mr-2"
+                    size="30px"
+                  ></b-avatar>
+                  <span class="fs14 d-none d-sm-inline">{{
+                    $store.getters.member.username
+                  }}</span>
+                </span>
+              </template>
+              <!-- <b-dropdown-item to="/member/community"
+                >Community</b-dropdown-item
+              > -->
+              <b-dropdown-item to="/tribes">Tribes</b-dropdown-item>
+              <b-dropdown-item to="/member/feeds"> My Home</b-dropdown-item>
 
-          <b-nav-item
+              <b-dropdown-item @click="logout"> Logout </b-dropdown-item>
+            </b-dropdown>
+          </b-nav-item>
+
+          <!-- <b-nav-item
             class="px-4"
             v-else-if="authFacilitator"
             @click="$router.push('/facilitator')"
@@ -62,14 +79,7 @@
           >
             Dashboard</b-nav-item
           >
-          <b-nav-item
-            v-if="authMember || authFacilitator || authAdmin || authOrg"
-          >
-            <b-button class="px-4" @click="logout" variant="dark-green">
-              Logout</b-button
-            >
-          </b-nav-item>
-
+         -->
           <b-nav-item
             href="#"
             v-if="!authMember && !authFacilitator && !authAdmin && !authOrg"

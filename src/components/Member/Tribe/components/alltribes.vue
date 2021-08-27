@@ -21,8 +21,16 @@
               {{ n.discussions.length }} discussions
             </p>
 
-            <p class="fs13 text-muted mb-3">{{ n.events.length }} active events</p>
-             <b-button block variant="lighter-green"   size="sm"  @click="entertribe(n.id)">Join</b-button>
+            <p class="fs13 text-muted mb-3">
+              {{ n.events.length }} active events
+            </p>
+            <b-button
+              block
+              variant="lighter-green"
+              size="sm"
+              @click="entertribe(n.id)"
+              >Join</b-button
+            >
           </b-popover>
           <div class="tribe_box rounded" :id="`popover-${id}`">
             <div class="d-flex align-items-center justify-content-center">
@@ -51,15 +59,12 @@
                 <template #button-content>
                   <b-icon icon="three-dots-vertical" font-scale=".8"></b-icon>
                 </template>
-                <b-dropdown-item class="fs12" @click="entertribe(n.id)"
+                <!-- <b-dropdown-item class="fs12" @click="entertribe(n.id)"
                   >Join</b-dropdown-item
-                >
+                > -->
               </b-dropdown>
             </div>
-            <span
-              class="tribe_circle cursor-pointer"
-              @click="$router.push(`/member/tribe/feed/${n.id}`)"
-            >
+            <span class="tribe_circle cursor-pointer">
               <b-avatar size="lg" :src="n.cover"></b-avatar>
             </span>
           </div>
@@ -283,6 +288,11 @@ export default {
       return item;
     });
     this.category = Category;
+  },
+  mounted() {
+    if (this.$route.query.tribe) {
+      this.search = this.$route.query.tribe;
+    }
   },
   methods: {
     entertribe(id) {

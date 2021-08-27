@@ -2,7 +2,7 @@
   <div class="text-left">
     <h6 class="mb-4">Suggested Tribe</h6>
     <ul class="ml-0 pl-0 suggestion">
-      <li class="d-flex mb-3" v-for="n in tribes" :key="n.id">
+      <li class="d-flex mb-3" v-for="(n, id) in tribes" :key="n.id">
         <b-avatar class="mr-2"></b-avatar>
         <div class="text-left" :id="`popover-${id}`">
           <div class="tribe_name">{{ n.name }} Tribe</div>

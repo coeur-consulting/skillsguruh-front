@@ -22,7 +22,22 @@
           <b-popover :target="`popover-${id}`" triggers="hover">
             <template #title> {{ n.name }} tribe</template>
 
-            {{ n.description }}
+            <p class="fs13">{{ n.description }}</p>
+            <p class="fs13 text-muted mb-1">{{ n.users.length }} users</p>
+            <p class="fs13 text-muted mb-1">
+              {{ n.discussions.length }} discussions
+            </p>
+
+            <p class="fs13 text-muted mb-3">
+              {{ n.events.length }} active events
+            </p>
+            <b-button
+              block
+              variant="lighter-green"
+              size="sm"
+              @click="entertribe(n.id)"
+              >Join</b-button
+            >
           </b-popover>
           <div class="tribe_box rounded" :id="`popover-${id}`">
             <div class="d-flex align-items-center justify-content-center">
@@ -235,6 +250,7 @@ export default {
       lastSelectItem: {},
       category: [],
       page: 1,
+      auth: false,
     };
   },
   components: {
@@ -263,7 +279,42 @@ export default {
     });
     this.category = Category;
   },
+  mounted() {
+    if (
+      localStorage.getItem("authMember") ||
+      localStorage.getItem("authFacilitator")
+    ) {
+      this.auth = true;
+    }
+  },
   methods: {
+    entertribe(id) {
+      if (!this.auth) {
+        this.$toast.error("login to access");
+      }
+      var details = {
+        tribe_id: id,
+        user: this.$store.getters.member,
+      };
+      this.$store.dispatch("checkTribe", details).then((res) => {
+        if (res.status == 200 && res.data.message == "found") {
+          this.$router.push(`/member/tribe/feed/${id}`);
+        } else {
+          this.$bvModal
+            .msgBoxConfirm("Do you wish to join this tribe?")
+            .then((val) => {
+              if (val) {
+                this.$store.dispatch("joinTribe", details).then((res) => {
+                  if (res.status == 200 && res.data.message == "successful") {
+                    this.$toast.success("Joined successfully");
+                    this.$router.push(`/member/tribe/feed/${id}`);
+                  }
+                });
+              }
+            });
+        }
+      });
+    },
     infiniteHandler($state) {
       this.$http
         .get(`${process.env.VUE_APP_API_PATH}/tribes?page=${this.page}`, {

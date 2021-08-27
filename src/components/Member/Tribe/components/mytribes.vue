@@ -68,10 +68,7 @@
                 >
               </b-dropdown>
             </div>
-            <span
-              class="tribe_circle cursor-pointer"
-              @click="$router.push(`/member/tribe/feed/${n.id}`)"
-            >
+            <span class="tribe_circle cursor-pointer">
               <b-avatar size="lg" :src="n.cover"></b-avatar>
             </span>
           </div>

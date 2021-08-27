@@ -70,11 +70,26 @@
                 :key="id"
                 class="mb-4"
               >
-                <b-popover :target="`popover-${id}`" triggers="hover">
-                  <template #title> {{ n.name }} tribe</template>
+                 <b-popover :target="`popover-${id}`" triggers="hover">
+            <template #title> {{ n.name }} tribe</template>
 
-                  {{ n.description }}
-                </b-popover>
+            <p class="fs13">{{ n.description }}</p>
+            <p class="fs13 text-muted mb-1">{{ n.users.length }} users</p>
+            <p class="fs13 text-muted mb-1">
+              {{ n.discussions.length }} discussions
+            </p>
+
+            <p class="fs13 text-muted mb-3">
+              {{ n.events.length }} active events
+            </p>
+            <b-button
+              block
+              variant="lighter-green"
+              size="sm"
+              @click="entertribe(n.id)"
+              >Join</b-button
+            >
+          </b-popover>
                 <div class="tribe_box rounded" :id="`popover-${id}`">
                   <div class="d-flex align-items-center justify-content-center">
                     <span class="tribe_name text-white">{{ n.name }}</span>
@@ -107,7 +122,7 @@
                           font-scale=".8"
                         ></b-icon>
                       </template>
-                      <b-dropdown-item class="fs12">Join</b-dropdown-item>
+                      <!-- <b-dropdown-item class="fs12">Join</b-dropdown-item> -->
                     </b-dropdown>
                   </div>
                   <span
@@ -120,73 +135,94 @@
               </b-col>
             </b-row>
             <b-row class="d-md-none">
-              <carousel
-                :perPage="2"
-                :scrollPerPage="true"
-                :paginationEnabled="true"
-                :spacePadding="15"
-                :perPageCustom="[
-                  [600, 2],
-                  [768, 3],
-                ]"
-                v-if="courses.length"
-              >
-                <slide
-                  v-for="(n, id) in tribes.slice(0, 6)"
-                  :key="id"
-                  class="mb-4 px-3"
+              <b-col>
+                <carousel
+                  :perPage="2"
+                  :scrollPerPage="true"
+                  :paginationEnabled="true"
+                  :spacePadding="15"
+                  :perPageCustom="[
+                    [600, 2],
+                    [768, 3],
+                  ]"
+                  v-if="courses.length"
                 >
-                  <b-popover :target="`popover-${id}`" triggers="hover">
-                    <template #title> {{ n.name }} tribe</template>
+                  <slide
+                    v-for="(n, id) in tribes.slice(0, 6)"
+                    :key="id"
+                    class="mb-4 px-3"
+                  >
+                    <b-popover :target="`popover-${id}`" triggers="hover">
+                      <template #title> {{ n.name }} tribe</template>
 
-                    {{ n.description }}
-                  </b-popover>
-                  <div class="tribe_box rounded" :id="`popover-${id}`">
-                    <div
-                      class="d-flex align-items-center justify-content-center"
-                    >
-                      <span class="tribe_name text-white">{{ n.name }}</span>
-                    </div>
+                      <p class="fs13">{{ n.description }}</p>
+                      <p class="fs13 text-muted mb-1">
+                        {{ n.users.length }} users
+                      </p>
+                      <p class="fs13 text-muted mb-1">
+                        {{ n.discussions.length }} discussions
+                      </p>
 
-                    <div
-                      class="
-                        d-flex
-                        justify-content-between
-                        align-items-center
-                        bg-white
-                        tribe_member_container
-                      "
-                    >
-                      <span class="d-flex align-items-center">
-                        <span class="mr-1">{{ n.users.length }}</span>
-                        <span>
-                          {{ n.users.length > 1 ? "members" : "member" }}</span
-                        >
-                      </span>
-                      <b-dropdown
+                      <p class="fs13 text-muted mb-3">
+                        {{ n.events.length }} active events
+                      </p>
+                      <b-button
+                        block
+                        variant="lighter-green"
                         size="sm"
-                        variant="transparent"
-                        no-caret
-                        class="no-focus"
+                        @click="entertribe(n.id)"
+                        >Join</b-button
                       >
-                        <template #button-content>
-                          <b-icon
-                            icon="three-dots-vertical"
-                            font-scale=".8"
-                          ></b-icon>
-                        </template>
-                        <b-dropdown-item class="fs12">Join</b-dropdown-item>
-                      </b-dropdown>
+                    </b-popover>
+                    <div class="tribe_box rounded" :id="`popover-${id}`">
+                      <div
+                        class="d-flex align-items-center justify-content-center"
+                      >
+                        <span class="tribe_name text-white">{{ n.name }}</span>
+                      </div>
+
+                      <div
+                        class="
+                          d-flex
+                          justify-content-between
+                          align-items-center
+                          bg-white
+                          tribe_member_container
+                        "
+                      >
+                        <span class="d-flex align-items-center">
+                          <span class="mr-1">{{ n.users.length }}</span>
+                          <span>
+                            {{
+                              n.users.length > 1 ? "members" : "member"
+                            }}</span
+                          >
+                        </span>
+                        <b-dropdown
+                          size="sm"
+                          variant="transparent"
+                          no-caret
+                          class="no-focus"
+                        >
+                          <template #button-content>
+                            <b-icon
+                              icon="three-dots-vertical"
+                              font-scale=".8"
+                            ></b-icon>
+                          </template>
+                          <b-dropdown-item class="fs12">Join</b-dropdown-item>
+                        </b-dropdown>
+                      </div>
+                      <span
+                        class="tribe_circle cursor-pointer"
+                        @click="$router.push(`/member/tribe/feed/${n.id}`)"
+                      >
+                        <b-avatar size="lg" :src="n.cover"></b-avatar>
+                      </span>
                     </div>
-                    <span
-                      class="tribe_circle cursor-pointer"
-                      @click="$router.push(`/member/tribe/feed/${n.id}`)"
-                    >
-                      <b-avatar size="lg" :src="n.cover"></b-avatar>
-                    </span>
-                  </div>
-                </slide>
-              </carousel>
+                  </slide>
+                </carousel>
+              </b-col>
             </b-row>
           </b-container>
 
@@ -1746,6 +1782,33 @@ export default {
     },
   },
   methods: {
+    entertribe(id) {
+      if (!this.auth) {
+        this.$toast.error("login to access");
+      }
+      var details = {
+        tribe_id: id,
+        user: this.$store.getters.member,
+      };
+      this.$store.dispatch("checkTribe", details).then((res) => {
+        if (res.status == 200 && res.data.message == "found") {
+          this.$router.push(`/member/tribe/feed/${id}`);
+        } else {
+          this.$bvModal
+            .msgBoxConfirm("Do you wish to join this tribe?")
+            .then((val) => {
+              if (val) {
+                this.$store.dispatch("joinTribe", details).then((res) => {
+                  if (res.status == 200 && res.data.message == "successful") {
+                    this.$toast.success("Joined successfully");
+                    this.$router.push(`/member/tribe/feed/${id}`);
+                  }
+                });
+              }
+            });
+        }
+      });
+    },
     likeimage(index) {
       this.toggleOn = index;
 
@@ -2197,7 +2260,7 @@ export default {
     right: 50%;
     margin-right: -75px;
   }
-  > p {
+  p {
     width: 35%;
     margin: 0 auto;
   }
