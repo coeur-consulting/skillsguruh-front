@@ -387,7 +387,7 @@ export default {
         user: this.$store.getters.member,
       };
       this.$bvModal
-        .msgBoxConfirm("Do you wish to leave this tribe?")
+        .msgBoxConfirm("Are you sure you wish to exit this tribe?")
         .then((val) => {
           if (val) {
             this.$store.dispatch("leaveTribe", details).then((res) => {
