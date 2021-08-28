@@ -241,6 +241,12 @@ label {
   -webkit-box-orient: vertical;
   white-space: normal;
 }
+.text-truncate.text-truncate--1 {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+}
 .schedule_type {
   font-size: 0.8rem;
 }

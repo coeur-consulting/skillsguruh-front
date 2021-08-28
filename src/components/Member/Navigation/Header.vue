@@ -38,11 +38,19 @@
       </b-navbar-toggle>
       <b-collapse id="mynav" is-nav class="w-100">
         <b-navbar-nav class="align-items-center justify-content-center mx-auto">
+          <b-nav-item
+            to="/member/tribe/explore"
+            class="mr-sm-4 position-relative"
+          >
+            <b-icon icon="circle-fill" class="dot" font-scale=".8"></b-icon>
+            <font-awesome-icon :icon="globe" size="2x" class="icon"
+          /></b-nav-item>
+
           <b-nav-item to="/member/feeds" class="mr-sm-4 position-relative">
             <b-icon icon="circle-fill" class="dot" font-scale=".8"></b-icon>
             <font-awesome-icon :icon="rss" size="2x" class="icon"
           /></b-nav-item>
-          <b-nav-item to="/member/community" class="mr-sm-4 position-relative">
+          <b-nav-item to="/explore/community" class="mr-sm-4 position-relative">
             <b-icon icon="circle-fill" class="dot" font-scale=".8"></b-icon>
             <font-awesome-icon :icon="users" size="2x" class="icon" />
           </b-nav-item>
@@ -70,7 +78,10 @@
     <b-col cols="5" sm="4">
       <b-navbar-nav class="align-items-center justify-content-end flex-row">
         <b-nav-item class="position-relative">
-          <span style="padding: 0.25rem 0.5rem; font-size: 0.875rem">
+          <span
+            class="position-relative"
+            style="padding: 0.25rem 0.5rem; font-size: 0.875rem"
+          >
             <font-awesome-layers class="fa-3x" id="notifybell">
               <font-awesome-icon :icon="circle" class="text-lighter-green" />
               <font-awesome-icon
@@ -119,11 +130,12 @@
                 v-for="(message, index) in chatter"
                 :key="index"
               >
-                <div class="px-3 py-1 d-flex border-bottom">
-                  <b-avatar size="1.8rem" :src="message.profile"></b-avatar>
+                <div class="px-1 py-1 d-flex border-bottom align-items-start">
+                  <b-avatar size="1.6rem" :src="message.profile"></b-avatar>
 
                   <div
                     class="message_text flex-1 px-2"
+                    style="width: 75%"
                     @click="
                       getmessage(
                         message.id,
@@ -146,18 +158,18 @@
                     >
                       <span
                         v-if="lastMessage(message).message"
-                        class="text-muted"
+                        class="text-muted text-truncate text-truncate--1"
+                        v-html="lastMessage(message).message"
                       >
-                        {{ lastMessage(message).message }}</span
-                      >
+                      </span>
                       <span v-else class="text-muted fs11"
                         ><i>Sent attachment</i></span
                       >
                     </div>
                   </div>
 
-                  <div>
-                    <span class="message_time fs11">
+                  <div class="time" style="width: 50px">
+                    <span class="message_time fs9">
                       {{ lastMessage(message).time | moment("LT") }}</span
                     >
                   </div>
@@ -223,10 +235,16 @@
           <b-navbar-nav
             class="align-items-center justify-content-center mx-auto flex-row"
           >
+            <b-nav-item
+              to="/member/tribe/explore"
+              class="mr-4 position-relative"
+            >
+              <font-awesome-icon :icon="globe" size="2x" class="icon" />
+            </b-nav-item>
             <b-nav-item to="/member/feeds" class="mr-4 position-relative">
               <font-awesome-icon :icon="rss" size="2x" class="icon"
             /></b-nav-item>
-            <b-nav-item to="/member/community" class="mr-4 position-relative">
+            <b-nav-item to="/explore/community" class="mr-4 position-relative">
               <font-awesome-icon :icon="users" size="2x" class="icon" />
             </b-nav-item>
             <b-nav-item to="/member/courses" class="mr-4 position-relative">
@@ -333,14 +351,14 @@
               <span class="side-link p-2">Invite members</span>
             </div>
             <div
-              class="side_item my-3"
+              class="side_item my-2"
               @click="leavetribe"
               v-if="$route.meta.showtribe"
             >
               <log-out-icon size="1x" class="custom-class"></log-out-icon>
               <span class="side-link p-2">Leave tribe</span>
             </div>
-            <div class="border-top text-left p-3">
+            <!-- <div class="border-top text-left p-3">
               <router-link to="/explore">
                 <div class="side_item mt-1">
                   <b-icon
@@ -365,7 +383,7 @@
                 <log-out-icon size="1x" class="custom-class"></log-out-icon>
                 <span class="side-link p-2">Log out</span>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -566,6 +584,7 @@ import {
   faComments,
   faCalendar,
   faEnvelope,
+  faGlobe,
 } from "@fortawesome/free-solid-svg-icons";
 import { LogOutIcon } from "vue-feather-icons";
 
@@ -589,6 +608,7 @@ export default {
       calendar: faCalendar,
       rss: faRss,
       envelope: faEnvelope,
+      globe: faGlobe,
       tribe: {},
       inviteUsers: [
         {
@@ -765,8 +785,6 @@ export default {
       return mess.pop();
     },
     getmessage(id, name, type, profile) {
-      this.current.id = id;
-      this.current.type = type;
       this.mini_info.id = id;
       this.mini_info.name = name;
       this.mini_info.type = type;

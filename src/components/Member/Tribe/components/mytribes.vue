@@ -28,7 +28,7 @@
               block
               size="sm"
               variant="lighter-green"
-              @click="$router.push(`/member/tribe/feed/${n.id}`)"
+              @click="entertribe(n.id)"
               >Join</b-button
             >
           </b-popover>
@@ -294,6 +294,10 @@ export default {
     this.category = Category;
   },
   methods: {
+    entertribe(id) {
+      this.$store.commit("SET_TRIBE", id);
+      this.$router.push(`/member/tribe/feed/${this.$store.getters.tribe}`);
+    },
     infiniteHandler($state) {
       this.$http
         .get(`${process.env.VUE_APP_API_PATH}/user/tribes?page=${this.page}`, {

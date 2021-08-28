@@ -20,6 +20,14 @@
               />
               Community</b-nav-item
             >
+            <b-nav-item to="/member/course">
+              <b-img
+                :src="require('@/assets/images/globe.png')"
+                alt="community"
+                class="imgtribe mr-2"
+              />
+              Course</b-nav-item
+            >
           </b-nav>
         </nav>
       </div>
@@ -42,27 +50,27 @@
         </div>
         <nav class="mb-3 class text-left">
           <b-nav vertical>
-            <b-nav-item :to="`/member/tribe/feed/${$route.params.tribe}`"
+            <b-nav-item :to="`/member/tribe/feed/${$store.getters.tribe}`"
               ><font-awesome-icon
                 :icon="rss"
                 class="icon mr-3"
               />Feeds</b-nav-item
             >
             <b-nav-item
-              :to="`/member/tribe/discussions/${$route.params.tribe}`"
+              :to="`/member/tribe/discussions/${$store.getters.tribe}`"
             >
               <font-awesome-icon
                 :icon="comments"
                 class="icon mr-3"
               />Discussions</b-nav-item
             >
-            <b-nav-item :to="`/member/tribe/courses/${$route.params.tribe}`">
+            <b-nav-item :to="`/member/tribe/courses/${$store.getters.tribe}`">
               <font-awesome-icon
                 :icon="bookopen"
                 class="icon mr-3"
               />Courses</b-nav-item
             >
-            <b-nav-item :to="`/member/tribe/events/${$route.params.tribe}`">
+            <b-nav-item :to="`/member/tribe/events/${$store.getters.tribe}`">
               <font-awesome-icon
                 :icon="calendar"
                 class="icon mr-3"
@@ -83,7 +91,7 @@
         <span class="side-link p-2">Invite members</span>
       </div>
       <div
-        class="side_item my-3"
+        class="side_item my-2"
         @click="leavetribe"
         v-if="$route.meta.showtribe"
       >
@@ -91,7 +99,7 @@
         <span class="side-link p-2">Leave tribe</span>
       </div>
 
-      <div class="border-top">
+      <!-- <div class="border-top">
         <router-link to="/explore">
           <div class="side_item mt-1">
             <b-icon icon="app-indicator" font-scale="1.1" class="mr-2"></b-icon>
@@ -108,7 +116,7 @@
           <log-out-icon size="1x" class="custom-class"></log-out-icon>
           <span class="side-link p-2">Log out</span>
         </div>
-      </div>
+      </div> -->
     </div>
     <b-modal id="sharecourse" centered hide-footer>
       <div class="box p-3 text-center">
@@ -305,7 +313,7 @@ export default {
     this.gettribe();
   },
   mounted() {
-    this.link = `https://nzukoor.com/register?tribe_id=${this.$route.params.tribe}`;
+    this.link = `https://nzukoor.com/register?tribe_id=${this.$store.getters.tribe}`;
   },
   methods: {
     addToFeed() {
@@ -345,7 +353,7 @@ export default {
       this.sending = true;
       var data = {
         emails: this.inviteUsers,
-        id: this.$route.params.tribe,
+        id: this.$store.getters.tribe,
       };
       this.$http
         .post(`${this.$store.getters.url}/tribe/invite`, data, {
@@ -375,7 +383,7 @@ export default {
     },
     leavetribe() {
       var details = {
-        tribe_id: this.$route.params.tribe,
+        tribe_id: this.$store.getters.tribe,
         user: this.$store.getters.member,
       };
       this.$bvModal
@@ -392,16 +400,16 @@ export default {
         });
     },
     handletribe() {
-      if (this.$route.params.tribe && this.$route.meta.showtribe) {
+      if (this.$store.getters.tribe && this.$route.meta.showtribe) {
         this.gettribe();
       }
     },
     gettribe() {
-      if (!this.$route.params.tribe || !this.$route.meta.showtribe) {
+      if (!this.$store.getters.tribe || !this.$route.meta.showtribe) {
         return;
       }
       this.$http
-        .get(`${this.$store.getters.url}/tribes/${this.$route.params.tribe}`, {
+        .get(`${this.$store.getters.url}/tribes/${this.$store.getters.tribe}`, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.member.access_token}`,
           },

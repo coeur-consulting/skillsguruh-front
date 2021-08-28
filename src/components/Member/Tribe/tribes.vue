@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import Tribes from "./components/alltribes.vue";
+import Tribes from "./components/mytribes.vue";
 export default {
   components: {
     Tribes,

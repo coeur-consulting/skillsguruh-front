@@ -22,8 +22,12 @@ export default new Vuex.Store({
       profile: "",
     },
     course: {},
+    tribe: null,
   },
   mutations: {
+    SET_TRIBE(state, tribe) {
+      state.tribe = tribe;
+    },
     SET_COURSE(state, course) {
       state.course = course;
     },
@@ -85,7 +89,7 @@ export default new Vuex.Store({
       return text;
     },
     async checkTribe({ state }, detail) {
-      return Vue.axios.get(`${state.url}/check/tribe/${detail.tribe_id}`, {
+      return Vue.axios.get(`${state.url}/check/tribe/${state.tribe}`, {
         headers: {
           Authorization: `Bearer ${detail.user.access_token}`,
         },
@@ -264,5 +268,6 @@ export default new Vuex.Store({
     isOpen: (state) => state.isOpen,
     isMinimise: (state) => state.isMinimise,
     course: (state) => state.course,
+    tribe: (state) => state.tribe,
   },
 });

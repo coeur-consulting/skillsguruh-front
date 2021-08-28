@@ -88,210 +88,113 @@
           <b-container fluid v-if="showCourse">
             <b-row>
               <b-col
+                cols="6"
                 :sm="sideOpen ? 4 : 3"
-                class="mb-4 side_box"
-                v-for="(course, index) in filteredCourse"
+                class="mb-3 side_box p-0-rem px-sm-3"
+                v-for="(item, index) in filteredCourse"
                 :key="index"
               >
                 <div
-                  class="
-                    shadow-sm
-                    p-3
-                    bg-white
-                    text-left
-                    h-100
-                    cursor-pointer
-                    position-relative
-                    d-flex
-                    flex-column
-                  "
-                  @click="showcourse(course)"
+                  class="course border cursor-pointer shadow-sm"
+                  @click="showcourse(item)"
                 >
-                  <div class="flex-1">
-                    <!-- <b-dropdown
-                    size="sm"
-                    variant="transparent"
-                    no-caret
-                    class="no-focus dots"
-                  >
-                    <template #button-content>
-                      <b-icon
-                        icon="three-dots-vertical"
-                        class="position-absolute"
-                      ></b-icon>
-                    </template>
-
-                    <b-dropdown-item class="fs12" @click="edit(course)"
-                      >Edit</b-dropdown-item
-                    >
-                    <b-dropdown-item
-                      class="fs12"
-                      @click="drop(course.id, index)"
-                      >Delete</b-dropdown-item
-                    >
-                  </b-dropdown> -->
-
-                    <b-iconstack
-                      font-scale="2.5"
-                      class="mr-2 mb-2"
-                      v-if="course.courseoutline"
-                    >
-                      <b-icon
-                        stacked
-                        icon="circle-fill"
-                        :style="`color:${
-                          JSON.parse(course.courseoutline.knowledge_areas).color
-                        }`"
-                      ></b-icon>
-                      <b-icon
-                        stacked
-                        :icon="
-                          JSON.parse(course.courseoutline.knowledge_areas).icon
-                        "
-                        scale="0.5"
-                        variant="light"
-                      ></b-icon>
-                    </b-iconstack>
-                    <div class="course_title mb-1 cours_tit">
-                      {{ course.title }}
-                    </div>
-                    <div class="mb-3">
+                  <div
+                    v-if="item.cover"
+                    class="course_img"
+                    :style="{
+                      backgroundImage: `url(${
+                        item.cover
+                          ? item.cover
+                          : require('@/assets/images/default.png')
+                      })`,
+                    }"
+                  ></div>
+                  <div class="course_text">
+                    <div class="d-flex justify-content-between">
                       <span
                         class="
-                          fs13
-                          overview
+                          px-2
+                          py-1
+                          rounded-pill
+                          text-white
+                          fs11
+                          course_badge
+                        "
+                        :style="{
+                          backgroundColor: JSON.parse(
+                            item.courseoutline.knowledge_areas
+                          ).color,
+                        }"
+                      >
+                        <b-icon
+                          class="mr-2"
+                          :icon="
+                            JSON.parse(item.courseoutline.knowledge_areas).icon
+                          "
+                        ></b-icon>
+                        <span>{{
+                          JSON.parse(item.courseoutline.knowledge_areas).value
+                        }}</span></span
+                      >
+                      <span class="text-capitalize fs11">{{ item.type }}</span>
+                    </div>
+                    <div class="pt-3 pb-1 text-left">
+                      <h6
+                        class="
+                          text-capitalize
+                          overview-title
                           text-truncate text-truncate--2
-                          text-muted
+                          mb-0
                         "
                       >
-                        {{ course.description }}</span
+                        {{ item.title }}
+                      </h6>
+                      <div
+                        class="fs13 text-truncate text-truncate--2 course_desc"
                       >
-                    </div>
-                    <div
-                      class="
-                        course_fac
-                        d-flex
-                        align-items-center
-                        mb-1
-                        text-capitalize
-                        fs13
-                      "
-                      v-if="sortfacilitators(course).length == 1"
-                    >
-                      <b-icon
-                        icon="display"
-                        variant="dark-green"
-                        class="text-muted mr-2"
-                      ></b-icon>
-                      <span class="fs13">
-                        {{ sortfacilitators(course).join(" ") }}</span
-                      >
-                    </div>
-                    <div
-                      class="
-                        course_fac
-                        d-flex
-                        align-items-center
-                        mb-1
-                        text-capitalize
-                        fs13
-                      "
-                      v-else
-                    >
-                      <b-icon
-                        icon="display"
-                        variant="dark-green"
-                        class="text-muted mr-2"
-                      ></b-icon>
-                      <span class="fs13"> Multiple Facilitators</span>
-                    </div>
-
-                    <div
-                      class="
-                        course_fac
-                        d-flex
-                        text-capitalize
-                        align-items-center
-                        fs13
-                        mb-1
-                      "
-                    >
-                      <b-icon
-                        icon="calendar"
-                        variant="dark-green"
-                        class="text-muted mr-2"
-                      ></b-icon>
-                      <div class="">
-                        <div class="text-capitalize">
-                          {{ course.courseoutline.duration }}
-                        </div>
+                        {{ item.description }}
                       </div>
                     </div>
-
-                    <div
-                      v-if="course"
-                      class="course_fac align-items-center fs13 mb-1"
-                    >
-                      <b-icon
-                        icon="layers"
-                        variant="dark-green"
-                        class="text-muted mr-1"
-                      ></b-icon>
-                      <span class="fs13"> {{ sortmodules(course) }}</span>
-                      Modules
-                    </div>
-                    <div>
-                      <span
-                        class="fs13 text-muted d-flex justify-content-between"
-                        ><span
-                          ><b-icon
-                            class="mr-2"
-                            :icon="
-                              course.type == 'free'
-                                ? 'unlock-fill'
-                                : 'lock-fill'
-                            "
+                    <div class="info fs11">
+                      <div class="d-flex">
+                        <div class="mr-2">
+                          <b-icon icon="people" class="mr-1"></b-icon>
+                          <span
+                            >{{ item.enroll ? item.enroll.count : 0 }}+</span
+                          >
+                        </div>
+                        <div class="mr-3">
+                          <b-icon icon="eye" class="mr-1"></b-icon>
+                          <span
+                            >{{
+                              item.viewcount ? item.viewcount.count : 0
+                            }}
+                            +</span
+                          >
+                        </div>
+                        <div>
+                          <b-icon
+                            icon="star-fill"
+                            style="color: gold"
+                            class="mr-1"
                           ></b-icon>
-                          <span class="text-capitalize">{{
-                            course.type
-                          }}</span></span
-                        >
-                        <span v-if="course.type == 'paid'">
-                          {{ course.amount | currencyFormat }}</span
-                        >
-                      </span>
-                    </div>
-                  </div>
+                          <span
+                            >{{ item.review.length }}
+                            <span class="d-none d-sm-inline"
+                              >reviews</span
+                            ></span
+                          >
+                        </div>
+                      </div>
 
-                  <div class="pt-3">
-                    <div class="d-flex justify-content-between fs13">
-                      <span>Resources upload</span
-                      ><span
-                        >{{
-                          Math.floor(
-                            getProgress(
-                              course.courseoutline.modules,
-                              course.modules
-                            )
-                          ) || 0
-                        }}%</span
+                      <b-avatar
+                        size="sm"
+                        class="course_avatar"
+                        variant="light"
+                        :src="item.cover"
                       >
+                      </b-avatar>
                     </div>
-                    <b-progress
-                      :value="
-                        Math.floor(
-                          getProgress(
-                            course.courseoutline.modules,
-                            course.modules
-                          )
-                        )
-                      "
-                      :max="100"
-                      show-value
-                      height=".8rem"
-                      class="mb-3"
-                      variant="dark-green"
-                    ></b-progress>
                   </div>
                 </div>
               </b-col>
@@ -1899,6 +1802,17 @@ export default {
 }
 .main_box {
   transition: 0.5s;
+}
+.course {
+  position: relative;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.course_text {
+  height: 55%;
+  padding: 10px;
 }
 
 .course_title {

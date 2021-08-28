@@ -1,59 +1,8 @@
 <template>
   <div class="main_c text-left pt-md-5">
-    <section class="top_bg"></section>
+    <!-- <section class="top_bg"></section> -->
 
     <div class="bg-white">
-      <section>
-        <b-container class="pb-5">
-          <b-row class="justify-content-center p-2 p-sm-5">
-            <b-col cols="4">
-              <span
-                class="d-flex align-items-center justify-content-start tpp"
-                @click="$router.push('/explore/members')"
-              >
-                <b-img
-                  class="mr-2 tp"
-                  size="2.5rem"
-                  src="/img/member.png"
-                ></b-img>
-                <span>
-                  <span class="">{{ users.length }}+</span> <br />
-                  <span class="">Happy Members</span>
-                </span>
-              </span>
-            </b-col>
-            <b-col cols="4">
-              <span
-                class="d-flex align-items-center tpp justify-content-start"
-                @click="$router.push('/explore/discussions')"
-              >
-                <b-img
-                  class="mr-2 tp"
-                  size="2.5rem"
-                  src="/img/program.png"
-                ></b-img>
-                <span>
-                  <span class="">{{ courses.length }}+</span> <br />
-                  <span class="">Online Discussions</span>
-                </span>
-              </span>
-            </b-col>
-            <b-col cols="4">
-              <span
-                class="d-flex align-items-center justify-content-start tpp"
-                @click="$router.push('/explore/tribes')"
-              >
-                <b-img class="mr-2 tp" size="2.5rem" src="/img/grp.png"></b-img>
-                <span>
-                  <span class="">{{ tribes.length }}+</span>
-                  <br />
-                  <span class=""> Active Tribes </span>
-                </span>
-              </span>
-            </b-col>
-          </b-row>
-        </b-container>
-      </section>
       <section class="py-5">
         <b-container>
           <div class="d-flex justify-content-center trending mb-5">
@@ -228,7 +177,7 @@
 
           <div class="text-center text-dark-green fs12">
             <span
-              @click="$router.push('/explore/tribes')"
+              @click="$router.push('/explore/community')"
               class="cursor-pointer"
               >Load more...</span
             >
@@ -527,7 +476,7 @@
         </b-container>
         <div class="text-center mt-0 mt-md-5 pt-md-5">
           <small
-            @click="$router.push('/explore/discussions')"
+            @click="$router.push('/member/discussions')"
             class="cursor-pointer text-dark-green"
             >View all {{ discussions.length }} discussions
             <b-icon font-scale=".85" icon="chevron-right"></b-icon
@@ -543,7 +492,7 @@
           </div>
 
           <b-row>
-            <b-col sm="7" class="mb-4 mb-sm-0">
+            <b-col class="mb-4 mb-sm-0">
               <div v-if="showFeeds">
                 <div v-if="filteredFeeds.length">
                   <div
@@ -652,77 +601,6 @@
                       </b-dropdown>
                     </div>
 
-                    <!-- <div v-if="feed.media || feed.publicId">
-                      <div class="mb-4 position-relative w-100 media bg-white">
-                        <b-icon
-                          v-if="toggleOn == index"
-                          icon="heart-fill"
-                          variant="danger"
-                          class="
-                            heart
-                            animate__animated
-                            animate__fadeIn
-                            animate__fadeOut
-                            animate__slow
-                          "
-                        ></b-icon>
-                        <cld-image
-                          v-if="
-                            feed.publicId &&
-                            img_ext.includes(getextension(feed.media))
-                          "
-                          :publicId="feed.publicId"
-                          @click="toggleLike(feed.id, index)"
-                        >
-                          <cld-transformation
-                            aspectRatio="1.0"
-                            height="500"
-                            crop="fill"
-                          />
-                        </cld-image>
-                        <b-img
-                          v-if="
-                            !feed.publicId &&
-                            feed.media &&
-                            img_ext.includes(getextension(feed.media))
-                          "
-                          @click="toggleLike(feed.id, index)"
-                          class="img_feed"
-                          :src="feed.media"
-                        ></b-img>
-
-                        <cld-video
-                          controls
-                          v-if="
-                            feed.publicId &&
-                            vid_ext.includes(getextension(feed.media))
-                          "
-                          :publicId="feed.publicId"
-                        >
-                          <cld-transformation crop="fill" height="500" />
-                        </cld-video>
-
-                        <audio
-                          width="100%"
-                          controls
-                          v-if="
-                            feed.media &&
-                            aud_ext.includes(getextension(feed.media))
-                          "
-                          :src="feed.media"
-                          class="fluid-grow"
-                        ></audio>
-                        <div
-                          v-if="
-                            feed.media &&
-                            doc_ext.includes(getextension(feed.media))
-                          "
-                          class="text-center p-3 p-sm-4 bg-skills-grey"
-                        >
-                          <b-icon icon="image" font-scale="3rem"></b-icon>
-                        </div>
-                      </div>
-                    </div> -->
                     <div class="text-left feed_text px-3">
                       <div class="mb-1" v-html="feed.message"></div>
 
@@ -965,7 +843,7 @@
                     </div> -->
                   </div>
                   <div class="text-center mt-2">
-                    <router-link to="/explore/feeds" class="text-dark-green"
+                    <router-link to="/member/feeds" class="text-dark-green"
                       ><small
                         >View all feed
                         <b-icon
@@ -999,35 +877,10 @@
                 </div>
               </div>
             </b-col>
-            <b-col sm="4" class="px-3">
-              <div class="text-left">
-                <h6 class="mb-4 fs12 text-dark-green">
-                  Trending in Last 24hrs
-                </h6>
-                <div v-if="trendingFeed.length" class="pb-3">
-                  <div
-                    v-for="(item, id) in trendingFeed.slice(0, 3)"
-                    :key="id"
-                    class="mb-3"
-                  >
-                    <div
-                      class="trending_name cursor-pointer"
-                      @click="$router.push(`/explore/feed/${item.name}`)"
-                    >
-                      {{ item.name }}
-                    </div>
-                    <div class="trending_count text-muted">
-                      {{ item.count }} posts about this
-                    </div>
-                  </div>
-                </div>
-                <div v-else class="text-center text-muted">Unavailable</div>
-              </div>
-            </b-col>
           </b-row>
         </b-container>
       </section>
-
+      <!--
       <section class="text-center mb-5 pt-4 py-sm-5">
         <b-container>
           <div class="d-flex justify-content-center trending mb-5">
@@ -1058,7 +911,7 @@
             >
           </b-row>
         </b-container>
-      </section>
+      </section> -->
       <section class="py-5">
         <b-container>
           <div class="d-flex justify-content-center trending mb-5">
@@ -1186,7 +1039,7 @@
 
           <div class="text-center text-dark-green fs12">
             <span
-              @click="$router.push('/explore/courses')"
+              @click="$router.push('/member/courses')"
               class="cursor-pointer"
               >Load more...</span
             >
@@ -1297,7 +1150,7 @@
               </carousel>
 
               <div class="px-2">
-                <router-link to="/events" class="text-dark-green"
+                <router-link to="/member/events" class="text-dark-green"
                   ><small
                     >View all events
                     <b-icon
@@ -1802,7 +1655,9 @@ export default {
                 this.$store.dispatch("joinTribe", details).then((res) => {
                   if (res.status == 200 && res.data.message == "successful") {
                     this.$toast.success("Joined successfully");
-                    this.$router.push(`/member/tribe/feed/${this.$store.getters.tribe}`);
+                    this.$router.push(
+                      `/member/tribe/feed/${this.$store.getters.tribe}`
+                    );
                   }
                 });
               }
@@ -2224,7 +2079,7 @@ export default {
 }
 .main_c {
   /* The image used */
-  background-image: url("../assets/images/mountain.svg");
+  background-image: url("/assets/images/mountain.svg");
 
   /* Set a specific height */
   min-height: 100vh;
@@ -2236,8 +2091,8 @@ export default {
   background-size: cover;
 }
 .top_bg {
-  height: 400px;
-  background-image: url("../assets/images/people.svg");
+  height: 300px;
+  background-image: url("/assets/images/people.svg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -2251,7 +2106,7 @@ export default {
   }
   h2 span::after {
     content: "";
-    background-image: url("../assets/images/landing/mustard-brush.png");
+    background-image: url("/assets/images/landing/mustard-brush.png");
     position: absolute;
     width: 150px;
     height: 20px;

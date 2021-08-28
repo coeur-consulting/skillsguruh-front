@@ -3,22 +3,22 @@
     <b-row>
       <b-col class="mb-5">
         <div class="box py-4 px-3">
-          <h6 class="mb-3">{{ filteredConnections.length }} Connections</h6>
-          <div class="px-3 py-2 d-flex align-items-center search bg-light">
-            <b-icon icon="search"></b-icon>
-            <b-form-input
-              autocomplete="off"
-              autocorrect="off"
-              size="sm"
-              v-model="search"
-              class="flex-1 border-0 no-focus search-bg"
-              type="search"
-              placeholder="Search name"
-            ></b-form-input>
-            <b-icon icon="sliders"></b-icon>
-          </div>
           <b-tabs content-class="mt-3 " class="connect_tab mt-3">
             <b-tab title="Connections" active>
+              <h6 class="mb-3">{{ filteredConnections.length }} Connections</h6>
+              <div class="px-3 py-2 d-flex align-items-center search bg-light">
+                <b-icon icon="search"></b-icon>
+                <b-form-input
+                  autocomplete="off"
+                  autocorrect="off"
+                  size="sm"
+                  v-model="search"
+                  class="flex-1 border-0 no-focus search-bg"
+                  type="search"
+                  placeholder="Search name"
+                ></b-form-input>
+                <b-icon icon="sliders"></b-icon>
+              </div>
               <div
                 class="py-4 connection_box"
                 v-if="filteredConnections.length"
@@ -108,6 +108,22 @@
               <div v-else class="text-center p-4">No connection available</div>
             </b-tab>
             <b-tab title="Connected to you" lazy>
+              <h6 class="mb-3">
+                {{ filteredmyconnections.length }} Connections
+              </h6>
+              <div class="px-3 py-2 d-flex align-items-center search bg-light">
+                <b-icon icon="search"></b-icon>
+                <b-form-input
+                  autocomplete="off"
+                  autocorrect="off"
+                  size="sm"
+                  v-model="search"
+                  class="flex-1 border-0 no-focus search-bg"
+                  type="search"
+                  placeholder="Search name"
+                ></b-form-input>
+                <b-icon icon="sliders"></b-icon>
+              </div>
               <div
                 class="py-4 connection_box"
                 v-if="filteredmyconnections.length"
@@ -260,11 +276,11 @@ export default {
             .toLowerCase()
             .includes(this.search.toLowerCase());
         }
-        if (item.facilitator_follower) {
-          return item.facilitator_follower.username
-            .toLowerCase()
-            .includes(this.search.toLowerCase());
-        }
+        // if (item.facilitator_follower) {
+        //   return item.facilitator_follower.username
+        //     .toLowerCase()
+        //     .includes(this.search.toLowerCase());
+        // }
       });
     },
     filteredMemberSuggested() {

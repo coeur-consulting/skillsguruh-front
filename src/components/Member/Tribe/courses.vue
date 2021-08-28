@@ -1233,14 +1233,7 @@
               >
                 Trending
               </div>
-              <span class="text-muted px-2"> |</span>
-              <div
-                class="fs12 font-weight-bold cursor-pointer"
-                :class="courseShown == 'enrolled' ? '' : 'text-muted'"
-                @click="courseShown = 'enrolled'"
-              >
-                Enrolled
-              </div>
+
             </div>
             <div
               class="
@@ -1300,7 +1293,7 @@
 
           <b-container fluid v-if="showCourse">
             <b-row>
-              <b-col
+              <!-- <b-col
                 :sm="sideOpen ? 4 : 3"
                 class="mb-4 side_box"
                 v-for="(course, index) in filteredCourse"
@@ -1321,28 +1314,6 @@
                   @click="showcourse(course)"
                 >
                   <div class="flex-1">
-                    <!-- <b-dropdown
-                    size="sm"
-                    variant="transparent"
-                    no-caret
-                    class="no-focus dots"
-                  >
-                    <template #button-content>
-                      <b-icon
-                        icon="three-dots-vertical"
-                        class="position-absolute"
-                      ></b-icon>
-                    </template>
-
-                    <b-dropdown-item class="fs12" @click="edit(course)"
-                      >Edit</b-dropdown-item
-                    >
-                    <b-dropdown-item
-                      class="fs12"
-                      @click="drop(course.id, index)"
-                      >Delete</b-dropdown-item
-                    >
-                  </b-dropdown> -->
 
                     <b-iconstack
                       font-scale="2.5"
@@ -1505,6 +1476,117 @@
                       class="mb-3"
                       variant="dark-green"
                     ></b-progress>
+                  </div>
+                </div>
+              </b-col> -->
+              <b-col
+                cols="6"
+                :sm="sideOpen ? 4 : 3"
+                class="mb-3 side_box p-0-rem px-sm-3"
+                v-for="(item, index) in filteredCourse"
+                :key="index"
+              >
+                <div
+                  class="course border cursor-pointer shadow-sm"
+                  @click="showcourse(item)"
+                >
+                  <div
+                    v-if="item.cover"
+                    class="course_img"
+                    :style="{
+                      backgroundImage: `url(${
+                        item.cover
+                          ? item.cover
+                          : require('@/assets/images/default.png')
+                      })`,
+                    }"
+                  ></div>
+                  <div class="course_text">
+                    <div class="d-flex justify-content-between">
+                      <span
+                        class="
+                          px-2
+                          py-1
+                          rounded-pill
+                          text-white
+                          fs11
+                          course_badge
+                        "
+                        :style="{
+                          backgroundColor: JSON.parse(
+                            item.courseoutline.knowledge_areas
+                          ).color,
+                        }"
+                      >
+                        <b-icon
+                          class="mr-2"
+                          :icon="
+                            JSON.parse(item.courseoutline.knowledge_areas).icon
+                          "
+                        ></b-icon>
+                        <span>{{
+                          JSON.parse(item.courseoutline.knowledge_areas).value
+                        }}</span></span
+                      >
+                      <span class="text-capitalize fs11">{{ item.type }}</span>
+                    </div>
+                    <div class="pt-3 pb-1 text-left">
+                      <h6
+                        class="
+                          text-capitalize
+                          overview-title
+                          text-truncate text-truncate--2
+                          mb-0
+                        "
+                      >
+                        {{ item.title }}
+                      </h6>
+                      <div
+                        class="fs13 text-truncate text-truncate--2 course_desc"
+                      >
+                        {{ item.description }}
+                      </div>
+                    </div>
+                    <div class="info fs11">
+                      <div class="d-flex">
+                        <div class="mr-2">
+                          <b-icon icon="people" class="mr-1"></b-icon>
+                          <span
+                            >{{ item.enroll ? item.enroll.count : 0 }}+</span
+                          >
+                        </div>
+                        <div class="mr-3">
+                          <b-icon icon="eye" class="mr-1"></b-icon>
+                          <span
+                            >{{
+                              item.viewcount ? item.viewcount.count : 0
+                            }}
+                            +</span
+                          >
+                        </div>
+                        <div>
+                          <b-icon
+                            icon="star-fill"
+                            style="color: gold"
+                            class="mr-1"
+                          ></b-icon>
+                          <span
+                            >{{ item.review.length }}
+                            <span class="d-none d-sm-inline"
+                              >reviews</span
+                            ></span
+                          >
+                        </div>
+                      </div>
+
+                      <b-avatar
+                        size="sm"
+                        class="course_avatar"
+                        variant="light"
+                        :src="item.cover"
+                      >
+                      </b-avatar>
+                    </div>
                   </div>
                 </div>
               </b-col>
@@ -2421,7 +2503,7 @@ export default {
           cover: "",
           type: "group",
           amount: null,
-            tribe_id:this.$route.params.tribe
+          tribe_id: this.$route.params.tribe,
         },
         outline: {
           overview: "",
@@ -3113,7 +3195,7 @@ export default {
                 cover: "",
                 type: "group",
                 amount: null,
-                 tribe_id:this.$route.params.tribe
+                tribe_id: this.$route.params.tribe,
               },
               outline: {
                 overview: "",
@@ -3316,6 +3398,17 @@ export default {
 }
 .main_box {
   transition: 0.5s;
+}
+.course {
+  position: relative;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.course_text {
+  height: 55%;
+  padding: 10px;
 }
 
 .course_title {

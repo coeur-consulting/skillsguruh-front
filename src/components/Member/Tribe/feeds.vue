@@ -1043,7 +1043,7 @@ export default {
         message: "",
         publicId: "",
         tags: [],
-          tribe_id:this.$route.params.tribe
+        tribe_id: this.$route.params.tribe,
       },
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp", "flv", "mov"],
@@ -1115,12 +1115,12 @@ export default {
     },
   },
   mounted() {
-    // this.getfeeds();
+    this.getfeeds();
     // this.getmyfeeds();
     //this.getcustomfeeds();
     // this.gettrendingfeeds();
     // this.getrecentfeeds();
-    this.infiniteHandler();
+    // this.infiniteHandler();
   },
   directives: {
     focus: {
@@ -1281,7 +1281,7 @@ export default {
     infiniteHandler($state) {
       this.$http
         .get(
-          `${this.$store.getters.url}/get/tribe/feeds/${this.$route.params.tribe}?page=${this.page}`,
+          `${this.$store.getters.url}/get/tribe/feeds/${this.$store.getters.tribe}?page=${this.page}`,
           {
             headers: {
               Authorization: `Bearer ${this.$store.getters.member.access_token}`,
@@ -1360,23 +1360,26 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
-    // getfeeds() {
-    //   this.$http
-    //     .get(`${this.$store.getters.url}/feeds`, {
-    //       headers: {
-    //         Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-    //       },
-    //     })
-    //     .then((res) => {
-    //       if (res.status == 201 || res.status == 200) {
-    //         this.feeds = res.data.data;
-    //         this.showFeeds = true;
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       this.$toast.error(err.response.data.message);
-    //     });
-    // },
+    getfeeds() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/get/tribe/feeds/${this.$route.params.tribe}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 201 || res.status == 200) {
+            this.feeds = res.data.data;
+            this.showFeeds = true;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     gettrendingfeeds() {
       this.$http
         .get(`${this.$store.getters.url}/trending/feeds`, {
@@ -1447,7 +1450,7 @@ export default {
               message: "",
               publicId: "",
               tags: [],
-               tribe_id:this.$route.params.tribe
+              tribe_id: this.$route.params.tribe,
             };
           }
         })

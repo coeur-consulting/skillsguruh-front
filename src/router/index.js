@@ -1624,6 +1624,19 @@ const routes = [
               showtribe: true,
             },
           },
+          {
+            path: "explore",
+            name: "explore tribe",
+            components: {
+              default: () =>
+                import(
+                  /* webpackChunkName: "tribeexplore" */ "@/components/Member/Tribe/explore.vue"
+                ),
+            },
+            meta: {
+              routetype: "explore",
+            },
+          },
         ],
       },
 
@@ -1659,21 +1672,21 @@ const routes = [
           routetype: "mytribes",
         },
       },
-      // {
-      //   path: "community",
-      //   name: "Member community",
-      //   components: {
-      //     default: () =>
-      //       import(
-      //         /* webpackChunkName: "membercommunity" */ "@/components/Member/Tribe/community.vue"
-      //       ),
-      //   },
-      //   meta: {
-      //     typeMember: true,
-      //     title: "Tribes | Member",
-      //     routetype: "community",
-      //   },
-      // },
+      {
+        path: "/explore/community",
+        name: "Member community",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "membercommunity" */ "@/components/Member/Tribe/community.vue"
+            ),
+        },
+        meta: {
+          typeMember: true,
+          title: "Tribes | Member",
+          routetype: "community",
+        },
+      },
       {
         path: "facilitators",
         name: "Member facilitators",
@@ -1932,6 +1945,21 @@ const routes = [
       },
       {
         path: "courses",
+        name: "Member courses",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Membercourses" */ "@/components/Member/courses.vue"
+            ),
+        },
+        meta: {
+          typeMember: true,
+          title: "Courses | Member",
+          routetype: "courses",
+        },
+      },
+      {
+        path: "course",
         name: "Member courses",
         components: {
           default: () =>
