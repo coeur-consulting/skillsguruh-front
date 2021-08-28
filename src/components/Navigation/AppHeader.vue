@@ -49,10 +49,16 @@
               <!-- <b-dropdown-item to="/member/community"
                 >Community</b-dropdown-item
               > -->
-              <b-dropdown-item to="/tribes">Tribes</b-dropdown-item>
-              <b-dropdown-item to="/member/feeds"> My Home</b-dropdown-item>
+              <!-- <b-dropdown-item to="/tribes" class="fs14"
+                >Tribes</b-dropdown-item
+              > -->
+              <b-dropdown-item to="/member/feeds" class="fs14">
+                My Home</b-dropdown-item
+              >
 
-              <b-dropdown-item @click="logout"> Logout </b-dropdown-item>
+              <b-dropdown-item @click="logout" class="fs14">
+                Logout
+              </b-dropdown-item>
             </b-dropdown>
           </b-nav-item>
 

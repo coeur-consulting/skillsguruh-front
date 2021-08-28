@@ -38,10 +38,7 @@
       </b-navbar-toggle>
       <b-collapse id="mynav" is-nav class="w-100">
         <b-navbar-nav class="align-items-center justify-content-center mx-auto">
-          <b-nav-item
-            to="/member/tribe/explore"
-            class="mr-sm-4 position-relative"
-          >
+          <b-nav-item to="/explore" class="mr-sm-4 position-relative">
             <b-icon icon="circle-fill" class="dot" font-scale=".8"></b-icon>
             <font-awesome-icon :icon="globe" size="2x" class="icon"
           /></b-nav-item>
@@ -235,10 +232,7 @@
           <b-navbar-nav
             class="align-items-center justify-content-center mx-auto flex-row"
           >
-            <b-nav-item
-              to="/member/tribe/explore"
-              class="mr-4 position-relative"
-            >
+            <b-nav-item to="/explore" class="mr-4 position-relative">
               <font-awesome-icon :icon="globe" size="2x" class="icon" />
             </b-nav-item>
             <b-nav-item to="/member/feeds" class="mr-4 position-relative">
