@@ -1643,10 +1643,10 @@ export default {
         tribe_id: id,
         user: this.$store.getters.member,
       };
-      this.$store.commit("SET_TRIBE", id);
+      localStorage.setItem("tribe", id);
       this.$store.dispatch("checkTribe", details).then((res) => {
         if (res.status == 200 && res.data.message == "found") {
-          this.$router.push(`/member/tribe/feed/${this.$store.getters.tribe}`);
+          this.$router.push(`/member/tribe/feed/${id}`);
         } else {
           this.$bvModal
             .msgBoxConfirm("Do you wish to join this tribe?")
@@ -1655,9 +1655,7 @@ export default {
                 this.$store.dispatch("joinTribe", details).then((res) => {
                   if (res.status == 200 && res.data.message == "successful") {
                     this.$toast.success("Joined successfully");
-                    this.$router.push(
-                      `/member/tribe/feed/${this.$store.getters.tribe}`
-                    );
+                    this.$router.push(`/member/tribe/feed/${id}`);
                   }
                 });
               }

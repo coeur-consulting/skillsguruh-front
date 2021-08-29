@@ -193,6 +193,21 @@ label {
   width: 100%;
   padding: 20px 14px;
 }
+@media (max-width: 768px) {
+  .tribe_box {
+    height: 160px;
+  }
+  .tribe_name {
+    font-size: 0.74rem;
+  }
+  .tribe_member_container {
+    font-size: 0.7rem;
+  }
+  .tribe_circle {
+    width: 45px !important;
+    height: 45px !important;
+  }
+}
 .tribe_circle {
   position: absolute;
   width: 65px;

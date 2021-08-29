@@ -17,7 +17,7 @@
     <div
       class="d-flex align-items-center mainnotification cursor-pointer"
       id="bell"
-      v-if="useraccess && $route.path.includes('member')"
+      v-if="$route.path == '/explore'"
     >
       <div
         class="

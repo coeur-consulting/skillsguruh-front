@@ -150,9 +150,9 @@
                   <slide
                     v-for="(n, id) in tribes.slice(0, 6)"
                     :key="id"
-                    class="mb-4 px-3"
+                    class="mb-4 px-1"
                   >
-                    <b-popover :target="`popover-${id}`" triggers="hover">
+                    <b-popover :target="`popoverm-${id}`" triggers="hover">
                       <template #title> {{ n.name }} tribe</template>
 
                       <p class="fs13">{{ n.description }}</p>
@@ -174,7 +174,7 @@
                         >Join</b-button
                       >
                     </b-popover>
-                    <div class="tribe_box rounded" :id="`popover-${id}`">
+                    <div class="tribe_box rounded" :id="`popoverm-${id}`">
                       <div
                         class="d-flex align-items-center justify-content-center"
                       >
@@ -210,14 +210,11 @@
                               font-scale=".8"
                             ></b-icon>
                           </template>
-                          <b-dropdown-item class="fs12">Join</b-dropdown-item>
+                          <!-- <b-dropdown-item class="fs12">Join</b-dropdown-item> -->
                         </b-dropdown>
                       </div>
-                      <span
-                        class="tribe_circle cursor-pointer"
-                        @click="$router.push(`/member/tribe/feed/${n.id}`)"
-                      >
-                        <b-avatar size="lg" :src="n.cover"></b-avatar>
+                      <span class="tribe_circle cursor-pointer">
+                        <b-avatar :src="n.cover"></b-avatar>
                       </span>
                     </div>
                   </slide>
@@ -1790,10 +1787,10 @@ export default {
         tribe_id: id,
         user: this.$store.getters.member,
       };
-      this.$store.commit("SET_TRIBE", id);
+      localStorage.setItem('tribe', id);
       this.$store.dispatch("checkTribe", details).then((res) => {
         if (res.status == 200 && res.data.message == "found") {
-          this.$router.push(`/member/tribe/feed/${this.$store.getters.tribe}`);
+          this.$router.push(`/member/tribe/feed/${id}`);
         } else {
           this.$bvModal
             .msgBoxConfirm("Do you wish to join this tribe?")
@@ -1802,7 +1799,9 @@ export default {
                 this.$store.dispatch("joinTribe", details).then((res) => {
                   if (res.status == 200 && res.data.message == "successful") {
                     this.$toast.success("Joined successfully");
-                    this.$router.push(`/member/tribe/feed/${this.$store.getters.tribe}`);
+                    this.$router.push(
+                      `/member/tribe/feed/${id}`
+                    );
                   }
                 });
               }

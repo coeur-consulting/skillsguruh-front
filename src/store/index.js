@@ -22,7 +22,7 @@ export default new Vuex.Store({
       profile: "",
     },
     course: {},
-    tribe: null,
+    tribe: localStorage.getItem("tribe"),
   },
   mutations: {
     SET_TRIBE(state, tribe) {

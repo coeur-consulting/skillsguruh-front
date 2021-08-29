@@ -6,7 +6,7 @@
     sticky
     class="shadow-sm py-2"
   >
-    <b-col cols="4" sm="4" class="text-left d-flex align-items-center"
+    <b-col cols="3" sm="4" class="text-left d-flex align-items-center"
       ><b-navbar-brand href="/" class="mr-4"
         ><b-img class="logo" src="/icon.png"></b-img
       ></b-navbar-brand>
@@ -72,7 +72,7 @@
       </b-collapse>
     </b-col>
 
-    <b-col cols="5" sm="4">
+    <b-col cols="7" sm="4" class="pr-0 pr-sm-3">
       <b-navbar-nav class="align-items-center justify-content-end flex-row">
         <b-nav-item class="position-relative">
           <span
@@ -83,7 +83,7 @@
               <font-awesome-icon :icon="circle" class="text-lighter-green" />
               <font-awesome-icon
                 :icon="bell"
-                transform="shrink-6"
+                transform="shrink-7"
                 class="text-dark-green"
               />
             </font-awesome-layers>
@@ -920,6 +920,7 @@ export default {
   flex-direction: column;
   cursor: pointer;
   margin: 0;
+  width: 30px;
 }
 
 .navtog span {
@@ -1009,7 +1010,7 @@ nav .nav li a {
     font-size: 14px;
   }
   .fa-layers {
-    font-size: 2.5em !important;
+    font-size: 2em !important;
   }
   .side_item {
     font-size: 14px;

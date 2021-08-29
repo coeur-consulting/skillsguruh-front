@@ -11,7 +11,13 @@
         ></b-col>
       </b-row>
       <b-row>
-        <b-col sm="4" v-for="(n, id) in filterTribes" :key="id" class="mb-4">
+        <b-col
+          cols="6"
+          sm="4"
+          v-for="(n, id) in filterTribes"
+          :key="id"
+          class="mb-4"
+        >
           <b-popover :target="`popover-${id}`" triggers="hover">
             <template #title> {{ n.name }} tribe</template>
 
@@ -69,11 +75,11 @@
               </b-dropdown>
             </div>
             <span class="tribe_circle cursor-pointer">
-              <b-avatar size="lg" :src="n.cover"></b-avatar>
+              <b-avatar :src="n.cover"></b-avatar>
             </span>
           </div>
         </b-col>
-        <b-col sm="4" class="mb-4">
+        <b-col cols="6" sm="4" class="mb-4">
           <div
             @click="$bvModal.show('start')"
             class="
@@ -295,8 +301,8 @@ export default {
   },
   methods: {
     entertribe(id) {
-      this.$store.commit("SET_TRIBE", id);
-      this.$router.push(`/member/tribe/feed/${this.$store.getters.tribe}`);
+      localStorage.setItem("tribe", id);
+      this.$router.push(`/member/tribe/feed/${id}`);
     },
     infiniteHandler($state) {
       this.$http

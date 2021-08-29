@@ -34,7 +34,7 @@
               class="no-focus"
             >
               <template #button-content>
-                <span class="d-flex align-items-center">
+                <div class="d-flex align-items-center">
                   <b-avatar
                     :src="$store.getters.member.profile"
                     id="profile"
@@ -44,7 +44,7 @@
                   <span class="fs14 d-none d-sm-inline">{{
                     $store.getters.member.username
                   }}</span>
-                </span>
+                </div>
               </template>
               <!-- <b-dropdown-item to="/member/community"
                 >Community</b-dropdown-item
@@ -212,5 +212,8 @@ span:nth-of-type(3) {
   .navbar-light .navbar-nav .nav-link {
     font-size: 14px;
   }
+  // span:nth-of-type(1) {
+  //   width: 100%;
+  // }
 }
 </style>
