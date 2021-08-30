@@ -46,12 +46,7 @@
                   }}</span>
                 </div>
               </template>
-              <!-- <b-dropdown-item to="/member/community"
-                >Community</b-dropdown-item
-              > -->
-              <!-- <b-dropdown-item to="/tribes" class="fs14"
-                >Tribes</b-dropdown-item
-              > -->
+
               <b-dropdown-item to="/member/feeds" class="fs14">
                 My Home</b-dropdown-item
               >

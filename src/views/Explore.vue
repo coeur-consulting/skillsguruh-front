@@ -110,20 +110,6 @@
                         {{ n.users.length > 1 ? "members" : "member" }}</span
                       >
                     </span>
-                    <b-dropdown
-                      size="sm"
-                      variant="transparent"
-                      no-caret
-                      class="no-focus"
-                    >
-                      <template #button-content>
-                        <b-icon
-                          icon="three-dots-vertical"
-                          font-scale=".8"
-                        ></b-icon>
-                      </template>
-                      <!-- <b-dropdown-item class="fs12">Join</b-dropdown-item> -->
-                    </b-dropdown>
                   </div>
                   <span
                     class="tribe_circle cursor-pointer"
@@ -198,20 +184,6 @@
                             }}</span
                           >
                         </span>
-                        <b-dropdown
-                          size="sm"
-                          variant="transparent"
-                          no-caret
-                          class="no-focus"
-                        >
-                          <template #button-content>
-                            <b-icon
-                              icon="three-dots-vertical"
-                              font-scale=".8"
-                            ></b-icon>
-                          </template>
-                          <!-- <b-dropdown-item class="fs12">Join</b-dropdown-item> -->
-                        </b-dropdown>
                       </div>
                       <span class="tribe_circle cursor-pointer">
                         <b-avatar :src="n.cover"></b-avatar>
@@ -1787,7 +1759,7 @@ export default {
         tribe_id: id,
         user: this.$store.getters.member,
       };
-      localStorage.setItem('tribe', id);
+      localStorage.setItem("tribe", id);
       this.$store.dispatch("checkTribe", details).then((res) => {
         if (res.status == 200 && res.data.message == "found") {
           this.$router.push(`/member/tribe/feed/${id}`);
@@ -1799,9 +1771,7 @@ export default {
                 this.$store.dispatch("joinTribe", details).then((res) => {
                   if (res.status == 200 && res.data.message == "successful") {
                     this.$toast.success("Joined successfully");
-                    this.$router.push(
-                      `/member/tribe/feed/${id}`
-                    );
+                    this.$router.push(`/member/tribe/feed/${id}`);
                   }
                 });
               }

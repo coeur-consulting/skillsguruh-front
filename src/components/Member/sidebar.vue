@@ -20,11 +20,10 @@
               />
               Community</b-nav-item
             >
-            <b-nav-item to="/member/course">
-              <b-img
-                :src="require('@/assets/images/globe.png')"
-                alt="community"
-                class="imgtribe mr-2"
+            <b-nav-item to="/member/course" class="d-flex align-items-center">
+              <font-awesome-icon
+                :icon="bookopen"
+                class="imgtribe mr-2 text-dark-green"
               />
               Course</b-nav-item
             >
@@ -497,8 +496,12 @@ export default {
   align-items: center;
   padding: 30px 0 0 30px;
 }
+.icon {
+  width: 25px;
+}
 .imgtribe {
   width: 30px;
+  font-size: 20px;
 }
 nav .nav li {
   text-align: left;
@@ -506,6 +509,8 @@ nav .nav li {
 nav .nav li a {
   color: #777777;
   font-weight: 500;
+  display: flex;
+  align-items: center;
 }
 .side_items {
   padding: 40px 0;

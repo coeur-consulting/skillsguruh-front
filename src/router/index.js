@@ -1612,7 +1612,7 @@ const routes = [
 
           {
             path: "feeds",
-            name: "tribe feeds",
+            name: "member feeds",
             components: {
               default: () =>
                 import(
