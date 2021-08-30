@@ -35,7 +35,8 @@
               variant="lighter-green"
               size="sm"
               @click="entertribe(n.id)"
-              >Join</b-button
+            >
+              {{ isMember(n.users) ? "Engage" : "Join" }}</b-button
             >
           </b-popover>
           <div class="tribe_box rounded" :id="`popover-${id}`">
@@ -56,7 +57,7 @@
                 <span class="mr-1">{{ n.users.length }}</span>
                 <span> {{ n.users.length > 1 ? "members" : "member" }}</span>
               </span>
-              <b-dropdown
+              <!-- <b-dropdown
                 size="sm"
                 variant="transparent"
                 no-caret
@@ -65,10 +66,11 @@
                 <template #button-content>
                   <b-icon icon="three-dots-vertical" font-scale=".8"></b-icon>
                 </template>
-                <!-- <b-dropdown-item class="fs12" @click="entertribe(n.id)"
-                  >Join</b-dropdown-item
-                > -->
-              </b-dropdown>
+
+                <b-dropdown-item class="fs12" @click="entertribe(n.id)"
+                  >Drop</b-dropdown-item
+                >
+              </b-dropdown> -->
             </div>
             <span class="tribe_circle cursor-pointer">
               <b-avatar :src="n.cover" class="d-md-none"></b-avatar>
@@ -306,6 +308,9 @@ export default {
     }
   },
   methods: {
+    isMember(arr) {
+      return arr.some((item) => item.id == this.$store.getters.member.id);
+    },
     entertribe(id) {
       var details = {
         tribe_id: id,
@@ -323,9 +328,7 @@ export default {
                 this.$store.dispatch("joinTribe", details).then((res) => {
                   if (res.status == 200 && res.data.message == "successful") {
                     this.$toast.success("Joined successfully");
-                    this.$router.push(
-                      `/member/tribe/feed/${id}`
-                    );
+                    this.$router.push(`/member/tribe/feed/${id}`);
                   }
                 });
               }

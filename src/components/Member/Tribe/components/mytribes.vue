@@ -35,7 +35,7 @@
               size="sm"
               variant="lighter-green"
               @click="entertribe(n.id)"
-              >Join</b-button
+              >Engage</b-button
             >
           </b-popover>
           <div class="tribe_box rounded" :id="`popover-${id}`">
@@ -57,6 +57,7 @@
                 <span> {{ n.users.length > 1 ? "members" : "member" }}</span>
               </span>
               <b-dropdown
+                v-if="n.pivot.is_owner"
                 size="sm"
                 variant="transparent"
                 no-caret
@@ -68,7 +69,7 @@
                 <b-dropdown-item class="fs12" @click="edittribe(n.id)"
                   >Edit</b-dropdown-item
                 >
-
+                {{ showoptions(n.pivot.is_owner) }}
                 <b-dropdown-item class="fs12" @click="droptribe(n.id, id)"
                   >Drop</b-dropdown-item
                 >
@@ -300,6 +301,12 @@ export default {
     this.category = Category;
   },
   methods: {
+    showoptions(val) {
+      console.log(
+        "🚀 ~ file: alltribes.vue ~ line 314 ~ showoptions ~ val",
+        val
+      );
+    },
     entertribe(id) {
       localStorage.setItem("tribe", id);
       this.$router.push(`/member/tribe/feed/${id}`);

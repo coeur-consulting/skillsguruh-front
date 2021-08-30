@@ -483,7 +483,6 @@ export default {
   },
   mounted() {
     this.getsimilarusers();
-    this.tribe();
   },
 
   computed: {
@@ -776,18 +775,6 @@ export default {
         .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
-    },
-
-    tribe() {
-      return this.$http.post(
-        `${this.$store.getters.url}/tribes`,
-        { name: "home tribes", cover: "cover", description: "dscription" },
-        {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
-        }
-      );
     },
   },
 };

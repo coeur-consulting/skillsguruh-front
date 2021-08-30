@@ -392,7 +392,7 @@ export default {
           if (val) {
             this.$store.dispatch("leaveTribe", details).then((res) => {
               if (res.status == 200 && res.data.message == "successful") {
-                this.$router.push(`/member/community`);
+                this.$router.push(`/member/tribes`);
                 this.$toast.success("You have left the tribe");
               }
             });

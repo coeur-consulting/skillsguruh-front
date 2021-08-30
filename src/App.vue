@@ -17,7 +17,7 @@
     <div
       class="d-flex align-items-center mainnotification cursor-pointer"
       id="bell"
-      v-if="$route.path == '/explore'"
+      v-if="$route.path == '/explore' && authMember"
     >
       <div
         class="
