@@ -117,7 +117,7 @@
         </div>
       </div> -->
     </div>
-    <b-modal id="sharecourse" centered hide-footer>
+    <b-modal id="sharetribe" centered hide-footer size="lg">
       <div class="box p-3 text-center">
         <h6 class="text-center">Invite your friends</h6>
         <div>
@@ -158,7 +158,7 @@
             </b-button>
           </div>
         </div>
-        <div class="p-2 text-center">
+        <div class="p-2 text-center mt-4">
           <h6 class="font-weight-bold mb-3">Share</h6>
           <ShareNetwork
             class="mr-3"
@@ -364,7 +364,7 @@ export default {
           if (res.status == 200) {
             this.$toast.success("Invite Sent");
             this.sending = false;
-            this.$bvModal.hide("sharecourse");
+            this.$bvModal.hide("sharetribe");
             this.inviteUsers = [
               {
                 email: "",
@@ -378,7 +378,7 @@ export default {
         });
     },
     invitetotribe() {
-      this.$bvModal.show("sharecourse");
+      this.$bvModal.show("sharetribe");
     },
     leavetribe() {
       var details = {

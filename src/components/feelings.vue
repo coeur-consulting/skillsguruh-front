@@ -63,6 +63,7 @@ export default {
         message: "",
         publicId: "",
         tags: [],
+        tribe_id: this.$store.getters.tribe,
       },
       active: null,
     };
@@ -110,6 +111,7 @@ export default {
               message: "",
               publicId: "",
               tags: [],
+              tribe_id: this.$store.getters.tribe,
             };
           }
         })

@@ -2,5 +2,9 @@
   <router-view />
 </template>
 <script>
-export default {};
+export default {
+  beforeDestroy() {
+    localStorage.removeItem("tribe");
+  },
+};
 </script>

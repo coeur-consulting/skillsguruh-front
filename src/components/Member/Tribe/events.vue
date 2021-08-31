@@ -686,6 +686,7 @@ export default {
         end: "",
         resource: "",
         facilitators: [],
+         tribe_id:this.$store.getters.tribe
       },
       showEvents: false,
       options: [],
@@ -800,7 +801,7 @@ export default {
               end: "",
               resource: "",
               facilitators: [],
-                tribe_id:this.$route.params.tribe
+              tribe_id:this.$store.getters.tribe
             };
           }
         })
@@ -841,6 +842,7 @@ export default {
               end: "",
               resource: "",
               facilitators: [],
+               tribe_id:this.$store.getters.tribe
             };
           }
         })

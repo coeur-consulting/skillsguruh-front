@@ -1643,6 +1643,7 @@ export default {
         tribe_id: id,
         user: this.$store.getters.member,
       };
+      localStorage.removeItem("tribe");
       localStorage.setItem("tribe", id);
       this.$store.dispatch("checkTribe", details).then((res) => {
         if (res.status == 200 && res.data.message == "found") {

@@ -2503,7 +2503,7 @@ export default {
           cover: "",
           type: "group",
           amount: null,
-          tribe_id: this.$route.params.tribe,
+         tribe_id:this.$store.getters.tribe
         },
         outline: {
           overview: "",
@@ -3195,7 +3195,7 @@ export default {
                 cover: "",
                 type: "group",
                 amount: null,
-                tribe_id: this.$route.params.tribe,
+                tribe_id:this.$store.getters.tribe
               },
               outline: {
                 overview: "",
@@ -3242,6 +3242,7 @@ export default {
           cover: val.cover,
           type: val.type,
           amount: val.amount,
+           tribe_id:val.tribe_id
         },
         outline: {
           overview: val.courseoutline.overview,

@@ -87,7 +87,8 @@
                     variant="lighter-green"
                     size="sm"
                     @click="entertribe(n.id)"
-                    >Join</b-button
+                  >
+                    {{ isMember(n.users) ? "Engage" : "Join" }}</b-button
                   >
                 </b-popover>
                 <div class="tribe_box rounded" :id="`popover-${id}`">
@@ -1751,6 +1752,9 @@ export default {
     },
   },
   methods: {
+    isMember(arr) {
+      return arr.some((item) => item.id == this.$store.getters.member.id);
+    },
     entertribe(id) {
       if (!this.auth) {
         this.$toast.error("login to access");
@@ -1759,6 +1763,7 @@ export default {
         tribe_id: id,
         user: this.$store.getters.member,
       };
+      localStorage.removeItem("tribe");
       localStorage.setItem("tribe", id);
       this.$store.dispatch("checkTribe", details).then((res) => {
         if (res.status == 200 && res.data.message == "found") {

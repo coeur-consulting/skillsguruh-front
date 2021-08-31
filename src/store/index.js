@@ -89,7 +89,7 @@ export default new Vuex.Store({
       return text;
     },
     async checkTribe({ state }, detail) {
-      return Vue.axios.get(`${state.url}/check/tribe/${state.tribe}`, {
+      return Vue.axios.get(`${state.url}/check/tribe/${detail.tribe_id}`, {
         headers: {
           Authorization: `Bearer ${detail.user.access_token}`,
         },

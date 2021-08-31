@@ -437,7 +437,7 @@ export default {
         course: null,
         tags: [],
         category: {},
-           tribe_id:this.$route.params.tribe
+          tribe_id:this.$store.getters.tribe
       },
       courses: [],
       tag: "",
@@ -672,7 +672,7 @@ export default {
               course: null,
               tags: [],
               category: {},
-                tribe_id:this.$route.params.tribe
+               tribe_id:this.$store.getters.tribe
             };
             this.$bvModal.hide("start");
           }

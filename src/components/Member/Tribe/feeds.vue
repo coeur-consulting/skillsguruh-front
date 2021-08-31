@@ -1043,7 +1043,7 @@ export default {
         message: "",
         publicId: "",
         tags: [],
-        tribe_id: this.$route.params.tribe,
+        tribe_id: this.$store.getters.tribe,
       },
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp", "flv", "mov"],
@@ -1450,7 +1450,7 @@ export default {
               message: "",
               publicId: "",
               tags: [],
-              tribe_id: this.$route.params.tribe,
+              tribe_id: this.$store.getters.tribe,
             };
           }
         })

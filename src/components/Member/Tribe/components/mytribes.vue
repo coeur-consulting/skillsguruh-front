@@ -308,6 +308,7 @@ export default {
       );
     },
     entertribe(id) {
+      localStorage.removeItem("tribe");
       localStorage.setItem("tribe", id);
       this.$router.push(`/member/tribe/feed/${id}`);
     },
