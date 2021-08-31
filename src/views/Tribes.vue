@@ -296,10 +296,10 @@ export default {
         tribe_id: id,
         user: this.$store.getters.member,
       };
-      localStorage.setItem('tribe', id);
+      localStorage.setItem("tribe", id);
       this.$store.dispatch("checkTribe", details).then((res) => {
         if (res.status == 200 && res.data.message == "found") {
-          this.$router.push(`/member/tribe/feed/${id}`);
+          window.location.href = `/member/tribe/feed/${id}`;
         } else {
           this.$bvModal
             .msgBoxConfirm("Do you wish to join this tribe?")
@@ -308,9 +308,7 @@ export default {
                 this.$store.dispatch("joinTribe", details).then((res) => {
                   if (res.status == 200 && res.data.message == "successful") {
                     this.$toast.success("Joined successfully");
-                    this.$router.push(
-                      `/member/tribe/feed/${id}`
-                    );
+                    window.location.href = `/member/tribe/feed/${id}`;
                   }
                 });
               }

@@ -1270,9 +1270,7 @@ export default {
         }
       }
     },
-    toggle(id) {
-      console.log("🚀 ~ file: feeds.vue ~ line 967 ~ toggle ~ id", id);
-    },
+
     sharenow(feed) {
       this.description = this.toText(feed.message);
       this.link = `https://nzukoor.com/explore/feed/view/${feed.id}?utf_medium=share`;
@@ -1281,7 +1279,7 @@ export default {
     infiniteHandler($state) {
       this.$http
         .get(
-          `${this.$store.getters.url}/get/tribe/feeds/${this.$store.getters.tribe}?page=${this.page}`,
+          `${this.$store.getters.url}/get/tribe/feeds/${this.$route.params.tribe}?page=${this.page}`,
           {
             headers: {
               Authorization: `Bearer ${this.$store.getters.member.access_token}`,

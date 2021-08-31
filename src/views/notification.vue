@@ -39,7 +39,6 @@ export default {
   },
   methods: {
     toggleSubscription() {
-      console.log("toggling");
       if (this.notificationsSupported) {
         this.buttonDisabled = true;
         // Find out if we need to create a subscription or delete it
@@ -50,7 +49,6 @@ export default {
             if (result === "granted") {
               this.createSubscription()
                 .then((sub) => {
-                  console.log("subscription created on the client", sub);
                   this.subscription = sub;
                   // get new (or existing user) from backend
                   return axios.get(`${process.env.VUE_APP_API_PATH}/user`, {
@@ -61,7 +59,7 @@ export default {
                 })
                 .then(({ data }) => {
                   const user = data;
-                  console.log("user created on the server", user);
+
                   localStorage.setItem("username", user.username);
                   // store new subscription on the server
                   return axios.post(
@@ -117,7 +115,6 @@ export default {
       }
     },
     createSubscription() {
-      console.log("ask for active service worker registration");
       if (this.serviceWorkerRegistation === null) {
         return navigator.serviceWorker.ready // returns a Promise, the active SW registration
           .then((swreg) => {
@@ -129,11 +126,9 @@ export default {
       }
     },
     getSubscription(swreg) {
-      console.log("ask for available subscription");
       return swreg.pushManager.getSubscription();
     },
     subscribe(swreg) {
-      console.log("create new subscription for this browser on this device");
       // create new subscription for this browser on this device
       const vapidPublicKey = process.env.VUE_APP_VAPID_PUBLIC_KEY;
       const convertedVapidPublicKey =
@@ -155,9 +150,7 @@ export default {
       });
     },
     findSubscription() {
-      console.log("get active service worker registration");
       return navigator.serviceWorker.ready.then((swreg) => {
-        console.log("haal active subscription op");
         this.serviceWorkerRegistation = swreg;
         return this.getSubscription(this.serviceWorkerRegistation);
       });
@@ -198,12 +191,10 @@ export default {
     if (this.useraccess) {
       this.findSubscription().then((sub) => {
         if (sub === null) {
-          console.log("no active subscription found on the client", sub);
           this.toggleSubscription();
           this.buttonDisabled = false;
           this.notificationsEnabled = false;
         } else {
-          console.log("Active subscription found", sub);
           // retrieve user info from API
           this.buttonDisabled = false;
           this.notificationsEnabled = true;

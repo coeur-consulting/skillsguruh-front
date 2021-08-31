@@ -1960,7 +1960,7 @@ const routes = [
       },
       {
         path: "course",
-        name: "Member courses",
+        name: "Member index",
         components: {
           default: () =>
             import(
@@ -2049,7 +2049,7 @@ const routes = [
       },
       {
         path: "community",
-        name: "Member community",
+        name: "Member connections",
         components: {
           default: () =>
             import(

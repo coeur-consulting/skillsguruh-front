@@ -289,6 +289,7 @@ export default {
       calendar: faCalendar,
       rss: faRss,
       tribe: {},
+      tribe_id: null,
       inviteUsers: [
         {
           email: "",
@@ -301,7 +302,7 @@ export default {
     };
   },
   watch: {
-    $route: "handletribe",
+    $route: "gettribe",
   },
   computed: {
     activeaccount() {
@@ -398,17 +399,15 @@ export default {
           }
         });
     },
-    handletribe() {
-      if (this.$store.getters.tribe && this.$route.meta.showtribe) {
-        this.gettribe();
-      }
-    },
+
     gettribe() {
-      if (!this.$store.getters.tribe || !this.$route.meta.showtribe) {
+      var tribe = localStorage.getItem("tribe");
+
+      if (!tribe) {
         return;
       }
       this.$http
-        .get(`${this.$store.getters.url}/tribes/${this.$store.getters.tribe}`, {
+        .get(`${this.$store.getters.url}/tribes/${tribe}`, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.member.access_token}`,
           },

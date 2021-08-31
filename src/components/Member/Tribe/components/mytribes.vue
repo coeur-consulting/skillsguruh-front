@@ -301,16 +301,10 @@ export default {
     this.category = Category;
   },
   methods: {
-    showoptions(val) {
-      console.log(
-        "🚀 ~ file: alltribes.vue ~ line 314 ~ showoptions ~ val",
-        val
-      );
-    },
     entertribe(id) {
       localStorage.removeItem("tribe");
       localStorage.setItem("tribe", id);
-      this.$router.push(`/member/tribe/feed/${id}`);
+      window.location.href = `/member/tribe/feed/${id}`;
     },
     infiniteHandler($state) {
       this.$http

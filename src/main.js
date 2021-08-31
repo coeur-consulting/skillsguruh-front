@@ -168,16 +168,14 @@ router.beforeEach((to, from, next) => {
 
   if (to.matched.some((record) => record.meta.showtribe)) {
     var user = JSON.parse(localStorage.getItem("authMember"));
+    var tribe = localStorage.getItem("tribe");
 
     Vue.axios
-      .get(
-        `${process.env.VUE_APP_API_PATH}/check/tribe/${store.getters.tribe}`,
-        {
-          headers: {
-            Authorization: `Bearer ${user.access_token}`,
-          },
-        }
-      )
+      .get(`${process.env.VUE_APP_API_PATH}/check/tribe/${tribe}`, {
+        headers: {
+          Authorization: `Bearer ${user.access_token}`,
+        },
+      })
       .then((res) => {
         if (res.status == 200 && res.data.message == "found") {
           next();

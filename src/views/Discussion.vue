@@ -126,8 +126,8 @@
                     <span
                       class="mr-3"
                       v-if="
-                        discussion.user &&
-                        discussion.user.id == this.useraccess.id
+                       useraccess && discussion.user &&
+                        discussion.user.id == useraccess.id
                       "
                       @click="$bvModal.show('edit')"
                       >Edit</span

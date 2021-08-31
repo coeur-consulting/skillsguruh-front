@@ -458,7 +458,7 @@ export default {
           return 0;
         }
       });
-      console.log("🚀 ~ file: Quiz.vue ~ line 389 ~ score ~ score", score);
+
       this.current_score = score.reduce((a, b) => {
         return a + b;
       }, 0);
