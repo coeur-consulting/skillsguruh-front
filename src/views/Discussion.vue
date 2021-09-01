@@ -133,7 +133,7 @@
                       @click="$bvModal.show('edit')"
                       >Edit</span
                     >
-                    <span> Created by </span>
+                    <span> by </span>
                     <span
                       v-if="discussion.admin"
                       class="cursor-pointer text-dark-green"
