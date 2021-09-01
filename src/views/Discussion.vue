@@ -126,7 +126,8 @@
                     <span
                       class="mr-3"
                       v-if="
-                       useraccess && discussion.user &&
+                        useraccess &&
+                        discussion.user &&
                         discussion.user.id == useraccess.id
                       "
                       @click="$bvModal.show('edit')"
@@ -1148,10 +1149,6 @@ export default {
     EditDiscussion,
   },
   created() {
-    this.getdiscussion();
-    this.addview();
-    this.getvote();
-    this.getconnections();
     this.link =
       "https://nzukoor.com//explore/discussion/" + this.$route.params.id;
 
@@ -1163,6 +1160,10 @@ export default {
     });
   },
   mounted() {
+    this.getdiscussion();
+    this.addview();
+    this.getvote();
+    this.getconnections();
     if (
       localStorage.getItem("authMember") ||
       localStorage.getItem("authFacilitator")
@@ -1260,7 +1261,7 @@ export default {
       return this.discussion.discussionmessage;
     },
     views() {
-      return this.myviews;
+      return this.discussion.discussionview.view;
     },
     vote() {
       var positive = this.discussion.discussionvote.filter(

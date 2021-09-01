@@ -1143,10 +1143,6 @@ export default {
     });
   },
   created() {
-    this.getdiscussion();
-    this.addview();
-    this.getvote();
-    this.getconnections();
     this.link =
       "https://nzukoor.com/explore/discussion/" + this.$route.params.id;
 
@@ -1159,6 +1155,10 @@ export default {
   },
   mounted() {
     this.getmembers();
+    this.getdiscussion();
+    this.addview();
+     this.getvote();
+    this.getconnections();
   },
   watch: {
     $route: "getdiscussion",
@@ -1240,7 +1240,7 @@ export default {
       return this.discussion.discussionmessage;
     },
     views() {
-      return this.myviews;
+      return this.discussion.discussionview.view;
     },
     vote() {
       var positive = this.discussion.discussionvote.filter(
