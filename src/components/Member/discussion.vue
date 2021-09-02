@@ -1286,15 +1286,21 @@ export default {
         });
     },
     highlightText(text) {
-      var part = this.toText(
-        text.substring(text.lastIndexOf("@") + 1, text.lastIndexOf(""))
-      )
+      var formattedText = this.toText(text)
         .replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi, "")
         .replace(/<[^>]+?>/g, "")
         .replace(/\s+/g, " ")
         .replace(/ /g, " ")
         .replace(/>/g, " ");
 
+      var part = formattedText.substring(
+        text.lastIndexOf("@") + 1,
+        text.lastIndexOf("")
+      );
+      console.log(
+        "🚀 ~ file: discussion.vue ~ line 1296 ~ highlightText ~ part",
+        part
+      );
       var val = this.members.find((res) => res.username == part);
       if (val) {
         return text.replace(

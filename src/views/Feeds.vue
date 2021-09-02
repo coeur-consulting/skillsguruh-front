@@ -566,7 +566,7 @@
                               ? 'heart-fill'
                               : 'heart'
                           "
-                          class=" mr-1"
+                          class="mr-1"
                           :class="
                             feed.likes
                               .filter((item) => item.like)
@@ -579,7 +579,6 @@
                           "
                         ></b-icon>
                       </span>
-
 
                       <span class="mr-3">
                         <b-icon
@@ -1156,6 +1155,7 @@ export default {
     },
   },
   methods: {
+    handleChange() {},
     likeimage(index) {
       this.toggleOn = index;
 

@@ -251,6 +251,9 @@ export default new Vuex.Store({
         })
         .then((response) => {
           commit("SET_NOTIFICATION", response.data);
+          if (data.url) {
+            window.location.href = data.url;
+          }
         });
     },
   },
