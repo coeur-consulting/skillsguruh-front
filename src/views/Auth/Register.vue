@@ -106,7 +106,7 @@
                       ></b-form-input>
                     </b-form-group>
                   </b-col>
-                  <b-col sm="6">
+                  <!-- <b-col sm="6">
                     <b-form-group label="Phone" id="phone" label-for="phone">
                       <b-form-input
                         autocomplete="off"
@@ -124,7 +124,7 @@
                         >Looks good
                       </b-form-valid-feedback>
                     </b-form-group>
-                  </b-col>
+                  </b-col> -->
                   <b-col sm="6">
                     <b-form-group
                       label="Password"
@@ -148,9 +148,6 @@
                       </b-form-valid-feedback>
                     </b-form-group>
                   </b-col>
-                </b-form-row>
-
-                <b-form-row class="mb-2">
                   <b-col sm="6">
                     <div class="form-group">
                       <label for="">
@@ -162,6 +159,9 @@
                       <Upload @getUpload="getUpload" />
                     </div>
                   </b-col>
+                </b-form-row>
+
+                <b-form-row class="mb-2">
                   <b-col sm="6">
                     <b-form-group label="Referral code(optional)">
                       <b-form-input
@@ -221,7 +221,7 @@
 
                 <div class="socials mt-3">
                   <div
-                    class="social shadow-sm mb-3 border btn-shadow"
+                    class="social shadow-sm mb-3 border btn-shadow bg-light"
                     @click="socialregister('google')"
                   >
                     <b-img
@@ -231,7 +231,7 @@
                     Sign up with Google
                   </div>
                   <div
-                    class="social shadow-sm border btn-shado"
+                    class="social shadow-sm border btn-shadow bg-light"
                     @click="socialregister('facebook')"
                   >
                     <b-img
@@ -242,7 +242,7 @@
                   </div>
                 </div>
               </div>
-              <div class="text-center mt-4">
+              <!-- <div class="text-center mt-4">
                 <span
                   v-if="type == false"
                   class="text-secondary cursor-pointer"
@@ -257,7 +257,7 @@
                 >
                   I want to be a Member
                 </span>
-              </div>
+              </div> -->
             </b-form>
           </div>
         </b-col>
@@ -282,7 +282,7 @@ export default {
       user: {
         name: "",
         email: "",
-        phone: "",
+        phone: "08160777867",
         password: "",
         profile: "",
         referral: "",

@@ -20,8 +20,12 @@
         >
           <b-popover :target="`popover-${id}`" triggers="hover">
             <template #title> {{ n.name }} tribe</template>
-
-            <p class="fs13">{{ n.description }}</p>
+            <p class="fs13 text-capitalize mb-2">
+              Entry :
+              <span v-if="n.type == 'free'">{{ n.type }}</span>
+              <span v-else>{{ n.amount | currencyFormat }}</span>
+            </p>
+            <p class="fs13 mb-1">{{ n.description }}</p>
             <p class="fs13 text-muted mb-1">{{ n.users.length }} users</p>
             <p class="fs13 text-muted mb-1">
               {{ n.discussions.length }} discussions
@@ -31,6 +35,7 @@
               {{ n.events.length }} active events
             </p>
             <b-button
+              v-if="n.type == 'free'"
               block
               variant="lighter-green"
               size="sm"
@@ -38,6 +43,26 @@
             >
               {{ isMember(n.users) ? "Engage" : "Join" }}</b-button
             >
+            <div v-else>
+              <b-button
+                v-if="isMember(n.users)"
+                block
+                variant="lighter-green"
+                size="sm"
+                @click="entertribe(n.id)"
+              >
+                Engage</b-button
+              >
+              <b-button
+                v-else
+                block
+                variant="lighter-green"
+                size="sm"
+                @click="purchase(n.id)"
+              >
+                Join</b-button
+              >
+            </div>
           </b-popover>
           <div class="tribe_box rounded" :id="`popover-${id}`">
             <div class="d-flex align-items-center justify-content-center">
@@ -308,6 +333,9 @@ export default {
     }
   },
   methods: {
+    purchase(id) {
+      this.$router.push(`/member/order?id=${id}&type_payment=tribe`);
+    },
     isMember(arr) {
       return arr.some((item) => item.id == this.$store.getters.member.id);
     },

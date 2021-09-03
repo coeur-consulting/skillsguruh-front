@@ -4,7 +4,7 @@
     <ul class="ml-0 pl-0 suggestion">
       <li class="d-flex mb-3" v-for="(n, id) in tribes" :key="n.id">
         <b-avatar class="mr-2"></b-avatar>
-        <div class="text-left" :id="`popover-${id}`">
+        <div class="text-left" :id="`suggestedpopover-${id}`">
           <div class="tribe_name">{{ n.name }} Tribe</div>
           <div class="tribe_members">
             <span class="d-flex align-items-center"
@@ -13,7 +13,7 @@
             </span>
           </div>
         </div>
-        <b-popover :target="`popover-${id}`" triggers="hover">
+        <b-popover :target="`suggestedpopover-${id}`" triggers="hover">
           <template #title> {{ n.name }} tribe</template>
 
           <p class="fs13">{{ n.description }}</p>

@@ -159,7 +159,7 @@
 
                 <div class="socials mt-3">
                   <div
-                    class="social shadow-sm mb-3 border btn-shadow"
+                    class="social shadow-sm mb-3 border btn-shadow bg-light"
                     @click="socialregister('google')"
                   >
                     <b-img
@@ -169,7 +169,7 @@
                     Log in with Google
                   </div>
                   <div
-                    class="social shadow-sm border btn-shado"
+                    class="social shadow-sm border btn-shadow bg-light"
                     @click="socialregister('facebook')"
                   >
                     <b-img
@@ -180,7 +180,7 @@
                   </div>
                 </div>
               </div>
-              <div class="text-center mt-4">
+              <!-- <div class="text-center mt-4">
                 <span
                   v-if="type == false"
                   class="text-secondary cursor-pointer"
@@ -195,7 +195,7 @@
                 >
                   I am a Member
                 </span>
-              </div>
+              </div> -->
             </b-form>
           </div>
         </b-col>

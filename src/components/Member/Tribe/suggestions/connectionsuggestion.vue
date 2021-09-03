@@ -21,10 +21,60 @@
             v-else
             @click="$router.push(`/member/profile/u/${item.id}`)"
             class="connection_name cursor-pointer fs13"
+            :id="`similar-${id}`"
           >
             {{ item.username }}
           </div>
         </div>
+        <b-popover
+          :target="`similar-${id}`"
+          triggers="hover"
+          class="sugpop"
+          style="padding: 0"
+        >
+          <b-card
+            no-body
+            class="position-relative overflow-hidden border-0"
+            style="max-width: 150px"
+          >
+            <b-card-img
+              :src="
+                item.profile
+                  ? item.profile
+                  : require('@/assets/images/default.jpeg')
+              "
+            ></b-card-img>
+            <b-card-body class="text-center p-2">
+              <div class="text-left">
+                <div class="name text-capitalize text-left mb-1 cursor-pointer">
+                  {{ item.username }}
+                </div>
+
+                <div class="fs11 mb-2">
+                  {{ item.similar }} similar interests
+                </div>
+              </div>
+              <b-button
+                variant="dark-green"
+                size="sm"
+                block
+                class="fs10 py-1"
+                v-if="item.qualifications"
+                @click="addconnections(item.id, 'facilitator')"
+                >Connect</b-button
+              >
+              <b-button
+                variant="dark-green"
+                size="sm"
+                block
+                class="fs10 py-1"
+                v-else
+                @click="addconnections(item.id, 'user')"
+                >Connect</b-button
+              >
+            </b-card-body>
+          </b-card>
+        </b-popover>
       </li>
     </ul>
   </div>
@@ -282,5 +332,26 @@ h6 {
   p {
     margin-bottom: 1px;
   }
+}
+.suggestion img {
+  height: 100px;
+  width: 100%;
+  object-fit: cover;
+}
+.name {
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+.name:hover {
+  color: rgba($color: #000000, $alpha: 0.44);
+}
+@media (max-width: 768px) {
+  .name {
+    font-size: 0.7rem;
+  }
+}
+.popover-body {
+  padding: 0;
+  color: #212529;
 }
 </style>

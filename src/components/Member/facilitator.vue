@@ -198,13 +198,13 @@
                         >
                           Events
                         </li>
-                        <li
+                        <!-- <li
                           class="h6 fs14 cursor-pointer mb-0"
                           :class="active == 4 ? 'active' : ''"
                           @click="active = 4"
                         >
                           Courses
-                        </li>
+                        </li> -->
                       </ul>
                     </nav>
                   </b-card-body>

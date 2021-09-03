@@ -20,13 +20,13 @@
               />
               Community</b-nav-item
             >
-            <b-nav-item to="/member/course" class="d-flex align-items-center">
+            <!-- <b-nav-item to="/member/course" class="d-flex align-items-center">
               <font-awesome-icon
                 :icon="bookopen"
                 class="imgtribe mr-2 text-dark-green"
               />
               Course</b-nav-item
-            >
+            > -->
           </b-nav>
         </nav>
       </div>
