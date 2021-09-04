@@ -75,7 +75,7 @@
     <b-col cols="7" sm="4" class="pr-0 pr-sm-3">
       <b-navbar-nav class="align-items-center justify-content-end flex-row">
         <b-nav-item class="position-relative">
-          <span
+          <div
             class="position-relative"
             style="padding: 0.25rem 0.5rem; font-size: 0.875rem"
           >
@@ -92,10 +92,10 @@
                 v-if="unreadnotifications.length"
                 icon="circle-fill"
                 variant="danger"
-                font-scale=".8"
+                font-scale=".6"
               ></b-icon>
             </span>
-          </span>
+          </div>
         </b-nav-item>
         <b-nav-item>
           <div class="position-relative">
@@ -1002,7 +1002,7 @@ nav .nav li a {
 .notifier {
   position: absolute;
   top: 1px;
-  right: 1px;
+  right: 10px;
 }
 
 @media (max-width: 600px) {

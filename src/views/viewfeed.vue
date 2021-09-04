@@ -32,7 +32,9 @@
                       class="mr-2"
                     ></b-avatar>
                     <div
-                      @click="$router.push(`/member/profile/u/${feed.user.id}`)"
+                      @click="
+                        $router.push(`/member/profile/${feed.username}`)
+                      "
                       class="feed_name"
                     >
                       {{ feed.user.username }}
@@ -176,7 +178,7 @@
                       ></b-avatar>
                       <div
                         @click="
-                          $router.push(`/member/profile/u/${feed.user.id}`)
+                          $router.push(`/member/profile/${feed.username}`)
                         "
                         class="feed_name"
                       >
@@ -485,7 +487,7 @@
                 <div class="d-flex mb-1" v-if="item.user">
                   <div
                     class="d-flex flex-1"
-                    @click="$router.push(`/member/profile/u/${item.user.id}`)"
+                    @click="$router.push(`/member/profile/${item.username}`)"
                   >
                     <b-avatar
                       class="mr-2"

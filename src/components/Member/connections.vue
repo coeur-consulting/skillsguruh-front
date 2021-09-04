@@ -35,7 +35,7 @@
                           class="connection_name cursor-pointer"
                           @click="
                             $router.push(
-                              `/member/profile/u/${item.user_follower.id}`
+                              `/member/profile/${item.user_follower.username}`
                             )
                           "
                         >
@@ -65,44 +65,6 @@
                       >
                     </div>
                   </div>
-                  <div v-else class="d-flex align-items-end mb-3">
-                    <div class="d-flex align-items-center flex-1">
-                      <b-avatar class="mr-2" size="2rem"></b-avatar>
-                      <div>
-                        <div
-                          @click="
-                            $router.push(
-                              `/member/profile/f/${item.facilitator_follower.id}`
-                            )
-                          "
-                          class="connection_name cursor-pointer"
-                        >
-                          {{ item.facilitator_follower.username }}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div>
-                      <span>
-                        <b-button
-                          variant="lighter-green"
-                          size="sm"
-                          class="mr-3 rounded-pill"
-                          @click="
-                            getmessage(
-                              item.facilitator_follower.id,
-                              item.facilitator_follower.username,
-                              'facilitator',
-                              item.facilitator_follower.profile
-                            )
-                          "
-                          ><span class="connection_button"
-                            >Message</span
-                          ></b-button
-                        >
-                      </span>
-                    </div>
-                  </div>
                 </div>
               </div>
               <div v-else class="text-center p-4">No connection available</div>
@@ -129,16 +91,15 @@
                 v-if="filteredmyconnections.length"
               >
                 <div v-for="(item, id) in filteredmyconnections" :key="id">
-                  <div
-                    v-if="!item.qualifications"
-                    class="d-flex align-items-end mb-3"
-                  >
+                  <div class="d-flex align-items-end mb-3">
                     <div class="d-flex align-items-center flex-1">
                       <b-avatar class="mr-2" size="2rem"></b-avatar>
                       <div>
                         <div
                           class="connection_name cursor-pointer"
-                          @click="$router.push(`/member/profile/u/${item.id}`)"
+                          @click="
+                            $router.push(`/member/profile/${item.username}`)
+                          "
                         >
                           {{ item.username }}
                         </div>
@@ -165,48 +126,6 @@
                               item.id,
                               item.username,
                               'user',
-                              item.profile
-                            )
-                          "
-                          ><span class="connection_button"
-                            >Message</span
-                          ></b-button
-                        >
-                      </span>
-                    </div>
-                  </div>
-                  <div v-else class="d-flex align-items-end mb-3">
-                    <div class="d-flex align-items-center flex-1">
-                      <b-avatar class="mr-2" size="2rem"></b-avatar>
-                      <div>
-                        <div
-                          @click="$router.push(`/member/profile/f/${item.id}`)"
-                          class="connection_name cursor-pointer"
-                        >
-                          {{ item.username }}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div>
-                      <span>
-                        <b-button
-                          v-if="!verifyConnection(item.id, 'facilitator')"
-                          @click="addconnections(item.id, 'facilitator')"
-                          variant="outline-dark-green"
-                          size="sm"
-                          class="rounded-pill mr-3"
-                          ><span>Connect</span></b-button
-                        >
-                        <b-button
-                          variant="lighter-green"
-                          size="sm"
-                          class="rounded-pill"
-                          @click="
-                            getmessage(
-                              item.id,
-                              item.username,
-                              'facilitator',
                               item.profile
                             )
                           "

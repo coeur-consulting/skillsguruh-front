@@ -120,17 +120,8 @@ export default {
   },
   methods: {
     gotoprofile(val) {
-      if (this.$props.user == "facilitator") {
-        if (val.qualifications) {
-          return this.$router.push(`/facilitator/profile/f/${val.id}`);
-        }
-        return this.$router.push(`/facilitator/profile/u/${val.id}`);
-      }
       if (this.$props.user == "member") {
-        if (val.qualifications) {
-          return this.$router.push(`/member/profile/f/${val.id}`);
-        }
-        return this.$router.push(`/member/profile/u/${val.id}`);
+        return this.$router.push(`/member/profile/${val.username}`);
       }
     },
 

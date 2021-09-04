@@ -391,7 +391,7 @@
                             :src="feed.user.profile"
                           ></b-avatar>
                           <span
-                            @click="$router.push(`/profile/u/${feed.user.id}`)"
+                            @click="$router.push(`/profile/${feed.user.username}`)"
                             class="hover_green"
                           >
                             <div style="line-height: 1.2">
@@ -566,7 +566,7 @@
                               ? 'heart-fill'
                               : 'heart'
                           "
-                          class=" mr-1"
+                          class="mr-1"
                           :class="
                             feed.likes
                               .filter((item) => item.like)
@@ -579,7 +579,6 @@
                           "
                         ></b-icon>
                       </span>
-
 
                       <span class="mr-3">
                         <b-icon
@@ -634,7 +633,7 @@
                             <span
                               class="comment_name mr-2 hover_green"
                               @click="
-                                $router.push(`/profile/u/${item.user.id}`)
+                                $router.push(`/profile/${item.user.username}`)
                               "
                               v-if="item.user"
                             >
@@ -915,7 +914,7 @@
                 <div class="d-flex mb-1" v-if="item.user">
                   <div
                     class="d-flex flex-1"
-                    @click="$router.push(`/member/profile/u/${item.user.id}`)"
+                    @click="$router.push(`/member/profile/${item.username}`)"
                   >
                     <b-avatar
                       class="mr-2"

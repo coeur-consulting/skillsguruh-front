@@ -288,7 +288,7 @@
                               ? 'heart-fill'
                               : 'heart'
                           "
-                          class=" mr-1"
+                          class="mr-1"
                           :class="
                             feed.likes
                               .filter((item) => item.like)
@@ -301,7 +301,6 @@
                           "
                         ></b-icon>
                       </span>
-
 
                       <span class="mr-3">
                         <b-icon
@@ -493,7 +492,7 @@
                 <div class="d-flex mb-1" v-if="item.user">
                   <div
                     class="d-flex flex-1"
-                    @click="$router.push(`/member/profile/u/${item.user.id}`)"
+                    @click="$router.push(`/member/profile/${item.username}`)"
                   >
                     <b-avatar
                       class="mr-2"

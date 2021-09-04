@@ -372,15 +372,9 @@
                       <div class="text-left">
                         <div
                           class="fs13 text-capitalize text-left"
-                          v-if="user.qualifications"
-                          @click="$router.push(`/member/profile/f/${user.id}`)"
-                        >
-                          {{ user.username }}
-                        </div>
-                        <div
-                          class="fs13 text-capitalize text-left"
-                          v-else
-                          @click="$router.push(`/member/profile/u/${user.id}`)"
+                          @click="
+                            $router.push(`/member/profile/${user.username}`)
+                          "
                         >
                           {{ user.username }}
                         </div>

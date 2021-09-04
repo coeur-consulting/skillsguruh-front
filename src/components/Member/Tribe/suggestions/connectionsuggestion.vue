@@ -10,16 +10,7 @@
         <b-avatar size="sm" :src="item.profile" class="mr-2"></b-avatar>
         <div class="text-left">
           <div
-            v-if="item.qualifications"
-            @click="$router.push(`/member/profile/f/${item.id}`)"
-            class="connection_name cursor-pointer fs13"
-          >
-            {{ item.username }}
-          </div>
-
-          <div
-            v-else
-            @click="$router.push(`/member/profile/u/${item.id}`)"
+            @click="$router.push(`/member/profile/${item.username}`)"
             class="connection_name cursor-pointer fs13"
           >
             {{ item.username }}

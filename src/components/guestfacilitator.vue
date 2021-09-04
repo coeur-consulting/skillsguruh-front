@@ -11,7 +11,7 @@
           </span>
         </b-col>
       </b-row>
-      <b-row class="justify-content-center">
+      <b-row class="justify-content-center" v-if="showbio">
         <b-col sm="9">
           <b-row>
             <b-col cols="12" class="mb-0 rounded pt-sm-2 px-1 px-sm-4 pb-2">
@@ -95,29 +95,12 @@
                       </b-card-text>
                       <div class="d-flex align-items-center">
                         <div
-                          v-if="
-                            $route.params.user != 'u' ||
-                            ($route.params.user == 'u' &&
-                              $store.getters.member.id != $route.params.id)
-                          "
+                          v-if="$store.getters.member.id != detail.id"
                           class="mr-3"
                         >
                           <b-button
                             size="sm"
-                            v-if="
-                              $route.params.user == 'f' &&
-                              !checkconnection(detail)
-                            "
-                            variant="outline-dark-green"
-                            @click="addconnections(detail.id, 'facilitator')"
-                            >Connect</b-button
-                          >
-                          <b-button
-                            size="sm"
-                            v-if="
-                              $route.params.user == 'u' &&
-                              !checkconnection(detail)
-                            "
+                            v-if="!checkconnection(detail)"
                             variant="outline-dark-green"
                             @click="addconnections(detail.id, 'user')"
                             >Connect</b-button
@@ -131,7 +114,6 @@
                           >
                         </div>
                         <b-icon
-                          v-if="$route.params.user == 'u'"
                           @click="
                             getmessage(
                               detail.id,
@@ -142,20 +124,6 @@
                           "
                           icon="envelope"
                           font-scale="1.4"
-                          class="text-muted"
-                        ></b-icon>
-                        <b-icon
-                          v-if="$route.params.user == 'f'"
-                          @click="
-                            getmessage(
-                              detail.id,
-                              detail.username,
-                              'facilitator',
-                              detail.profile
-                            )
-                          "
-                          icon="envelope"
-                          font-scale="1"
                           class="text-muted"
                         ></b-icon>
                       </div>
@@ -211,13 +179,13 @@
                       >
                         Events
                       </li>
-                      <li
+                      <!-- <li
                         class="h6 fs14 cursor-pointer mb-0"
                         :class="active == 4 ? 'active' : 'text-muted'"
                         @click="active = 4"
                       >
                         Courses
-                      </li>
+                      </li> -->
                     </ul>
                   </nav>
                 </div>
@@ -375,9 +343,7 @@
                                 feed.stars.find(
                                   (item) =>
                                     item.star &&
-                                    (item.user_id == $store.getters.member.id ||
-                                      item.facilitator_id ==
-                                        $store.getters.facilitator.id)
+                                    item.user_id == $store.getters.member.id
                                 )
                                   ? 'star-fill'
                                   : 'star'
@@ -398,9 +364,7 @@
                                 feed.likes.find(
                                   (item) =>
                                     item.like &&
-                                    (item.user_id == $store.getters.member.id ||
-                                      item.facilitator_id ==
-                                        $store.getters.facilitator.id)
+                                    item.user_id == $store.getters.member.id
                                 )
                                   ? 'heart-fill'
                                   : 'heart'
@@ -458,12 +422,7 @@
                                 >
                                   {{ item.user.username }}</span
                                 >
-                                <span
-                                  class="comment_name mr-2"
-                                  v-if="item.facilitator"
-                                >
-                                  {{ item.facilitator.username }}</span
-                                >
+
                                 <span class="comment_text">{{
                                   item.comment
                                 }}</span>
@@ -531,18 +490,8 @@
                         <div class="side_dis">
                           <b-avatar
                             size="1.8rem"
-                            v-if="item.creator == 'admin'"
-                            :src="item.admin.profile"
-                          ></b-avatar>
-                          <b-avatar
-                            size="1.8rem"
                             v-if="item.creator == 'user'"
                             :src="item.user.profile"
-                          ></b-avatar>
-                          <b-avatar
-                            size="1.8rem"
-                            v-if="item.creator == 'facilitator'"
-                            :src="item.facilitator.profile"
                           ></b-avatar>
                         </div>
                         <div class="text-left next_dis">
@@ -716,10 +665,6 @@
                           </div>
                         </div>
                         <b-dropdown
-                          v-if="
-                            item.facilitator_id &&
-                            item.facilitator_id == $store.getters.facilitator.id
-                          "
                           size="sm"
                           variant="transparent"
                           no-caret
@@ -932,6 +877,31 @@
           </b-row>
         </b-col>
       </b-row>
+      <b-row class="justify-content-center" v-else>
+        <b-col sm="9">
+          <b-row>
+            <b-col cols="12" class="mb-0 rounded pt-sm-2 px-1 px-sm-4 pb-2">
+              <b-card no-body class="border-0" style="">
+                <b-row no-gutters class="">
+                  <b-col cols="3" sm="3" class="top_h prof_img">
+                    <b-img
+                      :src="require('@/assets/images/default.jpeg')"
+                      alt="Image"
+                      class="rounded-0"
+                    ></b-img>
+                  </b-col>
+                  <b-col cols="9" sm="9" class="flex-1">
+                    <b-card-body title="User nor found" class="text-left">
+                    </b-card-body>
+                  </b-col>
+                </b-row>
+              </b-card>
+            </b-col>
+
+
+          </b-row>
+        </b-col>
+      </b-row>
     </b-container>
     <b-modal
       no-close-on-backdrop
@@ -996,24 +966,10 @@
           >
             <div class="flex-1">
               <div class="flex-1 pr-2">
-                <div class="d-flex mb-1" v-if="item.admin">
-                  <div class="d-flex flex-1">
-                    <b-avatar
-                      class="mr-2"
-                      size="sm"
-                      :src="item.admin.profile"
-                    ></b-avatar>
-                    <div>
-                      <div class="comment_name">
-                        {{ item.admin.name }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
                 <div class="d-flex mb-1" v-if="item.user">
                   <div
                     class="d-flex flex-1"
-                    @click="$router.push(`/member/profile/u/${item.user.id}`)"
+                    @click="$router.push(`/member/profile/${item.username}`)"
                   >
                     <b-avatar
                       class="mr-2"
@@ -1023,25 +979,6 @@
                     <div>
                       <div class="comment_name">
                         {{ item.user.username }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="d-flex mb-1" v-if="item.facilitator">
-                  <div
-                    class="d-flex flex-1"
-                    @click="
-                      $router.push(`/member/profile/f/${item.facilitator.id}`)
-                    "
-                  >
-                    <b-avatar
-                      class="mr-2"
-                      size="sm"
-                      :src="item.facilitator.profile"
-                    ></b-avatar>
-                    <div>
-                      <div class="comment_name">
-                        {{ item.facilitator.username }}
                       </div>
                     </div>
                   </div>
@@ -1073,7 +1010,7 @@
                 v-model="search"
                 class="flex-1 border-0 no-focus search-bg"
                 type="search"
-                placeholder="Search name"
+                placeholder="Search username"
               ></b-form-input>
               <b-icon icon="sliders"></b-icon>
             </div>
@@ -1106,38 +1043,6 @@
                           item.user_follower.username,
                           'user',
                           item.user_follower.profile
-                        )
-                      "
-                      >Message</b-button
-                    >
-                  </div>
-                </div>
-                <div v-else class="d-flex">
-                  <div class="d-flex align-items-center flex-1">
-                    <b-avatar class="mr-2" size="1.6rem"></b-avatar>
-                    <div style="line-height: 1.2">
-                      <span class="fs13">{{
-                        item.facilitator_follower.username
-                      }}</span>
-                    </div>
-                  </div>
-
-                  <div
-                    v-if="
-                      $store.getters.facilitator &&
-                      $store.getters.facilitator.id == $route.params.id
-                    "
-                  >
-                    <b-button
-                      variant="lighter-green"
-                      size="sm"
-                      class="mr-3 rounded-pill fs11"
-                      @click="
-                        getmessage(
-                          item.facilitator_follower.id,
-                          item.facilitator_follower.username,
-                          'facilitator',
-                          item.facilitator_follower.profile
                         )
                       "
                       >Message</b-button
@@ -1257,26 +1162,6 @@
           >
             <div class="flex-1">
               <div class="flex-1 pr-2">
-                <div class="d-flex mb-1" v-if="item.admin">
-                  <div class="d-flex flex-1">
-                    <b-avatar
-                      class="mr-2"
-                      size="sm"
-                      :src="item.admin.profile"
-                    ></b-avatar>
-                    <div>
-                      <div class="comment_name">
-                        {{ item.admin.name }}
-                      </div>
-                      <div class="comment_text">{{ item.comment }}</div>
-                    </div>
-                  </div>
-                  <div>
-                    <span class="comment_mins pl-2">{{
-                      $moment(item.created_at).fromNow()
-                    }}</span>
-                  </div>
-                </div>
                 <div class="d-flex mb-1" v-if="item.user">
                   <div class="d-flex flex-1">
                     <b-avatar
@@ -1287,26 +1172,6 @@
                     <div>
                       <div class="comment_name">
                         {{ item.user.username }}
-                      </div>
-                      <div class="comment_text">{{ item.comment }}</div>
-                    </div>
-                  </div>
-                  <div>
-                    <span class="comment_mins pl-2">{{
-                      $moment(item.created_at).fromNow()
-                    }}</span>
-                  </div>
-                </div>
-                <div class="d-flex mb-1" v-if="item.facilitator">
-                  <div class="d-flex flex-1">
-                    <b-avatar
-                      class="mr-2"
-                      size="sm"
-                      :src="item.facilitator.profile"
-                    ></b-avatar>
-                    <div>
-                      <div class="comment_name">
-                        {{ item.facilitator.username }}
                       </div>
                       <div class="comment_text">{{ item.comment }}</div>
                     </div>
@@ -1339,7 +1204,7 @@ import Minichat from "@/components/minichat";
 export default {
   data() {
     return {
-      id: this.$route.params.id,
+      id: null,
       mini_info: {
         id: "",
         name: "",
@@ -1349,7 +1214,7 @@ export default {
       open: false,
       showAll: false,
       toggleMessage: false,
-      detail: [],
+      detail: {},
       myconnections: [],
       discussion_id: null,
       active: 1,
@@ -1376,6 +1241,7 @@ export default {
       showCourse: false,
       auth: false,
       alllikes: null,
+      showbio: false,
     };
   },
   components: {
@@ -1439,11 +1305,6 @@ export default {
             .toLowerCase()
             .includes(this.search.toLowerCase());
         }
-        if (item.facilitator_follower) {
-          return item.facilitator_follower.username
-            .toLowerCase()
-            .includes(this.search.toLowerCase());
-        }
       });
     },
 
@@ -1462,15 +1323,9 @@ export default {
     if (localStorage.getItem("authMember")) {
       this.auth = true;
     }
-    this.getmyconnections();
-  },
-  mounted() {
-    this.getdiscussions();
     this.getinfo();
-    this.getFeeds();
-    this.getConnections();
-    this.getEvents();
   },
+
   methods: {
     showlikes(likes) {
       this.alllikes = likes;
@@ -1646,7 +1501,7 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
-            this.myconnections = res.data;
+            this.myconnections = res.data.filter((item) => item.user_follower);
           }
         })
         .catch((err) => {
@@ -1659,13 +1514,7 @@ export default {
         return;
       }
       var res = this.myconnections.find((item) => {
-        if (this.$route.params.user == "f") {
-          return item.facilitator_follower.id == user.id;
-        }
-
-        if (this.$route.params.user == "u") {
-          return item.user_follower.id == user.id;
-        }
+        return item.user_follower.id == user.id;
       });
 
       this.$http
@@ -1676,7 +1525,7 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
-            this.myconnections = res.data;
+            this.myconnections = res.data.filter((item) => item.user_follower);
             this.$toast.success("Unfollowed");
             this.getmyconnections();
           }
@@ -1690,13 +1539,7 @@ export default {
         return;
       }
       var res = this.myconnections.some((item) => {
-        if (this.$route.params.user == "f" && item.facilitator_follower) {
-          return item.facilitator_follower.id == user.id;
-        }
-
-        if (this.$route.params.user == "u" && item.user_follower) {
-          return item.user_follower.id == user.id;
-        }
+        return item.user_follower.id == user.id;
       });
       return res;
     },
@@ -1712,42 +1555,37 @@ export default {
         return extension[0].toLowerCase();
       }
     },
+
     getinfo() {
-      if (this.$route.params.user == "f") {
-        this.getCourses();
-        this.$http
-          .get(
-            `${this.$store.getters.url}/facilitator/info/${this.$route.params.id}`
-          )
-          .then((res) => {
-            if (res.status == 200) {
-              this.detail = res.data;
+      this.$http
+        .get(
+          `${this.$store.getters.url}/get/userprofile/${this.$route.params.username}`
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            if (res.data.message == "not found") {
+              this.showbio = false;
+              return;
             }
-          })
-          .catch((err) => {
-            this.$toast.error(err.response.data.message);
-          });
-      } else {
-        this.$http
-          .get(
-            `${this.$store.getters.url}/member/info/${this.$route.params.id}`
-          )
-          .then((res) => {
-            if (res.status == 200) {
-              this.detail = res.data;
-            }
-          })
-          .catch((err) => {
-            this.$toast.error(err.response.data.message);
-          });
-      }
+            this.showbio = true;
+            this.detail = res.data.data;
+            this.getFeeds();
+            this.getConnections();
+            this.getEvents();
+            this.getdiscussions();
+            this.getmyconnections();
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
     },
 
     getdiscussions() {
       if (this.$route.params.user == "f") {
         this.$http
           .get(
-            `${this.$store.getters.url}/facilitator/discussions/${this.$route.params.id}`
+            `${this.$store.getters.url}/facilitator/discussions/${this.detail.id}`
           )
           .then((res) => {
             if (res.status == 200) {
@@ -1760,7 +1598,7 @@ export default {
       } else {
         this.$http
           .get(
-            `${this.$store.getters.url}/member/discussions/${this.$route.params.id}`
+            `${this.$store.getters.url}/member/discussions/${this.detail.id}`
           )
           .then((res) => {
             if (res.status == 200) {
@@ -1798,9 +1636,7 @@ export default {
     getFeeds() {
       if (this.$route.params.user == "f") {
         this.$http
-          .get(
-            `${this.$store.getters.url}/facilitator/feeds/${this.$route.params.id}`
-          )
+          .get(`${this.$store.getters.url}/facilitator/feeds/${this.detail.id}`)
           .then((res) => {
             if (res.status == 200) {
               this.feeds = res.data;
@@ -1811,9 +1647,7 @@ export default {
           });
       } else {
         this.$http
-          .get(
-            `${this.$store.getters.url}/member/feeds/${this.$route.params.id}`
-          )
+          .get(`${this.$store.getters.url}/member/feeds/${this.detail.id}`)
           .then((res) => {
             if (res.status == 200) {
               this.feeds = res.data;
@@ -1828,7 +1662,7 @@ export default {
       if (this.$route.params.user == "f") {
         this.$http
           .get(
-            `${this.$store.getters.url}/facilitator/events/${this.$route.params.id}`
+            `${this.$store.getters.url}/facilitator/events/${this.detail.id}`
           )
           .then((res) => {
             if (res.status == 200) {
@@ -1844,7 +1678,7 @@ export default {
       if (this.$route.params.user == "f") {
         this.$http
           .get(
-            `${this.$store.getters.url}/facilitator/courses/${this.$route.params.id}`
+            `${this.$store.getters.url}/facilitator/courses/${this.detail.id}`
           )
           .then((res) => {
             if (res.status == 200) {
@@ -1868,7 +1702,7 @@ export default {
       if (this.$route.params.user == "f") {
         this.$http
           .get(
-            `${this.$store.getters.url}/facilitator/connections/${this.$route.params.id}`
+            `${this.$store.getters.url}/facilitator/connections/${this.detail.id}`
           )
           .then((res) => {
             if (res.status == 200) {
@@ -1881,7 +1715,7 @@ export default {
       } else {
         this.$http
           .get(
-            `${this.$store.getters.url}/member/connections/${this.$route.params.id}`
+            `${this.$store.getters.url}/member/connections/${this.detail.id}`
           )
           .then((res) => {
             if (res.status == 200) {
@@ -1915,33 +1749,26 @@ export default {
         });
     },
     joindiscussion(item) {
-      if (
-        item.facilitator &&
-        item.facilitator.id == this.$store.getters.facilitator.id
-      ) {
-        this.$router.push(`/facilitator/discussion/${item.id}`);
-      } else {
-        this.$http
-          .get(`${this.$store.getters.url}/discussion/private/${item.id}`, {
-            headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-            },
-          })
-          .then((res) => {
-            if (res.status == 200) {
-              var result = res.data
-                .map((item) => item.facilitator_id)
-                .includes(this.$store.getters.facilitator.id);
+      this.$http
+        .get(`${this.$store.getters.url}/discussion/private/${item.id}`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            var result = res.data
+              .map((item) => item.facilitator_id)
+              .includes(this.$store.getters.facilitator.id);
 
-              if (result) {
-                this.$router.push(`/facilitator/discussion/${item.id}`);
-              } else {
-                this.discussion_id = item.id;
-                this.$bvModal.show("access");
-              }
+            if (result) {
+              this.$router.push(`/facilitator/discussion/${item.id}`);
+            } else {
+              this.discussion_id = item.id;
+              this.$bvModal.show("access");
             }
-          });
-      }
+          }
+        });
     },
     vote(val) {
       var positive = val.filter((item) => item.vote).length;

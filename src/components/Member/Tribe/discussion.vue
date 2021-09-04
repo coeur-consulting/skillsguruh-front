@@ -6,36 +6,60 @@
         <b-col class="px-0 px-sm-3">
           <div class="bg-white py-4 rounded">
             <div class="main_content text-left">
-              <span @click="$router.go(-1)" class="pl-3 cursor-pointer back">
-                <span class="mr-2">
-                  <b-icon icon="arrow-left" class=""></b-icon
-                ></span>
-                <span>Back</span>
-              </span>
+              <div class="d-flex justify-content-between">
+                <span @click="$router.go(-1)" class="pl-3 cursor-pointer back">
+                  <span class="mr-2">
+                    <b-icon icon="arrow-left" class=""></b-icon
+                  ></span>
+                  <span>Back</span>
+                </span>
+
+                <b-dropdown
+                  size="sm"
+                  variant="transparent"
+                  no-caret
+                  class="no-focus"
+                >
+                  <template #button-content>
+                    <b-icon
+                      icon="three-dots-vertical"
+                      font-scale="1.2"
+                    ></b-icon>
+                  </template>
+                  <b-dropdown-item
+                    class="fs12"
+                    v-if="
+                      discussion.user &&
+                      discussion.user.id == $store.getters.member.id
+                    "
+                  >
+                    <span @click="$bvModal.show('edit')"
+                      ><b-icon icon="pencil-square" class="mr-1"></b-icon>
+                      <span class="">Edit</span></span
+                    >
+                  </b-dropdown-item>
+
+                  <b-dropdown-item
+                    class="fs12"
+                    @click="drop(discussion.id)"
+                    v-if="
+                      discussion.user &&
+                      discussion.user.id == $store.getters.member.id
+                    "
+                    ><b-icon icon="dash-circle" class="mr-1"></b-icon>
+                    Delete</b-dropdown-item
+                  >
+                </b-dropdown>
+              </div>
               <div class="content px-2 py-3 pt-4 pb-3">
                 <div class="top_dis d-flex align-items-center mb-2">
                   <div class="side_dis">
                     <b-avatar
                       class="starter"
-                      :src="discussion.admin.profile"
-                      v-if="discussion.admin"
-                    ></b-avatar>
-                    <b-avatar
-                      class="starter"
                       :src="discussion.user.profile"
                       v-if="discussion.user"
                       @click="
-                        $router.push(`/member/profile/u/${discussion.user.id}`)
-                      "
-                    ></b-avatar>
-                    <b-avatar
-                      class="starter"
-                      :src="discussion.facilitator.profile"
-                      v-if="discussion.facilitator"
-                      @click="
-                        $router.push(
-                          `/member/profile/f/${discussion.facilitator.id}`
-                        )
+                        $router.push(`/member/profile/${discussion.username}`)
                       "
                     ></b-avatar>
                   </div>
@@ -127,15 +151,6 @@
                     >
                   </div>
                   <div class="dis_set">
-                    <span
-                      class="mr-3"
-                      v-if="
-                        discussion.user &&
-                        discussion.user.id == $store.getters.member.id
-                      "
-                      @click="$bvModal.show('edit')"
-                      >Edit</span
-                    >
                     <span> by </span>
                     <span
                       v-if="discussion.admin"
@@ -146,7 +161,7 @@
                       v-if="discussion.user"
                       class="cursor-pointer text-dark-green hover_green"
                       @click="
-                        $router.push(`/member/profile/u/${discussion.user.id}`)
+                        $router.push(`/member/profile/${discussion.username}`)
                       "
                       >{{ discussion.user.username }}</span
                     >
@@ -347,7 +362,7 @@
                           c
                           v-if="item.user"
                           @click="
-                            $router.push(`/member/profile/u/${item.user.id}`)
+                            $router.push(`/member/profile/${item.username}`)
                           "
                           class="fs13 cursor-pointer hover_green"
                           >{{ item.user.username }}</span
@@ -389,7 +404,8 @@
                       <small
                         class="cursor-pointer"
                         @click="addmessagecomment(item, index)"
-                        >  <b-icon icon="arrow-counterclockwise"></b-icon> Reply
+                      >
+                        <b-icon icon="arrow-counterclockwise"></b-icon> Reply
                       </small>
                     </div>
                     <div
@@ -434,22 +450,12 @@
                             :src="reply.user.profile"
                             class="mr-1 message_comment_avatar"
                           ></b-avatar>
-                          <span
-                            ><span
-                              v-if="reply.admin"
-                              class="message_comment_name mr-1"
-                              >{{ reply.admin.name }}</span
-                            >
-                            <span
-                              v-if="reply.facilitator"
-                              class="message_comment_name mr-1"
-                              >{{ reply.facilitator.username }}</span
-                            >
+                          <span>
                             <span
                               v-if="reply.user"
                               @click="
                                 $router.push(
-                                  `/member/profile/u/${reply.user.id}`
+                                  `/member/profile/${reply.user.username}`
                                 )
                               "
                               class="message_comment_name mr-1"
@@ -985,7 +991,7 @@
           }}</span>
           <span
             v-if="comments.user"
-            @click="$router.push(`/member/profile/u/${comments.user.id}`)"
+            @click="$router.push(`/member/profile/${comments.user.username}`)"
             class="fs12 cursor-pointer hover_green"
             >{{ comments.user.username }}</span
           >
@@ -1159,7 +1165,7 @@ export default {
     });
   },
   mounted() {
-    this.getmembers();
+
   },
   watch: {
     $route: "getdiscussion",
@@ -1284,24 +1290,20 @@ export default {
         });
     },
     highlightText(text) {
-      var part = this.toText(
-        text.substring(text.lastIndexOf("@") + 1, text.lastIndexOf(""))
-      )
-        .replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi, "")
-        .replace(/<[^>]+?>/g, "")
-        .replace(/\s+/g, " ")
-        .replace(/ /g, " ")
-        .replace(/>/g, " ");
+      let reg = /(?:^|\W)@(\w+)(?!\w)/g,
+        match;
 
-      var val = this.members.find((res) => res.username == part);
-      if (val) {
-        return text.replace(
-          `@${part}`,
-          `<a  href='/member/profile/u/${val.id}'><span class='highlight'>@${part}</span></a>`
-        );
-      } else {
-        return text;
-      }
+      var str = text
+        .split(/\s+/)
+        .map((item) => {
+          if ((match = reg.exec(item))) {
+            item = `  <a  href='/member/profile/${match[1]}'><span class='highlight'>@${match[1]}</span></a> `;
+            return item;
+          }
+          return item;
+        })
+        .join(" ");
+      return str;
     },
     requestAccess() {
       var data = {
@@ -1734,6 +1736,30 @@ export default {
         .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
+    },
+    drop(id) {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+        if (val) {
+          this.$http
+            .delete(
+              `${this.$store.getters.url}/discussions/${id}`,
+
+              {
+                headers: {
+                  Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+                },
+              }
+            )
+            .then((res) => {
+              if (res.status == 200) {
+                this.$router.go(-1);
+              }
+            })
+            .catch((err) => {
+              this.$toast.error(err.response.data.message);
+            });
+        }
+      });
     },
   },
   directives: {

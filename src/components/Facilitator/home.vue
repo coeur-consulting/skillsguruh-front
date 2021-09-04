@@ -494,15 +494,9 @@
                     <div class="text-left">
                       <div
                         class="fs13 text-capitalize text-left"
-                        v-if="user.qualifications"
-                        @click="$router.push(`/member/profile/f/${user.id}`)"
-                      >
-                        {{ user.username }}
-                      </div>
-                      <div
-                        class="fs13 text-capitalize text-left"
-                        v-else
-                        @click="$router.push(`/member/profile/u/${user.id}`)"
+                        @click="
+                          $router.push(`/member/profile/${user.username}`)
+                        "
                       >
                         {{ user.username }}
                       </div>
@@ -722,11 +716,11 @@ export default {
           if (res.status == 201) {
             this.getsimilarusers();
             this.$toast.success("Connected");
-             this.$store.dispatch("newConnection", {
-        id,
-        type,
-        token: this.$store.getters.member.access_token,
-      });
+            this.$store.dispatch("newConnection", {
+              id,
+              type,
+              token: this.$store.getters.member.access_token,
+            });
           }
         })
         .catch((err) => {

@@ -415,7 +415,7 @@
           }}</span>
           <span
             v-if="comments.user"
-            @click="$router.push(`/facilitator/profile/u/${comments.user.id}`)"
+            @click="$router.push(`/facilitator/profile/${comments.user.username}`)"
             class="fs12 cursor-pointer hover_green"
             >{{ comments.user.username }}</span
           >
