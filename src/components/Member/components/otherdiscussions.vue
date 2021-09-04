@@ -415,7 +415,9 @@
           }}</span>
           <span
             v-if="comments.user"
-            @click="$router.push(`/facilitator/profile/${comments.user.username}`)"
+            @click="
+              $router.push(`/facilitator/profile/${comments.user.username}`)
+            "
             class="fs12 cursor-pointer hover_green"
             >{{ comments.user.username }}</span
           >
@@ -570,12 +572,12 @@ export default {
     this.link =
       "https://nzukoor.com/explore/discussion/" + this.$route.params.id;
 
-    var channel = this.$pusher.subscribe("adddiscussion");
+    // var channel = this.$pusher.subscribe("adddiscussion");
 
-    channel.bind("adddiscussion", (data) => {
-      this.$toast.success("Posted");
-      this.discussion.discussionmessage.unshift(data.message);
-    });
+    // channel.bind("adddiscussion", (data) => {
+    //   this.$toast.success("Posted");
+    //   this.discussion.discussionmessage.unshift(data.message);
+    // });
   },
   mounted() {},
   watch: {
