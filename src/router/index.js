@@ -1563,6 +1563,7 @@ const routes = [
             meta: {
               routetype: "feeds",
               showtribe: true,
+              typeMember: true,
             },
           },
           {
@@ -1577,6 +1578,7 @@ const routes = [
             meta: {
               routetype: "events",
               showtribe: true,
+              typeMember: true,
             },
           },
           {
@@ -1591,6 +1593,7 @@ const routes = [
             meta: {
               routetype: "discussions",
               showtribe: true,
+              typeMember: true,
             },
           },
           {
@@ -1605,6 +1608,7 @@ const routes = [
             meta: {
               routetype: "discussions",
               showtribe: true,
+              typeMember: true,
             },
           },
           {
@@ -1619,6 +1623,7 @@ const routes = [
             meta: {
               routetype: "courses",
               showtribe: true,
+              typeMember: true,
             },
           },
 
@@ -1634,6 +1639,7 @@ const routes = [
             meta: {
               routetype: "feeds",
               showtribe: true,
+              typeMember: true,
             },
           },
           {
