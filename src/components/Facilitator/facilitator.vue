@@ -195,13 +195,13 @@
                         >
                           Events
                         </li>
-                        <li
+                        <!-- <li
                           class="h6 fs14 cursor-pointer mb-0"
                           :class="active == 4 ? 'active' : ''"
                           @click="active = 4"
                         >
                           Courses
-                        </li>
+                        </li> -->
                       </ul>
                     </nav>
                   </b-card-body>
@@ -1032,7 +1032,7 @@
                 <div class="d-flex mb-1" v-if="item.user">
                   <div
                     class="d-flex flex-1"
-                    @click="$router.push(`/member/profile/u/${item.user.id}`)"
+                    @click="$router.push(`/member/profile/${item.username}`)"
                   >
                     <b-avatar
                       class="mr-2"

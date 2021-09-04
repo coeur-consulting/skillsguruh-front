@@ -31,7 +31,7 @@
         >
           <div
             class="position-relative cursor-pointer"
-            @click="$router.push(`/profile/f/${item.id}`)"
+            @click="$router.push(`/profile/${item.username}`)"
           >
             <div class="facilitator shadow-sm position-relative bg-white">
               <b-img

@@ -17,7 +17,7 @@
           <b-form-input
             type="search"
             v-model="search"
-            placeholder="Search name"
+            placeholder="Search username"
           ></b-form-input>
         </b-col>
       </b-row>
@@ -33,8 +33,8 @@
             class="position-relative cursor-pointer"
             @click="
               item.qualifications
-                ? $router.push(`/profile/f/${item.id}`)
-                : $router.push(`/profile/u/${item.id}`)
+                ? $router.push(`/profile/${item.username}`)
+                : $router.push(`/profile/${item.username}`)
             "
           >
             <div class="facilitator shadow-sm position-relative bg-white">
@@ -122,8 +122,9 @@ export default {
   computed: {
     filteredName() {
       var name = this.members.filter((item) =>
-        item.username.includes(this.search)
+        item.username.toLowerCase().includes(this.search.toLowerCase())
       );
+
       return name.slice(
         this.perPage * this.currentPage - this.perPage,
         this.perPage * this.currentPage

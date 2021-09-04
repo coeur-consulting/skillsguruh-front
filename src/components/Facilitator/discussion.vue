@@ -15,11 +15,7 @@
               <div class="content px-2 py-3 pt-4 pb-3">
                 <div class="top_dis d-flex align-items-center mb-2">
                   <div class="side_dis">
-                    <b-avatar
-                      class="starter"
-                      :src="discussion.admin.profile"
-                      v-if="discussion.admin"
-                    ></b-avatar>
+
                     <b-avatar
                       class="starter hover_green"
                       @click="

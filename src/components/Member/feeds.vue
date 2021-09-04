@@ -355,7 +355,7 @@
                   <div class="d-flex mb-1" v-if="item.user">
                     <div
                       class="d-flex flex-1"
-                      @click="$router.push(`/member/profile/u/${item.user.id}`)"
+                      @click="$router.push(`/member/profile/${item.username}`)"
                     >
                       <b-avatar
                         class="mr-2"
@@ -510,7 +510,7 @@
                           ></b-avatar>
                           <span
                             @click="
-                              $router.push(`/member/profile/u/${feed.user.id}`)
+                              $router.push(`/member/profile/${feed.username}`)
                             "
                             class="hover_green"
                           >
@@ -757,9 +757,7 @@
                             <span
                               class="comment_name mr-2 hover_green"
                               @click="
-                                $router.push(
-                                  `/member/profile/u/${item.user.id}`
-                                )
+                                $router.push(`/member/profile/${item.username}`)
                               "
                               v-if="item.user"
                             >

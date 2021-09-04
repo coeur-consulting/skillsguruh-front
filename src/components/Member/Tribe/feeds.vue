@@ -355,7 +355,7 @@
                   <div class="d-flex mb-1" v-if="item.user">
                     <div
                       class="d-flex flex-1"
-                      @click="$router.push(`/member/profile/u/${item.user.id}`)"
+                      @click="$router.push(`/member/profile/${item.username}`)"
                     >
                       <b-avatar
                         class="mr-2"
@@ -365,25 +365,6 @@
                       <div>
                         <div class="comment_name">
                           {{ item.user.username }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="d-flex mb-1" v-if="item.facilitator">
-                    <div
-                      class="d-flex flex-1"
-                      @click="
-                        $router.push(`/member/profile/f/${item.facilitator.id}`)
-                      "
-                    >
-                      <b-avatar
-                        class="mr-2"
-                        size="sm"
-                        :src="item.facilitator.profile"
-                      ></b-avatar>
-                      <div>
-                        <div class="comment_name">
-                          {{ item.facilitator.username }}
                         </div>
                       </div>
                     </div>
@@ -485,23 +466,6 @@
                   >
                     <div class="d-flex mb-3 px-2 px-sm-3 pt-3">
                       <div class="flex-1 text-left">
-                        <div class="mr-2 mb-1 feedname" v-if="feed.admin">
-                          <b-avatar
-                            size="1.8rem"
-                            class="mr-2"
-                            :src="feed.admin.profile"
-                          ></b-avatar>
-                          <div>
-                            <div style="line-height: 1.6">
-                              {{ feed.admin.username }} <br />
-                            </div>
-                            <small
-                              v-if="feed.admin.state"
-                              class="text-muted font-weight-normal"
-                              >{{ feed.admin.state }}</small
-                            >
-                          </div>
-                        </div>
                         <div class="mr-2 mb-1 feedname" v-if="feed.user">
                           <b-avatar
                             size="1.8rem"
@@ -510,7 +474,7 @@
                           ></b-avatar>
                           <span
                             @click="
-                              $router.push(`/member/profile/u/${feed.user.id}`)
+                              $router.push(`/member/profile/${feed.username}`)
                             "
                             class="hover_green"
                           >
@@ -521,30 +485,6 @@
                               v-if="feed.user.state"
                               class="text-muted font-weight-normal"
                               >{{ feed.user.state }}</small
-                            >
-                          </span>
-                        </div>
-                        <div class="mr-2 mb-1 feedname" v-if="feed.facilitator">
-                          <b-avatar
-                            size="1.8rem"
-                            class="mr-2"
-                            :src="feed.facilitator.profile"
-                          ></b-avatar>
-                          <span
-                            class="hover_green"
-                            @click="
-                              $router.push(
-                                `/member/profile/f/${feed.facilitator.id}`
-                              )
-                            "
-                          >
-                            <div style="line-height: 1.2">
-                              {{ feed.facilitator.username }}
-                            </div>
-                            <small
-                              v-if="feed.facilitator.state"
-                              class="text-muted font-weight-normal"
-                              >{{ feed.facilitator.state }}</small
                             >
                           </span>
                         </div>
@@ -751,30 +691,14 @@
                           :key="item.id"
                         >
                           <div class="flex-1 pr-2">
-                            <span class="comment_name mr-2" v-if="item.admin">
-                              {{ item.admin.name }}</span
-                            >
                             <span
                               class="comment_name mr-2 hover_green"
                               @click="
-                                $router.push(
-                                  `/member/profile/u/${item.user.id}`
-                                )
+                                $router.push(`/member/profile/${item.username}`)
                               "
                               v-if="item.user"
                             >
                               {{ item.user.username }}</span
-                            >
-                            <span
-                              class="comment_name mr-2 hover_green"
-                              @click="
-                                $router.push(
-                                  `/member/profile/f/${item.facilitator.id}`
-                                )
-                              "
-                              v-if="item.facilitator"
-                            >
-                              {{ item.facilitator.username }}</span
                             >
 
                             <span class="comment_text">{{ item.comment }}</span>

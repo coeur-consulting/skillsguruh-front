@@ -66,10 +66,10 @@
                 <template #button-content>
                   <b-icon icon="three-dots-vertical" font-scale=".8"></b-icon>
                 </template>
-                <b-dropdown-item class="fs12" @click="edittribe(n.id)"
+                <b-dropdown-item class="fs12" @click="edit(n)"
                   >Edit</b-dropdown-item
                 >
-                {{ showoptions(n.pivot.is_owner) }}
+
                 <b-dropdown-item class="fs12" @click="droptribe(n.id, id)"
                   >Drop</b-dropdown-item
                 >
@@ -108,159 +108,39 @@
       </b-row>
       <infinite-loading @infinite="infiniteHandler"></infinite-loading>
     </b-container>
-    <b-modal
-      no-close-on-backdrop
-      id="start"
-      hide-footer
-      centered
-      title="Create your tribe"
-    >
-      <b-form @submit.prevent="createtribe">
-        <b-form-group label="Name">
-          <b-form-input
-            placeholder="Give a title"
-            v-model="tribe.name"
-            required
-          ></b-form-input>
-        </b-form-group>
-
-        <b-form-group label="Description">
-          <b-form-textarea
-            required
-            v-model="tribe.description"
-            placeholder="Write a brief Description"
-          ></b-form-textarea
-        ></b-form-group>
-
-        <b-form-group label="Category">
-          <model-list-select
-            :list="category"
-            v-model="tribe.category"
-            option-value="value"
-            option-text="value"
-            placeholder="select category"
-          >
-          </model-list-select>
-        </b-form-group>
-
-        <b-form-group label="Interests">
-          <multi-select
-            :options="filteredinterests"
-            :selected-options="tribe.tags"
-            placeholder="select interests"
-            @select="onSelect"
-          >
-          </multi-select>
-        </b-form-group>
-        <b-form-group label="Tribe Image">
-          <Cover @getUpload="getUpload" />
-        </b-form-group>
-
-        <div class="text-center mt-4">
-          <b-button
-            size="lg"
-            variant="dark-green"
-            type="submit"
-            class="d-none d-sm-block px-3"
-            >Create</b-button
-          >
-          <b-button
-            size="lg"
-            variant="dark-green"
-            type="submit"
-            class="d-sm-none"
-            block
-            >Create</b-button
-          >
-        </div>
-      </b-form>
+    <b-modal id="start" hide-footer centered title="Create your tribe">
+      <create-tribe @response="response" @resetTribe="resetTribe" />
     </b-modal>
     <b-modal
-      no-close-on-backdrop
       id="edit"
       hide-footer
       centered
-      title="Create your tribe"
+      title="Edit your tribe"
+      v-if="tribe"
     >
-      <b-form @submit.prevent="updatetribe">
-        <b-form-group label="Name">
-          <b-form-input
-            placeholder="Give a title"
-            v-model="tribe.name"
-            required
-          ></b-form-input>
-        </b-form-group>
-
-        <b-form-group label="Description">
-          <b-form-textarea
-            required
-            v-model="tribe.description"
-            placeholder="Write a brief Description"
-          ></b-form-textarea
-        ></b-form-group>
-
-        <b-form-group label="Category">
-          <model-list-select
-            :list="category"
-            v-model="tribe.category"
-            option-value="value"
-            option-text="value"
-            placeholder="select category"
-          >
-          </model-list-select>
-        </b-form-group>
-
-        <b-form-group label="Interests">
-          <multi-select
-            :options="filteredinterests"
-            :selected-options="tribe.tags"
-            placeholder="select interests"
-            @select="onSelect"
-          >
-          </multi-select>
-        </b-form-group>
-        <b-form-group label="Tribe Image">
-          <Cover @getUpload="getUpload" />
-        </b-form-group>
-
-        <div class="text-center mt-4">
-          <b-button
-            size="lg"
-            variant="dark-green"
-            type="submit"
-            class="d-none d-sm-block px-3"
-            >Update tribe</b-button
-          >
-          <b-button
-            size="lg"
-            variant="dark-green"
-            type="submit"
-            class="d-sm-none"
-            block
-            >Update tribe</b-button
-          >
-        </div>
-      </b-form>
+      <edit-tribe :tribe="tribe" @response="response" />
     </b-modal>
   </div>
 </template>
 
 <script>
-import { MultiSelect } from "vue-search-select";
-import { ModelListSelect } from "vue-search-select";
 import Interest from "@/components/helpers/subcategory.js";
 import Category from "@/components/helpers/category.js";
-import Cover from "@/components/UploadComponent";
+import CreateTribe from "./createtribe.vue";
+import EditTribe from "./edittribe.vue";
 export default {
   data() {
     return {
       search: "",
       tribe: {
+        id: "",
         name: "",
         description: "",
         cover: "",
         tags: [],
         category: {},
+        type: "free",
+        amount: "",
       },
       tribes: [],
       ags: [],
@@ -275,9 +155,8 @@ export default {
     };
   },
   components: {
-    MultiSelect,
-    ModelListSelect,
-    Cover,
+    CreateTribe,
+    EditTribe,
   },
   computed: {
     filteredinterests() {
@@ -300,7 +179,20 @@ export default {
     });
     this.category = Category;
   },
+
   methods: {
+    resetTribe() {
+      this.tribe = {
+        id: "",
+        name: "",
+        description: "",
+        cover: "",
+        tags: [],
+        category: {},
+        type: "free",
+        amount: "",
+      };
+    },
     entertribe(id) {
       localStorage.removeItem("tribe");
       localStorage.setItem("tribe", id);
@@ -323,56 +215,30 @@ export default {
           }
         });
     },
-    getUpload(val) {
-      this.tribe.cover = val;
-    },
-    onSelect(items, lastSelectItem) {
-      this.tribe.tags = items;
-      this.lastSelectItem = lastSelectItem;
-    },
-    edittribe(val) {
-      this.tribe = val;
-      this.tribe.category = JSON.parse(val.category).value;
+
+    edit(val) {
+      this.tribe.id = val.id;
+      this.tribe.name = val.name;
+      this.tribe.type = val.type;
+      this.tribe.description = val.description;
+      this.tribe.amount = val.amount;
+      this.tribe.category = JSON.parse(val.category)
+        ? JSON.parse(val.category)
+        : null;
       this.tribe.tags = JSON.parse(val.tags);
       this.$bvModal.show("edit");
     },
-    createtribe() {
-      this.$http
-        .post(`${process.env.VUE_APP_API_PATH}/tribes`, this.tribe, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status === 201) {
-            this.tribes.unshift(res.data.data);
-            console.log(
-              "🚀 ~ file: mytribes.vue ~ line 226 ~ .then ~ res.data.data",
-              res.data.data
-            );
-            this.$toast.success("Tribe Created");
-            this.$bvModal.hide("start");
-          }
-        });
-    },
-    updatetribe() {
-      this.$http
-        .post(
-          `${process.env.VUE_APP_API_PATH}/tribes/${this.tribe.id}`,
-          this.tribe,
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-            },
-          }
-        )
-        .then((res) => {
-          if (res.status === 200) {
-            this.gegetmytribe();
-            this.$toast.success("Tribe Updated");
-            this.$bvModal.hide("start");
-          }
-        });
+    response(res, type) {
+      if (type == "create") {
+        this.tribes.unshift(res.data.data);
+        this.$toast.success("Tribe Created");
+        this.$bvModal.hide("start");
+      }
+      if (type == "edit") {
+        this.getmytribe();
+        this.$toast.success("Tribe Updated");
+        this.$bvModal.hide("edit");
+      }
     },
 
     droptribe(id, index) {

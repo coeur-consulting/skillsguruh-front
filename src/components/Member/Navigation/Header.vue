@@ -92,7 +92,7 @@
                 v-if="unreadnotifications.length"
                 icon="circle-fill"
                 variant="danger"
-                font-scale=".8"
+                font-scale=".6"
               ></b-icon>
             </span>
           </div>
@@ -1003,7 +1003,7 @@ nav .nav li a {
 .notifier {
   position: absolute;
   top: 1px;
-  right: 1px;
+  right: 10px;
 }
 
 @media (max-width: 600px) {

@@ -3,7 +3,7 @@
     <b-container>
       <b-row class="justify-content-sm-start">
         <b-col>
-          <b-row>
+          <b-row v-if="showbio">
             <b-col cols="12" class="mb-0 rounded px-1 pt-sm-2 px-sm-4 pb-2">
               <b-card no-body class="overflow-hidden border-0 top_h" style="">
                 <b-row no-gutters>
@@ -198,13 +198,6 @@
                         >
                           Events
                         </li>
-                        <!-- <li
-                          class="h6 fs14 cursor-pointer mb-0"
-                          :class="active == 4 ? 'active' : ''"
-                          @click="active = 4"
-                        >
-                          Courses
-                        </li> -->
                       </ul>
                     </nav>
                   </b-card-body>
@@ -945,6 +938,29 @@
               </b-card>
             </b-col>
           </b-row>
+          <b-row class="justify-content-center" v-else>
+            <b-col sm="9">
+              <b-row>
+                <b-col cols="12" class="mb-0 rounded pt-sm-2 px-1 px-sm-4 pb-2">
+                  <b-card no-body class="border-0" style="">
+                    <b-row no-gutters class="">
+                      <b-col cols="3" sm="3" class="top_h prof_img">
+                        <b-img
+                          :src="require('@/assets/images/default.jpeg')"
+                          alt="Image"
+                          class="rounded-0"
+                        ></b-img>
+                      </b-col>
+                      <b-col cols="9" sm="9" class="flex-1">
+                        <b-card-body title="User nor found" class="text-left">
+                        </b-card-body>
+                      </b-col>
+                    </b-row>
+                  </b-card>
+                </b-col>
+              </b-row>
+            </b-col>
+          </b-row>
         </b-col>
         <!-- <b-col class="d-none d-sm-block" cols="3">
           <Message
@@ -1167,7 +1183,7 @@
                 <div class="d-flex mb-1" v-if="item.user">
                   <div
                     class="d-flex flex-1"
-                    @click="$router.push(`/member/profile/u/${item.user.id}`)"
+                    @click="$router.push(`/member/profile/${item.username}`)"
                   >
                     <b-avatar
                       class="mr-2"
@@ -1334,7 +1350,8 @@
 export default {
   data() {
     return {
-      id: this.$route.params.id,
+      showbio: false,
+      id: null,
       myconnections: [],
       detail: [],
       active: 1,
@@ -1451,15 +1468,9 @@ export default {
   watch: {
     $route: "updateProfile",
   },
+
   created() {
-    this.getmyconnections();
-  },
-  mounted() {
-    this.getdiscussions();
     this.getinfo();
-    this.getFeeds();
-    this.getEvents();
-    this.getConnections();
   },
   methods: {
     showlikes(likes) {
@@ -1595,12 +1606,7 @@ export default {
       }
     },
     updateProfile() {
-      this.getmyconnections();
-      this.getdiscussions();
       this.getinfo();
-      this.getFeeds();
-      this.getEvents();
-      this.getConnections();
     },
     showcomments(feed) {
       this.allcomments = feed;
@@ -1633,64 +1639,42 @@ export default {
         });
     },
     getinfo() {
-      if (this.$route.params.user == "f") {
-        this.getcourses();
-        this.$http
-          .get(
-            `${this.$store.getters.url}/facilitator/info/${this.$route.params.id}`
-          )
-          .then((res) => {
-            if (res.status == 200) {
-              this.detail = res.data;
+      this.$http
+        .get(
+          `${this.$store.getters.url}/get/userprofile/${this.$route.params.username}`
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            if (res.data.message == "not found") {
+              this.showbio = false;
+              return;
             }
-          })
-          .catch((err) => {
-            this.$toast.error(err.response.data.message);
-          });
-      } else {
-        this.$http
-          .get(
-            `${this.$store.getters.url}/member/info/${this.$route.params.id}`
-          )
-          .then((res) => {
-            if (res.status == 200) {
-              this.detail = res.data;
-            }
-          })
-          .catch((err) => {
-            this.$toast.error(err.response.data.message);
-          });
-      }
+            this.showbio = true;
+            this.id = this.detail.id;
+            this.detail = res.data.data;
+            this.getFeeds();
+            this.getConnections();
+            this.getEvents();
+            this.getdiscussions();
+            this.getmyconnections();
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
     },
 
     getdiscussions() {
-      if (this.$route.params.user == "f") {
-        this.$http
-          .get(
-            `${this.$store.getters.url}/facilitator/discussions/${this.$route.params.id}`
-          )
-          .then((res) => {
-            if (res.status == 200) {
-              this.discussions = res.data;
-            }
-          })
-          .catch((err) => {
-            this.$toast.error(err.response.data.message);
-          });
-      } else {
-        this.$http
-          .get(
-            `${this.$store.getters.url}/member/discussions/${this.$route.params.id}`
-          )
-          .then((res) => {
-            if (res.status == 200) {
-              this.discussions = res.data;
-            }
-          })
-          .catch((err) => {
-            this.$toast.error(err.response.data.message);
-          });
-      }
+      this.$http
+        .get(`${this.$store.getters.url}/member/discussions/${this.detail.id}`)
+        .then((res) => {
+          if (res.status == 200) {
+            this.discussions = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
     },
     togglechat() {
       this.mini_info = {
@@ -1711,39 +1695,22 @@ export default {
       this.$bvModal.hide("connections");
     },
     getFeeds() {
-      if (this.$route.params.user == "f") {
-        this.$http
-          .get(
-            `${this.$store.getters.url}/facilitator/feeds/${this.$route.params.id}`
-          )
-          .then((res) => {
-            if (res.status == 200) {
-              this.feeds = res.data;
-            }
-          })
-          .catch((err) => {
-            this.$toast.error(err.response.data.message);
-          });
-      } else {
-        this.$http
-          .get(
-            `${this.$store.getters.url}/member/feeds/${this.$route.params.id}`
-          )
-          .then((res) => {
-            if (res.status == 200) {
-              this.feeds = res.data;
-            }
-          })
-          .catch((err) => {
-            this.$toast.error(err.response.data.message);
-          });
-      }
+      this.$http
+        .get(`${this.$store.getters.url}/member/feeds/${this.detail.id}`)
+        .then((res) => {
+          if (res.status == 200) {
+            this.feeds = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
     },
     getEvents() {
       if (this.$route.params.user == "f") {
         this.$http
           .get(
-            `${this.$store.getters.url}/facilitator/events/${this.$route.params.id}`
+            `${this.$store.getters.url}/facilitator/events/${this.detail.id}`
           )
           .then((res) => {
             if (res.status == 200) {
@@ -1756,33 +1723,16 @@ export default {
       }
     },
     getConnections() {
-      if (this.$route.params.user == "f") {
-        this.$http
-          .get(
-            `${this.$store.getters.url}/facilitator/connections/${this.$route.params.id}`
-          )
-          .then((res) => {
-            if (res.status == 200) {
-              this.connections = res.data;
-            }
-          })
-          .catch((err) => {
-            this.$toast.error(err.response.data.message);
-          });
-      } else {
-        this.$http
-          .get(
-            `${this.$store.getters.url}/member/connections/${this.$route.params.id}`
-          )
-          .then((res) => {
-            if (res.status == 200) {
-              this.connections = res.data;
-            }
-          })
-          .catch((err) => {
-            this.$toast.error(err.response.data.message);
-          });
-      }
+      this.$http
+        .get(`${this.$store.getters.url}/member/connections/${this.detail.id}`)
+        .then((res) => {
+          if (res.status == 200) {
+            this.connections = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
     },
     requestAccess() {
       var data = {

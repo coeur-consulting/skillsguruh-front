@@ -77,7 +77,7 @@ export default new Vuex.Store({
             if (res.status == 200 && res.data.message == "found") {
               return text.replace(
                 `@${part}`,
-                `<a  href='/member/profile/u/${res.data.data.id}'><span class='highlight'>@${trimmpart}</span></a>`
+                `<a  href='/member/profile/${res.data.data.username}'><span class='highlight'>@${trimmpart}</span></a>`
               );
             } else {
               return text;

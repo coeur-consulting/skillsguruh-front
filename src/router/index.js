@@ -436,6 +436,18 @@ const routes = [
     },
   },
   {
+    path: "/profile/:username",
+    name: " User profile",
+    components: {
+      header: Header,
+      default: () =>
+        import(
+          /* webpackChunkName: "userprofil" */ "@/components/guestfacilitator.vue"
+        ),
+      footer: Footer,
+    },
+  },
+  {
     path: "/organization",
 
     components: {
@@ -1708,6 +1720,20 @@ const routes = [
           default: () =>
             import(
               /* webpackChunkName: "Memberfacilitators" */ "@/components/Member/facilitator.vue"
+            ),
+        },
+        meta: {
+          typeMember: true,
+          title: "View Profile | Member",
+        },
+      },
+      {
+        path: "profile/:username",
+        name: "Member profiles",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "Memberprofile" */ "@/components/Member/facilitator.vue"
             ),
         },
         meta: {
