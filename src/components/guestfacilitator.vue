@@ -331,26 +331,7 @@
                           </div>
                         </div>
                         <div class="interactions text-left px-3 py-2">
-                          <span
-                            class="mr-3 cursor-pointer"
-                            @click="toggleStar(feed.id, index)"
-                          >
-                            <span class="mr-1">{{
-                              feed.stars.filter((item) => item.star).length
-                            }}</span>
-                            <b-icon
-                              :icon="
-                                feed.stars.find(
-                                  (item) =>
-                                    item.star &&
-                                    item.user_id == $store.getters.member.id
-                                )
-                                  ? 'star-fill'
-                                  : 'star'
-                              "
-                              class="text-blue"
-                            ></b-icon>
-                          </span>
+
 
                           <span
                             class="mr-3 cursor-pointer"

@@ -38,12 +38,42 @@
       "density": "4.0"
     }
   ],
-  "start_url": "/",
+  "start_url": "/member/feeds",
   "scope": ".",
   "display": "standalone",
   "background_color": "#fff",
   "theme_color": "#2a9d8f",
   "description": "Discover people, knowledge and opportunities for growth.Become your most authentic self",
   "dir": "ltr",
-  "lang": "en-US"
+  "lang": "en-US",
+  "shortcuts": [
+    {
+      "name": "Check out your tribes",
+      "short_name": "My tribes",
+      "description": "View all your tribes",
+      "url": "/member/tribes",
+      "icons": [
+        {
+          "src": "\/img/icons/android-icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image\/png",
+          "density": "4.0"
+        }
+      ]
+    },
+    {
+      "name": "Check out your community",
+      "short_name": "Community",
+      "description": "View your community and see your connections",
+      "url": "/member/community",
+      "icons": [
+        {
+          "src": "\/img/icons/android-icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image\/png",
+          "density": "4.0"
+        }
+      ]
+    }
+  ]
 }

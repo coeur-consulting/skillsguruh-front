@@ -28,7 +28,7 @@
               ></b-img>
             </div>
 
-            <div class="recommended text-left mb-5">
+            <!-- <div class="recommended text-left mb-5">
               <div class="d-flex align-items-center mb-3 w-100">
                 <div class="d-flex flex-1">
                   <div
@@ -155,10 +155,7 @@
                                   }}+</span
                                 >
                               </div>
-                              <!-- <div class="mr-3">
-                              <b-icon icon="eye" class="mr-1"></b-icon>
-                              <span>250+</span>
-                            </div> -->
+
                               <div>
                                 <b-icon
                                   icon="star-fill"
@@ -309,7 +306,7 @@
                   <b-skeleton animation="fade" width="59%"></b-skeleton>
                 </b-col>
               </b-row>
-            </div>
+            </div> -->
 
             <div class="discussions">
               <Discussions></Discussions>

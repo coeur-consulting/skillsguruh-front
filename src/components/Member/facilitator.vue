@@ -354,42 +354,6 @@
                                   "
                                 ></b-icon>
                               </span>
-                              <span
-                                class="mr-3 cursor-pointer"
-                                @click="toggleStar(feed.id, index)"
-                              >
-                                <span class="mr-1">{{
-                                  feed.stars.filter((item) => item.star).length
-                                }}</span>
-                                <b-icon
-                                  font-scale="1.3"
-                                  :icon="
-                                    feed.stars
-                                      .filter((item) => item.star)
-                                      .find(
-                                        (item) =>
-                                          item.star &&
-                                          item.user_id ==
-                                            $store.getters.member.id
-                                      )
-                                      ? 'star-fill'
-                                      : 'star'
-                                  "
-                                  :class="
-                                    feed.stars
-                                      .filter((item) => item.star)
-                                      .find(
-                                        (item) =>
-                                          item.star &&
-                                          item.user_id ==
-                                            $store.getters.member.id
-                                      )
-                                      ? 'text-blue'
-                                      : ''
-                                  "
-                                  class="mr-1"
-                                ></b-icon>
-                              </span>
 
                               <span class="mr-3">
                                 <b-icon
