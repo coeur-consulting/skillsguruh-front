@@ -103,7 +103,7 @@
               <font-awesome-icon :icon="circle" class="text-lighter-green" />
               <font-awesome-icon
                 :icon="envelope"
-                transform="shrink-8"
+                transform="shrink-9"
                 class="text-dark-green"
               />
             </font-awesome-layers>
@@ -414,14 +414,15 @@
                 {{ item.created_at | moment("calendar") }}
               </div>
             </div>
-            <div v-else>
-              <span :class="{ 'font-weight-bold': !item.read_at }">
-                {{ item.data.notification }}</span
-              >
-              <br />
-              <span class="fs11">{{
-                item.created_at | moment("calendar")
-              }}</span>
+            <div v-else @click="handleNotificationClick(item)">
+              <div
+                :class="{ 'font-weight-bold': !item.read_at }"
+                v-html="item.data.notification"
+              ></div>
+
+              <div class="fs11 text-right">
+                {{ item.created_at | moment("calendar") }}
+              </div>
             </div>
           </div>
         </div>
@@ -760,6 +761,15 @@ export default {
     },
   },
   methods: {
+    handleNotificationClick(item) {
+      console.log(
+        "🚀 ~ file: App.vue ~ line 248 ~ handleNotificationClick ~ item",
+        item
+      );
+      if (item.data.url) {
+        window.open(item.data.url, "_blank");
+      }
+    },
     lastMessage(info) {
       var mess = this.sortmessages.filter((item) => {
         if (info.type == "user" && item.user && item.user.id == info.id) {

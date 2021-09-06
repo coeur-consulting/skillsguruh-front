@@ -1157,12 +1157,12 @@ export default {
     this.link =
       "https://nzukoor.com/explore/discussion/" + this.$route.params.id;
 
-    // var channel = this.$pusher.subscribe("adddiscussion");
+    var channel = this.$pusher.subscribe("adddiscussion");
 
-    // channel.bind("adddiscussion", (data) => {
-    //   this.$toast.success("Posted");
-    //   this.discussion.discussionmessage.unshift(data.message);
-    // });
+    channel.bind("adddiscussion", (data) => {
+      this.$toast.success("Posted");
+      this.discussion.discussionmessage.unshift(data.message);
+    });
   },
   mounted() {},
   watch: {

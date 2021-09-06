@@ -87,22 +87,22 @@
                 <div
                   class="fs12"
                   :class="{ 'font-weight-bold': !item.read_at }"
-                >
-                  {{ item.data.notification }}
-                </div>
+                  v-html="item.data.notification"
+                ></div>
 
                 <div class="fs11 text-right">
                   {{ item.created_at | moment("calendar") }}
                 </div>
               </div>
-              <div v-else>
-                <span :class="{ 'font-weight-bold': !item.read_at }">
-                  {{ item.data.notification }}</span
-                >
-                <br />
-                <span class="fs11">{{
-                  item.created_at | moment("calendar")
-                }}</span>
+              <div v-else @click="handleNotificationClick(item)">
+                <div
+                  :class="{ 'font-weight-bold': !item.read_at }"
+                  v-html="item.data.notification"
+                ></div>
+
+                <div class="fs11 text-right">
+                  {{ item.created_at | moment("calendar") }}
+                </div>
               </div>
             </div>
           </div>
@@ -243,6 +243,15 @@ export default {
   },
 
   methods: {
+    handleNotificationClick(item) {
+      console.log(
+        "🚀 ~ file: App.vue ~ line 248 ~ handleNotificationClick ~ item",
+        item
+      );
+      if (item.data.url) {
+        window.open(item.data.url, "_blank");
+      }
+    },
     showRefreshUI(e) {
       this.registration = e.detail;
       this.updateExists = true;
