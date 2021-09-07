@@ -251,7 +251,9 @@ export default new Vuex.Store({
         })
         .then((response) => {
           commit("SET_NOTIFICATION", response.data);
+          console.log("🚀 ~ file: index.js ~ line 255 ~ .then ~ data", data);
           if (data.url) {
+            console.log("🚀 ~ file: index.js ~ line 255 ~ .then ~ data", data);
             window.location.href = data.url;
           }
         });
