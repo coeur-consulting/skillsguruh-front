@@ -17,7 +17,7 @@
               class="rounded border-0"
               v-model="feed.message"
               :placeholder="
-                'Whats on your mind ' + $store.getters.member.name + '?'
+                'What\'s on your mind ' + $store.getters.member.name + '?'
               "
             ></b-form-textarea>
           </div>
@@ -392,7 +392,7 @@
                   readonly
                   @click="$bvModal.show('feed')"
                   :placeholder="
-                    'Whats on your mind ' + $store.getters.member.name + '?'
+                    'What\'s on your mind ' + $store.getters.member.name + '?'
                   "
                 ></b-form-input>
               </div>
@@ -613,7 +613,7 @@
                     </div>
                     <div class="interactions text-left px-3 py-1">
                       <span
-                        class="mr-3 cursor-pointer d-flex"
+                        class="mr-2 cursor-pointer d-flex align-items-center"
                         @click="toggleLike(feed.id, index)"
                       >
                         <b-icon

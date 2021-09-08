@@ -16,7 +16,7 @@
             class="rounded border-0"
             v-model="feed.message"
             :placeholder="
-              'Whats on your mind ' + $store.getters.facilitator.name + '?'
+              'What\'s on your mind ' + $store.getters.facilitator.name + '?'
             "
           ></b-form-textarea>
         </div>
@@ -285,7 +285,9 @@
                 readonly
                 @click="$bvModal.show('feed')"
                 :placeholder="
-                  'Whats on your mind ' + $store.getters.facilitator.name + '?'
+                  'What\'s on your mind ' +
+                  $store.getters.facilitator.name +
+                  '?'
                 "
               ></b-form-input>
             </div>

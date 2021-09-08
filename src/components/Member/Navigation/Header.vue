@@ -90,12 +90,12 @@
                 class="text-dark-green"
               />
             </font-awesome-layers>
-            <span class="notifier">
+            <span class="notifier" v-if="unreadnotifications.length">
               <b-icon
-                v-if="unreadnotifications.length"
                 icon="circle-fill"
                 variant="danger"
-                font-scale=".6"
+                font-scale=".5"
+                class="circle-dot"
               ></b-icon>
             </span>
           </div>
@@ -1024,10 +1024,16 @@ nav .nav li a {
 .notifier {
   position: absolute;
   top: 1px;
-  right: 10px;
+  right: 15px;
 }
 
 @media (max-width: 600px) {
+  .notifier {
+    position: absolute;
+    top: -4px;
+    right: 13px;
+  }
+
   .navbar-light .navbar-nav .nav-link {
     font-size: 14px;
   }

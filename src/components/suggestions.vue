@@ -1,7 +1,9 @@
 <template>
   <b-container fluid class="px-sm-0" v-if="suggestions.length">
     <div class="my-3 position-relative">
-      <h6 class="mb-3 text-left text-muted">Some connection suggestions</h6>
+      <div class="mb-3 text-left text-muted">
+        <small>Some connection suggestions</small>
+      </div>
       <b-iconstack
         font-scale="2.5"
         class="nav-left shadow-sm"
@@ -37,7 +39,7 @@
           <b-card
             no-body
             class="mr-3 suggestion position-relative rounded overflw-hidden"
-            style="min-width: 170px"
+            style="min-width: 150px"
           >
             <b-card-img
               :src="
@@ -55,9 +57,7 @@
                   {{ item.username }}
                 </div>
 
-                <div class="fs11 mb-2">
-                  {{ item.similar }} similar interests
-                </div>
+                <div class="sim mb-2">{{ item.similar }} similar interests</div>
               </div>
               <b-button
                 variant="dark-green"
@@ -182,12 +182,26 @@ export default {
   font-size: 0.72rem;
   font-weight: 500;
 }
+.sim {
+  font-size: 0.7rem;
+}
 .name:hover {
   color: rgba($color: #000000, $alpha: 0.44);
 }
 @media (max-width: 768px) {
+  .suggestion {
+    min-width: 120px !important;
+  }
+  .suggestion img {
+    height: 90px;
+    width: 100%;
+    object-fit: cover;
+  }
   .name {
-    font-size: 0.7rem;
+    font-size: 0.6rem;
+  }
+  .sim {
+    font-size: 0.56rem;
   }
 }
 </style>

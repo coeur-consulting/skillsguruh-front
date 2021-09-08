@@ -17,7 +17,7 @@
               class="rounded border-0"
               v-model="feed.message"
               :placeholder="
-                'Whats on your mind ' + $store.getters.member.name + '?'
+                'What\'s on your mind ' + $store.getters.member.name + '?'
               "
             ></b-form-textarea>
           </div>
@@ -355,7 +355,9 @@
                   <div class="d-flex mb-1" v-if="item.user">
                     <div
                       class="d-flex flex-1"
-                      @click="$router.push(`/member/profile/${item.username}`)"
+                      @click="
+                        $router.push(`/member/profile/${item.user.username}`)
+                      "
                     >
                       <b-avatar
                         class="mr-2"
@@ -411,7 +413,7 @@
                   readonly
                   @click="$bvModal.show('feed')"
                   :placeholder="
-                    'Whats on your mind ' + $store.getters.member.name + '?'
+                    'What\'s on your mind ' + $store.getters.member.name + '?'
                   "
                 ></b-form-input>
               </div>
@@ -510,7 +512,9 @@
                           ></b-avatar>
                           <span
                             @click="
-                              $router.push(`/member/profile/${feed.username}`)
+                              $router.push(
+                                `/member/profile/${feed.user.username}`
+                              )
                             "
                             class="hover_green"
                           >
@@ -673,7 +677,7 @@
                     </div>
                     <div class="interactions text-left px-3 py-1">
                       <span
-                        class="mr-3 cursor-pointer d-flex"
+                        class="mr-2 cursor-pointer d-flex align-items-center"
                         @click="toggleLike(feed.id, index)"
                       >
                         <b-icon
@@ -757,7 +761,9 @@
                             <span
                               class="comment_name mr-2 hover_green"
                               @click="
-                                $router.push(`/member/profile/${item.username}`)
+                                $router.push(
+                                  `/member/profile/${item.user.username}`
+                                )
                               "
                               v-if="item.user"
                             >

@@ -16,7 +16,7 @@
               rows="3"
               class="rounded border-0"
               v-model="feed.message"
-              placeholder="Whats on your mind today?"
+              placeholder="What's on your mind today?"
             ></b-form-textarea>
           </div>
           <emoji-picker
@@ -296,7 +296,7 @@
                   size="lg"
                   readonly
                   @click="$bvModal.show('feed')"
-                  placeholder="Whats on your mind today?"
+                  placeholder="What's on your mind today?"
                 ></b-form-input>
               </div>
 
