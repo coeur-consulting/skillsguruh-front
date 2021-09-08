@@ -244,10 +244,6 @@ export default {
 
   methods: {
     handleNotificationClick(item) {
-      console.log(
-        "🚀 ~ file: App.vue ~ line 248 ~ handleNotificationClick ~ item",
-        item
-      );
       if (item.data.url) {
         window.open(item.data.url, "_blank");
       }

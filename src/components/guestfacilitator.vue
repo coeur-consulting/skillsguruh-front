@@ -545,30 +545,7 @@
                             <span v-else>{{ 0 }}</span> views</span
                           >
                         </div>
-                        <div>
-                          <span
-                            v-if="item.type == 'public'"
-                            @click="
-                              $router.push(`/facilitator/discussion/${item.id}`)
-                            "
-                            class="
-                              text-dark-green
-                              font-weight-bold
-                              cursor-pointer
-                            "
-                            >Join Discussion</span
-                          >
-                          <span
-                            v-else
-                            @click="joindiscussion(item)"
-                            class="
-                              text-dark-green
-                              font-weight-bold
-                              cursor-pointer
-                            "
-                            >Join Discussion</span
-                          >
-                        </div>
+
                       </div>
                     </div>
                   </div>

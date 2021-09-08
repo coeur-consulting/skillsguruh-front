@@ -35,10 +35,7 @@
                 <template #append>
                   <b-input-group-append>
                     <b-button variant="dark-green">
-                      <b-icon
-                        @click="$bvModal.show('start')"
-                        icon="plus-circle-fill"
-                      ></b-icon
+                      <b-icon icon="search"></b-icon
                     ></b-button>
                   </b-input-group-append>
                 </template>
@@ -109,7 +106,10 @@
                       class="no-focus drop"
                     >
                       <template #button-content>
-                        <b-icon icon="three-dots" font-scale="1.4"></b-icon>
+                        <b-icon
+                          icon="three-dots-vertical"
+                          font-scale="1"
+                        ></b-icon>
                       </template>
                       <b-dropdown-item
                         class="fs12"
@@ -136,12 +136,74 @@
                       ></b-avatar>
                     </div>
                     <div class="text-left next_dis">
+                      <div v-if="item.tribe" :id="`distribe-${index}`">
+                        {{ item.tribe.name }}
+                      </div>
+                      <b-popover
+                        v-if="item.tribe"
+                        :target="`distribe-${index}`"
+                        triggers="hover"
+                      >
+                        <b-img
+                          :src="item.tribe.cover"
+                          class="tribedisimg"
+                        ></b-img>
+                        <template #title> {{ item.tribe.name }} tribe</template>
+                        <p class="fs13 text-capitalize mb-2">
+                          Entry :
+                          <span v-if="item.tribe.type == 'free'">{{
+                            item.tribe.type
+                          }}</span>
+                          <span v-else>{{
+                            item.tribe.amount | currencyFormat
+                          }}</span>
+                        </p>
+                        <p class="fs13 mb-1">{{ item.tribe.description }}</p>
+                        <p class="fs13 text-muted mb-1">
+                          {{ item.tribe.users.length }} users
+                        </p>
+                        <p class="fs13 text-muted mb-1">
+                          {{ item.tribe.discussions.length }} discussions
+                        </p>
+
+                        <b-button
+                          v-if="item.tribe.type == 'free'"
+                          block
+                          variant="lighter-green"
+                          size="sm"
+                          @click="entertribe(item.tribe.id)"
+                        >
+                          {{
+                            isMember(item.tribe.users) ? "Engage" : "Join"
+                          }}</b-button
+                        >
+                        <div v-else>
+                          <b-button
+                            v-if="isMember(item.tribe.users)"
+                            block
+                            variant="lighter-green"
+                            size="sm"
+                            @click="entertribe(item.tribe.id)"
+                          >
+                            Engage</b-button
+                          >
+                          <b-button
+                            v-else
+                            block
+                            variant="lighter-green"
+                            size="sm"
+                            @click="purchase(item.tribe.id)"
+                          >
+                            Join</b-button
+                          >
+                        </div>
+                      </b-popover>
                       <div>
                         <span class="asked mr-2">
                           Started
                           {{ item.created_at | moment("calendar") }}</span
                         >
-                        <span class="mr-2 fs13"
+                        <!-- <span class="mr-2 fs13"
                           ><b-badge
                             class="
                               text-capitalize
@@ -151,7 +213,7 @@
                             variant="lighter-green"
                             >{{ item.type }}</b-badge
                           ></span
-                        >
+                        > -->
                       </div>
 
                       <div class="title">{{ item.name }}</div>
@@ -211,18 +273,6 @@
                     </div>
                     <div>
                       <span
-                        v-if="item.type == 'public'"
-                        @click="$router.push(`/member/discussion/${item.id}`)"
-                        class="
-                          text-dark-green
-                          font-weight-bold
-                          cursor-pointer
-                          dis_ses
-                        "
-                        >Join Discussion</span
-                      >
-                      <span
-                        v-else
                         @click="joindiscussion(item)"
                         class="
                           text-dark-green
@@ -241,16 +291,8 @@
                 <div>
                   <b-img :src="require('@/assets/images/creator.svg')"></b-img>
                   <h6 class="text-muted my-3 fs14">
-                    It appears you havent added any Discussion yet,
-                    <br class="d-none d-sm-block" />
-                    Start your first Discussion now!
+                    It appears there are no discussions yet,
                   </h6>
-                  <b-button
-                    @click="$bvModal.show('start')"
-                    variant="dark-green"
-                    size="lg"
-                    >Start a Discussion</b-button
-                  >
                 </div>
               </div>
             </div>
@@ -531,6 +573,19 @@ export default {
     this.getothers();
   },
   computed: {
+    useraccess() {
+      var token = null;
+      if (localStorage.getItem("authAdmin")) {
+        return this.$store.getters.admin;
+      }
+      if (localStorage.getItem("authFacilitator")) {
+        return this.$store.getters.facilitator;
+      }
+      if (localStorage.getItem("authMember")) {
+        return this.$store.getters.member;
+      }
+      return token;
+    },
     filteredData() {
       if (this.show == "recent") {
         return (
@@ -583,6 +638,40 @@ export default {
     },
   },
   methods: {
+    isMember(arr) {
+      return arr.some((item) => item.id == this.$store.getters.member.id);
+    },
+    entertribe(id) {
+      if (!this.useraccess) {
+        this.$router.push("/login?redirect=%2Fmember%2Fdiscussions");
+      }
+      var details = {
+        tribe_id: id,
+        user: this.$store.getters.member,
+      };
+
+      localStorage.removeItem("tribe");
+      localStorage.setItem("tribe", id);
+      this.$store.dispatch("checkTribe", details).then((res) => {
+        if (res.status == 200 && res.data.message == "found") {
+          window.location.href = `/member/tribe/discussions/${id}`;
+        } else {
+          this.$bvModal
+            .msgBoxConfirm("Do you wish to join this tribe?")
+            .then((val) => {
+              if (val) {
+                this.$store.dispatch("joinTribe", details).then((res) => {
+                  if (res.status == 200 && res.data.message == "successful") {
+                    this.$toast.success("Joined successfully");
+                    window.location.href = `/member/tribe/discussions/${id}`;
+                  }
+                });
+              }
+            });
+        }
+      });
+    },
+
     onSelect(items, lastSelectItem) {
       this.discussion.tags = items;
       this.lastSelectItem = lastSelectItem;
@@ -609,30 +698,37 @@ export default {
         });
     },
     joindiscussion(item) {
-      if (item.user && item.user.id == this.$store.getters.member.id) {
-        this.$router.push(`/member/discussion/${item.id}`);
-      } else {
-        this.$http
-          .get(`${this.$store.getters.url}/discussion/private/${item.id}`, {
-            headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-            },
-          })
-          .then((res) => {
-            if (res.status == 200) {
-              var result = res.data
-                .map((item) => item.user_id)
-                .includes(this.$store.getters.member.id);
-
-              if (result) {
-                this.$router.push(`/member/discussion/${item.id}`);
-              } else {
-                this.discussion_id = item.id;
-                this.$bvModal.show("access");
-              }
+      if (!this.useraccess) {
+        this.$router.push("/login?redirect=%2Fexplore%2Fcommunity");
+      }
+      if (
+        !item.tribe.users.some(
+          (item) => item.id == this.$store.getters.member.id
+        )
+      ) {
+        this.$bvModal
+          .msgBoxConfirm("Do you wish to join this tribe?")
+          .then((val) => {
+            if (val) {
+              localStorage.removeItem("tribe");
+              localStorage.setItem("tribe", item.tribe.id);
+              var details = {
+                tribe_id: item.tribe.id,
+                user: this.$store.getters.member,
+              };
+              this.$store.dispatch("joinTribe", details).then((res) => {
+                if (res.status == 200 && res.data.message == "successful") {
+                  this.$toast.success("Joined successfully");
+                  this.$router.push(`/member/tribe/discussion/${item.id}`);
+                }
+              });
             }
           });
+        return;
       }
+      localStorage.removeItem("tribe");
+      localStorage.setItem("tribe", item.tribe.id);
+      this.$router.push(`/member/tribe/discussion/${item.id}`);
     },
     getcourses() {
       this.$http

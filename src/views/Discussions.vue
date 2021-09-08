@@ -37,6 +37,32 @@
                 </div>
               </div>
               <div v-if="showDiscussion">
+                <div class="d-flex search p-2">
+                  <span
+                    @click="$router.go(-1)"
+                    class="cursor-pointer back fs13 px-2 pt-2 d-sm-none"
+                  >
+                    <span class="">
+                      <b-icon icon="arrow-left" class=""></b-icon
+                    ></span>
+                  </span>
+                  <b-input-group>
+                    <b-form-input
+                      class=""
+                      placeholder="Find a discussion"
+                      type="search"
+                      v-model="search"
+                    ></b-form-input>
+
+                    <!-- <template #append>
+                      <b-input-group-append>
+                        <b-button variant="dark-green">
+                          <b-icon icon="search"></b-icon
+                        ></b-button>
+                      </b-input-group-append>
+                    </template> -->
+                  </b-input-group>
+                </div>
                 <div
                   class="
                     main_content
@@ -154,26 +180,13 @@
                       </div>
                       <div>
                         <span
-                          v-if="item.type == 'public'"
-                          @click="
-                            $router.push(`/explore/discussion/${item.id}`)
-                          "
-                          class="
-                            text-dark-green
-                            font-weight-bold
-                            cursor-pointer
-                          "
-                          >Join Discussion</span
-                        >
-                        <span
-                          v-else
                           @click="joindiscussion(item)"
                           class="
                             text-dark-green
                             font-weight-bold
                             cursor-pointer
                           "
-                          >Join Discussion</span
+                          >{{ useraccess ? "Join" : "View" }} Discussion</span
                         >
                       </div>
                     </div>
@@ -203,16 +216,8 @@
                       :src="require('@/assets/images/creator.svg')"
                     ></b-img>
                     <h6 class="text-muted my-3 fs14">
-                      It appears you havent added any Discussion yet,
-                      <br class="d-none d-sm-block" />
-                      Start your first Discussion now!
+                      No discussion available,
                     </h6>
-                    <b-button
-                      @click="$bvModal.show('start')"
-                      variant="dark-green"
-                      size="lg"
-                      >Start a Discussion</b-button
-                    >
                   </div>
                 </div>
               </div>
@@ -248,15 +253,6 @@
           </b-col>
           <b-col sm="4" class="d-none d-md-block" v-if="usertoken">
             <div class="shadow-sm bg-white p-4 rounded">
-              <div class="text-center mb-4">
-                <b-button
-                  variant="dark-green"
-                  size="lg"
-                  class="px-3"
-                  @click="$bvModal.show('start')"
-                  >Start a discussion</b-button
-                >
-              </div>
               <div class="py-3 text-left related_quest border">
                 <h6 class="mb-3 px-3">Other Discussions</h6>
                 <div v-if="showOther">
@@ -469,7 +465,7 @@ export default {
   },
 
   mounted() {
-    this.getothers();
+    // this.getothers();
     this.getdiscussions();
     this.mytags = Interest.map((item) => {
       item.text = item.value;
@@ -479,6 +475,19 @@ export default {
     this.category = Category;
   },
   computed: {
+    useraccess() {
+      var token = null;
+      if (localStorage.getItem("authAdmin")) {
+        return this.$store.getters.admin;
+      }
+      if (localStorage.getItem("authFacilitator")) {
+        return this.$store.getters.facilitator;
+      }
+      if (localStorage.getItem("authMember")) {
+        return this.$store.getters.member;
+      }
+      return token;
+    },
     filtered() {
       return this.discussions.slice(
         this.perPage * this.currentPage - this.perPage,
@@ -573,34 +582,10 @@ export default {
         });
     },
     joindiscussion(item) {
-      if (item.status == "public") {
-        this.$router.push(`/explore/discussion/${item.id}`);
-      } else {
-        if (item.user && item.user.id == this.usertoken.id) {
-          this.$router.push(`/explore/discussion/${item.id}`);
-        } else {
-          this.$http
-            .get(`${this.$store.getters.url}/discussion/private/${item.id}`, {
-              headers: {
-                Authorization: `Bearer ${this.$store.usertoken.access_token}`,
-              },
-            })
-            .then((res) => {
-              if (res.status == 200) {
-                var result = res.data
-                  .map((item) => item.user_id)
-                  .includes(this.usertoken.id);
-
-                if (result) {
-                  this.$router.push(`/explore/discussion/${item.id}`);
-                } else {
-                  this.discussion_id = item.id;
-                  this.$bvModal.show("access");
-                }
-              }
-            });
-        }
-      }
+      // if (!this.useraccess) {
+      //   this.$router.push("/login?redirect=%2Fmember%2Fdiscussions");
+      // }
+      this.$router.push(`/explore/discussion/${item.id}`);
     },
 
     getdiscussions() {
@@ -646,23 +631,23 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
-    getothers() {
-      this.$http
-        .get(`${this.$store.getters.url}/other-discussions`, {
-          headers: {
-            Authorization: `Bearer ${this.usertoken.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 200) {
-            this.otherdiscussion = res.data;
-            this.showOther = true;
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
-    },
+    // getothers() {
+    //   this.$http
+    //     .get(`${this.$store.getters.url}/other-discussions`, {
+    //       headers: {
+    //         Authorization: `Bearer ${this.usertoken.access_token}`,
+    //       },
+    //     })
+    //     .then((res) => {
+    //       if (res.status == 200) {
+    //         this.otherdiscussion = res.data;
+    //         this.showOther = true;
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       this.$toast.error(err.response.data.message);
+    //     });
+    // },
   },
 };
 </script>

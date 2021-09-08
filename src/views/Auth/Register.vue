@@ -230,7 +230,7 @@
                     ></b-img>
                     Sign up with Google
                   </div>
-                  <div
+                  <!-- <div
                     class="social shadow-sm border btn-shadow bg-light"
                     @click="socialregister('facebook')"
                   >
@@ -239,7 +239,7 @@
                       class="mr-2"
                     ></b-img>
                     Sign up with Facebook
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <!-- <div class="text-center mt-4">

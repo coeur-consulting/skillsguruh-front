@@ -196,7 +196,7 @@ export default {
     entertribe(id) {
       localStorage.removeItem("tribe");
       localStorage.setItem("tribe", id);
-      window.location.href = `/member/tribe/feed/${id}`;
+      window.location.href = `/member/tribe/discussions/${id}`;
     },
     infiniteHandler($state) {
       this.$http

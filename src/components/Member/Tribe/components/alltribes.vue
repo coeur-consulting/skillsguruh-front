@@ -107,7 +107,7 @@
             </span>
           </div>
         </b-col>
-        <b-col cols="6" sm="4" class="mb-4">
+        <b-col cols="6" sm="4" class="mb-4" v-if="useraccess">
           <div
             @click="$bvModal.show('start')"
             class="
@@ -175,6 +175,19 @@ export default {
     CreateTribe,
   },
   computed: {
+    useraccess() {
+      var token = null;
+      if (localStorage.getItem("authAdmin")) {
+        return this.$store.getters.admin;
+      }
+      if (localStorage.getItem("authFacilitator")) {
+        return this.$store.getters.facilitator;
+      }
+      if (localStorage.getItem("authMember")) {
+        return this.$store.getters.member;
+      }
+      return token;
+    },
     filteredinterests() {
       if (!this.tribe.category) return [];
       return this.mytags.filter(
@@ -208,6 +221,9 @@ export default {
       return arr.some((item) => item.id == this.$store.getters.member.id);
     },
     entertribe(id) {
+      if (!this.useraccess) {
+        this.$router.push("/login?redirect=%2Fexplore%2Fcommunity");
+      }
       var details = {
         tribe_id: id,
         user: this.$store.getters.member,
@@ -217,7 +233,7 @@ export default {
       localStorage.setItem("tribe", id);
       this.$store.dispatch("checkTribe", details).then((res) => {
         if (res.status == 200 && res.data.message == "found") {
-          window.location.href = `/member/tribe/feed/${id}`;
+          window.location.href = `/member/tribe/discussions/${id}`;
         } else {
           this.$bvModal
             .msgBoxConfirm("Do you wish to join this tribe?")
@@ -226,7 +242,7 @@ export default {
                 this.$store.dispatch("joinTribe", details).then((res) => {
                   if (res.status == 200 && res.data.message == "successful") {
                     this.$toast.success("Joined successfully");
-                    window.location.href = `/member/tribe/feed/${id}`;
+                    window.location.href = `/member/tribe/discussions/${id}`;
                   }
                 });
               }

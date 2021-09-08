@@ -23,10 +23,14 @@ export default new Vuex.Store({
     },
     course: {},
     tribe: localStorage.getItem("tribe"),
+    tribe_info: {},
   },
   mutations: {
     SET_TRIBE(state, tribe) {
       state.tribe = tribe;
+    },
+    SET_TRIBE_INFO(state, tribe) {
+      state.tribe_info = tribe;
     },
     SET_COURSE(state, course) {
       state.course = course;
@@ -251,9 +255,8 @@ export default new Vuex.Store({
         })
         .then((response) => {
           commit("SET_NOTIFICATION", response.data);
-          console.log("🚀 ~ file: index.js ~ line 255 ~ .then ~ data", data);
+
           if (data.url) {
-            console.log("🚀 ~ file: index.js ~ line 255 ~ .then ~ data", data);
             window.location.href = data.url;
           }
         });
@@ -274,5 +277,6 @@ export default new Vuex.Store({
     isMinimise: (state) => state.isMinimise,
     course: (state) => state.course,
     tribe: (state) => state.tribe,
+    tribe_info: (state) => state.tribe_info,
   },
 });

@@ -64,16 +64,19 @@
             <font-awesome-icon :icon="comments" size="2x" class="icon"
           /></b-nav-item>
 
-          <b-nav-item to="/member/events" class="position-relative">
+          <!-- <b-nav-item to="/member/events" class="position-relative">
             <b-icon icon="circle-fill" class="dot" font-scale=".8"></b-icon>
             <font-awesome-icon :icon="calendar" size="2x" class="icon"
-          /></b-nav-item>
+          /></b-nav-item> -->
         </b-navbar-nav>
       </b-collapse>
     </b-col>
 
     <b-col cols="7" sm="4" class="pr-0 pr-sm-3">
-      <b-navbar-nav class="align-items-center justify-content-end flex-row">
+      <b-navbar-nav
+        class="align-items-center justify-content-end flex-row"
+        v-if="useraccess"
+      >
         <b-nav-item class="position-relative">
           <div
             class="position-relative"
@@ -248,9 +251,9 @@
               <font-awesome-icon :icon="comments" size="2x" class="icon"
             /></b-nav-item>
 
-            <b-nav-item to="/member/events" class="position-relative">
+            <!-- <b-nav-item to="/member/events" class="position-relative">
               <font-awesome-icon :icon="calendar" size="2x" class="icon"
-            /></b-nav-item>
+            /></b-nav-item> -->
           </b-navbar-nav>
         </div>
         <hr />
@@ -649,9 +652,15 @@ export default {
       return process.env.VUE_APP_VERSION;
     },
     notifications() {
+      if (!this.$store.getters.notifications) {
+        return [];
+      }
       return this.$store.getters.notifications;
     },
     unreadnotifications() {
+      if (!this.$store.getters.notifications) {
+        return [];
+      }
       return this.$store.getters.notifications.filter((item) => !item.read_at);
     },
     useraccess() {
@@ -676,10 +685,16 @@ export default {
       );
     },
     inboxes() {
+      if (!this.$store.getters.inboxes) {
+        return [];
+      }
       return this.$store.getters.inboxes;
     },
 
     sortmessages() {
+      if (!this.$store.getters.notifications) {
+        return [];
+      }
       return this.inboxes.map((item) => {
         var info = {};
 
@@ -762,10 +777,6 @@ export default {
   },
   methods: {
     handleNotificationClick(item) {
-      console.log(
-        "🚀 ~ file: App.vue ~ line 248 ~ handleNotificationClick ~ item",
-        item
-      );
       if (item.data.url) {
         window.open(item.data.url, "_blank");
       }

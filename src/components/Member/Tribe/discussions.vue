@@ -149,7 +149,7 @@
                           Started
                           {{ item.created_at | moment("calendar") }}</span
                         >
-                        <span class="mr-2 fs13"
+                        <!-- <span class="mr-2 fs13"
                           ><b-badge
                             class="
                               text-capitalize
@@ -159,7 +159,7 @@
                             variant="lighter-green"
                             >{{ item.type }}</b-badge
                           ></span
-                        >
+                        > -->
                       </div>
 
                       <div class="title">{{ item.name }}</div>
@@ -219,21 +219,9 @@
                     </div>
                     <div>
                       <span
-                        v-if="item.type == 'public'"
                         @click="
                           $router.push(`/member/tribe/discussion/${item.id}`)
                         "
-                        class="
-                          text-dark-green
-                          font-weight-bold
-                          cursor-pointer
-                          dis_ses
-                        "
-                        >Join Discussion</span
-                      >
-                      <span
-                        v-else
-                        @click="joindiscussion(item)"
                         class="
                           text-dark-green
                           font-weight-bold
@@ -322,7 +310,7 @@
         ></b-form-group>
 
         <b-form-row>
-          <b-col sm="6">
+          <!-- <b-col sm="6">
             <b-form-group label="Type">
               <b-form-select v-model="discussion.type">
                 <b-form-select-option value="private"
@@ -333,7 +321,7 @@
                 >
               </b-form-select>
             </b-form-group>
-          </b-col>
+          </b-col> -->
           <!-- <b-col sm="6" v-if="discussion.type == 'private'">
             <b-form-group label="Select course">
               <model-list-select
@@ -348,7 +336,7 @@
           </b-col> -->
         </b-form-row>
 
-        <b-form-group label="Category">
+        <!-- <b-form-group label="Category">
           <model-list-select
             :list="category"
             v-model="discussion.category"
@@ -357,7 +345,7 @@
             placeholder="select category"
           >
           </model-list-select>
-        </b-form-group>
+        </b-form-group> -->
 
         <b-form-group label="Interests">
           <multi-select
@@ -415,9 +403,7 @@
 
 <script>
 import { MultiSelect } from "vue-search-select";
-import { ModelListSelect } from "vue-search-select";
 import Interest from "@/components/helpers/subcategory.js";
-import Category from "@/components/helpers/category.js";
 export default {
   data() {
     return {
@@ -437,7 +423,7 @@ export default {
         course: null,
         tags: [],
         category: {},
-          tribe_id:this.$store.getters.tribe
+        tribe_id: this.$store.getters.tribe,
       },
       courses: [],
       tag: "",
@@ -454,7 +440,6 @@ export default {
   },
   components: {
     MultiSelect,
-    ModelListSelect,
   },
 
   mounted() {
@@ -465,7 +450,7 @@ export default {
 
       return item;
     });
-    this.category = Category;
+
     this.getcourses();
     this.getothers();
   },
@@ -515,10 +500,10 @@ export default {
       return [];
     },
     filteredinterests() {
-      if (!this.discussion.category) return [];
-      return this.mytags.filter(
-        (item) => item.category_id == this.discussion.category.id
-      );
+      if (!this.$store.getters.tribe_info.tags) {
+        return [];
+      }
+      return JSON.parse(this.$store.getters.tribe_info.tags);
     },
   },
   methods: {
@@ -649,10 +634,14 @@ export default {
         });
     },
     creatediscussion() {
-      if (!this.discussion.category || !this.discussion.tags.length) {
+      if (!this.discussion.tags.length) {
         this.$toast.error("Fill all fields");
         return;
       }
+      this.discussion.category = JSON.parse(
+        this.$store.getters.tribe_info.category
+      );
+
       this.$http
         .post(`${this.$store.getters.url}/discussions`, this.discussion, {
           headers: {
@@ -671,8 +660,8 @@ export default {
               type: "public",
               course: null,
               tags: [],
-              category: {},
-               tribe_id:this.$store.getters.tribe
+              category: JSON.parse(this.$store.getters.tribe_info.category),
+              tribe_id: this.$store.getters.tribe,
             };
             this.$bvModal.hide("start");
           }

@@ -249,8 +249,8 @@
                 <div class="mx-auto">
                   <b-img :src="require('@/assets/images/creator.svg')"></b-img>
                   <h6 class="text-muted my-3 fs14">
-                    It appears you havent added any Schedule yet,
-                    <br class="d-none d-sm-block" />
+                    It appears you have no event scheduled yet,
+                    <!-- <br class="d-none d-sm-block" />
 
                     Have you set up your courses ?
                     <span
@@ -268,7 +268,7 @@
                       size="sm"
                       @click="$bvModal.show('addopen')"
                       >Add a schedule now
-                    </b-button>
+                    </b-button> -->
                   </h6>
                 </div>
               </div>

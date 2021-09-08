@@ -41,7 +41,7 @@
             <b-col cols="4">
               <span
                 class="d-flex align-items-center justify-content-start tpp"
-                @click="$router.push('/explore/tribes')"
+                @click="$router.push('/explore/community')"
               >
                 <b-img class="mr-2 tp" size="2.5rem" src="/img/grp.png"></b-img>
                 <span>
@@ -112,10 +112,7 @@
                       >
                     </span>
                   </div>
-                  <span
-                    class="tribe_circle cursor-pointer"
-                    @click="$router.push(`/member/tribe/feed/${n.id}`)"
-                  >
+                  <span class="tribe_circle cursor-pointer">
                     <b-avatar size="lg" :src="n.cover"></b-avatar>
                   </span>
                 </div>
@@ -198,7 +195,7 @@
 
           <div class="text-center text-dark-green fs12">
             <span
-              @click="$router.push('/explore/tribes')"
+              @click="$router.push('/explore/community')"
               class="cursor-pointer"
               >Load more...</span
             >
@@ -551,7 +548,9 @@
                             :src="feed.user.profile"
                           ></b-avatar>
                           <span
-                            @click="$router.push(`/profile/${feed.user.username}`)"
+                            @click="
+                              $router.push(`/profile/${feed.user.username}`)
+                            "
                             class="hover_green"
                           >
                             <div style="line-height: 1.2">
@@ -935,7 +934,7 @@
                     </div> -->
                   </div>
                   <div class="text-center mt-2">
-                    <router-link to="/explore/feeds" class="text-dark-green"
+                    <router-link to="/member/feeds" class="text-dark-green"
                       ><small
                         >View all feed
                         <b-icon
@@ -1267,7 +1266,7 @@
               </carousel>
 
               <div class="px-2">
-                <router-link to="/events" class="text-dark-green"
+                <router-link to="/explore/events" class="text-dark-green"
                   ><small
                     >View all events
                     <b-icon
@@ -1767,7 +1766,7 @@ export default {
       localStorage.setItem("tribe", id);
       this.$store.dispatch("checkTribe", details).then((res) => {
         if (res.status == 200 && res.data.message == "found") {
-          window.location.href = `/member/tribe/feed/${id}`;
+          window.location.href = `/member/tribe/discussions/${id}`;
         } else {
           this.$bvModal
             .msgBoxConfirm("Do you wish to join this tribe?")
@@ -1776,7 +1775,7 @@ export default {
                 this.$store.dispatch("joinTribe", details).then((res) => {
                   if (res.status == 200 && res.data.message == "successful") {
                     this.$toast.success("Joined successfully");
-                    window.location.href = `/member/tribe/feed/${id}`;
+                    window.location.href = `/member/tribe/discussions/${id}`;
                   }
                 });
               }

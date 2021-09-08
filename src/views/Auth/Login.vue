@@ -168,7 +168,7 @@
                     ></b-img>
                     Log in with Google
                   </div>
-                  <div
+                  <!-- <div
                     class="social shadow-sm border btn-shadow bg-light"
                     @click="socialregister('facebook')"
                   >
@@ -177,7 +177,7 @@
                       class="mr-2"
                     ></b-img>
                     Log in with Facebook
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <!-- <div class="text-center mt-4">

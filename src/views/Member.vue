@@ -47,10 +47,13 @@ export default {
   },
 
   mounted() {
-    this.getnotification();
-    this.getloginhistory();
-    this.getinbox();
-    if (!this.$store.getters.member.interests) {
+    if (this.useraccess) {
+      this.getnotification();
+      this.getloginhistory();
+      this.getinbox();
+    }
+
+    if (this.useraccess && !this.$store.getters.member.interests) {
       this.$bvModal.show("insight");
     }
   },
@@ -79,6 +82,21 @@ export default {
         .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
+    },
+  },
+  computed: {
+    useraccess() {
+      var token = null;
+      if (localStorage.getItem("authAdmin")) {
+        return this.$store.getters.admin;
+      }
+      if (localStorage.getItem("authFacilitator")) {
+        return this.$store.getters.facilitator;
+      }
+      if (localStorage.getItem("authMember")) {
+        return this.$store.getters.member;
+      }
+      return token;
     },
   },
 };

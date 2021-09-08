@@ -5,7 +5,7 @@
       alt="tribeimg"
       class="tribe_img mb-5"
     ></b-img>
-    <div class="suggestions text-left">
+    <div class="suggestions text-left" v-if="useraccess">
       <suggested-tribe
         v-if="
           $route.meta.routetype == 'mytribes' ||
@@ -47,6 +47,21 @@ export default {
     return {
       tribe: true,
     };
+  },
+  computed: {
+    useraccess() {
+      var token = null;
+      if (localStorage.getItem("authAdmin")) {
+        return this.$store.getters.admin;
+      }
+      if (localStorage.getItem("authFacilitator")) {
+        return this.$store.getters.facilitator;
+      }
+      if (localStorage.getItem("authMember")) {
+        return this.$store.getters.member;
+      }
+      return token;
+    },
   },
 };
 </script>

@@ -1700,7 +1700,7 @@ const routes = [
             ),
         },
         meta: {
-          typeMember: true,
+          typeMember: false,
           title: "Tribes | Member",
           routetype: "community",
         },

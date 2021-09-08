@@ -132,7 +132,7 @@
 
       <b-col cols="12" class="h-100 mb-5">
         <b-row>
-          <b-col sm="7">
+          <b-col sm="7" class="pl-sm-0">
             <div class="bg-white shadow rounded text-left p-4">
               <h5 class="font-weight-bold">ABOUT THIS EVENT</h5>
               <p>{{ event.description }}</p>
@@ -151,8 +151,8 @@
               </div>
             </div>
           </b-col>
-          <b-col sm="5" class="pl-3" v-if="event.resource">
-            <div class="bg-white shadow p-1 rounded">
+          <b-col sm="5" class="pl-3 pr-sm-0" v-if="event.resource">
+            <div class="">
               <video
                 controls
                 :src="event.resource"
@@ -456,6 +456,19 @@ export default {
     this.link = "https://nzukoor.com/event/" + this.$route.params.id;
   },
   computed: {
+    useraccess() {
+      var token = null;
+      if (localStorage.getItem("authAdmin")) {
+        return this.$store.getters.admin;
+      }
+      if (localStorage.getItem("authFacilitator")) {
+        return this.$store.getters.facilitator;
+      }
+      if (localStorage.getItem("authMember")) {
+        return this.$store.getters.member;
+      }
+      return token;
+    },
     sortfacilitators() {
       if (!this.event.facilitators) {
         return [];
@@ -467,8 +480,29 @@ export default {
   },
   methods: {
     attendEvent() {
-      this.$toast.info("Login to join event!");
-      this.$router.push("/login");
+      if (!this.useraccess) {
+        this.$toast.info("Login to join event!");
+        this.$router.push(`/login?redirect=${this.$route.path}`);
+      }
+      var data = {
+        event_id: this.$route.params.id,
+      };
+      this.$http
+        .post(`${this.$store.getters.url}/event/attendance`, data, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 201) {
+            this.checkEvent = res.data;
+            this.getevent();
+            this.$toast.success("Event scheduled");
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
     },
 
     addToFeed() {

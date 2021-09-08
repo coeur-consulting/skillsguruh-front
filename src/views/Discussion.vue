@@ -1,7 +1,7 @@
 /* eslint-disable vue/no-unused-vars */
 <template>
   <div class="bg-light">
-    <b-container fluid class="py-sm-5">
+    <b-container class="py-sm-5">
       <b-row v-if="showdiscussion">
         <b-col class="px-0 px-sm-3" sm="8">
           <div class="bg-white py-4 rounded">
@@ -613,11 +613,6 @@
         </b-col>
         <b-col sm="4" class="d-none d-md-block">
           <div class="bg-white p-4 rounded">
-            <div class="text-center mb-4">
-              <b-button variant="dark-green" size="lg" class="px-3"
-                >Start a discussion</b-button
-              >
-            </div>
             <div class="py-3 text-left related_quest border" v-if="related">
               <h6 class="mb-3 px-3">Related Discussions</h6>
               <div v-for="item in related" :key="item.id">
@@ -1376,6 +1371,9 @@ export default {
         });
     },
     joindiscussion(item) {
+      if (!this.useraccess) {
+        this.$router.push("/login?redirect=%2Fexplore%2Fcommunity");
+      }
       if (
         (item.user && item.user.id == this.$store.getters.member.id) ||
         (item.facilitator &&

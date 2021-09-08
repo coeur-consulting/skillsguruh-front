@@ -49,12 +49,12 @@
         </div>
         <nav class="mb-3 class text-left">
           <b-nav vertical>
-            <b-nav-item :to="`/member/tribe/feed/${$store.getters.tribe}`"
+            <!-- <b-nav-item :to="`/member/tribe/feed/${$store.getters.tribe}`"
               ><font-awesome-icon
                 :icon="rss"
                 class="icon mr-3"
               />Feeds</b-nav-item
-            >
+            > -->
             <b-nav-item
               :to="`/member/tribe/discussions/${$store.getters.tribe}`"
             >
@@ -305,6 +305,19 @@ export default {
     $route: "gettribe",
   },
   computed: {
+    useraccess() {
+      var token = null;
+      if (localStorage.getItem("authAdmin")) {
+        return this.$store.getters.admin;
+      }
+      if (localStorage.getItem("authFacilitator")) {
+        return this.$store.getters.facilitator;
+      }
+      if (localStorage.getItem("authMember")) {
+        return this.$store.getters.member;
+      }
+      return token;
+    },
     activeaccount() {
       return this.events.filter((item) => item.status == "active").length;
     },
@@ -401,6 +414,9 @@ export default {
     },
 
     gettribe() {
+      if (!this.useraccess) {
+        return;
+      }
       var tribe = localStorage.getItem("tribe");
 
       if (!tribe) {
@@ -416,6 +432,7 @@ export default {
           if (res.status == 200) {
             this.tribe = res.data.data;
             this.description = this.tribe.description;
+            this.$store.commit("SET_TRIBE_INFO", res.data.data);
           }
         })
         .catch((err) => {
