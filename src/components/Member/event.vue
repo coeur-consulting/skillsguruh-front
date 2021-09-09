@@ -567,7 +567,7 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
-    async getconnections() {
+    async getconenections() {
       return this.$http
         .get(`${this.$store.getters.url}/connections`, {
           headers: {
