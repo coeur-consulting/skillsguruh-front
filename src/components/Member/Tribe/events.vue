@@ -50,7 +50,7 @@
               <div
                 class="border-bottom py-3 d-flex mb-4 justify-content-between"
               >
-                <div class="d-flex w-100 justify-content-between">
+                <div class="d-flex w-100 justify-content-start">
                   <span
                     class="
                       mr-4
@@ -67,26 +67,9 @@
                       :variant="showing == 'ongoing' ? 'dark-green' : ''"
                       class="mr-1"
                     ></b-icon>
-                    Ongoing</span
+                    Ongoing/Upcoming</span
                   >
-                  <span
-                    class="
-                      mr-4
-                      d-flex
-                      align-items-center
-                      cursor-pointer cursor-pointer
-                      event_title
-                    "
-                    :class="showing == 'upcoming' ? '' : 'text-muted'"
-                    @click="showing = 'upcoming'"
-                    ><b-icon
-                      icon="circle-fill"
-                      font-scale=".6rem"
-                      :variant="showing == 'upcoming' ? 'dark-green' : ''"
-                      class="mr-1"
-                    ></b-icon>
-                    Upcoming</span
-                  >
+
                   <span
                     @click="showing = 'past'"
                     class="
@@ -126,6 +109,23 @@
                       :src="item.cover"
                     ></b-img>
                     <div class="px-3 py-2 bg-white">
+                      <p
+                        class="mb-1 text-capitalize"
+                        :class="
+                          item.status !== 'expired'
+                            ? 'text-primary'
+                            : 'text-danger'
+                        "
+                      >
+                        <b-icon
+                          icon="clock"
+                          :variant="
+                            item.status !== 'expired' ? 'primary' : 'danger'
+                          "
+                          class="mr-2 text-muted"
+                        ></b-icon>
+                        {{ item.status }}
+                      </p>
                       <p class="mb-1 text-muted">
                         <b-icon
                           icon="calendar2-check"
@@ -686,7 +686,7 @@ export default {
         end: "",
         resource: "",
         facilitators: [],
-         tribe_id:this.$store.getters.tribe
+        tribe_id: this.$store.getters.tribe,
       },
       showEvents: false,
       options: [],
@@ -711,10 +711,10 @@ export default {
         );
 
       if (this.showing == "upcoming") {
-        return event.filter((item) => item.status == "pending");
+        return event.filter((item) => item.status !== "expired");
       }
       if (this.showing == "ongoing") {
-        return event.filter((item) => item.status == "ongoing");
+        return event.filter((item) => item.status !== "expired");
       }
       return event.filter((item) => item.status == "expired");
     },
@@ -801,7 +801,7 @@ export default {
               end: "",
               resource: "",
               facilitators: [],
-              tribe_id:this.$store.getters.tribe
+              tribe_id: this.$store.getters.tribe,
             };
           }
         })
@@ -842,7 +842,7 @@ export default {
               end: "",
               resource: "",
               facilitators: [],
-               tribe_id:this.$store.getters.tribe
+              tribe_id: this.$store.getters.tribe,
             };
           }
         })

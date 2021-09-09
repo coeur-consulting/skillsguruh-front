@@ -137,7 +137,7 @@
                     </div>
                     <div class="text-left next_dis">
                       <div v-if="item.tribe" :id="`distribe-${index}`">
-                        {{ item.tribe.name }}
+                        {{ item.tribe.name }} tribe
                       </div>
                       <b-popover
                         v-if="item.tribe"
