@@ -57,7 +57,17 @@
             <font-awesome-icon :icon="bookopen" size="2x" class="icon"
           /></b-nav-item> -->
           <b-nav-item
+            v-if="useraccess"
             to="/member/discussions"
+            class="mr-sm-4 position-relative"
+          >
+            <b-icon icon="circle-fill" class="dot" font-scale=".8"></b-icon>
+            <font-awesome-icon :icon="comments" size="2x" class="icon"
+          /></b-nav-item>
+
+          <b-nav-item
+            v-else
+            to="/member/explore/discussions"
             class="mr-sm-4 position-relative"
           >
             <b-icon icon="circle-fill" class="dot" font-scale=".8"></b-icon>
@@ -224,6 +234,13 @@
             </b-dropdown-item>
           </b-dropdown>
         </b-nav-item>
+      </b-navbar-nav>
+      <b-navbar-nav
+        v-else
+        class="align-items-center justify-content-end flex-row"
+      >
+        <b-nav-item to="/login">Login</b-nav-item>
+        <b-nav-item to="/register">Register</b-nav-item>
       </b-navbar-nav>
     </b-col>
     <b-sidebar id="sidebar-right" left shadow>

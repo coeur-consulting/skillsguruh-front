@@ -273,7 +273,7 @@ export default {
     },
 
     view(id) {
-      this.$router.push(`/event/${id}`);
+      this.$router.push(`/explore/event/${id}`);
     },
   },
 };

@@ -1611,6 +1611,7 @@ const routes = [
               typeMember: true,
             },
           },
+
           {
             path: "courses/:tribe",
             name: "tribe courses",
@@ -1656,6 +1657,32 @@ const routes = [
             },
           },
         ],
+      },
+      {
+        path: "explore/discussions",
+        name: "guest  discussions",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "tribeguestdiscussion" */ "@/components/Member/Tribe/guestdiscussions.vue"
+            ),
+        },
+        meta: {
+          routetype: "guest discussions",
+        },
+      },
+      {
+        path: "explore/discussion/:id",
+        name: "guest discussions",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "tribeguestdiscussion" */ "@/components/Member/Tribe/guestdiscussion.vue"
+            ),
+        },
+        meta: {
+          routetype: "guest discussions",
+        },
       },
 
       {

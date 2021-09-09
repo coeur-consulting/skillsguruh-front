@@ -5,8 +5,8 @@
     <div class="bg-white">
       <section>
         <b-container class="pb-5">
-          <b-row class="justify-content-center p-2 p-sm-5">
-            <b-col cols="4">
+          <b-row class="justify-content-between p-2 p-sm-5">
+            <!-- <b-col cols="4">
               <span
                 class="d-flex align-items-center justify-content-start tpp"
                 @click="$router.push('/explore/members')"
@@ -21,11 +21,11 @@
                   <span class="">Happy Members</span>
                 </span>
               </span>
-            </b-col>
+            </b-col> -->
             <b-col cols="4">
               <span
                 class="d-flex align-items-center tpp justify-content-start"
-                @click="$router.push('/explore/discussions')"
+                @click="$router.push('/member/explore/discussions')"
               >
                 <b-img
                   class="mr-2 tp"
@@ -34,7 +34,7 @@
                 ></b-img>
                 <span>
                   <span class="">{{ discussions.length }}+</span> <br />
-                  <span class="">Online Discussions</span>
+                  <span class="">Ongoing Discussions</span>
                 </span>
               </span>
             </b-col>
@@ -224,7 +224,7 @@
             >
               <div
                 class="discussion_container position-relative"
-                @click="$router.push(`/explore/discussion/${item.id}`)"
+                @click="$router.push(`/member/explore/discussion/${item.id}`)"
               >
                 <div class="p-4 dicussion_overlay position-relative">
                   <b-avatar
@@ -366,7 +366,7 @@
               >
                 <div
                   class="discussion_container position-relative"
-                  @click="$router.push(`/explore/discussion/${item.id}`)"
+                  @click="$router.push(`/member/explore/discussion/${item.id}`)"
                 >
                   <div class="p-4 dicussion_overlay position-relative">
                     <b-avatar
@@ -494,7 +494,7 @@
         </b-container>
         <div class="text-center mt-0 mt-md-5 pt-md-5">
           <small
-            @click="$router.push('/explore/discussions')"
+            @click="$router.push('/member/explore/discussions')"
             class="cursor-pointer text-dark-green"
             >View all {{ discussions.length }} discussions
             <b-icon font-scale=".85" icon="chevron-right"></b-icon
@@ -505,7 +505,7 @@
         <b-container>
           <div class="d-flex justify-content-center trending mb-5">
             <h2 class="">
-              <span> Popular Feed</span>
+              <span> Popular Posts</span>
             </h2>
           </div>
 

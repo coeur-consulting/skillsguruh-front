@@ -59,6 +59,9 @@ export default {
   },
   methods: {
     getnotification() {
+      if (!this.useraccess) {
+        return;
+      }
       this.$store.dispatch("getNotifications", "member");
     },
     getinbox() {
