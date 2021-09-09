@@ -22,7 +22,7 @@
                 </span>
               </span>
             </b-col> -->
-            <b-col cols="4">
+            <b-col cols="6">
               <span
                 class="d-flex align-items-center tpp justify-content-start"
                 @click="$router.push('/member/explore/discussions')"
@@ -38,7 +38,7 @@
                 </span>
               </span>
             </b-col>
-            <b-col cols="4">
+            <b-col cols="6">
               <span
                 class="d-flex align-items-center justify-content-start tpp"
                 @click="$router.push('/explore/community')"
