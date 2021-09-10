@@ -45,7 +45,25 @@ span.highlight:hover {
   font-size: 14px;
   color: rgba($color: #000000, $alpha: 0.44);
 }
-
+.explore_banner {
+  position: relative;
+  height: 500px;
+  background-image: url("/img/optimized-hero-img-3.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h1 {
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    word-wrap: break-word;
+    color: white;
+  }
+}
 .connect_tab div ul li.active {
 }
 .tribedisimg {
@@ -200,6 +218,13 @@ label {
   padding: 20px 14px;
 }
 @media (max-width: 768px) {
+  .explore_banner {
+    height: 250px;
+
+    h1 {
+      font-size: 18px;
+    }
+  }
   .tribe_box {
     height: 160px;
   }

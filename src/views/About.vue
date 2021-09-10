@@ -1,6 +1,8 @@
 <template>
   <div class="main_cont main_c text-center text-md-left">
-    <section class="top_bg"></section>
+    <section class="explore_banner">
+      <h1>About Nzukoor</h1>
+    </section>
     <div class="bg-white">
       <b-container class="">
         <b-row class="mb-4 py-5 align-items-center">

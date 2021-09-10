@@ -1,102 +1,80 @@
 <template>
-  <b-navbar
-    toggleable="md"
-    type="light"
-    variant="white"
-    sticky
-    :class="{ 'shadow-sm': showShadow }"
-  >
-    <b-container>
-      <b-navbar-brand href="/"
-        ><b-img class="logo" src="/img/logo.png"></b-img
-      ></b-navbar-brand>
+  <div class="position-absolute w-100">
+    <b-navbar
+      toggleable="md"
+      type="light"
+      variant="transparent"
+      sticky
+      :class="{ 'shadow-sm': showShadow }"
+    >
+      <b-container fluid>
+        <b-navbar-brand href="/"
+          ><b-img class="logo" src="/img/logo.png"></b-img
+        ></b-navbar-brand>
 
-      <b-navbar-toggle target="nav-collapse" class="border-0">
-        <template #default="{ expanded }">
-          <div class="navtog">
-            <div class="checked" v-if="expanded"></div>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </template>
-      </b-navbar-toggle>
-      <b-collapse id="nav-collapse" is-nav>
-        <b-navbar-nav class="ml-auto align-items-center">
-          <b-nav-item to="/explore" class="mr-sm-4">Explore</b-nav-item>
-          <b-nav-item to="/about" class="mr-sm-4">About</b-nav-item>
+        <b-navbar-toggle target="nav-collapse" class="border-0">
+          <template #default="{ expanded }">
+            <div class="navtog">
+              <div class="checked" v-if="expanded"></div>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </template>
+        </b-navbar-toggle>
+        <b-collapse id="nav-collapse" is-nav class="dark_bg">
+          <b-navbar-nav class="ml-auto align-items-center">
+            <b-nav-item to="/" class="mr-sm-4">Home</b-nav-item>
+            <b-nav-item to="/explore" class="mr-sm-4">Explore</b-nav-item>
+            <b-nav-item to="/about" class="mr-sm-4">About</b-nav-item>
+            <b-nav-item to="/contact" class="mr-sm-4">Contact Us</b-nav-item>
 
-          <b-nav-item v-if="authMember">
-            <b-dropdown
-              size="sm"
-              variant="transparent"
-              no-caret
-              class="no-focus"
-            >
-              <template #button-content>
-                <div class="d-flex align-items-center">
-                  <b-avatar
-                    :src="$store.getters.member.profile"
-                    id="profile"
-                    class="cursor-pointer mr-2"
-                    size="30px"
-                  ></b-avatar>
-                  <span class="fs14 d-none d-sm-inline">{{
-                    $store.getters.member.username
-                  }}</span>
-                </div>
-              </template>
-
-              <b-dropdown-item to="/member/feeds" class="fs14">
-                My Home</b-dropdown-item
+            <b-nav-item v-if="authMember">
+              <b-dropdown
+                size="sm"
+                variant="transparent"
+                no-caret
+                class="no-focus"
               >
+                <template #button-content>
+                  <div class="d-flex align-items-center">
+                    <b-avatar
+                      :src="$store.getters.member.profile"
+                      id="profile"
+                      class="cursor-pointer mr-2"
+                      size="30px"
+                    ></b-avatar>
+                    <span class="fs14 d-none d-sm-inline">{{
+                      $store.getters.member.username
+                    }}</span>
+                  </div>
+                </template>
 
-              <b-dropdown-item @click="logout" class="fs14">
-                Logout
-              </b-dropdown-item>
-            </b-dropdown>
-          </b-nav-item>
+                <b-dropdown-item to="/member/feeds" class="fs14">
+                  My Home</b-dropdown-item
+                >
 
-          <!-- <b-nav-item
-            class="px-4"
-            v-else-if="authFacilitator"
-            @click="$router.push('/facilitator')"
-          >
-            Dashboard</b-nav-item
-          >
+                <b-dropdown-item @click="logout" class="fs14">
+                  Logout
+                </b-dropdown-item>
+              </b-dropdown>
+            </b-nav-item>
 
-          <b-nav-item
-            class="px-4"
-            v-else-if="authAdmin"
-            @click="$router.push('/administrator')"
-          >
-            Dashboard</b-nav-item
-          >
-
-          <b-nav-item
-            class="px-4"
-            v-else-if="authOrg"
-            @click="$router.push('/organization')"
-          >
-            Dashboard</b-nav-item
-          >
-         -->
-          <b-nav-item
-            href="#"
-            v-if="!authMember && !authFacilitator && !authAdmin && !authOrg"
-          >
-            <b-button
-              class="px-5"
-              @click="$router.push('/login')"
-              variant="dark-green"
-            >
-              Login</b-button
-            >
-          </b-nav-item>
-        </b-navbar-nav>
-      </b-collapse>
-    </b-container>
-  </b-navbar>
+            <b-nav-item to="/login" v-if="!authMember"> Login </b-nav-item>
+            <b-nav-item v-if="!authMember">
+              <b-button
+                @click="$router.push('/register')"
+                variant="light"
+                class="text-dark-green px-4"
+              >
+                Get Started</b-button
+              >
+            </b-nav-item>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-container>
+    </b-navbar>
+  </div>
 </template>
 <script>
 export default {
@@ -147,15 +125,15 @@ export default {
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15) !important;
 }
 .navbar-light .navbar-nav .nav-link {
-  color: rgb(0, 0, 0);
+  color: #fff;
   font-weight: 500;
 }
 .navbar-light .navbar-nav .nav-link:hover,
 .navbar-light .navbar-nav .nav-link:focus {
-  color: var(--secondary);
+  color: var(--dark-green);
 }
 .navbar-light .navbar-nav .nav-link.router-link-exact-active {
-  color: var(--secondary);
+  color: var(--dark-green);
 }
 .navtog {
   display: flex;
@@ -203,9 +181,14 @@ span:nth-of-type(3) {
 .logo {
   width: 100px;
 }
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .navbar-light .navbar-nav .nav-link {
     font-size: 14px;
+  }
+  .dark_bg {
+    background: var(--dark-green);
+    padding: 15px;
+    border-radius: 8px;
   }
   // span:nth-of-type(1) {
   //   width: 100%;

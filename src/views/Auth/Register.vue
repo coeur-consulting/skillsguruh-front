@@ -9,15 +9,9 @@
             :src="require('@/assets/images/logo.png')"
           ></b-img>
           <div class="position-relative">
-            <span class="rect">
-              <b-img
-                :src="require('@/assets/images/auth/loginimg.png')"
-              ></b-img>
-            </span>
-
-            <h3 class="mt-4">
-              {{ type ? "Facilitator" : "Member" }} Registration
-            </h3>
+            <h2 class="mt-4">
+              Get comfortable, your tribe is here Connect with over 100 tribes
+            </h2>
           </div>
         </b-col>
         <b-col
@@ -32,7 +26,7 @@
             text-sm-left
           "
         >
-          <div class="shadow rounded p-4 p-sm-4 h-100 w-100 reg_page">
+          <div class="shadow rounded p-4 p-sm-4 reg_page">
             <div class="d-sm-none position-relative">
               <b-img
                 class="img-l cursor-pointer"
@@ -460,22 +454,29 @@ export default {
   height: 100vh;
   overflow: hidden;
 }
-.reg_page {
-  max-height: 85vh;
-  overflow-y: auto;
-}
+
 ::placeholder {
   font-size: 0.7rem;
 }
 .side {
-  background-color: #f4faf8;
+  text-align: center;
+  background-image: url("/img/auth.png");
   background-position: center;
-  background-size: contain;
+  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  color: white;
 }
+.reg_page {
+  width: 85%;
+}
+h2 {
+  font-weight: 600;
+  line-height: 1.4;
+}
+
 .my_type {
   width: 70%;
 }
@@ -495,7 +496,6 @@ p {
   width: 200px;
   position: absolute;
   top: 50px;
-  left: 40px;
 }
 .centerimg {
   z-index: 2;
@@ -595,8 +595,8 @@ a {
     font-size: 0.8rem;
   }
   .reg_page {
-    max-height: 95vh;
-    overflow-y: auto;
+    height: 100%;
+    width: 100%;
   }
 }
 </style>

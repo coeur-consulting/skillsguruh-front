@@ -1,138 +1,136 @@
 <template>
   <div id="main">
-    <section class="banner" id="banner">
-      <b-container class="h-100 d-flex align-items-center pt-5 pt-md-0">
-        <b-row class="justify-content-center align-items-center banner_row">
-          <b-col md="6" sm="12" class="mb-sm-0 top_b">
-            <div class="banner-text mb-3">
-              <h1 class="d-none d-md-block mb-5 mb-md-4">
-                <VueTextTransition
-                  tag="h1"
-                  name="fade"
-                  :show="showTitle"
-                  :interval="30"
-                >
-                  Discover People, Knowledge, and
-                </VueTextTransition>
-                <span class="d-flex">
-                  <VueTextTransition
-                    tag="h1"
-                    name="fade"
-                    :show="showTitle"
-                    :interval="30"
-                    class="mr-2"
-                  >
-                    Opportunities for
-                  </VueTextTransition>
+    <section id="banner" class="position-relative">
+      <carousel
+        :perPage="1"
+        :paginationEnabled="false"
+        :navigationEnabled="false"
+        :autoplay="true"
+        :speed="1000"
+        :autoplayTimeout="5000"
+        :loop="true"
+        v-model="bannerIndex"
+        class="banner"
+      >
+        <slide>
+          <div class="banner_1"></div>
+        </slide>
+        <slide>
+          <div class="banner_2"></div>
+        </slide>
+      </carousel>
+      <div class="banner_info">
+        <div class="banner_text">
+          <h1 class="mb-5">
+            <VueTextTransition
+              tag="h1"
+              name="fade"
+              :show="showTitle"
+              :interval="30"
+            >
+              Get comfortable, your tribe is here
+            </VueTextTransition>
 
-                  <span
-                    class="
-                      position-relative
-                      text-secondary
-                      growth-text
-                      animate__animated animate__zoomIn
-                    "
-                    >Growth
-                    <b-img
-                      :src="require('@/assets/images/landing/black-brush.png')"
-                    ></b-img>
-                  </span>
-                </span>
-              </h1>
+            <VueTextTransition
+              tag="h1"
+              name="fade"
+              :show="showTitle"
+              :interval="50"
+            >
+              Your most authentic connections in one place
+            </VueTextTransition>
+          </h1>
+        </div>
+        <div class="banner_search mb-4 position-relative">
+          <b-input-group>
+            <b-input
+              class="banner-search"
+              type="search"
+              v-model="query"
+              :autofocus="false"
+              autocomplete="off"
+              aria-label="Search across over 100 tribes and find yourself"
+              placeholder="Search across over 100 tribes and find yourself"
+            ></b-input>
 
-              <h1 class="mb-4 mb-sm-4 d-md-none">
-                Discover People, Knowledge, and <br class="d-none d-md-block" />
-                Opportunities for
-                <span class="position-relative text-secondary growth-text"
-                  >Growth
+            <b-input-group-append>
+              <b-button
+                @click="searchProducts"
+                @keyup.enter="searchProducts"
+                class="banner-btn px-2 px-sm-4"
+                variant="dark-green"
+                ><span class="d-none d-md-block">Search</span>
+                <span class="d-md-none"
+                  ><b-icon icon="search" font-scale=".9"></b-icon></span
+              ></b-button>
+            </b-input-group-append>
+          </b-input-group>
+
+          <div class="search_container" v-show="query.length">
+            <div v-if="!groupedTribes.length">
+              <span class="text-muted search_result">
+                <b-icon icon="search"></b-icon> No search result</span
+              >
+            </div>
+            <div v-else>
+              <div class="text-muted mb-3 search_result">
+                <b-icon icon="search"></b-icon>
+                {{ groupedTribes.length }} search results
+              </div>
+              <div
+                v-for="(item, index) in groupedTribes"
+                :key="index"
+                class="bg-light rounded mb-3 p-2 d-flex result"
+              >
+                <div style="width: 20%">
                   <b-img
-                    :src="require('@/assets/images/landing/black-brush.png')"
-                  ></b-img>
-                </span>
-              </h1>
-              <p>Enjoy a more engaging and organized virtual network</p>
+                    :src="item.cover"
+                    style="width: 100%; heigth: 100%; object-fit: cover"
+                  />
+                </div>
+                <div class="text-left" style="width: 80%">
+                  <span> {{ item.name }}</span> <br />
+                  <span class="text-truncate text-truncate-1">
+                    {{ item.description }}</span
+                  >
+                  <br />
+                  <span class="w-100 d-flex justify-content-between">
+                    <!-- <span class="fs11 text-muted"
+                      >{{ item.users.length }} members</span
+                    > -->
+                    <span class="text-dark-green" @click="entertribe(item.id)"
+                      >Join Tribe</span
+                    >
+                  </span>
+                </div>
+              </div>
             </div>
-            <div class="banner-buttons d-none d-sm-flex">
-              <b-button
-                block
-                size="lg"
-                variant="dark-green"
-                @click="$router.push('/explore')"
-                class="m-0 mr-3 btn-shadow"
-              >
-                Explore Interest</b-button
-              >
-              <b-button
-                v-if="!auth"
-                block
-                size="lg"
-                class="m-0"
-                variant="outline-dark-green"
-                @click="$router.push('/register')"
-              >
-                Get Started</b-button
-              >
-              <b-button
-                v-if="auth"
-                block
-                size="lg"
-                class="m-0 btn-shadow"
-                variant="outline-dark-green"
-                v-b-tooltip.hover
-                title="You are  connected"
-              >
-                Connected</b-button
-              >
-            </div>
-            <div class="banner-buttons d-sm-none">
-              <b-button
-                block
-                size="sm"
-                variant="dark-green"
-                @click="$router.push('/explore')"
-                class="m-0 mr-3 btn-shadow"
-              >
-                Explore Interest</b-button
-              >
-              <b-button
-                v-if="auth"
-                block
-                size="sm"
-                class="m-0 btn-shadow"
-                variant="outline-dark-green"
-                v-b-tooltip.hover
-                title="You are  connected"
-              >
-                Connected</b-button
-              >
-              <b-button
-                v-if="!auth"
-                block
-                size="sm"
-                class="m-0 btn-shadow"
-                variant="outline-dark-green"
-                @click="$router.push('/register')"
-              >
-                Get Started</b-button
-              >
-            </div>
-          </b-col>
-          <b-col md="6" class="position-relative down_b text-md-right">
-            <kinesis-container>
-              <kinesis-element :strength="10" type="depth">
-                <b-img
-                  v-animate-onscroll.repeat="
-                    'animate__animated animate__pulse animate__repeat-1'
-                  "
-                  class="img-fluid banner_image"
-                  alt="nzukoor"
-                  :src="require('../assets/images/landing/banner-img.png')"
-                ></b-img>
-              </kinesis-element>
-            </kinesis-container>
-          </b-col>
-        </b-row>
-      </b-container>
+          </div>
+        </div>
+
+        <div class="banner_button">
+          <b-button size="lg" class="px-5" variant="dark-green"
+            >Get Started</b-button
+          >
+        </div>
+      </div>
+
+      <div class="banner_nav" v-if="!query.length">
+        <b-icon
+          @click="bannerIndex > 0 ? bannerIndex-- : ''"
+          icon="arrow-left-circle"
+          class="mr-3 cursor-pointer"
+          :class="bannerIndex > 0 ? 'text-white' : 'text-light'"
+          :font-scale="bannerIndex > 0 ? '1.5' : '1'"
+        ></b-icon>
+        <b-icon
+          @click="bannerIndex < 1 ? bannerIndex++ : ''"
+          icon="arrow-right-circle"
+          class="cursor-pointer"
+          :class="bannerIndex < 1 ? 'text-white' : 'text-light'"
+          :font-scale="bannerIndex < 1 ? '1.5' : '1'"
+        ></b-icon>
+      </div>
     </section>
 
     <section id="with_nzukoor">
@@ -169,67 +167,6 @@
       </b-container>
     </section>
 
-    <!-- <section id="facilitators">
-      <h2 class="mb-5"><span>Our Top Facilitators</span></h2>
-      <p class="mb-5">
-        All our facilitators are awesome, but these ones really stand out in our
-        community. Get to know them!
-      </p>
-
-      <b-container>
-        <b-row>
-          <b-col>
-            <carousel
-              :perPage="1"
-              :perPageCustom="[
-                [600, 1],
-                [768, 3],
-              ]"
-              :paginationEnabled="true"
-              navigationNextLabel=""
-              navigationPrevLabel=""
-              :autoplay="true"
-              :speed="1000"
-              :autoplayTimeout="5000"
-              :loop="true"
-              class="py-3"
-            >
-              <slide
-                class="mb-sm-0 px-3 py-1"
-                v-for="(item, id) in facilitators"
-                :key="id"
-                v-animate-onscroll="'animate__animated animate__zoomIn '"
-              >
-                <div class="position-relative">
-                  <div class="facilitator shadow-sm position-relative">
-                    <kinesis-container>
-                      <kinesis-element :strength="10">
-                        <b-img
-                          class="rounded mb-4"
-                          fluid-grow
-                          :src="item.image"
-                        ></b-img>
-                      </kinesis-element>
-                    </kinesis-container>
-
-                    <div>{{ item.name }}</div>
-                    <div class="text-muted"><small>Facilitator</small></div>
-                    <div>
-                      <b-icon class="text-gold" icon="star-fill"></b-icon>
-                      <b-icon class="text-gold" icon="star-fill"></b-icon>
-                      <b-icon class="text-gold" icon="star-fill"></b-icon>
-                      <b-icon class="text-gold" icon="star-fill"></b-icon>
-                      <b-icon class="text-gold" icon="star-fill"></b-icon>
-                    </div>
-                  </div>
-                  <span class="hover_box"></span>
-                </div>
-              </slide>
-            </carousel>
-          </b-col>
-        </b-row>
-      </b-container>
-    </section> -->
     <section id="joinnow" class="bg-dark-green">
       <b-img class="eli1" :src="require('../assets/images/dot-im.png')"></b-img>
 
@@ -352,12 +289,17 @@
 <script>
 import { KinesisContainer, KinesisElement } from "vue-kinesis";
 import VueTextTransition from "vue-text-transition";
+import { mapGetters } from "vuex";
+import _ from "lodash";
 export default {
   data() {
     return {
       showTitle: false,
       auth: null,
       index: 0,
+      bannerIndex: 0,
+      query: "",
+
       stories: [
         {
           name: "Oscar Eze— Entrepreneur, Lagos",
@@ -381,23 +323,7 @@ export default {
           image: require("@/assets/images/landing/fac5.jpg"),
         },
       ],
-      facilitators: [
-        {
-          name: "Ada Okafor, Lagos",
 
-          image: require("@/assets/images/landing/story1.png"),
-        },
-        {
-          name: "Obi Uchendu, Imo",
-
-          image: require("@/assets/images/landing/story2.png"),
-        },
-        {
-          name: "Nkechi Ezeukwu , Enugu",
-
-          image: require("@/assets/images/landing/story3.png"),
-        },
-      ],
       about: [
         {
           name: "Explore",
@@ -435,10 +361,24 @@ export default {
     KinesisElement,
     VueTextTransition,
   },
+  watch: {
+    query: {
+      handler: _.debounce(function () {
+        this.searchProducts();
+      }, 100),
+    },
+  },
   mounted() {
+    var channel = this.$pusher.subscribe(`search`);
+    channel.bind("searchResults", (e) => {
+      console.log("🚀 ~ file: Landing.vue ~ line 493 ~ channel.bind ~ e", e);
+      this.$store.commit("SET_TRIBES", e.tribes);
+    });
+    this.$store.dispatch("GET_TRIBES");
+
     setTimeout(() => {
       this.showTitle = true;
-    }, 500);
+    }, 350);
     if (localStorage.getItem("authMember")) {
       this.auth = true;
     } else if (localStorage.getItem("authFacilitator")) {
@@ -451,6 +391,46 @@ export default {
       return;
     }
   },
+  methods: {
+    searchProducts() {
+      this.$store.dispatch("SEARCH_TRIBES", this.query);
+    },
+    entertribe(id) {
+      if (!this.auth) {
+        this.$toast.error("login to access");
+      }
+      var details = {
+        tribe_id: id,
+        user: this.$store.getters.member,
+      };
+      localStorage.removeItem("tribe");
+      localStorage.setItem("tribe", id);
+      this.$store.dispatch("checkTribe", details).then((res) => {
+        if (res.status == 200 && res.data.message == "found") {
+          window.location.href = `/member/tribe/discussions/${id}`;
+        } else {
+          this.$bvModal
+            .msgBoxConfirm("Do you wish to join this tribe?")
+            .then((val) => {
+              if (val) {
+                this.$store.dispatch("joinTribe", details).then((res) => {
+                  if (res.status == 200 && res.data.message == "successful") {
+                    this.$toast.success("Joined successfully");
+                    window.location.href = `/member/tribe/discussions/${id}`;
+                  }
+                });
+              }
+            });
+        }
+      });
+    },
+  },
+  computed: {
+    groupedTribes() {
+      return _.chunk(this.tribes, 4);
+    },
+    ...mapGetters(["tribes"]),
+  },
 };
 </script>
 <style scoped lang="scss">
@@ -461,7 +441,9 @@ export default {
 #main ::-webkit-scrollbar {
   display: none;
 }
-
+.btn {
+  height: 46px;
+}
 /* Hide scrollbar for IE, Edge and Firefox */
 .notification_container {
   -ms-overflow-style: none; /* IE and Edge */
@@ -472,26 +454,80 @@ export default {
 }
 #banner {
   position: relative;
-  height: calc(100vh - 76px);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .banner {
   background-image: url("../assets/images/landing/transparent.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
+  height: 100%;
+  width: 100%;
 }
-.banner-text {
-  text-align: left;
+.banner_1 {
+  background-image: url("../assets/images/landing/hero-img-1.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.banner-text h1 {
-  font-size: 28px;
+.banner_2 {
+  background-image: url("../assets/images/landing/optimized-hero-img-2.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.banner_nav {
+  position: absolute;
+  bottom: 50px;
+  right: 50px;
+  display: flex;
+  align-items: center;
+}
+.banner_info {
+  width: 70%;
+  position: absolute;
+}
+.banner_text {
+  text-align: center;
+  color: white;
+
+  margin: 0 auto;
+}
+.banner_text h1 {
+  font-size: 36px;
   font-style: normal;
   font-weight: 600;
   letter-spacing: 0.06em;
-  text-align: left;
   word-wrap: break-word;
 }
-.banner-text p {
+.btn.banner-btn {
+  height: 56px;
+}
+.banner-search {
+  height: 56px;
+}
+.search_container {
+  width: 100%;
+  background: #fff;
+  max-height: 500px;
+  overflow-y: scroll;
+  padding: 15px;
+  position: absolute;
+}
+.banner_text p {
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
@@ -511,6 +547,9 @@ export default {
   width: 100%;
   object-position: bottom;
   margin-bottom: 0px;
+}
+.result {
+  cursor: pointer;
 }
 .down_b {
   justify-content: center;
@@ -560,6 +599,10 @@ export default {
     > p {
       width: 95%;
     }
+  }
+  .result,
+  .search_result {
+    font-size: 0.8rem;
   }
 }
 .rules {
@@ -839,13 +882,7 @@ export default {
   bottom: -15px;
   left: 10%;
 }
-.form-control {
-  height: 56px;
-  background: var(--lighter-green);
-}
-.btn {
-  height: 46px;
-}
+
 img {
   width: 100%;
 }
@@ -866,14 +903,13 @@ img {
 }
 
 @media (max-width: 768px) {
-  .banner-text {
+  .banner_text {
     h1 {
-      font-size: 22px;
+      font-size: 20px;
       font-style: normal;
-      font-weight: 700;
+      font-weight: 600;
       line-height: 30px;
-      letter-spacing: 0.06em;
-      text-align: left;
+      letter-spacing: 0.05em;
     }
     p {
       font-size: 15px;
@@ -899,10 +935,22 @@ img {
   .joinnow h2 {
     font-size: 16px !important;
   }
+  .banner_info {
+    width: 94%;
+  }
   .form-control {
     height: 40px;
-    font-size: 14px;
-    background: var(--lighter-green);
+    font-size: 0.9rem;
+  }
+  ::placeholder {
+    font-size: 0.75rem;
+  }
+  .btn {
+    height: 40px;
+  }
+
+  .btn.banner-btn {
+    height: 40px;
   }
   .top_b {
     display: flex;

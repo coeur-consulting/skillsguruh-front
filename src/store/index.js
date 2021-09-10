@@ -24,10 +24,14 @@ export default new Vuex.Store({
     course: {},
     tribe: localStorage.getItem("tribe"),
     tribe_info: {},
+    tribes: [],
   },
   mutations: {
     SET_TRIBE(state, tribe) {
       state.tribe = tribe;
+    },
+    SET_TRIBES(state, tribes) {
+      state.tribes = tribes;
     },
     SET_TRIBE_INFO(state, tribe) {
       state.tribe_info = tribe;
@@ -61,6 +65,31 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    SEARCH_TRIBES({ state }, query) {
+      let params = {
+        query,
+      };
+      Vue.axios
+        .get(`${state.url}/search`, { params })
+        .then((res) => {
+          if (res.data === "ok") console.log("request sent successfully");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    GET_TRIBES({ state, commit }) {
+      Vue.axios
+        .get(`${state.url}/all/tribes`)
+        .then((res) => {
+          {
+            commit("SET_TRIBES", res.data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     async highlightText({ state }, text) {
       var part = text.substring(text.indexOf("@") + 1, text.lastIndexOf(""));
       console.log(part);
@@ -277,6 +306,7 @@ export default new Vuex.Store({
     isMinimise: (state) => state.isMinimise,
     course: (state) => state.course,
     tribe: (state) => state.tribe,
+    tribes: (state) => state.tribes,
     tribe_info: (state) => state.tribe_info,
   },
 });

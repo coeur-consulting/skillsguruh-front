@@ -9,12 +9,6 @@
             :src="require('@/assets/images/logo.png')"
           ></b-img>
           <div class="position-relative">
-            <span class="rect">
-              <b-img
-                :src="require('@/assets/images/auth/loginimg.png')"
-              ></b-img>
-            </span>
-
             <h3 class="mt-4">Forgot password?</h3>
           </div>
         </b-col>
@@ -30,7 +24,7 @@
             text-sm-left
           "
         >
-          <div class="shadow rounded p-4 p-sm-5 h-100 w-100">
+          <div class="shadow rounded p-4 p-sm-5">
             <div class="d-sm-none position-relative">
               <b-img
                 class="img-l cursor-pointer"
@@ -108,7 +102,7 @@ export default {
 
       user: {
         email: "",
-        type: this.$route.query.auth,
+        type: "user",
       },
     };
   },
@@ -144,13 +138,20 @@ export default {
 }
 
 .side {
-  background-color: #f4faf8;
+  text-align: center;
+  background-image: url("/img/auth.png");
   background-position: center;
-  background-size: contain;
+  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  color: white;
+}
+
+h2 {
+  font-weight: 600;
+  line-height: 1.4;
 }
 .my_type {
   width: 70%;
@@ -171,7 +172,6 @@ p {
   width: 200px;
   position: absolute;
   top: 50px;
-  left: 40px;
 }
 .centerimg {
   z-index: 2;

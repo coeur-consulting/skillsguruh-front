@@ -1,7 +1,8 @@
 <template>
   <div class="main_c">
-    <section class="top_bg"></section>
-
+    <section class="explore_banner">
+      <h1>Contact Nzukoor</h1>
+    </section>
     <section class="bg-white">
       <b-container class="">
         <b-row class="flex-column-reverse flex-md-row">

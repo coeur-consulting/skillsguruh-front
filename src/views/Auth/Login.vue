@@ -9,13 +9,9 @@
             :src="require('@/assets/images/logo.png')"
           ></b-img>
           <div class="position-relative">
-            <span class="rect">
-              <b-img
-                :src="require('@/assets/images/auth/loginimg.png')"
-              ></b-img>
-            </span>
-
-            <h3 class="mt-4">{{ type ? "Facilitator" : "Member" }} Login</h3>
+            <h2 class="mt-4">
+              Get comfortable, your tribe is here Connect with over 100 tribes
+            </h2>
           </div>
         </b-col>
         <b-col
@@ -30,7 +26,7 @@
             text-sm-left
           "
         >
-          <div class="shadow rounded p-4 p-sm-5 h-100 w-100">
+          <div class="shadow rounded p-4 p-sm-5 login_form">
             <div class="d-sm-none position-relative">
               <b-img
                 class="img-l cursor-pointer"
@@ -141,13 +137,7 @@
                   <div class="">
                     <small
                       class="text-secondary"
-                      @click="
-                        $router.push(
-                          `/forgot-password?auth=${
-                            !type ? 'user' : 'facilitator'
-                          }`
-                        )
-                      "
+                      @click="$router.push('/forgot-password')"
                       >Forgot password?</small
                     >
                   </div>
@@ -180,22 +170,6 @@
                   </div> -->
                 </div>
               </div>
-              <!-- <div class="text-center mt-4">
-                <span
-                  v-if="type == false"
-                  class="text-secondary cursor-pointer"
-                  @click="type = true"
-                >
-                  I am a Facilitator
-                </span>
-                <span
-                  v-else
-                  class="text-secondary cursor-pointer"
-                  @click="type = false"
-                >
-                  I am a Member
-                </span>
-              </div> -->
             </b-form>
           </div>
         </b-col>
@@ -370,20 +344,31 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 #register {
   height: 100vh;
   overflow: hidden;
 }
 
 .side {
-  background-color: #f4faf8;
+  text-align: center;
+  background-image: url("/img/auth.png");
   background-position: center;
-  background-size: contain;
+  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  color: white;
+}
+
+h2 {
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.login_form {
+  width: 80%;
 }
 .my_type {
   width: 70%;
@@ -398,13 +383,12 @@ p {
   font-weight: 500;
   line-height: 22px;
   letter-spacing: 0em;
-  text-align: left;
+  text-align: center;
 }
 .logo {
   width: 200px;
   position: absolute;
   top: 50px;
-  left: 40px;
 }
 .centerimg {
   z-index: 2;
@@ -475,6 +459,10 @@ a {
   color: #04498f;
 }
 @media (max-width: 600px) {
+  .login_form {
+    width: 90%;
+    height: 90%;
+  }
   #register {
     height: 100%;
     overflow: unset;
@@ -502,6 +490,10 @@ a {
   }
   .form-text {
     font-size: 0.8rem;
+  }
+  .login_form {
+    width: 100%;
+    height: 100%;
   }
 }
 </style>

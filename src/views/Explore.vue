@@ -1,59 +1,52 @@
 <template>
-  <div class="main_c text-left pt-md-5">
-    <section class="top_bg"></section>
+  <div class="main_c text-left">
+    <section class="explore_banner">
+      <h1>Explore Nzukoor</h1>
+    </section>
 
-    <div class="bg-white">
-      <section>
-        <b-container class="pb-5">
-          <b-row class="justify-content-between p-2 p-sm-5">
-            <!-- <b-col cols="4">
-              <span
-                class="d-flex align-items-center justify-content-start tpp"
-                @click="$router.push('/explore/members')"
-              >
+    <div class="bg-white position-relative">
+      <div class="explore_info">
+        <b-container>
+          <b-row>
+            <b-col md="4">
+              <div class="explore_box shadow rounded">
                 <b-img
-                  class="mr-2 tp"
-                  size="2.5rem"
-                  src="/img/member.png"
+                  :src="require('@/assets/images/spaceman.svg')"
+                  alt="exlplore"
                 ></b-img>
-                <span>
-                  <span class="">{{ users.length }}+</span> <br />
-                  <span class="">Happy Members</span>
-                </span>
-              </span>
-            </b-col> -->
-            <b-col cols="6">
-              <span
-                class="d-flex align-items-center tpp justify-content-start"
-                @click="$router.push('/member/explore/discussions')"
-              >
-                <b-img
-                  class="mr-2 tp"
-                  size="2.5rem"
-                  src="/img/program.png"
-                ></b-img>
-                <span>
-                  <span class="">{{ discussions.length }}+</span> <br />
-                  <span class="">Ongoing Discussions</span>
-                </span>
-              </span>
+
+                <p>
+                  Explore and discover different tribes that share similar
+                  interest
+                </p>
+              </div>
             </b-col>
-            <b-col cols="6">
-              <span
-                class="d-flex align-items-center justify-content-start tpp"
-                @click="$router.push('/explore/community')"
-              >
-                <b-img class="mr-2 tp" size="2.5rem" src="/img/grp.png"></b-img>
-                <span>
-                  <span class="">{{ tribes.length }}+</span>
-                  <br />
-                  <span class=""> Active Tribes </span>
-                </span>
-              </span>
+            <b-col md="4">
+              <div class="explore_box shadow rounded">
+                <b-img
+                  :src="require('@/assets/images/switch.svg')"
+                  alt="engage"
+                ></b-img>
+
+                <p>
+                  Engage with people from different tribes with similar interest
+                </p>
+              </div>
+            </b-col>
+            <b-col md="4">
+              <div class="explore_box shadow rounded">
+                <b-img
+                  :src="require('@/assets/images/connection.svg')"
+                  alt="evolve"
+                ></b-img>
+
+                <p>Evolve by learning and diversifying from different tribe</p>
+              </div>
             </b-col>
           </b-row>
         </b-container>
-      </section>
+      </div>
+      <div class="spacer"></div>
       <section class="py-5">
         <b-container>
           <div class="d-flex justify-content-center trending mb-5">
@@ -207,10 +200,16 @@
           <b-row>
             <b-col class="mb-3">
               <div>
-                <div class="d-flex justify-content-center trending">
+                <div class="text-center trending">
                   <h2 class="mb-5">
                     <span> Trending Discussions</span>
                   </h2>
+                  <p>
+                    Join trending discussion and gain knowledge, connect with
+                    differnt people and share ideas see some of the latest
+                    trending disccusion that people are talking about signup to
+                    join this conversation now
+                  </p>
                 </div>
               </div>
             </b-col>
@@ -999,13 +998,17 @@
 
       <section class="text-center mb-5 pt-4 py-sm-5">
         <b-container>
-          <div class="d-flex justify-content-center trending mb-5">
-            <h2 class="">
+          <div class="text-center trending mb-3">
+            <h2 class="mb-5">
               <span> Explore Interests</span>
             </h2>
+            <p>
+              Nzukoor community covers differnent interest that you can explore
+              from everything tech, politics, art, entertainment and more.
+            </p>
           </div>
 
-          <p class="px-2 px-sm--5">
+          <p class="px-2 px-sm-5">
             Select your interest to connect with your tribe right away
           </p>
           <b-row class="py-2 justify-content-center justify-content-sm-around">
@@ -1028,140 +1031,7 @@
           </b-row>
         </b-container>
       </section>
-      <!-- <section class="py-5">
-        <b-container>
-          <div class="d-flex justify-content-center trending mb-5">
-            <h2 class="">
-              <span> Popular Courses</span>
-            </h2>
-          </div>
 
-          <b-row class="justify-content-start pb-1" v-if="courses.length">
-            <b-col cols="12" class="mb-sm-4 px-sm-4">
-              <carousel
-                :perPage="2"
-                :scrollPerPage="true"
-                :paginationEnabled="true"
-                :spacePadding="8"
-                :perPageCustom="[
-                  [600, 2],
-                  [768, 3],
-                ]"
-                v-if="courses.length"
-              >
-                <slide
-                  class="p-2 pr-3"
-                  v-for="item in courses.slice(0, 6)"
-                  :key="item.id"
-                >
-                  <div class="shadow-sm">
-                    <div
-                      class="course border rounded overflow-hidden"
-                      @click="
-                        $router.push(`/explore/courses?course_id=${item.id}`)
-                      "
-                    >
-                      <div
-                        class="course_img"
-                        :style="{
-                          backgroundImage: `url(${
-                            item.cover
-                              ? item.cover
-                              : require('@/assets/images/default.png')
-                          })`,
-                        }"
-                      ></div>
-                      <div class="course_text bg-white p-2 p-sm-3">
-                        <div class="d-flex justify-content-between">
-                          <span
-                            class="
-                              px-2
-                              py-1
-                              rounded-pill
-                              text-white
-                              course_badge
-                            "
-                            :style="{
-                              backgroundColor: JSON.parse(
-                                item.courseoutline.knowledge_areas
-                              ).color,
-                            }"
-                          >
-                            <b-icon
-                              class="mr-2"
-                              :icon="
-                                JSON.parse(item.courseoutline.knowledge_areas)
-                                  .icon
-                              "
-                            ></b-icon>
-                            <span>{{
-                              JSON.parse(item.courseoutline.knowledge_areas)
-                                .value
-                            }}</span></span
-                          >
-                          <span class="text-capitalize course_type">{{
-                            item.type
-                          }}</span>
-                        </div>
-                        <div class="pt-2 pb-1">
-                          <h6
-                            class="
-                              overview-title
-                              text-truncate text-truncate--2
-                            "
-                          >
-                            {{ item.title }}
-                          </h6>
-                          <div
-                            class="
-                              text-truncate text-truncate--2
-                              course_description
-                            "
-                          >
-                            {{ item.description }}
-                          </div>
-                        </div>
-                        <div class="info fs12">
-                          <div class="d-flex">
-                            <div class="mr-3">
-                              <b-icon icon="people" class="mr-1"></b-icon>
-                              <span>{{ item.count }}+</span>
-                            </div>
-                            <div>
-                              <b-icon
-                                icon="star-fill"
-                                style="color: gold"
-                                class="mr-1"
-                              ></b-icon>
-                              <span>{{ item.review.length }} reviews</span>
-                            </div>
-                          </div>
-
-                          <b-avatar
-                            size="sm"
-                            variant="light"
-                            :src="item.cover"
-                            class="course_avatar"
-                          >
-                          </b-avatar>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </slide>
-              </carousel>
-            </b-col>
-          </b-row>
-
-          <div class="text-center text-dark-green fs12">
-            <span
-              @click="$router.push('/explore/courses')"
-              class="cursor-pointer"
-              >Load more...</span
-            >
-          </div>
-        </b-container>
-      </section> -->
       <section class="py-3 py-sm-5">
         <b-container>
           <div class="d-flex justify-content-center">
@@ -2208,12 +2078,35 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
 }
-.top_bg {
-  height: 400px;
-  background-image: url("../assets/images/people.svg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
+
+.explore_info {
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  top: -3%;
+  width: 100%;
+}
+.explore_box {
+  height: 300px;
+  width: 100%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 15px;
+  text-align: center;
+  img {
+    width: 40%;
+    margin-bottom: 20px;
+  }
+  p {
+    font-weight: 500;
+    font-size: 15px;
+  }
+}
+.spacer {
+  height: 260px;
 }
 .mywhite {
   background: #f7f8fa;
@@ -2235,7 +2128,6 @@ export default {
     margin-right: -75px;
   }
   p {
-    width: 35%;
     margin: 0 auto;
   }
 }
