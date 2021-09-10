@@ -716,9 +716,7 @@ export default {
         var info = {};
 
         if (item.user_id && item.user_id == this.$store.getters.member.id) {
-          info.admin = item.admin_info || null;
           info.user = item.member_info || null;
-          info.facilitator = item.facilitator_info || null;
           info.message = item.message || null;
           info.time = item.created_at || null;
           info.status = item.status;
@@ -755,26 +753,6 @@ export default {
 
           return checkers;
         }
-        if (item.admin) {
-          checkers.id = item.admin.id;
-          checkers.type = "admin";
-          checkers.name = item.admin.name;
-          checkers.message = item.message;
-          checkers.time = item.time;
-          checkers.profile = item.admin.profile;
-
-          return checkers;
-        }
-        if (item.facilitator) {
-          checkers.id = item.facilitator.id;
-          checkers.type = "facilitator";
-          checkers.name = item.facilitator.name;
-          checkers.message = item.message;
-          checkers.time = item.time;
-          checkers.profile = item.facilitator.profile;
-
-          return checkers;
-        }
       });
       return [
         ...new Set(
@@ -801,16 +779,6 @@ export default {
     lastMessage(info) {
       var mess = this.sortmessages.filter((item) => {
         if (info.type == "user" && item.user && item.user.id == info.id) {
-          return item;
-        }
-        if (info.type == "admin" && item.admin && item.admin.id == info.id) {
-          return item;
-        }
-        if (
-          info.type == "facilitator" &&
-          item.facilitator &&
-          item.facilitator.id == info.id
-        ) {
           return item;
         }
       });

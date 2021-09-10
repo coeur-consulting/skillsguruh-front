@@ -27,7 +27,7 @@
         ></b-icon>
       </div>
     </div>
-    <div v-if="!isMinimise">
+    <div v-if="!isMinimise" class="position-relative">
       <ul
         class="reply py-3 text-left pl-0 mb-0"
         v-chat-scroll="{ always: false, smooth: true, scrollonremoved: true }"
@@ -53,21 +53,10 @@
             >
               <span
                 class="chatting_name font-weight-bold mr-3"
-                v-if="item.admin"
-                >{{ item.admin.name }}</span
-              >
-
-              <span
-                class="chatting_name font-weight-bold mr-3"
                 v-if="item.user"
                 >{{ item.user.username }}</span
               >
 
-              <span
-                class="chatting_name font-weight-bold mr-3"
-                v-if="item.facilitator"
-                >{{ item.facilitator.username }}</span
-              >
               <span class="text-muted fs11">
                 {{ item.created_at | moment("LT") }}</span
               >
@@ -194,28 +183,59 @@
                 </div>
               </div>
             </a>
-            <div class="pt-2" v-html="item.message"></div>
+            <audio
+              v-if="item.voicenote"
+              :src="item.voicenote"
+              controls
+              style="width: 100%"
+            ></audio>
+            <div class="pt-2" v-if="item.message" v-html="item.message"></div>
           </div>
         </li>
       </ul>
+      <div class="mic bg-light" v-if="record">
+        <vue-dictaphone
+          mime-type="audio/mp3"
+          @stop="handleRecording($event)"
+          v-slot="{
+            isRecording,
+            startRecording,
+            stopRecording,
+            deleteRecording,
+          }"
+        >
+          <span v-if="!isRecording" @click="startRecording">
+            Click to start recording
+          </span>
+
+          <span v-else class="d-flex align-items-center rounded-pill bg-light">
+            <b-icon
+              @click="deleteRecording"
+              class="mr-4"
+              icon="trash"
+              variant="danger"
+              font-scale=".8"
+            ></b-icon>
+            <span @click="stopRecording"> Stop recording </span>
+          </span>
+          <div class="mic_visual" v-if="isRecording">
+            <vue-dictaphone-spectrum-analyser />
+          </div>
+        </vue-dictaphone>
+      </div>
+
       <div class="text-left py-2 mb-1">
         <b-input-group class="mt-1">
           <template #append>
             <b-input-group-text class="border-0 bg-transparent py-0">
-              <b-iconstack class="cursor-pointer mr-2" v-if="!inbox.message">
-                <b-icon
-                  stacked
-                  font-scale="1.3"
-                  icon="circle-fill"
-                  :variant="record ? 'dark-green' : 'lighter-green'"
-                ></b-icon>
-                <b-icon
-                  stacked
-                  icon="mic-fill"
-                  :variant="record ? 'white' : 'grey'"
-                  scale="0.5"
-                ></b-icon>
-              </b-iconstack>
+              <b-icon
+                v-if="!inbox.message"
+                class="cursor-pointer mr-2"
+                @click="record = !record"
+                icon="mic-fill"
+                font-scale="1.1"
+                :class="record ? 'text-muted' : 'text-dark'"
+              ></b-icon>
 
               <b-icon
                 v-else
@@ -466,11 +486,13 @@ export default {
       aud_ext: ["mp3", "aac"],
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       record: false,
+
       inbox: {
         message: "",
         attachment: "",
         receiver: "",
         receiver_id: "",
+        voicenote: "",
       },
       search: "",
     };
@@ -539,6 +561,14 @@ export default {
     },
   },
   methods: {
+    handleRecording({ blob, src }) {
+      console.log(
+        "🚀 ~ file: minichat.vue ~ line 559 ~ handleRecording ~ blob",
+        blob
+      );
+      this.inbox.voicenote = src;
+      this.addinbox();
+    },
     insert(emoji) {
       this.inbox.message = this.inbox.message + emoji;
     },
@@ -721,8 +751,8 @@ export default {
       this.getchatter(inboxes);
     },
     addinbox() {
-      if (this.inbox.attachment && this.inbox.message) {
-        return this.$toast.info("Cannotbe empty");
+      if (this.inbox.attachment && this.inbox.message && this.inbox.voicenote) {
+        return this.$toast.info("Cannot be empty");
       }
       this.inbox.receiver_id = this.chatter.id;
       this.inbox.receiver = this.chatter.type;
@@ -740,11 +770,15 @@ export default {
             if (this.inbox.attachment) {
               this.$bvModal.hide("media");
             }
+            if (this.record) {
+              this.record = false;
+            }
             this.inbox = {
               attachment: "",
               message: "",
               receiver: "",
               receiver_id: "",
+              voicenote: "",
             };
           }
         })
@@ -793,6 +827,25 @@ export default {
 .reply {
   height: 360px;
   overflow-y: scroll;
+  position: relative;
+}
+.mic {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  height: 85%;
+}
+.mic_visual {
+  width: 200px;
+  height: 60px;
+  overflow: hidden;
 }
 .reply::-webkit-scrollbar {
   display: none;
@@ -853,7 +906,6 @@ export default {
   font-size: 12px;
 }
 audio {
-  max-width: 200px;
   height: 44px;
 }
 .chat_image {

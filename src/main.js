@@ -32,6 +32,7 @@ import "vue-event-calendar/dist/style.css";
 import "vue-search-select/dist/VueSearchSelect.css";
 import "./assets/scss/style.scss";
 import "./cloudinary.js";
+import VueDictaphone from "vue-dictaphone";
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 Vue.component("font-awesome-layers", FontAwesomeLayers);
@@ -41,6 +42,7 @@ Vue.use(Cloudinary, {
     cloudName: "skillsguruh",
   },
 });
+Vue.use(VueDictaphone);
 Vue.use(VueSocialSharing);
 Vue.use(require("vue-moment"));
 Vue.use(BootstrapVue);
@@ -170,20 +172,25 @@ router.beforeEach((to, from, next) => {
     var user = JSON.parse(localStorage.getItem("authMember"));
     var tribe = localStorage.getItem("tribe");
 
-    Vue.axios
-      .get(`${process.env.VUE_APP_API_PATH}/check/tribe/${tribe}`, {
-        headers: {
-          Authorization: `Bearer ${user.access_token}`,
-        },
-      })
-      .then((res) => {
-        if (res.status == 200 && res.data.message == "found") {
-          next();
-        } else {
-          Vue.$toast.error("Unauthorised access");
-          next("/member/tribes");
-        }
-      });
+    if (tribe) {
+      Vue.axios
+        .get(`${process.env.VUE_APP_API_PATH}/check/tribe/${tribe}`, {
+          headers: {
+            Authorization: `Bearer ${user.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200 && res.data.message == "found") {
+            next();
+          } else {
+            Vue.$toast.error("Unauthorised access");
+            next("/member/tribes");
+          }
+        });
+    } else {
+      Vue.$toast.error("Unauthorised access");
+      next("/member/tribes");
+    }
   } else {
     next();
   }

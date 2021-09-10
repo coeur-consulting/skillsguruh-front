@@ -38,10 +38,11 @@
         <slide v-for="(item, id) in suggestions" :key="id">
           <b-card
             no-body
-            class="mr-3 suggestion position-relative rounded overflw-hidden"
+            class="mr-3 suggestion position-relative rounded overflw-hidden p-1"
             style="min-width: 150px"
           >
             <b-card-img
+              class="rounded-circle"
               :src="
                 item.profile
                   ? item.profile
@@ -174,9 +175,10 @@ export default {
 
 <style scoped lang="scss">
 .suggestion img {
-  height: 120px;
-  width: 100%;
+  height: 130px;
+  width: 130px;
   object-fit: cover;
+  margin: 0 auto;
 }
 .name {
   font-size: 0.72rem;
@@ -193,8 +195,8 @@ export default {
     min-width: 120px !important;
   }
   .suggestion img {
-    height: 90px;
-    width: 100%;
+    height: 100px;
+    width: 100px;
     object-fit: cover;
   }
   .name {
