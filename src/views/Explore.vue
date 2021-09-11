@@ -8,7 +8,7 @@
       <div class="explore_info">
         <b-container>
           <b-row>
-            <b-col md="4">
+            <b-col md="4" class="mb-4 mb-md-0">
               <div class="explore_box shadow rounded">
                 <b-img
                   :src="require('@/assets/images/spaceman.svg')"
@@ -21,7 +21,7 @@
                 </p>
               </div>
             </b-col>
-            <b-col md="4">
+            <b-col md="4" class="mb-4 mb-md-0">
               <div class="explore_box shadow rounded">
                 <b-img
                   :src="require('@/assets/images/switch.svg')"
@@ -33,7 +33,7 @@
                 </p>
               </div>
             </b-col>
-            <b-col md="4">
+            <b-col md="4" class="mb-4 mb-md-0">
               <div class="explore_box shadow rounded">
                 <b-img
                   :src="require('@/assets/images/connection.svg')"
@@ -2223,6 +2223,25 @@ export default {
   font-weight: 500;
 }
 @media (max-width: 768px) {
+  .explore_info {
+    position: relative;
+    padding-top: 30px;
+    width: 80%;
+    margin: 0 auto;
+  }
+  .spacer {
+    height: 30px;
+  }
+  .explore_box {
+    height: auto;
+    img {
+      width: 35%;
+    }
+    p {
+      font-weight: 500;
+      font-size: 13px;
+    }
+  }
   .trending {
     h2 {
       font-size: 1.3rem;

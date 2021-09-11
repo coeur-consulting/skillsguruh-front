@@ -21,7 +21,7 @@
       </carousel>
       <div class="banner_info">
         <div class="banner_text">
-          <h1 class="mb-5">
+          <h1 class="mb-5 d-none d-md-block">
             <VueTextTransition
               tag="h1"
               name="fade"
@@ -39,6 +39,10 @@
             >
               Your most authentic connections in one place
             </VueTextTransition>
+          </h1>
+          <h1 class="mb-5 d-md-none">
+            Get comfortable, your tribe is here. Your most authentic connections
+            in one place
           </h1>
         </div>
         <div class="banner_search mb-4 position-relative">
@@ -75,7 +79,8 @@
             <div v-else>
               <div class="text-muted mb-3 search_result">
                 <b-icon icon="search"></b-icon>
-                {{ groupedTribes.length }} search results
+                {{ groupedTribes.length }} search
+                {{ groupedTribes.length > 1 ? "results" : "result" }}
               </div>
               <div
                 v-for="(item, index) in groupedTribes"
@@ -85,20 +90,23 @@
                 <div style="width: 20%">
                   <b-img
                     :src="item.cover"
-                    style="width: 100%; heigth: 100%; object-fit: cover"
+                    style="width: 100%; height: 100%; object-fit: cover"
                   />
                 </div>
-                <div class="text-left" style="width: 80%">
+                <div class="text-left px-2" style="width: 80%">
                   <span> {{ item.name }}</span> <br />
                   <span class="text-truncate text-truncate-1">
                     {{ item.description }}</span
                   >
-                  <br />
+
                   <span class="w-100 d-flex justify-content-between">
-                    <!-- <span class="fs11 text-muted"
-                      >{{ item.users.length }} members</span
-                    > -->
-                    <span class="text-dark-green" @click="entertribe(item.id)"
+                    <span class="fs10 text-muted"
+                      >{{ item.users.length }}
+                      {{ item.users.length > 1 ? "members" : "member" }}</span
+                    >
+                    <span
+                      class="text-dark-green jointribe"
+                      @click="entertribe(item.id)"
                       >Join Tribe</span
                     >
                   </span>
@@ -108,7 +116,7 @@
           </div>
         </div>
 
-        <div class="banner_button">
+        <div class="banner_button" v-if="!auth">
           <b-button size="lg" class="px-5" variant="dark-green"
             >Get Started</b-button
           >
@@ -299,7 +307,6 @@ export default {
       index: 0,
       bannerIndex: 0,
       query: "",
-
       stories: [
         {
           name: "Oscar Eze— Entrepreneur, Lagos",
@@ -371,7 +378,6 @@ export default {
   mounted() {
     var channel = this.$pusher.subscribe(`search`);
     channel.bind("searchResults", (e) => {
-      console.log("🚀 ~ file: Landing.vue ~ line 493 ~ channel.bind ~ e", e);
       this.$store.commit("SET_TRIBES", e.tribes);
     });
     this.$store.dispatch("GET_TRIBES");
@@ -427,7 +433,7 @@ export default {
   },
   computed: {
     groupedTribes() {
-      return _.chunk(this.tribes, 4);
+      return this.tribes;
     },
     ...mapGetters(["tribes"]),
   },
@@ -522,7 +528,7 @@ export default {
 .search_container {
   width: 100%;
   background: #fff;
-  max-height: 500px;
+  max-height: 350px;
   overflow-y: scroll;
   padding: 15px;
   position: absolute;
@@ -601,8 +607,9 @@ export default {
     }
   }
   .result,
-  .search_result {
-    font-size: 0.8rem;
+  .search_result,
+  .jointribe {
+    font-size: 0.7rem;
   }
 }
 .rules {

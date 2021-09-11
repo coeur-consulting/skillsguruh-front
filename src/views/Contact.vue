@@ -5,6 +5,10 @@
     </section>
     <section class="bg-white">
       <b-container class="">
+        <h3 class="text-center pt-5 pb-2">
+          We’ll be happy to answer all your questions or inquiries, feel free to
+          say Hello
+        </h3>
         <b-row class="flex-column-reverse flex-md-row">
           <b-col sm="6" class="p-4 p-sm-5">
             <div class="d-flex align-items-center mb-3">
@@ -400,6 +404,9 @@ export default {
   }
   h6.interest {
     font-size: 0.74rem;
+  }
+  h3 {
+    font-size: 0.84rem;
   }
 }
 </style>

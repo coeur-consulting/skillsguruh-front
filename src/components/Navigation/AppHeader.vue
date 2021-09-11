@@ -1,12 +1,6 @@
 <template>
   <div class="position-absolute w-100">
-    <b-navbar
-      toggleable="md"
-      type="light"
-      variant="transparent"
-      sticky
-      :class="{ 'shadow-sm': showShadow }"
-    >
+    <b-navbar toggleable="md" type="light" variant="transparent" sticky>
       <b-container fluid>
         <b-navbar-brand href="/"
           ><b-img class="logo" src="/img/logo.png"></b-img
@@ -34,7 +28,7 @@
                 size="sm"
                 variant="transparent"
                 no-caret
-                class="no-focus"
+                class="no-focus d-block"
               >
                 <template #button-content>
                   <div class="d-flex align-items-center">
@@ -44,7 +38,7 @@
                       class="cursor-pointer mr-2"
                       size="30px"
                     ></b-avatar>
-                    <span class="fs14 d-none d-sm-inline">{{
+                    <span class="fs14 text-white">{{
                       $store.getters.member.username
                     }}</span>
                   </div>
@@ -179,14 +173,17 @@ span:nth-of-type(3) {
   transform: translate(13px, -5px) rotatez(45deg);
 }
 .logo {
-  width: 100px;
+  width: 150px;
 }
 @media (max-width: 768px) {
+  .logo {
+    width: 100px;
+  }
   .navbar-light .navbar-nav .nav-link {
     font-size: 14px;
   }
   .dark_bg {
-    background: var(--dark-green);
+    background: var(--dark);
     padding: 15px;
     border-radius: 8px;
   }
