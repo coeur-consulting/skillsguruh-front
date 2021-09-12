@@ -634,10 +634,11 @@ export default {
   .jointribe {
     font-size: 0.7rem;
   }
+  .result {
+    height: 70px;
+  }
 }
-.result {
-  height: 70px;
-}
+
 .rules {
   background-color: white;
   border-radius: 8px;
