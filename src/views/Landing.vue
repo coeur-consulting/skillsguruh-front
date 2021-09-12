@@ -100,11 +100,14 @@
                 </div>
                 <div class="text-left px-2" style="width: 80%">
                   <span> {{ item.name }}</span> <br />
-                  <span class="text-truncate text-truncate-1">
+                  <span class="text-truncate text-truncate--1">
                     {{ item.description }}</span
                   >
 
-                  <span class="w-100 d-flex justify-content-between">
+                  <span
+                    class="w-100 d-flex justify-content-between"
+                    v-if="item.users"
+                  >
                     <span class="fs10 text-muted"
                       >{{ item.users.length }}
                       {{ item.users.length > 1 ? "members" : "member" }}</span
@@ -550,6 +553,7 @@ export default {
   overflow-y: scroll;
   padding: 15px;
   position: absolute;
+  z-index: 4;
 }
 .banner_text p {
   font-size: 18px;
@@ -574,6 +578,7 @@ export default {
 }
 .result {
   cursor: pointer;
+  height: 90px;
 }
 .down_b {
   justify-content: center;
@@ -629,6 +634,9 @@ export default {
   .jointribe {
     font-size: 0.7rem;
   }
+}
+.result {
+  height: 70px;
 }
 .rules {
   background-color: white;
