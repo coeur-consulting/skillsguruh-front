@@ -63,9 +63,14 @@
                 @keyup.enter="searchProducts"
                 class="banner-btn px-2 px-sm-4"
                 variant="dark-green"
-                ><span class="d-none d-md-block">Search</span>
-                <span class="d-md-none"
-                  ><b-icon icon="search" font-scale=".9"></b-icon></span
+              >
+                <!-- <span class="d-none d-md-block">Search</span> -->
+                <span
+                  ><b-icon
+                    icon="search"
+                    class="search-icon"
+                    font-scale="1.1"
+                  ></b-icon></span
               ></b-button>
             </b-input-group-append>
           </b-input-group>
@@ -117,9 +122,20 @@
         </div>
 
         <div class="banner_button" v-if="!auth">
-          <b-button size="lg" class="px-5" variant="dark-green"
-            >Get Started</b-button
-          >
+          <b-button-group size="lg">
+            <b-button
+              style="background-color: #227f74; border-color: #227f74"
+              class="d-flex align-items-center"
+            >
+              <font-awesome-icon :icon="angle" class="fa-2x"
+            /></b-button>
+            <b-button
+              to="/register"
+              class="px-4 px-sm-5 d-flex align-items-center"
+              variant="dark-green"
+              >Get Started</b-button
+            >
+          </b-button-group>
         </div>
       </div>
 
@@ -140,7 +156,7 @@
         ></b-icon>
       </div>
     </section>
-
+    <!--
     <section id="with_nzukoor">
       <h2 class="mb-5"><span>Get N-circled</span></h2>
       <p class="mb-5">
@@ -291,17 +307,19 @@
           </b-col>
         </b-row>
       </b-container>
-    </section>
+    </section> -->
   </div>
 </template>
 <script>
-import { KinesisContainer, KinesisElement } from "vue-kinesis";
+//import { KinesisContainer, KinesisElement } from "vue-kinesis";
+import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import VueTextTransition from "vue-text-transition";
 import { mapGetters } from "vuex";
 import _ from "lodash";
 export default {
   data() {
     return {
+      angle: faAngleRight,
       showTitle: false,
       auth: null,
       index: 0,
@@ -364,8 +382,8 @@ export default {
     };
   },
   components: {
-    KinesisContainer,
-    KinesisElement,
+    // KinesisContainer,
+    // KinesisElement,
     VueTextTransition,
   },
   watch: {
@@ -994,6 +1012,9 @@ img {
   }
   .member-img {
     height: 200px;
+  }
+  .search-icon {
+    font-size: 0.9rem;
   }
 }
 </style>

@@ -13,7 +13,6 @@ const routes = [
     components: {
       header: Header,
       default: Landing,
-      footer: Footer,
     },
     meta: {
       title: "Home | Nzukoor",
@@ -447,131 +446,131 @@ const routes = [
       footer: Footer,
     },
   },
-  {
-    path: "/organization",
+  // {
+  //   path: "/organization",
 
-    components: {
-      default: () =>
-        import(
-          /* webpackChunkName: "organization" */ "../views/Organization.vue"
-        ),
-    },
+  //   components: {
+  //     default: () =>
+  //       import(
+  //         /* webpackChunkName: "organization" */ "../views/Organization.vue"
+  //       ),
+  //   },
 
-    children: [
-      {
-        path: "",
-        name: "organization dashboard",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "organizationdashboard" */ "@/components/Organization/home.vue"
-            ),
-        },
-        meta: {
-          typeOrg: true,
-          title: "Home - Organization",
-        },
-      },
-      {
-        path: "admins",
-        name: "organization admins",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "organizationadmins" */ "@/components/Organization/admins.vue"
-            ),
-        },
-        meta: {
-          typeOrg: true,
-          title: "Admins - Organization",
-        },
-      },
-      {
-        path: "admin",
-        name: "organization admin",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "organizationadmin" */ "@/components/Organization/admin.vue"
-            ),
-        },
-        meta: {
-          typeOrg: true,
-          title: "Admin - Organization",
-        },
-      },
-      {
-        path: "facilitators",
-        name: "organization facilitators",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "organizationfacilitators" */ "@/components/Organization/facilitators.vue"
-            ),
-        },
-        meta: {
-          typeOrg: true,
-          title: "Facilitators - Organization",
-        },
-      },
-      {
-        path: "facilitator",
-        name: "organization facilitator",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "organizationfacilitator" */ "@/components/Organization/facilitator.vue"
-            ),
-        },
-        meta: {
-          typeOrg: true,
-          title: "Facilitator - Organization",
-        },
-      },
-      {
-        path: "members",
-        name: "organization members",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "organizationmembers" */ "@/components/Organization/members.vue"
-            ),
-        },
-        meta: {
-          typeOrg: true,
-          title: "Members - Organization",
-        },
-      },
-      {
-        path: "member",
-        name: "organization member",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "organizationmember" */ "@/components/Organization/member.vue"
-            ),
-        },
-        meta: {
-          typeOrg: true,
-          title: "Member - Organization",
-        },
-      },
-      {
-        path: "schedule",
-        name: "organization schedule",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "organizationschedule" */ "@/components/Organization/schedule.vue"
-            ),
-        },
-        meta: {
-          typeOrg: true,
-          title: "Schedule - Organization",
-        },
-      },
-    ],
-  },
+  //   children: [
+  //     {
+  //       path: "",
+  //       name: "organization dashboard",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "organizationdashboard" */ "@/components/Organization/home.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeOrg: true,
+  //         title: "Home - Organization",
+  //       },
+  //     },
+  //     {
+  //       path: "admins",
+  //       name: "organization admins",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "organizationadmins" */ "@/components/Organization/admins.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeOrg: true,
+  //         title: "Admins - Organization",
+  //       },
+  //     },
+  //     {
+  //       path: "admin",
+  //       name: "organization admin",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "organizationadmin" */ "@/components/Organization/admin.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeOrg: true,
+  //         title: "Admin - Organization",
+  //       },
+  //     },
+  //     {
+  //       path: "facilitators",
+  //       name: "organization facilitators",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "organizationfacilitators" */ "@/components/Organization/facilitators.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeOrg: true,
+  //         title: "Facilitators - Organization",
+  //       },
+  //     },
+  //     {
+  //       path: "facilitator",
+  //       name: "organization facilitator",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "organizationfacilitator" */ "@/components/Organization/facilitator.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeOrg: true,
+  //         title: "Facilitator - Organization",
+  //       },
+  //     },
+  //     {
+  //       path: "members",
+  //       name: "organization members",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "organizationmembers" */ "@/components/Organization/members.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeOrg: true,
+  //         title: "Members - Organization",
+  //       },
+  //     },
+  //     {
+  //       path: "member",
+  //       name: "organization member",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "organizationmember" */ "@/components/Organization/member.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeOrg: true,
+  //         title: "Member - Organization",
+  //       },
+  //     },
+  //     {
+  //       path: "schedule",
+  //       name: "organization schedule",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "organizationschedule" */ "@/components/Organization/schedule.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeOrg: true,
+  //         title: "Schedule - Organization",
+  //       },
+  //     },
+  //   ],
+  // },
 
   {
     path: "/administrator",
@@ -995,528 +994,528 @@ const routes = [
     ],
   },
 
-  {
-    path: "/facilitator",
+  // {
+  //   path: "/facilitator",
 
-    components: {
-      default: () =>
-        import(
-          /* webpackChunkName: "facilitator" */ "../views/Facilitator.vue"
-        ),
-    },
+  //   components: {
+  //     default: () =>
+  //       import(
+  //         /* webpackChunkName: "facilitator" */ "../views/Facilitator.vue"
+  //       ),
+  //   },
 
-    children: [
-      {
-        path: "",
-        name: "facilitator dashboard",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "facilitatordashboard" */ "@/components/Facilitator/home.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Home | Facilitator",
-        },
-      },
-      {
-        path: "feed/view/:id",
-        name: "View single Feed",
-        components: {
-          header: Header,
-          default: () =>
-            import(
-              /* webpackChunkName: "viewfeed" */ "@/components/Facilitator/viewfeed.vue"
-            ),
-          footer: Footer,
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Feed | Nzukoor",
-        },
-      },
-      {
-        path: "interests",
-        name: "facilitator interests",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "facilitatorinterest" */ "@/components/InterestComponent.vue"
-            ),
-        },
-        props: { type: "facilitator" },
-        meta: {
-          typeFacilitator: true,
-          title: "Interest | Facilitator",
-        },
-      },
+  //   children: [
+  //     {
+  //       path: "",
+  //       name: "facilitator dashboard",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "facilitatordashboard" */ "@/components/Facilitator/home.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Home | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "feed/view/:id",
+  //       name: "View single Feed",
+  //       components: {
+  //         header: Header,
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "viewfeed" */ "@/components/Facilitator/viewfeed.vue"
+  //           ),
+  //         footer: Footer,
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Feed | Nzukoor",
+  //       },
+  //     },
+  //     {
+  //       path: "interests",
+  //       name: "facilitator interests",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "facilitatorinterest" */ "@/components/InterestComponent.vue"
+  //           ),
+  //       },
+  //       props: { type: "facilitator" },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Interest | Facilitator",
+  //       },
+  //     },
 
-      {
-        path: "modules/:id",
-        name: "facilitators modules",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "facilitatorsmodules" */ "@/components/Facilitator/modules.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Modules | Facilitator",
-        },
-      },
-      {
-        path: "questionnaire",
-        name: "Facilitator questionnaire",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatorquestionnaire" */ "@/components/Facilitator/Questionnaire/create.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Questionnaire | Facilitator",
-        },
-      },
-      {
-        path: "question/templates",
-        name: "Facilitator questions",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatorquestions" */ "@/components/Facilitator/templates.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Templates | Facilitator",
-        },
-      },
-      {
-        path: "question/template/:id",
-        name: "Facilitator template",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatorquestionnaireview" */ "@/components/Facilitator/Templates/view.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Template | Facilitator",
-        },
-      },
-      {
-        path: "question/template/edit/:id",
-        name: "Facilitator templateedit",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatoreditt" */ "@/components/Facilitator/Templates/edit.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Edit template | Facilitator",
-        },
-      },
-      {
-        path: "assessments",
-        name: "Facilitator assessments",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatorassessments" */ "@/components/Facilitator/assessments.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Assessments | Facilitator",
-        },
-      },
-      {
-        path: "assessment/:type",
-        name: "Facilitator assessment",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatorassessment" */ "@/components/Facilitator/assessment.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Assessment | Facilitator",
-        },
-      },
-      {
-        path: "assessment/list/:id",
-        name: "Facilitator assessment list",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatorassessmentlist" */ "@/components/Facilitator/assessmentList.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Assessment List | Facilitator",
-        },
-      },
-      {
-        path: "questionnaires",
-        name: "Facilitator questionnaires",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatorquestionnaires" */ "@/components/Facilitator/Questionnaire/index.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Questionnaire | Facilitator",
-        },
-      },
-      {
-        path: "questionnaire/edit/:id",
-        name: "Facilitator questionnairesedit",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatorquestionnaireedit" */ "@/components/Facilitator/Questionnaire/edit.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Edit questionnaire | Facilitator",
-        },
-      },
-      {
-        path: "questionnaire/view/:id",
-        name: "Facilitators questionnairesview",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "facilitatorsquestionnaireview" */ "@/components/Facilitator/Questionnaire/view.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "View Questionnaire | Facilitator",
-        },
-      },
-      {
-        path: "attendances",
-        name: "facilitators attendances",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "facilitatorsattendances" */ "@/components/Facilitator/attendances.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Attendance | Facilitator",
-        },
-      },
-      {
-        path: "team",
-        name: "Facilitator team",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "facilitatormembers" */ "@/components/Facilitator/team.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Team | Facilitator",
-        },
-      },
-      {
-        path: "facilitator",
-        name: " facilitator",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "facilitator" */ "@/components/Facilitator/facilitator.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Facilitator| Facilitator",
-        },
-      },
-      {
-        path: "profile/:user/:id",
-        name: " facilitator profile",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "facilitator" */ "@/components/Facilitator/facilitator.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "View profile | Facilitator",
-        },
-      },
-      {
-        path: "members",
-        name: "Facilitator members",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "facilitatormembers" */ "@/components/Facilitator/members.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "View Members | Facilitator",
-        },
-      },
-      {
-        path: "member",
-        name: "Facilitator member",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatormember" */ "@/components/Facilitator/member.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "View Member | Facilitator",
-        },
-      },
-      {
-        path: "schedule",
-        name: "Facilitator schedule",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatorschedule" */ "@/components/Facilitator/schedule.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Schedule | Facilitator",
-        },
-      },
-      {
-        path: "discussions",
-        name: "Facilitator discussions",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatordiscussions" */ "@/components/Facilitator/discussions.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Discussion | Facilitator",
-        },
-      },
-      {
-        path: "discussion/:id",
-        name: "Facilitator discussion",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatordiscussion" */ "@/components/Facilitator/discussion.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Discussion | Facilitator",
-        },
-      },
-      {
-        path: "feeds",
-        name: "Facilitator feeds",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatorfeeds" */ "@/components/Facilitator/feeds.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Feeds | Facilitator",
-        },
-      },
-      {
-        path: "courses",
-        name: "Facilitator courses",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatorcourses" */ "@/components/Facilitator/courses.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Courses | Facilitator",
-        },
-      },
-      {
-        path: "course/:id",
-        name: "Facilitator course",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatorcourse" */ "@/components/Facilitator/course.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "View Course | Facilitator",
-        },
-      },
+  //     {
+  //       path: "modules/:id",
+  //       name: "facilitators modules",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "facilitatorsmodules" */ "@/components/Facilitator/modules.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Modules | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "questionnaire",
+  //       name: "Facilitator questionnaire",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatorquestionnaire" */ "@/components/Facilitator/Questionnaire/create.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Questionnaire | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "question/templates",
+  //       name: "Facilitator questions",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatorquestions" */ "@/components/Facilitator/templates.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Templates | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "question/template/:id",
+  //       name: "Facilitator template",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatorquestionnaireview" */ "@/components/Facilitator/Templates/view.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Template | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "question/template/edit/:id",
+  //       name: "Facilitator templateedit",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatoreditt" */ "@/components/Facilitator/Templates/edit.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Edit template | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "assessments",
+  //       name: "Facilitator assessments",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatorassessments" */ "@/components/Facilitator/assessments.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Assessments | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "assessment/:type",
+  //       name: "Facilitator assessment",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatorassessment" */ "@/components/Facilitator/assessment.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Assessment | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "assessment/list/:id",
+  //       name: "Facilitator assessment list",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatorassessmentlist" */ "@/components/Facilitator/assessmentList.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Assessment List | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "questionnaires",
+  //       name: "Facilitator questionnaires",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatorquestionnaires" */ "@/components/Facilitator/Questionnaire/index.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Questionnaire | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "questionnaire/edit/:id",
+  //       name: "Facilitator questionnairesedit",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatorquestionnaireedit" */ "@/components/Facilitator/Questionnaire/edit.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Edit questionnaire | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "questionnaire/view/:id",
+  //       name: "Facilitators questionnairesview",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "facilitatorsquestionnaireview" */ "@/components/Facilitator/Questionnaire/view.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "View Questionnaire | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "attendances",
+  //       name: "facilitators attendances",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "facilitatorsattendances" */ "@/components/Facilitator/attendances.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Attendance | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "team",
+  //       name: "Facilitator team",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "facilitatormembers" */ "@/components/Facilitator/team.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Team | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "facilitator",
+  //       name: " facilitator",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "facilitator" */ "@/components/Facilitator/facilitator.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Facilitator| Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "profile/:user/:id",
+  //       name: " facilitator profile",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "facilitator" */ "@/components/Facilitator/facilitator.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "View profile | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "members",
+  //       name: "Facilitator members",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "facilitatormembers" */ "@/components/Facilitator/members.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "View Members | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "member",
+  //       name: "Facilitator member",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatormember" */ "@/components/Facilitator/member.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "View Member | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "schedule",
+  //       name: "Facilitator schedule",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatorschedule" */ "@/components/Facilitator/schedule.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Schedule | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "discussions",
+  //       name: "Facilitator discussions",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatordiscussions" */ "@/components/Facilitator/discussions.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Discussion | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "discussion/:id",
+  //       name: "Facilitator discussion",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatordiscussion" */ "@/components/Facilitator/discussion.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Discussion | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "feeds",
+  //       name: "Facilitator feeds",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatorfeeds" */ "@/components/Facilitator/feeds.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Feeds | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "courses",
+  //       name: "Facilitator courses",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatorcourses" */ "@/components/Facilitator/courses.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Courses | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "course/:id",
+  //       name: "Facilitator course",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatorcourse" */ "@/components/Facilitator/course.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "View Course | Facilitator",
+  //       },
+  //     },
 
-      {
-        path: "outlines",
-        name: "Facilitator outlines",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatoroutlines" */ "@/components/Facilitator/outlines.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Modules | Facilitator",
-        },
-      },
-      {
-        path: "outline/:id",
-        name: "Facilitator outline",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatoroutline" */ "@/components/Facilitator/outline.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "View module | Facilitator",
-        },
-      },
-      {
-        path: "events",
-        name: "Facilitator events",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatorevents" */ "@/components/Facilitator/events.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "View Events | Facilitator",
-        },
-      },
-      {
-        path: "event/:id",
-        name: "Facilitator event",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatorevent" */ "@/components/Facilitator/event.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "View Event | Facilitator",
-        },
-      },
-      {
-        path: "connections",
-        name: "Facilitator connections",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatorconnections" */ "@/components/Facilitator/connections.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Connections | Facilitator",
-        },
-      },
-      {
-        path: "referrals",
-        name: "Facilitator referrals",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatorreferrals" */ "@/components/Facilitator/referrals.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Referrals| Facilitator",
-        },
-      },
-      {
-        path: "insights",
-        name: "Facilitator insights",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatorinsights" */ "@/components/Facilitator/insights.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Insight | Facilitator",
-        },
-      },
-      {
-        path: "bonuses",
-        name: "Facilitator bonuses",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatorbonuses" */ "@/components/Facilitator/bonuses.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "Bonuses | Facilitator",
-        },
-      },
-      {
-        path: "profile",
-        name: "Facilitator profile",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatorprofile" */ "@/components/Facilitator/profile.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "View Profile | Facilitator",
-        },
-      },
-      {
-        path: "view/:type/:id",
-        name: "Facilitator viewprofile",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Facilitatorview" */ "@/components/Facilitator/viewProfile.vue"
-            ),
-        },
-        meta: {
-          typeFacilitator: true,
-          title: "View Profile | Facilitator",
-        },
-      },
-    ],
-  },
+  //     {
+  //       path: "outlines",
+  //       name: "Facilitator outlines",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatoroutlines" */ "@/components/Facilitator/outlines.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Modules | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "outline/:id",
+  //       name: "Facilitator outline",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatoroutline" */ "@/components/Facilitator/outline.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "View module | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "events",
+  //       name: "Facilitator events",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatorevents" */ "@/components/Facilitator/events.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "View Events | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "event/:id",
+  //       name: "Facilitator event",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatorevent" */ "@/components/Facilitator/event.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "View Event | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "connections",
+  //       name: "Facilitator connections",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatorconnections" */ "@/components/Facilitator/connections.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Connections | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "referrals",
+  //       name: "Facilitator referrals",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatorreferrals" */ "@/components/Facilitator/referrals.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Referrals| Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "insights",
+  //       name: "Facilitator insights",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatorinsights" */ "@/components/Facilitator/insights.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Insight | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "bonuses",
+  //       name: "Facilitator bonuses",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatorbonuses" */ "@/components/Facilitator/bonuses.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "Bonuses | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "profile",
+  //       name: "Facilitator profile",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatorprofile" */ "@/components/Facilitator/profile.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "View Profile | Facilitator",
+  //       },
+  //     },
+  //     {
+  //       path: "view/:type/:id",
+  //       name: "Facilitator viewprofile",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Facilitatorview" */ "@/components/Facilitator/viewProfile.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeFacilitator: true,
+  //         title: "View Profile | Facilitator",
+  //       },
+  //     },
+  //   ],
+  // },
 
   {
     path: "/member",

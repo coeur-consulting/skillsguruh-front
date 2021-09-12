@@ -1,31 +1,18 @@
 <template>
   <div class="bg-light">
+    <section class="explore_banner">
+      <h1>Explore Events</h1>
+    </section>
     <b-container>
+      <div class="text-left pb-3">
+        <span @click="$router.go(-1)" class="cursor-pointer">
+          <b-icon icon="arrow-left"></b-icon> Back</span
+        >
+      </div>
       <b-row>
         <b-col class="mb-3 mb-sm-0">
           <div class="rounded">
-            <div
-              class="
-                top_heading
-                p-4
-                border-bottom
-                d-flex
-                justify-content-between
-              "
-            >
-              <h4>Events</h4>
-              <div>
-                <b-form-input
-                  placeholder="Search event"
-                  size="sm"
-                  type="search"
-                  class="search bg-white"
-                  v-model="search"
-                ></b-form-input>
-              </div>
-            </div>
-
-            <div class="event-container py-5">
+            <div class="event-container pb-5">
               <div
                 class="border-bottom py-3 d-flex mb-4 justify-content-between"
               >
@@ -66,6 +53,15 @@
                     ></b-icon>
                     Past</span
                   >
+                </div>
+                <div>
+                  <b-form-input
+                    placeholder="Search event"
+                    size="sm"
+                    type="search"
+                    class="search bg-white"
+                    v-model="search"
+                  ></b-form-input>
                 </div>
               </div>
               <div v-if="showEvents">
@@ -108,6 +104,12 @@
                       :src="item.cover"
                     ></b-img>
                     <div class="px-3 py-2 bg-white">
+                      <p
+                        class="mb-1 schedule font-weight-bold"
+                        v-if="item.tribe"
+                      >
+                        {{ item.tribe.name }} tribe
+                      </p>
                       <p
                         class="mb-1 text-capitalize"
                         :class="

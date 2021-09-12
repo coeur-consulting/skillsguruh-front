@@ -1,17 +1,12 @@
 <template>
   <div class="bg-light">
-    <b-container class="pb-5">
+    <b-container fluid class="pb-5">
       <b-row class="main" v-if="showEvent">
         <b-col
           sm="12"
           class="text-left p-4 main-bg mb-5 position-relative"
           :style="{ backgroundImage: `url(${event.cover})` }"
         >
-          <div class="back text-left text-white">
-            <span @click="$router.go(-1)" class="cursor-pointer">
-              <b-icon icon="arrow-left"></b-icon> Back</span
-            >
-          </div>
           <div
             class="
               event-overlay
@@ -96,7 +91,7 @@
                 <a :href="event.url" target="_blank">{{ event.url }}</a>
               </div>
             </div>
-            <div class="my-3 px-3">
+            <div class="my-3 px-3" v-if="event.status == 'pending'">
               <b-button
                 block
                 variant="dark-green"
@@ -134,65 +129,80 @@
           </div>
         </b-col>
 
-        <b-col cols="12" class="h-100 mb-5">
+        <b-container class="position-relative">
+          <div class="text-left pb-3">
+            <span @click="$router.go(-1)" class="cursor-pointer">
+              <b-icon icon="arrow-left"></b-icon> Back</span
+            >
+          </div>
           <b-row>
-            <b-col sm="7" class="pl-sm-0">
-              <div class="bg-white shadow rounded text-left p-4">
-                <h5 class="font-weight-bold">ABOUT THIS EVENT</h5>
-                <p>{{ event.description }}</p>
+            <b-col cols="12" class="h-100 mb-5">
+              <b-row>
+                <b-col sm="7" class="pl-sm-0">
+                  <div class="bg-white shadow rounded text-left p-4">
+                    <h5 class="font-weight-bold">ABOUT THIS EVENT</h5>
+                    <p
+                      class="mb-1 schedule font-weight-bold"
+                      v-if="event.tribe"
+                    >
+                      {{ event.tribe.name }} tribe
+                    </p>
+                    <p>{{ event.description }}</p>
 
-                <div v-if="sortfacilitators" class="mb-2">
-                  <h6>Facilitators</h6>
-                  <ul>
-                    <li
-                      v-for="item in sortfacilitators"
-                      :key="item.id"
-                      class="text-capitalize fs14"
-                    >
-                      {{ item.name }}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </b-col>
-            <b-col sm="5" class="pl-3 pr-sm-0" v-if="event.resource">
-              <div class="">
-                <video
-                  controls
-                  :src="event.resource"
-                  width="100%"
-                  fluid-grow
-                  v-if="vid_ext.includes(this.getextension(event.resource))"
-                ></video>
-                <div v-else>
-                  <a
-                    :href="event.resource"
-                    download=""
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <div
-                      class="
-                        rounded
-                        shadow
-                        p-4
-                        bg-lighter-green
-                        d_file
-                        cursor-pointer
-                      "
-                    >
-                      <h5 class="mb-2">Download event resource</h5>
-                      <b-icon
-                        icon="cloud-download"
-                        class="text-muted"
-                        font-scale="3rem"
-                      ></b-icon></div
-                  ></a>
-                </div>
-              </div>
+                    <div v-if="sortfacilitators" class="mb-2">
+                      <h6>Facilitators</h6>
+                      <ul>
+                        <li
+                          v-for="item in sortfacilitators"
+                          :key="item.id"
+                          class="text-capitalize fs14"
+                        >
+                          {{ item.name }}
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </b-col>
+                <b-col sm="5" class="pl-3 pr-sm-0" v-if="event.resource">
+                  <div class="">
+                    <video
+                      controls
+                      :src="event.resource"
+                      width="100%"
+                      fluid-grow
+                      v-if="vid_ext.includes(this.getextension(event.resource))"
+                    ></video>
+                    <div v-else>
+                      <a
+                        :href="event.resource"
+                        download=""
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <div
+                          class="
+                            rounded
+                            shadow
+                            p-4
+                            bg-lighter-green
+                            d_file
+                            cursor-pointer
+                          "
+                        >
+                          <h5 class="mb-2">Download event resource</h5>
+                          <b-icon
+                            icon="cloud-download"
+                            class="text-muted"
+                            font-scale="3rem"
+                          ></b-icon></div
+                      ></a>
+                    </div>
+                  </div>
+                </b-col>
+              </b-row>
             </b-col>
           </b-row>
-        </b-col>
+        </b-container>
         <b-col cols="12">
           <div
             class="event_box shadow-lg p-3 d-block d-sm-none bg-white text-left"
@@ -263,7 +273,7 @@
                 <a :href="event.url" target="_blank">{{ event.url }}</a>
               </div>
             </div>
-            <div class="my-3">
+            <div class="my-3" v-if="event.status == 'pending'">
               <b-button
                 block
                 variant="dark-green"

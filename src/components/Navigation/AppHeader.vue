@@ -18,10 +18,10 @@
         </b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav class="dark_bg">
           <b-navbar-nav class="ml-auto align-items-center">
-            <b-nav-item to="/" class="mr-sm-4">Home</b-nav-item>
+            <!-- <b-nav-item to="/" class="mr-sm-4">Home</b-nav-item> -->
             <b-nav-item to="/explore" class="mr-sm-4">Explore</b-nav-item>
-            <b-nav-item to="/about" class="mr-sm-4">About</b-nav-item>
-            <b-nav-item to="/contact" class="mr-sm-4">Contact Us</b-nav-item>
+            <!-- <b-nav-item to="/about" class="mr-sm-4">About</b-nav-item>
+            <b-nav-item to="/contact" class="mr-sm-4">Contact Us</b-nav-item> -->
 
             <b-nav-item v-if="authMember">
               <b-dropdown
@@ -54,8 +54,11 @@
               </b-dropdown>
             </b-nav-item>
 
-            <b-nav-item to="/login" v-if="!authMember"> Login </b-nav-item>
-            <b-nav-item v-if="!authMember">
+            <b-nav-item to="/login" v-if="!authMember">
+              Login
+              <font-awesome-icon :icon="signIn"
+            /></b-nav-item>
+            <!-- <b-nav-item v-if="!authMember">
               <b-button
                 @click="$router.push('/register')"
                 variant="light"
@@ -63,7 +66,7 @@
               >
                 Get Started</b-button
               >
-            </b-nav-item>
+            </b-nav-item> -->
           </b-navbar-nav>
         </b-collapse>
       </b-container>
@@ -71,6 +74,7 @@
   </div>
 </template>
 <script>
+import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 export default {
   data() {
     return {
@@ -81,6 +85,7 @@ export default {
       showShadow: false,
       windowHeight: null,
       scrollPosition: null,
+      signIn: faSignInAlt,
     };
   },
   created() {

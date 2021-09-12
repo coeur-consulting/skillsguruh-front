@@ -205,10 +205,10 @@
                     <span> Trending Discussions</span>
                   </h2>
                   <p>
-                    Join trending discussion and gain knowledge, connect with
-                    differnt people and share ideas see some of the latest
-                    trending disccusion that people are talking about signup to
-                    join this conversation now
+                    Join trending discussions and gain knowledge, connect with
+                    different people and share ideas. See some of the latest
+                    trending disccusion that people are talking about, signup to
+                    join this conversation now.
                   </p>
                 </div>
               </div>
@@ -1003,7 +1003,7 @@
               <span> Explore Interests</span>
             </h2>
             <p>
-              Nzukoor community covers differnent interest that you can explore
+              Nzukoor community covers different interest that you can explore
               from everything tech, politics, art, entertainment and more.
             </p>
           </div>
@@ -1080,6 +1080,12 @@
                         class="event_img"
                       ></b-img>
                       <div class="px-3 py-3">
+                        <p
+                          class="mb-1 schedule font-weight-bold"
+                          v-if="item.tribe"
+                        >
+                          {{ item.tribe.name }} tribe
+                        </p>
                         <p class="mb-1 schedule">
                           <b-icon icon="calendar2-check" class="mr-2"></b-icon>
 
@@ -2083,7 +2089,7 @@ export default {
   position: absolute;
   z-index: 2;
   width: 100%;
-  top: -3%;
+  top: -2%;
   width: 100%;
 }
 .explore_box {

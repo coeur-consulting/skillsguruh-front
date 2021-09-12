@@ -95,7 +95,7 @@
               <a :href="event.url" target="_blank">{{ event.url }}</a>
             </div>
           </div>
-          <div class="my-3 px-3">
+          <div class="my-3 px-3"  v-if="event.status == 'pending'">
             <b-button
               block
               variant="dark-green"
@@ -259,7 +259,7 @@
               <a :href="event.url" target="_blank">{{ event.url }}</a>
             </div>
           </div>
-          <div class="my-3">
+          <div class="my-3"  v-if="event.status == 'pending'">
             <b-button
               block
               variant="dark-green"
