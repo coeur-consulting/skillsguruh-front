@@ -98,7 +98,7 @@
               width="18px"
               class="mr-1 cursor-pointer"
             ></b-img>
-            Feelings
+            Expressions
           </Feelings>
         </div>
         <b-button @click="post" block variant="dark-green">Post</b-button>
@@ -428,7 +428,7 @@
                     width="18px"
                     class="mr-1 cursor-pointer"
                   ></b-img>
-                  Feelings
+                  Expressions
                 </Feelings>
               </div>
             </div>
@@ -525,19 +525,23 @@
                         <template #button-content>
                           <b-icon
                             icon="three-dots-vertical"
-                            font-scale="1.4"
+                            font-scale="1.2"
                           ></b-icon>
                         </template>
                         <b-dropdown-item
                           class="fs12"
                           @click="$router.push(`/member/feed/view/${feed.id}`)"
-                          >View post</b-dropdown-item
+                          >View</b-dropdown-item
                         >
                         <b-dropdown-item
+                          v-if="
+                            checkpost(feed.message) &&
+                            feed.user &&
+                            feed.user.id == $store.getters.member.id
+                          "
                           class="fs12"
                           @click="editfeed(feed, index)"
-                          v-if="checkpost(feed.message)"
-                          >Edit post</b-dropdown-item
+                          >Edit</b-dropdown-item
                         >
 
                         <b-dropdown-item
@@ -547,11 +551,12 @@
                             feed.user &&
                             feed.user.id == $store.getters.member.id
                           "
-                          >Delete post</b-dropdown-item
+                          >Delete</b-dropdown-item
                         >
                         <b-dropdown-item
                           class="fs12"
                           v-if="feed.user.id !== $store.getters.member.id"
+                          @click="handleReport(feed.id, 'feed')"
                           >Report post</b-dropdown-item
                         >
                       </b-dropdown>
@@ -705,6 +710,7 @@
                     </div>
                     <div class="d-flex align-items-center">
                       <div
+                        v-if="feed.likes.length"
                         class="liked_by px-3 border-bottom"
                         @click="showlikes(feed)"
                         v-html="getlikes(feed.likes)"
@@ -1021,6 +1027,15 @@
         >Reply</b-button
       >
     </b-modal>
+    <b-modal
+      id="report"
+      size="sm"
+      centered
+      hide-footer
+      title="Why are you reporting?"
+    >
+      <report :id="report_id" :type="report_type"></report>
+    </b-modal>
   </b-container>
 </template>
 
@@ -1031,10 +1046,14 @@ import FeedUpload from "../feedupload";
 
 import { MultiSelect } from "vue-search-select";
 import Interest from "../helpers/subcategory.js";
+import Report from "@/components/helpers/report";
 import Suggestions from "@/components/suggestions.vue";
+
 export default {
   data() {
     return {
+      report_id: null,
+      report_type: null,
       index: null,
       replycomment: null,
       commentreply: "",
@@ -1053,7 +1072,7 @@ export default {
       open: false,
       feeds: [],
       search: "",
-      allcomments: [],
+      allcomments: null,
       feed: {
         media: "",
         message: "",
@@ -1088,6 +1107,7 @@ export default {
     MultiSelect,
     Suggestions,
     Feelings,
+    Report,
   },
   created() {
     var channel = this.$pusher.subscribe("addfeed");
@@ -1145,6 +1165,11 @@ export default {
     },
   },
   methods: {
+    handleReport(id, type) {
+      this.report_type = type;
+      this.report_id = id;
+      this.$bvModal.show("report");
+    },
     checkpost(word) {
       var res = word.substring(0, 4);
 
@@ -1167,11 +1192,16 @@ export default {
           }
         )
         .then((res) => {
-          if (res.status === 201) {
-            this.allcomments.comments[index].feedcommentlikes = res.data;
-          } else {
-            this.allcomments.comments[index].feedcommentlikes = null;
+          if (this.allcomments) {
+            if (res.status === 201) {
+              this.allcomments.comments[index].feedcommentlikes = res.data;
+            } else {
+              this.allcomments.comments[index].feedcommentlikes = null;
+            }
           }
+          this.getcustomfeeds();
+          this.gettrendingfeeds();
+          this.getrecentfeeds();
         });
     },
     likecommentreply(id, index, idx, userId) {

@@ -52,10 +52,11 @@
       <div class="spacer"></div>
       <section class="py-5">
         <b-container>
-          <div class="d-flex justify-content-center trending mb-5">
-            <h2 class="">
+          <div class="text-center trending mb-5">
+            <h2 class="mb-5">
               <span> Popular Tribes</span>
             </h2>
+            <p>Find your tribe and feel right at home.</p>
           </div>
 
           <b-container>
@@ -206,10 +207,8 @@
                     <span> Trending Discussions</span>
                   </h2>
                   <p>
-                    Join trending discussions and gain knowledge, connect with
-                    different people and share ideas. See some of the latest
-                    trending disccusion that people are talking about, signup to
-                    join this conversation now.
+                    Stay informed and lend your voice to trending issues and
+                    discussions. Your tribe needs you!
                   </p>
                 </div>
               </div>
@@ -606,7 +605,7 @@
                         <b-dropdown-item
                           class="fs12"
                           @click="$router.push(`/explore/feed/view/${feed.id}`)"
-                          >View post</b-dropdown-item
+                          >View</b-dropdown-item
                         >
 
                         <b-dropdown-item
@@ -1016,14 +1015,10 @@
               <span> Explore Interests</span>
             </h2>
             <p>
-              Nzukoor community covers different interest that you can explore
-              from everything tech, politics, art, entertainment and more.
+              Discover people, knowledge and opportunities across interests.
             </p>
           </div>
 
-          <p class="px-2 px-sm-5">
-            Select your interest to connect with your tribe right away
-          </p>
           <b-row class="py-2 justify-content-center justify-content-sm-around">
             <b-col
               v-for="(item, id) in interests"

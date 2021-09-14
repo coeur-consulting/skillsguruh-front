@@ -65,6 +65,17 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    async REPORT_CONTENT({ state }, detail) {
+      return Vue.axios
+        .post(`${state.url}/reports`, detail, {
+          headers: {
+            Authorization: `Bearer ${state.member.access_token}`,
+          },
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     SEARCH_TRIBES({ state }, query) {
       let params = {
         query,

@@ -117,14 +117,24 @@
                       class="no-focus drop"
                     >
                       <template #button-content>
-                        <b-icon icon="three-dots" font-scale="1.4"></b-icon>
+                        <b-icon
+                          icon="three-dots-vertical"
+                          font-scale="1.2"
+                        ></b-icon>
                       </template>
                       <b-dropdown-item
                         class="fs12"
                         @click="drop(item.id, index)"
                         >Delete</b-dropdown-item
                       >
-                      <b-dropdown-item class="fs12">Report </b-dropdown-item>
+                      <b-dropdown-item
+                        v-if="
+                          item.user && item.user.id !== $store.getters.member.id
+                        "
+                        class="fs12"
+                        @click="handleReport(item.id, 'discussion')"
+                        >Report
+                      </b-dropdown-item>
                     </b-dropdown>
                     <div class="side_dis">
                       <b-avatar
@@ -380,7 +390,15 @@
         >
       </div>
     </b-modal>
-
+    <b-modal
+      id="report"
+      size="sm"
+      centered
+      hide-footer
+      title="Why are you reporting?"
+    >
+      <report :id="report_id" :type="report_type"></report>
+    </b-modal>
     <b-icon
       class="mobile-add btn-circle btn-raised shadow"
       icon="plus-circle-fill"
@@ -394,9 +412,12 @@
 <script>
 import { MultiSelect } from "vue-search-select";
 import Interest from "@/components/helpers/subcategory.js";
+import Report from "@/components/helpers/report";
 export default {
   data() {
     return {
+      report_id: null,
+      report_type: null,
       show: "recent",
       discussions: [],
       trenddiscussions: [],
@@ -430,6 +451,7 @@ export default {
   },
   components: {
     MultiSelect,
+    Report,
   },
 
   mounted() {
@@ -497,6 +519,11 @@ export default {
     },
   },
   methods: {
+    handleReport(id, type) {
+      this.report_type = type;
+      this.report_id = id;
+      this.$bvModal.show("report");
+    },
     onSelect(items, lastSelectItem) {
       this.discussion.tags = items;
       this.lastSelectItem = lastSelectItem;

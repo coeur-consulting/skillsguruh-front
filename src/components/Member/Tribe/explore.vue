@@ -164,7 +164,9 @@
                       </div>
                       <span
                         class="tribe_circle cursor-pointer"
-                        @click="$router.push(`/member/tribe/discussions/${n.id}`)"
+                        @click="
+                          $router.push(`/member/tribe/discussions/${n.id}`)
+                        "
                       >
                         <b-avatar size="lg" :src="n.cover"></b-avatar>
                       </span>
@@ -530,7 +532,9 @@
                             :src="feed.user.profile"
                           ></b-avatar>
                           <span
-                            @click="$router.push(`/profile/${feed.user.username}`)"
+                            @click="
+                              $router.push(`/profile/${feed.user.username}`)
+                            "
                             class="hover_green"
                           >
                             <div style="line-height: 1.2">
@@ -586,7 +590,7 @@
                         <b-dropdown-item
                           class="fs12"
                           @click="$router.push(`/explore/feed/view/${feed.id}`)"
-                          >View post</b-dropdown-item
+                          >View</b-dropdown-item
                         >
 
                         <b-dropdown-item

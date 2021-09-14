@@ -188,23 +188,12 @@
                           <div
                             v-for="(feed, index) in feeds"
                             :key="index"
-                            class="border bg-white rounded mb-2"
+                            class="border bg-white rounded-8 mb-3"
                           >
-                            <div class="d-flex mb-3 px-3 pt-3">
-                              <div class="d-flex flex-1 text-left">
+                            <div class="d-flex mb-3 px-2 px-sm-3 pt-3">
+                              <div class="flex-1 text-left">
                                 <div
-                                  class="h6 mr-2 mb-1 feedname"
-                                  v-if="feed.admin"
-                                >
-                                  <b-avatar
-                                    size="1.8rem"
-                                    class="mr-2"
-                                    :src="feed.admin.profile"
-                                  ></b-avatar>
-                                  {{ feed.admin.name }}
-                                </div>
-                                <div
-                                  class="h6 mr-2 mb-1 feedname"
+                                  class="mr-2 mb-1 feedname"
                                   v-if="feed.user"
                                 >
                                   <b-avatar
@@ -212,26 +201,26 @@
                                     class="mr-2"
                                     :src="feed.user.profile"
                                   ></b-avatar>
-                                  {{ feed.user.username }}
-                                </div>
-                                <div
-                                  class="h6 mr-2 mb-1 feedname"
-                                  v-if="feed.facilitator"
-                                >
-                                  <b-avatar
-                                    size="1.8rem"
-                                    class="mr-2"
-                                    :src="feed.facilitator.profile"
-                                  ></b-avatar>
-                                  {{ feed.facilitator.username }}
+                                  <span
+                                    @click="
+                                      $router.push(
+                                        `/member/profile/${feed.user.username}`
+                                      )
+                                    "
+                                    class="hover_green"
+                                  >
+                                    <div style="line-height: 1.2">
+                                      {{ feed.user.username }}
+                                    </div>
+                                    <small
+                                      v-if="feed.user.state"
+                                      class="text-muted font-weight-normal"
+                                      >{{ feed.user.state }}</small
+                                    >
+                                  </span>
                                 </div>
                               </div>
-
                               <b-dropdown
-                                v-if="
-                                  $store.getters.member.username ===
-                                  $route.params.username
-                                "
                                 size="sm"
                                 variant="transparent"
                                 no-caret
@@ -239,56 +228,125 @@
                               >
                                 <template #button-content>
                                   <b-icon
-                                    icon="three-dots"
-                                    font-scale="1.4"
+                                    icon="three-dots-vertical"
+                                    font-scale="1.2"
                                   ></b-icon>
                                 </template>
                                 <b-dropdown-item
                                   class="fs12"
+                                  @click="
+                                    $router.push(`/member/feed/view/${feed.id}`)
+                                  "
+                                  >View</b-dropdown-item
+                                >
+                                <b-dropdown-item
+                                  v-if="
+                                    checkpost(feed.message) &&
+                                    feed.user &&
+                                    feed.user.id == $store.getters.member.id
+                                  "
+                                  class="fs12"
+                                  @click="editfeed(feed, index)"
+                                  >Edit</b-dropdown-item
+                                >
+
+                                <b-dropdown-item
+                                  class="fs12"
                                   @click="drop(feed.id, index)"
+                                  v-if="
+                                    feed.user &&
+                                    feed.user.id == $store.getters.member.id
+                                  "
                                   >Delete</b-dropdown-item
                                 >
-                                 <b-dropdown-item
-                          class="fs12"
-                          v-if="feed.user.id !== $store.getters.member.id"
-                          >Report post</b-dropdown-item
-                        >
+                                <b-dropdown-item
+                                  class="fs12"
+                                  v-if="
+                                    feed.user.id !== $store.getters.member.id
+                                  "
+                                  @click="handleReport(feed.id, 'feed')"
+                                  >Report post</b-dropdown-item
+                                >
                               </b-dropdown>
                             </div>
-                            <div class="text-left feed_text px-3 pb-3">
-                              <span v-html="feed.message"></span><br />
-                              <span v-if="feed.url" class="text-dark-green"
-                                ><a :href="feed.url" target="_blank"
-                                  >Click link</a
-                                ></span
+
+                            <div v-if="feed.media || feed.publicId">
+                              <div
+                                class="
+                                  mb-4
+                                  position-relative
+                                  w-100
+                                  media
+                                  bg-white
+                                "
                               >
-                            </div>
-                            <div>
-                              <div class="mb-4 position-relative">
+                                <b-icon
+                                  v-if="toggleOn == index"
+                                  icon="heart-fill"
+                                  variant="danger"
+                                  class="
+                                    heart
+                                    animate__animated
+                                    animate__fadeIn
+                                    animate__fadeOut
+                                    animate__slow
+                                  "
+                                ></b-icon>
+                                <cld-image
+                                  v-if="
+                                    feed.publicId &&
+                                    img_ext.includes(getextension(feed.media))
+                                  "
+                                  :publicId="feed.publicId"
+                                  @dblclick="toggleLike(feed.id, index)"
+                                >
+                                  <cld-transformation
+                                    aspectRatio="1.0"
+                                    height="500"
+                                    crop="fill"
+                                  />
+                                </cld-image>
                                 <b-img
                                   v-if="
+                                    !feed.publicId &&
                                     feed.media &&
                                     img_ext.includes(getextension(feed.media))
                                   "
-                                  fluid-grow
+                                  @dblclick="toggleLike(feed.id, index)"
+                                  class="img_feed"
                                   :src="feed.media"
                                 ></b-img>
-                                <video
+
+                                <cld-video
                                   controls
+                                  v-if="
+                                    feed.publicId &&
+                                    vid_ext.includes(getextension(feed.media))
+                                  "
+                                  :publicId="feed.publicId"
+                                >
+                                  <cld-transformation
+                                    crop="fill"
+                                    height="500"
+                                  />
+                                </cld-video>
+
+                                <audio
                                   width="100%"
+                                  controls
                                   v-if="
                                     feed.media &&
-                                    vid_ext.includes(getextension(feed.media))
+                                    aud_ext.includes(getextension(feed.media))
                                   "
                                   :src="feed.media"
                                   class="fluid-grow"
-                                ></video>
+                                ></audio>
                                 <div
                                   v-if="
                                     feed.media &&
                                     doc_ext.includes(getextension(feed.media))
                                   "
-                                  class="text-center p-3 bg-skills-grey"
+                                  class="text-center p-3 p-sm-4 bg-skills-grey"
                                 >
                                   <b-icon
                                     icon="image"
@@ -297,9 +355,45 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="interactions text-left px-3 py-2">
+                            <div class="text-left feed_text px-3">
+                              <div class="mb-1" v-html="feed.message"></div>
+
+                              <div v-if="feed.url" class="text-dark-green mb-1">
+                                <a :href="feed.url" target="_blank"
+                                  >Click link</a
+                                >
+                              </div>
+                              <div v-if="feed.tags" class="px-2 mb-1">
+                                <b-row class="justify-content-start">
+                                  <b-col
+                                    cols="auto"
+                                    class="px-1"
+                                    v-for="(tag, id) in JSON.parse(feed.tags)"
+                                    :key="id"
+                                  >
+                                    <b-badge
+                                      class="
+                                        fs10
+                                        text-dark
+                                        font-weight-normal
+                                        text-sm
+                                      "
+                                      size="sm"
+                                      variant="lighter-green"
+                                      >{{ tag.text }}</b-badge
+                                    >
+                                  </b-col>
+                                </b-row>
+                              </div>
+                            </div>
+                            <div class="interactions text-left px-3 py-1">
                               <span
-                                class="mr-2 cursor-pointer"
+                                class="
+                                  mr-2
+                                  cursor-pointer
+                                  d-flex
+                                  align-items-center
+                                "
                                 @click="toggleLike(feed.id, index)"
                               >
                                 <b-icon
@@ -315,7 +409,6 @@
                                       ? 'heart-fill'
                                       : 'heart'
                                   "
-                                  class="mr-1"
                                   :class="
                                     feed.likes
                                       .filter((item) => item.like)
@@ -351,21 +444,30 @@
                                 ></b-icon>
                               </span>
                             </div>
-                            <div
-                              class="liked_by px-3 border-bottom"
-                              @click="showlikes(feed)"
-                              v-html="getlikes(feed.likes)"
-                            ></div>
+                            <div class="d-flex align-items-center">
+                              <div
+                                v-if="feed.likes.length"
+                                class="liked_by px-3 border-bottom"
+                                @click="showlikes(feed)"
+                                v-html="getlikes(feed.likes)"
+                              ></div>
+                            </div>
+
                             <div
                               class="comments px-3 pt-2 border-bottom text-left"
+                              style="line-height: 1.6"
                               v-if="feed.comments.length"
                             >
                               <span
                                 v-if="feed.comments.length"
                                 class="comment_header mb-2 cursor-pointer"
                                 @click="showcomments(feed)"
-                                >View all
-                                {{ feed.comments.length }} comments</span
+                                >View {{ feed.comments.length }}
+                                {{
+                                  feed.comments.length > 1
+                                    ? "comments"
+                                    : "comment"
+                                }}</span
                               >
                               <div class="all_comment">
                                 <div
@@ -375,30 +477,46 @@
                                 >
                                   <div class="flex-1 pr-2">
                                     <span
-                                      class="mr-1 comment_name"
+                                      class="comment_name mr-2"
                                       v-if="item.admin"
                                     >
                                       {{ item.admin.name }}</span
                                     >
                                     <span
-                                      class="mr-1 comment_name"
+                                      class="comment_name mr-2 hover_green"
+                                      @click="
+                                        $router.push(
+                                          `/member/profile/${item.user.username}`
+                                        )
+                                      "
                                       v-if="item.user"
                                     >
                                       {{ item.user.username }}</span
                                     >
                                     <span
-                                      class="mr-1 comment_name"
+                                      class="comment_name mr-2 hover_green"
+                                      @click="
+                                        $router.push(
+                                          `/member/profile/f/${item.facilitator.id}`
+                                        )
+                                      "
                                       v-if="item.facilitator"
                                     >
                                       {{ item.facilitator.username }}</span
                                     >
+
                                     <span class="comment_text">{{
                                       item.comment
                                     }}</span>
                                   </div>
                                   <div>
                                     <small
-
+                                      v-if="
+                                        (feed.user &&
+                                          feed.user.id ==
+                                            $store.getters.member.id) ||
+                                        $store.getters.member.id == item.user.id
+                                      "
                                     >
                                       <b-icon
                                         class="mr-2"
@@ -412,7 +530,13 @@
                                             ? 'text-danger'
                                             : ''
                                         "
-
+                                        @click="
+                                          likecomment(
+                                            item.id,
+                                            index,
+                                            feed.user.id
+                                          )
+                                        "
                                       ></b-icon>
                                     </small>
                                     <span class="comment_mins"
@@ -421,6 +545,114 @@
                                   </div>
                                 </div>
                               </div>
+                            </div>
+
+                            <div class="interact text-left py-1">
+                              <b-input-group class="">
+                                <template #append>
+                                  <b-input-group-text
+                                    class="border-0 bg-transparent d-block"
+                                    ><span
+                                      @click="
+                                        addcomment(feed.id, index, feed.comment)
+                                      "
+                                      class="
+                                        text-dark-green
+                                        cursor-pointer
+                                        comment_post
+                                      "
+                                      >Post</span
+                                    ></b-input-group-text
+                                  >
+                                </template>
+                                <template #prepend class="">
+                                  <b-input-group-text
+                                    class="border-0 bg-transparent"
+                                  >
+                                    <emoji-picker
+                                      @emoji="insertcomment"
+                                      :id="feed.id"
+                                      :index="index"
+                                      :search="search"
+                                    >
+                                      <div
+                                        class="emoji-invoker2"
+                                        slot="emoji-invoker"
+                                        slot-scope="{
+                                          events: { click: clickEvent },
+                                        }"
+                                        @click.stop="clickEvent"
+                                      >
+                                        <svg
+                                          height="24"
+                                          viewBox="0 0 24 24"
+                                          width="24"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <path d="M0 0h24v24H0z" fill="none" />
+                                          <path
+                                            d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"
+                                          />
+                                        </svg>
+                                      </div>
+                                      <div
+                                        slot="emoji-picker"
+                                        slot-scope="{ emojis, insert }"
+                                      >
+                                        <div class="emoji-picker picker">
+                                          <div class="emoji-picker__search">
+                                            <input
+                                              type="text"
+                                              v-model="search"
+                                              v-focus
+                                            />
+                                          </div>
+                                          <div>
+                                            <div
+                                              v-for="(
+                                                emojiGroup, category
+                                              ) in emojis"
+                                              :key="category"
+                                            >
+                                              <h5>{{ category }}</h5>
+                                              <div class="emojis">
+                                                <span
+                                                  v-for="(
+                                                    emoji, emojiName
+                                                  ) in emojiGroup"
+                                                  :key="emojiName"
+                                                  @click="insert(emoji)"
+                                                  :title="emojiName"
+                                                  >{{ emoji }}</span
+                                                >
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </emoji-picker>
+                                  </b-input-group-text>
+                                </template>
+                                <b-form-input
+                                  autocomplete="off"
+                                  autocorrect="off"
+                                  v-model="feed.comment"
+                                  placeholder="Add comment"
+                                  class="border-0 no-focus"
+                                ></b-form-input>
+                              </b-input-group>
+                            </div>
+                            <div
+                              class="
+                                feed_time
+                                text-muted
+                                py-2
+                                px-3
+                                text-left
+                                border-top
+                              "
+                            >
+                              {{ $moment(feed.created_at).fromNow() }}
                             </div>
                           </div>
                         </div>
@@ -473,8 +705,8 @@
                             >
                               <template #button-content>
                                 <b-icon
-                                  icon="three-dots"
-                                  font-scale="1.4"
+                                  icon="three-dots-vertical"
+                                  font-scale="1.2"
                                 ></b-icon>
                               </template>
                               <b-dropdown-item
@@ -482,27 +714,21 @@
                                 @click="drop(item.id, index)"
                                 >Delete</b-dropdown-item
                               >
-                               <b-dropdown-item
-                          class="fs12"
-
-                          >Report </b-dropdown-item
-                        >
+                              <b-dropdown-item
+                                class="fs12"
+                                v-if="
+                                  $store.getters.member &&
+                                  item.user.id !== $store.getters.member.id
+                                "
+                                @click="handleReport(item.id, 'discussion')"
+                                >Report
+                              </b-dropdown-item>
                             </b-dropdown>
                             <div class="side_dis">
                               <b-avatar
                                 size="1.8rem"
-                                v-if="item.creator == 'admin'"
-                                :src="item.admin.profile"
-                              ></b-avatar>
-                              <b-avatar
-                                size="1.8rem"
                                 v-if="item.creator == 'user'"
                                 :src="item.user.profile"
-                              ></b-avatar>
-                              <b-avatar
-                                size="1.8rem"
-                                v-if="item.creator == 'facilitator'"
-                                :src="item.facilitator.profile"
                               ></b-avatar>
                             </div>
                             <div class="text-left next_dis">
@@ -690,7 +916,7 @@
                               <template #button-content>
                                 <b-icon
                                   icon="three-dots-vertical"
-                                  font-scale="1.4"
+                                  font-scale="1.2"
                                 ></b-icon>
                               </template>
                               <b-dropdown-item class="fs13" @click="edit(item)"
@@ -701,11 +927,9 @@
                                 @click="drop(item.id, index)"
                                 >Delete</b-dropdown-item
                               >
-                               <b-dropdown-item
-                          class="fs12"
-
-                          >Report post</b-dropdown-item
-                        >
+                              <!-- <b-dropdown-item class="fs12"
+                                >Report </b-dropdown-item
+                              > -->
                             </b-dropdown>
                           </div>
                         </div>
@@ -921,7 +1145,28 @@
         </b-col>
       </b-row>
     </b-container>
-
+    <b-modal id="replycomment" hide-footer>
+      <template #modal-title>
+        <div
+          class="font-weight-bold"
+          v-if="replycomment"
+          v-html="replycomment.comment"
+        ></div>
+      </template>
+      <b-textarea class="mb-3" v-model="commentreply"> </b-textarea>
+      <b-button variant="dark-green" @click="postreply" size="sm"
+        >Reply</b-button
+      >
+    </b-modal>
+    <b-modal
+      id="report"
+      size="sm"
+      centered
+      hide-footer
+      title="Why are you reporting?"
+    >
+      <report :id="report_id" :type="report_type"></report>
+    </b-modal>
     <b-modal id="allcomments" hide-footer centered size="md">
       <template #modal-title>
         <div
@@ -970,6 +1215,7 @@
 
                         <small>
                           <b-icon
+                            @click="likecomment(item.id, index)"
                             font-scale=".8"
                             :icon="
                               item.feedcommentlikes ? 'heart-fill' : 'heart'
@@ -1012,6 +1258,7 @@
                             </p>
                             <span
                               ><b-icon
+                                @click="likecommentreply(rep.id, id, index)"
                                 :icon="
                                   rep.feedcommentreplylikes
                                     ? 'heart-fill'
@@ -1281,9 +1528,16 @@
   </div>
 </template>
 <script>
+import Report from "@/components/helpers/report";
+import EmojiPicker from "@/components/emoji/EmojiPicker";
 export default {
   data() {
     return {
+      report_id: null,
+      report_type: null,
+      index: null,
+      replycomment: null,
+      commentreply: "",
       auth: false,
       description: "",
       link: "",
@@ -1315,6 +1569,10 @@ export default {
         type: "",
         profile: "",
       },
+      comment: {
+        comment: "",
+        id: "",
+      },
       open: false,
       showAll: false,
       showCourse: false,
@@ -1324,6 +1582,8 @@ export default {
   },
   components: {
     //Message,
+    Report,
+    EmojiPicker,
   },
   computed: {
     useraccess() {
@@ -1413,6 +1673,160 @@ export default {
     }
   },
   methods: {
+    insertcomment(emoji, id, index) {
+      if (this.feeds[index].comment == null) {
+        this.feeds[index].comment = "";
+      }
+      this.feeds[index].comment += emoji + "";
+    },
+    addcomment(id, index, comment) {
+      if (!this.auth) {
+        this.$toast.info("Login to complete action");
+        return;
+      }
+      if (!comment) {
+        this.$toast.info("Cannot be empty");
+        return;
+      }
+      this.comment.id = id;
+      this.comment.comment = comment;
+
+      this.$http
+        .post(`${this.$store.getters.url}/feed-comments`, this.comment, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 201) {
+            this.$toast.success("Comment updated ");
+
+            this.feeds[index].comments.unshift(res.data);
+            this.feeds[index].comment = "";
+
+            this.comment = {
+              comment: "",
+              id: "",
+            };
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    handleReport(id, type) {
+      this.report_type = type;
+      this.report_id = id;
+      this.$bvModal.show("report");
+    },
+    checkpost(word) {
+      var res = word.substring(0, 4);
+
+      if (res !== "<div") {
+        return true;
+      }
+    },
+    likecomment(id, index) {
+      if (!this.auth) {
+        this.$toast.info("Login to complete action");
+        return;
+      }
+      if (this.$store.getters.member.id != this.id) {
+        return;
+      }
+      this.$http
+        .post(
+          `${this.$store.getters.url}/feed/comment/like`,
+          { feed_comment_id: id },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          this.getFeeds();
+          if (this.allcomments) {
+            if (res.status === 201) {
+              this.allcomments.comments[index].feedcommentlikes = res.data;
+            } else {
+              this.allcomments.comments[index].feedcommentlikes = null;
+            }
+          }
+        });
+    },
+    likecommentreply(id, index, idx) {
+      if (!this.auth) {
+        this.$toast.info("Login to complete action");
+        return;
+      }
+      if (this.$store.getters.member.id != this.id) {
+        return;
+      }
+      this.$http
+        .post(
+          `${this.$store.getters.url}/feed/comment/reply/like`,
+          { feed_comment_reply_id: id },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status === 201) {
+            this.allcomments.comments[idx].feedcommentreplies[
+              index
+            ].feedcommentreplylikes = res.data;
+          } else {
+            this.allcomments.comments[idx].feedcommentreplies[
+              index
+            ].feedcommentreplylikes = null;
+          }
+        });
+    },
+    postreply() {
+      if (!this.auth) {
+        this.$toast.info("Login to complete action");
+        return;
+      }
+      if (!this.commentreply) {
+        this.$toast.info("Cannot be empty");
+        return;
+      }
+      var data = {
+        feed_comment_id: this.replycomment.id,
+        message: this.commentreply,
+        feed_id: this.replycomment.feed_id,
+      };
+
+      this.$http
+        .post(`${this.$store.getters.url}/feed/comment/reply`, data, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 201) {
+            this.$toast.success("Reply successful ");
+
+            this.allcomments.comments[
+              this.comment_index
+            ].feedcommentreplies.unshift(res.data);
+            this.commentreply = "";
+            this.$bvModal.hide("replycomment");
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    handlereplycomment(comment, comment_index) {
+      this.replycomment = comment;
+      this.comment_index = comment_index;
+
+      this.$bvModal.show("replycomment");
+    },
     toText(HTML) {
       if (!HTML) return;
       var input = HTML;
@@ -1423,6 +1837,13 @@ export default {
         .replace(/\s+/g, " ")
         .replace(/ /g, " ")
         .replace(/>/g, " ");
+    },
+    likeimage(index) {
+      this.toggleOn = index;
+
+      setTimeout(() => {
+        this.toggleOn = null;
+      }, 1500);
     },
     toggleLike(id, index) {
       if (!this.auth) {
@@ -1442,11 +1863,11 @@ export default {
         .then((res) => {
           if (res.status == 201) {
             this.likeimage(index);
-            this.filteredFeeds[index].likes.push(res.data);
+            this.feeds[index].likes.push(res.data);
           }
           if (res.status == 200) {
             this.likeimage(index);
-            this.filteredFeeds[index].likes.map((item) => {
+            this.feeds[index].likes.map((item) => {
               if (item.user_id == this.$store.getters.member.id) {
                 return (item.like = res.data.like);
               }
@@ -1639,8 +2060,9 @@ export default {
               return;
             }
             this.showbio = true;
-            this.id = this.detail.id;
+
             this.detail = res.data.data;
+            this.id = this.detail.id;
             this.getFeeds();
             this.getConnections();
             this.getEvents();

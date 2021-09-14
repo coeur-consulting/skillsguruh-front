@@ -80,20 +80,20 @@
                           list-unstyled
                         "
                       >
-                        <li
+                        <!-- <li
                           class="h6 fs14 cursor-pointer mb-0 text-muted"
                           :class="active == 4 ? 'active' : ''"
                           @click="active = 4"
                         >
                           People
-                        </li>
-                        <li
+                        </li> -->
+                        <!-- <li
                           class="h6 fs14 cursor-pointer mb-0 text-muted"
                           :class="active == 1 ? 'active' : ''"
                           @click="active = 1"
                         >
                           Feed
-                        </li>
+                        </li> -->
                         <li
                           class="h6 fs14 cursor-pointer mb-0 text-muted"
                           :class="active == 2 ? 'active' : ''"
@@ -101,13 +101,13 @@
                         >
                           Discussions
                         </li>
-                        <li
+                        <!-- <li
                           class="h6 fs14 cursor-pointer mb-0 text-muted"
                           :class="active == 3 ? 'active' : ''"
                           @click="active = 3"
                         >
                           Courses
-                        </li>
+                        </li> -->
                       </ul>
                     </nav>
                   </b-card-body>
@@ -542,7 +542,7 @@
                                 position-relative
                               "
                             >
-                              <b-dropdown
+                              <!-- <b-dropdown
                                 size="sm"
                                 variant="transparent"
                                 no-caret
@@ -550,16 +550,16 @@
                               >
                                 <template #button-content>
                                   <b-icon
-                                    icon="three-dots"
-                                    font-scale="1.4"
+                                    icon="three-dots-vertical"
+                                    font-scale="1.1"
                                   ></b-icon>
                                 </template>
                                 <b-dropdown-item
                                   class="fs12"
                                   @click="$router.push(`/feed/view/${feed.id}`)"
-                                  >View post</b-dropdown-item
+                                  >View</b-dropdown-item
                                 >
-                              </b-dropdown>
+                              </b-dropdown> -->
                               <div class="side_dis">
                                 <b-avatar
                                   v-if="item.creator == 'admin'"
@@ -656,22 +656,7 @@
                               </div>
                               <div>
                                 <span
-                                  v-if="item.type == 'public'"
-                                  @click="
-                                    $router.push(
-                                      `/facilitator/discussion/${item.id}`
-                                    )
-                                  "
-                                  class="
-                                    text-dark-green
-                                    font-weight-bold
-                                    cursor-pointer
-                                  "
-                                  >Join Discussion</span
-                                >
-                                <span
-                                  v-else
-                                  @click="joindiscussion(item)"
+                                  @click="joindiscussion(item.id)"
                                   class="
                                     text-dark-green
                                     font-weight-bold
@@ -697,7 +682,7 @@
                       </div>
                     </div>
 
-                    <div v-if="active == 3" class="pt-0 px-0">
+                    <!-- <div v-if="active == 3" class="pt-0 px-0">
                       <div v-if="showCourse">
                         <b-container fluid class="main-course">
                           <b-row>
@@ -864,7 +849,7 @@
                           </h6>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                   </b-card-body>
                 </b-card>
               </b-col>
@@ -1828,7 +1813,7 @@ export default {
       description: "",
       subId: null,
       detail: [],
-      active: 4,
+      active: 2,
       search: "",
       currentPage: 1,
       rows: null,
@@ -1963,6 +1948,9 @@ export default {
   },
 
   methods: {
+    joindiscussion(id) {
+      this.$router.push(`/member/explore/discussion/${id}`);
+    },
     showlikes(likes) {
       this.alllikes = likes;
 

@@ -33,8 +33,7 @@
                       discussion.user.id == $store.getters.member.id
                     "
                   >
-                    <span @click="$bvModal.show('edit')"
-                      ><b-icon icon="pencil-square" class="mr-1"></b-icon>
+                    <span @click="$bvModal.show('edit')">
                       <span class="">Edit</span></span
                     >
                   </b-dropdown-item>
@@ -46,9 +45,18 @@
                       discussion.user &&
                       discussion.user.id == $store.getters.member.id
                     "
-                    ><b-icon icon="dash-circle" class="mr-1"></b-icon>
+                  >
                     Delete</b-dropdown-item
                   >
+                  <b-dropdown-item
+                    v-if="
+                      discussion.user &&
+                      discussion.user.id !== $store.getters.member.id
+                    "
+                    @click="handleReport(discussion.id, 'discussion')"
+                    class="fs12"
+                    >Report
+                  </b-dropdown-item>
                 </b-dropdown>
               </div>
               <div class="content px-2 py-3 pt-4 pb-3">
@@ -401,12 +409,25 @@
                           }}</small
                         >
                       </span>
-                      <small
-                        class="cursor-pointer"
-                        @click="addmessagecomment(item, index)"
+                      <span
+                        ><small
+                          class="cursor-pointer mr-2"
+                          @click="addmessagecomment(item, index)"
+                        >
+                          <b-icon icon="arrow-counterclockwise"></b-icon> Reply
+                        </small>
+
+                        <small
+                          class="cursor-pointer"
+                          v-if="
+                            item.user &&
+                            item.user.id !== $store.getters.member.id
+                          "
+                          @click="handleReport(item.id, 'discussionmessage')"
+                        >
+                          <b-icon icon="caution"></b-icon> Report
+                        </small></span
                       >
-                        <b-icon icon="arrow-counterclockwise"></b-icon> Reply
-                      </small>
                     </div>
                     <div
                       class="
@@ -1072,7 +1093,15 @@
         >
       </div>
     </b-modal>
-
+    <b-modal
+      id="report"
+      size="sm"
+      centered
+      hide-footer
+      title="Why are you reporting?"
+    >
+      <report :id="report_id" :type="report_type"></report>
+    </b-modal>
     <b-modal
       id="edit"
       size="lg"
@@ -1091,10 +1120,12 @@ import Editor from "@tinymce/tinymce-vue";
 import SpeechToText from "@/components/speechToText";
 import TextToSpeech from "@/components/textToSpeech";
 import EditDiscussion from "@/components/editdiscussion";
-
+import Report from "@/components/helpers/report";
 export default {
   data() {
     return {
+      report_id: null,
+      report_type: null,
       members: [],
       description: "",
       index: null,
@@ -1143,6 +1174,7 @@ export default {
     TextToSpeech,
     Editor,
     EditDiscussion,
+    Report,
   },
   beforeRouteEnter(to, from, next) {
     next((vm) => {
@@ -1273,6 +1305,11 @@ export default {
     },
   },
   methods: {
+    handleReport(id, type) {
+      this.report_type = type;
+      this.report_id = id;
+      this.$bvModal.show("report");
+    },
     getmembers() {
       this.$http
         .get(

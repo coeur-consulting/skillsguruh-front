@@ -479,7 +479,7 @@
                         <b-dropdown-item
                           class="fs12"
                           @click="$router.push(`/member/feed/view/${feed.id}`)"
-                          >View post</b-dropdown-item
+                          >View</b-dropdown-item
                         >
 
                         <b-dropdown-item

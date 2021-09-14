@@ -81,6 +81,13 @@
                       "
                       >Delete</b-dropdown-item
                     >
+                    <b-dropdown-item
+                      v-if="
+                        feed.user && feed.user.id !== $store.getters.member.id
+                      "
+                      class="fs12"
+                      >Report
+                    </b-dropdown-item>
                   </b-dropdown>
                 </div>
                 <div class="p-3">
