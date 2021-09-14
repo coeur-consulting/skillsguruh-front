@@ -2,14 +2,109 @@
 <template>
   <b-container fluid class="px-0 px-sm-4">
     <div class="pb-5 pt-sm-4">
-      <b-modal
-        no-close-on-backdrop
-        id="feed"
-        hide-footer
-        centered
-        title="Create feed"
-        size="md"
-      >
+      <b-modal id="feed" hide-footer centered title="Create feed" size="md">
+        <div class="mb-4">
+          <div class="wrapper mb-2">
+            <b-form-textarea
+              rows="3"
+              class="rounded border-0"
+              v-model="feed.message"
+              :placeholder="
+                'What\'s on your mind ' + $store.getters.member.name + '?'
+              "
+            ></b-form-textarea>
+          </div>
+          <emoji-picker
+            class="d-none d-md-block"
+            @emoji="insertfeed"
+            :search="search"
+          >
+            <div
+              class="emoji-invoker"
+              slot="emoji-invoker"
+              slot-scope="{ events: { click: clickEvent } }"
+              @click.stop="clickEvent"
+            >
+              <svg
+                height="24"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path
+                  d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"
+                />
+              </svg>
+            </div>
+            <div slot="emoji-picker" slot-scope="{ emojis, insert }">
+              <div class="emoji-picker">
+                <div class="emoji-picker__search">
+                  <input type="text" v-model="search" v-focus />
+                </div>
+                <div>
+                  <div v-for="(emojiGroup, category) in emojis" :key="category">
+                    <h5>{{ category }}</h5>
+                    <div class="emojis">
+                      <span
+                        v-for="(emoji, emojiName) in emojiGroup"
+                        :key="emojiName"
+                        @click="insert(emoji)"
+                        :title="emojiName"
+                        >{{ emoji }}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </emoji-picker>
+        </div>
+        <div>
+          <h6 class="text-muted fs11 mb-2">Add tags</h6>
+          <multi-select
+            :options="options"
+            :selected-options="feed.tags"
+            placeholder="Choose tag"
+            @select="onSelect"
+          >
+          </multi-select>
+        </div>
+
+        <div class="d-flex justify-content-around my-3 border rounded p-2">
+          <div>
+            <FeedUpload @getUpload="getUpload" :id="'image'">
+              <b-img
+                :src="require('@/assets/images/event.svg')"
+                width="18px"
+                class="mr-1 cursor-pointer ev"
+              ></b-img>
+              <span class="ev">Image</span>
+            </FeedUpload>
+          </div>
+          <div>
+            <FeedUpload @getUpload="getUpload" :id="'video'">
+              <b-img
+                :src="require('@/assets/images/youtube.svg')"
+                width="18px"
+                class="mr-1 cursor-pointer ev"
+              ></b-img
+              ><span class="ev">Video</span>
+            </FeedUpload>
+          </div>
+          <Feelings user="member" @handleChange="handleChange">
+            <b-img
+              :src="require('@/assets/images/feeling.png')"
+              width="18px"
+              class="mr-1 cursor-pointer"
+            ></b-img>
+            Feelings
+          </Feelings>
+        </div>
+        <b-button @click="post" block variant="dark-green">Post</b-button>
+      </b-modal>
+
+      <b-modal id="editfeed" hide-footer centered title="Edit feed" size="md">
         <div class="mb-4">
           <div class="wrapper mb-2">
             <b-form-textarea
@@ -79,15 +174,6 @@
         </div>
 
         <div class="mb-4 position-relative media border rounded">
-          <FeedUpload
-            @getUpload="getUpload"
-            :id="'edit'"
-            class="position-absolute edit_button"
-          >
-            <div class="bg-lighter-green fs12 px-3 py-1 rounded cursor-pointer">
-              Edit
-            </div>
-          </FeedUpload>
           <b-img
             v-if="feed.media && img_ext.includes(getextension(feed.media))"
             fluid-grow
@@ -102,103 +188,23 @@
             class="fluid-grow"
             controls
           ></video>
-          <div
-            v-if="feed.media && doc_ext.includes(getextension(feed.media))"
-            class="text-center p-3 p-sm-4 bg-skills-grey"
-          >
-            <b-icon icon="image" font-scale="3rem"></b-icon>
-          </div>
         </div>
-        <div class="d-flex justify-content-around my-3 border rounded p-2">
-          <div>
-            <FeedUpload @getUpload="getUpload" :id="'image'">
-              <b-img
-                :src="require('@/assets/images/event.svg')"
-                width="18px"
-                class="mr-1 cursor-pointer ev"
-              ></b-img>
-              <span class="ev">Image</span>
-            </FeedUpload>
-          </div>
-          <div>
-            <FeedUpload @getUpload="getUpload" :id="'video'">
-              <b-img
-                :src="require('@/assets/images/youtube.svg')"
-                width="18px"
-                class="mr-1 cursor-pointer ev"
-              ></b-img
-              ><span class="ev">Video</span>
-            </FeedUpload>
-          </div>
-          <Feelings user="member" @handleChange="handleChange">
-            <b-img
-              :src="require('@/assets/images/feeling.png')"
-              width="18px"
-              class="mr-1 cursor-pointer"
-            ></b-img>
-            Feelings
-          </Feelings>
-        </div>
-        <b-button @click="post" block variant="dark-green">Post</b-button>
+
+        <b-button @click="updatepost" block variant="dark-green"
+          >Update post</b-button
+        >
       </b-modal>
 
-      <b-modal
-        no-close-on-backdrop
-        id="allcomments"
-        hide-footer
-        centered
-        title="Comments"
-        size="md"
-      >
+      <b-modal id="allcomments" hide-footer centered size="md">
+        <template #modal-title>
+          <div
+            class="font-weight-bold"
+            v-if="allcomments"
+            v-html="allcomments.message"
+          ></div>
+        </template>
         <div class="comments" v-if="allcomments">
-          <div class="mb-3">
-            <div class="d-flex mb-3 pt-3">
-              <div class="d-flex flex-1 text-left">
-                <div class="mr-2 mb-1" v-if="allcomments.admin">
-                  <b-avatar
-                    class="mr-2"
-                    size="1.8rem"
-                    :src="allcomments.admin.profile"
-                  ></b-avatar>
-                </div>
-                <div class="mr-2 mb-1" v-if="allcomments.user">
-                  <b-avatar
-                    class="mr-2"
-                    size="1.8rem"
-                    :src="allcomments.user.profile"
-                  ></b-avatar>
-                </div>
-                <div
-                  class="comment_name mr-2 mb-1"
-                  v-if="allcomments.facilitator"
-                >
-                  <b-avatar
-                    class="mr-2"
-                    size="1.8rem"
-                    :src="allcomments.facilitator.profile"
-                  ></b-avatar>
-                </div>
-                <div class="profile">
-                  <div class="name" v-if="allcomments.admin">
-                    {{ allcomments.admin.name }}
-                  </div>
-                  <div class="name" v-if="allcomments.user">
-                    {{ allcomments.user.username }}
-                  </div>
-                  <div class="name" v-if="allcomments.facilitator">
-                    {{ allcomments.facilitator.username }}
-                  </div>
-
-                  <div class="date fs11">
-                    {{ allcomments.created_at | moment("ll") }}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="text-left feed_text px-3 pb-3">
-              <span>{{ allcomments.message }}</span>
-            </div>
-          </div>
+          <label for="">Comments</label>
           <div class="comments">
             <div
               class="comment d-flex text-left mb-2"
@@ -207,26 +213,6 @@
             >
               <div class="flex-1">
                 <div class="flex-1 pr-2">
-                  <div class="d-flex mb-1" v-if="item.admin">
-                    <div class="d-flex flex-1">
-                      <b-avatar
-                        class="mr-2"
-                        size="sm"
-                        :src="item.admin.profile"
-                      ></b-avatar>
-                      <div>
-                        <div class="comment_name">
-                          {{ item.admin.name }}
-                        </div>
-                        <div class="comment_text">{{ item.comment }}</div>
-                      </div>
-                    </div>
-                    <div>
-                      <span class="comment_mins pl-2">{{
-                        $moment(item.created_at).fromNow()
-                      }}</span>
-                    </div>
-                  </div>
                   <div class="d-flex mb-1" v-if="item.user">
                     <div class="d-flex flex-1">
                       <b-avatar
@@ -234,33 +220,107 @@
                         size="sm"
                         :src="item.user.profile"
                       ></b-avatar>
-                      <div>
-                        <div class="comment_name">
-                          {{ item.user.username }}
+                      <div class="w-100">
+                        <div class="mb-2">
+                          <div>
+                            <div
+                              class="comment_name"
+                              @click="
+                                $router.push(
+                                  `/member/profile/${item.user.username}`
+                                )
+                              "
+                            >
+                              {{ item.user.username }}
+                            </div>
+                            <div class="comment_text">{{ item.comment }}</div>
+                          </div>
+                          <small
+                            class="text-muted mr-2"
+                            @click="handlereplycomment(item, index)"
+                            >Reply
+                          </small>
+
+                          <small
+                            v-if="
+                              (allcomments.user &&
+                                allcomments.user.id ==
+                                  $store.getters.member.id) ||
+                              $store.getters.member.id == item.user.id
+                            "
+                          >
+                            <b-icon
+                              :icon="
+                                item.feedcommentlikes ? 'heart-fill' : 'heart'
+                              "
+                              :class="
+                                item.feedcommentlikes ? 'text-danger' : ''
+                              "
+                              @click="likecomment(item.id, index, feed.user.id)"
+                            ></b-icon>
+                          </small>
                         </div>
-                        <div class="comment_text">{{ item.comment }}</div>
+                        <div
+                          class="p-2 bg-light rounded w-100"
+                          v-if="item.feedcommentreplies.length"
+                        >
+                          <div class="text-muted fs12 font-weight-bold mb-1">
+                            Replies
+                          </div>
+                          <div
+                            class="d-flex mb-1"
+                            v-for="(rep, id) in item.feedcommentreplies"
+                            :key="id"
+                          >
+                            <b-avatar
+                              class="mr-2 feedcommentavatar"
+                              :src="rep.user.profile"
+                            ></b-avatar>
+                            <div class="d-flex align-items-start flex-1">
+                              <p class="flex-1 mr-2">
+                                <span
+                                  class="comment_name mr-1"
+                                  @click="
+                                    $router.push(
+                                      `/member/profile/${rep.user.username}`
+                                    )
+                                  "
+                                >
+                                  {{ rep.user.username }}
+                                </span>
+                                <span class="comment_text flex-1">{{
+                                  rep.message
+                                }}</span>
+                              </p>
+                              <span
+                                ><b-icon
+                                  :icon="
+                                    rep.feedcommentreplylikes
+                                      ? 'heart-fill'
+                                      : 'heart'
+                                  "
+                                  :class="
+                                    rep.feedcommentreplylikes
+                                      ? 'text-danger'
+                                      : ''
+                                  "
+                                  @click="
+                                    likecommentreply(
+                                      rep.id,
+                                      id,
+                                      index,
+                                      feed.user.id
+                                    )
+                                  "
+                                  font-scale=".8"
+                                ></b-icon
+                              ></span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div>
-                      <span class="comment_mins pl-2">{{
-                        $moment(item.created_at).fromNow()
-                      }}</span>
-                    </div>
-                  </div>
-                  <div class="d-flex mb-1" v-if="item.facilitator">
-                    <div class="d-flex flex-1">
-                      <b-avatar
-                        class="mr-2"
-                        size="sm"
-                        :src="item.facilitator.profile"
-                      ></b-avatar>
-                      <div>
-                        <div class="comment_name">
-                          {{ item.facilitator.username }}
-                        </div>
-                        <div class="comment_text">{{ item.comment }}</div>
-                      </div>
-                    </div>
+
                     <div>
                       <span class="comment_mins pl-2">{{
                         $moment(item.created_at).fromNow()
@@ -275,124 +335,51 @@
         </div>
       </b-modal>
 
-      <b-modal
-        no-close-on-backdrop
-        id="alllikes"
-        hide-footer
-        centered
-        title="Likes"
-        size="sm"
-      >
+      <b-modal id="alllikes" hide-footer centered>
+        <template #modal-title>
+          <div
+            class="font-weight-bold"
+            v-if="alllikes"
+            v-html="alllikes.message"
+          ></div>
+        </template>
         <div class="comments" v-if="alllikes">
-          <div class="mb-3">
-            <div class="d-flex mb-3 pt-3">
-              <div class="d-flex flex-1 text-left">
-                <div class="mr-2 mb-1" v-if="alllikes.admin">
-                  <b-avatar
-                    class="mr-2"
-                    size="1.8rem"
-                    :src="alllikes.admin.profile"
-                  ></b-avatar>
-                </div>
-                <div class="mr-2 mb-1" v-if="alllikes.user">
-                  <b-avatar
-                    class="mr-2"
-                    size="1.8rem"
-                    :src="alllikes.user.profile"
-                  ></b-avatar>
-                </div>
-                <div class="comment_name mr-2 mb-1" v-if="alllikes.facilitator">
-                  <b-avatar
-                    class="mr-2"
-                    size="1.8rem"
-                    :src="alllikes.facilitator.profile"
-                  ></b-avatar>
-                </div>
-                <div class="profile">
-                  <div class="name" v-if="alllikes.admin">
-                    {{ alllikes.admin.name }}
-                  </div>
-                  <div class="name" v-if="alllikes.user">
-                    {{ alllikes.user.username }}
-                  </div>
-                  <div class="name" v-if="alllikes.facilitator">
-                    {{ alllikes.facilitator.username }}
-                  </div>
-
-                  <div class="date fs11">
-                    {{ alllikes.created_at | moment("ll") }}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="text-left feed_text pb-3">
-              <span>{{ alllikes.message }}</span>
-            </div>
-          </div>
           <div class="comments">
             <h6>Liked by</h6>
-            <div
-              class="comment d-flex text-left mb-2"
-              v-for="(item, index) in alllikes.likes.filter((val) => val.like)"
-              :key="index"
-            >
-              <div class="flex-1">
-                <div class="flex-1 pr-2">
-                  <div class="d-flex mb-1" v-if="item.admin">
-                    <div class="d-flex flex-1">
-                      <b-avatar
-                        class="mr-2"
-                        size="sm"
-                        :src="item.admin.profile"
-                      ></b-avatar>
-                      <div>
-                        <div class="comment_name">
-                          {{ item.admin.name }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="d-flex mb-1" v-if="item.user">
-                    <div
-                      class="d-flex flex-1"
-                      @click="
-                        $router.push(`/member/profile/${item.user.username}`)
-                      "
-                    >
-                      <b-avatar
-                        class="mr-2"
-                        size="sm"
-                        :src="item.user.profile"
-                      ></b-avatar>
-                      <div>
-                        <div class="comment_name">
-                          {{ item.user.username }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="d-flex mb-1" v-if="item.facilitator">
-                    <div
-                      class="d-flex flex-1"
-                      @click="
-                        $router.push(`/member/profile/f/${item.facilitator.id}`)
-                      "
-                    >
-                      <b-avatar
-                        class="mr-2"
-                        size="sm"
-                        :src="item.facilitator.profile"
-                      ></b-avatar>
-                      <div>
-                        <div class="comment_name">
-                          {{ item.facilitator.username }}
+            <b-row>
+              <b-col
+                cols="6"
+                class="comment d-flex text-left mb-2"
+                v-for="(item, index) in alllikes.likes.filter(
+                  (val) => val.like
+                )"
+                :key="index"
+              >
+                <div class="flex-1">
+                  <div class="flex-1 pr-2">
+                    <div class="d-flex mb-1" v-if="item.user">
+                      <div
+                        class="d-flex flex-1"
+                        @click="
+                          $router.push(`/member/profile/${item.user.username}`)
+                        "
+                      >
+                        <b-avatar
+                          class="mr-2"
+                          size="sm"
+                          :src="item.user.profile"
+                        ></b-avatar>
+                        <div>
+                          <div class="comment_name">
+                            {{ item.user.username }}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </b-col>
+            </b-row>
           </div>
         </div>
       </b-modal>
@@ -528,30 +515,6 @@
                             >
                           </span>
                         </div>
-                        <div class="mr-2 mb-1 feedname" v-if="feed.facilitator">
-                          <b-avatar
-                            size="1.8rem"
-                            class="mr-2"
-                            :src="feed.facilitator.profile"
-                          ></b-avatar>
-                          <span
-                            class="hover_green"
-                            @click="
-                              $router.push(
-                                `/member/profile/f/${feed.facilitator.id}`
-                              )
-                            "
-                          >
-                            <div style="line-height: 1.2">
-                              {{ feed.facilitator.username }}
-                            </div>
-                            <small
-                              v-if="feed.facilitator.state"
-                              class="text-muted font-weight-normal"
-                              >{{ feed.facilitator.state }}</small
-                            >
-                          </span>
-                        </div>
                       </div>
                       <b-dropdown
                         size="sm"
@@ -560,12 +523,21 @@
                         class="no-focus"
                       >
                         <template #button-content>
-                          <b-icon icon="three-dots" font-scale="1.4"></b-icon>
+                          <b-icon
+                            icon="three-dots-vertical"
+                            font-scale="1.4"
+                          ></b-icon>
                         </template>
                         <b-dropdown-item
                           class="fs12"
                           @click="$router.push(`/member/feed/view/${feed.id}`)"
                           >View post</b-dropdown-item
+                        >
+                        <b-dropdown-item
+                          class="fs12"
+                          @click="editfeed(feed, index)"
+                          v-if="checkpost(feed.message)"
+                          >Edit post</b-dropdown-item
                         >
 
                         <b-dropdown-item
@@ -575,7 +547,12 @@
                             feed.user &&
                             feed.user.id == $store.getters.member.id
                           "
-                          >Delete</b-dropdown-item
+                          >Delete post</b-dropdown-item
+                        >
+                        <b-dropdown-item
+                          class="fs12"
+                          v-if="feed.user.id !== $store.getters.member.id"
+                          >Report post</b-dropdown-item
                         >
                       </b-dropdown>
                     </div>
@@ -784,6 +761,26 @@
                             <span class="comment_text">{{ item.comment }}</span>
                           </div>
                           <div>
+                            <small
+                              v-if="
+                                (feed.user &&
+                                  feed.user.id == $store.getters.member.id) ||
+                                $store.getters.member.id == item.user.id
+                              "
+                            >
+                              <b-icon
+                                class="mr-2"
+                                :icon="
+                                  item.feedcommentlikes ? 'heart-fill' : 'heart'
+                                "
+                                :class="
+                                  item.feedcommentlikes ? 'text-danger' : ''
+                                "
+                                @click="
+                                  likecomment(item.id, index, feed.user.id)
+                                "
+                              ></b-icon>
+                            </small>
                             <span class="comment_mins"
                               >{{ $moment(item.created_at).fromNow() }}
                             </span>
@@ -938,7 +935,6 @@
               </div>
             </div>
           </b-col>
-          <!-- <Message class="d-none d-md-block" :user="'member'" /> -->
         </b-row>
       </b-container>
     </div>
@@ -1012,6 +1008,19 @@
         </ShareNetwork>
       </div>
     </b-modal>
+    <b-modal id="replycomment" hide-footer>
+      <template #modal-title>
+        <div
+          class="font-weight-bold"
+          v-if="replycomment"
+          v-html="replycomment.comment"
+        ></div>
+      </template>
+      <b-textarea class="mb-3" v-model="commentreply"> </b-textarea>
+      <b-button variant="dark-green" @click="postreply" size="sm"
+        >Reply</b-button
+      >
+    </b-modal>
   </b-container>
 </template>
 
@@ -1019,13 +1028,16 @@
 import EmojiPicker from "@/components/emoji/EmojiPicker";
 import Feelings from "@/components/feelings";
 import FeedUpload from "../feedupload";
-// import Message from "../messagecomponent";
+
 import { MultiSelect } from "vue-search-select";
 import Interest from "../helpers/subcategory.js";
 import Suggestions from "@/components/suggestions.vue";
 export default {
   data() {
     return {
+      index: null,
+      replycomment: null,
+      commentreply: "",
       toggleOn: null,
       link: "",
 
@@ -1066,6 +1078,7 @@ export default {
       page: 1,
       alllikes: null,
       counter: 0,
+      comment_index: null,
     };
   },
   components: {
@@ -1132,6 +1145,113 @@ export default {
     },
   },
   methods: {
+    checkpost(word) {
+      var res = word.substring(0, 4);
+
+      if (res !== "<div") {
+        return true;
+      }
+    },
+    likecomment(id, index, userId) {
+      if (this.$store.getters.member.id != userId) {
+        return;
+      }
+      this.$http
+        .post(
+          `${this.$store.getters.url}/feed/comment/like`,
+          { feed_comment_id: id },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status === 201) {
+            this.allcomments.comments[index].feedcommentlikes = res.data;
+          } else {
+            this.allcomments.comments[index].feedcommentlikes = null;
+          }
+        });
+    },
+    likecommentreply(id, index, idx, userId) {
+      if (this.$store.getters.member.id != userId) {
+        return;
+      }
+      this.$http
+        .post(
+          `${this.$store.getters.url}/feed/comment/reply/like`,
+          { feed_comment_reply_id: id },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status === 201) {
+            this.allcomments.comments[idx].feedcommentreplies[
+              index
+            ].feedcommentreplylikes = res.data;
+          } else {
+            this.allcomments.comments[idx].feedcommentreplies[
+              index
+            ].feedcommentreplylikes = null;
+          }
+        });
+    },
+    postreply() {
+      if (!this.commentreply) {
+        this.$toast.info("Cannot be empty");
+        return;
+      }
+      var data = {
+        feed_comment_id: this.replycomment.id,
+        message: this.commentreply,
+        feed_id: this.replycomment.feed_id,
+      };
+
+      this.$http
+        .post(`${this.$store.getters.url}/feed/comment/reply`, data, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 201) {
+            this.$toast.success("Reply successful ");
+
+            this.getcustomfeeds();
+            this.gettrendingfeeds();
+            this.getrecentfeeds();
+            this.allcomments.comments[
+              this.comment_index
+            ].feedcommentreplies.unshift(res.data);
+            this.commentreply = "";
+            this.$bvModal.hide("replycomment");
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    handlereplycomment(comment, comment_index) {
+      this.replycomment = comment;
+      this.comment_index = comment_index;
+
+      this.$bvModal.show("replycomment");
+    },
+    toText(HTML) {
+      if (!HTML) return;
+      var input = HTML;
+
+      return input
+        .replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi, "")
+        .replace(/<[^>]+?>/g, "")
+        .replace(/\s+/g, " ")
+        .replace(/ /g, " ")
+        .replace(/>/g, " ");
+    },
     handleChange() {},
     likeimage(index) {
       this.toggleOn = index;
@@ -1452,6 +1572,31 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
+    updatepost() {
+      this.$http
+        .put(`${this.$store.getters.url}/feeds/${this.feed.id}`, this.feed, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.$toast.success("Feed Updated ");
+
+            this.filteredFeeds[this.index].message = res.data.message;
+            this.$bvModal.hide("editfeed");
+            this.feed = {
+              media: "",
+              message: "",
+              publicId: "",
+              tags: [],
+            };
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     addcomment(id, index, comment) {
       if (!comment) {
         this.$toast.info("Cannot be empty");
@@ -1538,6 +1683,15 @@ export default {
         .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
+    },
+    editfeed(feed, index) {
+      this.index = index;
+      this.feed.message = feed.message;
+      this.feed.id = feed.id;
+      this.feed.media = feed.media;
+      this.feed.publicId = feed.publicId;
+      this.feed.tags = JSON.parse(feed.tags);
+      this.$bvModal.show("editfeed");
     },
     drop(id, index) {
       this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {

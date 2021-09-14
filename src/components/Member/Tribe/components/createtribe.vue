@@ -6,6 +6,7 @@
           placeholder="Give a title"
           v-model="tribe.name"
           required
+          max="25"
         ></b-form-input>
       </b-form-group>
 
@@ -14,6 +15,7 @@
           required
           v-model="tribe.description"
           placeholder="Write a brief Description"
+          max="150"
         ></b-form-textarea
       ></b-form-group>
 
@@ -38,7 +40,7 @@
         </multi-select>
       </b-form-group>
 
-      <b-form-group label="Entry Fee">
+      <b-form-group label="Access Fee">
         <b-form-row>
           <b-col>
             <b-form-radio v-model="tribe.type" value="free"
@@ -52,7 +54,7 @@
           >
         </b-form-row>
       </b-form-group>
-      <b-form-group label="Entry Fee" v-if="tribe.type == 'paid'">
+      <b-form-group label="Access Fee" v-if="tribe.type == 'paid'">
         <b-form-input
           placeholder="Amount"
           v-model="tribe.amount"

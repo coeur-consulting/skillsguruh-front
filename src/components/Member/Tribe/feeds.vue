@@ -147,20 +147,13 @@
         id="allcomments"
         hide-footer
         centered
-        title="Comments"
+        :title="toText(allcomments.message)"
         size="md"
       >
         <div class="comments" v-if="allcomments">
           <div class="mb-3">
             <div class="d-flex mb-3 pt-3">
               <div class="d-flex flex-1 text-left">
-                <div class="mr-2 mb-1" v-if="allcomments.admin">
-                  <b-avatar
-                    class="mr-2"
-                    size="1.8rem"
-                    :src="allcomments.admin.profile"
-                  ></b-avatar>
-                </div>
                 <div class="mr-2 mb-1" v-if="allcomments.user">
                   <b-avatar
                     class="mr-2"
@@ -168,25 +161,10 @@
                     :src="allcomments.user.profile"
                   ></b-avatar>
                 </div>
-                <div
-                  class="comment_name mr-2 mb-1"
-                  v-if="allcomments.facilitator"
-                >
-                  <b-avatar
-                    class="mr-2"
-                    size="1.8rem"
-                    :src="allcomments.facilitator.profile"
-                  ></b-avatar>
-                </div>
+
                 <div class="profile">
-                  <div class="name" v-if="allcomments.admin">
-                    {{ allcomments.admin.name }}
-                  </div>
                   <div class="name" v-if="allcomments.user">
                     {{ allcomments.user.username }}
-                  </div>
-                  <div class="name" v-if="allcomments.facilitator">
-                    {{ allcomments.facilitator.username }}
                   </div>
 
                   <div class="date fs11">
@@ -1039,6 +1017,17 @@ export default {
     },
   },
   methods: {
+    toText(HTML) {
+      if (!HTML) return;
+      var input = HTML;
+
+      return input
+        .replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi, "")
+        .replace(/<[^>]+?>/g, "")
+        .replace(/\s+/g, " ")
+        .replace(/ /g, " ")
+        .replace(/>/g, " ");
+    },
     handleChange() {},
     likeimage(index) {
       this.toggleOn = index;

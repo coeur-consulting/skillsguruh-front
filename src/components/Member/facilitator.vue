@@ -95,28 +95,14 @@
                       <div class="d-flex align-items-center">
                         <div
                           v-if="
-                            $route.params.user != 'u' ||
-                            ($route.params.user == 'u' &&
-                              $store.getters.member.id != $route.params.id)
+                            $store.getters.member.username !=
+                            $route.params.username
                           "
                           class="mr-3"
                         >
                           <b-button
                             size="sm"
-                            v-if="
-                              $route.params.user == 'f' &&
-                              !checkconnection(detail)
-                            "
-                            variant="outline-dark-green"
-                            @click="addconnections(detail.id, 'facilitator')"
-                            >Connect</b-button
-                          >
-                          <b-button
-                            size="sm"
-                            v-if="
-                              $route.params.user == 'u' &&
-                              !checkconnection(detail)
-                            "
+                            v-if="!checkconnection(detail)"
                             variant="outline-dark-green"
                             @click="addconnections(detail.id, 'user')"
                             >Connect</b-button
@@ -130,26 +116,11 @@
                           >
                         </div>
                         <b-icon
-                          v-if="$route.params.user == 'u'"
                           @click="
                             getmessage(
                               detail.id,
                               detail.username,
                               'user',
-                              detail.profile
-                            )
-                          "
-                          icon="envelope"
-                          font-scale="1.4"
-                          class="text-muted cursor-pointer"
-                        ></b-icon>
-                        <b-icon
-                          v-if="$route.params.user == 'f'"
-                          @click="
-                            getmessage(
-                              detail.id,
-                              detail.username,
-                              'facilitator',
                               detail.profile
                             )
                           "
@@ -258,9 +229,8 @@
 
                               <b-dropdown
                                 v-if="
-                                  feed.facilitator &&
-                                  feed.facilitator.id ==
-                                    $store.getters.facilitator.id
+                                  $store.getters.member.username ===
+                                  $route.params.username
                                 "
                                 size="sm"
                                 variant="transparent"
@@ -278,6 +248,11 @@
                                   @click="drop(feed.id, index)"
                                   >Delete</b-dropdown-item
                                 >
+                                 <b-dropdown-item
+                          class="fs12"
+                          v-if="feed.user.id !== $store.getters.member.id"
+                          >Report post</b-dropdown-item
+                        >
                               </b-dropdown>
                             </div>
                             <div class="text-left feed_text px-3 pb-3">
@@ -324,7 +299,7 @@
                             </div>
                             <div class="interactions text-left px-3 py-2">
                               <span
-                                class="mr-3 cursor-pointer"
+                                class="mr-2 cursor-pointer"
                                 @click="toggleLike(feed.id, index)"
                               >
                                 <b-icon
@@ -422,9 +397,27 @@
                                     }}</span>
                                   </div>
                                   <div>
-                                    <span class="fs11">{{
-                                      item.created_at | moment("ll")
-                                    }}</span>
+                                    <small
+
+                                    >
+                                      <b-icon
+                                        class="mr-2"
+                                        :icon="
+                                          item.feedcommentlikes
+                                            ? 'heart-fill'
+                                            : 'heart'
+                                        "
+                                        :class="
+                                          item.feedcommentlikes
+                                            ? 'text-danger'
+                                            : ''
+                                        "
+
+                                      ></b-icon>
+                                    </small>
+                                    <span class="comment_mins"
+                                      >{{ $moment(item.created_at).fromNow() }}
+                                    </span>
                                   </div>
                                 </div>
                               </div>
@@ -469,6 +462,10 @@
                             "
                           >
                             <b-dropdown
+                              v-if="
+                                $store.getters.member.username ===
+                                $route.params.username
+                              "
                               size="sm"
                               variant="transparent"
                               no-caret
@@ -485,6 +482,11 @@
                                 @click="drop(item.id, index)"
                                 >Delete</b-dropdown-item
                               >
+                               <b-dropdown-item
+                          class="fs12"
+
+                          >Report </b-dropdown-item
+                        >
                             </b-dropdown>
                             <div class="side_dis">
                               <b-avatar
@@ -505,16 +507,15 @@
                             </div>
                             <div class="text-left next_dis">
                               <span>
+                                <span
+                                  class="font-weight-bold"
+                                  v-if="item.tribe"
+                                  >{{ item.tribe.name }}</span
+                                >
+                                <br />
                                 <span class="asked mr-2">
                                   Started
                                   {{ item.created_at | moment("ll") }}</span
-                                >
-                                <span class="mr-2 fs13"
-                                  ><b-badge
-                                    class="text-capitalize font-weight-normal"
-                                    variant="dark-green"
-                                    >{{ item.type }}</b-badge
-                                  ></span
                                 >
                               </span>
                               <br />
@@ -536,7 +537,7 @@
                               <b-icon
                                 icon="caret-up-fill"
                                 font-scale="1.2"
-                                class="cursor-pointer"
+                                class="text-muted"
                               ></b-icon>
                               <span v-if="item.discussionvote">
                                 <span v-if="vote(item.discussionvote) > 0"
@@ -551,7 +552,7 @@
                               <b-icon
                                 icon="caret-down-fill"
                                 font-scale="1.2"
-                                class="cursor-pointer"
+                                class="text-muted"
                               ></b-icon>
                             </div>
                             <div class="text-left next_dis">
@@ -576,6 +577,20 @@
                                   item.discussionview.view || 0
                                 }}</span>
                                 <span v-else>{{ 0 }}</span> views</span
+                              >
+                            </div>
+                            <div>
+                              <span
+                                @click="joindiscussion(item)"
+                                class="
+                                  text-dark-green
+                                  font-weight-bold
+                                  cursor-pointer
+                                "
+                                >{{
+                                  useraccess ? "Join" : "View"
+                                }}
+                                Discussion</span
                               >
                             </div>
                           </div>
@@ -664,9 +679,8 @@
                             </div>
                             <b-dropdown
                               v-if="
-                                item.facilitator_id &&
-                                item.facilitator_id ==
-                                  $store.getters.facilitator.id
+                                $store.getters.member.username ===
+                                $route.params.username
                               "
                               size="sm"
                               variant="transparent"
@@ -687,6 +701,11 @@
                                 @click="drop(item.id, index)"
                                 >Delete</b-dropdown-item
                               >
+                               <b-dropdown-item
+                          class="fs12"
+
+                          >Report post</b-dropdown-item
+                        >
                             </b-dropdown>
                           </div>
                         </div>
@@ -900,72 +919,19 @@
             </b-col>
           </b-row>
         </b-col>
-        <!-- <b-col class="d-none d-sm-block" cols="3">
-          <Message
-            class="d-none d-md-block"
-            @getmessage="getmessage"
-            :user="'member'"
-          />
-        </b-col> -->
       </b-row>
     </b-container>
-    <b-modal
-      no-close-on-backdrop
-      id="allcomments"
-      hide-footer
-      centered
-      title="Comments"
-      size="md"
-    >
-      <div class="comments" v-if="allcomments">
-        <div class="mb-3">
-          <div class="d-flex mb-3 pt-3">
-            <div class="d-flex flex-1 text-left">
-              <div class="mr-2 mb-1" v-if="allcomments.admin">
-                <b-avatar
-                  class="mr-2"
-                  size="1.8rem"
-                  :src="allcomments.admin.profile"
-                ></b-avatar>
-              </div>
-              <div class="mr-2 mb-1" v-if="allcomments.user">
-                <b-avatar
-                  class="mr-2"
-                  size="1.8rem"
-                  :src="allcomments.user.profile"
-                ></b-avatar>
-              </div>
-              <div
-                class="comment_name mr-2 mb-1"
-                v-if="allcomments.facilitator"
-              >
-                <b-avatar
-                  class="mr-2"
-                  size="1.8rem"
-                  :src="allcomments.facilitator.profile"
-                ></b-avatar>
-              </div>
-              <div class="profile">
-                <div class="name" v-if="allcomments.admin">
-                  {{ allcomments.admin.name }}
-                </div>
-                <div class="name" v-if="allcomments.user">
-                  {{ allcomments.user.username }}
-                </div>
-                <div class="name" v-if="allcomments.facilitator">
-                  {{ allcomments.facilitator.username }}
-                </div>
 
-                <div class="date fs11">
-                  {{ allcomments.created_at | moment("ll") }}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="text-left feed_text px-3 pb-3">
-            <span>{{ allcomments.message }}</span>
-          </div>
-        </div>
+    <b-modal id="allcomments" hide-footer centered size="md">
+      <template #modal-title>
+        <div
+          class="font-weight-bold"
+          v-if="allcomments"
+          v-html="allcomments.message"
+        ></div>
+      </template>
+      <div class="comments" v-if="allcomments">
+        <label for="">Comments</label>
         <div class="comments">
           <div
             class="comment d-flex text-left mb-2"
@@ -974,26 +940,6 @@
           >
             <div class="flex-1">
               <div class="flex-1 pr-2">
-                <div class="d-flex mb-1" v-if="item.admin">
-                  <div class="d-flex flex-1">
-                    <b-avatar
-                      class="mr-2"
-                      size="sm"
-                      :src="item.admin.profile"
-                    ></b-avatar>
-                    <div>
-                      <div class="comment_name">
-                        {{ item.admin.name }}
-                      </div>
-                      <div class="comment_text">{{ item.comment }}</div>
-                    </div>
-                  </div>
-                  <div>
-                    <span class="comment_mins pl-2">{{
-                      $moment(item.created_at).fromNow()
-                    }}</span>
-                  </div>
-                </div>
                 <div class="d-flex mb-1" v-if="item.user">
                   <div class="d-flex flex-1">
                     <b-avatar
@@ -1001,33 +947,88 @@
                       size="sm"
                       :src="item.user.profile"
                     ></b-avatar>
-                    <div>
-                      <div class="comment_name">
-                        {{ item.user.username }}
+                    <div class="w-100">
+                      <div class="mb-2">
+                        <div>
+                          <div
+                            class="comment_name"
+                            @click="
+                              $router.push(
+                                `/member/profile/${item.user.username}`
+                              )
+                            "
+                          >
+                            {{ item.user.username }}
+                          </div>
+                          <div class="comment_text">{{ item.comment }}</div>
+                        </div>
+                        <small
+                          class="text-muted mr-2"
+                          @click="handlereplycomment(item, index)"
+                          >Reply
+                        </small>
+
+                        <small>
+                          <b-icon
+                            font-scale=".8"
+                            :icon="
+                              item.feedcommentlikes ? 'heart-fill' : 'heart'
+                            "
+                            :class="item.feedcommentlikes ? 'text-danger' : ''"
+                          ></b-icon>
+                        </small>
                       </div>
-                      <div class="comment_text">{{ item.comment }}</div>
+                      <div
+                        class="p-2 bg-light rounded w-100"
+                        v-if="item.feedcommentreplies.length"
+                      >
+                        <div class="text-muted fs12 font-weight-bold mb-1">
+                          Replies
+                        </div>
+                        <div
+                          class="d-flex mb-1"
+                          v-for="(rep, id) in item.feedcommentreplies"
+                          :key="id"
+                        >
+                          <b-avatar
+                            class="mr-2 feedcommentavatar"
+                            :src="rep.user.profile"
+                          ></b-avatar>
+                          <div class="d-flex align-items-start flex-1">
+                            <p class="flex-1 mr-2">
+                              <span
+                                class="comment_name mr-1"
+                                @click="
+                                  $router.push(
+                                    `/member/profile/${rep.user.username}`
+                                  )
+                                "
+                              >
+                                {{ rep.user.username }}
+                              </span>
+                              <span class="comment_text flex-1">{{
+                                rep.message
+                              }}</span>
+                            </p>
+                            <span
+                              ><b-icon
+                                :icon="
+                                  rep.feedcommentreplylikes
+                                    ? 'heart-fill'
+                                    : 'heart'
+                                "
+                                :class="
+                                  rep.feedcommentreplylikes ? 'text-danger' : ''
+                                "
+                                font-scale=".8"
+                              ></b-icon
+                            ></span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div>
-                    <span class="comment_mins pl-2">{{
-                      $moment(item.created_at).fromNow()
-                    }}</span>
-                  </div>
-                </div>
-                <div class="d-flex mb-1" v-if="item.facilitator">
-                  <div class="d-flex flex-1">
-                    <b-avatar
-                      class="mr-2"
-                      size="sm"
-                      :src="item.facilitator.profile"
-                    ></b-avatar>
-                    <div>
-                      <div class="comment_name">
-                        {{ item.facilitator.username }}
-                      </div>
-                      <div class="comment_text">{{ item.comment }}</div>
-                    </div>
-                  </div>
+
                   <div>
                     <span class="comment_mins pl-2">{{
                       $moment(item.created_at).fromNow()
@@ -1041,122 +1042,50 @@
         </div>
       </div>
     </b-modal>
-    <b-modal
-      no-close-on-backdrop
-      id="alllikes"
-      hide-footer
-      centered
-      title="Likes"
-      size="sm"
-    >
-      <div class="comments" v-if="alllikes">
-        <div class="mb-3">
-          <div class="d-flex mb-3 pt-3">
-            <div class="d-flex flex-1 text-left">
-              <div class="mr-2 mb-1" v-if="alllikes.admin">
-                <b-avatar
-                  class="mr-2"
-                  size="1.8rem"
-                  :src="alllikes.admin.profile"
-                ></b-avatar>
-              </div>
-              <div class="mr-2 mb-1" v-if="alllikes.user">
-                <b-avatar
-                  class="mr-2"
-                  size="1.8rem"
-                  :src="alllikes.user.profile"
-                ></b-avatar>
-              </div>
-              <div class="comment_name mr-2 mb-1" v-if="alllikes.facilitator">
-                <b-avatar
-                  class="mr-2"
-                  size="1.8rem"
-                  :src="alllikes.facilitator.profile"
-                ></b-avatar>
-              </div>
-              <div class="profile">
-                <div class="name" v-if="alllikes.admin">
-                  {{ alllikes.admin.name }}
-                </div>
-                <div class="name" v-if="alllikes.user">
-                  {{ alllikes.user.username }}
-                </div>
-                <div class="name" v-if="alllikes.facilitator">
-                  {{ alllikes.facilitator.username }}
-                </div>
 
-                <div class="date fs11">
-                  {{ alllikes.created_at | moment("ll") }}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="text-left feed_text pb-3">
-            <span>{{ alllikes.message }}</span>
-          </div>
-        </div>
+    <b-modal id="alllikes" hide-footer centered>
+      <template #modal-title>
+        <div
+          class="font-weight-bold"
+          v-if="alllikes"
+          v-html="alllikes.message"
+        ></div>
+      </template>
+      <div class="comments" v-if="alllikes">
         <div class="comments">
           <h6>Liked by</h6>
-          <div
-            class="comment d-flex text-left mb-2"
-            v-for="(item, index) in alllikes.likes.filter((val) => val.like)"
-            :key="index"
-          >
-            <div class="flex-1">
-              <div class="flex-1 pr-2">
-                <div class="d-flex mb-1" v-if="item.admin">
-                  <div class="d-flex flex-1">
-                    <b-avatar
-                      class="mr-2"
-                      size="sm"
-                      :src="item.admin.profile"
-                    ></b-avatar>
-                    <div>
-                      <div class="comment_name">
-                        {{ item.admin.name }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="d-flex mb-1" v-if="item.user">
-                  <div
-                    class="d-flex flex-1"
-                    @click="$router.push(`/member/profile/${item.username}`)"
-                  >
-                    <b-avatar
-                      class="mr-2"
-                      size="sm"
-                      :src="item.user.profile"
-                    ></b-avatar>
-                    <div>
-                      <div class="comment_name">
-                        {{ item.user.username }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="d-flex mb-1" v-if="item.facilitator">
-                  <div
-                    class="d-flex flex-1"
-                    @click="
-                      $router.push(`/member/profile/f/${item.facilitator.id}`)
-                    "
-                  >
-                    <b-avatar
-                      class="mr-2"
-                      size="sm"
-                      :src="item.facilitator.profile"
-                    ></b-avatar>
-                    <div>
-                      <div class="comment_name">
-                        {{ item.facilitator.username }}
+          <b-row>
+            <b-col
+              cols="6"
+              class="comment d-flex text-left mb-2"
+              v-for="(item, index) in alllikes.likes.filter((val) => val.like)"
+              :key="index"
+            >
+              <div class="flex-1">
+                <div class="flex-1 pr-2">
+                  <div class="d-flex mb-1" v-if="item.user">
+                    <div
+                      class="d-flex flex-1"
+                      @click="
+                        $router.push(`/member/profile/${item.user.username}`)
+                      "
+                    >
+                      <b-avatar
+                        class="mr-2"
+                        size="sm"
+                        :src="item.user.profile"
+                      ></b-avatar>
+                      <div>
+                        <div class="comment_name">
+                          {{ item.user.username }}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </b-col>
+          </b-row>
         </div>
       </div>
     </b-modal>
@@ -1280,14 +1209,84 @@
         </b-button>
       </template>
     </b-modal>
+    <b-modal id="share" hide-footer centered size="lg">
+      <div class="p-2 text-center">
+        <h6 class="font-weight-bold mb-3">Share</h6>
+        <ShareNetwork
+          class="mr-3"
+          network="facebook"
+          :url="link"
+          title="Check out my new feed post on Nzùkóór:"
+          :description="description"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="facebook"></b-icon>
+            <span class="d-none d-md-block">Facebook</span></b-button
+          >
+        </ShareNetwork>
+        <ShareNetwork
+          class="mr-3"
+          network="twitter"
+          :url="link"
+          title="Check out my new feed post on Nzùkóór:"
+          :description="description"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="twitter"></b-icon>
+            <span class="d-none d-md-block">Twitter</span>
+          </b-button>
+        </ShareNetwork>
+        <ShareNetwork
+          class="mr-3"
+          network="whatsApp"
+          :url="link"
+          title="Check out my new feed post on Nzùkóór:"
+          :description="description"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green">
+            <b-iconstack>
+              <b-icon stacked icon="circle-fill" variant="dark-green"></b-icon>
+              <b-icon
+                stacked
+                icon="telephone-plus"
+                variant="light"
+                scale="0.5"
+              ></b-icon>
+            </b-iconstack>
+            <span class="d-none d-md-block">Whatsapp</span>
+          </b-button>
+        </ShareNetwork>
+        <ShareNetwork
+          class="mr-3"
+          network="Telegram"
+          :url="link"
+          title="Check out my new feed post on Nzùkóór:"
+          :description="description"
+          quote="Nzukoor"
+          hashtags="Nzukoor,  Social learning, Feeds"
+        >
+          <b-button size="sm" class="mb-2 mb-sm-0" variant="outline-dark-green"
+            ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
+            <span class="d-none d-md-block">Telegram</span>
+          </b-button>
+        </ShareNetwork>
+      </div>
+    </b-modal>
   </div>
 </template>
 <script>
-// import Message from "../messagecomponent";
-
 export default {
   data() {
     return {
+      auth: false,
+      description: "",
+      link: "",
       showbio: false,
       id: null,
       myconnections: [],
@@ -1409,8 +1408,60 @@ export default {
 
   created() {
     this.getinfo();
+    if (localStorage.getItem("authMember")) {
+      this.auth = true;
+    }
   },
   methods: {
+    toText(HTML) {
+      if (!HTML) return;
+      var input = HTML;
+
+      return input
+        .replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi, "")
+        .replace(/<[^>]+?>/g, "")
+        .replace(/\s+/g, " ")
+        .replace(/ /g, " ")
+        .replace(/>/g, " ");
+    },
+    toggleLike(id, index) {
+      if (!this.auth) {
+        this.$toast.info("Login to complete action");
+        return;
+      }
+      this.$http
+        .post(
+          `${this.$store.getters.url}/feed-likes`,
+          { id },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 201) {
+            this.likeimage(index);
+            this.filteredFeeds[index].likes.push(res.data);
+          }
+          if (res.status == 200) {
+            this.likeimage(index);
+            this.filteredFeeds[index].likes.map((item) => {
+              if (item.user_id == this.$store.getters.member.id) {
+                return (item.like = res.data.like);
+              }
+            });
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    sharenow(feed) {
+      this.description = this.toText(feed.message);
+      this.link = `https://nzukoor.com/explore/feed/view/${feed.id}?utf_medium=share`;
+      this.$bvModal.show("share");
+    },
     showlikes(likes) {
       this.alllikes = likes;
 
@@ -1694,31 +1745,12 @@ export default {
         });
     },
     joindiscussion(item) {
-      if (item.user && item.user.id == this.$store.getters.member.id) {
-        this.$router.push(`/member/discussion/${item.id}`);
-      } else {
-        this.$http
-          .get(`${this.$store.getters.url}/discussion/private/${item.id}`, {
-            headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-            },
-          })
-          .then((res) => {
-            if (res.status == 200) {
-              var result = res.data
-                .map((item) => item.user_id)
-                .includes(this.$store.getters.member.id);
-
-              if (result) {
-                this.$router.push(`/member/discussion/${item.id}`);
-              } else {
-                this.discussion_id = item.id;
-                this.$bvModal.show("access");
-              }
-            }
-          });
-      }
+      // if (!this.useraccess) {
+      //   this.$router.push("/login?redirect=%2Fmember%2Fdiscussions");
+      // }
+      this.$router.push(`/member/explore/discussion/${item.id}`);
     },
+
     async addconnections(id, type) {
       return this.$http
         .post(
@@ -1802,6 +1834,10 @@ export default {
       return res;
     },
     vote(val) {
+      if (!this.auth) {
+        this.$toast.info("Login to complete action");
+        return;
+      }
       var positive = val.filter((item) => item.vote).length;
       var negative = val.filter((item) => !item.vote).length;
       return Number(positive) - Number(negative);
