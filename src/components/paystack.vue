@@ -8,8 +8,7 @@
     :close="close"
     :embed="false"
   >
-    <i class="fas fa-money-bill-alt"></i>
-    Make Payment
+    <b-button variant="dark-green" class="p-0"> Make Payment</b-button>
   </paystack>
 </template>
 

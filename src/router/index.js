@@ -1581,6 +1581,21 @@ const routes = [
             },
           },
           {
+            path: "event/:tribe/:id",
+            name: "tribe event",
+            components: {
+              default: () =>
+                import(
+                  /* webpackChunkName: "tribeevent" */ "@/components/Member/Tribe/event.vue"
+                ),
+            },
+            meta: {
+              routetype: "event",
+              showtribe: true,
+              typeMember: true,
+            },
+          },
+          {
             path: "discussions/:tribe",
             name: "tribe discussions",
             components: {

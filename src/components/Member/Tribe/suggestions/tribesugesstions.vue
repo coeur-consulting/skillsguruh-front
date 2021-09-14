@@ -17,13 +17,11 @@
           <template #title> {{ n.name }} tribe</template>
 
           <p class="fs13">{{ n.description }}</p>
-          <p class="fs13 text-muted mb-1">{{ n.users.length }} users</p>
           <p class="fs13 text-muted mb-1">
-            {{ n.discussions.length }} discussions
+            {{ n.users.length }}
+            <font-awesome-icon :icon="users" size="1x" class="icon" />
           </p>
-          <p class="fs13 text-muted mb-3">
-            {{ n.events.length }} active events
-          </p>
+
           <b-button
             block
             variant="lighter-green"
@@ -38,9 +36,11 @@
 </template>
 
 <script>
+import { faUsers } from "@fortawesome/free-solid-svg-icons";
 export default {
   data() {
     return {
+      users: faUsers,
       tribes: [],
     };
   },
@@ -49,15 +49,19 @@ export default {
   },
   methods: {
     entertribe(id) {
+      if (!this.useraccess) {
+        this.$router.push("/login?redirect=%2Fexplore%2Fcommunity");
+      }
       var details = {
         tribe_id: id,
         user: this.$store.getters.member,
       };
+
       localStorage.removeItem("tribe");
       localStorage.setItem("tribe", id);
       this.$store.dispatch("checkTribe", details).then((res) => {
         if (res.status == 200 && res.data.message == "found") {
-          this.$router.push(`/member/tribe/discussions/${id}`);
+          window.location.href = `/member/tribe/discussions/${id}`;
         } else {
           this.$bvModal
             .msgBoxConfirm("Do you wish to join this tribe?")
@@ -66,7 +70,7 @@ export default {
                 this.$store.dispatch("joinTribe", details).then((res) => {
                   if (res.status == 200 && res.data.message == "successful") {
                     this.$toast.success("Joined successfully");
-                    this.$router.push(`/member/tribe/discussions/${id}`);
+                    window.location.href = `/member/tribe/discussions/${id}`;
                   }
                 });
               }

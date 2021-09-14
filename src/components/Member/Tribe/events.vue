@@ -851,7 +851,9 @@ export default {
         });
     },
     view(id) {
-      this.$router.push(`/facilitator/event/${id}`);
+      this.$router.push(
+        `/member/tribe/event/${this.$route.params.tribe}/${id}`
+      );
     },
     drop(id, index) {
       this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {

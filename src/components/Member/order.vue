@@ -2,9 +2,9 @@
   <div>
     <b-container>
       <b-row class="justify-content-center align-items-center">
-        <b-col sm="6">
+        <b-col sm="7">
           <div class="box shadow rounded p-5 text-left bg-white">
-            <h5 class="mb-4">Order Information</h5>
+            <h5 class="mb-4">Payment Information</h5>
             <div v-if="order_type == 'course'">
               <p class="mb-1">Course Title : {{ order.title }}</p>
               <p>Course Amount : {{ order.amount | currencyFormat }}</p>
@@ -16,8 +16,9 @@
               />
             </div>
             <div v-if="order_type == 'tribe'">
-              <p class="mb-1">Tribe Name : {{ tribe.name }}</p>
-              <p>Tribe Fee : {{ tribe.amount | currencyFormat }}</p>
+              <p class="mb-1 font-weight-bold">{{ tribe.name }}</p>
+              <p class="mb-1">{{ tribe.description }}</p>
+              <p>Access Fee : {{ tribe.amount | currencyFormat }}</p>
               <Paystack
                 :user_amount="tribe.amount * 100"
                 :user_email="$store.getters.member.email"

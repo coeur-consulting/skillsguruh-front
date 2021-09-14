@@ -139,7 +139,7 @@
                         <b-icon
                           icon="caret-up-fill"
                           ont-scale="1.2"
-                          class="cursor-pointer"
+                          class="text-muted"
                         ></b-icon>
                         <span v-if="item.discussionvote">
                           <span v-if="vote(item.discussionvote) > 0">+</span>
@@ -151,7 +151,7 @@
                         <b-icon
                           icon="caret-down-fill"
                           font-scale="1.2"
-                          class="cursor-ponte"
+                          class="text-muted"
                         ></b-icon>
                       </div>
                       <div class="text-left next_dis">

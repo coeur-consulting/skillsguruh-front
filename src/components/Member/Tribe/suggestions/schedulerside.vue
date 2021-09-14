@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="suggestion">
     <b-container class="p-0">
       <b-row>
         <b-col class="text-left">
@@ -80,18 +80,6 @@
                           -
                           {{ item.dates.end | moment("LT") }}</span
                         ></span
-                      >
-                    </div>
-                    <div>
-                      <span class="fs12"
-                        ><b-icon icon="calendar3" class="mr-2"></b-icon>
-                        <span>Today</span></span
-                      >
-                    </div>
-                    <div class="mb-3">
-                      <span class="fs12"
-                        ><b-icon icon="person" class="mr-2"></b-icon>
-                        <span>{{ item.customData.facilitator }}</span></span
                       >
                     </div>
 
@@ -199,7 +187,6 @@ export default {
   created() {
     this.getcourses().then(() => {
       this.getfacilitators().then(() => {
-        this.getschedules();
         this.getevents();
       });
     });
@@ -212,7 +199,7 @@ export default {
   },
   computed: {
     joinedSchedule() {
-      return this.myschedule.concat(this.myevents);
+      return this.myevents;
     },
     myschedule() {
       return this.schedules.map((item, index) => {
@@ -278,7 +265,7 @@ export default {
       });
     },
     attributes() {
-      return this.myschedule.concat(this.myevents).map((item, index) => {
+      return this.myevents.map((item, index) => {
         var res = {
           key: index,
           highlight: item.highlight,
@@ -395,17 +382,22 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
+
     async getevents() {
       return this.$http
-        .get(`${this.$store.getters.url}/events`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
-        })
+        .get(
+          `${this.$store.getters.url}/get/tribe/myevents/${this.$route.params.tribe}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
         .then((res) => {
           if (res.status == 200) {
             this.events = res.data;
             this.showEvent = true;
+            this.showschedule = true;
           }
         })
         .catch((err) => {
@@ -619,6 +611,11 @@ td {
   color: white;
   font-size: 12px;
   z-index: 2;
+}
+.suggestion {
+  height: calc(100vh - 300px);
+  overflow-y: auto;
+  padding-bottom: 75px;
 }
 @media (max-width: 600px) {
   .box {

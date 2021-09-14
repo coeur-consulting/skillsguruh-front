@@ -38,7 +38,7 @@
         </multi-select>
       </b-form-group>
 
-      <b-form-group label="Entry Fee">
+      <b-form-group label="Access Fee">
         <b-form-row>
           <b-col>
             <b-form-radio v-model="tribe.type" value="free"
@@ -52,7 +52,7 @@
           >
         </b-form-row>
       </b-form-group>
-      <b-form-group label="Entry Fee" v-if="tribe.type == 'paid'">
+      <b-form-group label="Access Fee" v-if="tribe.type == 'paid'">
         <b-form-input
           placeholder="Amount"
           v-model="tribe.amount"

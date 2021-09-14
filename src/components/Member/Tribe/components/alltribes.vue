@@ -19,21 +19,20 @@
           class="mb-4"
         >
           <b-popover :target="`popover-${id}`" triggers="hover">
-            <template #title> {{ n.name }} tribe</template>
+            <template #title> {{ n.name }}</template>
             <p class="fs13 text-capitalize mb-2">
-              Entry :
+              Access :
               <span v-if="n.type == 'free'">{{ n.type }}</span>
               <span v-else>{{ n.amount | currencyFormat }}</span>
             </p>
-            <p class="fs13 mb-1">{{ n.description }}</p>
-            <p class="fs13 text-muted mb-1">{{ n.users.length }} users</p>
+            <p class="fs13 mb-1" style="min-width: 150px">
+              {{ n.description }}
+            </p>
             <p class="fs13 text-muted mb-1">
-              {{ n.discussions.length }} discussions
+              {{ n.users.length }}
+              <font-awesome-icon :icon="users" size="1x" class="icon" />
             </p>
 
-            <p class="fs13 text-muted mb-3">
-              {{ n.events.length }} active events
-            </p>
             <b-button
               v-if="n.type == 'free'"
               block
@@ -51,8 +50,8 @@
                 size="sm"
                 @click="entertribe(n.id)"
               >
-                Engage</b-button
-              >
+                <font-awesome-icon :icon="signIn"
+              /></b-button>
               <b-button
                 v-else
                 block
@@ -60,8 +59,8 @@
                 size="sm"
                 @click="purchase(n.id)"
               >
-                Join</b-button
-              >
+                <font-awesome-icon :icon="signIn"
+              /></b-button>
             </div>
           </b-popover>
           <div class="tribe_box rounded" :id="`popover-${id}`">
@@ -146,9 +145,12 @@
 import Interest from "@/components/helpers/subcategory.js";
 import Category from "@/components/helpers/category.js";
 import CreateTribe from "./createtribe.vue";
+import { faUsers, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 export default {
   data() {
     return {
+      signIn: faSignInAlt,
+      users: faUsers,
       search: "",
       tribe: {
         name: "",

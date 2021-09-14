@@ -124,6 +124,7 @@
                         @click="drop(item.id, index)"
                         >Delete</b-dropdown-item
                       >
+                      <b-dropdown-item class="fs12">Report </b-dropdown-item>
                     </b-dropdown>
                     <div class="side_dis">
                       <b-avatar
@@ -149,17 +150,6 @@
                           Started
                           {{ item.created_at | moment("calendar") }}</span
                         >
-                        <!-- <span class="mr-2 fs13"
-                          ><b-badge
-                            class="
-                              text-capitalize
-                              font-weight-normal
-                              text-sm text-dark
-                            "
-                            variant="lighter-green"
-                            >{{ item.type }}</b-badge
-                          ></span
-                        > -->
                       </div>
 
                       <div class="title">{{ item.name }}</div>
@@ -180,9 +170,9 @@
                       <b-icon
                         icon="caret-up-fill"
                         ont-scale="1.2"
-                        class="cursor-pointer"
+                        class="text-muted"
                       ></b-icon>
-                      <span v-if="item.discussionvote">
+                      <span v-if="item.discussionvote.length">
                         <span v-if="vote(item.discussionvote) > 0">+</span>
                         <span v-if="vote(item.discussionvote) < 0">-</span
                         >{{ vote(item.discussionvote) }}</span
@@ -192,7 +182,7 @@
                       <b-icon
                         icon="caret-down-fill"
                         font-scale="1.2"
-                        class="cursor-ponte"
+                        class="text-muted"
                       ></b-icon>
                     </div>
                     <div class="text-left next_dis">

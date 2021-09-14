@@ -3,7 +3,7 @@
   <div class="bg-light">
     <b-container class="py-sm-5">
       <b-row v-if="showdiscussion">
-        <b-col class="px-0 px-sm-3" sm="8">
+        <b-col class="px-0 px-sm-3 mb-5" cols="12">
           <div class="bg-white py-4 rounded">
             <div class="main_content text-left">
               <div class="d-flex justify-content-between">
@@ -611,7 +611,7 @@
             </div>
           </div>
         </b-col>
-        <b-col sm="4" class="d-none d-md-block">
+        <b-col class="d-none d-md-block" cols="12">
           <div class="bg-white p-4 rounded">
             <div class="py-3 text-left related_quest border" v-if="related">
               <h6 class="mb-3 px-3">Related Discussions</h6>
@@ -1447,34 +1447,82 @@ export default {
         this.$toast.info("Type a message!");
         return;
       }
+      var details = {
+        tribe_id: this.discussion.tribe_id,
+        user: this.$store.getters.member,
+      };
       this.reply.discussion_id = this.$route.params.id;
-      this.$http
-        .post(
-          `${this.$store.getters.url}/discussion/message/replies`,
-          this.reply,
-          {
-            headers: {
-              Authorization: `Bearer ${this.useraccess.access_token}`,
-            },
-          }
-        )
-        .then((res) => {
-          if (res.status == 201) {
-            this.$bvModal.hide("addcomment");
-            this.filteredDiscussion[this.index].discussionmessagecomment.push(
-              res.data
-            );
+      this.$store.dispatch("checkTribe", details).then((res) => {
+        if (res.status == 200 && res.data.message == "found") {
+          this.$http
+            .post(
+              `${this.$store.getters.url}/discussion/message/replies`,
+              this.reply,
+              {
+                headers: {
+                  Authorization: `Bearer ${this.useraccess.access_token}`,
+                },
+              }
+            )
+            .then((res) => {
+              if (res.status == 201) {
+                this.$bvModal.hide("addcomment");
+                this.filteredDiscussion[
+                  this.index
+                ].discussionmessagecomment.push(res.data);
 
-            this.reply = {
-              message_id: null,
-              message: "",
-              discussion_id: null,
-            };
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
+                this.reply = {
+                  message_id: null,
+                  message: "",
+                  discussion_id: null,
+                };
+              }
+            })
+            .catch((err) => {
+              this.$toast.error(err.response.data.message);
+            });
+        } else {
+          this.$toast.error("You have to be a tribe member");
+          this.$bvModal
+            .msgBoxConfirm("Do you wish to join this tribe?")
+            .then((val) => {
+              if (val) {
+                this.$store.dispatch("joinTribe", details).then((res) => {
+                  if (res.status == 200 && res.data.message == "successful") {
+                    this.$toast.success("Joined successfully");
+                    this.$http
+                      .post(
+                        `${this.$store.getters.url}/discussion/message/replies`,
+                        this.reply,
+                        {
+                          headers: {
+                            Authorization: `Bearer ${this.useraccess.access_token}`,
+                          },
+                        }
+                      )
+                      .then((res) => {
+                        if (res.status == 201) {
+                          this.$bvModal.hide("addcomment");
+                          this.filteredDiscussion[
+                            this.index
+                          ].discussionmessagecomment.push(res.data);
+
+                          this.reply = {
+                            message_id: null,
+                            message: "",
+                            discussion_id: null,
+                          };
+                        }
+                      })
+                      .catch((err) => {
+                        this.$toast.error(err.response.data.message);
+                      });
+                  }
+                });
+              }
+            });
+        }
+      });
     },
     toText(HTML) {
       if (!HTML) return;
