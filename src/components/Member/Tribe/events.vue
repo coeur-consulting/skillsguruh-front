@@ -158,14 +158,16 @@
                         align-items-center
                       "
                     >
-                      <h4 class="text-capitalize mb-0 flex-1 event_title">
+                      <h6 class="text-capitalize mb-0 flex-1 event_title">
                         {{ item.title }}
-                      </h4>
+                      </h6>
                       <span @click="view(item.id)" class="viewevent">
-                        <span class="cursor-pointer pl-2 d-none d-sm-inline">
+                        <span
+                          class="cursor-pointer pl-2 d-none d-sm-inline fs14"
+                        >
                           View Event
                         </span>
-                        <b-icon icon="chevron-right"></b-icon>
+                        <b-icon icon="chevron-right" font-scale=".8"></b-icon>
                       </span>
                     </div>
                   </div>
