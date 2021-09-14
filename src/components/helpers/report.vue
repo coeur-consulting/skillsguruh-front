@@ -65,6 +65,10 @@ export default {
       this.$store.dispatch("REPORT_CONTENT", detail).then((res) => {
         if (res.status === 201) {
           this.status = res.data;
+        } else {
+          this.$toast.info(
+            "You already reported this content,and it is being reviewed"
+          );
         }
       });
     },

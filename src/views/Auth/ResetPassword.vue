@@ -24,7 +24,7 @@
             text-sm-left
           "
         >
-          <div class="shadow rounded p-4 p-sm-5">
+          <div class="shadow rounded p-4 p-sm-5 bg-white w-100">
             <div class="d-sm-none position-relative">
               <b-img
                 class="img-l cursor-pointer"
@@ -35,7 +35,9 @@
             </div>
 
             <b-form @submit.stop.prevent="register" class="user w-100">
-              <legend class="mb-5">Request a password reset link</legend>
+              <legend class="mb-5 text-center text-sm-left">
+                Request a password reset link
+              </legend>
 
               <div>
                 <b-form-row class="mb-2">
@@ -313,6 +315,9 @@ a {
 @media (max-width: 600px) {
   legend {
     font-size: 16px;
+  }
+  .main {
+    background-image: url("/img/auth.png");
   }
   .my_type {
     width: 100%;

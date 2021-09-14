@@ -425,6 +425,7 @@ export default {
     entertribe(id) {
       if (!this.auth) {
         this.$toast.error("login to access");
+        return;
       }
       var details = {
         tribe_id: id,

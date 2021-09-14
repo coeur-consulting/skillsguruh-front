@@ -26,7 +26,7 @@
             text-sm-left
           "
         >
-          <div class="shadow rounded p-4 p-sm-4 reg_page">
+          <div class="shadow rounded p-4 p-sm-4 reg_page bg-white">
             <div class="d-sm-none position-relative">
               <b-img
                 class="img-l cursor-pointer"
@@ -569,6 +569,9 @@ a {
   #register {
     height: 100%;
     overflow: unset;
+  }
+  .main {
+    background-image: url("/img/auth.png");
   }
   legend {
     font-size: 16px;

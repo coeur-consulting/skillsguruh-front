@@ -24,7 +24,7 @@
             text-sm-left
           "
         >
-          <div class="shadow rounded p-4 p-sm-5">
+          <div class="shadow rounded p-4 p-sm-5 bg-white w-100">
             <div class="d-sm-none position-relative">
               <b-img
                 class="img-l cursor-pointer"
@@ -247,6 +247,9 @@ a {
   }
   .my_type {
     width: 100%;
+  }
+  .main {
+    background-image: url("/img/auth.png");
   }
   .user {
     width: 100%;
