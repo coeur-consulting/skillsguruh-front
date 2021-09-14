@@ -624,7 +624,11 @@
                           class="mx-2"
                           @getText="getText"
                         ></speech-to-text>
-                        <b-button variant="dark-green" size="sm" type="submit"
+                        <b-button
+                          variant="dark-green"
+                          size="sm"
+                          :disabled="isDisabled"
+                          type="submit"
                           >Reply</b-button
                         >
                       </div>
@@ -972,7 +976,11 @@
               </div>
             </emoji-picker>
           </div>
-          <b-button variant="dark-green" size="sm" type="submit"
+          <b-button
+            variant="dark-green"
+            size="sm"
+            :disabled="isDisabled"
+            type="submit"
             >Reply</b-button
           >
         </div>
@@ -1124,6 +1132,7 @@ import Report from "@/components/helpers/report";
 export default {
   data() {
     return {
+      isDisabled: false,
       report_id: null,
       report_type: null,
       members: [],
@@ -1448,6 +1457,7 @@ export default {
         return;
       }
       this.reply.discussion_id = this.$route.params.id;
+      this.isDisabled = true;
       this.$http
         .post(
           `${this.$store.getters.url}/discussion/message/replies`,
@@ -1460,6 +1470,7 @@ export default {
         )
         .then((res) => {
           if (res.status == 201) {
+            this.isDisabled = false;
             this.$bvModal.hide("addcomment");
             this.filteredDiscussion[this.index].discussionmessagecomment.push(
               res.data
@@ -1474,6 +1485,7 @@ export default {
         })
         .catch((err) => {
           this.$toast.error(err.response.data.message);
+          this.isDisabled = true;
         });
     },
     toText(HTML) {
@@ -1565,6 +1577,7 @@ export default {
       this.inviteUsers.title = this.discussion.name;
       this.inviteUsers.id = this.discussion.id;
       this.inviteUsers.users = this.inviteUsers.users.concat(emails);
+      this.isDisabled = true;
       this.$http
         .post(
           `${this.$store.getters.url}/send/discussion/invite`,
@@ -1577,6 +1590,7 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
+            this.isDisabled = false;
             this.$toast.success("Invite Sent");
             this.$bvModal.hide("share");
             this.inviteUsers = {
@@ -1588,6 +1602,9 @@ export default {
               ],
             };
           }
+        })
+        .catch(() => {
+          this.isDisabled = false;
         });
     },
     addinvite() {
@@ -1661,6 +1678,7 @@ export default {
         return;
       }
       this.info.discussion_id = this.$route.params.id;
+      this.isDisabled = true;
       this.$http
         .post(`${this.$store.getters.url}/discussion-messages`, this.info, {
           headers: {
@@ -1668,6 +1686,7 @@ export default {
           },
         })
         .then((res) => {
+          this.isDisabled = false;
           if (res.status == 201 || res.status == 200) {
             if (this.info.publicId) {
               this.$bvModal.hide("media");
@@ -1682,6 +1701,7 @@ export default {
         })
         .catch((err) => {
           this.$toast.error(err.response.data.message);
+          this.isDisabled = false;
         });
     },
     addview() {

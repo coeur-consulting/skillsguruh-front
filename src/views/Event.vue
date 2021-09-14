@@ -148,19 +148,6 @@
                       {{ event.tribe.name }} tribe
                     </p>
                     <p>{{ event.description }}</p>
-
-                    <div v-if="sortfacilitators" class="mb-2">
-                      <h6>Facilitators</h6>
-                      <ul>
-                        <li
-                          v-for="item in sortfacilitators"
-                          :key="item.id"
-                          class="text-capitalize fs14"
-                        >
-                          {{ item.name }}
-                        </li>
-                      </ul>
-                    </div>
                   </div>
                 </b-col>
                 <b-col sm="5" class="pl-3 pr-sm-0" v-if="event.resource">

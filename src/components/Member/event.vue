@@ -136,19 +136,6 @@
             <div class="bg-white shadow rounded text-left p-4">
               <h5 class="font-weight-bold">ABOUT THIS EVENT</h5>
               <p>{{ event.description }}</p>
-
-              <div v-if="sortfacilitators" class="mb-2">
-                <h6>Facilitators</h6>
-                <ul>
-                  <li
-                    v-for="item in sortfacilitators"
-                    :key="item.id"
-                    class="text-capitalize fs14"
-                  >
-                    {{ item.name }}
-                  </li>
-                </ul>
-              </div>
             </div>
           </b-col>
           <b-col sm="5" class="pl-3" v-if="event.resource">
@@ -450,20 +437,6 @@
                   <b-avatar class="mr-2" size="1.3rem"></b-avatar>
                   <div class="text-left" style="line-height: 1.1">
                     <span class="fs12">{{ item.user_follower.username }}</span>
-                  </div>
-                </div>
-              </b-form-checkbox>
-            </div>
-            <div v-else class="d-flex align-items-end mb-4">
-              <b-form-checkbox
-                size="sm"
-                :value="item.facilitator_follower.email"
-                v-model="emails"
-              >
-                <div class="d-flex align-items-center flex-1">
-                  <b-avatar class="mr-2" size="1.3rem"></b-avatar>
-                  <div>
-                    <span>{{ item.facilitator_follower.username }}</span>
                   </div>
                 </div>
               </b-form-checkbox>
