@@ -2217,13 +2217,7 @@ export default {
     },
     async removeconnections(user) {
       var res = this.myconnections.find((item) => {
-        if (this.$route.params.user == "f") {
-          return item.facilitator_follower.id == user.id;
-        }
-
-        if (this.$route.params.user == "u") {
-          return item.user_follower.id == user.id;
-        }
+        return item.user_follower.id == user.id;
       });
 
       this.$http
