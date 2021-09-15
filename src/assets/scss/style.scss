@@ -80,6 +80,12 @@ span.highlight:hover {
   border-radius: 50%;
   z-index: 3;
 }
+h5#allcomments___BV_modal_title_ {
+  font-size: 1rem;
+}
+h5#alllikes___BV_modal_title_ {
+  font-size: 1rem;
+}
 .nav-right {
   position: absolute;
   right: -28px;
@@ -1052,6 +1058,12 @@ ol.subquest {
   font-weight: 500;
 }
 @media (max-width: 600px) {
+  h5#allcomments___BV_modal_title_ {
+    font-size: 0.9rem;
+  }
+  h5#alllikes___BV_modal_title_ {
+    font-size: 0.9rem;
+  }
   .mob-carousel .VueCarousel-wrapper {
     padding-bottom: 15px;
   }

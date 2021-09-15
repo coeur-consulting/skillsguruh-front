@@ -32,32 +32,13 @@
                       class="mr-2"
                     ></b-avatar>
                     <div
-                      @click="
-                        $router.push(`/member/profile/${feed.username}`)
-                      "
+                      @click="$router.push(`/member/profile/${feed.username}`)"
                       class="feed_name"
                     >
                       {{ feed.user.username }}
                     </div>
                   </div>
-                  <div
-                    class="d-flex align-items-center"
-                    v-if="feed.facilitator"
-                  >
-                    <b-avatar
-                      :src="feed.facilitator.profile"
-                      size="sm"
-                      class="mr-2"
-                    ></b-avatar>
-                    <div
-                      @click="
-                        $router.push(`/member/profile/f/${feed.facilitator.id}`)
-                      "
-                      class="feed_name"
-                    >
-                      {{ feed.facilitator.username }}
-                    </div>
-                  </div>
+
                   <b-dropdown
                     size="sm"
                     variant="transparent"

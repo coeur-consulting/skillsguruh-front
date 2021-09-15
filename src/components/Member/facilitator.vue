@@ -2245,13 +2245,7 @@ export default {
     },
     checkconnection(user) {
       var res = this.myconnections.some((item) => {
-        if (this.$route.params.user == "f" && item.facilitator_follower) {
-          return item.facilitator_follower.id == user.id;
-        }
-
-        if (this.$route.params.user == "u" && item.user_follower) {
-          return item.user_follower.id == user.id;
-        }
+        return item.user_follower.id == user.id;
       });
       return res;
     },

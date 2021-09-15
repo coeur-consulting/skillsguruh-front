@@ -548,7 +548,9 @@
                           ></b-avatar>
                           <span
                             @click="
-                              $router.push(`/profile/${feed.user.username}`)
+                              $router.push(
+                                `/member/profile/${feed.user.username}`
+                              )
                             "
                             class="hover_green"
                           >
@@ -1262,7 +1264,7 @@
                             :src="rep.user.profile"
                           ></b-avatar>
                           <div class="d-flex align-items-start flex-1">
-                            <p class="flex-1 mr-2">
+                            <p class="flex-1 mr-2" style="line-height: 1.2">
                               <span
                                 class="comment_name mr-1"
                                 @click="

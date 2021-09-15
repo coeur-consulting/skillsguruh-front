@@ -737,7 +737,7 @@
                           v-for="item in feed.comments.slice(0, 2)"
                           :key="item.id"
                         >
-                          <div class="flex-1 pr-2">
+                          <div class="flex-1 pr-2" style="line-height: 1">
                             <span class="comment_name mr-2" v-if="item.admin">
                               {{ item.admin.name }}</span
                             >
