@@ -786,11 +786,12 @@ export default {
       return mess.pop();
     },
     getmessage(id, name, type, profile) {
-      this.mini_info.id = id;
-      this.mini_info.name = name;
-      this.mini_info.type = type;
-      this.mini_info.profile = profile;
-      this.$store.dispatch("getChatter", this.mini_info);
+      var mini_info = {};
+      mini_info.id = id;
+      mini_info.name = name;
+      mini_info.type = type;
+      mini_info.profile = profile;
+      this.$store.dispatch("getChatter", mini_info);
     },
     addinvite() {
       this.inviteUsers.push({

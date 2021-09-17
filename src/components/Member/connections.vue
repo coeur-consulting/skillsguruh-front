@@ -29,7 +29,11 @@
                     class="d-flex align-items-end mb-3"
                   >
                     <div class="d-flex align-items-center flex-1">
-                      <b-avatar class="mr-2" size="2rem"></b-avatar>
+                      <b-avatar
+                        class="mr-2"
+                        size="2rem"
+                        :src="item.user_follower.profile"
+                      ></b-avatar>
                       <div>
                         <div
                           class="connection_name cursor-pointer"
@@ -93,7 +97,11 @@
                 <div v-for="(item, id) in filteredmyconnections" :key="id">
                   <div class="d-flex align-items-end mb-3">
                     <div class="d-flex align-items-center flex-1">
-                      <b-avatar class="mr-2" size="2rem"></b-avatar>
+                      <b-avatar
+                        class="mr-2"
+                        size="2rem"
+                        :src="item.profile"
+                      ></b-avatar>
                       <div>
                         <div
                           class="connection_name cursor-pointer"
