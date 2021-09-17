@@ -24,7 +24,7 @@
                   <b-icon icon="arrow-left" class=""></b-icon
                 ></span>
               </span>
-              <div class="search">
+              <div class="search w-100">
                 <b-input-group class="topbar_search bg-white">
                   <b-input-group-prepend is-text>
                     <b-iconstack font-scale="1.4" class="">
