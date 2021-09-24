@@ -28,15 +28,15 @@
             <p class="fs13 mb-1" style="min-width: 150px">
               {{ n.description }}
             </p>
-            <p class="fs13 text-muted mb-1">
-              {{ n.users.length }}
+            <p class="fs14 text-muted mb-1">
               <font-awesome-icon :icon="users" size="1x" class="icon" />
+              {{ n.users.length }}
             </p>
 
             <b-button
               v-if="n.type == 'free'"
               block
-              variant="lighter-green"
+              variant="dark-green"
               size="sm"
               @click="entertribe(n.id)"
             >
@@ -46,7 +46,7 @@
               <b-button
                 v-if="isMember(n.users)"
                 block
-                variant="lighter-green"
+                variant="dark-green"
                 size="sm"
                 @click="entertribe(n.id)"
               >
@@ -55,7 +55,7 @@
               <b-button
                 v-else
                 block
-                variant="lighter-green"
+                variant="dark-green"
                 size="sm"
                 @click="purchase(n.id)"
               >
@@ -64,7 +64,7 @@
             </div>
           </b-popover>
           <div class="tribe_box rounded" :id="`popover-${id}`">
-            <div class="d-flex align-items-center justify-content-center">
+            <div class="d-flex align-items-center justify-content-center rounded">
               <span class="tribe_name text-white">{{ n.name }}</span>
             </div>
 
@@ -77,24 +77,12 @@
                 tribe_member_container
               "
             >
-              <span class="d-flex align-items-center">
+              <span class="d-flex align-items-center fs14">
                 <span class="mr-1">{{ n.users.length }}</span>
-                <span> {{ n.users.length > 1 ? "members" : "member" }}</span>
-              </span>
-              <!-- <b-dropdown
-                size="sm"
-                variant="transparent"
-                no-caret
-                class="no-focus"
-              >
-                <template #button-content>
-                  <b-icon icon="three-dots-vertical" font-scale=".8"></b-icon>
-                </template>
-
-                <b-dropdown-item class="fs12" @click="entertribe(n.id)"
-                  >Drop</b-dropdown-item
+                <span class="">
+                  {{ n.users.length > 1 ? "members" : "member" }}</span
                 >
-              </b-dropdown> -->
+              </span>
             </div>
             <span class="tribe_circle cursor-pointer">
               <b-avatar :src="n.cover" class="d-md-none"></b-avatar>

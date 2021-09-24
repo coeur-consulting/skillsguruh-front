@@ -46,7 +46,7 @@
                 </div>
               </div>
               <b-button
-                variant="dark-green"
+                variant="secondary"
                 size="sm"
                 block
                 class="fs10 py-1"

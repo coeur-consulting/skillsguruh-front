@@ -4,7 +4,7 @@
     type="light"
     variant="white"
     sticky
-    class="shadow-sm py-2"
+    class="border-bottom py-0"
   >
     <b-col cols="3" sm="4" class="text-left d-flex align-items-center"
       ><b-navbar-brand href="/" class="mr-4"
@@ -40,16 +40,32 @@
         <b-navbar-nav class="align-items-center justify-content-center mx-auto">
           <b-nav-item to="/explore" class="mr-sm-4 position-relative">
             <b-icon icon="circle-fill" class="dot" font-scale=".8"></b-icon>
-            <font-awesome-icon :icon="globe" size="2x" class="icon"
+            <font-awesome-icon
+              :icon="globe"
+              size="2x"
+              class="icon"
+              v-b-tooltip.hover
+              title="Explore"
           /></b-nav-item>
 
           <b-nav-item to="/member/feeds" class="mr-sm-4 position-relative">
             <b-icon icon="circle-fill" class="dot" font-scale=".8"></b-icon>
-            <font-awesome-icon :icon="rss" size="2x" class="icon"
+            <font-awesome-icon
+              :icon="rss"
+              size="2x"
+              class="icon"
+              v-b-tooltip.hover
+              title="Feed"
           /></b-nav-item>
           <b-nav-item to="/explore/community" class="mr-sm-4 position-relative">
             <b-icon icon="circle-fill" class="dot" font-scale=".8"></b-icon>
-            <font-awesome-icon :icon="users" size="2x" class="icon" />
+            <font-awesome-icon
+              :icon="users"
+              size="2x"
+              class="icon"
+              v-b-tooltip.hover
+              title="Community"
+            />
           </b-nav-item>
           <!--
           <b-nav-item to="/member/courses" class="mr-sm-4 position-relative">
@@ -62,7 +78,12 @@
             class="mr-sm-4 position-relative"
           >
             <b-icon icon="circle-fill" class="dot" font-scale=".8"></b-icon>
-            <font-awesome-icon :icon="comments" size="2x" class="icon"
+            <font-awesome-icon
+              :icon="comments"
+              size="2x"
+              class="icon"
+              v-b-tooltip.hover
+              title="Discussions"
           /></b-nav-item>
 
           <b-nav-item
@@ -87,12 +108,9 @@
         class="align-items-center justify-content-end flex-row"
         v-if="useraccess"
       >
-        <b-nav-item class="position-relative">
-          <div
-            class="position-relative"
-            style="padding: 0.25rem 0.5rem; font-size: 0.875rem"
-          >
-            <font-awesome-layers class="fa-3x" id="notifybell">
+        <b-nav-item class="position-relative last_nav">
+          <div class="position-relative">
+            <font-awesome-layers class="fa-2x" id="notifybell">
               <font-awesome-icon :icon="circle" class="text-lighter-green" />
               <font-awesome-icon
                 :icon="bell"
@@ -110,13 +128,13 @@
             </span>
           </div>
         </b-nav-item>
-        <b-nav-item>
+        <b-nav-item class="last_nav">
           <div class="position-relative">
-            <font-awesome-layers class="fa-3x" id="inbox">
+            <font-awesome-layers class="fa-2x" id="inbox">
               <font-awesome-icon :icon="circle" class="text-lighter-green" />
               <font-awesome-icon
                 :icon="envelope"
-                transform="shrink-9"
+                transform="shrink-7"
                 class="text-dark-green"
               />
             </font-awesome-layers>
@@ -201,8 +219,14 @@
           </b-popover>
         </b-nav-item>
 
-        <b-nav-item>
-          <b-dropdown size="sm" variant="transparent" no-caret class="no-focus">
+        <b-nav-item class="profile">
+          <b-dropdown
+            size="sm"
+            variant="transparent"
+            no-caret
+            class="no-focus"
+            id="prof_ava"
+          >
             <template #button-content>
               <!-- <font-awesome-layers class="fa-3x">
                 <font-awesome-icon :icon="circle" class="text-lighter-green" />
@@ -215,7 +239,7 @@
               <b-avatar
                 :src="$store.getters.member.profile"
                 id="profile"
-                class="cursor-pointer mr-2"
+                class="cursor-pointer mr-sm-2"
                 size="30px"
               ></b-avatar>
               <span class="fs14 d-none d-sm-inline">{{
@@ -226,10 +250,14 @@
             <b-dropdown-item
               class="fs14"
               @click="$router.push(`/member/profile`)"
-              >Profile</b-dropdown-item
             >
+              <div class="d-flex align-items-center justify-content-between">
+                <span class="mr-4"> Profile</span>
+                <b-icon font-scale=".8" icon="chevron-right"></b-icon>
+              </div>
+            </b-dropdown-item>
 
-            <b-dropdown-item class="fs12" @click="logout"
+            <b-dropdown-item class="fs14" @click="logout"
               >Logout
             </b-dropdown-item>
           </b-dropdown>
@@ -906,6 +934,7 @@ export default {
 .navbar-light .navbar-nav .nav-link {
   color: rgb(0, 0, 0);
   font-weight: 500;
+  border-bottom: 2px solid transparent;
 }
 .navbar-light .navbar-nav .nav-link:hover,
 .navbar-light .navbar-nav .nav-link:focus {
@@ -995,8 +1024,10 @@ export default {
 .icon {
   width: 25px;
 }
+
 .nav-item .nav-link.router-link-exact-active.router-link-active {
   color: var(--dark-green);
+  border-color: var(--dark-green);
 }
 .imgtribe {
   width: 30px;
@@ -1035,6 +1066,10 @@ nav .nav li a {
   #sidebar {
     height: 60vh;
     display: grid;
+  }
+  #profile {
+    width: 28px;
+    height: 28px;
   }
 }
 </style>

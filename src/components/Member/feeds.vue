@@ -412,15 +412,15 @@
                     width="18px"
                     class="mr-1 cursor-pointer"
                   ></b-img>
-                  Image
+                  <span class="cursor-pointer"> Image</span>
                 </div>
                 <div @click="$bvModal.show('feed')">
                   <b-img
                     :src="require('@/assets/images/youtube.svg')"
                     width="18px"
                     class="mr-1 cursor-pointer"
-                  ></b-img
-                  >Video
+                  ></b-img>
+                  <span class="cursor-pointer"> Video</span>
                 </div>
                 <Feelings user="member" @handleChange="handleChange">
                   <b-img
@@ -428,7 +428,7 @@
                     width="18px"
                     class="mr-1 cursor-pointer"
                   ></b-img>
-                  Expressions
+                  <span class="cursor-pointer"> Expressions</span>
                 </Feelings>
               </div>
             </div>
@@ -439,7 +439,7 @@
             <div class="d-flex justify-content-center justify-content-md-end">
               <div class="d-flex align-items-center pl-3 mb-1">
                 <div
-                  class="pr-2 fs12 font-weight-bold cursor-pointer"
+                  class="pr-2 fs12 cursor-pointer"
                   :class="feedShown == 'recent' ? '' : 'text-muted'"
                   @click="feedShown = 'recent'"
                 >
@@ -447,7 +447,7 @@
                 </div>
                 <span class="text-muted"> |</span>
                 <div
-                  class="pl-2 pr-2 fs12 font-weight-bold cursor-pointer"
+                  class="pl-2 pr-2 fs12 cursor-pointer"
                   :class="feedShown == 'trending' ? '' : 'text-muted'"
                   @click="feedShown = 'trending'"
                 >
@@ -455,7 +455,7 @@
                 </div>
                 <span class="text-muted"> |</span>
                 <div
-                  class="pl-2 fs12 font-weight-bold cursor-pointer"
+                  class="pl-2 fs12 cursor-pointer"
                   :class="feedShown == 'custom' ? '' : 'text-muted'"
                   @click="feedShown = 'custom'"
                 >

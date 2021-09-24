@@ -51,7 +51,7 @@
                     <div>
                       <span>
                         <b-button
-                          variant="lighter-green"
+                          variant="secondary"
                           size="sm"
                           class="mr-3 rounded-pill connection_button"
                           @click="
@@ -126,7 +126,7 @@
                           <span>Connect</span></b-button
                         >
                         <b-button
-                          variant="lighter-green"
+                          variant="secondary"
                           class="rounded-pill mr-3"
                           size="sm"
                           @click="

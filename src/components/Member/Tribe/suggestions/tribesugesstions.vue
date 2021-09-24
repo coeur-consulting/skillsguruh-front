@@ -17,14 +17,14 @@
           <template #title> {{ n.name }} tribe</template>
 
           <p class="fs13">{{ n.description }}</p>
-          <p class="fs13 text-muted mb-1">
-            {{ n.users.length }}
+          <p class="fs14 text-muted mb-1">
             <font-awesome-icon :icon="users" size="1x" class="icon" />
+            {{ n.users.length }}
           </p>
 
           <b-button
             block
-            variant="lighter-green"
+            variant="secondary"
             size="sm"
             @click="entertribe(n.id)"
             >Join</b-button

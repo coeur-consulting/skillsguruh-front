@@ -172,7 +172,7 @@ router.beforeEach((to, from, next) => {
     var user = JSON.parse(localStorage.getItem("authMember"));
     var tribe = localStorage.getItem("tribe");
 
-    if (tribe) {
+    if (tribe && user) {
       Vue.axios
         .get(`${process.env.VUE_APP_API_PATH}/check/tribe/${tribe}`, {
           headers: {

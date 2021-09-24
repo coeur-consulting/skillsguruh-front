@@ -45,11 +45,17 @@
                 </template>
 
                 <b-dropdown-item to="/member/feeds" class="fs14">
-                  My Home</b-dropdown-item
-                >
+                  <div
+                    class="d-flex align-items-center justify-content-between"
+                  >
+                    <span class="mr-5 d-flex align-items-center"> Home</span>
+                    <b-icon font-scale=".8" icon="chevron-right"></b-icon></div
+                ></b-dropdown-item>
 
                 <b-dropdown-item @click="logout" class="fs14">
-                  Logout
+                  <div class="d-flex align-items-center">
+                    <span>Logout</span>
+                  </div>
                 </b-dropdown-item>
               </b-dropdown>
             </b-nav-item>

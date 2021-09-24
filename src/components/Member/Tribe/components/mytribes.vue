@@ -20,24 +20,31 @@
         >
           <b-popover :target="`popover-${id}`" triggers="hover">
             <template #title> {{ n.name }} </template>
+            <p class="fs13 text-capitalize mb-2">
+              Access :
+              <span v-if="n.type == 'free'">{{ n.type }}</span>
+              <span v-else>{{ n.amount | currencyFormat }}</span>
+            </p>
 
             <p class="fs13" style="min-width: 150px">{{ n.description }}</p>
-            <p class="fs13 text-muted mb-1">
-              {{ n.users.length }}
+            <p class="fs14 text-muted mb-1">
               <font-awesome-icon :icon="users" size="1x" class="icon" />
+              {{ n.users.length }}
             </p>
 
             <b-button
               block
               size="sm"
-              variant="lighter-green"
+              variant="dark-green"
               @click="entertribe(n.id)"
             >
               <font-awesome-icon :icon="signIn"
             /></b-button>
           </b-popover>
           <div class="tribe_box rounded" :id="`popover-${id}`">
-            <div class="d-flex align-items-center justify-content-center">
+            <div
+              class="d-flex align-items-center justify-content-center rounded"
+            >
               <span class="tribe_name text-white">{{ n.name }}</span>
             </div>
 
@@ -50,9 +57,11 @@
                 tribe_member_container
               "
             >
-              <span class="d-flex align-items-center">
+              <span class="d-flex align-items-center fs14">
                 <span class="mr-1">{{ n.users.length }}</span>
-                <span> {{ n.users.length > 1 ? "members" : "member" }}</span>
+                <span class="">
+                  {{ n.users.length > 1 ? "members" : "member" }}</span
+                >
               </span>
               <b-dropdown
                 v-if="n.pivot.is_owner"

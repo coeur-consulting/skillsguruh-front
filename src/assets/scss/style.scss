@@ -45,6 +45,36 @@ span.highlight:hover {
   font-size: 14px;
   color: rgba($color: #000000, $alpha: 0.44);
 }
+.profile .nav-link {
+  padding: 0 !important;
+}
+.last_nav .nav-link {
+  padding-right: 0.25rem !important;
+  padding-left: 0.25rem !important;
+}
+#prof_ava__BV_toggle_ {
+  padding: 0.5rem 0.25rem !important;
+
+  @media (max-width: 768px) {
+    ul.dropdown-menu {
+      position: absolute !important;
+      right: 0;
+    }
+    .b-avatar {
+      width: 28px !important;
+      height: 28px !important;
+    }
+  }
+}
+#prof_ava {
+  @media (max-width: 768px) {
+    ul.dropdown-menu {
+      position: absolute !important;
+      right: 0;
+      left: unset !important;
+    }
+  }
+}
 .explore_banner {
   position: relative;
   height: 400px;
@@ -215,6 +245,11 @@ label {
   align-items: center;
   box-shadow: 0 0.125rem 0.25rem rgba(189, 231, 201, 0.35%) !important;
   cursor: pointer;
+
+  .tribe_circle,
+  .tribe_member_container {
+    z-index: 2;
+  }
 }
 .tribe_box:hover {
   box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35%) !important;
@@ -583,6 +618,7 @@ a:hover {
 }
 .popover {
   box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
+  border: 1px solid rgba($color: #000000, $alpha: 0.07) !important;
 }
 #inbox1 {
   box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35) !important;
@@ -636,6 +672,9 @@ ol.subquest {
 }
 .shadow-sm {
   box-shadow: 0 0.125rem 0.25rem rgba(189, 231, 201, 0.35) !important;
+}
+.card {
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
 }
 .library .card-header {
   // background-color: rgba(56, 128, 135, 0.03);
