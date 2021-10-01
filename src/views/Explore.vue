@@ -82,13 +82,34 @@
                     {{ n.users.length }}
                   </p>
                   <b-button
+                    v-if="n.type == 'free'"
                     block
                     variant="dark-green"
                     size="sm"
                     @click="entertribe(n.id)"
                   >
-                    <font-awesome-icon :icon="signIn"
-                  /></b-button>
+                    {{ isMember(n.users) ? "Engage" : "Join" }}</b-button
+                  >
+                  <div v-else>
+                    <b-button
+                      v-if="isMember(n.users)"
+                      block
+                      variant="dark-green"
+                      size="sm"
+                      @click="entertribe(n.id)"
+                    >
+                      <font-awesome-icon :icon="signIn"
+                    /></b-button>
+                    <b-button
+                      v-else
+                      block
+                      variant="dark-green"
+                      size="sm"
+                      @click="purchase(n.id)"
+                    >
+                      <font-awesome-icon :icon="signIn"
+                    /></b-button>
+                  </div>
                 </b-popover>
                 <div class="tribe_box rounded" :id="`popover-${id}`">
                   <div
@@ -1612,6 +1633,9 @@ export default {
             });
         }
       });
+    },
+    purchase(id) {
+      this.$router.push(`/member/order?id=${id}&type_payment=tribe`);
     },
     likeimage(index) {
       this.toggleOn = index;

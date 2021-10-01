@@ -23,6 +23,7 @@
                 :user_amount="tribe.amount * 100"
                 :user_email="$store.getters.member.email"
                 :item_id="$route.query.id"
+                :splitCode="owner.split_code"
                 type="tribe"
               />
             </div>
@@ -40,6 +41,7 @@ export default {
       order: {},
       order_type: "course",
       tribe: {},
+      owner: {},
     };
   },
   components: {
@@ -64,6 +66,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.tribe = res.data.data;
+            this.owner = res.data.owner;
           }
         })
         .catch((err) => {

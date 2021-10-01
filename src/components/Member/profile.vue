@@ -182,6 +182,33 @@
                 >
               </b-col>
             </b-form-row>
+            <hr />
+            <b-form-row>
+              <b-col sm="6">
+                <b-form-group label="Bank Name">
+                  <div class="form-group">
+                    <select class="form-control" v-model="bank_id">
+                      <option :value="null" disabled>Select your bank</option>
+                      <option
+                        :value="bank.id"
+                        v-for="(bank, id) in banks"
+                        :key="id"
+                      >
+                        {{ bank.name }}
+                      </option>
+                    </select>
+                  </div>
+                </b-form-group>
+              </b-col>
+              <b-col sm="6">
+                <b-form-group label="Account number">
+                  <b-form-input
+                    type="number"
+                    placeholder="Provide your account number"
+                    v-model="user.account_no"
+                  ></b-form-input></b-form-group
+              ></b-col>
+            </b-form-row>
             <div>
               <b-button variant="dark-green" type="submit" class="px-5 mt-4"
                 >Save</b-button
@@ -387,22 +414,30 @@ export default {
         show_age: false,
         show_email: false,
         show_name: false,
+        bank_name: "",
+        bank_code: null,
+        account_no: "",
       },
-
+      bank_id: null,
       requests: [],
       detail: {
         old_password: "",
         new_password: "",
       },
+      banks: [],
     };
   },
   components: {
     Upload,
     Interest,
   },
+  watch: {
+    bank_id: "handleBank",
+  },
   mounted() {
     this.getuser();
     this.getrequests();
+    this.getbanks();
     window.document.title = `${this.$store.getters.member.name} | Nzukoor`;
   },
   computed: {
@@ -414,6 +449,14 @@ export default {
     },
   },
   methods: {
+    handleBank() {
+      var bank = this.banks.find((item) => item.id == this.bank_id);
+      if (!bank) {
+        return;
+      }
+      this.user.bank_name = bank.name;
+      this.user.bank_code = bank.code;
+    },
     updateinformation() {
       var userinformation = {
         show_age: this.user.show_age,
@@ -449,6 +492,11 @@ export default {
         .then((res) => {
           this.requests = res.data;
         });
+    },
+    getbanks() {
+      this.$http.get(`${this.$store.getters.url}/get/banks`).then((res) => {
+        this.banks = res.data;
+      });
     },
     accept(item) {
       this.$http
@@ -505,9 +553,13 @@ export default {
             var authMember = JSON.parse(localStorage.getItem("authMember"));
             authMember.profile = res.data.profile;
             authMember.voice = res.data.voice;
+            this.bank_id = null;
             localStorage.setItem("authMember", JSON.stringify(authMember));
             this.$toast.success("Updated successfully");
           }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
         });
     },
     updatepassword() {

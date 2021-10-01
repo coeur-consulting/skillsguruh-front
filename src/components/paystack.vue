@@ -7,6 +7,8 @@
     :callback="callback"
     :close="close"
     :embed="false"
+    :splitCode="splitCode"
+    :subaccount="subaccount"
   >
     <b-button variant="dark-green" class="p-0"> Make Payment</b-button>
   </paystack>
@@ -15,7 +17,14 @@
 <script type="text/javascript">
 import paystack from "vue-paystack";
 export default {
-  props: ["user_email", "user_amount", "item_id", "type"],
+  props: [
+    "user_email",
+    "user_amount",
+    "item_id",
+    "type",
+    "splitCode",
+    "subaccount",
+  ],
   components: {
     paystack,
   },
