@@ -572,6 +572,7 @@ a {
   }
   .main {
     background-image: url("/img/auth.png");
+    background-size: cover;
   }
   legend {
     font-size: 16px;

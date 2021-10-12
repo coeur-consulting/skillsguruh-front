@@ -75,9 +75,9 @@ Vue.use(VueSocialauth, {
 Vue.filter("currencyFormat", function(numb) {
   var num = Number(numb);
   if (num) {
-    return "₦ " + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    return "₦" + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   } else {
-    return "₦ 0.00";
+    return "₦0.00";
   }
 });
 Vue.use(require("vue-pusher"), {

@@ -464,7 +464,7 @@ a {
     height: 90%;
   }
   #register {
-    height: 100%;
+    height: 100vh;
     overflow: unset;
   }
   .main {
