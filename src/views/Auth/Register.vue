@@ -50,16 +50,20 @@
                 >
               </div>
               <div>
-                <b-form-row class="mb-2">
+                <b-form-row class="mb-4">
                   <b-col sm="12">
-                    <b-form-group label="Full name" id="name" label-for="name">
+                    <b-form-group>
                       <b-form-input
+                        size="lg"
+                        class="custom"
                         v-model="user.name"
-                        placeholder="Enter your full name"
+                        placeholder="Full name"
                         :state="validateState('name')"
                         name="name"
+                        id="name"
                         aria-describedby="name-feedback"
                       ></b-form-input>
+                      <label class="custom" for="name">Full name</label>
                       <b-form-invalid-feedback id="name-feedback"
                         >Full name is required
                       </b-form-invalid-feedback>
@@ -69,18 +73,22 @@
                     </b-form-group>
                   </b-col>
                 </b-form-row>
-                <b-form-row class="mb-2">
+                <b-form-row class="mb-4">
                   <b-col sm="6">
-                    <b-form-group label="Email" id="email" label-for="email">
+                    <b-form-group>
                       <b-form-input
+                        class="custom"
+                        size="lg"
                         v-model="user.email"
                         autocomplete="off"
                         type="email"
                         name="email"
+                        id="email"
                         :state="validateState('email')"
-                        placeholder="Enter your email address"
+                        placeholder="Email"
                         aria-describedby="email-feedback"
                       ></b-form-input>
+                      <label class="custom" for="email">Email</label>
                       <b-form-invalid-feedback id="email-feedback"
                         >Valid email is required
                       </b-form-invalid-feedback>
@@ -90,50 +98,36 @@
                     </b-form-group>
                   </b-col>
                   <b-col sm="6">
-                    <b-form-group label="Username">
+                    <b-form-group>
                       <b-form-input
+                        size="lg"
+                        class="custom"
                         autocomplete="off"
                         v-model="user.username"
                         type="text"
                         :required="!type"
-                        placeholder="Your unique username"
+                        placeholder="Username "
                       ></b-form-input>
+                      <label class="custom" for="username">Username</label>
                     </b-form-group>
                   </b-col>
-                  <!-- <b-col sm="6">
-                    <b-form-group label="Phone" id="phone" label-for="phone">
-                      <b-form-input
-                        autocomplete="off"
-                        v-model="user.phone"
-                        type="tel"
-                        name="phone"
-                        :state="validateState('phone')"
-                        aria-describedby="phone-feedback"
-                        placeholder="Enter phone number"
-                      ></b-form-input>
-                      <b-form-invalid-feedback id="phone-feedback"
-                        >Valid phone is required and length must be 11 or more
-                      </b-form-invalid-feedback>
-                      <b-form-valid-feedback id="phone-feedback"
-                        >Looks good
-                      </b-form-valid-feedback>
-                    </b-form-group>
-                  </b-col> -->
+                </b-form-row>
+                <b-form-row class="mb-4">
                   <b-col sm="6">
-                    <b-form-group
-                      label="Password"
-                      id="password"
-                      label-for="password"
-                    >
+                    <b-form-group>
                       <b-form-input
+                        size="lg"
+                        class="custom"
                         v-model="user.password"
                         type="password"
                         autocomplete="off"
                         name="password"
                         :state="validateState('password')"
-                        placeholder="Enter password"
+                        placeholder="Password"
                         aria-describedby="password-feedback"
+                        id="password"
                       ></b-form-input>
+                      <label class="custom" for="password">Password</label>
                       <b-form-invalid-feedback id="password-feedback"
                         >Password is required and length must be more than 3
                       </b-form-invalid-feedback>
@@ -144,25 +138,30 @@
                   </b-col>
                   <b-col sm="6">
                     <div class="form-group">
-                      <label for="">
+                      <Upload @getUpload="getUpload" />
+                      <!-- <label class="custom" for="">
                         {{
                           type == "organization" ? "Logo" : "Profile image"
                         }}</label
-                      >
-
-                      <Upload @getUpload="getUpload" />
+                      > -->
                     </div>
                   </b-col>
                 </b-form-row>
 
-                <b-form-row class="mb-2">
+                <b-form-row class="mb-4">
                   <b-col sm="6">
-                    <b-form-group label="Referral code(optional)">
+                    <b-form-group>
                       <b-form-input
+                        size="lg"
+                        class="custom"
                         v-model="user.referral"
                         type="tel"
-                        placeholder="Do you have a referral code?"
+                        placeholder="Referral"
+                        id="code"
                       ></b-form-input>
+                      <label class="custom" for="code"
+                        >Referral code(optional)</label
+                      >
                     </b-form-group>
                   </b-col>
                 </b-form-row>

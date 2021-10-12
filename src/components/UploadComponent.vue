@@ -3,7 +3,6 @@
     <form @submit.prevent="processUpload" class="position-relative">
       <div class="cursor-pointer d-flex align-items-center">
         <b-form-file
-          size="sm"
           type="file"
           class="form-control mr-3"
           id="logo"

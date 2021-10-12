@@ -53,11 +53,7 @@
               <div>
                 <b-form-row class="mb-2">
                   <b-col class="pr-sm-3">
-                    <b-form-group
-                      label="Email or Username"
-                      id="email"
-                      label-for="email"
-                    >
+                    <b-form-group>
                       <b-form-input
                         size="lg"
                         required
@@ -65,19 +61,20 @@
                         name="email"
                         :state="validation"
                         type="text"
-                        placeholder="Enter email address or username"
+                        placeholder="Type"
                         aria-describedby="email-feedback"
+                        class="custom"
+                        id="email"
                       ></b-form-input>
+                      <label class="custom" for="email"
+                        >Email or Username</label
+                      >
                     </b-form-group>
                   </b-col>
                 </b-form-row>
                 <b-form-row class="mb-2">
                   <b-col cols="12" class="pr-sm-3">
-                    <b-form-group
-                      label=" Password"
-                      id="password"
-                      label-for="password"
-                    >
+                    <b-form-group>
                       <b-input-group size="lg">
                         <template #append>
                           <div>
@@ -99,16 +96,17 @@
                           </div>
                         </template>
                         <b-form-input
-                          class="border-right-0"
+                          class="border-right-0 custom"
                           required
                           min="6"
                           v-model="user.password"
                           name="password"
                           :state="validation"
                           :type="toggleeye1 ? 'text' : 'password'"
-                          placeholder="Enter  password "
+                          placeholder="Password "
                           aria-describedby="password-feedback"
                         ></b-form-input>
+                        <label class="custom" for="password">Password</label>
                       </b-input-group>
                     </b-form-group>
                   </b-col>
