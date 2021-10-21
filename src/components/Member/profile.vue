@@ -77,8 +77,8 @@
           <b-icon v-if="type == 'additional'" icon="chevron-right"></b-icon>
         </div>
       </b-col>
-      <b-col sm="8" class="sideB px-sm-0">
-        <div class="p-4" v-if="type == 'edit'">
+      <b-col sm="8" class="sideB">
+        <div v-if="type == 'edit'">
           <div class="mb-5">
             <Upload @getUpload="getUpload" :id="'avatar'">
               <b-avatar
@@ -253,7 +253,7 @@
             </div>
           </div>
         </div>
-        <div v-if="type == 'security'" class="p-4">
+        <div v-if="type == 'security'">
           <div class="pt-5 text-left password">
             <b-form @submit.prevent="updatepassword">
               <b-form-group label="Old Passoword">
@@ -284,12 +284,12 @@
           </div>
         </div>
 
-        <div v-if="type == 'preference'" class="p-4">
+        <div v-if="type == 'preference'">
           <div class="pt-5 text-left preference">
             <Interest :user="$store.getters.member" :type="'member'" />
           </div>
         </div>
-        <div v-if="type == 'request'" class="p-4">
+        <div v-if="type == 'request'">
           <div class="notif text-left pt-4">
             <h5 class="font-weight-bold mb-4">Requests</h5>
 

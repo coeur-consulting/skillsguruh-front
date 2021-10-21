@@ -16,15 +16,14 @@
           sm="4"
           v-for="interest in filteredInterest"
           :key="interest.value"
-          class="mb-4"
+          class="mb-4 px-1"
         >
           <div
             class="
-              px-4
-              py-3
+              px-2
+              py-2
               rounded-pill
-              fs14
-              font-weight-bold
+              fs12
               cursor-pointer
               d-flex
               justify-content-between
@@ -44,12 +43,12 @@
             <b-icon
               v-if="selected_interests.includes(interest.value)"
               icon="check2-circle"
-              font-scale="1.5"
+              font-scale="1.2"
             ></b-icon>
             <b-icon
               v-if="!selected_interests.includes(interest.value)"
               icon="plus-circle"
-              font-scale="1.5"
+              font-scale="1.2"
             ></b-icon>
           </div>
         </b-col>
