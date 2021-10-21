@@ -1,9 +1,9 @@
 <template>
   <b-container fluid class="p-0 bg-white">
-    <b-row class="h-100">
-      <b-col sm="3" class="border-right text-left p-3">
+    <b-row class="m-0">
+      <b-col sm="4" class="border-right text-left py-3 pl-3 pr-1">
         <div
-          class="mb-3 px-2 fs14 cursor-pointer d-flex align-items-center"
+          class="mb-3 px-2 fs12 cursor-pointer d-flex align-items-center"
           :class="{ 'font-weight-bold': type == 'edit' }"
           @click="type = 'edit'"
         >
@@ -14,7 +14,7 @@
           <b-icon v-if="type == 'edit'" icon="chevron-right"></b-icon>
         </div>
         <div
-          class="mb-3 px-2 cursor-pointer d-flex fs14"
+          class="mb-3 px-2 cursor-pointer d-flex fs12"
           @click="type = 'notification'"
           :class="{ 'font-weight-bold': type == 'notification' }"
         >
@@ -25,7 +25,7 @@
           <b-icon v-if="type == 'notification'" icon="chevron-right"></b-icon>
         </div>
         <div
-          class="mb-3 px-2 cursor-pointer d-flex fs14"
+          class="mb-3 px-2 cursor-pointer d-flex fs12"
           @click="type = 'request'"
           :class="{ 'font-weight-bold': type == 'request' }"
         >
@@ -43,7 +43,7 @@
           <b-icon v-if="type == 'request'" icon="chevron-right"></b-icon>
         </div>
         <div
-          class="mb-3 px-2 cursor-pointer d-flex fs14"
+          class="mb-3 px-2 cursor-pointer d-flex fs12"
           @click="type = 'preference'"
           :class="{ 'font-weight-bold': type == 'preference' }"
         >
@@ -55,7 +55,7 @@
         </div>
 
         <div
-          class="px-2 mb-3 fs14 cursor-pointer d-flex"
+          class="px-2 mb-3 fs12 cursor-pointer d-flex"
           :class="{ 'font-weight-bold': type == 'security' }"
           @click="type = 'security'"
         >
@@ -66,7 +66,7 @@
           <b-icon v-if="type == 'security'" icon="chevron-right"></b-icon>
         </div>
         <div
-          class="px-2 fs14 cursor-pointer d-flex"
+          class="px-2 fs12 cursor-pointer d-flex"
           :class="{ 'font-weight-bold': type == 'additional' }"
           @click="type = 'additional'"
         >
@@ -77,7 +77,7 @@
           <b-icon v-if="type == 'additional'" icon="chevron-right"></b-icon>
         </div>
       </b-col>
-      <b-col sm="9" class="sideB">
+      <b-col sm="8" class="sideB px-sm-0">
         <div class="p-4" v-if="type == 'edit'">
           <div class="mb-5">
             <Upload @getUpload="getUpload" :id="'avatar'">
@@ -96,12 +96,13 @@
             <b-form-row>
               <b-col sm="6">
                 <b-form-group label="Name">
-                  <b-form-input v-model="user.name"></b-form-input
+                  <b-form-input size="sm" v-model="user.name"></b-form-input
                 ></b-form-group>
               </b-col>
               <b-col sm="6">
                 <b-form-group label="Email">
                   <b-form-input
+                    size="sm"
                     type="email"
                     v-model="user.email"
                   ></b-form-input></b-form-group
@@ -110,12 +111,16 @@
             <b-form-row>
               <b-col sm="6">
                 <b-form-group label="Age">
-                  <b-form-input v-model="user.age" type="number"></b-form-input
+                  <b-form-input
+                    size="sm"
+                    v-model="user.age"
+                    type="number"
+                  ></b-form-input
                 ></b-form-group>
               </b-col>
               <b-col sm="6">
                 <b-form-group label="Gender">
-                  <b-form-select v-model="user.gender">
+                  <b-form-select size="sm" v-model="user.gender">
                     <b-form-select-option value="male"
                       >Male</b-form-select-option
                     >
@@ -129,19 +134,19 @@
             <b-form-row>
               <b-col sm="12">
                 <b-form-group label="Bio">
-                  <b-form-textarea maxlength="150" v-model="user.bio">
+                  <b-form-textarea size="sm" maxlength="150" v-model="user.bio">
                   </b-form-textarea></b-form-group
               ></b-col>
             </b-form-row>
             <b-form-row>
               <b-col sm="6">
                 <b-form-group label="State">
-                  <b-form-input v-model="user.state"></b-form-input
+                  <b-form-input size="sm" v-model="user.state"></b-form-input
                 ></b-form-group>
               </b-col>
               <b-col sm="6">
                 <b-form-group label="Country">
-                  <b-form-select v-model="user.country">
+                  <b-form-select size="sm" v-model="user.country">
                     <b-form-select-option value="NG"
                       >Nigeria</b-form-select-option
                     >
@@ -152,12 +157,13 @@
             <b-form-row>
               <b-col sm="6">
                 <b-form-group label="Phone">
-                  <b-form-input v-model="user.phone"></b-form-input
+                  <b-form-input size="sm" v-model="user.phone"></b-form-input
                 ></b-form-group>
               </b-col>
               <b-col sm="6">
                 <b-form-group label="Referral Code">
                   <b-form-input
+                    size="sm"
                     readonly
                     v-model="user.referral_code"
                   ></b-form-input></b-form-group
@@ -166,12 +172,12 @@
             <b-form-row>
               <b-col sm="6">
                 <b-form-group label="Username">
-                  <b-form-input v-model="user.username"></b-form-input
+                  <b-form-input size="sm" v-model="user.username"></b-form-input
                 ></b-form-group>
               </b-col>
               <b-col sm="6">
                 <b-form-group label="Change Speech Voice">
-                  <b-form-select v-model="user.voice">
+                  <b-form-select size="sm" v-model="user.voice">
                     <b-form-select-option
                       v-for="(item, index) in voices"
                       :key="index"
@@ -187,22 +193,29 @@
               <b-col sm="6">
                 <b-form-group label="Bank Name">
                   <div class="form-group">
-                    <select class="form-control" v-model="bank_id">
-                      <option :value="null" disabled>Select your bank</option>
-                      <option
+                    <b-form-select
+                      size="sm"
+                      class="form-control"
+                      v-model="bank_id"
+                    >
+                      <b-form-select-option :value="null" disabled
+                        >Select your bank</b-form-select-option
+                      >
+                      <b-form-select-option
                         :value="bank.id"
                         v-for="(bank, id) in banks"
                         :key="id"
                       >
                         {{ bank.name }}
-                      </option>
-                    </select>
+                      </b-form-select-option>
+                    </b-form-select>
                   </div>
                 </b-form-group>
               </b-col>
               <b-col sm="6">
                 <b-form-group label="Account number">
                   <b-form-input
+                    size="sm"
                     type="number"
                     placeholder="Provide your account number"
                     v-model="user.account_no"
@@ -217,12 +230,12 @@
           </b-form>
         </div>
 
-        <div v-if="type == 'notification'" class="p-4">
+        <div v-if="type == 'notification'" class="py-4">
           <div class="notif text-left pt-4">
             <h5 class="font-weight-bold mb-4">Notifications</h5>
 
             <div
-              class="d-flex mb-3 border bg-light p-3 rounded"
+              class="d-flex mb-3 border bg-light p-3 rounded fs14"
               v-for="item in notifications"
               :key="item.id"
             >
@@ -245,6 +258,7 @@
             <b-form @submit.prevent="updatepassword">
               <b-form-group label="Old Passoword">
                 <b-form-input
+                  size="sm"
                   v-model="detail.old_password"
                   type="password"
                   placeholder="Enter old Password"
@@ -253,6 +267,7 @@
               </b-form-group>
               <b-form-group label="New Password">
                 <b-form-input
+                  size="sm"
                   type="password"
                   v-model="detail.new_password"
                   placeholder="Enter new Password"
