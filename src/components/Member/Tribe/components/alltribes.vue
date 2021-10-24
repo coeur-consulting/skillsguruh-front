@@ -10,6 +10,7 @@
           ></b-form-input
         ></b-col>
       </b-row>
+
       <b-row>
         <b-col
           cols="6"
@@ -30,7 +31,7 @@
             </p>
             <p class="fs14 text-muted mb-1">
               <font-awesome-icon :icon="users" size="1x" class="icon" />
-              {{ n.users.length }}
+              {{ n.users }}
             </p>
 
             <b-button
@@ -40,11 +41,11 @@
               size="sm"
               @click="entertribe(n.id)"
             >
-              {{ isMember(n.users) ? "Engage" : "Join" }}</b-button
+              {{ n.isMember ? "Engage" : "Join" }}</b-button
             >
             <div v-else>
               <b-button
-                v-if="isMember(n.users)"
+                v-if="n.isMember"
                 block
                 variant="dark-green"
                 size="sm"
@@ -64,7 +65,9 @@
             </div>
           </b-popover>
           <div class="tribe_box rounded" :id="`popover-${id}`">
-            <div class="d-flex align-items-center justify-content-center rounded">
+            <div
+              class="d-flex align-items-center justify-content-center rounded"
+            >
               <span class="tribe_name text-white">{{ n.name }}</span>
             </div>
 
@@ -78,10 +81,8 @@
               "
             >
               <span class="d-flex align-items-center fs14">
-                <span class="mr-1">{{ n.users.length }}</span>
-                <span class="">
-                  {{ n.users.length > 1 ? "members" : "member" }}</span
-                >
+                <span class="mr-1">{{ n.users }}</span>
+                <span class=""> {{ n.users > 1 ? "members" : "member" }}</span>
               </span>
             </div>
             <span class="tribe_circle cursor-pointer">

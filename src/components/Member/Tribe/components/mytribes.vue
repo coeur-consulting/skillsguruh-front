@@ -29,7 +29,7 @@
             <p class="fs13" style="min-width: 150px">{{ n.description }}</p>
             <p class="fs14 text-muted mb-1">
               <font-awesome-icon :icon="users" size="1x" class="icon" />
-              {{ n.users.length }}
+              {{ n.users }}
             </p>
 
             <b-button
@@ -58,13 +58,11 @@
               "
             >
               <span class="d-flex align-items-center fs14">
-                <span class="mr-1">{{ n.users.length }}</span>
-                <span class="">
-                  {{ n.users.length > 1 ? "members" : "member" }}</span
-                >
+                <span class="mr-1">{{ n.users }}</span>
+                <span class=""> {{ n.users > 1 ? "members" : "member" }}</span>
               </span>
               <b-dropdown
-                v-if="n.pivot.is_owner"
+                v-if="n.is_owner"
                 size="sm"
                 variant="transparent"
                 no-caret
@@ -240,7 +238,7 @@ export default {
     },
     response(res, type) {
       if (type == "create") {
-        this.tribes.unshift(res.data.data);
+        this.tribes.unshift(res.data.data.data);
         this.$toast.success("Tribe Created");
         this.$bvModal.hide("start");
       }
@@ -278,7 +276,7 @@ export default {
         })
         .then((res) => {
           if (res.status === 200) {
-            this.tribes = res.data.data;
+            this.tribes = res.data.data.data;
           }
         });
     },

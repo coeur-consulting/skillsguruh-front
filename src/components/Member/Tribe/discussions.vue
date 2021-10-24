@@ -638,7 +638,12 @@ export default {
     getdiscussionsbytrend() {
       this.$http
         .get(
-          `${this.$store.getters.url}/trending/discussions/${this.$route.params.tribe}`
+          `${this.$store.getters.url}/trending/discussions/${this.$route.params.tribe}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
         )
         .then((res) => {
           if (res.status == 200) {

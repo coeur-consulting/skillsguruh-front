@@ -821,7 +821,11 @@ export default {
     },
     getdiscussionsbytrend() {
       this.$http
-        .get(`${this.$store.getters.url}/trending/discussions`)
+        .get(`${this.$store.getters.url}/trending/discussions`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
         .then((res) => {
           if (res.status == 200) {
             this.trenddiscussions = res.data;

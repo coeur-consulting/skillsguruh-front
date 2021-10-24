@@ -79,7 +79,7 @@
                   </p>
                   <p class="fs14 text-muted mb-1">
                     <font-awesome-icon :icon="myusers" size="1x" class="icon" />
-                    {{ n.users.length }}
+                    {{ n.users }}
                   </p>
                   <b-button
                     v-if="n.type == 'free'"
@@ -88,11 +88,11 @@
                     size="sm"
                     @click="entertribe(n.id)"
                   >
-                    {{ isMember(n.users) ? "Engage" : "Join" }}</b-button
+                    {{ n.isMember ? "Engage" : "Join" }}</b-button
                   >
                   <div v-else>
                     <b-button
-                      v-if="isMember(n.users)"
+                      v-if="n.isMember"
                       block
                       variant="dark-green"
                       size="sm"
@@ -133,9 +133,9 @@
                     "
                   >
                     <span class="d-flex align-items-center fs14">
-                      <span class="mr-1">{{ n.users.length }}</span>
+                      <span class="mr-1">{{ n.users }}</span>
                       <span class="">
-                        {{ n.users.length > 1 ? "members" : "member" }}</span
+                        {{ n.users > 1 ? "members" : "member" }}</span
                       >
                     </span>
                   </div>
@@ -167,16 +167,14 @@
                       <template #title> {{ n.name }} tribe</template>
 
                       <p class="fs13">{{ n.description }}</p>
-                      <p class="fs13 text-muted mb-1">
-                        {{ n.users.length }} users
-                      </p>
-                      <p class="fs13 text-muted mb-1">
+                      <p class="fs13 text-muted mb-1">{{ n.users }} users</p>
+                      <!-- <p class="fs13 text-muted mb-1">
                         {{ n.discussions.length }} discussions
                       </p>
 
                       <p class="fs13 text-muted mb-3">
                         {{ n.events.length }} active events
-                      </p>
+                      </p> -->
                       <b-button
                         block
                         variant="lighter-green"
@@ -202,12 +200,8 @@
                         "
                       >
                         <span class="d-flex align-items-center">
-                          <span class="mr-1">{{ n.users.length }}</span>
-                          <span>
-                            {{
-                              n.users.length > 1 ? "members" : "member"
-                            }}</span
-                          >
+                          <span class="mr-1">{{ n.users }}</span>
+                          <span> {{ n.users > 1 ? "members" : "member" }}</span>
                         </span>
                       </div>
                       <span class="tribe_circle cursor-pointer">
@@ -1543,7 +1537,7 @@ export default {
     this.getfacilitators();
     this.getdiscussions();
     this.getcontributors();
-    this.getTrendingFeeds();
+    // this.getTrendingFeeds();
     this.interests = Interests;
     this.SubInterests = SubInterests;
   },
@@ -1846,10 +1840,10 @@ export default {
     },
     gettribes() {
       this.$http
-        .get(`${this.$store.getters.url}/tribes`)
+        .get(`${this.$store.getters.url}/guest/tribes`)
         .then((res) => {
           if (res.status == 200) {
-            this.tribes = res.data.data;
+            this.tribes = res.data;
             this.showTribes = true;
           }
         })
