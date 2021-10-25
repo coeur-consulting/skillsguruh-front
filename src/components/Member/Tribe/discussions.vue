@@ -139,19 +139,7 @@
                     <div class="side_dis">
                       <b-avatar
                         size="1.8rem"
-                        v-if="item.creator == 'admin'"
-                        :src="item.admin.profile"
-                      ></b-avatar>
-
-                      <b-avatar
-                        size="1.8rem"
-                        v-if="item.creator == 'user'"
                         :src="item.user.profile"
-                      ></b-avatar>
-                      <b-avatar
-                        size="1.8rem"
-                        v-if="item.creator == 'facilitator'"
-                        :src="item.facilitator.profile"
                       ></b-avatar>
                     </div>
                     <div class="text-left next_dis">
@@ -182,10 +170,10 @@
                         ont-scale="1.2"
                         class="text-muted"
                       ></b-icon>
-                      <span v-if="item.discussionvote.length">
-                        <span v-if="vote(item.discussionvote) > 0">+</span>
-                        <span v-if="vote(item.discussionvote) < 0">-</span
-                        >{{ vote(item.discussionvote) }}</span
+                      <span v-if="item.discussionvote">
+                        <span v-if="item.discussionvote > 0">+</span>
+                        <span v-if="item.discussionvote < 0">-</span
+                        >{{ item.discussionvote }}</span
                       >
                       <span v-else>0</span>
 
@@ -206,13 +194,13 @@
                     <div>
                       <span class="mr-4 dis_ses"
                         ><b-icon icon="chat" class="mr-1"></b-icon>
-                        <span>{{ item.discussionmessage.length }}</span>
+                        <span>{{ item.discussionmessage }}</span>
                         answers</span
                       >
                       <span class="mr-4 dis_ses"
                         ><b-icon icon="eye-fill" class="mr-1"></b-icon>
                         <span v-if="item.discussionview">{{
-                          item.discussionview.view || 0
+                          item.discussionview || 0
                         }}</span>
                         <span v-else>{{ 0 }}</span> views</span
                       >
@@ -463,7 +451,6 @@ export default {
       return item;
     });
 
-    this.getcourses();
     this.getothers();
   },
   computed: {
@@ -575,22 +562,6 @@ export default {
           });
       }
     },
-    getcourses() {
-      this.$http
-        .get(`${this.$store.getters.url}/courses`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 200) {
-            this.courses = res.data;
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
-    },
 
     vote(val) {
       var positive = val.filter((item) => item.vote).length;
@@ -626,7 +597,7 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.discussions = res.data;
+            this.discussions = res.data.data;
             this.showDiscussion = true;
           }
         })
@@ -647,7 +618,7 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.trenddiscussions = res.data;
+            this.trenddiscussions = res.data.data;
             this.showDiscussion = true;
           }
         })
