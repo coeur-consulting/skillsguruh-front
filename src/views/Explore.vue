@@ -288,7 +288,7 @@
                     <b-badge
                       class="text-white d-flex align-items-center"
                       :style="{
-                        backgroundColor: JSON.parse(item.category).color,
+                        backgroundColor: item.category.color,
                       }"
                     >
                       <b-icon
@@ -296,7 +296,7 @@
                         class="mr-1"
                         font-scale=".5"
                       ></b-icon>
-                      {{ JSON.parse(item.category).value }}</b-badge
+                      {{ item.category.value }}</b-badge
                     >
                   </span>
 
@@ -428,7 +428,7 @@
                       <b-badge
                         class="text-white d-flex align-items-center"
                         :style="{
-                          backgroundColor: JSON.parse(item.category).color,
+                          backgroundColor: item.category.color,
                         }"
                       >
                         <b-icon
@@ -436,7 +436,7 @@
                           class="mr-1"
                           font-scale=".5"
                         ></b-icon>
-                        {{ JSON.parse(item.category).value }}</b-badge
+                        {{ item.category.value }}</b-badge
                       >
                     </span>
 
@@ -545,27 +545,6 @@
                   >
                     <div class="d-flex mb-3 px-2 px-sm-3 pt-3">
                       <div class="flex-1 text-left">
-                        <div class="mr-2 mb-1 feedname" v-if="feed.admin">
-                          <b-avatar
-                            size="1.8rem"
-                            class="mr-2"
-                            :src="feed.admin.profile"
-                          ></b-avatar>
-                          <div>
-                            <div style="line-height: 1.2">
-                              {{ feed.admin.username }} <br />
-                            </div>
-                            <small
-                              v-if="feed.admin.state"
-                              class="
-                                text-muted
-                                font-weight-normal
-                                text-capitalize
-                              "
-                              >{{ feed.admin.state }}</small
-                            >
-                          </div>
-                        </div>
                         <div class="mr-2 mb-1 feedname" v-if="feed.user">
                           <b-avatar
                             size="1.8rem"
@@ -591,32 +570,6 @@
                                 text-capitalize
                               "
                               >{{ feed.user.state }}</small
-                            >
-                          </span>
-                        </div>
-                        <div class="mr-2 mb-1 feedname" v-if="feed.facilitator">
-                          <b-avatar
-                            size="1.8rem"
-                            class="mr-2"
-                            :src="feed.facilitator.profile"
-                          ></b-avatar>
-                          <span
-                            class="hover_green"
-                            @click="
-                              $router.push(`/profile/f/${feed.facilitator.id}`)
-                            "
-                          >
-                            <div style="line-height: 1.2">
-                              {{ feed.facilitator.username }}
-                            </div>
-                            <small
-                              v-if="feed.facilitator.state"
-                              class="
-                                text-muted
-                                font-weight-normal
-                                text-capitalize
-                              "
-                              >{{ feed.facilitator.state }}</small
                             >
                           </span>
                         </div>
@@ -648,77 +601,6 @@
                       </b-dropdown>
                     </div>
 
-                    <!-- <div v-if="feed.media || feed.publicId">
-                      <div class="mb-4 position-relative w-100 media bg-white">
-                        <b-icon
-                          v-if="toggleOn == index"
-                          icon="heart-fill"
-                          variant="danger"
-                          class="
-                            heart
-                            animate__animated
-                            animate__fadeIn
-                            animate__fadeOut
-                            animate__slow
-                          "
-                        ></b-icon>
-                        <cld-image
-                          v-if="
-                            feed.publicId &&
-                            img_ext.includes(getextension(feed.media))
-                          "
-                          :publicId="feed.publicId"
-                          @click="toggleLike(feed.id, index)"
-                        >
-                          <cld-transformation
-                            aspectRatio="1.0"
-                            height="500"
-                            crop="fill"
-                          />
-                        </cld-image>
-                        <b-img
-                          v-if="
-                            !feed.publicId &&
-                            feed.media &&
-                            img_ext.includes(getextension(feed.media))
-                          "
-                          @click="toggleLike(feed.id, index)"
-                          class="img_feed"
-                          :src="feed.media"
-                        ></b-img>
-
-                        <cld-video
-                          controls
-                          v-if="
-                            feed.publicId &&
-                            vid_ext.includes(getextension(feed.media))
-                          "
-                          :publicId="feed.publicId"
-                        >
-                          <cld-transformation crop="fill" height="500" />
-                        </cld-video>
-
-                        <audio
-                          width="100%"
-                          controls
-                          v-if="
-                            feed.media &&
-                            aud_ext.includes(getextension(feed.media))
-                          "
-                          :src="feed.media"
-                          class="fluid-grow"
-                        ></audio>
-                        <div
-                          v-if="
-                            feed.media &&
-                            doc_ext.includes(getextension(feed.media))
-                          "
-                          class="text-center p-3 p-sm-4 bg-skills-grey"
-                        >
-                          <b-icon icon="image" font-scale="3rem"></b-icon>
-                        </div>
-                      </div>
-                    </div> -->
                     <div class="text-left feed_text px-3">
                       <div class="mb-1" v-html="feed.message"></div>
 
@@ -730,7 +612,7 @@
                           <b-col
                             cols="auto"
                             class="px-1"
-                            v-for="(tag, id) in JSON.parse(feed.tags)"
+                            v-for="(tag, id) in feed.tags"
                             :key="id"
                           >
                             <b-badge
@@ -1270,6 +1152,7 @@
                               item.feedcommentlikes ? 'heart-fill' : 'heart'
                             "
                             :class="item.feedcommentlikes ? 'text-danger' : ''"
+                            @click="likecomment(item.id, index, item.user.id)"
                           ></b-icon>
                         </small>
                       </div>
@@ -1290,7 +1173,7 @@
                             :src="rep.user.profile"
                           ></b-avatar>
                           <div class="d-flex align-items-start flex-1">
-                            <p class="flex-1 mr-2" style="line-height: 1.2">
+                            <p class="flex-1 mr-2">
                               <span
                                 class="comment_name mr-1"
                                 @click="
@@ -1320,7 +1203,7 @@
                                     rep.id,
                                     id,
                                     index,
-                                    feed.user.id
+                                    rep.user.id
                                   )
                                 "
                                 font-scale=".8"
@@ -1462,6 +1345,19 @@
         </ShareNetwork>
       </div>
     </b-modal>
+    <b-modal id="replycomment" hide-footer>
+      <template #modal-title>
+        <div
+          class="font-weight-bold"
+          v-if="replycomment"
+          v-html="replycomment.comment"
+        ></div>
+      </template>
+      <b-textarea class="mb-3" v-model="commentreply"> </b-textarea>
+      <b-button variant="dark-green" @click="postreply" size="sm"
+        >Reply</b-button
+      >
+    </b-modal>
   </div>
 </template>
 <script>
@@ -1476,6 +1372,11 @@ import { faUsers, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 export default {
   data() {
     return {
+      report_id: null,
+      report_type: null,
+      index: null,
+      replycomment: null,
+      commentreply: "",
       signIn: faSignInAlt,
       myusers: faUsers,
       link: "",
@@ -1637,6 +1538,104 @@ export default {
       setTimeout(() => {
         this.toggleOn = null;
       }, 1500);
+    },
+    likecomment(id, index, userId) {
+      if (!this.auth) {
+        this.$toast.error("login to access");
+        return;
+      }
+      if (this.$store.getters.member.id != userId) {
+        return;
+      }
+      this.$http
+        .post(
+          `${this.$store.getters.url}/feed/comment/like`,
+          { feed_comment_id: id },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data === "success") {
+            this.allcomments.comments[index].feedcommentlikes = res.data;
+          } else {
+            this.allcomments.comments[index].feedcommentlikes = null;
+          }
+
+          this.gettrendingfeeds();
+        });
+    },
+    likecommentreply(id, index, idx, userId) {
+      if (!this.auth) {
+        this.$toast.error("login to access");
+        return;
+      }
+      if (this.$store.getters.member.id != userId) {
+        return;
+      }
+      this.$http
+        .post(
+          `${this.$store.getters.url}/feed/comment/reply/like`,
+          { feed_comment_reply_id: id },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data === "success") {
+            this.allcomments.comments[idx].feedcommentreplies[
+              index
+            ].feedcommentreplylikes = res.data;
+          } else {
+            this.allcomments.comments[idx].feedcommentreplies[
+              index
+            ].feedcommentreplylikes = null;
+          }
+        });
+    },
+    postreply() {
+      if (!this.commentreply) {
+        this.$toast.info("Cannot be empty");
+        return;
+      }
+      var data = {
+        feed_comment_id: this.replycomment.id,
+        message: this.commentreply,
+        feed_id: this.replycomment.feed_id,
+      };
+
+      this.$http
+        .post(`${this.$store.getters.url}/feed/comment/reply`, data, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 201) {
+            this.$toast.success("Reply successful ");
+
+            this.gettrendingfeeds();
+
+            this.allcomments.comments[
+              this.comment_index
+            ].feedcommentreplies.unshift(res.data);
+            this.commentreply = "";
+            this.$bvModal.hide("replycomment");
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    handlereplycomment(comment, comment_index) {
+      this.replycomment = comment;
+      this.comment_index = comment_index;
+
+      this.$bvModal.show("replycomment");
     },
     showlikes(likes) {
       this.alllikes = likes;
@@ -1927,8 +1926,8 @@ export default {
         .then((res) => {
           if (res.status == 201) {
             this.$toast.success("Comment updated ");
-            this.filteredFeeds[index].comments.unshift(res.data);
-            this.filteredFeeds[index].comment = "";
+            this.gettrendingfeeds();
+            this.filteredFeeds[index].comment = " ";
 
             this.comment = {
               comment: "",

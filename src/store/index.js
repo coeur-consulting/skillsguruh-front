@@ -218,39 +218,39 @@ export default new Vuex.Store({
       }
     },
     getNotifications({ commit, state }, user) {
-      if (user == "organization") {
-        Vue.axios
-          .get(`${state.url}/get-notifications`, {
-            headers: {
-              Authorization: `Bearer ${state.organization.access_token}`,
-            },
-          })
-          .then((response) => {
-            commit("SET_NOTIFICATION", response.data);
-          });
-      }
-      if (user == "admin") {
-        Vue.axios
-          .get(`${state.url}/get-notifications`, {
-            headers: {
-              Authorization: `Bearer ${state.admin.access_token}`,
-            },
-          })
-          .then((response) => {
-            commit("SET_NOTIFICATION", response.data);
-          });
-      }
-      if (user == "facilitator") {
-        Vue.axios
-          .get(`${state.url}/get-notifications`, {
-            headers: {
-              Authorization: `Bearer ${state.facilitator.access_token}`,
-            },
-          })
-          .then((response) => {
-            commit("SET_NOTIFICATION", response.data);
-          });
-      }
+      // if (user == "organization") {
+      //   Vue.axios
+      //     .get(`${state.url}/get-notifications`, {
+      //       headers: {
+      //         Authorization: `Bearer ${state.organization.access_token}`,
+      //       },
+      //     })
+      //     .then((response) => {
+      //       commit("SET_NOTIFICATION", response.data);
+      //     });
+      // }
+      // if (user == "admin") {
+      //   Vue.axios
+      //     .get(`${state.url}/get-notifications`, {
+      //       headers: {
+      //         Authorization: `Bearer ${state.admin.access_token}`,
+      //       },
+      //     })
+      //     .then((response) => {
+      //       commit("SET_NOTIFICATION", response.data);
+      //     });
+      // }
+      // if (user == "facilitator") {
+      //   Vue.axios
+      //     .get(`${state.url}/get-notifications`, {
+      //       headers: {
+      //         Authorization: `Bearer ${state.facilitator.access_token}`,
+      //       },
+      //     })
+      //     .then((response) => {
+      //       commit("SET_NOTIFICATION", response.data);
+      //     });
+      // }
       if (user == "member") {
         Vue.axios
           .get(`${state.url}/get-notifications`, {

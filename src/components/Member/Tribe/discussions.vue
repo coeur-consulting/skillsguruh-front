@@ -194,7 +194,7 @@
                     <div>
                       <span class="mr-4 dis_ses"
                         ><b-icon icon="chat" class="mr-1"></b-icon>
-                        <span>{{ item.discussionmessage }}</span>
+                        <span>{{ item.commentCount }}</span>
                         answers</span
                       >
                       <span class="mr-4 dis_ses"
@@ -471,7 +471,7 @@ export default {
             .slice()
             // .filter((item) => item.type == "public")
             .sort((a, b) => {
-              return b.discussionmessage.length - a.discussionmessage.length;
+              return b.commentCount.length - a.commentCount.length;
             })
         );
       }
@@ -482,8 +482,8 @@ export default {
             // .filter((item) => item.type == "public")
             .sort((a, b) => {
               return (
-                (b.discussionview ? b.discussionview.view : 0) -
-                (a.discussionview ? a.discussionview.view : 0)
+                (b.discussionview ? b.discussionview : 0) -
+                (a.discussionview ? a.discussionview : 0)
               );
             })
             .filter((item) =>
@@ -502,7 +502,7 @@ export default {
       if (!this.$store.getters.tribe_info.tags) {
         return [];
       }
-      return JSON.parse(this.$store.getters.tribe_info.tags);
+      return this.$store.getters.tribe_info.tags;
     },
   },
   methods: {
@@ -631,9 +631,7 @@ export default {
         this.$toast.error("Fill all fields");
         return;
       }
-      this.discussion.category = JSON.parse(
-        this.$store.getters.tribe_info.category
-      );
+      this.discussion.category = this.$store.getters.tribe_info.category;
 
       this.$http
         .post(`${this.$store.getters.url}/discussions`, this.discussion, {
@@ -645,7 +643,6 @@ export default {
           if (res.status == 201) {
             this.$toast.success("Discussion created");
             this.getdiscussions();
-
             this.getdiscussionsbytrend();
             this.discussion = {
               name: "",
@@ -653,7 +650,7 @@ export default {
               type: "public",
               course: null,
               tags: [],
-              category: JSON.parse(this.$store.getters.tribe_info.category),
+              category: this.$store.getters.tribe_info.category,
               tribe_id: this.$store.getters.tribe,
             };
             this.$bvModal.hide("start");

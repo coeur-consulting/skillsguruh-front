@@ -149,6 +149,7 @@ export default {
       page: 1,
       banks: [],
       showdetails: false,
+      disable: false,
     };
   },
   components: {
@@ -227,7 +228,7 @@ export default {
         })
         .then((res) => {
           if (res.status === 201) {
-            this.$emit("response", res, "create");
+            this.$emit("response", "create");
             this.disable = false;
           }
         })

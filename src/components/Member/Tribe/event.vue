@@ -17,7 +17,97 @@
           "
         >
           <div class="event_content">
-            <h4 class="">{{ event.title }}</h4>
+            <h3 class="">{{ event.title }}</h3>
+          </div>
+        </div>
+        <div class="event_box shadow d-none d-md-block rounded">
+          <div class="d-flex justify-content-between">
+            <span class="font-weight-bold fs14 px-3 py-2 text-dark-green">
+              When & Where
+            </span>
+            <div class="mb-1 px-3 py-2">
+              <b-badge
+                class="text-capitalize"
+                :class="{
+                  'bg-success': event.status == 'ongoing',
+                  'bg-danger': event.status == 'expired',
+                  'bg-primary': event.status == 'pending',
+                }"
+                >{{ event.status }}</b-badge
+              >
+            </div>
+          </div>
+          <div class="d-flex justify-content-between border-top">
+            <div class="mb-1 px-3 py-1">
+              <span class="font-weight-bold font-sm text-dark-green"
+                >Event Type</span
+              >
+              <br />
+              <span class="fs14 text-capitalize"> {{ event.type }}</span>
+            </div>
+            <div class="mb-1 px-3 py-1">
+              <span class="font-weight-bold font-sm text-dark-green"
+                >Event Duration</span
+              >
+              <br />
+              <span class="fs14"> {{ event.schedule }}</span>
+            </div>
+          </div>
+          <div
+            class="px-3 py-2 bg-lighter-green d-flex justify-content-between"
+          >
+            <span
+              ><span class="font-weight-bold font-sm">Start</span>
+              <br />
+              <span class="fs12">
+                {{ event.start | moment(" MMM D YYYY, h:mm a") }}</span
+              >
+            </span>
+
+            <span>
+              <span class="font-weight-bold font-sm"> End</span>
+              <br />
+              <span class="fs12">
+                {{ event.end | moment(" MMM D YYYY, h:mm a") }}</span
+              ></span
+            >
+          </div>
+          <div class="d-flex justify-content-between">
+            <div class="px-3 py-2 fs15 bg-light">
+              <span class="font-weight-bold font-sm text-dark-green"
+                >Event Venue</span
+              >
+              <br />
+              <div class="fs13">{{ event.venue }}</div>
+            </div>
+
+            <div class="mb-1 px-3 py-2 fs15 bg-light" v-if="event.url">
+              <span class="font-weight-bold font-sm text-dark-green"
+                >Event Link</span
+              >
+              <br />
+
+              <div class="fs12">
+                <a :href="event.url" target="_blank">{{ event.url }}</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="share p-3 d-flex justify-content-between">
+            <span class="text-muted fs14">
+              <b-icon icon="people-fill" class="mr-2 text-muted"></b-icon>
+              {{ event.eventattendance.length }} Attending
+            </span>
+            <span>
+              <span
+                class="mr-3 fs12 cursor-pointer"
+                @click="$bvModal.show('share')"
+                >Share <b-icon icon="share-fill" font-scale=".9"></b-icon
+              ></span>
+              <span class="fs12 cursor-pointer" @click="$bvModal.show('invite')"
+                >Invite <b-icon icon="person-plus-fill" font-scale=".9"></b-icon
+              ></span>
+            </span>
           </div>
         </div>
       </b-col>
@@ -25,14 +115,30 @@
       <b-col cols="12" class="h-100 mb-5">
         <b-row>
           <b-col sm="7" class="pl-sm-0">
-            <div class="bg-white rounded text-left p-4">
-              <h5 class="font-weight-bold">ABOUT THIS EVENT</h5>
+            <div class="bg-white rounded text-left py-4 p-sm-4">
+              <h6 class="">ABOUT THIS EVENT</h6>
               <p>{{ event.description }}</p>
+              <div class="my-3" v-if="event.status == 'pending'">
+                <b-button
+                  size="sm"
+                  variant="dark-green"
+                  @click="attendEvent"
+                  v-if="!checkEvent && event.status == 'pending'"
+                  >I'll Be Attending</b-button
+                >
+                <b-button
+                  disabled
+                  size="sm"
+                  variant="dark-green"
+                  v-if="checkEvent && event.status == 'pending'"
+                  >You are Attending</b-button
+                >
+              </div>
             </div>
           </b-col>
           <b-col sm="5" class="pl-3 pr-sm-0">
             <div class="bg-white p-1 rounded">
-              <div v-if="event.resource">
+              <div v-if="event.resource" class="mb-2">
                 <video
                   controls
                   :src="event.resource"
@@ -59,11 +165,12 @@
                   ></a>
                 </div>
               </div>
-              <div class="event_box">
+
+              <div class="event_box d-md-none rounded mt-3">
                 <div class="d-flex justify-content-between">
-                  <p class="font-weight-bold px-3 py-2 text-dark-green">
+                  <span class="font-weight-bold fs14 px-3 py-2 text-dark-green">
                     When & Where
-                  </p>
+                  </span>
                   <div class="mb-1 px-3 py-2">
                     <b-badge
                       class="text-capitalize"
@@ -76,21 +183,22 @@
                     >
                   </div>
                 </div>
-                <div class="mb-1 px-3 py-1 border-bottom">
-                  <span class="font-weight-bold fs13 text-dark-green"
-                    >Event Type</span
-                  >
-                  <br />
-                  <span class="fs14 text-capitalize"> {{ event.type }}</span>
+                <div class="d-flex justify-content-between border-top">
+                  <div class="mb-1 px-3 py-1">
+                    <span class="font-weight-bold font-sm text-dark-green"
+                      >Event Type</span
+                    >
+                    <br />
+                    <span class="fs14 text-capitalize"> {{ event.type }}</span>
+                  </div>
+                  <div class="mb-1 px-3 py-1">
+                    <span class="font-weight-bold font-sm text-dark-green"
+                      >Event Duration</span
+                    >
+                    <br />
+                    <span class="fs14"> {{ event.schedule }}</span>
+                  </div>
                 </div>
-                <div class="mb-1 px-3 py-1">
-                  <span class="font-weight-bold fs13 text-dark-green"
-                    >Event Duration</span
-                  >
-                  <br />
-                  <span class="fs14"> {{ event.schedule }}</span>
-                </div>
-
                 <div
                   class="
                     px-3
@@ -101,60 +209,45 @@
                   "
                 >
                   <span
-                    ><span class="font-weight-bold fs13">Start</span>
+                    ><span class="font-weight-bold font-sm">Start</span>
                     <br />
-                    <span class="fs13">
-                      {{
-                        event.start | moment(" MMMM Do YYYY, h:mm:ss a")
-                      }}</span
+                    <span class="fs12">
+                      {{ event.start | moment(" MMM D YYYY, h:mm a") }}</span
                     >
                   </span>
 
                   <span>
-                    <span class="font-weight-bold fs13"> End</span>
+                    <span class="font-weight-bold font-sm"> End</span>
                     <br />
-                    <span class="fs13">
-                      {{ event.end | moment(" MMMM Do YYYY, h:mm:ss a") }}</span
+                    <span class="fs12">
+                      {{ event.end | moment(" MMM D YYYY, h:mm a") }}</span
                     ></span
                   >
                 </div>
-                <div class="px-3 py-2 fs15 bg-light">
-                  <span class="font-weight-bold fs13 text-dark-green"
-                    >Event Venue</span
-                  >
-                  <br />
-                  <div class="fs12">{{ event.venue }}</div>
-                </div>
+                <div class="d-flex justify-content-between">
+                  <div class="px-3 py-2 fs15 bg-light">
+                    <span class="font-weight-bold font-sm text-dark-green"
+                      >Event Venue</span
+                    >
+                    <br />
+                    <div class="fs13">{{ event.venue }}</div>
+                  </div>
 
-                <div class="mb-1 px-3 py-2 fs15 bg-light" v-if="event.url">
-                  <span class="font-weight-bold fs13 text-dark-green"
-                    >Event Link</span
-                  >
-                  <br />
+                  <div class="mb-1 px-3 py-2 fs15 bg-light" v-if="event.url">
+                    <span class="font-weight-bold font-sm text-dark-green"
+                      >Event Link</span
+                    >
+                    <br />
 
-                  <div class="fs12">
-                    <a :href="event.url" target="_blank">{{ event.url }}</a>
+                    <div class="fs12">
+                      <a :href="event.url" target="_blank">{{ event.url }}</a>
+                    </div>
                   </div>
                 </div>
-                <div class="my-3 px-3" v-if="event.status == 'pending'">
-                  <b-button
-                    block
-                    variant="dark-green"
-                    @click="attendEvent"
-                    v-if="!checkEvent && event.status == 'pending'"
-                    >I'll Be Attending</b-button
-                  >
-                  <b-button
-                    disabled
-                    block
-                    variant="dark-green"
-                    v-if="checkEvent && event.status == 'pending'"
-                    >You are Attending</b-button
-                  >
-                </div>
+
                 <div class="share p-3 d-flex justify-content-between">
                   <span class="text-muted fs14">
-                    <b-icon icon="people" class="mr-2 text-muted"></b-icon>
+                    <b-icon icon="people-fill" class="mr-2 text-muted"></b-icon>
                     {{ event.eventattendance.length }} Attending
                   </span>
                   <span>
@@ -309,7 +402,7 @@
         </div>
 
         <div class="connections p-3 border rounded">
-          <h6 class="mb-3 fs13 text-left">Connections</h6>
+          <h6 class="mb-3 font-sm text-left">Connections</h6>
           <div class="px-2 py-1 d-flex align-items-center search bg-light mb-3">
             <b-icon icon="search"></b-icon>
             <b-form-input
@@ -596,10 +689,15 @@ export default {
   position: relative;
 }
 .event_box {
+  position: absolute;
+  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35);
   border-radius: 1px;
   background: white;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 5%;
   z-index: 3;
-  width: 100%;
+  width: 300px;
 }
 .event_text {
   z-index: 2;
@@ -615,7 +713,7 @@ export default {
   z-index: 1;
 }
 .event_content {
-  width: 80%;
+  width: 55%;
 }
 span {
   line-height: 1.3;
@@ -626,9 +724,19 @@ span {
   left: 15px;
   z-index: 999;
 }
+.event_box {
+  z-index: 99;
+}
+.font-sm {
+  font-size: 0.65rem;
+}
 @media (max-width: 600px) {
   .shadow {
     box-shadow: unset !important;
+  }
+  .container {
+    height: auto;
+    overflow-y: unset;
   }
 }
 </style>

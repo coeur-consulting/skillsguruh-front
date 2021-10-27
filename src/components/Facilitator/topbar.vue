@@ -512,7 +512,7 @@ export default {
           item.facilitator_id == this.$store.getters.facilitator.id
         ) {
           info.admin = item.admin_info || null;
-          info.user = item.member_info || null;
+          info.user = item.receiver_info || null;
           info.facilitator = item.facilitator_info || null;
           info.message = item.message || null;
           info.time = item.created_at || null;

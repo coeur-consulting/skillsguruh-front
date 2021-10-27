@@ -300,8 +300,7 @@
                         py-1
                         border
                         rounded
-                        focus:outline-none
-                        focus:border-blue-300
+                        focus:outline-none focus:border-blue-300
                       "
                       :value="inputValue"
                       v-on="inputEvents"
@@ -324,8 +323,7 @@
                         py-1
                         border
                         rounded
-                        focus:outline-none
-                        focus:border-blue-300
+                        focus:outline-none focus:border-blue-300
                       "
                       :value="inputValue"
                       v-on="inputEvents"
@@ -391,7 +389,7 @@
               </b-form-group>
             </b-col>
           </b-form-row>
-          <b-form-row class="mb-2">
+          <!-- <b-form-row class="mb-2">
             <b-col sm="12" class="pr-sm-3">
               <b-form-group label="Add Facilitators to event (optional)">
                 <multi-select
@@ -410,7 +408,7 @@
                 </multi-select>
               </b-form-group>
             </b-col>
-          </b-form-row>
+          </b-form-row> -->
 
           <b-form-group class="mt-4">
             <div class="mb-3 text-center">
@@ -507,8 +505,7 @@
                         py-1
                         border
                         rounded
-                        focus:outline-none
-                        focus:border-blue-300
+                        focus:outline-none focus:border-blue-300
                       "
                       :value="inputValue"
                       v-on="inputEvents"
@@ -531,8 +528,7 @@
                         py-1
                         border
                         rounded
-                        focus:outline-none
-                        focus:border-blue-300
+                        focus:outline-none focus:border-blue-300
                       "
                       :value="inputValue"
                       v-on="inputEvents"

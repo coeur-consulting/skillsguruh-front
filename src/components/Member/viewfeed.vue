@@ -100,7 +100,7 @@
                       <b-col
                         cols="auto"
                         class="pr-2 pl-0"
-                        v-for="(tag, id) in JSON.parse(feed.tags)"
+                        v-for="(tag, id) in feed.tags"
                         :key="id"
                       >
                         <b-badge

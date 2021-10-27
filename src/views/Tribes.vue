@@ -342,8 +342,8 @@ export default {
     },
     edittribe(val) {
       this.tribe = val;
-      this.tribe.category = JSON.parse(val.category).value;
-      this.tribe.tags = JSON.parse(val.tags);
+      this.tribe.category = val.category.value;
+      this.tribe.tags = val.tags;
       this.$bvModal.show("edit");
     },
     createtribe() {

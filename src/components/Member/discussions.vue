@@ -558,8 +558,8 @@ export default {
   },
 
   mounted() {
-    this.getdiscussions();
-    this.getcustomdiscussions();
+    // this.getdiscussions();
+    // this.getcustomdiscussions();
     this.getdiscussionsbyinterest();
     this.getdiscussionsbytrend();
     this.mytags = Interest.map((item) => {
@@ -850,8 +850,7 @@ export default {
         .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Discussion created");
-            this.getdiscussions();
-            this.getcustomdiscussions();
+
             this.getdiscussionsbyinterest();
             this.getdiscussionsbytrend();
             this.discussion = {

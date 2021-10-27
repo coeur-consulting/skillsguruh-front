@@ -66,7 +66,13 @@
           </b-popover>
           <div class="tribe_box rounded" :id="`popover-${id}`">
             <div
-              class="d-flex align-items-center justify-content-center rounded"
+              class="
+                d-flex
+                align-items-center
+                justify-content-center
+                rounded
+                p-2
+              "
             >
               <span class="tribe_name text-white">{{ n.name }}</span>
             </div>
@@ -80,7 +86,7 @@
                 tribe_member_container
               "
             >
-              <span class="d-flex align-items-center fs14">
+              <span class="d-flex align-items-center fs13">
                 <span class="mr-1">{{ n.users }}</span>
                 <span class=""> {{ n.users > 1 ? "members" : "member" }}</span>
               </span>
@@ -267,8 +273,8 @@ export default {
       this.lastSelectItem = lastSelectItem;
     },
 
-    response(res) {
-      this.tribes.unshift(res.data.data);
+    response() {
+      this.getmytribe();
       this.$toast.success("Tribe Created");
       this.$bvModal.hide("start");
     },

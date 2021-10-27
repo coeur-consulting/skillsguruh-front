@@ -105,7 +105,9 @@
                       font-scale="1.2"
                       class="cursor-pointer"
                     ></b-icon>
-                    <span v-if="discussion.discussionvote">{{ vote }}</span>
+                    <span v-if="discussion.discussionvote">{{
+                      discussion.discussionvote
+                    }}</span>
                     <span v-else>0</span>
                     <b-icon
                       @click="dropvote"
@@ -123,7 +125,7 @@
                         <b-col
                           class="px-1"
                           cols="auto"
-                          v-for="(tag, id) in JSON.parse(discussion.tags)"
+                          v-for="(tag, id) in discussion.tags"
                           :key="id"
                         >
                           <b-badge
@@ -160,11 +162,7 @@
                   </div>
                   <div class="dis_set">
                     <span> by </span>
-                    <span
-                      v-if="discussion.admin"
-                      class="cursor-pointer text-dark-green"
-                      >{{ discussion.admin.name }}</span
-                    >
+
                     <span
                       v-if="discussion.user"
                       class="cursor-pointer text-dark-green hover_green"
@@ -172,16 +170,6 @@
                         $router.push(`/member/profile/${discussion.username}`)
                       "
                       >{{ discussion.user.username }}</span
-                    >
-                    <span
-                      v-if="discussion.facilitator"
-                      class="cursor-pointer text-dark-green hover_green"
-                      @click="
-                        $router.push(
-                          `/member/profile/f/${discussion.facilitator.id}`
-                        )
-                      "
-                      >{{ discussion.facilitator.username }}</span
                     >
                   </div>
                 </div>
@@ -346,44 +334,19 @@
                         <span class="">
                           <b-avatar
                             size="sm"
-                            :src="item.admin.profile"
-                            v-if="item.admin"
-                            class="mr-1 member"
-                          ></b-avatar>
-                          <b-avatar
-                            size="sm"
                             :src="item.user.profile"
                             v-if="item.user"
                             class="mr-1 member"
                           ></b-avatar>
-                          <b-avatar
-                            size="sm"
-                            :src="item.facilitator.profile"
-                            v-if="item.facilitator"
-                            class="mr-1 member"
-                          ></b-avatar>
                         </span>
-                        <span v-if="item.admin" class="fs13 cursor-pointer">{{
-                          item.admin.name
-                        }}</span>
+
                         <span
-                          c
                           v-if="item.user"
                           @click="
                             $router.push(`/member/profile/${item.username}`)
                           "
                           class="fs13 cursor-pointer hover_green"
                           >{{ item.user.username }}</span
-                        >
-                        <span
-                          v-if="item.facilitator"
-                          @click="
-                            $router.push(
-                              `/member/profile/f/${item.facilitator.id}`
-                            )
-                          "
-                          class="fs13 cursor-pointer hover_green"
-                          >{{ item.facilitator.username }}</span
                         >
                       </div>
                       <span> {{ $moment(item.created_at).fromNow() }}</span>
@@ -398,14 +361,10 @@
                       "
                     >
                       <span>
-                        <small
-                          class="mr-2"
-                          v-if="item.discussionmessagecomment.length"
-                          >{{ item.discussionmessagecomment.length }}
+                        <small class="mr-2"
+                          >{{ item.commentCount }}
                           {{
-                            item.discussionmessagecomment.length > 1
-                              ? "comments"
-                              : "comment"
+                            item.commentCount > 1 ? "comments" : "comment"
                           }}</small
                         >
                       </span>
@@ -1485,7 +1444,7 @@ export default {
         })
         .catch((err) => {
           this.$toast.error(err.response.data.message);
-          this.isDisabled = true;
+          this.isDisabled = false;
         });
     },
     toText(HTML) {

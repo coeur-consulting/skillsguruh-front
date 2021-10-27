@@ -1,22 +1,22 @@
 <template>
   <div>
     <b-container fluid>
-      <h5 class="text-center mb-4">Choose your interests</h5>
+      <h5 class="text-center mb-3">Choose your interests</h5>
       <div class="py-4 text-center">
         <b-form-input
           class="search"
+          size="sm"
           placeholder="Search interest"
           v-model="search"
           type="search"
         ></b-form-input>
       </div>
       <b-row class="mb-4">
-        <b-col
-          cols="6"
-          sm="4"
+        <div
           v-for="interest in filteredInterest"
           :key="interest.value"
           class="mb-4 px-1"
+          style="min-width: 140px"
         >
           <div
             class="
@@ -38,7 +38,7 @@
                 : 'disabled'
             "
           >
-            <span class="value_1"> {{ interest.value }}</span>
+            <span class="value_1 mr-4"> {{ interest.value }}</span>
 
             <b-icon
               v-if="selected_interests.includes(interest.value)"
@@ -51,13 +51,14 @@
               font-scale="1.2"
             ></b-icon>
           </div>
-        </b-col>
-        <b-col class="text-center" v-if="initial != 60">
-          <span @click="loadMore" class="fs12 cursor-pointer text-muted"
-            >Load more</span
-          >
-        </b-col>
+        </div>
       </b-row>
+
+      <div class="text-center" v-if="initial != 60">
+        <span @click="loadMore" class="fs12 cursor-pointer text-muted"
+          >Load more</span
+        >
+      </div>
 
       <div class="text-center my-4">
         <b-button
@@ -93,12 +94,10 @@ export default {
     this.interests = Interest;
 
     if (this.$props.type == "member") {
-      this.selected_interests =
-        JSON.parse(this.$store.getters.member.interests) || [];
+      this.selected_interests = this.$store.getters.member.interests || [];
     }
     if (this.$props.type == "facilitator") {
-      this.selected_interests =
-        JSON.parse(this.$store.getters.facilitator.interests) || [];
+      this.selected_interests = this.$store.getters.facilitator.interests || [];
     }
   },
   computed: {

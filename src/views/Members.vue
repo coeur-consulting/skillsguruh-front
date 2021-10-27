@@ -70,7 +70,7 @@
                 <div class="text-muted fs12 text-capitalize f_detail">
                   {{
                     item.interests
-                      ? JSON.parse(item.interests).length + " interests"
+                      ? item.interests.length + " interests"
                       : "0 intersts"
                   }}
                 </div>

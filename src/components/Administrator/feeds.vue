@@ -491,7 +491,7 @@
                         <b-col
                           cols="auto"
                           class="px-1"
-                          v-for="(tag, id) in JSON.parse(feed.tags)"
+                          v-for="(tag, id) in feed.tags"
                           :key="id"
                         >
                           <b-badge

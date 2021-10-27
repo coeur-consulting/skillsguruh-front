@@ -256,7 +256,7 @@
                               :class="
                                 item.feedcommentlikes ? 'text-danger' : ''
                               "
-                              @click="likecomment(item.id, index, feed.user.id)"
+                              @click="likecomment(item.id, index, item.user.id)"
                             ></b-icon>
                           </small>
                         </div>
@@ -309,7 +309,7 @@
                                       rep.id,
                                       id,
                                       index,
-                                      feed.user.id
+                                      rep.user.id
                                     )
                                   "
                                   font-scale=".8"
@@ -644,7 +644,7 @@
                           <b-col
                             cols="auto"
                             class="px-1"
-                            v-for="(tag, id) in JSON.parse(feed.tags)"
+                            v-for="(tag, id) in feed.tags"
                             :key="id"
                           >
                             <b-badge
@@ -783,7 +783,7 @@
                                   item.feedcommentlikes ? 'text-danger' : ''
                                 "
                                 @click="
-                                  likecomment(item.id, index, feed.user.id)
+                                  likecomment(item.id, index, item.user.id)
                                 "
                               ></b-icon>
                             </small>
@@ -1124,13 +1124,13 @@ export default {
   computed: {
     filteredFeeds() {
       var feeds = [];
-      if (this.feedShown == "recent") {
+      if (this.feedShown == "recent" && this.recentfeeds.length) {
         feeds = this.recentfeeds;
       }
-      if (this.feedShown == "trending") {
+      if (this.feedShown == "trending" && this.trendingfeeds.length) {
         feeds = this.trendingfeeds;
       }
-      if (this.feedShown == "custom") {
+      if (this.feedShown == "custom" && this.customfeeds.length) {
         feeds = this.customfeeds;
       }
 
@@ -1156,6 +1156,9 @@ export default {
     this.getcustomfeeds();
     this.gettrendingfeeds();
     this.getrecentfeeds();
+  },
+  watch: {
+    feedShown: "toggleFeeds",
   },
   directives: {
     focus: {
@@ -1193,7 +1196,7 @@ export default {
         )
         .then((res) => {
           if (this.allcomments) {
-            if (res.status === 201) {
+            if (res.data === "success") {
               this.allcomments.comments[index].feedcommentlikes = res.data;
             } else {
               this.allcomments.comments[index].feedcommentlikes = null;
@@ -1219,7 +1222,7 @@ export default {
           }
         )
         .then((res) => {
-          if (res.status === 201) {
+          if (res.data === "success") {
             this.allcomments.comments[idx].feedcommentreplies[
               index
             ].feedcommentreplylikes = res.data;
@@ -1425,6 +1428,17 @@ export default {
     toggle(id) {
       console.log("🚀 ~ file: feeds.vue ~ line 967 ~ toggle ~ id", id);
     },
+    toggleFeeds() {
+      if (this.feedShown == "recent") {
+        this.recentfeeds();
+      }
+      if (this.feedShown == "custom") {
+        this.customfeeds();
+      }
+      if (this.feedShown == "trending") {
+        this.trendingfeeds();
+      }
+    },
     sharenow(feed) {
       this.description = this.toText(feed.message);
       this.link = `https://nzukoor.com/explore/feed/view/${feed.id}?utf_medium=share`;
@@ -1550,7 +1564,9 @@ export default {
         })
         .then((res) => {
           if (res.status == 201 || res.status == 200) {
-            this.customfeeds = res.data.data;
+            if (res.data !== "empty") {
+              this.customfeeds = res.data.data;
+            }
           }
         })
         .catch((err) => {
@@ -1566,7 +1582,10 @@ export default {
         })
         .then((res) => {
           if (res.status == 201 || res.status == 200) {
-            this.recentfeeds = res.data.data;
+            if (res.data !== "empty") {
+              this.recentfeeds = res.data.data;
+            }
+
             this.showFeeds = true;
           }
         })
@@ -1720,7 +1739,7 @@ export default {
       this.feed.id = feed.id;
       this.feed.media = feed.media;
       this.feed.publicId = feed.publicId;
-      this.feed.tags = JSON.parse(feed.tags);
+      this.feed.tags = feed.tags;
       this.$bvModal.show("editfeed");
     },
     drop(id, index) {

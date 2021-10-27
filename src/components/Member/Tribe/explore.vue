@@ -247,7 +247,7 @@
                     <b-badge
                       class="text-white d-flex align-items-center"
                       :style="{
-                        backgroundColor: JSON.parse(item.category).color,
+                        backgroundColor: item.category.color,
                       }"
                     >
                       <b-icon
@@ -255,7 +255,7 @@
                         class="mr-1"
                         font-scale=".5"
                       ></b-icon>
-                      {{ JSON.parse(item.category).value }}</b-badge
+                      {{ item.category.value }}</b-badge
                     >
                   </span>
 
@@ -387,7 +387,7 @@
                       <b-badge
                         class="text-white d-flex align-items-center"
                         :style="{
-                          backgroundColor: JSON.parse(item.category).color,
+                          backgroundColor: item.category.color,
                         }"
                       >
                         <b-icon
@@ -395,7 +395,7 @@
                           class="mr-1"
                           font-scale=".5"
                         ></b-icon>
-                        {{ JSON.parse(item.category).value }}</b-badge
+                        {{ item.category.value }}</b-badge
                       >
                     </span>
 
@@ -616,7 +616,7 @@
                           <b-col
                             cols="auto"
                             class="px-1"
-                            v-for="(tag, id) in JSON.parse(feed.tags)"
+                            v-for="(tag, id) in feed.tags"
                             :key="id"
                           >
                             <b-badge

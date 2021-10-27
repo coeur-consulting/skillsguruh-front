@@ -43,9 +43,17 @@
           </b-popover>
           <div class="tribe_box rounded" :id="`popover-${id}`">
             <div
-              class="d-flex align-items-center justify-content-center rounded"
+              class="
+                d-flex
+                align-items-center
+                justify-content-center
+                rounded
+                p-2
+              "
             >
-              <span class="tribe_name text-white">{{ n.name }}</span>
+              <span class="tribe_name text-center text-white">{{
+                n.name
+              }}</span>
             </div>
 
             <div
@@ -57,12 +65,12 @@
                 tribe_member_container
               "
             >
-              <span class="d-flex align-items-center fs14">
+              <span class="d-flex align-items-center fs13">
                 <span class="mr-1">{{ n.users }}</span>
                 <span class=""> {{ n.users > 1 ? "members" : "member" }}</span>
               </span>
               <b-dropdown
-                v-if="n.is_owner"
+                v-if="n.isOwner"
                 size="sm"
                 variant="transparent"
                 no-caret
@@ -230,15 +238,13 @@ export default {
       this.tribe.type = val.type;
       this.tribe.description = val.description;
       this.tribe.amount = val.amount;
-      this.tribe.category = JSON.parse(val.category)
-        ? JSON.parse(val.category)
-        : null;
-      this.tribe.tags = JSON.parse(val.tags);
+      this.tribe.category = val.category ? val.category : null;
+      this.tribe.tags = val.tags;
       this.$bvModal.show("edit");
     },
-    response(res, type) {
+    response(type) {
       if (type == "create") {
-        this.tribes.unshift(res.data.data.data);
+        this.getmytribe();
         this.$toast.success("Tribe Created");
         this.$bvModal.hide("start");
       }

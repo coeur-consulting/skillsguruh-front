@@ -200,7 +200,7 @@
                                 (allcomments.user &&
                                   allcomments.user.id ==
                                     $store.getters.member.id) ||
-                                $store.getters.member.id == item.user.id
+                                  $store.getters.member.id == item.user.id
                               "
                             >
                               <b-icon
@@ -307,7 +307,7 @@
                   cols="6"
                   class="comment d-flex text-left mb-2"
                   v-for="(item, index) in alllikes.likes.filter(
-                    (val) => val.like
+                    val => val.like
                   )"
                   :key="index"
                 >
@@ -500,8 +500,8 @@
                           <b-dropdown-item
                             v-if="
                               checkpost(feed.message) &&
-                              feed.user &&
-                              feed.user.id == $store.getters.member.id
+                                feed.user &&
+                                feed.user.id == $store.getters.member.id
                             "
                             class="fs12"
                             @click="editfeed(feed, index)"
@@ -513,7 +513,7 @@
                             @click="drop(feed.id, index)"
                             v-if="
                               feed.user &&
-                              feed.user.id == $store.getters.member.id
+                                feed.user.id == $store.getters.member.id
                             "
                             >Delete</b-dropdown-item
                           >
@@ -545,7 +545,7 @@
                           <cld-image
                             v-if="
                               feed.publicId &&
-                              img_ext.includes(getextension(feed.media))
+                                img_ext.includes(getextension(feed.media))
                             "
                             :publicId="feed.publicId"
                             @dblclick="toggleLike(feed.id, index)"
@@ -559,8 +559,8 @@
                           <b-img
                             v-if="
                               !feed.publicId &&
-                              feed.media &&
-                              img_ext.includes(getextension(feed.media))
+                                feed.media &&
+                                img_ext.includes(getextension(feed.media))
                             "
                             @dblclick="toggleLike(feed.id, index)"
                             class="img_feed"
@@ -571,7 +571,7 @@
                             controls
                             v-if="
                               feed.publicId &&
-                              vid_ext.includes(getextension(feed.media))
+                                vid_ext.includes(getextension(feed.media))
                             "
                             :publicId="feed.publicId"
                           >
@@ -583,7 +583,7 @@
                             controls
                             v-if="
                               feed.media &&
-                              aud_ext.includes(getextension(feed.media))
+                                aud_ext.includes(getextension(feed.media))
                             "
                             :src="feed.media"
                             class="fluid-grow"
@@ -591,7 +591,7 @@
                           <div
                             v-if="
                               feed.media &&
-                              doc_ext.includes(getextension(feed.media))
+                                doc_ext.includes(getextension(feed.media))
                             "
                             class="text-center p-3 p-sm-4 bg-skills-grey"
                           >
@@ -610,7 +610,7 @@
                             <b-col
                               cols="auto"
                               class="px-1"
-                              v-for="(tag, id) in JSON.parse(feed.tags)"
+                              v-for="(tag, id) in feed.tags"
                               :key="id"
                             >
                               <b-badge
@@ -637,9 +637,9 @@
                             font-scale="1.3"
                             :icon="
                               feed.likes
-                                .filter((item) => item.like)
+                                .filter(item => item.like)
                                 .find(
-                                  (item) =>
+                                  item =>
                                     item.user_id == $store.getters.member.id
                                 )
                                 ? 'heart-fill'
@@ -647,9 +647,9 @@
                             "
                             :class="
                               feed.likes
-                                .filter((item) => item.like)
+                                .filter(item => item.like)
                                 .find(
-                                  (item) =>
+                                  item =>
                                     item.user_id == $store.getters.member.id
                                 )
                                 ? 'text-danger'
@@ -744,7 +744,7 @@
                                 v-if="
                                   (feed.user &&
                                     feed.user.id == $store.getters.member.id) ||
-                                  $store.getters.member.id == item.user.id
+                                    $store.getters.member.id == item.user.id
                                 "
                               >
                                 <b-icon
@@ -834,9 +834,8 @@
                                         <h5>{{ category }}</h5>
                                         <div class="emojis">
                                           <span
-                                            v-for="(
-                                              emoji, emojiName
-                                            ) in emojiGroup"
+                                            v-for="(emoji,
+                                            emojiName) in emojiGroup"
                                             :key="emojiName"
                                             @click="insert(emoji)"
                                             :title="emojiName"
@@ -1064,7 +1063,7 @@ export default {
         media: "",
         message: "",
         publicId: "",
-        tags: [],
+        tags: []
       },
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp", "flv", "mov"],
@@ -1072,13 +1071,13 @@ export default {
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       comment: {
         comment: "",
-        id: "",
+        id: ""
       },
       mini_info: {
         id: "",
         name: "",
         type: "",
-        profile: "",
+        profile: ""
       },
       showFeeds: false,
 
@@ -1088,7 +1087,7 @@ export default {
       page: 1,
       trendingFeed: [],
       alllikes: null,
-      toggleOn: null,
+      toggleOn: null
     };
   },
   components: {
@@ -1096,14 +1095,14 @@ export default {
     FeedUpload,
     MultiSelect,
     Suggestions,
-    Feelings,
+    Feelings
   },
   directives: {
     focus: {
       inserted(el) {
         el.focus();
-      },
-    },
+      }
+    }
   },
   mounted() {
     if (
@@ -1115,7 +1114,7 @@ export default {
     this.getfeeds();
     this.getTrendingFeeds();
     this.gettrendingfeeds();
-    this.options = Interest.map((item) => {
+    this.options = Interest.map(item => {
       var res = {};
       res.text = item.value;
       res.value = item.value;
@@ -1164,7 +1163,7 @@ export default {
         return this.$store.getters.member;
       }
       return token;
-    },
+    }
   },
   methods: {
     handleChange() {},
@@ -1181,7 +1180,7 @@ export default {
       this.$bvModal.show("alllikes");
     },
     getlikes(item) {
-      var arr = item.filter((val) => val.like);
+      var arr = item.filter(val => val.like);
       var first = {};
       var check = null;
       first = arr.slice().shift();
@@ -1218,7 +1217,7 @@ export default {
       if (arr.length > 1) {
         if (this.$store.getters.member.access_token) {
           check = arr.some(
-            (val) => val.user_id && val.user.id == this.$store.getters.member.id
+            val => val.user_id && val.user.id == this.$store.getters.member.id
           );
           if (check) {
             result = `Liked by you and ${arr.length - 1} others`;
@@ -1231,9 +1230,8 @@ export default {
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.name} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${first.facilitator.name} and  ${arr.length -
+                1} ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.admin) {
@@ -1246,7 +1244,7 @@ export default {
         }
         if (this.$store.getters.facilitator.access_token) {
           check = arr.some(
-            (val) =>
+            val =>
               val.facilitator_id &&
               val.facilitator.id == this.$store.getters.facilitator.id
           );
@@ -1261,9 +1259,8 @@ export default {
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.name} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${first.facilitator.name} and  ${arr.length -
+                1} ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.admin) {
@@ -1276,7 +1273,7 @@ export default {
         }
         if (this.$store.getters.admin.access_token) {
           check = arr.some(
-            (val) => val.admin && val.admin.id == this.$store.getters.admin.id
+            val => val.admin && val.admin.id == this.$store.getters.admin.id
           );
           if (check) {
             result = `Liked by you and ${arr.length - 1} others`;
@@ -1289,9 +1286,8 @@ export default {
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.name} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${first.facilitator.name} and  ${arr.length -
+                1} ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.admin) {
@@ -1315,19 +1311,19 @@ export default {
     gettrendingfeeds() {
       this.$http
         .get(`${this.$store.getters.url}/trending/feeds`)
-        .then((res) => {
+        .then(res => {
           if (res.status == 201 || res.status == 200) {
             this.trendingfeeds = res.data.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     getTrendingFeeds() {
       this.$http
         .get(`${this.$store.getters.url}/guest/trending/feeds`)
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.trendingFeed = res.data;
           }
@@ -1336,7 +1332,7 @@ export default {
     infiniteHandler($state) {
       this.$http
         .get(`${this.$store.getters.url}/guest/feeds?page=${this.page}`)
-        .then((res) => {
+        .then(res => {
           if (res.data.data.length) {
             this.page += 1;
             this.feeds.push(...res.data.data);
@@ -1392,14 +1388,14 @@ export default {
     getfeeds() {
       this.$http
         .get(`${this.$store.getters.url}/guest/feeds?page=${this.page}`)
-        .then((res) => {
+        .then(res => {
           if (res.status == 201 || res.status == 200) {
             this.feeds = res.data.data;
             this.showFeeds = true;
             this.rows = res.data.data.length;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1415,10 +1411,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
           headers: {
-            Authorization: `Bearer ${this.usertoken.access_token}`,
-          },
+            Authorization: `Bearer ${this.usertoken.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Feed Updated ");
             this.$bvModal.hide("feed");
@@ -1428,11 +1424,11 @@ export default {
               media: "",
               message: "",
               publicId: "",
-              tags: [],
+              tags: []
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1452,10 +1448,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/feed-comments`, this.comment, {
           headers: {
-            Authorization: `Bearer ${this.usertoken.access_token}`,
-          },
+            Authorization: `Bearer ${this.usertoken.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.$toast.success("Comment updated ");
 
@@ -1464,11 +1460,11 @@ export default {
 
             this.comment = {
               comment: "",
-              id: "",
+              id: ""
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1483,18 +1479,18 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.usertoken.access_token}`,
-            },
+              Authorization: `Bearer ${this.usertoken.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.likeimage(index);
             this.filteredFeeds[index].likes.push(res.data);
           }
           if (res.status == 200) {
             this.likeimage(index);
-            this.filteredFeeds[index].likes.map((item) => {
+            this.filteredFeeds[index].likes.map(item => {
               if (this.$store.getters.facilitator.access_token) {
                 if (item.facilitator_id == this.$store.getters.facilitator.id) {
                   return (item.like = res.data.like);
@@ -1508,7 +1504,7 @@ export default {
             });
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1523,16 +1519,16 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.usertoken.access_token}`,
-            },
+              Authorization: `Bearer ${this.usertoken.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.filteredFeeds[index].stars.push(res.data);
           }
           if (res.status == 200) {
-            this.filteredFeeds[index].stars.map((item) => {
+            this.filteredFeeds[index].stars.map(item => {
               if (this.$store.getters.facilitator.access_token) {
                 if (item.facilitator_id == this.$store.getters.facilitator.id) {
                   return (item.like = res.data.like);
@@ -1546,12 +1542,12 @@ export default {
             });
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
-    drop() {},
-  },
+    drop() {}
+  }
 };
 </script>
 <style scoped lang="scss">

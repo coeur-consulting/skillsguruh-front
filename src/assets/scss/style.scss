@@ -224,6 +224,7 @@ h5#alllikes___BV_modal_title_ {
 }
 .tribe_name {
   font-weight: 500;
+  font-size: 0.95rem;
 }
 .feedcommentavatar {
   width: 15px;
@@ -366,7 +367,11 @@ h5#alllikes___BV_modal_title_ {
   align-items: center;
   border-radius: 50rem;
   background: white;
-  bottom: 23%;
+  bottom: 18%;
+  .b-avatar {
+    width: 85%;
+    height: 85%;
+  }
 }
 .tribe_members span {
   font-size: 0.8em;
@@ -918,7 +923,7 @@ ol.subquest {
   font-size: 0.7rem;
 }
 .comment_mins {
-  font-size: 0.65rem;
+  font-size: 0.52rem;
 }
 .comment_post {
   font-size: 0.9rem;

@@ -116,7 +116,7 @@
                         <b-col
                           class="px-1"
                           cols="auto"
-                          v-for="(tag, id) in JSON.parse(discussion.tags)"
+                          v-for="(tag, id) in discussion.tags"
                           :key="id"
                         >
                           <b-badge

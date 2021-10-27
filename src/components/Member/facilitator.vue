@@ -83,9 +83,9 @@
                           v-if="detail.interests"
                           @click="$bvModal.show('interests')"
                         >
-                          {{ JSON.parse(detail.interests).length }}
+                          {{ detail.interests.length }}
                           {{
-                            JSON.parse(detail.interests).length > 1
+                            detail.interests.length > 1
                               ? "interests"
                               : "interest"
                           }}
@@ -368,7 +368,7 @@
                                   <b-col
                                     cols="auto"
                                     class="px-1"
-                                    v-for="(tag, id) in JSON.parse(feed.tags)"
+                                    v-for="(tag, id) in feed.tags"
                                     :key="id"
                                   >
                                     <b-badge
@@ -534,7 +534,7 @@
                                           likecomment(
                                             item.id,
                                             index,
-                                            feed.user.id
+                                            item.user.id
                                           )
                                         "
                                       ></b-icon>
@@ -1441,8 +1441,8 @@
       cancel-disabled
     >
       <div>
-        <div class="text-center" v-if="JSON.parse(detail.interests).length">
-          <div v-for="(interest, id) in JSON.parse(detail.interests)" :key="id">
+        <div class="text-center" v-if="detail.interests.length">
+          <div v-for="(interest, id) in detail.interests" :key="id">
             <b-button class="mb-2">
               {{ interest }}
             </b-button>
@@ -1747,7 +1747,7 @@ export default {
         .then((res) => {
           this.getFeeds();
           if (this.allcomments) {
-            if (res.status === 201) {
+            if (res.data === "success") {
               this.allcomments.comments[index].feedcommentlikes = res.data;
             } else {
               this.allcomments.comments[index].feedcommentlikes = null;
@@ -1774,7 +1774,7 @@ export default {
           }
         )
         .then((res) => {
-          if (res.status === 201) {
+          if (res.data === "success") {
             this.allcomments.comments[idx].feedcommentreplies[
               index
             ].feedcommentreplylikes = res.data;

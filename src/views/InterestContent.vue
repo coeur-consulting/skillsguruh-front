@@ -189,7 +189,7 @@
                                 >
                                   {{
                                     item.interests
-                                      ? JSON.parse(item.interests).length +
+                                      ? item.interests.length +
                                         " interests"
                                       : "0 intersts"
                                   }},
@@ -256,7 +256,7 @@
                                 >
                                   {{
                                     item.interests
-                                      ? JSON.parse(item.interests).length +
+                                      ? item.interests.length +
                                         " interests"
                                       : "0 intersts"
                                   }},

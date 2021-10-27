@@ -125,9 +125,7 @@
           </div>
         </div>
         <div class="d-flex w-100 mb-3">
-          <div class="mr-2">
-            <b-skeleton type="avatar"></b-skeleton>gin
-          </div>
+          <div class="mr-2"><b-skeleton type="avatar"></b-skeleton>gin</div>
           <div class="w-100">
             <b-skeleton animation="wave" width="85%"></b-skeleton>
             <b-skeleton animation="wave" width="35%"></b-skeleton>
@@ -243,7 +241,7 @@ export default {
         if (this.$props.user == "member") {
           if (item.user_id && item.user_id == this.useraccess.id) {
             info.admin = item.admin_info;
-            info.user = item.member_info;
+            info.user = item.receiver_info;
             info.facilitator = item.facilitator_info;
             info.message = item.message;
             info.time = item.created_at;
@@ -276,7 +274,7 @@ export default {
             item.facilitator_id == this.useraccess.id
           ) {
             info.admin = item.admin_info;
-            info.user = item.member_info;
+            info.user = item.receiver_info;
             info.facilitator = item.facilitator_info;
             info.message = item.message;
             info.time = item.created_at;
@@ -306,7 +304,7 @@ export default {
         if (this.$props.user == "admin") {
           if (item.admin_id && item.admin_id == this.useraccess.id) {
             info.admin = item.admin_info;
-            info.user = item.member_info;
+            info.user = item.receiver_info;
             info.facilitator = item.facilitator_info;
             info.message = item.message;
             info.time = item.created_at;

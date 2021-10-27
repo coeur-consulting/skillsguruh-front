@@ -15,7 +15,6 @@
               <div class="content px-2 py-3 pt-4 pb-3">
                 <div class="top_dis d-flex align-items-center mb-2">
                   <div class="side_dis">
-
                     <b-avatar
                       class="starter"
                       @click="
@@ -88,7 +87,7 @@
                       <b-row>
                         <b-col
                           cols="auto"
-                          v-for="(tag, id) in JSON.parse(discussion.tags)"
+                          v-for="(tag, id) in discussion.tags"
                           :key="id"
                         >
                           <b-badge

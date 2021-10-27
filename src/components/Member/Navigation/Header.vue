@@ -108,7 +108,7 @@
         class="align-items-center justify-content-end flex-row"
         v-if="useraccess"
       >
-        <b-nav-item class="position-relative last_nav">
+        <b-nav-item class="position-relative last_nav mr-2">
           <div class="position-relative">
             <font-awesome-layers class="fa-2x" id="notifybell">
               <font-awesome-icon :icon="circle" class="text-lighter-green" />
@@ -128,7 +128,7 @@
             </span>
           </div>
         </b-nav-item>
-        <b-nav-item class="last_nav">
+        <b-nav-item class="last_nav mr-2">
           <div class="position-relative">
             <font-awesome-layers class="fa-2x" id="inbox">
               <font-awesome-icon :icon="circle" class="text-lighter-green" />
@@ -744,7 +744,7 @@ export default {
         var info = {};
 
         if (item.user_id && item.user_id == this.$store.getters.member.id) {
-          info.user = item.member_info || null;
+          info.user = item.receiver_info || null;
           info.message = item.message || null;
           info.time = item.created_at || null;
           info.status = item.status;

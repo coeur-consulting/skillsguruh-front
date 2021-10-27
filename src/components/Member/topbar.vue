@@ -446,7 +446,7 @@ export default {
 
         if (item.user_id && item.user_id == this.$store.getters.member.id) {
           info.admin = item.admin_info || null;
-          info.user = item.member_info || null;
+          info.user = item.receiver_info || null;
           info.facilitator = item.facilitator_info || null;
           info.message = item.message || null;
           info.time = item.created_at || null;

@@ -688,7 +688,7 @@ export default {
         if (this.user == "admin") {
           if (item.admin_id && item.admin_id == this.useraccess.id) {
             info.admin = item.admin_info || null;
-            info.user = item.member_info || null;
+            info.user = item.receiver_info || null;
             info.facilitator = item.facilitator_info || null;
             info.message = item.message || null;
             info.time = item.created_at || null;
@@ -710,7 +710,7 @@ export default {
             item.facilitator_id == this.useraccess.id
           ) {
             info.admin = item.admin_info || null;
-            info.user = item.member_info || null;
+            info.user = item.receiver_info || null;
             info.facilitator = item.facilitator_info || null;
             info.message = item.message || null;
             info.time = item.created_at || null;
@@ -729,7 +729,7 @@ export default {
         if (this.user == "member") {
           if (item.user_id && item.user_id == this.useraccess.id) {
             info.admin = item.admin_info || null;
-            info.user = item.member_info || null;
+            info.user = item.receiver_info || null;
             info.facilitator = item.facilitator_info || null;
             info.message = item.message || null;
             info.time = item.created_at || null;

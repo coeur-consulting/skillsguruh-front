@@ -172,10 +172,8 @@ export default {
   methods: {
     setDiscussion() {
       this.discussion = this.$props.information;
-      this.discussion.category = JSON.parse(
-        this.$props.information.category
-      ).value;
-      this.discussion.tags = JSON.parse(this.$props.information.tags);
+      this.discussion.category = this.$props.information.category.value;
+      this.discussion.tags = this.$props.information.tags;
     },
     getcustomdiscussions() {
       this.$http
