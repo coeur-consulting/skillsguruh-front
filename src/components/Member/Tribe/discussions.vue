@@ -170,12 +170,7 @@
                         ont-scale="1.2"
                         class="text-muted"
                       ></b-icon>
-                      <span v-if="item.discussionvote">
-                        <span v-if="item.discussionvote > 0">+</span>
-                        <span v-if="item.discussionvote < 0">-</span
-                        >{{ item.discussionvote }}</span
-                      >
-                      <span v-else>0</span>
+                      <span> {{ item.discussionvote }}</span>
 
                       <b-icon
                         icon="caret-down-fill"

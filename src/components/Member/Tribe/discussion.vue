@@ -207,259 +207,312 @@
                     v-for="(item, index) in filteredDiscussion"
                     :key="index"
                   >
-                    <span v-if="item.message" class="text2speech">
-                      <text-to-speech
-                        :text="toText(item.message)"
-                        :voice="voices"
-                      ></text-to-speech>
-                    </span>
-                    <div>
-                      <p
-                        class="discusion_text"
-                        v-if="item.message"
-                        v-html="highlightText(item.message)"
-                      ></p>
+                    <div class="d-flex align-items-start">
                       <div
-                        class="text-center"
-                        v-if="
-                          item.attachment &&
-                          img_ext.includes(getextension(item.attachment))
+                        class="
+                          side_dis
+                          d-flex
+                          flex-column
+                          align-items-center
+                          justify-content-center
+                          text-center
+                          vote
                         "
                       >
-                        <div class="image">
-                          <a
-                            download=""
-                            target="_blank"
-                            :href="item.attachment"
-                          >
-                            <cld-image
-                              v-if="item.publicId"
-                              :publicId="item.publicId"
-                              width="250"
-                              crop="fill"
-                            >
-                              <cld-transformation radius="20" />
-                            </cld-image>
-                          </a>
-                        </div>
-                      </div>
-
-                      <div class="document text-center mb-2" v-else>
-                        <a download="" target="_blank" :href="item.attachment">
-                          <div
-                            v-if="
-                              item.attachment &&
-                              vid_ext.includes(getextension(item.attachment))
-                            "
-                            class="p-1 rounded cursor-pointer"
-                          >
-                            <cld-video
-                              class="mx-auto"
-                              controls
-                              v-if="item.publicId"
-                              :publicId="item.publicId"
-                              width="250"
-                              crop="fill"
-                            >
-                              <cld-transformation />
-                            </cld-video>
-                          </div>
-                          <div
-                            v-if="
-                              item.attachment &&
-                              aud_ext.includes(getextension(item.attachment))
-                            "
-                            class="
-                              p-1
-                              bg-lighter-green
-                              d-flex
-                              align-items-center
-                              rounded
-                              cursor-pointer
-                            "
-                          >
-                            <cld-video
-                              controls
-                              v-if="item.publicId"
-                              :publicId="item.publicId"
-                              crop="fill"
-                            >
-                              <cld-transformation />
-                            </cld-video>
-                          </div>
-                          <div
-                            v-if="
-                              item.attachment &&
-                              doc_ext.includes(getextension(item.attachment))
-                            "
-                            class="
-                              p-1
-                              bg-lighter-green
-                              d-flex
-                              align-items-center
-                              rounded
-                              cursor-pointer
-                            "
-                          >
-                            <div
-                              class="bg-dark-green text-center rounded p-2 mr-3"
-                            >
-                              <b-icon
-                                icon="file-earmark-ruled-fill"
-                                variant="white"
-                                font-scale="2rem"
-                              ></b-icon>
-                            </div>
-                            <div
-                              class="
-                                d-flex
-                                align-items-center
-                                p-2
-                                justify-content-center
-                                text-dark
-                                fs15
-                              "
-                            >
-                              Download File
-                            </div>
-                          </div>
-                        </a>
-                      </div>
-                    </div>
-
-                    <div
-                      class="d-flex justify-content-between align-items-center"
-                    >
-                      <div class="d-flex align-items-center">
-                        <span class="">
-                          <b-avatar
-                            size="sm"
-                            :src="item.user.profile"
-                            v-if="item.user"
-                            class="mr-1 member"
-                          ></b-avatar>
-                        </span>
-
-                        <span
-                          v-if="item.user"
-                          @click="
-                            $router.push(`/member/profile/${item.username}`)
-                          "
-                          class="fs13 cursor-pointer hover_green"
-                          >{{ item.user.username }}</span
-                        >
-                      </div>
-                      <span> {{ $moment(item.created_at).fromNow() }}</span>
-                    </div>
-                    <div
-                      class="
-                        mt-3
-                        mb-2
-                        text-right
-                        d-flex
-                        justify-content-between
-                      "
-                    >
-                      <span>
-                        <small class="mr-2"
-                          >{{ item.commentCount }}
-                          {{
-                            item.commentCount > 1 ? "comments" : "comment"
-                          }}</small
-                        >
-                      </span>
-                      <span
-                        ><small
-                          class="cursor-pointer mr-2"
-                          @click="addmessagecomment(item, index)"
-                        >
-                          <b-icon icon="arrow-counterclockwise"></b-icon> Reply
-                        </small>
-
-                        <small
+                        <b-icon
+                          @click="votemessage(item.id, true, index)"
+                          icon="caret-up-fill"
+                          font-scale="1.2"
                           class="cursor-pointer"
-                          v-if="
-                            item.user &&
-                            item.user.id !== $store.getters.member.id
-                          "
-                          @click="handleReport(item.id, 'discussionmessage')"
-                        >
-                          <b-icon icon="caution"></b-icon> Report
-                        </small></span
-                      >
-                    </div>
-                    <div
-                      class="
-                        bg-white
-                        rounded
-                        p-3
-                        message_comment
-                        position-relative
-                      "
-                      v-if="item.discussionmessagecomment.length"
-                    >
-                      <span class="mytext">
-                        <text-to-speech
-                          :text="replies(item.discussionmessagecomment)"
-                          :voice="voices"
-                        ></text-to-speech
-                      ></span>
-                      <div
-                        v-for="(
-                          reply, index
-                        ) in item.discussionmessagecomment.slice(0, 2)"
-                        :key="index"
-                        class="mb-1 d-flex align-items-start"
-                      >
-                        <div class="d-flex flex-1">
-                          <b-avatar
-                            v-if="reply.admin"
-                            size="sm"
-                            :src="reply.admin.profile"
-                            class="mr-1 message_comment_avatar"
-                          ></b-avatar>
-                          <b-avatar
-                            v-if="reply.facilitator"
-                            size="sm"
-                            :src="reply.facilitator.profile"
-                            class="mr-1 message_comment_avatar"
-                          ></b-avatar>
-                          <b-avatar
-                            v-if="reply.user"
-                            size="sm"
-                            :src="reply.user.profile"
-                            class="mr-1 message_comment_avatar"
-                          ></b-avatar>
-                          <span>
-                            <span
-                              v-if="reply.user"
-                              @click="
-                                $router.push(
-                                  `/member/profile/${reply.user.username}`
-                                )
-                              "
-                              class="message_comment_name mr-1"
-                              >{{ reply.user.username }}</span
+                        ></b-icon>
+                        <span>{{ item.discussionmessagevote }}</span>
+
+                        <b-icon
+                          @click="votemessage(item.id, false, index)"
+                          icon="caret-down-fill"
+                          font-scale="1.2"
+                          class="cursor-pointer"
+                        ></b-icon>
+                      </div>
+                      <div class="position-relative flex-1">
+                        <span v-if="item.message" class="text2speech">
+                          <text-to-speech
+                            :text="toText(item.message)"
+                            :voice="voices"
+                          ></text-to-speech>
+                        </span>
+                        <div>
+                          <p
+                            class="discusion_text"
+                            v-if="item.message"
+                            v-html="highlightText(item.message)"
+                          ></p>
+                          <div
+                            class="text-center"
+                            v-if="
+                              item.attachment &&
+                              img_ext.includes(getextension(item.attachment))
+                            "
+                          >
+                            <div class="image">
+                              <a
+                                download=""
+                                target="_blank"
+                                :href="item.attachment"
+                              >
+                                <cld-image
+                                  v-if="item.publicId"
+                                  :publicId="item.publicId"
+                                  width="250"
+                                  crop="fill"
+                                >
+                                  <cld-transformation radius="20" />
+                                </cld-image>
+                              </a>
+                            </div>
+                          </div>
+
+                          <div class="document text-center mb-2" v-else>
+                            <a
+                              download=""
+                              target="_blank"
+                              :href="item.attachment"
                             >
-                            <span
-                              class="message_comment_text"
-                              v-html="highlightText(reply.message)"
-                            >
-                            </span
-                          ></span>
+                              <div
+                                v-if="
+                                  item.attachment &&
+                                  vid_ext.includes(
+                                    getextension(item.attachment)
+                                  )
+                                "
+                                class="p-1 rounded cursor-pointer"
+                              >
+                                <cld-video
+                                  class="mx-auto"
+                                  controls
+                                  v-if="item.publicId"
+                                  :publicId="item.publicId"
+                                  width="250"
+                                  crop="fill"
+                                >
+                                  <cld-transformation />
+                                </cld-video>
+                              </div>
+                              <div
+                                v-if="
+                                  item.attachment &&
+                                  aud_ext.includes(
+                                    getextension(item.attachment)
+                                  )
+                                "
+                                class="
+                                  p-1
+                                  bg-lighter-green
+                                  d-flex
+                                  align-items-center
+                                  rounded
+                                  cursor-pointer
+                                "
+                              >
+                                <cld-video
+                                  controls
+                                  v-if="item.publicId"
+                                  :publicId="item.publicId"
+                                  crop="fill"
+                                >
+                                  <cld-transformation />
+                                </cld-video>
+                              </div>
+                              <div
+                                v-if="
+                                  item.attachment &&
+                                  doc_ext.includes(
+                                    getextension(item.attachment)
+                                  )
+                                "
+                                class="
+                                  p-1
+                                  bg-lighter-green
+                                  d-flex
+                                  align-items-center
+                                  rounded
+                                  cursor-pointer
+                                "
+                              >
+                                <div
+                                  class="
+                                    bg-dark-green
+                                    text-center
+                                    rounded
+                                    p-2
+                                    mr-3
+                                  "
+                                >
+                                  <b-icon
+                                    icon="file-earmark-ruled-fill"
+                                    variant="white"
+                                    font-scale="2rem"
+                                  ></b-icon>
+                                </div>
+                                <div
+                                  class="
+                                    d-flex
+                                    align-items-center
+                                    p-2
+                                    justify-content-center
+                                    text-dark
+                                    fs15
+                                  "
+                                >
+                                  Download File
+                                </div>
+                              </div>
+                            </a>
+                          </div>
                         </div>
-                        <div class="text-right">
-                          <span class="message_comment_date">{{
-                            $moment(reply.created_at).fromNow()
-                          }}</span>
+
+                        <div
+                          class="
+                            d-flex
+                            justify-content-between
+                            align-items-center
+                          "
+                        >
+                          <div class="d-flex align-items-center">
+                            <span class="">
+                              <b-avatar
+                                size="sm"
+                                :src="item.user.profile"
+                                v-if="item.user"
+                                class="mr-1 member"
+                              ></b-avatar>
+                            </span>
+
+                            <span
+                              v-if="item.user"
+                              @click="
+                                $router.push(`/member/profile/${item.username}`)
+                              "
+                              class="fs13 cursor-pointer hover_green"
+                              >{{ item.user.username }}</span
+                            >
+                          </div>
+                          <span> {{ $moment(item.created_at).fromNow() }}</span>
+                        </div>
+                        <div
+                          class="
+                            mt-3
+                            mb-2
+                            text-right
+                            d-flex
+                            justify-content-between
+                          "
+                        >
+                          <span>
+                            <small class="mr-2"
+                              >{{ item.commentCount }}
+                              {{
+                                item.commentCount > 1 ? "Comments" : "Comment"
+                              }}</small
+                            >
+                          </span>
+                          <span
+                            ><small
+                              class="cursor-pointer mr-2"
+                              @click="addmessagecomment(item, index)"
+                            >
+                              <b-icon icon="arrow-counterclockwise"></b-icon>
+                              Reply
+                            </small>
+
+                            <small
+                              class="cursor-pointer"
+                              v-if="
+                                item.user &&
+                                item.user.id !== $store.getters.member.id
+                              "
+                              @click="
+                                handleReport(item.id, 'discussionmessage')
+                              "
+                            >
+                              <b-icon icon="caution"></b-icon> Report
+                            </small></span
+                          >
+                        </div>
+                        <div
+                          class="
+                            bg-white
+                            rounded
+                            p-3
+                            message_comment
+                            position-relative
+                          "
+                          v-if="item.discussionmessagecomment.length"
+                        >
+                          <span class="mytext">
+                            <text-to-speech
+                              :text="replies(item.discussionmessagecomment)"
+                              :voice="voices"
+                            ></text-to-speech
+                          ></span>
+                          <div
+                            v-for="(
+                              reply, index
+                            ) in item.discussionmessagecomment.slice(0, 2)"
+                            :key="index"
+                            class="mb-1 d-flex align-items-start"
+                          >
+                            <div class="d-flex flex-1">
+                              <b-avatar
+                                v-if="reply.admin"
+                                size="sm"
+                                :src="reply.admin.profile"
+                                class="mr-1 message_comment_avatar"
+                              ></b-avatar>
+                              <b-avatar
+                                v-if="reply.facilitator"
+                                size="sm"
+                                :src="reply.facilitator.profile"
+                                class="mr-1 message_comment_avatar"
+                              ></b-avatar>
+                              <b-avatar
+                                v-if="reply.user"
+                                size="sm"
+                                :src="reply.user.profile"
+                                class="mr-1 message_comment_avatar"
+                              ></b-avatar>
+                              <span>
+                                <span
+                                  v-if="reply.user"
+                                  @click="
+                                    $router.push(
+                                      `/member/profile/${reply.user.username}`
+                                    )
+                                  "
+                                  class="message_comment_name mr-1"
+                                  >{{ reply.user.username }}</span
+                                >
+                                <span
+                                  class="message_comment_text"
+                                  v-html="highlightText(reply.message)"
+                                >
+                                </span
+                              ></span>
+                            </div>
+                            <div class="text-right">
+                              <span class="message_comment_date">{{
+                                $moment(reply.created_at).fromNow()
+                              }}</span>
+                            </div>
+                          </div>
+                          <small
+                            v-if="item.discussionmessagecomment.length > 3"
+                            class="cursor-pointer mr-2"
+                            @click="viewmessagecomment(item)"
+                            >View all comments
+                          </small>
                         </div>
                       </div>
-                      <small
-                        v-if="item.discussionmessagecomment.length > 3"
-                        class="cursor-pointer mr-2"
-                        @click="viewmessagecomment(item)"
-                        >View all comments
-                      </small>
                     </div>
                   </div>
                   <div class="py-2 d-flex justify-content-end" v-if="rows > 10">
@@ -1156,7 +1209,6 @@ export default {
     this.getconnections();
     this.link =
       "https://nzukoor.com/explore/discussion/" + this.$route.params.id;
-
     var channel = this.$pusher.subscribe("adddiscussion");
 
     channel.bind("adddiscussion", (data) => {
@@ -1247,15 +1299,15 @@ export default {
     views() {
       return this.myviews;
     },
-    vote() {
-      var positive = this.discussion.discussionvote.filter(
-        (item) => item.vote
-      ).length;
-      var negative = this.discussion.discussionvote.filter(
-        (item) => !item.vote
-      ).length;
-      return Number(positive) - Number(negative);
-    },
+    // vote() {
+    //   var positive = this.discussion.discussionvote.filter(
+    //     (item) => item.vote
+    //   ).length;
+    //   var negative = this.discussion.discussionvote.filter(
+    //     (item) => !item.vote
+    //   ).length;
+    //   return Number(positive) - Number(negative);
+    // },
 
     filteredConnections() {
       return this.connections.filter((item) => {
@@ -1696,6 +1748,27 @@ export default {
         });
     },
 
+    votemessage(id, vote, index) {
+      this.$http
+        .post(
+          `${this.$store.getters.url}/vote/discussion/message`,
+          { discussion_message_id: id, vote: vote },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.filteredDiscussion[index].discussionmessagevote =
+              res.data.count;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     addvote() {
       this.$http
         .post(
@@ -1708,15 +1781,8 @@ export default {
           }
         )
         .then((res) => {
-          if (res.status == 201) {
-            this.discussion.discussionvote.push(res.data);
-          }
           if (res.status == 200) {
-            this.discussion.discussionvote.map((item) => {
-              if (item.user_id == this.$store.getters.member.id) {
-                return (item.vote = res.data.vote);
-              }
-            });
+            this.discussion.discussionvote = res.data.count;
           }
         })
         .catch((err) => {
@@ -1736,15 +1802,8 @@ export default {
           }
         )
         .then((res) => {
-          if (res.status == 201) {
-            this.discussion.discussionvote.push(res.data);
-          }
           if (res.status == 200) {
-            this.discussion.discussionvote.map((item) => {
-              if (item.user_id == this.$store.getters.member.id) {
-                return (item.vote = res.data.vote);
-              }
-            });
+            this.discussion.discussionvote = res.data.count;
           }
         })
         .catch((err) => {
@@ -1922,7 +1981,7 @@ export default {
 }
 
 .bottom_bar {
-  width: 85%;
+  // width: 85%;
   margin-left: auto;
   padding: 13px;
   border-radius: 4px;

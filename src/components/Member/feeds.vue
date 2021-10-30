@@ -233,7 +233,9 @@
                             >
                               {{ item.user.username }}
                             </div>
-                            <div class="comment_text">{{ item.comment }}</div>
+                            <div class="comment_text" :id="item.comment">
+                              {{ item.comment }}
+                            </div>
                           </div>
                           <small
                             class="text-muted mr-2"
@@ -260,24 +262,42 @@
                             ></b-icon>
                           </small>
                         </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <span class="comment_mins pl-2">{{
+                        $moment(item.created_at).fromNow()
+                      }}</span>
+                    </div>
+                  </div>
+                  <div
+                    class="p-2 bg-light rounded w-100"
+                    v-if="item.feedcommentreplies.length"
+                  >
+                    <div class="text-muted fs12 font-weight-bold mb-2">
+                      <a :href="`#${item.comment}`" class="text-muted">
+                        <small>
+                          <i class="fa fa-reply" aria-hidden="true"></i>
+                          Replying {{ item.user.username }}
+                        </small></a
+                      >
+                    </div>
+
+                    <ViewMore>
+                      <template v-slot:content>
                         <div
-                          class="p-2 bg-light rounded w-100"
-                          v-if="item.feedcommentreplies.length"
+                          class="mb-2"
+                          v-for="(rep, id) in item.feedcommentreplies"
+                          :key="id"
                         >
-                          <div class="text-muted fs12 font-weight-bold mb-1">
-                            Replies
-                          </div>
-                          <div
-                            class="d-flex mb-1"
-                            v-for="(rep, id) in item.feedcommentreplies"
-                            :key="id"
-                          >
+                          <div class="d-flex">
                             <b-avatar
                               class="mr-2 feedcommentavatar"
                               :src="rep.user.profile"
                             ></b-avatar>
                             <div class="d-flex align-items-start flex-1">
-                              <p class="flex-1 mr-2">
+                              <p class="flex-1 mr-2 mb-1">
                                 <span
                                   class="comment_name mr-1"
                                   @click="
@@ -317,15 +337,18 @@
                               ></span>
                             </div>
                           </div>
+                          <small class="text-muted">{{
+                            $moment(rep.created_at).fromNow()
+                          }}</small>
                         </div>
-                      </div>
-                    </div>
-
-                    <div>
-                      <span class="comment_mins pl-2">{{
-                        $moment(item.created_at).fromNow()
-                      }}</span>
-                    </div>
+                      </template>
+                      <template v-slot:seemore>
+                        <div class="btn-vm">see more</div>
+                      </template>
+                      <template v-slot:seeless>
+                        <div class="btn-vm">see less</div>
+                      </template>
+                    </ViewMore>
                   </div>
                 </div>
               </div>
@@ -722,15 +745,14 @@
                       style="line-height: 1.6"
                       v-if="feed.comments.length"
                     >
-                      <span
+                      <div
                         v-if="feed.comments.length"
-                        class="comment_header mb-2 cursor-pointer"
+                        class="comment_header mb-1 cursor-pointer"
                         @click="showcomments(feed)"
-                        >View {{ feed.comments.length }}
-                        {{
-                          feed.comments.length > 1 ? "comments" : "comment"
-                        }}</span
                       >
+                        View {{ feed.comments.length }}
+                        {{ feed.comments.length > 1 ? "comments" : "comment" }}
+                      </div>
                       <div class="all_comment">
                         <div
                           class="comment d-flex text-left mb-1"
@@ -1048,7 +1070,7 @@ import { MultiSelect } from "vue-search-select";
 import Interest from "../helpers/subcategory.js";
 import Report from "@/components/helpers/report";
 import Suggestions from "@/components/suggestions.vue";
-
+import ViewMore from "@/components/Member/components/viewmore";
 export default {
   data() {
     return {
@@ -1108,6 +1130,7 @@ export default {
     Suggestions,
     Feelings,
     Report,
+    ViewMore,
   },
   created() {
     var channel = this.$pusher.subscribe("addfeed");
@@ -1151,8 +1174,6 @@ export default {
     },
   },
   mounted() {
-    // this.getfeeds();
-    // this.getmyfeeds();
     this.getcustomfeeds();
     this.gettrendingfeeds();
     this.getrecentfeeds();

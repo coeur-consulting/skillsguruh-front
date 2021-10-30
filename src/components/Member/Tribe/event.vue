@@ -72,8 +72,9 @@
               ></span
             >
           </div>
-          <div class="d-flex justify-content-between">
-            <div class="px-3 py-2 fs15 bg-light">
+
+          <div class="d-flex justify-content-between bg-light border-bottom">
+            <div class="px-3 py-2 fs15">
               <span class="font-weight-bold font-sm text-dark-green"
                 >Event Venue</span
               >
@@ -81,7 +82,7 @@
               <div class="fs13">{{ event.venue }}</div>
             </div>
 
-            <div class="mb-1 px-3 py-2 fs15 bg-light" v-if="event.url">
+            <div class="mb-1 px-3 py-2 fs15" v-if="event.url">
               <span class="font-weight-bold font-sm text-dark-green"
                 >Event Link</span
               >
