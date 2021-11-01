@@ -273,8 +273,8 @@ export default {
       this.lastSelectItem = lastSelectItem;
     },
 
-    response() {
-      this.getmytribe();
+    response(type, res) {
+      this.tribes.unshift(res);
       this.$toast.success("Tribe Created");
       this.$bvModal.hide("start");
     },

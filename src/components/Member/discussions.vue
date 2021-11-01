@@ -568,7 +568,7 @@ export default {
       return item;
     });
     this.category = Category;
-    this.getcourses();
+    //this.getcourses();
     this.getothers();
   },
   computed: {

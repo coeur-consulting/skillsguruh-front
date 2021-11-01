@@ -228,7 +228,7 @@ export default {
         })
         .then((res) => {
           if (res.status === 201) {
-            this.$emit("response", "create");
+            this.$emit("response", "create", res.data.data);
             this.disable = false;
           }
         })

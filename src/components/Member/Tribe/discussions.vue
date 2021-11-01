@@ -216,6 +216,29 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="mt-3">
+                  <b-pagination
+                    v-if="show == 'recent'"
+                    pills
+                    size="sm"
+                    variant="dark-green"
+                    align="right"
+                    v-model="currentPage"
+                    :total-rows="rows"
+                    :per-page="perPage"
+                  ></b-pagination>
+                  <b-pagination
+                    v-else
+                    pills
+                    size="sm"
+                    variant="dark-green"
+                    align="right"
+                    v-model="currentPageT"
+                    :total-rows="rowsT"
+                    :per-page="perPageT"
+                  ></b-pagination>
+                </div>
               </div>
 
               <div v-else class="text-center admin_tab p-2 p-sm-5">
@@ -399,6 +422,12 @@ import Report from "@/components/helpers/report";
 export default {
   data() {
     return {
+      currentPage: 1,
+      perPage: 0,
+      rows: 0,
+      currentPageT: 1,
+      perPageT: 0,
+      rowst: 0,
       report_id: null,
       report_type: null,
       show: "recent",
@@ -460,16 +489,7 @@ export default {
             )
         );
       }
-      if (this.show == "mostanswers") {
-        return (
-          this.discussions
-            .slice()
-            // .filter((item) => item.type == "public")
-            .sort((a, b) => {
-              return b.commentCount.length - a.commentCount.length;
-            })
-        );
-      }
+
       if (this.show == "trending") {
         return (
           this.trenddiscussions
@@ -486,13 +506,10 @@ export default {
             )
         );
       }
-      if (this.show == "private") {
-        return this.customdiscussions.filter((item) =>
-          item.name.toLowerCase().includes(this.search.toLowerCase())
-        );
-      }
+
       return [];
     },
+
     filteredinterests() {
       if (!this.$store.getters.tribe_info.tags) {
         return [];
@@ -500,7 +517,39 @@ export default {
       return this.$store.getters.tribe_info.tags;
     },
   },
+  watch: {
+    currentPage: "paginatedData",
+    currentPageT: "paginatedDataT",
+  },
   methods: {
+    paginatedDataT() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/get/trending/discussions/${this.$route.params.tribe}?page=${this.currentPageT}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          this.discussions = res.data.data;
+        });
+    },
+    paginatedData() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/get/tribe/discussions/${this.$route.params.tribe}?page=${this.currentPage}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          this.trenddiscussions = res.data.data;
+        });
+    },
     handleReport(id, type) {
       this.report_type = type;
       this.report_id = id;
@@ -593,6 +642,9 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.discussions = res.data.data;
+            this.currentPage = res.data.meta.current_page;
+            this.rows = res.data.meta.total;
+            this.perPage = res.data.meta.per_page;
             this.showDiscussion = true;
           }
         })
@@ -614,6 +666,9 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.trenddiscussions = res.data.data;
+            this.currentPageT = res.data.meta.current_page;
+            this.rowsT = res.data.meta.total;
+            this.perPageT = res.data.meta.per_page;
             this.showDiscussion = true;
           }
         })

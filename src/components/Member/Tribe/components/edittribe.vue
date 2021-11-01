@@ -161,8 +161,10 @@ export default {
         )
         .then((res) => {
           if (res.status === 200) {
-            this.$emit("response", res, "edit");
+            this.$emit("response", "edit", res.data.data);
           }
+        }).catch(err=>{
+          this.$toast.error(err.response.data.message)
         });
     },
   },

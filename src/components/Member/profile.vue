@@ -449,10 +449,12 @@ export default {
   watch: {
     bank_id: "handleBank",
   },
+  created() {
+    this.getbanks();
+  },
   mounted() {
     this.getuser();
     this.getrequests();
-    this.getbanks();
     window.document.title = `${this.$store.getters.member.name} | Nzukoor`;
   },
   computed: {
@@ -552,6 +554,13 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.user = res.data;
+            this.user.account_no = res.data.accountdetail.account_no;
+            var bank = this.banks.find(
+              (item) => item.code == res.data.accountdetail.bank_code
+            );
+            if (bank) {
+              this.bank_id = bank.id;
+            }
           }
         });
     },
@@ -568,7 +577,13 @@ export default {
             var authMember = JSON.parse(localStorage.getItem("authMember"));
             authMember.profile = res.data.profile;
             authMember.voice = res.data.voice;
-            this.bank_id = null;
+            this.user.account_no = res.data.accountdetail.account_no;
+            var bank = this.banks.find(
+              (item) => item.code == res.data.accountdetail.bank_code
+            );
+            if (bank) {
+              this.bank_id = bank.id;
+            }
             localStorage.setItem("authMember", JSON.stringify(authMember));
             this.$toast.success("Updated successfully");
           }

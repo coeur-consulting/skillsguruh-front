@@ -79,7 +79,7 @@
                 <template #button-content>
                   <b-icon icon="three-dots-vertical" font-scale=".8"></b-icon>
                 </template>
-                <b-dropdown-item class="fs12" @click="edit(n)"
+                <b-dropdown-item class="fs12" @click="edit(n, id)"
                   >Edit</b-dropdown-item
                 >
 
@@ -145,6 +145,7 @@ import { faUsers, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 export default {
   data() {
     return {
+      index: null,
       signIn: faSignInAlt,
       users: faUsers,
       search: "",
@@ -232,24 +233,25 @@ export default {
         });
     },
 
-    edit(val) {
+    edit(val, index) {
+      this.index = index;
       this.tribe.id = val.id;
       this.tribe.name = val.name;
       this.tribe.type = val.type;
       this.tribe.description = val.description;
       this.tribe.amount = val.amount;
-      this.tribe.category = val.category ? val.category : null;
+      this.tribe.category = val.category;
       this.tribe.tags = val.tags;
       this.$bvModal.show("edit");
     },
-    response(type) {
+    response(type, res) {
       if (type == "create") {
-        this.getmytribe();
         this.$toast.success("Tribe Created");
         this.$bvModal.hide("start");
+        this.tribes.unshift(res);
       }
       if (type == "edit") {
-        this.getmytribe();
+        this.tribes.splice(this.index, 1, res);
         this.$toast.success("Tribe Updated");
         this.$bvModal.hide("edit");
       }
@@ -269,6 +271,9 @@ export default {
                 this.tribes.splice(index, 1);
                 this.$toast.success("Tribe removed");
               }
+            })
+            .catch((err) => {
+              this.$toast.error(err.response.data);
             });
         }
       });
@@ -289,6 +294,4 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
-</style>
-
+<style scoped lang="scss"></style>
