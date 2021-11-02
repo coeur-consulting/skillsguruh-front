@@ -86,7 +86,7 @@ const routes = [
     },
   },
   {
-    path: "/Admin/login",
+    path: "/admin/login",
     name: "Admin Login",
     components: {
       default: () =>
@@ -446,553 +446,625 @@ const routes = [
       footer: Footer,
     },
   },
-  // {
-  //   path: "/organization",
-
-  //   components: {
-  //     default: () =>
-  //       import(
-  //         /* webpackChunkName: "organization" */ "../views/Organization.vue"
-  //       ),
-  //   },
-
-  //   children: [
-  //     {
-  //       path: "",
-  //       name: "organization dashboard",
-  //       components: {
-  //         default: () =>
-  //           import(
-  //             /* webpackChunkName: "organizationdashboard" */ "@/components/Organization/home.vue"
-  //           ),
-  //       },
-  //       meta: {
-  //         typeOrg: true,
-  //         title: "Home - Organization",
-  //       },
-  //     },
-  //     {
-  //       path: "admins",
-  //       name: "organization admins",
-  //       components: {
-  //         default: () =>
-  //           import(
-  //             /* webpackChunkName: "organizationadmins" */ "@/components/Organization/admins.vue"
-  //           ),
-  //       },
-  //       meta: {
-  //         typeOrg: true,
-  //         title: "Admins - Organization",
-  //       },
-  //     },
-  //     {
-  //       path: "admin",
-  //       name: "organization admin",
-  //       components: {
-  //         default: () =>
-  //           import(
-  //             /* webpackChunkName: "organizationadmin" */ "@/components/Organization/admin.vue"
-  //           ),
-  //       },
-  //       meta: {
-  //         typeOrg: true,
-  //         title: "Admin - Organization",
-  //       },
-  //     },
-  //     {
-  //       path: "facilitators",
-  //       name: "organization facilitators",
-  //       components: {
-  //         default: () =>
-  //           import(
-  //             /* webpackChunkName: "organizationfacilitators" */ "@/components/Organization/facilitators.vue"
-  //           ),
-  //       },
-  //       meta: {
-  //         typeOrg: true,
-  //         title: "Facilitators - Organization",
-  //       },
-  //     },
-  //     {
-  //       path: "facilitator",
-  //       name: "organization facilitator",
-  //       components: {
-  //         default: () =>
-  //           import(
-  //             /* webpackChunkName: "organizationfacilitator" */ "@/components/Organization/facilitator.vue"
-  //           ),
-  //       },
-  //       meta: {
-  //         typeOrg: true,
-  //         title: "Facilitator - Organization",
-  //       },
-  //     },
-  //     {
-  //       path: "members",
-  //       name: "organization members",
-  //       components: {
-  //         default: () =>
-  //           import(
-  //             /* webpackChunkName: "organizationmembers" */ "@/components/Organization/members.vue"
-  //           ),
-  //       },
-  //       meta: {
-  //         typeOrg: true,
-  //         title: "Members - Organization",
-  //       },
-  //     },
-  //     {
-  //       path: "member",
-  //       name: "organization member",
-  //       components: {
-  //         default: () =>
-  //           import(
-  //             /* webpackChunkName: "organizationmember" */ "@/components/Organization/member.vue"
-  //           ),
-  //       },
-  //       meta: {
-  //         typeOrg: true,
-  //         title: "Member - Organization",
-  //       },
-  //     },
-  //     {
-  //       path: "schedule",
-  //       name: "organization schedule",
-  //       components: {
-  //         default: () =>
-  //           import(
-  //             /* webpackChunkName: "organizationschedule" */ "@/components/Organization/schedule.vue"
-  //           ),
-  //       },
-  //       meta: {
-  //         typeOrg: true,
-  //         title: "Schedule - Organization",
-  //       },
-  //     },
-  //   ],
-  // },
-
   {
-    path: "/administrator",
+    path: "/organization",
 
     components: {
       default: () =>
         import(
-          /* webpackChunkName: "administrator" */ "../views/Administrator.vue"
+          /* webpackChunkName: "organization" */ "../views/Organization.vue"
         ),
     },
 
     children: [
       {
         path: "",
-        name: "administrator dashboard",
+        name: "organization dashboard",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Administratordashboard" */ "@/components/Administrator/home.vue"
+              /* webpackChunkName: "organizationdashboard" */ "@/components/Organization/home.vue"
             ),
         },
         meta: {
-          typeAdmin: true,
-          title: "Home | Administrator",
+          typeOrg: true,
+          title: "Home - Organization",
+        },
+      },
+      {
+        path: "admins",
+        name: "organization admins",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "organizationadmins" */ "@/components/Organization/admins.vue"
+            ),
+        },
+        meta: {
+          typeOrg: true,
+          title: "Admins - Organization",
+        },
+      },
+      {
+        path: "admin",
+        name: "organization admin",
+        components: {
+          default: () =>
+            import(
+              /* webpackChunkName: "organizationadmin" */ "@/components/Organization/admin.vue"
+            ),
+        },
+        meta: {
+          typeOrg: true,
+          title: "Admin - Organization",
         },
       },
 
-      {
-        path: "facilitators",
-        name: "Administrator facilitators",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Administratorfacilitators" */ "@/components/Administrator/facilitators.vue"
-            ),
-        },
-        meta: {
-          typeAdmin: true,
-          title: "Facilitators | Administrator",
-        },
-      },
-      {
-        path: "team",
-        name: "Administrator team",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Administratorteam" */ "@/components/Administrator/team.vue"
-            ),
-        },
-        meta: {
-          typeAdmin: true,
-          title: "Team | Administrator",
-        },
-      },
-      {
-        path: "question/templates",
-        name: "Administrator questions",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Administratorquestions" */ "@/components/Administrator/templates.vue"
-            ),
-        },
-        meta: {
-          typeAdmin: true,
-          title: "Templates | Administrator",
-        },
-      },
-      {
-        path: "question/template/:id",
-        name: "Administrator template",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Administratorquestionnaireview" */ "@/components/Administrator/Templates/view.vue"
-            ),
-        },
-        meta: {
-          typeAdmin: true,
-          title: "Template | Administrator",
-        },
-      },
-      {
-        path: "question/template/edit/:id",
-        name: "Administrator templateedit",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Administratoreditt" */ "@/components/Administrator/Templates/edit.vue"
-            ),
-        },
-        meta: {
-          typeAdmin: true,
-          title: "Edit Template | Administrator",
-        },
-      },
-      {
-        path: "questionnaire",
-        name: "Administrator questionnaire",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Administratorquestionnaire" */ "@/components/Administrator/Questionnaire/create.vue"
-            ),
-        },
-        meta: {
-          typeAdmin: true,
-          title: "Questionnaire | Administrator",
-        },
-      },
-      {
-        path: "questionnaires",
-        name: "Administrator questionnaires",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Administratorquestionnaires" */ "@/components/Administrator/Questionnaire/index.vue"
-            ),
-        },
-        meta: {
-          typeAdmin: true,
-          title: "Questionnaires | Administrator",
-        },
-      },
-      {
-        path: "questionnaire/edit/:id",
-        name: "Administrator questionnairesedit",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Administratorquestionnaireedit" */ "@/components/Administrator/Questionnaire/edit.vue"
-            ),
-        },
-        meta: {
-          typeAdmin: true,
-          title: "Edit Questionnaire | Administrator",
-        },
-      },
-      {
-        path: "questionnaire/view/:id",
-        name: "Administrator questionnairesview",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Administratorquestionnaireview" */ "@/components/Administrator/Questionnaire/view.vue"
-            ),
-        },
-        meta: {
-          typeAdmin: true,
-          title: "View Questionnaire | Administrator",
-        },
-      },
-      {
-        path: "facilitator",
-        name: "Administrator facilitator",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Administratorfacilitator" */ "@/components/Administrator/facilitator.vue"
-            ),
-        },
-        meta: {
-          typeAdmin: true,
-          title: "Facilitator | Administrator",
-        },
-      },
-
-      {
-        path: "modules/:id",
-        name: "Administrator modules",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Administratormodules" */ "@/components/Administrator/modules.vue"
-            ),
-        },
-        meta: {
-          typeAdmin: true,
-          title: "Modules | Administrator",
-        },
-      },
       {
         path: "members",
-        name: "Administrator members",
+        name: "organization members",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Administratormembers" */ "@/components/Administrator/members.vue"
+              /* webpackChunkName: "organizationmembers" */ "@/components/Organization/members.vue"
             ),
         },
         meta: {
-          typeAdmin: true,
-          title: "Members | Administrator",
+          typeOrg: true,
+          title: "Members - Organization",
         },
       },
       {
         path: "member",
-        name: "Administrator member",
+        name: "organization member",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Administratormember" */ "@/components/Administrator/member.vue"
+              /* webpackChunkName: "organizationmember" */ "@/components/Organization/member.vue"
             ),
         },
         meta: {
-          typeAdmin: true,
-          title: "Member | Administrator",
+          typeOrg: true,
+          title: "Member - Organization",
         },
       },
       {
-        path: "schedule",
-        name: "Administrator schedule",
+        path: "reports",
+        name: "organization reports",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Administratorschedule" */ "@/components/Administrator/schedule.vue"
+              /* webpackChunkName: "organizationreports" */ "@/components/Organization/reports.vue"
             ),
         },
         meta: {
-          typeAdmin: true,
-          title: "Schedule | Administrator",
+          typeOrg: true,
+          title: "Reports - Organization",
         },
       },
       {
         path: "discussions",
-        name: "Administrator discussions",
+        name: "organization discussions",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Administratordiscussions" */ "@/components/Administrator/discussions.vue"
+              /* webpackChunkName: "organizationdiscussions" */ "@/components/Organization/discussions.vue"
             ),
         },
         meta: {
-          typeAdmin: true,
-          title: "Discussions | Administrator",
+          typeOrg: true,
+          title: "Discussions - Organization",
         },
       },
       {
-        path: "discussion/:id",
-        name: "Administrator discussion",
+        path: "discussion",
+        name: "organization discussion",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Administratordiscussion" */ "@/components/Administrator/discussion.vue"
+              /* webpackChunkName: "organizationdiscussion" */ "@/components/Organization/discussion.vue"
             ),
         },
         meta: {
-          typeAdmin: true,
-          title: "Discussion | Administrator",
-        },
-      },
-      {
-        path: "feeds",
-        name: "Administrator feeds",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Administratorfeeds" */ "@/components/Administrator/feeds.vue"
-            ),
-        },
-        meta: {
-          typeAdmin: true,
-          title: "Feeds | Administrator",
-        },
-      },
-      {
-        path: "courses",
-        name: "Administrator courses",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Administratorcourses" */ "@/components/Administrator/courses.vue"
-            ),
-        },
-        meta: {
-          typeAdmin: true,
-          title: "Courses | Administrator",
-        },
-      },
-      {
-        path: "outlines",
-        name: "Administrator outlines",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Administratoroutlines" */ "@/components/Administrator/outlines.vue"
-            ),
-        },
-        meta: {
-          typeAdmin: true,
-          title: "Modules | Administrator",
-        },
-      },
-      {
-        path: "outline/:id",
-        name: "Administrator outline",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Administratoroutline" */ "@/components/Administrator/outline.vue"
-            ),
-        },
-        meta: {
-          typeAdmin: true,
-          title: "Module | Administrator",
+          typeOrg: true,
+          title: "Discussion - Organization",
         },
       },
       {
         path: "events",
-        name: "Administrator events",
+        name: "organization events",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Administratorevents" */ "@/components/Administrator/events.vue"
+              /* webpackChunkName: "organizationevents" */ "@/components/Organization/events.vue"
             ),
         },
         meta: {
-          typeAdmin: true,
-          title: "Events | Administrator",
+          typeOrg: true,
+          title: "Events - Organization",
         },
       },
       {
-        path: "event/:id",
-        name: "Administrator event",
+        path: "event",
+        name: "organization event",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Administratorevent" */ "@/components/Administrator/event.vue"
+              /* webpackChunkName: "organizationevent" */ "@/components/Organization/event.vue"
             ),
         },
         meta: {
-          typeAdmin: true,
-          title: "Event | Administrator",
+          typeOrg: true,
+          title: "Event - Organization",
         },
       },
       {
-        path: "connections",
-        name: "Administrator connections",
+        path: "feed",
+        name: "organization feeds",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Administratorconnections" */ "@/components/Administrator/connections.vue"
+              /* webpackChunkName: "organizationfeed" */ "@/components/Organization/feeds.vue"
             ),
         },
         meta: {
-          typeAdmin: true,
-          title: "Connections | Administrator",
+          typeOrg: true,
+          title: "Feeds - Organization",
         },
       },
       {
-        path: "referrals",
-        name: "Administrator referrals",
+        path: "view-feed",
+        name: "organization feed",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Administratorreferrals" */ "@/components/Administrator/referrals.vue"
+              /* webpackChunkName: "organizationfeed" */ "@/components/Organization/feed.vue"
             ),
         },
         meta: {
-          typeAdmin: true,
-          title: "Refferals | Administrator",
+          typeOrg: true,
+          title: "View Feed - Organization",
         },
       },
+
       {
-        path: "insights",
-        name: "Administrator insights",
+        path: "schedule",
+        name: "organization schedule",
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Administratorinsights" */ "@/components/Administrator/insights.vue"
+              /* webpackChunkName: "organizationschedule" */ "@/components/Organization/schedule.vue"
             ),
         },
         meta: {
-          typeAdmin: true,
-          title: "Insight | Administrator",
-        },
-      },
-      {
-        path: "bonuses",
-        name: "Administrator bonuses",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Administratorbonuses" */ "@/components/Administrator/bonuses.vue"
-            ),
-        },
-        meta: {
-          typeAdmin: true,
-          title: "Bonuses | Administrator",
-        },
-      },
-      {
-        path: "profile",
-        name: "Administrator profile",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Administratorprofile" */ "@/components/Administrator/profile.vue"
-            ),
-        },
-        meta: {
-          typeAdmin: true,
-          title: "Profile | Administrator",
-        },
-      },
-      {
-        path: "view/:type/:id",
-        name: "Administrator viewprofile",
-        components: {
-          default: () =>
-            import(
-              /* webpackChunkName: "Administratorview" */ "@/components/Administrator/viewProfile.vue"
-            ),
-        },
-        meta: {
-          typeAdmin: true,
-          title: "View profile | Administrator",
+          typeOrg: true,
+          title: "Schedule - Organization",
         },
       },
     ],
   },
+
+  // {
+  //   path: "/administrator",
+
+  //   components: {
+  //     default: () =>
+  //       import(
+  //         /* webpackChunkName: "administrator" */ "../views/Administrator.vue"
+  //       ),
+  //   },
+
+  //   children: [
+  //     {
+  //       path: "",
+  //       name: "administrator dashboard",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratordashboard" */ "@/components/Administrator/home.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Home | Administrator",
+  //       },
+  //     },
+
+  //     {
+  //       path: "facilitators",
+  //       name: "Administrator facilitators",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratorfacilitators" */ "@/components/Administrator/facilitators.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Facilitators | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "team",
+  //       name: "Administrator team",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratorteam" */ "@/components/Administrator/team.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Team | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "question/templates",
+  //       name: "Administrator questions",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratorquestions" */ "@/components/Administrator/templates.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Templates | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "question/template/:id",
+  //       name: "Administrator template",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratorquestionnaireview" */ "@/components/Administrator/Templates/view.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Template | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "question/template/edit/:id",
+  //       name: "Administrator templateedit",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratoreditt" */ "@/components/Administrator/Templates/edit.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Edit Template | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "questionnaire",
+  //       name: "Administrator questionnaire",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratorquestionnaire" */ "@/components/Administrator/Questionnaire/create.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Questionnaire | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "questionnaires",
+  //       name: "Administrator questionnaires",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratorquestionnaires" */ "@/components/Administrator/Questionnaire/index.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Questionnaires | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "questionnaire/edit/:id",
+  //       name: "Administrator questionnairesedit",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratorquestionnaireedit" */ "@/components/Administrator/Questionnaire/edit.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Edit Questionnaire | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "questionnaire/view/:id",
+  //       name: "Administrator questionnairesview",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratorquestionnaireview" */ "@/components/Administrator/Questionnaire/view.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "View Questionnaire | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "facilitator",
+  //       name: "Administrator facilitator",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratorfacilitator" */ "@/components/Administrator/facilitator.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Facilitator | Administrator",
+  //       },
+  //     },
+
+  //     {
+  //       path: "modules/:id",
+  //       name: "Administrator modules",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratormodules" */ "@/components/Administrator/modules.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Modules | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "members",
+  //       name: "Administrator members",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratormembers" */ "@/components/Administrator/members.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Members | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "member",
+  //       name: "Administrator member",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratormember" */ "@/components/Administrator/member.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Member | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "schedule",
+  //       name: "Administrator schedule",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratorschedule" */ "@/components/Administrator/schedule.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Schedule | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "discussions",
+  //       name: "Administrator discussions",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratordiscussions" */ "@/components/Administrator/discussions.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Discussions | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "discussion/:id",
+  //       name: "Administrator discussion",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratordiscussion" */ "@/components/Administrator/discussion.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Discussion | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "feeds",
+  //       name: "Administrator feeds",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratorfeeds" */ "@/components/Administrator/feeds.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Feeds | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "courses",
+  //       name: "Administrator courses",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratorcourses" */ "@/components/Administrator/courses.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Courses | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "outlines",
+  //       name: "Administrator outlines",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratoroutlines" */ "@/components/Administrator/outlines.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Modules | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "outline/:id",
+  //       name: "Administrator outline",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratoroutline" */ "@/components/Administrator/outline.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Module | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "events",
+  //       name: "Administrator events",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratorevents" */ "@/components/Administrator/events.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Events | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "event/:id",
+  //       name: "Administrator event",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratorevent" */ "@/components/Administrator/event.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Event | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "connections",
+  //       name: "Administrator connections",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratorconnections" */ "@/components/Administrator/connections.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Connections | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "referrals",
+  //       name: "Administrator referrals",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratorreferrals" */ "@/components/Administrator/referrals.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Refferals | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "insights",
+  //       name: "Administrator insights",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratorinsights" */ "@/components/Administrator/insights.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Insight | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "bonuses",
+  //       name: "Administrator bonuses",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratorbonuses" */ "@/components/Administrator/bonuses.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Bonuses | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "profile",
+  //       name: "Administrator profile",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratorprofile" */ "@/components/Administrator/profile.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "Profile | Administrator",
+  //       },
+  //     },
+  //     {
+  //       path: "view/:type/:id",
+  //       name: "Administrator viewprofile",
+  //       components: {
+  //         default: () =>
+  //           import(
+  //             /* webpackChunkName: "Administratorview" */ "@/components/Administrator/viewProfile.vue"
+  //           ),
+  //       },
+  //       meta: {
+  //         typeAdmin: true,
+  //         title: "View profile | Administrator",
+  //       },
+  //     },
+  //   ],
+  // },
 
   // {
   //   path: "/facilitator",

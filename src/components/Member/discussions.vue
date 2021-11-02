@@ -66,12 +66,12 @@
               >
                 Trending
               </div>
-              <div
+              <!-- <div
                 :class="{ active: show == 'private' }"
                 @click="show = 'private'"
               >
                 Custom
-              </div>
+              </div> -->
             </div>
             <div v-if="showDiscussion">
               <div class="main_content" v-if="filteredData.length">
@@ -120,24 +120,12 @@
                     <div class="side_dis">
                       <b-avatar
                         size="1.8rem"
-                        v-if="item.creator == 'admin'"
-                        :src="item.admin.profile"
-                      ></b-avatar>
-
-                      <b-avatar
-                        size="1.8rem"
-                        v-if="item.creator == 'user'"
-                        :src="item.user.profile"
-                      ></b-avatar>
-                      <b-avatar
-                        size="1.8rem"
-                        v-if="item.creator == 'facilitator'"
-                        :src="item.facilitator.profile"
+                        :src="item.tribe.cover"
                       ></b-avatar>
                     </div>
                     <div class="text-left next_dis">
                       <div v-if="item.tribe" :id="`distribe-${index}`">
-                        {{ item.tribe.name }} tribe
+                        {{ item.tribe.name }}
                       </div>
                       <b-popover
                         v-if="item.tribe"
@@ -231,22 +219,18 @@
                         vote
                       "
                     >
-                      <!-- <b-icon
+                      <b-icon
                         icon="caret-up-fill"
                         ont-scale="1.2"
                         class="cursor-pointer"
-                      ></b-icon> -->
-                      <span v-if="item.discussionvote">
-                        <span v-if="vote(item.discussionvote) > 0">+</span>
-                        <span v-if="vote(item.discussionvote) < 0">-</span
-                        >{{ vote(item.discussionvote) }}</span
-                      >
+                      ></b-icon>
+                      <span> {{ vote(item.discussionvote) }}</span>
 
-                      <!-- <b-icon
+                      <b-icon
                         icon="caret-down-fill"
                         font-scale="1.2"
                         class="cursor-ponte"
-                      ></b-icon> -->
+                      ></b-icon>
                     </div>
                     <div class="text-left next_dis">
                       <div class="main_text">
@@ -283,6 +267,28 @@
                       >
                     </div>
                   </div>
+                </div>
+                <div class="mt-3 px-3">
+                  <b-pagination
+                    v-if="show == 'recent'"
+                    pills
+                    size="sm"
+                    variant="dark-green"
+                    align="right"
+                    v-model="currentPage"
+                    :total-rows="rows"
+                    :per-page="perPage"
+                  ></b-pagination>
+                  <b-pagination
+                    v-else
+                    pills
+                    size="sm"
+                    variant="dark-green"
+                    align="right"
+                    v-model="currentPageT"
+                    :total-rows="rowsT"
+                    :per-page="perPageT"
+                  ></b-pagination>
                 </div>
               </div>
 
@@ -522,6 +528,12 @@ import Category from "../helpers/category.js";
 export default {
   data() {
     return {
+      currentPage: 1,
+      perPage: 0,
+      rows: 0,
+      currentPageT: 1,
+      perPageT: 0,
+      rowsT: 0,
       show: "recent",
       discussions: [],
       trenddiscussions: [],
@@ -571,6 +583,10 @@ export default {
     //this.getcourses();
     this.getothers();
   },
+  watch: {
+    currentPage: "paginatedData",
+    currentPageT: "paginatedDataT",
+  },
   computed: {
     useraccess() {
       var token = null;
@@ -587,46 +603,34 @@ export default {
     },
     filteredData() {
       if (this.show == "recent") {
-        return (
-          this.interestdiscussions
-            .slice()
-            // .filter((item) => item.type == "public")
-            .filter((item) =>
-              item.name.toLowerCase().includes(this.search.toLowerCase())
-            )
-        );
-      }
-      if (this.show == "mostanswers") {
-        return (
-          this.discussions
-            .slice()
-            // .filter((item) => item.type == "public")
-            .sort((a, b) => {
-              return b.discussionmessage.length - a.discussionmessage.length;
-            })
-        );
-      }
-      if (this.show == "trending") {
-        return (
-          this.trenddiscussions
-            .slice()
-            // .filter((item) => item.type == "public")
-            .sort((a, b) => {
-              return (
-                (b.discussionview ? b.discussionview.view : 0) -
-                (a.discussionview ? a.discussionview.view : 0)
-              );
-            })
-            .filter((item) =>
-              item.name.toLowerCase().includes(this.search.toLowerCase())
-            )
-        );
-      }
-      if (this.show == "private") {
-        return this.customdiscussions.filter((item) =>
+        return this.interestdiscussions.filter((item) =>
           item.name.toLowerCase().includes(this.search.toLowerCase())
         );
       }
+      // if (this.show == "mostanswers") {
+      //   return (
+      //     this.discussions
+      //       .slice()
+      //       // .filter((item) => item.type == "public")
+      //       .sort((a, b) => {
+      //         return b.discussionmessage.length - a.discussionmessage.length;
+      //       })
+      //   );
+      // }
+      if (this.show == "trending") {
+        return this.trenddiscussions
+          .slice()
+          .sort((a, b) => {
+            return (
+              (b.discussionview ? b.discussionview.view : 0) -
+              (a.discussionview ? a.discussionview.view : 0)
+            );
+          })
+          .filter((item) =>
+            item.name.toLowerCase().includes(this.search.toLowerCase())
+          );
+      }
+
       return [];
     },
     filteredinterests() {
@@ -637,6 +641,34 @@ export default {
     },
   },
   methods: {
+    paginatedDataT() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/trending/discussions?page=${this.currentPageT}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          this.trenddiscussions = res.data.data;
+        });
+    },
+    paginatedData() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/interest/discussions?page=${this.currentPage}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          this.interestdiscussions = res.data.data;
+        });
+    },
     isMember(arr) {
       return arr.some((item) => item.id == this.$store.getters.member.id);
     },
@@ -794,7 +826,7 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
-            this.customdiscussions = res.data;
+            this.customdiscussions = res.data.data;
             this.showDiscussion = true;
           }
         })
@@ -811,7 +843,13 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
-            this.interestdiscussions = res.data;
+            if (res.data.data.length) {
+              this.interestdiscussions = res.data.data;
+              this.currentPage = res.data.current_page;
+              this.rows = res.data.total;
+              this.perPage = res.data.per_page;
+            }
+
             this.showDiscussion = true;
           }
         })
@@ -828,7 +866,16 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
-            this.trenddiscussions = res.data;
+            console.log(
+              "🚀 ~ file: discussions.vue ~ line 886 ~ .then ~ res.data.data",
+              res.data.data
+            );
+            if (res.data.data.length) {
+              this.trenddiscussions = res.data.data;
+              this.currentPageT = res.data.current_page;
+              this.rowsT = res.data.total;
+              this.perPageT = res.data.per_page;
+            }
             this.showDiscussion = true;
           }
         })

@@ -1,62 +1,71 @@
 <template>
   <div id="sidebar">
-    <div class="logo_bar">
+    <div class="logo_bar bg-white">
       <b-img
         @click="$router.push('/')"
         class="mr-2"
-        width="30"
         height="30"
-        :src="$store.getters.organization.profile"
+        src="/img/logo.png"
       ></b-img>
-      <h5 class="mb-0">{{ $store.getters.organization.name }}</h5>
     </div>
     <div class="side_items">
       <router-link to="/organization">
         <div class="side_item">
-          <b-icon
-            icon="grid1x2"
-            font-scale="1.25"
-            class="mr-3 text-lemon"
-          ></b-icon>
+          <b-icon icon="grid1x2-fill" font-scale="1.25" class="mr-3"></b-icon>
           <span class="side-link">Dashboard</span>
         </div>
       </router-link>
       <router-link to="/organization/admins">
         <div class="side_item">
-          <b-icon
-            icon="shield-fill"
-            font-scale="1.25"
-            class="mr-3 text-lemon"
-          ></b-icon>
+          <b-icon icon="shield-fill" font-scale="1.25" class="mr-3"></b-icon>
           <span class="side-link">Administrators</span>
         </div>
       </router-link>
-      <router-link to="/organization/facilitators">
-        <div class="side_item">
-          <b-icon
-            icon="person-badge"
-            font-scale="1.25"
-            class="mr-3 text-lemon"
-          ></b-icon>
-          <span class="side-link">Facilitators</span>
-        </div>
-      </router-link>
+
       <router-link to="/organization/members">
         <div class="side_item">
-          <b-icon
-            icon="people"
-            font-scale="1.25"
-            class="mr-3 text-lemon"
-          ></b-icon>
+          <b-icon icon="people-fill" font-scale="1.25" class="mr-3"></b-icon>
           <span class="side-link">Members</span>
+        </div>
+      </router-link>
+      <router-link to="/organization/discussions">
+        <div class="side_item">
+          <b-icon
+            icon="chat-left-quote-fill"
+            font-scale="1.25"
+            class="mr-3"
+          ></b-icon>
+          <span class="side-link">Discussions</span>
+        </div>
+      </router-link>
+      <router-link to="/organization/events">
+        <div class="side_item">
+          <b-icon icon="bookmark-fill" font-scale="1.25" class="mr-3"></b-icon>
+          <span class="side-link">Events</span>
+        </div>
+      </router-link>
+      <router-link to="/organization/feed">
+        <div class="side_item">
+          <b-icon icon="rss-fill" font-scale="1.25" class="mr-3"></b-icon>
+          <span class="side-link">Feed</span>
+        </div>
+      </router-link>
+      <router-link to="/organization/reports">
+        <div class="side_item">
+          <b-icon
+            icon="info-circle-fill"
+            font-scale="1.25"
+            class="mr-3"
+          ></b-icon>
+          <span class="side-link">Reports</span>
         </div>
       </router-link>
       <router-link to="/organization/schedule">
         <div class="side_item">
           <b-icon
-            icon="calendar-event"
+            icon="calendar-event-fill"
             font-scale="1.25"
-            class="mr-3 text-lemon"
+            class="mr-3"
           ></b-icon>
           <span class="side-link">Schedule</span>
         </div>
@@ -66,18 +75,14 @@
           <b-icon
             icon="chat-square-text"
             font-scale="1.25"
-            class="mr-3 text-lemon"
+            class="mr-3 "
           ></b-icon>
           <span class="side-link">Chat</span>
         </div>
       </router-link> -->
 
       <div class="side_item mt-4" @click="logout">
-        <b-icon
-          icon="box-arrow-left"
-          font-scale="1.1"
-          class="mr-3 text-lemon"
-        ></b-icon>
+        <b-icon icon="box-arrow-left" font-scale="1.1" class="mr-3"></b-icon>
         <span class="side-link">Log out</span>
       </div>
     </div>
@@ -101,14 +106,14 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 #sidebar {
   height: 100vh;
   overflow: hidden;
   color: #fff;
 }
 .logo_bar {
-  background: #337177;
+  /* background: #337177; */
   height: 80px;
   display: flex;
   justify-content: flex-start;
@@ -138,6 +143,9 @@ export default {
   padding: 8px 0 8px 30px;
   margin-bottom: 24px;
   cursor: pointer;
+  .b-icon.bi {
+    color: #fff;
+  }
 }
 .router-link-exact-active.router-link-active .side_item {
   background: white;
@@ -145,7 +153,7 @@ export default {
 }
 
 .router-link-exact-active.router-link-active .side_item .b-icon.bi {
-  color: var(--dark-green);
+  color: var(--dark-green) !important;
 }
 .side_item:hover {
   background: white;

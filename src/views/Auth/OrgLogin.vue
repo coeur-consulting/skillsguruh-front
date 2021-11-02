@@ -145,49 +145,6 @@
                   </div>
                 </b-form-group>
               </div>
-
-              <div>
-                <div class="or my-4">OR</div>
-
-                <div class="socials mt-3">
-                  <div
-                    class="social shadow-sm mb-3 border btn-shadow"
-                    @click="socialregister('google')"
-                  >
-                    <b-img
-                      :src="require('@/assets/images/auth/goo.png')"
-                      class="mr-2"
-                    ></b-img>
-                    Log in with Google
-                  </div>
-                  <div
-                    class="social shadow-sm border btn-shado"
-                    @click="socialregister('facebook')"
-                  >
-                    <b-img
-                      :src="require('@/assets/images/auth/face.png')"
-                      class="mr-2"
-                    ></b-img>
-                    Log in with Facebook
-                  </div>
-                </div>
-              </div>
-              <div class="text-center mt-4">
-                <span
-                  v-if="type == false"
-                  class="text-secondary cursor-pointer"
-                  @click="type = true"
-                >
-                  I am an Organization
-                </span>
-                <span
-                  v-else
-                  class="text-secondary cursor-pointer"
-                  @click="type = false"
-                >
-                  I am an Admin
-                </span>
-              </div>
             </b-form>
           </div>
         </b-col>
@@ -227,120 +184,53 @@ export default {
     register() {
       this.loading = true;
       var authOrg = {};
-      var authAdmin = {};
 
-      if (this.type) {
-        let data = {
-          grant_type: "password",
-          client_id: 5,
-          client_secret: "vi8gsfMR9yl4XOJG7tz0AIWN1uF06FpJ1kkxpEvn",
-          username: this.user.email,
-          password: this.user.password,
-        };
-        this.$http
-          .post(`${process.env.VUE_APP_API_URL}/oauth/token`, data)
-          .then((res) => {
-            authOrg.access_token = res.data.access_token;
-            authOrg.refresh_token = res.data.refresh_token;
-            this.$http
-              .get(`${this.$store.getters.url}/organization`, {
-                headers: {
-                  Authorization: `Bearer ${res.data.access_token}`,
-                },
-              })
-              .then((res) => {
-                authOrg.id = res.data.id;
-                authOrg.name = res.data.name;
-                authOrg.email = res.data.email;
-                authOrg.profile = res.data.logo;
-                authOrg.referral = res.data.referral_code;
+      let data = {
+        grant_type: "password",
+        client_id: 5,
+        client_secret: "vi8gsfMR9yl4XOJG7tz0AIWN1uF06FpJ1kkxpEvn",
+        username: this.user.email,
+        password: this.user.password,
+      };
+      this.$http
+        .post(`${process.env.VUE_APP_API_URL}/oauth/token`, data)
+        .then((res) => {
+          authOrg.access_token = res.data.access_token;
+          authOrg.refresh_token = res.data.refresh_token;
+          this.$http
+            .get(`${this.$store.getters.url}/organization`, {
+              headers: {
+                Authorization: `Bearer ${res.data.access_token}`,
+              },
+            })
+            .then((res) => {
+              authOrg.id = res.data.id;
+              authOrg.name = res.data.name;
+              authOrg.email = res.data.email;
+              authOrg.profile = res.data.logo;
+              authOrg.referral = res.data.referral_code;
 
-                localStorage.setItem("authOrg", JSON.stringify(authOrg));
-                this.$toast.success("Login successful");
-                if (this.$route.query.redirect) {
-                  window.location.href = this.$route.query.redirect;
-                  return;
-                }
-                window.location.href = "/organization";
-              })
-              .catch(() => {
-                this.loading = false;
-                this.$toast.error("Invalid credentials");
-              });
-          })
-          .catch(() => {
-            this.loading = false;
-            this.$toast.error("Invalid credentials");
-            this.validation = false;
-            setTimeout(() => {
-              this.validation = null;
-            }, 5000);
-          });
-      }
-      if (!this.type) {
-        let data = {
-          grant_type: "password",
-          client_id: 3,
-          client_secret: "fjiWTis9MO1KfJhnR0uVG0UwVL6adxIpp4JbVXdT",
-          username: this.user.email,
-          password: this.user.password,
-        };
-        this.$http
-          .post(`${process.env.VUE_APP_API_URL}/oauth/token`, data)
-          .then((res) => {
-            authAdmin.access_token = res.data.access_token;
-            authAdmin.refresh_token = res.data.refresh_token;
-            this.$http
-              .get(`${this.$store.getters.url}/admin`, {
-                headers: {
-                  Authorization: `Bearer ${res.data.access_token}`,
-                },
-              })
-              .then((res) => {
-                authAdmin.id = res.data.id;
-                authAdmin.name = res.data.name;
-                authAdmin.email = res.data.email;
-                authAdmin.profile = res.data.profile;
-
-                authAdmin.org_profile = res.data.organization.logo;
-                authAdmin.org_name = res.data.organization.name;
-                authAdmin.referral = res.data.referral_code;
-
-                localStorage.setItem("authAdmin", JSON.stringify(authAdmin));
-                this.$toast.success("Login successful");
-                if (this.$route.query.redirect) {
-                  window.location.href = this.$route.query.redirect;
-                  return;
-                }
-                window.location.href = "/administrator";
-              })
-              .catch(() => {
-                this.$toast.error("Invalid credentials");
-              });
-          })
-          .catch(() => {
-            this.loading = false;
-            this.$toast.error("Invalid credentials");
-            this.validation = false;
-            setTimeout(() => {
-              this.validation = null;
-            }, 5000);
-          });
-      }
-    },
-    socialregister(provider) {
-      console.log(
-        "🚀 ~ file: OrgLogin.vue ~ line 332 ~ socialregister ~ provider",
-        provider
-      );
-      this.$toast.info("Unavailable");
-      return;
-      // var url = `${this.$store.getters.url}/auth/${provider}/redirect`;
-      // window.open(
-      //   url,
-      //   "Social_Login",
-      //   "toolbar=no,scrollbars=no,location=no,statusbar=no,menubar=no,resizable=0,width=100,height=100,left = 490,top = 262"
-      // );
+              localStorage.setItem("authOrg", JSON.stringify(authOrg));
+              this.$toast.success("Login successful");
+              if (this.$route.query.redirect) {
+                window.location.href = this.$route.query.redirect;
+                return;
+              }
+              window.location.href = "/organization";
+            })
+            .catch(() => {
+              this.loading = false;
+              this.$toast.error("Invalid credentials");
+            });
+        })
+        .catch(() => {
+          this.loading = false;
+          this.$toast.error("Invalid credentials");
+          this.validation = false;
+          setTimeout(() => {
+            this.validation = null;
+          }, 5000);
+        });
     },
   },
 };

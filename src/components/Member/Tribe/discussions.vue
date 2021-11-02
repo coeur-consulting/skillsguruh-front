@@ -217,7 +217,7 @@
                   </div>
                 </div>
 
-                <div class="mt-3">
+                <div class="mt-3 px-3">
                   <b-pagination
                     v-if="show == 'recent'"
                     pills
@@ -427,7 +427,7 @@ export default {
       rows: 0,
       currentPageT: 1,
       perPageT: 0,
-      rowst: 0,
+      rowsT: 0,
       report_id: null,
       report_type: null,
       show: "recent",

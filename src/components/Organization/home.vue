@@ -3,8 +3,16 @@
     <b-container>
       <b-row class="mb-5">
         <b-col sm="4">
-          <div class="box">
-            <div class="d-flex align-items-center mb-3">
+          <div class="box shadow-sm" style="border-right: 5px solid #377f87">
+            <div
+              class="
+                d-flex
+                align-items-center
+                mb-3
+                w-100
+                justify-content-between
+              "
+            >
               <b-iconstack font-scale="2.5" class="mr-3">
                 <b-icon
                   stacked
@@ -13,28 +21,36 @@
                 ></b-icon>
                 <b-icon
                   stacked
-                  icon="shield-fill-check"
+                  icon="chat-left-quote-fill"
                   scale="0.5"
                   variant="dark-green"
                   class="ic"
                 ></b-icon>
               </b-iconstack>
-              <div class="h6 mb-0 text-dark-green">Administrators</div>
+              <div class="h5 mb-0 text-dark-green">Discussions</div>
             </div>
 
-            <div class="d-flex justify-content-between mb-2 w-100">
+            <!-- <div class="d-flex justify-content-between mb-2 w-100">
               <div class="new_add">New This Month</div>
               <div>{{ newlyadmins }}</div>
-            </div>
+            </div> -->
             <div class="d-flex justify-content-between w-100">
-              <div class="new_add">Total Number</div>
-              <div>{{ admins.length }}</div>
+              <div class="new_add">Total Discussions</div>
+              <div>{{ totaldiscussions }}</div>
             </div>
           </div>
         </b-col>
         <b-col sm="4">
-          <div class="box">
-            <div class="d-flex align-items-center mb-3">
+          <div class="box shadow-sm" style="border-right: 5px solid #3d96a5">
+            <div
+              class="
+                d-flex
+                align-items-center
+                justify-content-between
+                w-100
+                mb-3
+              "
+            >
               <b-iconstack font-scale="2.5" class="mr-3">
                 <b-icon
                   stacked
@@ -43,27 +59,35 @@
                 ></b-icon>
                 <b-icon
                   stacked
-                  icon="person-badge-fill"
+                  icon="bookmark-fill"
                   scale="0.5"
                   variant="dark-green"
                 ></b-icon>
               </b-iconstack>
-              <div class="h6 mb-0 text-dark-green">Facilitators</div>
+              <div class="h5 mb-0 text-dark-green">Tribes</div>
             </div>
 
-            <div class="d-flex justify-content-between mb-2 w-100">
+            <!-- <div class="d-flex justify-content-between mb-2 w-100">
               <div class="new_add">New This Month</div>
               <div>{{ newlyfacilitators }}</div>
-            </div>
+            </div> -->
             <div class="d-flex justify-content-between w-100">
-              <div class="new_add">Total Number</div>
-              <div>{{ facilitators.length }}</div>
+              <div class="new_add">Total Tribes</div>
+              <div>{{ totaltribes }}</div>
             </div>
           </div>
         </b-col>
         <b-col sm="4">
-          <div class="box">
-            <div class="d-flex align-items-center mb-3">
+          <div class="box shadow-sm" style="border-right: 5px solid #6beed1">
+            <div
+              class="
+                d-flex
+                align-items-center
+                justify-content-between
+                w-100
+                mb-3
+              "
+            >
               <b-iconstack font-scale="2.5" class="mr-3">
                 <b-icon
                   stacked
@@ -77,16 +101,16 @@
                   variant="dark-green"
                 ></b-icon>
               </b-iconstack>
-              <div class="h6 mb-0 text-dark-green">Members</div>
+              <div class="h5 mb-0 text-dark-green">Members</div>
             </div>
 
-            <div class="d-flex justify-content-between mb-2 w-100">
+            <!-- <div class="d-flex justify-content-between mb-2 w-100">
               <div class="new_add">New This Month</div>
               <div>{{ newlyusers }}</div>
-            </div>
+            </div> -->
             <div class="d-flex justify-content-between w-100">
-              <div class="new_add">Total Number</div>
-              <div>{{ users.length }}</div>
+              <div class="new_add">Total Members</div>
+              <div>{{ totalusers }}</div>
             </div>
           </div>
         </b-col>
@@ -96,27 +120,28 @@
           <AdminTab />
         </b-col>
         <b-col sm="4" class="text-left">
-          <h6 class="mb-4">Team Chart</h6>
+          <h5 class="mb-4">Chart</h5>
 
           <div class="turn_over_box">
-            <div class="tob_1 mb-4">
-              <div id="chart" class="text-center">
+            <div class="tob_1 mb-4 border">
+              <div id="chart" class="text-center" v-if="initPieseries.length">
                 <apexchart
                   class="text-center"
                   type="pie"
                   :options="chartOptions"
-                  :series="series"
+                  :series="initPieseries"
                   width="100%"
+                  height="150"
                 ></apexchart>
               </div>
             </div>
-            <div class="tob_2">
+            <div class="tob_2 border" v-if="initLineseries.length">
               <div id="chart1">
                 <apexchart
                   type="bar"
                   height="200"
                   :options="chartOptions1"
-                  :series="series1"
+                  :series="initLineseries"
                 ></apexchart>
               </div>
             </div>
@@ -132,16 +157,17 @@ import AdminTab from "./admins";
 export default {
   data() {
     return {
-      admins: [],
-      facilitators: [],
+      tribes: [],
+      discussions: [],
       users: [],
-      series: [33, 33, 33],
+
       chartOptions: {
         chart: {
           type: "pie",
+          toolbar: true,
         },
         colors: ["#377f87", "#3d96a5", "#6beed1"],
-        labels: ["Members", "Facilitators", "Administrators"],
+        labels: ["Discussions", "Tribes", "Members"],
         responsive: [
           {
             breakpoint: 480,
@@ -155,17 +181,10 @@ export default {
         ],
       },
 
-      series1: [
-        {
-          name: "Inflation",
-          data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2],
-        },
-      ],
       chartOptions1: {
         chart: {
           height: 350,
           type: "bar",
-          toolbar: false,
         },
         colors: ["#377f87"],
         plotOptions: {
@@ -189,7 +208,7 @@ export default {
         },
 
         xaxis: {
-          categories: ["Members", "Facilitators", "Administrators"],
+          categories: ["Discussions", "Tribes", "Members"],
           position: "top",
           axisBorder: {
             show: false,
@@ -227,90 +246,53 @@ export default {
             },
           },
         },
-        title: {
-          text: "Monthly Inflation in Argentina, 2002",
-          floating: true,
-          offsetY: 330,
-          align: "center",
-          style: {
-            color: "#444",
-          },
-        },
       },
     };
   },
   components: {
     AdminTab,
   },
-  watch: {
-    users: "initPie",
-    admins: "initPie",
-    facilitators: "initPie",
-  },
+  watch: {},
   mounted() {
-    this.getadmins();
-    this.getfacilitators();
+    this.getdiscussions();
+    this.gettribes();
     this.getusers();
   },
+
   computed: {
-    newlyadmins() {
-      return this.admins.filter(
-        (item) =>
-          new Date(item.created_at).getMonth() == new Date().getMonth() &&
-          new Date(item.created_at).getFullYear() == new Date().getFullYear()
-      ).length;
+    totaltribes() {
+      return this.tribes.total;
     },
-    newlyfacilitators() {
-      return this.facilitators.filter(
-        (item) =>
-          new Date(item.created_at).getMonth() == new Date().getMonth() &&
-          new Date(item.created_at).getFullYear() == new Date().getFullYear()
-      ).length;
+    totalusers() {
+      return this.users.total;
     },
-    newlyusers() {
-      return this.users.filter(
-        (item) =>
-          new Date(item.created_at).getMonth() == new Date().getMonth() &&
-          new Date(item.created_at).getFullYear() == new Date().getFullYear()
-      ).length;
+    totaldiscussions() {
+      return this.discussions.total;
+    },
+    initPieseries() {
+      return [
+        this.totaldiscussions | 0,
+        this.totaltribes | 0,
+        this.totalusers | 0,
+      ];
+    },
+    initLineseries() {
+      return [
+        {
+          name: "Total %",
+          data: [
+            this.totaldiscussions | 0,
+            this.totaltribes | 0,
+            this.totalusers | 0,
+          ],
+        },
+      ];
     },
   },
   methods: {
-    getadmins() {
-      this.$http
-        .get(`${this.$store.getters.url}/get-admins`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 200) {
-            this.admins = res.data;
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
-    },
-    getfacilitators() {
-      this.$http
-        .get(`${this.$store.getters.url}/get-facilitators`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 200) {
-            this.facilitators = res.data;
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
-    },
     getusers() {
       this.$http
-        .get(`${this.$store.getters.url}/get-users`, {
+        .get(`${this.$store.getters.url}/get/organization/users`, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
           },
@@ -324,43 +306,37 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
-    initPie() {
-      this.series = [
-        this.users.length,
-        this.facilitators.length,
-        this.admins.length,
-      ];
-      this.chartOptions = {
-        chart: {
-          type: "pie",
-        },
-        colors: ["#377f87", "#3d96a5", "#6beed1"],
-        labels: ["Members", "Facilitators", "Administrators"],
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {},
-              legend: {
-                position: "bottom",
-              },
-            },
+    getdiscussions() {
+      this.$http
+        .get(`${this.$store.getters.url}/get/organization/discussions`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
           },
-        ],
-      };
-      this.initLine();
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.discussions = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
     },
-    initLine() {
-      this.series1 = [
-        {
-          name: "Team",
-          data: [
-            this.users.length,
-            this.facilitators.length,
-            this.admins.length,
-          ],
-        },
-      ];
+    gettribes() {
+      this.$http
+        .get(`${this.$store.getters.url}/get/organization/tribes`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.tribes = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
     },
   },
 };
@@ -377,7 +353,7 @@ export default {
   justify-content: center;
   text-align: left;
   padding: 15px;
-  box-shadow: 5px 10px 20px rgba(189, 231, 201, 0.35);
+
   border-radius: 8px;
   background: white;
 }
@@ -393,7 +369,7 @@ export default {
   );
 }
 // .box:hover > div > div,
-// .box:hover > div > .h6 {
+// .box:hover > div > .h5 {
 //   color: white !important;
 // }
 
@@ -401,7 +377,6 @@ export default {
 //   color: white !important;
 // }
 .shadow {
-  box-shadow: 0 0.125rem 0.25rem rgba(189, 231, 201, 0.35) !important;
   border-radius: 8px;
 }
 .search.form-control {
@@ -416,14 +391,14 @@ export default {
 }
 .tob_1 {
   min-height: 200px;
-  box-shadow: 0 0.125rem 0.25rem rgba(189, 231, 201, 0.35) !important;
+
   border-radius: 8px;
   padding: 20px;
   background: white;
 }
 .tob_2 {
   min-height: 200px;
-  box-shadow: 0 0.125rem 0.25rem rgba(189, 231, 201, 0.35) !important;
+
   border-radius: 8px;
   padding: 20px;
   background: white;
