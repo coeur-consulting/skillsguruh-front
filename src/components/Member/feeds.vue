@@ -243,14 +243,7 @@
                             >Reply
                           </small>
 
-                          <small
-                            v-if="
-                              (allcomments.user &&
-                                allcomments.user.id ==
-                                  $store.getters.member.id) ||
-                              $store.getters.member.id == item.user.id
-                            "
-                          >
+                          <small>
                             <b-icon
                               :icon="
                                 item.feedcommentlikes ? 'heart-fill' : 'heart'
@@ -258,7 +251,9 @@
                               :class="
                                 item.feedcommentlikes ? 'text-danger' : ''
                               "
-                              @click="likecomment(item.id, index, item.user.id)"
+                              @click="
+                                likecomment(item.id, index, allcomments.user.id)
+                              "
                             ></b-icon>
                           </small>
                         </div>
@@ -774,28 +769,11 @@
                             >
                               {{ item.user.username }}</span
                             >
-                            <span
-                              class="comment_name mr-2 hover_green"
-                              @click="
-                                $router.push(
-                                  `/member/profile/f/${item.facilitator.id}`
-                                )
-                              "
-                              v-if="item.facilitator"
-                            >
-                              {{ item.facilitator.username }}</span
-                            >
 
                             <span class="comment_text">{{ item.comment }}</span>
                           </div>
                           <div>
-                            <small
-                              v-if="
-                                (feed.user &&
-                                  feed.user.id == $store.getters.member.id) ||
-                                $store.getters.member.id == item.user.id
-                              "
-                            >
+                            <small>
                               <b-icon
                                 class="mr-2"
                                 :icon="
@@ -805,7 +783,7 @@
                                   item.feedcommentlikes ? 'text-danger' : ''
                                 "
                                 @click="
-                                  likecomment(item.id, index, item.user.id)
+                                  likecomment(item.id, index, feed.user.id)
                                 "
                               ></b-icon>
                             </small>
@@ -1451,13 +1429,13 @@ export default {
     },
     toggleFeeds() {
       if (this.feedShown == "recent") {
-        this.recentfeeds();
+        this.getrecentfeeds();
       }
       if (this.feedShown == "custom") {
-        this.customfeeds();
+        this.getcustomfeeds();
       }
       if (this.feedShown == "trending") {
-        this.trendingfeeds();
+        this.gettrendingfeeds();
       }
     },
     sharenow(feed) {

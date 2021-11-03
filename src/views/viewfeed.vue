@@ -249,7 +249,7 @@
                                         likecomment(
                                           item.id,
                                           index,
-                                          item.user.id
+                                          feed.user.id
                                         )
                                       "
                                     ></b-icon>
@@ -268,59 +268,67 @@
                             class="p-2 bg-light rounded w-100"
                             v-if="item.feedcommentreplies.length"
                           >
-                            <div class="text-muted fs12 font-weight-bold mb-1">
-                              Replies
+                            <div class="text-muted fs12 font-weight-bold mb-2">
+                              <a :href="`#${item.comment}`" class="text-muted">
+                                <small>
+                                  <i class="fa fa-reply" aria-hidden="true"></i>
+                                  Replying {{ item.user.username }}
+                                </small></a
+                              >
                             </div>
-                            <div
-                              class="d-flex mb-1"
-                              v-for="(rep, id) in item.feedcommentreplies"
-                              :key="id"
-                            >
-                              <b-avatar
-                                class="mr-2 feedcommentavatar"
-                                :src="rep.user.profile"
-                              ></b-avatar>
-                              <div class="d-flex align-items-start flex-1">
-                                <p class="flex-1 mr-2 mb-0">
-                                  <span
-                                    class="comment_name mr-1"
-                                    @click="
-                                      $router.push(
-                                        `/member/profile/${rep.user.username}`
-                                      )
-                                    "
-                                  >
-                                    {{ rep.user.username }}
-                                  </span>
-                                  <span class="comment_text flex-1">{{
-                                    rep.message
-                                  }}</span>
-                                </p>
-                                <span
-                                  ><b-icon
-                                    :icon="
-                                      rep.feedcommentreplylikes
-                                        ? 'heart-fill'
-                                        : 'heart'
-                                    "
-                                    :class="
-                                      rep.feedcommentreplylikes
-                                        ? 'text-danger'
-                                        : ''
-                                    "
-                                    @click="
-                                      likecommentreply(
-                                        rep.id,
-                                        id,
-                                        index,
-                                        rep.user.id
-                                      )
-                                    "
-                                    font-scale=".8"
-                                  ></b-icon
-                                ></span>
-                              </div>
-                            </div>
+
+                            <ViewMore>
+                              <template v-slot:content>
+                                <div
+                                  class="mb-2"
+                                  v-for="(rep, id) in item.feedcommentreplies"
+                                  :key="id"
+                                >
+                                  <div class="d-flex">
+                                    <b-avatar
+                                      class="mr-2 feedcommentavatar"
+                                      :src="rep.user.profile"
+                                    ></b-avatar>
+                                    <div
+                                      class="d-flex align-items-start flex-1"
+                                    >
+                                      <p class="flex-1 mr-2 mb-1">
+                                        <span class="comment_name mr-1">
+                                          {{ rep.user.username }}
+                                        </span>
+                                        <span class="comment_text flex-1">{{
+                                          rep.message
+                                        }}</span>
+                                      </p>
+                                      <span
+                                        ><b-icon
+                                          :icon="
+                                            rep.feedcommentreplylikes
+                                              ? 'heart-fill'
+                                              : 'heart'
+                                          "
+                                          :class="
+                                            rep.feedcommentreplylikes
+                                              ? 'text-danger'
+                                              : ''
+                                          "
+                                          font-scale=".8"
+                                        ></b-icon
+                                      ></span>
+                                    </div>
+                                  </div>
+                                  <small class="text-muted">{{
+                                    $moment(rep.created_at).fromNow()
+                                  }}</small>
+                                </div>
+                              </template>
+                              <template v-slot:seemore>
+                                <div class="btn-vm">see more</div>
+                              </template>
+                              <template v-slot:seeless>
+                                <div class="btn-vm">see less</div>
+                              </template>
+                            </ViewMore>
                           </div>
                         </div>
                       </div>
@@ -675,6 +683,7 @@
 </template>
 <script>
 import EmojiPicker from "vue-emoji-picker";
+import ViewMore from "@/components/Member/components/viewmore";
 export default {
   data() {
     return {
@@ -703,6 +712,7 @@ export default {
   },
   components: {
     EmojiPicker,
+    ViewMore,
   },
   created() {
     this.getfeeds();
@@ -1125,7 +1135,7 @@ export default {
       this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
           this.$http
-            .delete(`${this.$store.getters.url}/feeds/${this.id}`, {
+            .delete(`${this.$store.getters.url}/feeds/${id}`, {
               headers: {
                 Authorization: `Bearer ${this.usertoken.access_token}`,
               },

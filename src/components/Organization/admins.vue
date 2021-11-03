@@ -46,9 +46,10 @@
                 <b-thead>
                   <b-tr class="text-left">
                     <b-th class="text-muted">Name</b-th>
-                    <b-th class="text-muted">Last login</b-th>
-                    <b-th class="text-muted">Role</b-th>
+                    <b-th class="text-muted">Email</b-th>
+                    <b-th class="text-muted">Phone</b-th>
                     <b-th class="text-muted">Status</b-th>
+                    <b-th class="text-muted">Action</b-th>
                     <b-th></b-th> </b-tr
                 ></b-thead>
                 <b-tbody>
@@ -62,32 +63,14 @@
                         ></b-avatar>
                         <div class="text-left">
                           <span class="text-capitalize">{{ item.name }}</span>
-                          <br />
-                          <span class="text-muted">{{ item.email }}</span>
                         </div>
                       </div>
                     </b-td>
                     <b-td>
-                      <div class="text-left" v-if="item.loginhistory.length">
-                        <span v-if="item.loginhistory.length">{{
-                          item.loginhistory[item.loginhistory.length - 1].record
-                            | moment("ll")
-                        }}</span>
-                        <br />
-                        <span
-                          class="text-muted"
-                          v-if="item.loginhistory.length"
-                          >{{
-                            $moment(
-                              item.loginhistory[item.loginhistory.length - 1]
-                                .record
-                            ).fromNow()
-                          }}</span
-                        >
-                      </div>
-                      <div class="text-left" v-else>Not available</div>
-                    </b-td>
-                    <b-td class="text-capitalize"> {{ item.role }} </b-td>
+                      <span class="text-muted">{{ item.email }}</span></b-td
+                    >
+                    <b-td>{{ item.phone }}</b-td>
+
                     <b-td
                       class="text-left"
                       :class="{
@@ -96,6 +79,17 @@
                       }"
                       >{{ item.verification ? "Active" : "Inactive" }}</b-td
                     >
+                    <b-td>
+                      <div>
+                        <b-form-checkbox
+                          @change="handleVerification($event, item.id, index)"
+                          :checked="item.verification ? true : false"
+                          name="check-button"
+                          switch
+                        >
+                        </b-form-checkbox>
+                      </div>
+                    </b-td>
                     <b-td
                       ><b-icon
                         icon="chevron-down"
@@ -108,15 +102,6 @@
                         placement="bottom"
                       >
                         <div class="">
-                          <small
-                            class="px-0 text-left cursor-pointer"
-                            @click="view()"
-                          >
-                            <b-icon class="mr-2" icon="eye"></b-icon
-                            ><span>View</span>
-                          </small>
-                          <br />
-                          <hr class="my-1" />
                           <small
                             class="px-0 text-left cursor-pointer"
                             @click="edit(item)"
@@ -372,6 +357,27 @@ export default {
     this.getadmins();
   },
   methods: {
+    handleVerification(value, id, index) {
+      this.$http
+        .put(
+          `${this.$store.getters.url}/verify/admin/${id}`,
+          { value },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 204) {
+            this.$toast.success("Success");
+            this.users[index].verification = value;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     getadmins() {
       this.$http
         .get(`${this.$store.getters.url}/get/organization/admins`, {
@@ -381,8 +387,8 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
-            this.users = res.data;
-            this.rows = res.data.length;
+            this.users = res.data.data;
+            this.rows = res.data.total;
           }
         })
         .catch((err) => {
@@ -392,7 +398,7 @@ export default {
 
     register() {
       this.$http
-        .post(`${this.$store.getters.url}/register-admin`, this.user, {
+        .post(`${this.$store.getters.url}/register/admin`, this.user, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
           },

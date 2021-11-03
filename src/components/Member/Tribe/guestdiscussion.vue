@@ -98,8 +98,8 @@
                       font-scale="1.2"
                       class="cursor-pointer"
                     ></b-icon>
-                    <span v-if="discussion.discussionvote">{{ vote }}</span>
-                    <span v-else>0</span>
+                    <span>{{ discussion.discussionvote }}</span>
+
                     <b-icon
                       @click="dropvote"
                       icon="caret-down-fill"
@@ -1273,15 +1273,6 @@ export default {
       return this.discussion.discussionview
         ? this.discussion.discussionview.view
         : null;
-    },
-    vote() {
-      var positive = this.discussion.discussionvote.filter(
-        (item) => item.vote
-      ).length;
-      var negative = this.discussion.discussionvote.filter(
-        (item) => !item.vote
-      ).length;
-      return Number(positive) - Number(negative);
     },
 
     filteredConnections() {

@@ -315,7 +315,7 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
-            this.discussions = res.data;
+            this.discussions = res.data.meta;
           }
         })
         .catch((err) => {

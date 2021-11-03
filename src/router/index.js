@@ -557,7 +557,7 @@ const routes = [
         },
       },
       {
-        path: "discussion",
+        path: "discussion/:id",
         name: "organization discussion",
         components: {
           default: () =>
@@ -585,7 +585,7 @@ const routes = [
         },
       },
       {
-        path: "event",
+        path: "event/:id",
         name: "organization event",
         components: {
           default: () =>
@@ -613,7 +613,7 @@ const routes = [
         },
       },
       {
-        path: "view-feed",
+        path: "feed/:id",
         name: "organization feed",
         components: {
           default: () =>

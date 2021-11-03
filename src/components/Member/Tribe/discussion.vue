@@ -105,10 +105,8 @@
                       font-scale="1.2"
                       class="cursor-pointer"
                     ></b-icon>
-                    <span v-if="discussion.discussionvote">{{
-                      discussion.discussionvote
-                    }}</span>
-                    <span v-else>0</span>
+                    <span>{{ discussion.discussionvote }}</span>
+
                     <b-icon
                       @click="dropvote"
                       icon="caret-down-fill"

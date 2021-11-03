@@ -3,7 +3,7 @@
     <div class="py-4 bg-light">
       <b-container>
         <b-row class="justify-content-center">
-          <b-col sm="8">
+          <b-col>
             <div class="border bg-white py-4 rounded">
               <div
                 class="
@@ -21,12 +21,7 @@
                 >
                   Recent
                 </div>
-                <div
-                  :class="{ active: show == 'mostanswers' }"
-                  @click="show = 'mostanswers'"
-                >
-                  Most Answers
-                </div>
+
                 <div
                   :class="{ active: show == 'trending' }"
                   @click="show = 'trending'"
@@ -87,19 +82,7 @@
                       <div class="side_dis">
                         <b-avatar
                           size="1.8rem"
-                          v-if="item.creator == 'admin'"
-                          :src="item.admin.profile"
-                        ></b-avatar>
-
-                        <b-avatar
-                          size="1.8rem"
-                          v-if="item.creator == 'user'"
                           :src="item.user.profile"
-                        ></b-avatar>
-                        <b-avatar
-                          size="1.8rem"
-                          v-if="item.creator == 'facilitator'"
-                          :src="item.facilitator.profile"
                         ></b-avatar>
                       </div>
                       <div class="text-left next_dis">
@@ -141,12 +124,7 @@
                           ont-scale="1.2"
                           class="text-muted"
                         ></b-icon>
-                        <span v-if="item.discussionvote">
-                          <span v-if="vote(item.discussionvote) > 0">+</span>
-                          <span v-if="vote(item.discussionvote) < 0">-</span
-                          >{{ vote(item.discussionvote) }}</span
-                        >
-                        <span v-else>0</span>
+                        <span> {{ item.discussionvote }}</span>
 
                         <b-icon
                           icon="caret-down-fill"
@@ -171,9 +149,9 @@
                         <span class="mr-4"
                           ><b-icon icon="eye-fill" class="mr-1"></b-icon>
                           <span v-if="item.discussionview">{{
-                            item.discussionview.view || 0
+                            item.discussionview
                           }}</span>
-                          <span v-else>{{ 0 }}</span> views</span
+                          views</span
                         >
                       </div>
                       <div>
@@ -244,73 +222,6 @@
                     </div>
                     <b-skeleton animation="wave" width="85%"></b-skeleton>
                     <b-skeleton animation="wave" width="35%"></b-skeleton>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </b-col>
-          <b-col sm="4" class="d-none d-md-block" v-if="usertoken">
-            <div class="shadow-sm bg-white p-4 rounded">
-              <div class="py-3 text-left related_quest border">
-                <h6 class="mb-3 px-3">Other Discussions</h6>
-                <div v-if="showOther">
-                  <div v-if="otherdiscussion">
-                    <div
-                      class="d-flex p-2 px-3"
-                      v-for="(dis, id) in otherdiscussion.slice(0, 6)"
-                      :key="id"
-                    >
-                      <div>
-                        <div class="mr-3 related_count">
-                          {{ dis.discussionmessage.length }}
-                        </div>
-                      </div>
-                      <span
-                        @click="
-                          $router.push(`/member/explore/discussion/${dis.id}`)
-                        "
-                        class="
-                          related
-                          text-left text-capitalize
-                          font-weight-bold
-                        "
-                        >{{ dis.name }}</span
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div v-else class="p-2 p-sm-3 w-100">
-                  <div class="d-flex w-100 mb-3">
-                    <div class="mr-2 w-25">
-                      <b-skeleton animation="wave" width="100%"></b-skeleton>
-                    </div>
-                    <div class="w-75">
-                      <b-skeleton animation="wave" width="100%"></b-skeleton>
-                    </div>
-                  </div>
-                  <div class="d-flex w-100 mb-3">
-                    <div class="mr-2 w-25">
-                      <b-skeleton animation="wave" width="100%"></b-skeleton>
-                    </div>
-                    <div class="w-75">
-                      <b-skeleton animation="wave" width="100%"></b-skeleton>
-                    </div>
-                  </div>
-                  <div class="d-flex w-100 mb-3">
-                    <div class="mr-2 w-25">
-                      <b-skeleton animation="wave" width="100%"></b-skeleton>
-                    </div>
-                    <div class="w-75">
-                      <b-skeleton animation="wave" width="100%"></b-skeleton>
-                    </div>
-                  </div>
-                  <div class="d-flex w-100 mb-3">
-                    <div class="mr-2 w-25">
-                      <b-skeleton animation="wave" width="100%"></b-skeleton>
-                    </div>
-                    <div class="w-75">
-                      <b-skeleton animation="wave" width="100%"></b-skeleton>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -463,7 +374,9 @@ export default {
     MultiSelect,
     ModelListSelect,
   },
-
+  watch: {
+    currentPage: "paginatedData",
+  },
   mounted() {
     // this.getothers();
     this.getdiscussions();
@@ -488,30 +401,17 @@ export default {
       }
       return token;
     },
-    filtered() {
-      return this.discussions.slice(
-        this.perPage * this.currentPage - this.perPage,
-        this.perPage * this.currentPage
-      );
-    },
+
     filteredData() {
       if (this.show == "recent") {
-        return this.filtered
-          .filter((item) => item.type == "public")
-          .filter((item) =>
-            item.name.toLowerCase().includes(this.search.toLowerCase())
-          );
+        return this.discussions.filter((item) =>
+          item.name.toLowerCase().includes(this.search.toLowerCase())
+        );
       }
-      if (this.show == "mostanswers") {
-        return this.filtered
-          .filter((item) => item.type == "public")
-          .sort((a, b) => {
-            return b.discussionmessage.length - a.discussionmessage.length;
-          });
-      }
+
       if (this.show == "trending") {
-        return this.filtered
-          .filter((item) => item.type == "public")
+        return this.discussions
+          .slice()
           .sort((a, b) => {
             return (
               (b.discussionview ? b.discussionview.view : 0) -
@@ -522,13 +422,7 @@ export default {
             item.name.toLowerCase().includes(this.search.toLowerCase())
           );
       }
-      if (this.show == "private") {
-        return this.filtered
-          .filter((item) => item.type == "private")
-          .filter((item) =>
-            item.name.toLowerCase().includes(this.search.toLowerCase())
-          );
-      }
+
       return [];
     },
     usertoken() {
@@ -551,15 +445,25 @@ export default {
     },
   },
   methods: {
+    paginatedData() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/guest/discussions?page=${this.currentPage}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          this.discussions = res.data.data;
+        });
+    },
     onSelect(items, lastSelectItem) {
       this.discussion.tags = items;
       this.lastSelectItem = lastSelectItem;
     },
-    vote(val) {
-      var positive = val.filter((item) => item.vote).length;
-      var negative = val.filter((item) => !item.vote).length;
-      return Number(positive) - Number(negative);
-    },
+
     requestAccess() {
       var data = {
         discussion_id: this.discussion_id,
@@ -582,10 +486,7 @@ export default {
         });
     },
     joindiscussion(item) {
-      // if (!this.useraccess) {
-      //   this.$router.push("/login?redirect=%2Fmember%2Fdiscussions");
-      // }
-      this.$router.push(`/member/explore/discussion/${item.id}`);
+      this.$router.push(`/member/tribe/discussion/${item.id}`);
     },
 
     getdiscussions() {
@@ -593,9 +494,10 @@ export default {
         .get(`${this.$store.getters.url}/guest/discussions`)
         .then((res) => {
           if (res.status == 200) {
-            this.discussions = res.data;
+            this.discussions = res.data.data;
             this.showDiscussion = true;
-            this.rows = res.data.length;
+            this.rows = res.data.meta.total;
+            this.perPage = res.data.meta.per_page;
           }
         })
         .catch((err) => {
@@ -631,23 +533,6 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
-    // getothers() {
-    //   this.$http
-    //     .get(`${this.$store.getters.url}/other-discussions`, {
-    //       headers: {
-    //         Authorization: `Bearer ${this.usertoken.access_token}`,
-    //       },
-    //     })
-    //     .then((res) => {
-    //       if (res.status == 200) {
-    //         this.otherdiscussion = res.data;
-    //         this.showOther = true;
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       this.$toast.error(err.response.data.message);
-    //     });
-    // },
   },
 };
 </script>

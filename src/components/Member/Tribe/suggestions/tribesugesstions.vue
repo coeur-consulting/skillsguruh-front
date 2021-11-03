@@ -3,13 +3,13 @@
     <h6 class="mb-4">Suggested Tribe</h6>
     <ul class="ml-0 pl-0 suggestion">
       <li class="d-flex mb-3" v-for="(n, id) in tribes" :key="n.id">
-        <b-avatar class="mr-2"></b-avatar>
+        <b-avatar class="mr-2" :src="n.cover"></b-avatar>
         <div class="text-left" :id="`suggestedpopover-${id}`">
           <div class="tribe_name">{{ n.name }} Tribe</div>
           <div class="tribe_members">
             <span class="d-flex align-items-center"
-              >{{ n.users.length }}
-              {{ n.users.length > 1 ? "members" : "member" }}
+              >{{ n.users }}
+              {{ n.users > 1 ? "members" : "member" }}
             </span>
           </div>
         </div>
@@ -19,16 +19,38 @@
           <p class="fs13">{{ n.description }}</p>
           <p class="fs14 text-muted mb-1">
             <font-awesome-icon :icon="users" size="1x" class="icon" />
-            {{ n.users.length }}
+            {{ n.users }}
           </p>
 
           <b-button
+            v-if="n.type == 'free'"
             block
-            variant="secondary"
+            variant="dark-green"
             size="sm"
             @click="entertribe(n.id)"
-            >Join</b-button
           >
+            {{ n.isMember ? "Engage" : "Join" }}</b-button
+          >
+          <div v-else>
+            <b-button
+              v-if="n.isMember"
+              block
+              variant="dark-green"
+              size="sm"
+              @click="entertribe(n.id)"
+            >
+              <font-awesome-icon :icon="signIn"
+            /></b-button>
+            <b-button
+              v-else
+              block
+              variant="dark-green"
+              size="sm"
+              @click="purchase(n.id)"
+            >
+              <font-awesome-icon :icon="signIn"
+            /></b-button>
+          </div>
         </b-popover>
       </li>
     </ul>
@@ -37,10 +59,12 @@
 
 <script>
 import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 export default {
   data() {
     return {
       users: faUsers,
+      signIn: faSignInAlt,
       tribes: [],
     };
   },
@@ -48,6 +72,9 @@ export default {
     this.getsuggestions();
   },
   methods: {
+    purchase(id) {
+      this.$router.push(`/member/order?id=${id}&type_payment=tribe`);
+    },
     entertribe(id) {
       if (!this.useraccess) {
         this.$router.push("/login?redirect=%2Fexplore%2Fcommunity");

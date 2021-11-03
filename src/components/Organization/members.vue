@@ -31,13 +31,13 @@
             >
               <b-icon icon="funnel"></b-icon>
               <div>
-                <b-button variant="dark-green" size="sm">
+                <!-- <b-button variant="dark-green" size="sm">
                   <b-icon
                     icon="plus"
                     @click="$bvModal.show('add')"
                     font-scale="1.5"
                   ></b-icon
-                ></b-button>
+                ></b-button> -->
               </div>
             </div>
 
@@ -49,10 +49,11 @@
                     <b-th class="text-muted">Last login</b-th>
                     <b-th class="text-muted">Phone number</b-th>
                     <b-th class="text-muted">Status</b-th>
+                    <b-th class="text-muted">Action</b-th>
                     <b-th></b-th> </b-tr
                 ></b-thead>
                 <b-tbody>
-                  <b-tr v-for="(item, index) in filter" :key="item.id">
+                  <b-tr v-for="(item, index) in paginatedData" :key="item.id">
                     <b-td>
                       <div class="d-flex">
                         <b-avatar
@@ -96,6 +97,17 @@
                       }"
                       >{{ item.verification ? "Active" : "Inactive" }}</b-td
                     >
+                    <b-td>
+                      <div>
+                        <b-form-checkbox
+                          @change="handleVerification($event, item.id, index)"
+                          :checked="item.verification ? true : false"
+                          name="check-button"
+                          switch
+                        >
+                        </b-form-checkbox>
+                      </div>
+                    </b-td>
                     <b-td
                       ><b-icon
                         icon="chevron-down"
@@ -108,7 +120,7 @@
                         placement="bottom"
                       >
                         <div class="">
-                          <small
+                          <!-- <small
                             class="px-0 text-left cursor-pointer"
                             @click="view()"
                           >
@@ -116,16 +128,8 @@
                             ><span>View</span>
                           </small>
                           <br />
-                          <hr class="my-1" />
-                          <small
-                            class="px-0 text-left cursor-pointer"
-                            @click="edit(item)"
-                          >
-                            <b-icon class="mr-2" icon="pencil"></b-icon
-                            ><span>Edit</span>
-                          </small>
-                          <br />
-                          <hr class="my-1" />
+                          <hr class="my-1" /> -->
+
                           <small
                             class="px-0 cursor-pointer"
                             @click="drop(item.id, index)"
@@ -141,7 +145,7 @@
               </b-table-simple>
               <div class="p-3 d-flex justify-content-between" v-if="rows > 10">
                 <div class="fs12 text-muted">
-                  Showing 1-10 of {{ users.length }} items
+                  Showing 1-{{ perPage }} of {{ rows }} items
                 </div>
                 <b-pagination
                   pills
@@ -371,17 +375,53 @@ export default {
     this.getusers();
   },
   methods: {
+    handleVerification(value, id, index) {
+      this.$http
+        .put(
+          `${this.$store.getters.url}/verify/user/${id}`,
+          { value },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 204) {
+            this.$toast.success("Success");
+            this.users[index].verification = value;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    paginatedData() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/get/organization/users?page=${this.currentPage}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          this.users = res.data.data;
+        });
+    },
     getusers() {
       this.$http
-        .get(`${this.$store.getters.url}/get-users`, {
+        .get(`${this.$store.getters.url}/get/organization/users`, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
           },
         })
         .then((res) => {
           if (res.status == 200) {
-            this.users = res.data;
-            this.rows = res.data.length;
+            this.users = res.data.data;
+            this.rows = res.data.total;
+            this.perPage = res.data.per_page;
           }
         })
         .catch((err) => {

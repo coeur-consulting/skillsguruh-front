@@ -249,31 +249,14 @@
             >
               <div
                 class="discussion_container position-relative"
-                @click="$router.push(`/member/explore/discussion/${item.id}`)"
+                @click="$router.push(`/member/tribe/discussion/${item.id}`)"
               >
                 <div class="p-4 dicussion_overlay position-relative">
                   <b-avatar
-                    v-if="item.admin"
-                    :src="item.admin.profile"
-                    class="mr-3 discussion_avatar"
-                  ></b-avatar>
-                  <b-avatar
-                    v-if="item.user"
                     :src="item.user.profile"
                     class="mr-3 discussion_avatar"
                   ></b-avatar>
-                  <b-avatar
-                    v-if="item.facilitator"
-                    :src="item.facilitator.profile"
-                    class="mr-3 discussion_avatar"
-                  ></b-avatar>
-                  <div class="discussion_name" v-if="item.admin">
-                    {{ item.admin.name }}
-                  </div>
 
-                  <div class="discussion_name" v-if="item.facilitator">
-                    {{ item.facilitator.username }}
-                  </div>
                   <div class="discussion_name" v-if="item.user">
                     {{ item.user.username }}
                   </div>
@@ -391,7 +374,7 @@
               >
                 <div
                   class="discussion_container position-relative"
-                  @click="$router.push(`/member/explore/discussion/${item.id}`)"
+                  @click="$router.push(`/member/tribe/discussion/${item.id}`)"
                 >
                   <div class="p-4 dicussion_overlay position-relative">
                     <b-avatar
@@ -521,7 +504,7 @@
           <small
             @click="$router.push('/member/explore/discussions')"
             class="cursor-pointer text-dark-green"
-            >View all {{ discussions.length }} discussions
+            >View all discussions
             <b-icon font-scale=".85" icon="chevron-right"></b-icon
           ></small>
         </div>
@@ -2052,10 +2035,10 @@ export default {
     },
     getdiscussions() {
       this.$http
-        .get(`${this.$store.getters.url}/guest/discussions`)
+        .get(`${this.$store.getters.url}/guest/explore/discussions`)
         .then((res) => {
           if (res.status == 200) {
-            this.discussions = res.data;
+            this.discussions = res.data.data;
           }
         });
     },
