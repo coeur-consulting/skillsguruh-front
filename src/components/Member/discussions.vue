@@ -866,10 +866,6 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
-            console.log(
-              "🚀 ~ file: discussions.vue ~ line 886 ~ .then ~ res.data.data",
-              res.data.data
-            );
             if (res.data.data.length) {
               this.trenddiscussions = res.data.data;
               this.currentPageT = res.data.current_page;

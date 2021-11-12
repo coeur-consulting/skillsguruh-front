@@ -277,10 +277,18 @@
                         </div>
 
                         <div
+                          v-if="comment.feedcommentreplies.length"
                           class="replyfeed text-muted"
                           @click="handlereplies(comment)"
                         >
-                          <small> View replies</small>
+                          <small>
+                            View {{ comment.feedcommentreplies.length }}
+                            {{
+                              comment.feedcommentreplies.length > 1
+                                ? "replies"
+                                : "reply"
+                            }}</small
+                          >
                         </div>
                       </div>
                     </b-card-text>
@@ -731,7 +739,7 @@ export default {
           }
         )
         .then((res) => {
-          if (res.status === 201) {
+          if (res.data === "success") {
             this.feed.comments[index].feedcommentlikes = res.data;
           } else {
             this.feed.comments[index].feedcommentlikes = null;
@@ -753,7 +761,7 @@ export default {
           }
         )
         .then((res) => {
-          if (res.status === 201) {
+          if (res.data === "success") {
             this.allreplies.feedcommentreplies[index].feedcommentreplylikes =
               res.data;
           } else {

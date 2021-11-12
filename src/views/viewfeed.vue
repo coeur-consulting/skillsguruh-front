@@ -292,7 +292,10 @@
                                     <div
                                       class="d-flex align-items-start flex-1"
                                     >
-                                      <p class="flex-1 mr-2 mb-1">
+                                      <p
+                                        class="flex-1 mr-2 mb-1"
+                                        style="line-height: 1"
+                                      >
                                         <span class="comment_name mr-1">
                                           {{ rep.user.username }}
                                         </span>
@@ -317,7 +320,7 @@
                                       ></span>
                                     </div>
                                   </div>
-                                  <small class="text-muted">{{
+                                  <small class="text-muted fs9">{{
                                     $moment(rep.created_at).fromNow()
                                   }}</small>
                                 </div>
@@ -948,8 +951,6 @@ export default {
           } else {
             this.feed.comments[index].feedcommentlikes = null;
           }
-
-          this.gettrendingfeeds();
         });
     },
     likecommentreply(id, index, idx, userId) {
