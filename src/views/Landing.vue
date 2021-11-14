@@ -100,7 +100,10 @@
                 </div>
                 <div class="text-left px-2" style="width: 80%">
                   <span> {{ item.name }}</span> <br />
-                  <span class="text-truncate text-truncate--1">
+                  <span
+                    class="text-truncate text-truncate--1 text-muted"
+                    style="font-size: 0.85rem"
+                  >
                     {{ item.description }}</span
                   >
 
