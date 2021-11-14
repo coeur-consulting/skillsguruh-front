@@ -1110,18 +1110,17 @@ export default {
   },
   computed: {
     filteredFeeds() {
-      var feeds = [];
       if (this.feedShown == "recent" && this.recentfeeds.length) {
-        feeds = this.recentfeeds;
+        return this.recentfeeds;
       }
       if (this.feedShown == "trending" && this.trendingfeeds.length) {
-        feeds = this.trendingfeeds;
+        return this.trendingfeeds;
       }
       if (this.feedShown == "custom" && this.customfeeds.length) {
-        feeds = this.customfeeds;
+        return this.customfeeds;
       }
 
-      return feeds;
+      return [];
     },
     useraccess() {
       var token = null;
