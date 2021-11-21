@@ -207,7 +207,7 @@ export default {
   data() {
     return {
       show: "computer",
-      img_ext: ["jpg", "png", "jpg ", "gif"],
+      img_ext: ["jpg", "png", "jpeg ", "gif"],
       vid_ext: ["mp4", "3gp", "mov", "flv"],
       filesSelectedLength: 0,
       file: [],

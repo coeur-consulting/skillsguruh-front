@@ -6,9 +6,24 @@
     sticky
     class="border-bottom py-0"
   >
-    <b-col cols="3" sm="4" class="text-left d-flex align-items-center"
-      ><b-navbar-brand href="/" class="mr-4"
-        ><b-img class="logo" src="/icon.png"></b-img
+    <b-col cols="3" sm="4" class="text-left d-flex align-items-center pl-0 pl-md-3"
+      >
+ <b-navbar-toggle
+        target="sidebar-right"
+        v-b-toggle.sidebar-right
+        class="border-0 w-100 mr-3"
+      >
+        <template #default="{ expanded }">
+          <div class="navtog">
+            <div class="checked" v-if="expanded"></div>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </template>
+      </b-navbar-toggle>
+      <b-navbar-brand href="/" class="mr-md-4"
+        ><b-img class="logo" src="/img/logo.png"></b-img
       ></b-navbar-brand>
 
       <div class="position-relative d-none d-md-flex align-items-center">
@@ -22,20 +37,7 @@
     </b-col>
 
     <b-col cols="2" sm="4" class="d-flex align-items-center">
-      <b-navbar-toggle
-        target="sidebar-right"
-        v-b-toggle.sidebar-right
-        class="border-0 w-100"
-      >
-        <template #default="{ expanded }">
-          <div class="navtog">
-            <div class="checked" v-if="expanded"></div>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </template>
-      </b-navbar-toggle>
+
       <b-collapse id="mynav" is-nav class="w-100">
         <b-navbar-nav class="align-items-center justify-content-center mx-auto">
           <b-nav-item to="/explore" class="mr-sm-4 position-relative">
@@ -122,7 +124,7 @@
               <b-icon
                 icon="circle-fill"
                 variant="danger"
-                font-scale=".5"
+                font-scale=".53"
                 class="circle-dot"
               ></b-icon>
             </span>
@@ -211,7 +213,9 @@
                 d-flex
                 justify-content-center
                 align-content-center
-                p-5
+                p-md-5
+                p-3
+                mb-1
               "
             >
               <div class="text-muted">No Message Available</div>
@@ -278,7 +282,7 @@
       <div>
         <div class="px-3 py-2">
           <b-navbar-nav
-            class="align-items-center justify-content-center mx-auto flex-row"
+            class="align-items-center justify-content-md-center mx-md-auto flex-row"
           >
             <b-nav-item to="/explore" class="mr-4 position-relative">
               <font-awesome-icon :icon="globe" size="2x" class="icon" />
@@ -996,7 +1000,7 @@ export default {
   transform: translate(13px, -5px) rotatez(45deg);
 }
 .logo {
-  width: 30px;
+  width: 100px;
 }
 
 .tsrch {
@@ -1040,15 +1044,15 @@ nav .nav li a {
 }
 .notifier {
   position: absolute;
-  top: 1px;
-  right: 15px;
+  top: -9px;
+  right: 5px;
 }
 
 @media (max-width: 600px) {
   .notifier {
     position: absolute;
-    top: -4px;
-    right: 13px;
+    top: -7px;
+    right: 6px;
   }
 
   .navbar-light .navbar-nav .nav-link {

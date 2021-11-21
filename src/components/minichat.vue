@@ -915,16 +915,17 @@ audio {
   .reply_box {
     position: fixed;
     bottom: 0;
-    width: 95vw;
+    width: 100vw;
     left: 0;
     right: 0;
     border-radius: 10px 10px 0 0;
-    z-index: 999;
+    z-index: 1030;
     overflow: hidden;
     margin: 0 auto;
+    height: 100vh;
   }
   .reply {
-    height: 70vh;
+    height: 83vh;
   }
 }
 </style>
