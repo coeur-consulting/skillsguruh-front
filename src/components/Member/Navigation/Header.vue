@@ -133,7 +133,7 @@
           </div>
         </b-nav-item>
         <b-nav-item class="last_nav mr-2">
-          <div class="position-relative" id="inbox">
+          <div class="position-relative d-none d-md-block" id="inbox">
             <font-awesome-layers class="fa-2x">
               <font-awesome-icon :icon="circle" class="text-lighter-green" />
               <font-awesome-icon
@@ -148,6 +148,22 @@
               }}</b-badge></small
             >
           </div>
+           <div class="position-relative d-md-none" @click="$router.push('/messages')">
+            <font-awesome-layers class="fa-2x">
+              <font-awesome-icon :icon="circle" class="text-lighter-green" />
+              <font-awesome-icon
+                :icon="envelope"
+                transform="shrink-7"
+                class="text-dark-green"
+              />
+            </font-awesome-layers>
+            <small class="unread">
+              <b-badge variant="danger" v-if="unreadmesages">{{
+                unreadmesages
+              }}</b-badge></small
+            >
+          </div>
+
 
           <b-popover
             id="inbox1"
@@ -888,6 +904,10 @@ export default {
       return mess.pop();
     },
     getmessage(id, name, type, profile, index) {
+      if (window.innerWidth < 768) {
+        this.$router.push("/messages");
+        return;
+      }
       var mini_info = {};
       mini_info.id = id;
       mini_info.name = name;

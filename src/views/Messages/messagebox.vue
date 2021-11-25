@@ -1,8 +1,11 @@
 <template>
-  <div class="h-100 px-2" v-if="info" @click="markasread">
+  <div class="h-100 " v-if="info" @click="markasread">
     <header class="d-flex px-3 py-2 align-items-center border-bottom">
       <div class="d-flex flex-1 align-items-center">
-        <b-avatar size="2.5rem" :src="info.profile" class="mr-2"></b-avatar>
+       <span class="d-flex  align-items-center">
+         <b-icon @click="toggleView('menu')" icon="arrow-left" class="mr-3 d-md-none"></b-icon>
+          <b-avatar size="2.5rem" :src="info.profile" class="mr-2"></b-avatar>
+       </span>
         <p
           class="chat_name hover_green text-capitalize mb-0"
           @click="$router.push(`/member/profile/${info.username}`)"
@@ -12,7 +15,7 @@
     </header>
 
     <ul
-      class="chatbody py-3 px-5 text-left pl-0 mb-0"
+      class="chatbody py-3 px-2 px-md-5 text-left pl-0 mb-0"
       v-chat-scroll="{ always: false, smooth: true, scrollonremoved: true }"
     >
       <li v-for="(item, index) in messages" :key="index">
@@ -502,6 +505,9 @@ export default {
     },
   },
   methods: {
+    toggleView(val){
+    this.$emit('toggleView', val)
+    },
      markasread() {
        if(!this.info) return
       let data = {
@@ -666,7 +672,7 @@ header {
 }
 
 .chatbody {
-  height: 84%;
+  height: 81%;
   overflow-y: scroll;
   position: relative;
   background-image: url('/img/whats.png');
@@ -780,6 +786,7 @@ audio {
     bottom: 60px;
      right: unset;
 }
+
 @media (max-width: 600px) {
   .reply_box {
     position: fixed;
@@ -796,5 +803,9 @@ audio {
   .reply {
     height: 83vh;
   }
+small, .small {
+    font-size: 68%;
+    font-weight: 400;
+}
 }
 </style>

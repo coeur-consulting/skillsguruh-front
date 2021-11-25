@@ -1,7 +1,7 @@
 <template>
   <div class="py-3">
     <div class="text-center mb-3 px-3">
-      <b-img class="logo" src="/img/logo.png"></b-img>
+     <router-link to="/member/feeds"> <b-img class="logo" src="/img/logo.png"></b-img></router-link>
     </div>
     <div class="mb-2 px-2">
       <b-form-input
@@ -131,6 +131,7 @@ export default {
       val.index = index;
       this.connections[index].unread_message = 0;
       bus.$emit("switchchat", val);
+      this.$emit('toggleView','chat')
     },
     markMessagesRead(id) {
       let data = {
@@ -167,6 +168,11 @@ export default {
 
 
 <style lang="scss" scoped>
+.list-group-item.active {
+
+    color: #333;
+
+}
 .chat_time {
   font-size: 0.65rem;
 }

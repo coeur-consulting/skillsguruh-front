@@ -10,6 +10,14 @@
           ></b-form-input
         ></b-col>
       </b-row>
+      <div v-if="!filterTribes.length">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+
+          <strong>You do not belong to any tribe yet! Try joining one or <span @click="$bvModal.show('start')">Create yours now</span></strong>
+        </div>
+
+
+      </div>
       <b-row>
         <b-col
           cols="6"
@@ -119,6 +127,7 @@
           </div>
         </b-col>
       </b-row>
+
       <infinite-loading @infinite="infiniteHandler"></infinite-loading>
     </b-container>
     <b-modal id="start" hide-footer centered title="Create your tribe">
