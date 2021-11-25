@@ -323,7 +323,8 @@
                     message.id,
                     message.name,
                     message.type,
-                    message.profile
+                    message.profile,
+                    index
                   )
                 "
               >
@@ -471,13 +472,14 @@ export default {
         },
       });
     },
-    getmessage(id, name, type, profile) {
+    getmessage(id, name, type, profile,index) {
       this.current.id = id;
       this.current.type = type;
       this.mini_info.id = id;
       this.mini_info.name = name;
       this.mini_info.type = type;
       this.mini_info.profile = profile;
+       this.mini_info.index = index;
       this.$store.dispatch("getChatter", this.mini_info);
     },
   },

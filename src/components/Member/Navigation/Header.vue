@@ -6,9 +6,12 @@
     sticky
     class="border-bottom py-0"
   >
-    <b-col cols="3" sm="4" class="text-left d-flex align-items-center pl-0 pl-md-3"
-      >
- <b-navbar-toggle
+    <b-col
+      cols="3"
+      sm="4"
+      class="text-left d-flex align-items-center pl-0 pl-md-3"
+    >
+      <b-navbar-toggle
         target="sidebar-right"
         v-b-toggle.sidebar-right
         class="border-0 w-100 mr-3"
@@ -22,9 +25,9 @@
           </div>
         </template>
       </b-navbar-toggle>
-      <b-navbar-brand href="/" class="mr-md-4"
-        ><b-img class="logo" src="/img/logo.png"></b-img
-      ></b-navbar-brand>
+      <b-navbar-brand href="/" class="mr-md-4">
+        <b-img class="logo" src="/img/logo.png"></b-img>
+      </b-navbar-brand>
 
       <div class="position-relative d-none d-md-flex align-items-center">
         <b-icon icon="search" class="sbtn" font-scale=".9"></b-icon>
@@ -37,7 +40,6 @@
     </b-col>
 
     <b-col cols="2" sm="4" class="d-flex align-items-center">
-
       <b-collapse id="mynav" is-nav class="w-100">
         <b-navbar-nav class="align-items-center justify-content-center mx-auto">
           <b-nav-item to="/explore" class="mr-sm-4 position-relative">
@@ -131,8 +133,8 @@
           </div>
         </b-nav-item>
         <b-nav-item class="last_nav mr-2">
-          <div class="position-relative">
-            <font-awesome-layers class="fa-2x" id="inbox">
+          <div class="position-relative" id="inbox">
+            <font-awesome-layers class="fa-2x">
               <font-awesome-icon :icon="circle" class="text-lighter-green" />
               <font-awesome-icon
                 :icon="envelope"
@@ -141,8 +143,8 @@
               />
             </font-awesome-layers>
             <small class="unread">
-              <b-badge variant="danger" v-if="unreadmesages.length">{{
-                unreadmesages.length
+              <b-badge variant="danger" v-if="unreadmesages">{{
+                unreadmesages
               }}</b-badge></small
             >
           </div>
@@ -154,57 +156,87 @@
             placement="bottom"
           >
             <template #title>Inbox</template>
-            <div class="inbox" v-if="chatter.length">
-              <div
-                class="inbox_message"
-                v-for="(message, index) in chatter"
-                :key="index"
-              >
-                <div class="px-1 py-1 d-flex border-bottom align-items-start">
-                  <b-avatar size="1.6rem" :src="message.profile"></b-avatar>
-
-                  <div
-                    class="message_text flex-1 px-2"
-                    style="width: 75%"
-                    @click="
-                      getmessage(
-                        message.id,
-                        message.name,
-                        message.type,
-                        message.profile
-                      )
-                    "
-                  >
-                    <span class="message_name fs12">{{ message.name }}</span>
-                    <br />
-                    <div
-                      class="last_message fs11"
-                      :class="
-                        !lastMessage(message).status &&
-                        lastMessage(message).user_id != $store.getters.member.id
-                          ? 'font-weight-bold'
-                          : ''
+            <div class="inbox" v-if="connections.length">
+              <b-list-group>
+                <b-list-group-item
+                  v-for="(item, index) in connections"
+                  :key="index"
+                  class="d-flex px-2 border-0 border-bottom list"
+                  @click="
+                    getmessage(
+                      item.user_follower.id,
+                      item.user_follower.username,
+                      'user',
+                      item.user_follower.profile,
+                      index
+                    )
+                  "
+                >
+                  <b-avatar
+                    class="mr-2"
+                    :src="item.user_follower.profile"
+                  ></b-avatar>
+                  <span class="text-left flex-grow-1">
+                    <span
+                      class="
+                        d-flex
+                        align-items-center
+                        justify-content-between
+                        flex-1
                       "
-                    >
+                      ><p
+                        class="
+                          mb-0
+                          text-truncate text-truncate--1
+                          text-capitalize
+                        "
+                        :class="
+                          item.unread_message
+                            ? 'font-weight-bold'
+                            : 'text-muted'
+                        "
+                      >
+                        {{ item.user_follower.username }}
+                      </p>
                       <span
-                        v-if="lastMessage(message).message"
-                        class="text-muted text-truncate text-truncate--1"
-                        v-html="lastMessage(message).message"
-                      >
-                      </span>
-                      <span v-else class="text-muted fs11"
-                        ><i>Sent attachment</i></span
-                      >
-                    </div>
-                  </div>
-
-                  <div class="time" style="width: 50px">
-                    <span class="message_time fs9">
-                      {{ lastMessage(message).time | moment("LT") }}</span
+                        class="chat_time"
+                        :class="
+                          item.unread_message
+                            ? 'font-weight-bold'
+                            : 'text-muted'
+                        "
+                        v-if="item.last_message"
+                        >{{
+                          $moment(item.last_message.created_at).fromNow()
+                        }}</span
+                      ></span
                     >
-                  </div>
-                </div>
-              </div>
+                    <span
+                      class="d-flex justify-content-between w-100"
+                      v-if="item.last_message"
+                    >
+                      <small
+                        class="text-truncate text-truncate--1"
+                        :class="
+                          item.unread_message
+                            ? 'font-weight-bold'
+                            : 'text-muted'
+                        "
+                        >{{
+                          item.last_message.message
+                            ? item.last_message.message
+                            : "Sent attachment..."
+                        }}</small
+                      >
+                      <small v-if="item.unread_message">
+                        <b-badge variant="primary">{{
+                          item.unread_message
+                        }}</b-badge></small
+                      >
+                    </span>
+                  </span>
+                </b-list-group-item>
+              </b-list-group>
             </div>
             <div
               v-else
@@ -213,8 +245,7 @@
                 d-flex
                 justify-content-center
                 align-content-center
-                p-md-5
-                p-3
+                p-md-5 p-3
                 mb-1
               "
             >
@@ -282,7 +313,12 @@
       <div>
         <div class="px-3 py-2">
           <b-navbar-nav
-            class="align-items-center justify-content-md-center mx-md-auto flex-row"
+            class="
+              align-items-center
+              justify-content-md-center
+              mx-md-auto
+              flex-row
+            "
           >
             <b-nav-item to="/explore" class="mr-4 position-relative">
               <font-awesome-icon :icon="globe" size="2x" class="icon" />
@@ -404,32 +440,6 @@
               <log-out-icon size="1x" class="custom-class"></log-out-icon>
               <span class="side-link p-2">Leave tribe</span>
             </div>
-            <!-- <div class="border-top text-left p-3">
-              <router-link to="/explore">
-                <div class="side_item mt-1">
-                  <b-icon
-                    icon="app-indicator"
-                    font-scale="1.1"
-                    class="mr-2"
-                  ></b-icon>
-                  <span class="side-link">Explore</span>
-                </div></router-link
-              >
-              <router-link to="/">
-                <div class="side_item mt-1">
-                  <b-icon
-                    icon="arrow-left"
-                    font-scale="1.1"
-                    class="mr-2"
-                  ></b-icon>
-                  <span class="side-link">Back to Home</span>
-                </div>
-              </router-link>
-              <div class="side_item mt-1" @click="logout">
-                <log-out-icon size="1x" class="custom-class"></log-out-icon>
-                <span class="side-link p-2">Log out</span>
-              </div>
-            </div> -->
           </div>
         </div>
       </div>
@@ -635,7 +645,7 @@ import {
   faGlobe,
 } from "@fortawesome/free-solid-svg-icons";
 import { LogOutIcon } from "vue-feather-icons";
-
+import { bus } from "@/main.js";
 export default {
   data() {
     return {
@@ -667,6 +677,7 @@ export default {
       sending: false,
       link: "",
       description: "",
+      connections: [],
     };
   },
   components: {
@@ -678,6 +689,33 @@ export default {
 
   created() {
     window.addEventListener("scroll", this.changeOnScroll);
+    var channel = this.$pusher.subscribe(
+      `inbox.${this.$store.getters.member.id}`
+    );
+
+    channel.bind("inboxSent", (data) => {
+      var id = data.message.user.id;
+      this.connections.map((item) => {
+        if (item.user_follower.id == id) {
+          item.unread_message = item.unread_message + 1;
+          item.last_message = data.message;
+        }
+        return item;
+      });
+      var index = this.connections.findIndex((item) => {
+        return item.user_follower.id == id;
+      });
+
+      this.connections = this.arrMove(this.connections, index, 0);
+    });
+    bus.$on("lastmessage", (res) => {
+      this.connections[res.index].last_message.message = res.message;
+      this.connections[res.index].last_message.created_at = this.$moment.now();
+      this.connections = this.arrMove(this.connections, res.index, 0);
+    });
+    bus.$on("unreadmessage", (res) => {
+      this.connections[res.index].unread_message = 0;
+    });
   },
 
   mounted() {
@@ -686,15 +724,8 @@ export default {
     this.gettribe();
     if (localStorage.getItem("authMember")) {
       this.authMember = true;
-    } else if (localStorage.getItem("authFacilitator")) {
-      this.authFacilitator = true;
-    } else if (localStorage.getItem("authAdmin")) {
-      this.authAdmin = true;
-    } else if (localStorage.getItem("authOrg")) {
-      this.authOrg = true;
-    } else {
-      return;
     }
+    this.getconnections();
   },
   computed: {
     version() {
@@ -726,12 +757,11 @@ export default {
       return token;
     },
     unreadmesages() {
-      return this.inboxes.filter(
-        (item) =>
-          !item.status &&
-          item.receiver_id == this.$store.getters.member.id &&
-          item.receiver == "user"
-      );
+      return this.connections
+        .map((item) => item.unread_message)
+        .reduce((a, b) => {
+          return a + b;
+        }, 0);
     },
     inboxes() {
       if (!this.$store.getters.inboxes) {
@@ -778,7 +808,7 @@ export default {
         if (item.user && item.user.id != this.$store.getters.member.id) {
           checkers.id = item.user.id;
           checkers.type = "user";
-          checkers.name = item.user.name;
+          checkers.name = item.user.username;
           checkers.message = item.message;
           checkers.time = item.time;
           checkers.profile = item.user.profile;
@@ -803,6 +833,46 @@ export default {
     },
   },
   methods: {
+    markMessagesRead(id) {
+      let data = {
+        id: id,
+      };
+      this.$http.post(`${this.$store.getters.url}/messages/mark/read`, data, {
+        headers: {
+          Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+        },
+      });
+    },
+    arrMove(arr, oldIndex, newIndex) {
+      if (newIndex >= arr.length) {
+        let i = newIndex - arr.length + 1;
+        while (i--) {
+          arr.push(undefined);
+        }
+      }
+      arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
+      return arr;
+    },
+
+    async getconnections() {
+      return this.$http
+        .get(`${this.$store.getters.url}/get/chat/connections`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.connections = res.data;
+            var info = res.data[0].user_follower;
+            info.index = 0;
+            bus.$emit("switchchat", info);
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     handleNotificationClick(item) {
       if (item.data.url) {
         window.open(item.data.url, "_blank");
@@ -817,13 +887,18 @@ export default {
 
       return mess.pop();
     },
-    getmessage(id, name, type, profile) {
+    getmessage(id, name, type, profile, index) {
       var mini_info = {};
       mini_info.id = id;
       mini_info.name = name;
       mini_info.type = type;
       mini_info.profile = profile;
+      mini_info.index = index;
       this.$store.dispatch("getChatter", mini_info);
+      if (this.connections[index].unread_message) {
+        this.markMessagesRead(id);
+      }
+      this.connections[index].unread_message = 0;
     },
     addinvite() {
       this.inviteUsers.push({
@@ -927,6 +1002,20 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.chat_time {
+  font-size: 0.65rem;
+}
+
+.chat_time {
+  color: #333;
+}
+.logo {
+  width: 150px;
+}
+.list:hover {
+  background: rgba($color: #000000, $alpha: 0.02);
+  cursor: pointer;
+}
 .tribe_name {
   font-size: 0.9rem;
   font-weight: bold;

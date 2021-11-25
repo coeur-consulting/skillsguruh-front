@@ -1,58 +1,24 @@
 <template>
-  <div
-    class="reply_box bg-white shadow border rounded overflow-hidden"
-    :class="isMinimise ? 'minimise' : ''"
-
-    v-if="isOpen"
-  >
-    <header
-      class="d-flex px-2 py-2 align-items-center border-bottom"
-      :class="isMinimise ? 'minimise' : ''"
-    >
+  <div class="h-100 px-2" v-if="info" @click="markasread">
+    <header class="d-flex px-3 py-2 align-items-center border-bottom">
       <div class="d-flex flex-1 align-items-center">
-        <b-avatar size="2rem" :src="chatter.profile" class="mr-2"></b-avatar>
-        <span
-          class="chat_name hover_green"
-          @click="$router.push(`/member/profile/${chatter.name}`)"
-          >{{ chatter.name }}</span
+        <b-avatar size="2.5rem" :src="info.profile" class="mr-2"></b-avatar>
+        <p
+          class="chat_name hover_green text-capitalize mb-0"
+          @click="$router.push(`/member/profile/${info.username}`)"
+          >{{ info.username }}</p
         >
-      </div>
-      <div class="d-flex align-items-center">
-        <router-link to="/messages" target="_blank"> <b-icon
-          class="mr-2 cursor-pointer"
-          icon="arrows-angle-expand"
-          variant="dark"
-          font-scale="1"
-          v-b-tooltip.hover="'Expand'"
-
-        ></b-icon></router-link>
-        <b-icon
-         v-b-tooltip.hover="'Minimise'"
-          class="mr-2 cursor-pointer"
-          icon="dash"
-          font-scale="1.4"
-          @click="minimiseChat"
-        ></b-icon>
-        <b-icon
-         v-b-tooltip.hover="'Close'"
-          font-scale="1.5"
-          class="cursor-pointer"
-          icon="x"
-          @click="closeChat"
-        ></b-icon>
       </div>
     </header>
 
     <ul
-     @click="markasread"
-      v-if="!isMinimise"
-      class="chatbody reply py-3 px-3 text-left pl-0 mb-0"
+      class="chatbody py-3 px-5 text-left pl-0 mb-0"
       v-chat-scroll="{ always: false, smooth: true, scrollonremoved: true }"
     >
       <li v-for="(item, index) in messages" :key="index">
         <div
           v-if="item.user_id"
-          class="mb-2"
+          class="mb-3 shadow-sm"
           :class="
             item.user_id == $store.getters.member.id
               ? 'right_text'
@@ -70,9 +36,12 @@
           >
             <span
               class="chatting_name font-weight-bold mr-3"
-              v-if="item.user"
-              >{{ item.user.username }}</span
+              v-if="item.user.id === useraccess.id"
+              >You</span
             >
+            <span class="chatting_name font-weight-bold mr-3" v-else>{{
+              item.user.username
+            }}</span>
 
             <span class="text-muted fs11">
               {{ item.created_at | moment("LT") }}</span
@@ -232,7 +201,7 @@
       </vue-dictaphone>
     </div>
 
-    <footer v-if="!isMinimise" class="text-left py-2 mb-1">
+    <footer class="text-left py-2 mb-1">
       <b-input-group class="mt-1">
         <template #append>
           <b-input-group-text class="border-0 bg-transparent py-0">
@@ -313,17 +282,17 @@
               </template>
 
               <Upload @getUpload="getUpload" :file_type="'image'" :id="'image'">
-                <b-dropdown-text class="fs11 cursor-pointer">
+                <b-dropdown-text class="fs14 cursor-pointer">
                   Image
                 </b-dropdown-text>
               </Upload>
               <Upload @getUpload="getUpload" :file_type="'audio'" :id="'audio'">
-                <b-dropdown-text class="fs11 cursor-pointer">
+                <b-dropdown-text class="fs14 cursor-pointer">
                   Audio
                 </b-dropdown-text>
               </Upload>
               <Upload @getUpload="getUpload" :file_type="'video'" :id="'video'">
-                <b-dropdown-text class="fs11  cursor-pointer">
+                <b-dropdown-text class="fs14 cursor-pointer">
                   Video
                 </b-dropdown-text>
               </Upload>
@@ -334,6 +303,7 @@
           @keyup.enter="addinbox"
           v-model="inbox.message"
           type="text"
+          size="lg"
           placeholder="Type a message ..."
           class="border-0 no-focus rounded-pill bg-light"
         ></b-form-input>
@@ -475,10 +445,8 @@ import Upload from "@/components/chatUpload";
 import EmojiPicker from "vue-emoji-picker";
 import { bus } from "@/main.js";
 export default {
-  props: ["user"],
   data() {
     return {
-      blob: null,
       loading: false,
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp", "mov", "flv"],
@@ -494,6 +462,9 @@ export default {
         voicenote: "",
       },
       search: "",
+      messages: [],
+      blobvalue: null,
+      info: null,
     };
   },
   directives: {
@@ -508,69 +479,51 @@ export default {
     Upload,
     EmojiPicker,
   },
-  watch: {
-    isOpen: "markMessagesRead",
-  },
 
+  created() {
+    var channel = this.$pusher.subscribe(`inbox.${this.useraccess.id}`);
+    bus.$on("switchchat", (res) => {
+      if (!this.info || this.info.id != res.id) {
+        this.info = res;
+        this.messages = []
+        this.getinbox(res.id);
+      }
+    });
+    channel.bind("inboxSent", (data) => {
+      if(this.info.id === data.message.user.id){
+      this.messages.push(data.message)
+      }
+
+    });
+  },
   computed: {
-    isMinimise() {
-      return this.$store.getters.isMinimise;
-    },
-    isOpen() {
-      return this.$store.getters.isOpen;
-    },
-    chatter() {
-      return this.$store.getters.chatter;
-    },
-    unreadmesages() {
-      return this.messages.filter((item) => !item.status);
-    },
-    inboxes() {
-      return this.$store.getters.inboxes;
-    },
     useraccess() {
       return this.$store.getters.member;
     },
-    messages() {
-      if (!this.chatter) {
-        return [];
-      }
-      return this.inboxes.filter((item) => {
-        if (
-          (item.admin_id == this.chatter.id && this.chatter.type == "admin") ||
-          (item.user_id == this.chatter.id && this.chatter.type == "user") ||
-          (item.facilitator_id == this.chatter.id &&
-            this.chatter.type == "facilitator") ||
-          (item.receiver == this.chatter.type &&
-            item.receiver_id == this.chatter.id)
-        ) {
-          return item;
-        }
-      });
-    },
   },
   methods: {
-    markasread() {
+     markasread() {
+       if(!this.info) return
       let data = {
-        id: this.chatter.id,
+        id: this.info.id,
       };
-      this.$http
-        .post(`${this.$store.getters.url}/messages/mark/read`, data, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            var val = {
-              index: this.chatter.index,
+      this.$http.post(`${this.$store.getters.url}/messages/mark/read`, data, {
+        headers: {
+          Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+        },
+      }).then(res=>{
+        if(res.status===200){
+           var val = {
+
+              index: this.info.index,
             };
-            bus.$emit("unreadmessage", val);
-          }
-        });
+          bus.$emit("unreadmessage", val);
+        }
+
+      });
     },
     handleRecording({ blob, src }) {
-      this.blob = blob;
+      this.blobvalue = blob;
       this.inbox.voicenote = src;
       this.addinbox();
     },
@@ -578,67 +531,6 @@ export default {
       this.inbox.message = this.inbox.message + emoji;
     },
 
-    markMessagesRead() {
-      // if (!this.unreadmesages.length) {
-      //   return;
-      // }
-
-      if (this.user == "member") {
-        if (
-          !this.unreadmesages.some(
-            (item) =>
-              item.receiver == "user" &&
-              item.receiver_id == this.$store.getters.member.id
-          )
-        ) {
-          return;
-        }
-      }
-
-      if (this.user == "facilitator") {
-        if (
-          !this.unreadmesages.some(
-            (item) =>
-              item.receiver == "facilitator" &&
-              item.receiver_id == this.$store.getters.facilitator.id
-          )
-        ) {
-          return;
-        }
-      }
-
-      if (this.user == "admin") {
-        if (
-          !this.unreadmesages.some(
-            (item) =>
-              item.receiver == "admin" &&
-              item.receiver_id == this.$store.getters.admin.id
-          )
-        ) {
-          return;
-        }
-      }
-      let data = {
-        ids: this.unreadmesages.map((item) => item.id),
-      };
-      this.$http
-        .post(`${this.$store.getters.url}/inboxes/mark/read`, data)
-        .then((res) => {
-          if (res.status == 200) {
-            if (this.user == "member") {
-              this.$store.dispatch("getInbox", "member");
-            }
-
-            if (this.user == "facilitator") {
-              this.$store.dispatch("getInbox", "facilitator");
-            }
-
-            if (this.user == "admin") {
-              this.$store.dispatch("getInbox", "admin");
-            }
-          }
-        });
-    },
     async getFileDetails(media) {
       window.URL = window.URL || window.webkitURL;
       var video = document.createElement("video");
@@ -665,104 +557,32 @@ export default {
       this.inbox.attachment = val;
       this.$bvModal.show("media");
     },
-    closeChat() {
-      this.$store.dispatch("toggleChat", false);
-    },
-    minimiseChat() {
-      this.$store.dispatch("minChat", !this.isMinimise);
-    },
-    getinbox() {
+
+    getinbox(id) {
       this.$http
-        .get(`${this.$store.getters.url}/inboxes`, {
+        .get(`${this.$store.getters.url}/get/message/history/${id}`, {
           headers: {
             Authorization: `Bearer ${this.useraccess.access_token}`,
           },
         })
         .then((res) => {
           if (res.status == 200) {
-            this.inboxes = res.data.reverse();
+            this.messages = res.data.message;
           }
         })
         .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
-    async sortmessages(arr) {
-      var inboxes = await arr.map((item) => {
-        var info = {};
-        if (this.user == "admin") {
-          if (item.admin_id && item.admin_id == this.useraccess.id) {
-            info.admin = item.admin_info || null;
-            info.user = item.receiver_info || null;
-            info.facilitator = item.facilitator_info || null;
-            info.message = item.message || null;
-            info.time = item.created_at || null;
-          }
-          if (
-            item.receiver == "admin" &&
-            item.receiver_id == this.useraccess.id
-          ) {
-            info.admin = item.admin || null;
-            info.user = item.user || null;
-            info.facilitator = item.facilitator || null;
-            info.message = item.message || null;
-            info.time = item.created_at || null;
-          }
-        }
-        if (this.user == "facilitator") {
-          if (
-            item.facilitator_id &&
-            item.facilitator_id == this.useraccess.id
-          ) {
-            info.admin = item.admin_info || null;
-            info.user = item.receiver_info || null;
-            info.facilitator = item.facilitator_info || null;
-            info.message = item.message || null;
-            info.time = item.created_at || null;
-          }
-          if (
-            item.receiver == "facilitator" &&
-            item.receiver_id == this.useraccess.id
-          ) {
-            info.admin = item.admin || null;
-            info.user = item.user || null;
-            info.facilitator = item.facilitator || null;
-            info.message = item.message || null;
-            info.time = item.created_at || null;
-          }
-        }
-        if (this.user == "member") {
-          if (item.user_id && item.user_id == this.useraccess.id) {
-            info.admin = item.admin_info || null;
-            info.user = item.receiver_info || null;
-            info.facilitator = item.facilitator_info || null;
-            info.message = item.message || null;
-            info.time = item.created_at || null;
-          }
-          if (
-            item.receiver == "user" &&
-            item.receiver_id == this.useraccess.id
-          ) {
-            info.admin = item.admin || null;
-            info.user = item.user || null;
-            info.facilitator = item.facilitator || null;
-            info.message = item.message || null;
-            info.time = item.created_at || null;
-          }
-        }
 
-        return info;
-      });
-      this.getchatter(inboxes);
-    },
     addinbox() {
       if (this.loading) return;
       this.loading = true;
       if (this.inbox.attachment && this.inbox.message && this.inbox.voicenote) {
         return this.$toast.info("Cannot be empty");
       }
-      this.inbox.receiver_id = this.chatter.id;
-      this.inbox.receiver = this.chatter.type;
+      this.inbox.receiver_id = this.info.id;
+      this.inbox.receiver = this.info.type;
       this.$http
         .post(`${this.$store.getters.url}/inboxes`, this.inbox, {
           headers: {
@@ -770,15 +590,16 @@ export default {
           },
         })
         .then((res) => {
-          if (res.status == 201) {
+          if (res.status === 201) {
             this.$toast.success("Message sent ");
-            this.loading = false;
-            this.inboxes.push(res.data);
             var val = {
               message: res.data.message,
-              index: this.chatter.index,
+              index: this.info.index,
             };
+
             bus.$emit("lastmessage", val);
+            this.loading = false;
+            this.messages.push(res.data);
             if (this.inbox.attachment) {
               this.$bvModal.hide("media");
             }
@@ -827,15 +648,12 @@ export default {
 .rounded-8 {
   border-radius: 8px;
 }
-.minimise {
-  height: calc(480px * 0.11) !important;
-}
+
 .reply_box {
   transition: all 0.5s;
   position: fixed;
-  bottom: 3px;
-  width: 330px;
-  height: 480px;
+  bottom: 5px;
+  width: 360px;
   right: 30px;
   border-radius: 10px 10px 0 0;
   z-index: 999;
@@ -844,18 +662,18 @@ export default {
   height: 90%;
 }
 header {
-  height: 11%;
+  height: 8%;
 }
 
 .chatbody {
-  height: 74%;
+  height: 84%;
   overflow-y: scroll;
   position: relative;
-  background-image: url("/img/whats.png");
+  background-image: url('/img/whats.png');
   background-size: cover;
 }
 footer {
-  height: 15%;
+  height: 8%;
 }
 .mic {
   position: absolute;
@@ -884,7 +702,7 @@ footer {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
-ul {
+ul{
   list-style-type: none;
 }
 .left_text {
@@ -893,7 +711,7 @@ ul {
   background-color: #d0d2d5;
   border-radius: 0 10px 10px 0;
 
-  border-right: 3px solid var(--dark-green);
+   border-right: 3px solid var(--dark-green);
 
   width: 70%;
   margin-right: auto;
@@ -946,21 +764,21 @@ audio {
   width: 150px;
 }
 .emoji-picker.picker {
-  position: absolute;
-  z-index: 1;
-  font-family: Montserrat;
-  border: 1px solid #ccc;
-  width: 15rem;
-  height: 20rem;
-  overflow: scroll;
-  padding: 1rem;
-  box-sizing: border-box;
-  border-radius: 0.5rem;
-  background: #fff;
-  box-shadow: 1px 1px 8px #c7dbe6;
-  top: unset;
-  bottom: 60px;
-  right: unset;
+    position: absolute;
+    z-index: 1;
+    font-family: Montserrat;
+    border: 1px solid #ccc;
+    width: 15rem;
+    height: 20rem;
+    overflow: scroll;
+    padding: 1rem;
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+    background: #fff;
+    box-shadow: 1px 1px 8px #c7dbe6;
+    top: unset;
+    bottom: 60px;
+     right: unset;
 }
 @media (max-width: 600px) {
   .reply_box {

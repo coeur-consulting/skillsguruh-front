@@ -34,6 +34,8 @@ import "./assets/scss/style.scss";
 import "./cloudinary.js";
 import VueDictaphone from "vue-dictaphone";
 
+export const bus = new Vue();
+
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 Vue.component("font-awesome-layers", FontAwesomeLayers);
 Vue.component("font-awesome-layers-text", FontAwesomeLayersText);
@@ -81,9 +83,9 @@ Vue.filter("currencyFormat", function(numb) {
   }
 });
 Vue.use(require("vue-pusher"), {
-  api_key: "e1c39173a3f0a174688d",
+  api_key: "35db7038d78ae4a57201",
   options: {
-    cluster: "eu",
+    cluster: "mt1",
     encrypted: true,
   },
 });

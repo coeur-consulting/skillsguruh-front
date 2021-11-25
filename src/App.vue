@@ -197,24 +197,23 @@ export default {
 
       channel.bind("inboxSent", (data) => {
         this.$store.commit("ADD_MESSAGE", data);
-        var user;
-        if (data.message.user.qualifications) {
-          user = "facilitator";
-        } else {
-          user = "user";
-        }
+        var user = "user";
 
-        this.getmessage(
+
+       if(this.$route.path !== '/messages'){
+          this.getmessage(
           data.message.user.id,
           data.message.user.username,
           user,
-          data.message.user.profile
+          data.message.user.profile,
+          0
         );
+       }
       });
       notificationChannel.bind("notificationSent", () => {
         this.$store.dispatch("getNotifications", this.user);
       });
-      this.getnotification();
+     // this.getnotification();
     }
   },
   computed: {
@@ -268,11 +267,12 @@ export default {
       this.open = false;
       this.showAll = false;
     },
-    getmessage(id, name, type, profile) {
+    getmessage(id, name, type, profile,index) {
       this.mini_info.id = id;
       this.mini_info.name = name;
       this.mini_info.type = type;
       this.mini_info.profile = profile;
+       this.mini_info.index = index;
       this.$store.dispatch("getChatter", this.mini_info);
     },
     getnotification() {

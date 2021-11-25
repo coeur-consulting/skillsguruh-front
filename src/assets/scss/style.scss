@@ -561,6 +561,8 @@ a:hover {
 }
 .inbox {
   min-width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
 }
 .notify {
   padding: 0.4rem 0.45rem;

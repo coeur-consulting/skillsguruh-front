@@ -59,7 +59,8 @@
                               item.user_follower.id,
                               item.user_follower.username,
                               'user',
-                              item.user_follower.profile
+                              item.user_follower.profile,
+                              0
                             )
                           "
                           ><span class="connection_button"
@@ -106,10 +107,10 @@
                         <div
                           class="connection_name cursor-pointer"
                           @click="
-                            $router.push(`/member/profile/${item.username}`)
+                            $router.push(`/member/profile/${item.user_follower.username}`)
                           "
                         >
-                          {{ item.username }}
+                          {{ item.user_follower.username }}
                         </div>
                       </div>
                     </div>
@@ -117,11 +118,11 @@
                     <div>
                       <span>
                         <b-button
-                          @click="addconnections(item.id, 'user')"
+                          @click="addconnections(item.user_follower.id, 'user')"
                           variant="outline-dark-green"
                           size="sm"
                           class="rounded-pill mr-3"
-                          v-if="!verifyConnection(item.id, 'user')"
+                          v-if="!verifyConnection(item.user_follower.id, 'user')"
                         >
                           <span>Connect</span></b-button
                         >
@@ -131,10 +132,11 @@
                           size="sm"
                           @click="
                             getmessage(
-                              item.id,
-                              item.username,
+                              item.user_follower.id,
+                              item.user_follower.username,
                               'user',
-                              item.profile
+                              item.user_follower.profile,
+                              0
                             )
                           "
                           ><span class="connection_button"
@@ -189,11 +191,10 @@ export default {
   },
   computed: {
     filteredmyconnections() {
-      return this.connections.filter((item) => {
-        return (
-          item.username &&
-          item.username.toLowerCase().includes(this.search.toLowerCase())
-        );
+      return this.myconnections.filter((item) => {
+        return item.user_follower.username
+          .toLowerCase()
+          .includes(this.search.toLowerCase());
       });
     },
     filteredConnections() {
@@ -203,11 +204,6 @@ export default {
             .toLowerCase()
             .includes(this.search.toLowerCase());
         }
-        // if (item.facilitator_follower) {
-        //   return item.facilitator_follower.username
-        //     .toLowerCase()
-        //     .includes(this.search.toLowerCase());
-        // }
       });
     },
     filteredMemberSuggested() {
@@ -255,11 +251,12 @@ export default {
       this.showAll = false;
     },
 
-    getmessage(id, name, type, profile) {
+    getmessage(id, name, type, profile,index) {
       this.mini_info.id = id;
       this.mini_info.name = name;
       this.mini_info.type = type;
       this.mini_info.profile = profile;
+       this.mini_info.index = index;
       this.$store.dispatch("getChatter", this.mini_info);
     },
     async getconnections() {

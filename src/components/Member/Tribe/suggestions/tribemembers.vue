@@ -10,7 +10,7 @@
         <b-avatar size="sm" :src="item.profile" class="mr-2"></b-avatar>
         <div class="text-left">
           <div
-            @click="getmessage(item.id, item.username, 'user', item.profile)"
+            @click="getmessage(item.id, item.username, 'user', item.profile,0)"
             class="connection_name cursor-pointer fs13"
           >
             {{ item.username }}
@@ -62,11 +62,12 @@ export default {
       this.showAll = false;
     },
 
-    getmessage(id, name, type, profile) {
+    getmessage(id, name, type, profile,index) {
       this.mini_info.id = id;
       this.mini_info.name = name;
       this.mini_info.type = type;
       this.mini_info.profile = profile;
+       this.mini_info.index = index;
       this.$store.dispatch("getChatter", this.mini_info);
     },
     async getmembers() {

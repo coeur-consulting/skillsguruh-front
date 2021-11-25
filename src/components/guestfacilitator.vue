@@ -122,7 +122,8 @@
                               detail.id,
                               detail.username,
                               'user',
-                              detail.profile
+                              detail.profile,
+                              0
                             )
                           "
                           icon="envelope"
@@ -1057,7 +1058,8 @@
                           item.user_follower.id,
                           item.user_follower.username,
                           'user',
-                          item.user_follower.profile
+                          item.user_follower.profile,
+                          0
                         )
                       "
                       >Message</b-button
@@ -1544,7 +1546,7 @@ export default {
       this.open = false;
       this.showAll = false;
     },
-    getmessage(id, name, type, profile) {
+    getmessage(id, name, type, profile,index) {
       if (!this.auth) {
         this.$toast.error("Login to complete action");
         return;
@@ -1554,6 +1556,7 @@ export default {
       this.mini_info.name = name;
       this.mini_info.type = type;
       this.mini_info.profile = profile;
+       this.mini_info.index = index;
       this.$store.dispatch("getChatter", this.mini_info);
       this.$bvModal.hide("connections");
     },

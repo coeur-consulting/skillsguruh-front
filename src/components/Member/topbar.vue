@@ -400,7 +400,7 @@ export default {
       this.current.id = id;
       this.current.type = type;
       this.mini_info.id = id;
-      this.mini_info.name = name;
+      this.mini_info.username = name;
       this.mini_info.type = type;
       this.mini_info.profile = profile;
       this.$store.dispatch("getChatter", this.mini_info);
@@ -445,9 +445,9 @@ export default {
         var info = {};
 
         if (item.user_id && item.user_id == this.$store.getters.member.id) {
-          info.admin = item.admin_info || null;
+
           info.user = item.receiver_info || null;
-          info.facilitator = item.facilitator_info || null;
+
           info.message = item.message || null;
           info.time = item.created_at || null;
           info.status = item.status;
@@ -458,9 +458,9 @@ export default {
           item.receiver == "user" &&
           item.receiver_id == this.$store.getters.member.id
         ) {
-          info.admin = item.admin || null;
+
           info.user = item.user || null;
-          info.facilitator = item.facilitator || null;
+
           info.message = item.message || null;
           info.time = item.created_at || null;
           info.status = item.status;
@@ -484,27 +484,8 @@ export default {
 
           return checkers;
         }
-        if (item.admin) {
-          checkers.id = item.admin.id;
-          checkers.type = "admin";
-          checkers.name = item.admin.name;
-          checkers.message = item.message;
-          checkers.time = item.time;
-          checkers.profile = item.admin.profile;
-
-          return checkers;
-        }
-        if (item.facilitator) {
-          checkers.id = item.facilitator.id;
-          checkers.type = "facilitator";
-          checkers.name = item.facilitator.username;
-          checkers.message = item.message;
-          checkers.time = item.time;
-          checkers.profile = item.facilitator.profile;
-
-          return checkers;
-        }
       });
+      console.log("🚀 ~ file: topbar.vue ~ line 488 ~ allnames ~ allnames", allnames)
       return [
         ...new Set(
           allnames
