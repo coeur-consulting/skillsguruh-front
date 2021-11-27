@@ -13,7 +13,7 @@
       <div v-if="!filterTribes.length">
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
 
-          <strong>You do not belong to any tribe yet! Try joining one or <span @click="$bvModal.show('start')">Create yours now</span></strong>
+          <small>You do not belong to any tribe yet! Try joining one or <span @click="$bvModal.show('start')">Create yours now</span></small>
         </div>
 
 
@@ -118,11 +118,11 @@
               <b-icon
                 icon="plus-circle"
                 variant="dark-green"
-                font-scale="6rem"
+                font-scale="4rem"
                 class="mb-4"
               ></b-icon>
               <br />
-              <span>Create A Tribe</span>
+              <small>Create A Tribe</small>
             </span>
           </div>
         </b-col>

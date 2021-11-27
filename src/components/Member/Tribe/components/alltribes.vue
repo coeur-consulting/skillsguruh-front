@@ -118,11 +118,11 @@
               <b-icon
                 icon="plus-circle"
                 variant="dark-green"
-                font-scale="6rem"
+                font-scale="4rem"
                 class="mb-4"
               ></b-icon>
               <br />
-              <span>Create A Tribe</span>
+              <small>Create A Tribe</small>
             </span>
           </div>
         </b-col>
