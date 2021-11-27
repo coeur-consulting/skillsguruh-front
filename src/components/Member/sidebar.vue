@@ -20,13 +20,13 @@
               />
               Community</b-nav-item
             >
-            <!-- <b-nav-item to="/member/course" class="d-flex align-items-center">
+            <b-nav-item target="_blank" to="/messages" class="d-flex align-items-center">
               <font-awesome-icon
-                :icon="bookopen"
+                :icon="envelope"
                 class="imgtribe mr-2 text-dark-green"
               />
-              Course</b-nav-item
-            > -->
+              Messages</b-nav-item
+            >
           </b-nav>
         </nav>
       </div>
@@ -267,6 +267,7 @@ import {
   faBookOpen,
   faComments,
   faCalendar,
+  faEnvelope
 } from "@fortawesome/free-solid-svg-icons";
 import { LogOutIcon } from "vue-feather-icons";
 export default {
@@ -276,6 +277,7 @@ export default {
   data() {
     return {
       events: [],
+      envelope: faEnvelope,
       toggleCourse: false,
       toggleCommunity: false,
       toggleSchedule: false,
