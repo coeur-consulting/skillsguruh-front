@@ -356,10 +356,7 @@ export default {
         .then((res) => {
           if (res.status === 201) {
             this.tribes.unshift(res.data.data);
-            console.log(
-              "🚀 ~ file: mytribes.vue ~ line 226 ~ .then ~ res.data.data",
-              res.data.data
-            );
+
             this.$toast.success("Tribe Created");
             this.$bvModal.hide("start");
           }

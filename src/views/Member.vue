@@ -62,7 +62,7 @@ export default {
       if (!this.useraccess) {
         return;
       }
-      this.$store.dispatch("getNotifications", "member");
+     // this.$store.dispatch("getNotifications", "member");
     },
     getinbox() {
       this.$store.dispatch("getInbox", "member");

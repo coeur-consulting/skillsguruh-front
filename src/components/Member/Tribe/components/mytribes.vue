@@ -15,8 +15,6 @@
 
           <small>You do not belong to any tribe yet! Try joining one or <span @click="$bvModal.show('start')">Create yours now</span></small>
         </div>
-
-
       </div>
       <b-row>
         <b-col

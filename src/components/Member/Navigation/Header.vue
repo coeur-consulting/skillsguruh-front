@@ -362,7 +362,7 @@
           <div class="side_tab_1" v-if="!$route.meta.showtribe && tribe">
             <nav class="mb-3 class text-left">
               <b-nav vertical>
-                <b-nav-item to="/member/tribe">
+                <b-nav-item to="/member/tribes">
                   <b-img
                     :src="require('@/assets/images/mask.png')"
                     class="imgtribe mr-2"
@@ -994,18 +994,18 @@ export default {
         });
     },
     getnotification() {
-      if (this.$route.params.tribe && this.$route.meta.showtribe) {
-        this.gettribe();
-      }
-      if (localStorage.getItem("authAdmin")) {
-        this.$store.dispatch("getNotifications", "admin");
-      }
-      if (localStorage.getItem("authFacilitator")) {
-        this.$store.dispatch("getNotifications", "facilitator");
-      }
-      if (localStorage.getItem("authMember")) {
-        this.$store.dispatch("getNotifications", "member");
-      }
+      // if (this.$route.params.tribe && this.$route.meta.showtribe) {
+      //   this.gettribe();
+      // }
+      // if (localStorage.getItem("authAdmin")) {
+      //   this.$store.dispatch("getNotifications", "admin");
+      // }
+      // if (localStorage.getItem("authFacilitator")) {
+      //   this.$store.dispatch("getNotifications", "facilitator");
+      // }
+      // if (localStorage.getItem("authMember")) {
+      //   this.$store.dispatch("getNotifications", "member");
+      // }
     },
     changeOnScroll() {
       this.scrollPosition = window.scrollY;

@@ -276,15 +276,10 @@ export default {
       this.$store.dispatch("getChatter", this.mini_info);
     },
     getnotification() {
-      if (localStorage.getItem("authAdmin")) {
-        this.$store.dispatch("getNotifications", "admin");
-      }
-      if (localStorage.getItem("authFacilitator")) {
-        this.$store.dispatch("getNotifications", "facilitator");
-      }
-      if (localStorage.getItem("authMember")) {
+
+
         this.$store.dispatch("getNotifications", "member");
-      }
+
     },
   },
 };

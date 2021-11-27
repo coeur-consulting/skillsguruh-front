@@ -334,6 +334,8 @@
           @keyup.enter="addinbox"
           v-model="inbox.message"
           type="text"
+          autocomplete="off"
+
           placeholder="Type a message ..."
           class="border-0 no-focus rounded-pill bg-light"
         ></b-form-input>
