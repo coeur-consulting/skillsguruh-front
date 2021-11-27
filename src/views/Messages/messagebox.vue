@@ -1,16 +1,21 @@
 <template>
-  <div class="h-100 " v-if="info" @click="markasread">
+  <div class="h-100" v-if="info" @click="markasread">
     <header class="d-flex px-3 py-2 align-items-center border-bottom">
       <div class="d-flex flex-1 align-items-center">
-       <span class="d-flex  align-items-center">
-         <b-icon @click="toggleView('menu')" icon="arrow-left" class="mr-3 d-md-none"></b-icon>
+        <span class="d-flex align-items-center">
+          <b-icon
+            @click="toggleView('menu')"
+            icon="arrow-left"
+            class="mr-3 d-md-none"
+          ></b-icon>
           <b-avatar size="2.5rem" :src="info.profile" class="mr-2"></b-avatar>
-       </span>
+        </span>
         <p
           class="chat_name hover_green text-capitalize mb-0"
           @click="$router.push(`/member/profile/${info.username}`)"
-          >{{ info.username }}</p
         >
+          {{ info.username }}
+        </p>
       </div>
     </header>
 
@@ -448,6 +453,7 @@
 import Upload from "@/components/chatUpload";
 import EmojiPicker from "vue-emoji-picker";
 import { bus } from "@/main.js";
+
 export default {
   data() {
     return {
@@ -469,6 +475,7 @@ export default {
       messages: [],
       blobvalue: null,
       info: null,
+      newmessage: null,
     };
   },
   directives: {
@@ -489,15 +496,49 @@ export default {
     bus.$on("switchchat", (res) => {
       if (!this.info || this.info.id != res.id) {
         this.info = res;
-        this.messages = []
+        this.messages = [];
         this.getinbox(res.id);
       }
     });
     channel.bind("inboxSent", (data) => {
-      if(this.info.id === data.message.user.id){
-      this.messages.push(data.message)
+      if (this.info.id === data.message.user.id) {
+         interval = setInterval(changetitle, 700);
       }
-
+    });
+    var isOldTitle = true;
+      var oldtitle = "Home - Messages";
+      var newtitle = "You have a new message!";
+      var interval = null;
+      function changetitle() {
+        document.title = isOldTitle ? oldtitle : newtitle;
+        isOldTitle = !isOldTitle;
+      }
+    var vis = (function () {
+      var stateKey,
+        eventKey,
+        keys = {
+          hidden: "visibilitychange",
+          webkitHidden: "webkitvisibilitychange",
+          mozHidden: "mozvisibilitychange",
+          msHidden: "msvisibilitychange",
+        };
+      for (stateKey in keys) {
+        if (stateKey in document) {
+          eventKey = keys[stateKey];
+          break;
+        }
+      }
+      return function (c) {
+        if (c) document.addEventListener(eventKey, c);
+        return !document[stateKey];
+      };
+    })();
+    vis(function () {
+      if (vis()) {
+        this.newmessage = false;
+       clearInterval(interval);
+      document.title = "Home - Messages";
+      }
     });
   },
   computed: {
@@ -505,29 +546,52 @@ export default {
       return this.$store.getters.member;
     },
   },
+  watch: {
+    newmessage: "handleNewMessage",
+  },
   methods: {
-    toggleView(val){
-    this.$emit('toggleView', val)
+    handleNewMessage() {
+      var isOldTitle = true;
+      var oldtitle = "Home - Messages";
+      var newtitle = "You have a new message!";
+      var interval = null;
+      function changetitle() {
+        document.title = isOldTitle ? oldtitle : newtitle;
+        isOldTitle = !isOldTitle;
+      }
+      if (this.newmessage) {
+        interval = setInterval(changetitle, 700);
+        return;
+      }
+      console.log("====================================");
+      console.log("interval");
+      console.log("====================================");
+      clearInterval(interval);
+      document.title = "Home - Messages";
     },
-     markasread() {
-       if(!this.info) return
+    toggleView(val) {
+      this.$emit("toggleView", val);
+    },
+    markasread() {
+      this.newmessage = false;
+      if (!this.info) return;
       let data = {
         id: this.info.id,
       };
-      this.$http.post(`${this.$store.getters.url}/messages/mark/read`, data, {
-        headers: {
-          Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-        },
-      }).then(res=>{
-        if(res.status===200){
-           var val = {
-
+      this.$http
+        .post(`${this.$store.getters.url}/messages/mark/read`, data, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            var val = {
               index: this.info.index,
             };
-          bus.$emit("unreadmessage", val);
-        }
-
-      });
+            bus.$emit("unreadmessage", val);
+          }
+        });
     },
     handleRecording({ blob, src }) {
       this.blobvalue = blob;
@@ -676,7 +740,7 @@ header {
   height: 81%;
   overflow-y: scroll;
   position: relative;
-  background-image: url('/img/whats.png');
+  background-image: url("/img/whats.png");
   background-size: cover;
 }
 footer {
@@ -709,7 +773,7 @@ footer {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
-ul{
+ul {
   list-style-type: none;
 }
 .left_text {
@@ -718,7 +782,7 @@ ul{
   background-color: #d0d2d5;
   border-radius: 0 10px 10px 0;
 
-   border-right: 3px solid var(--dark-green);
+  border-right: 3px solid var(--dark-green);
 
   width: 70%;
   margin-right: auto;
@@ -771,21 +835,21 @@ audio {
   width: 150px;
 }
 .emoji-picker.picker {
-    position: absolute;
-    z-index: 1;
-    font-family: Montserrat;
-    border: 1px solid #ccc;
-    width: 15rem;
-    height: 20rem;
-    overflow: scroll;
-    padding: 1rem;
-    box-sizing: border-box;
-    border-radius: 0.5rem;
-    background: #fff;
-    box-shadow: 1px 1px 8px #c7dbe6;
-    top: unset;
-    bottom: 60px;
-     right: unset;
+  position: absolute;
+  z-index: 1;
+  font-family: Montserrat;
+  border: 1px solid #ccc;
+  width: 15rem;
+  height: 20rem;
+  overflow: scroll;
+  padding: 1rem;
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  background: #fff;
+  box-shadow: 1px 1px 8px #c7dbe6;
+  top: unset;
+  bottom: 60px;
+  right: unset;
 }
 
 @media (max-width: 600px) {
@@ -804,9 +868,10 @@ audio {
   .reply {
     height: 83vh;
   }
-small, .small {
+  small,
+  .small {
     font-size: 68%;
     font-weight: 400;
-}
+  }
 }
 </style>
