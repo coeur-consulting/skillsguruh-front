@@ -1,7 +1,9 @@
 <template>
   <div class="py-3">
     <div class="text-center mb-3 px-3">
-     <router-link to="/member/feeds"> <b-img class="logo" src="/img/logo.png"></b-img></router-link>
+      <router-link to="/member/feeds">
+        <b-img class="logo" src="/img/logo.png"></b-img
+      ></router-link>
     </div>
     <div class="mb-2 px-2">
       <b-form-input
@@ -9,6 +11,8 @@
         placeholder="Search username"
         class="rounded-pill"
         v-model="search"
+        autocomplete="off"
+
       ></b-form-input>
     </div>
     <hr />
@@ -34,8 +38,8 @@
               :class="item.unread_message ? 'font-weight-bold' : 'text-muted'"
               v-if="item.last_message"
               >{{ $moment(item.last_message.created_at).fromNow() }}</span
-            ></span
-          >
+            >
+          </span>
           <span
             class="d-flex justify-content-between w-100"
             v-if="item.last_message"
@@ -53,6 +57,11 @@
               <b-badge variant="primary">{{
                 item.unread_message
               }}</b-badge></small
+            >
+          </span>
+          <span class="d-flex justify-content-between w-100" v-else>
+            <small class="text-truncate text-truncate--1"
+              >Start a conversation</small
             >
           </span>
         </span>
@@ -98,7 +107,6 @@ export default {
     bus.$on("unreadmessage", (res) => {
       this.connections[res.index].unread_message = 0;
     });
-
   },
   computed: {
     filteredconnections() {
@@ -131,7 +139,7 @@ export default {
       val.index = index;
       this.connections[index].unread_message = 0;
       bus.$emit("switchchat", val);
-      this.$emit('toggleView','chat')
+      this.$emit("toggleView", "chat");
     },
     markMessagesRead(id) {
       let data = {
@@ -169,9 +177,7 @@ export default {
 
 <style lang="scss" scoped>
 .list-group-item.active {
-
-    color: #333;
-
+  color: #333;
 }
 .chat_time {
   font-size: 0.65rem;
@@ -185,8 +191,8 @@ export default {
 .logo {
   width: 150px;
 }
-.list:hover{
- background: rgba($color: #000000, $alpha: 0.02);
- cursor: pointer;
+.list:hover {
+  background: rgba($color: #000000, $alpha: 0.02);
+  cursor: pointer;
 }
 </style>
