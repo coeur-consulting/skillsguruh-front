@@ -1370,11 +1370,7 @@ export default {
         });
     },
     onSelect(items, lastSelectItem) {
-      console.log(
-        "🚀 ~ file: feeds.vue ~ line 720 ~ onSelect ~ lastSelectItem",
-        lastSelectItem
-      );
-      console.log("🚀 ~ file: feeds.vue ~ line 720 ~ onSelect ~ items", items);
+
       this.feed.tags = items;
       this.lastSelectItem = lastSelectItem;
     },

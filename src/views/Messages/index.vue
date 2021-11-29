@@ -1,6 +1,6 @@
 <template >
   <div class="d-flex main-container">
-    <span class="side" v-show="!mobile || mobile === 'menu'">
+    <span class="side bg-light" v-show="!mobile || mobile === 'menu'">
       <side-chat @toggleView="toggleView"></side-chat
     ></span>
     <span class="box" v-show="!mobile || mobile === 'chat'">

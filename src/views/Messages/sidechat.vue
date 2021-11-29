@@ -1,5 +1,5 @@
 <template>
-  <div class="py-3">
+  <div class="py-3 ">
     <div class="text-center mb-3 px-3">
       <router-link to="/member/feeds">
         <b-img class="logo" src="/img/logo.png"></b-img
@@ -35,7 +35,7 @@
             </p>
             <span
               class="chat_time"
-              :class="item.unread_message ? 'font-weight-bold' : 'text-muted'"
+              :class="item.unread_message ? 'text-dark-green' : 'text-muted'"
               v-if="item.last_message"
               >{{ $moment(item.last_message.created_at).fromNow() }}</span
             >
@@ -54,13 +54,13 @@
               }}</small
             >
             <small v-if="item.unread_message">
-              <b-badge variant="primary">{{
+              <b-badge variant="dark-green">{{
                 item.unread_message
               }}</b-badge></small
             >
           </span>
           <span class="d-flex justify-content-between w-100" v-else>
-            <small class="text-truncate text-truncate--1"
+            <small class="text-truncate text-truncate--1 text-muted"
               >Start a conversation</small
             >
           </span>
@@ -176,6 +176,9 @@ export default {
 
 
 <style lang="scss" scoped>
+.list-group-item {
+  background-color: transparent;
+}
 .list-group-item.active {
   color: #333;
 }

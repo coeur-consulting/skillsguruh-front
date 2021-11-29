@@ -1,5 +1,5 @@
 <template>
-  <div class="h-100" v-if="info" @click="markasread">
+  <div class="h-100 position-relative" v-if="info" @click="markasread">
     <header class="d-flex px-3 py-2 align-items-center border-bottom">
       <div class="d-flex flex-1 align-items-center">
         <span class="d-flex align-items-center">
@@ -502,17 +502,17 @@ export default {
     });
     channel.bind("inboxSent", (data) => {
       if (this.info.id === data.message.user.id) {
-         interval = setInterval(changetitle, 700);
+        interval = setInterval(changetitle, 700);
       }
     });
     var isOldTitle = true;
-      var oldtitle = "Home - Messages";
-      var newtitle = "You have a new message!";
-      var interval = null;
-      function changetitle() {
-        document.title = isOldTitle ? oldtitle : newtitle;
-        isOldTitle = !isOldTitle;
-      }
+    var oldtitle = "Home - Messages";
+    var newtitle = "You have a new message!";
+    var interval = null;
+    function changetitle() {
+      document.title = isOldTitle ? oldtitle : newtitle;
+      isOldTitle = !isOldTitle;
+    }
     var vis = (function () {
       var stateKey,
         eventKey,
@@ -536,8 +536,8 @@ export default {
     vis(function () {
       if (vis()) {
         this.newmessage = false;
-       clearInterval(interval);
-      document.title = "Home - Messages";
+        clearInterval(interval);
+        document.title = "Home - Messages";
       }
     });
   },
@@ -563,9 +563,7 @@ export default {
         interval = setInterval(changetitle, 700);
         return;
       }
-      console.log("====================================");
-      console.log("interval");
-      console.log("====================================");
+
       clearInterval(interval);
       document.title = "Home - Messages";
     },
@@ -737,7 +735,7 @@ header {
 }
 
 .chatbody {
-  height: 81%;
+  height: 84%;
   overflow-y: scroll;
   position: relative;
   background-image: url("/img/whats.png");
@@ -778,13 +776,12 @@ ul {
 }
 .left_text {
   font-size: 12px;
-  padding: 10px;
+  padding: 10px 20px;
   background-color: #d0d2d5;
-  border-radius: 0 10px 10px 0;
-
+  border-radius: 0 10px 10px 10px;
   border-right: 3px solid var(--dark-green);
-
-  width: 70%;
+  width: max-content;
+  max-width: 55%;
   margin-right: auto;
   position: relative;
 }
@@ -801,13 +798,13 @@ ul {
 }
 .right_text {
   font-size: 12px;
-  padding: 10px;
-  border-radius: 10px 0 0 10px;
-  width: 70%;
+  padding: 10px 20px;
+  border-radius: 10px 0 10px 10px;
+  width: max-content;
+  max-width: 55%;
   margin-left: auto;
   background-color: #d0d2d5;
   border-left: 3px solid var(--red);
-
   position: relative;
 }
 .right_text::before {
@@ -873,5 +870,9 @@ audio {
     font-size: 68%;
     font-weight: 400;
   }
+  .chatbody {
+  height: 83%;
+
+}
 }
 </style>

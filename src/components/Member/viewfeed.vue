@@ -13,7 +13,7 @@
         <b-col>
           <b-card no-body class="">
             <b-row no-gutters>
-              <b-col md="7" class="text-left p-0 p-md-4 border-right">
+              <b-col md="8" class="text-left p-0 py-md-4 border-right">
                 <div
                   class="
                     d-flex
@@ -24,14 +24,7 @@
                     border-bottom
                   "
                 >
-                  <div class="d-flex align-items-center" v-if="feed.admin">
-                    <b-avatar
-                      :src="feed.admin.profile"
-                      size="sm"
-                      class="mr-2"
-                    ></b-avatar>
-                    <div class="feed_name">{{ feed.admin.name }}</div>
-                  </div>
+
                   <div class="d-flex align-items-center" v-if="feed.user">
                     <b-avatar
                       :src="feed.user.profile"
@@ -45,24 +38,7 @@
                       {{ feed.user.username }}
                     </div>
                   </div>
-                  <div
-                    class="d-flex align-items-center"
-                    v-if="feed.facilitator"
-                  >
-                    <b-avatar
-                      :src="feed.facilitator.profile"
-                      size="sm"
-                      class="mr-2"
-                    ></b-avatar>
-                    <div
-                      @click="
-                        $router.push(`/member/profile/f/${feed.facilitator.id}`)
-                      "
-                      class="feed_name"
-                    >
-                      {{ feed.facilitator.username }}
-                    </div>
-                  </div>
+
                   <b-dropdown
                     size="sm"
                     variant="transparent"
@@ -90,8 +66,8 @@
                     </b-dropdown-item>
                   </b-dropdown>
                 </div>
-                <div class="p-3">
-                  <b-card-text v-html="feed.message"> </b-card-text>
+                <div >
+                  <p class="px-3" v-html="feed.message"> </p>
                   <div v-if="feed.url" class="text-dark-green mb-1">
                     <a :href="feed.url" target="_blank">Click link</a>
                   </div>
@@ -112,63 +88,48 @@
                       </b-col>
                     </div>
                   </div>
-                  <div v-if="feed.media || feed.publicId">
-                    <div class="mb-4 position-relative w-100 media">
-                      <cld-image
-                        v-if="
-                          feed.publicId &&
-                          img_ext.includes(getextension(feed.media))
-                        "
-                        :publicId="feed.publicId"
-                      >
-                        <cld-transformation crop="fill" quality="auto" />
-                        <cld-transformation width="auto" crop="scale" />
-                        <cld-transformation dpr="auto" />
-                      </cld-image>
-                      <b-img
-                        v-if="
-                          !feed.publicId &&
-                          feed.media &&
-                          img_ext.includes(getextension(feed.media))
-                        "
-                        :src="feed.media"
-                      ></b-img>
+                   <div class="px-1" v-if="feed.media && feed.media.length">
+                      <div class="mb-4 position-relative w-100 media bg-white">
 
-                      <cld-video
-                        controls
-                        v-if="
-                          feed.publicId &&
-                          vid_ext.includes(getextension(feed.media))
-                        "
-                        :publicId="feed.publicId"
-                      >
-                        <cld-transformation crop="fill" height="500" />
-                      </cld-video>
+                        <b-carousel
+                          v-if="img_ext.includes(getextension(feed.media[0]))"
+                          id="carousel-fade"
+                          style="text-shadow: 0px 0px 2px #000"
+                          indicators
+                          :interval="0"
+                        >
+                          <b-carousel-slide
+                            v-for="(item, id) in feed.media"
+                            :key="id"
+                            background="#000"
+                          >
+                            <template #img>
+                              <img
 
-                      <audio
-                        width="100%"
-                        controls
-                        v-if="
-                          feed.media &&
-                          aud_ext.includes(getextension(feed.media))
-                        "
-                        :src="feed.media"
-                        class="fluid-grow"
-                      ></audio>
-                      <div
-                        v-if="
-                          feed.media &&
-                          doc_ext.includes(getextension(feed.media))
-                        "
-                        class="text-center p-3 p-sm-4 bg-skills-grey"
-                      >
-                        <b-icon icon="image" font-scale="3rem"></b-icon>
+                                class="d-block img-fluid w-100"
+                                width="1024"
+                                height="480"
+                                :src="item"
+                                alt="image"
+                              />
+                            </template>
+                          </b-carousel-slide>
+                        </b-carousel>
+                        <video
+
+                          v-if="vid_ext.includes(getextension(feed.media[0]))"
+                          controls
+                          width="100%"
+                          height="480"
+                          :src="feed.media[0]"
+                        ></video>
+
+
                       </div>
                     </div>
-                  </div>
                 </div>
               </b-col>
-              <b-col md="5">
+              <b-col md="4">
                 <b-card-body
                   class="text-left px-0 d-flex flex-column h-100 pb-0"
                 >

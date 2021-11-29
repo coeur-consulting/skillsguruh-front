@@ -3,23 +3,22 @@
     <div>
       <div @click="$bvModal.show('addupload')">
         <slot>
-          <b-button size="sm">Click to upload</b-button>
+
         </slot>
       </div>
-      <div class="" v-if="this.images.length">
-        File Upload Successful
-        <small class="text-dark-green truncate text-truncate link_url"
-          ><em> {{ uploadedFileUrl }}</em></small
-        >
+      <div class="fs12" v-if="this.images.length">
+        <small  class="fs12 text-center text-dark-green">
+          File(s) ready <b-icon variant="text-dark-green"  icon="check2-circle"></b-icon
+        ></small>
       </div>
     </div>
-    <b-modal id="addupload" hide-header>
+    <b-modal id="addupload" centered title="Upload files" ok-only :hide-footer="!images.length" ok-variant="dark-green"  ok-title="Proceed">
       <form
         @submit.prevent="processUpload"
         class="text-center position-relative"
       >
-        <div class="mb-5">
-          <div class="rounded bg-light uploader border">
+        <div class="">
+          <div class="rounded  uploader border">
             <div class="header">
               <div
                 class="text-center border-right"
@@ -43,26 +42,28 @@
                 Google drive
               </div>
             </div>
-            <label class="form-group mb-0" for="logo">
-              <b-form-file
-                multiple
-                v-model="files"
-                type="file"
-                class="form-control hidden"
-                id="logo"
-                aria-describedby="helpId"
-                placeholder
-              />
 
-              <div class="body p-3" v-show="show == 'computer'">
-                <span v-if="!images.length"
-                  ><div class="mb-3 text-muted">Drag/Click to upload</div>
-                  <b-icon
-                    class="mb-2 text-muted"
-                    icon="cloud-upload"
-                    font-scale="4"
-                  ></b-icon
-                ></span>
+            <div class="p-3" v-if="show === 'computer'">
+              <div class="upload-form position-relative bg-light mb-3 p-3">
+                <label class="form-group mb-0" :for="id">
+                  <b-form-file
+                    multiple
+                    v-model="files"
+                    type="file"
+                    class="form-control hidden"
+                    :id="id"
+                    aria-describedby="helpId"
+                    placeholder
+                  />
+                  <span
+                    ><div class="mb-3 text-muted">Drag/Click to upload</div>
+                    <b-icon
+                      class="mb-2 text-muted text-opacity-25"
+                      icon="cloud-upload"
+                      font-scale="3"
+                    ></b-icon
+                  ></span>
+                </label>
                 <div v-if="start" class="spinner-start">
                   <b-spinner
                     class="text-dark-green"
@@ -70,48 +71,58 @@
                     label="Spinning"
                   ></b-spinner>
                 </div>
+              </div>
+
+              <div class="container-fluid">
                 <b-row v-if="images.length">
-                  <b-col cols="4" v-for="(item, id) in images" :key="id">
+                  <b-col
+
+                    cols="3"
+                    class="px-1 position-relative imgbox"
+                    v-for="(item, id) in images"
+                    :key="id"
+                  >
+                  <b-icon icon="x" class="x-img"  @click="removeimage(id)"></b-icon>
                     <b-img
-                      v-if="item.url"
-                      :src="item.url"
+                      v-if="item"
+                      :src="item"
                       blank-color="transparent"
                       fluid-grow
                     ></b-img>
                   </b-col>
                 </b-row>
               </div>
-              <div class="body p-3" v-show="show == 'url'">
-                <span v-if="!uploadedFileUrl"
-                  ><span>Image Url </span><br />
-                  <b-form-input
-                    v-model="uploadedFileUrl"
-                    placeholder="Input the image url"
-                    class="form_field"
-                  ></b-form-input
-                ></span>
-                <b-img
-                  v-if="uploadedFileUrl"
-                  :src="uploadedFileUrl"
-                  blank-color="transparent"
-                ></b-img>
-              </div>
-              <div class="body p-3" v-show="show == 'google'">
-                <span v-if="!uploadedFileUrl"
-                  ><span>Google Drive Link </span><br />
-                  <b-form-input
-                    class="form_field"
-                    v-model="uploadedFileUrl"
-                    placeholder="Input the google drive link"
-                  ></b-form-input
-                ></span>
-                <b-img
-                  v-if="uploadedFileUrl"
-                  :src="uploadedFileUrl"
-                  blank-color="transparent"
-                ></b-img>
-              </div>
-            </label>
+            </div>
+            <!-- <div class="body p-3" v-show="show == 'url'">
+              <span v-if="!uploadedFileUrl"
+                ><span>Image Url </span><br />
+                <b-form-input
+                  v-model="uploadedFileUrl"
+                  placeholder="Input the image url"
+                  class="form_field"
+                ></b-form-input
+              ></span>
+              <b-img
+                v-if="uploadedFileUrl"
+                :src="uploadedFileUrl"
+                blank-color="transparent"
+              ></b-img>
+            </div>
+            <div class="body p-3" v-show="show == 'google'">
+              <span v-if="!uploadedFileUrl"
+                ><span>Google Drive Link </span><br />
+                <b-form-input
+                  class="form_field"
+                  v-model="uploadedFileUrl"
+                  placeholder="Input the google drive link"
+                ></b-form-input
+              ></span>
+              <b-img
+                v-if="uploadedFileUrl"
+                :src="uploadedFileUrl"
+                blank-color="transparent"
+              ></b-img>
+            </div> -->
           </div>
         </div>
       </form>
@@ -122,8 +133,16 @@
 .link_url {
   max-width: 250px;
 }
+.imgbox:hover .x-img{
+  display: block;
+}
+.x-img{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
 .uploader {
-  height: 400px;
+
   width: 100%;
   margin: 0 auto;
 }
@@ -141,12 +160,13 @@
   padding: 15px 10px;
   font-size: 0.8rem;
 }
-label {
-  height: 85%;
-  overflow-y: auto;
+.upload-form {
+  height: 100px;
+
 }
 .body {
-  height: 100%;
+  max-height: 150px;
+  overflow-y: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -204,6 +224,7 @@ label {
 <script>
 export default {
   name: "CloudinaryUpload",
+  props:['id'],
   data() {
     return {
       show: "computer",
@@ -231,6 +252,9 @@ export default {
     files: "handleUpload",
   },
   methods: {
+    removeimage(id){
+      this.images.splice(id,1)
+    },
     getextension(fileName) {
       if (fileName) {
         var regex = new RegExp("[^.]+$");
@@ -241,7 +265,7 @@ export default {
     },
 
     async handleUpload() {
-      this.images = [];
+
       var cloudName = this.cloudinary.cloudName;
       var upload_preset = this.cloudinary.uploadPreset;
       var url = "https://api.cloudinary.com/v1_1/" + cloudName + "/upload";
@@ -267,7 +291,7 @@ export default {
             obj.publiId = res.data.public_id;
             obj.url = res.data.secure_url;
             obj.file_name = res.data.original_filename;
-            this.images.push(obj);
+            this.images.push(res.data.secure_url);
             this.start = false;
             if (item == this.files.length - 1) {
               this.sendImages();
@@ -281,51 +305,10 @@ export default {
       });
     },
     sendImages() {
-      this.$emit("getUpload", this.images);
+      this.$emit("getUploads", this.images);
     },
 
-    processUpload() {
-      let that = this;
-      this.start = true;
-      var formData = new FormData();
-      var xhr = new XMLHttpRequest();
-      var cloudName = this.cloudinary.cloudName;
-      var upload_preset = this.cloudinary.uploadPreset;
-      formData.append("file", this.file);
-      formData.append("resource_type", "auto");
-      formData.append("upload_preset", upload_preset); // REQUIRED
-      xhr.open(
-        "POST",
-        "https://api.cloudinary.com/v1_1/" + cloudName + "/upload"
-      );
-      xhr.upload.onprogress = function (e) {
-        if (e.lengthComputable) {
-          that.progress = Math.round((e.loaded / e.total) * 100) + "%";
-        }
-      };
 
-      xhr.upload.onloadstart = function () {
-        this.progress = "Starting...";
-      };
-      xhr.upload.onloadend = function () {
-        this.progress = "Completing..";
-      };
-      xhr.onload = () => {
-        if (xhr.status === 200) {
-          // Success! You probably wantto save the URL somewhere
-          this.progress = "Completed";
-
-          var response = JSON.parse(xhr.response);
-          this.start = false;
-          this.uploadedFileUrl = response.secure_url; // https address of uploaded file
-          this.$emit("getUpload", this.uploadedFileUrl);
-        } else {
-          this.start = false;
-          alert("Upload failed. Please try again.");
-        }
-      };
-      xhr.send(formData);
-    },
   },
 };
 </script>

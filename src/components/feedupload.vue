@@ -15,7 +15,7 @@
             @change="handleFileChange($event)"
           />
           <div class="position-relative text-center">
-            <slot></slot>
+            <div><slot></slot></div>
             <div v-if="start" class="spinner-start">
               <b-spinner
                 class="text-dark-green"
@@ -57,7 +57,7 @@
               v-if="uploadedFileUrl"
               class="fs12 text-center text-dark-green"
             >
-              Ready <b-icon icon="check2-circle"></b-icon>
+            Media  ready <b-icon icon="check2-circle"></b-icon>
             </div>
           </div>
 
@@ -158,12 +158,7 @@ export default {
     handleFileChange(event) {
       this.file = event.target.files[0];
 
-      if (
-        !this.img_ext.includes(this.getextension(this.file.name)) &&
-        !this.vid_ext.includes(this.getextension(this.file.name)) &&
-        !this.aud_ext.includes(this.getextension(this.file.name)) &&
-        !this.doc_ext.includes(this.getextension(this.file.name))
-      ) {
+      if (!this.vid_ext.includes(this.getextension(this.file.name))) {
         this.$toast.error("Unsupported content type !");
         return;
       }
