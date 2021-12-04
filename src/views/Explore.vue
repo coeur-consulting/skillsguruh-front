@@ -267,21 +267,7 @@
                     {{ item.name }}
                   </div>
 
-                  <span class="position-absolute discussion_badge">
-                    <b-badge
-                      class="text-white d-flex align-items-center"
-                      :style="{
-                        backgroundColor: item.category.color,
-                      }"
-                    >
-                      <b-icon
-                        icon="circle-fill"
-                        class="mr-1"
-                        font-scale=".5"
-                      ></b-icon>
-                      {{ item.category.value }}</b-badge
-                    >
-                  </span>
+
 
                   <div
                     class="comment_carousel"
@@ -407,21 +393,7 @@
                       {{ item.name }}
                     </div>
 
-                    <span class="position-absolute discussion_badge">
-                      <b-badge
-                        class="text-white d-flex align-items-center"
-                        :style="{
-                          backgroundColor: item.category.color,
-                        }"
-                      >
-                        <b-icon
-                          icon="circle-fill"
-                          class="mr-1"
-                          font-scale=".5"
-                        ></b-icon>
-                        {{ item.category.value }}</b-badge
-                      >
-                    </span>
+
 
                     <div
                       class="comment_carousel"
@@ -440,22 +412,8 @@
                         "
                       >
                         <div class="comment_image">
-                          <b-img
-                            v-if="message.admin"
-                            :src="
-                              message.admin.proflle
-                                ? message.admin.profile
-                                : require('@/assets/images/default.jpeg')
-                            "
-                          ></b-img>
-                          <b-img
-                            v-if="message.facilitator"
-                            :src="
-                              message.facilitator.proflle
-                                ? message.facilitator.profile
-                                : require('@/assets/images/default.jpeg')
-                            "
-                          ></b-img>
+
+
                           <b-img
                             v-if="message.user"
                             :src="
@@ -466,12 +424,8 @@
                           ></b-img>
                         </div>
                         <div class="comment_box">
-                          <div class="comment_name" v-if="message.admin">
-                            {{ message.admin.name }}
-                          </div>
-                          <div class="comment_name" v-if="message.facilitator">
-                            {{ message.facilitator.username }}
-                          </div>
+
+
                           <div class="comment_name" v-if="message.user">
                             {{ message.user.username }}
                           </div>

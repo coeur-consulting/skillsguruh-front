@@ -157,7 +157,7 @@ export default {
     };
   },
   watch: {
-    $route: "getnotification",
+   // $route: "getnotification",
   },
 
   components: {
@@ -183,10 +183,7 @@ export default {
       this.user = "admin";
       this.auth = true;
     }
-    if (localStorage.getItem("authFacilitator")) {
-      this.user = "facilitator";
-      this.auth = true;
-    }
+
     if (localStorage.getItem("authMember")) {
       this.user = "member";
       this.auth = true;
@@ -275,12 +272,12 @@ export default {
        this.mini_info.index = index;
       this.$store.dispatch("getChatter", this.mini_info);
     },
-    getnotification() {
+    // getnotification() {
 
 
-        this.$store.dispatch("getNotifications", "member");
+    //     this.$store.dispatch("getNotifications", "member");
 
-    },
+    // },
   },
 };
 </script>

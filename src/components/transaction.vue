@@ -36,9 +36,9 @@
                 <p>{{ order.message }}</p>
               </div>
 
-              <router-link to="/member">
+              <router-link to="/member/feeds">
                 <b-button variant="lighter-green"
-                  >Back to Dashboard</b-button
+                  >Back to Home</b-button
                 ></router-link
               >
             </div>

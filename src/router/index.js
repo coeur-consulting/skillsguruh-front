@@ -57,7 +57,7 @@ const routes = [
         if (!user) {
           next();
         } else {
-          next("/member");
+          next("/member/feeds");
         }
       } else if (localStorage.getItem("authFacilitator")) {
         let user = localStorage.getItem("authFacilitator");
@@ -667,7 +667,7 @@ const routes = [
 
     children: [
       {
-        path: "",
+        path: "dashboard",
         name: "Member dashboard",
         components: {
           default: () =>

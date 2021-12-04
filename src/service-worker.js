@@ -98,7 +98,7 @@ self.addEventListener(
     } else if (event.action === "reply") {
       clients.openWindow(url);
     } else {
-      clients.openWindow("/member");
+      clients.openWindow("/member/feeds");
     }
   },
   false
