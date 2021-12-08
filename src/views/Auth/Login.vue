@@ -130,7 +130,8 @@
                         class="ml-3"
                         font-scale="1.5"
                       ></b-icon
-                    ></b-button>
+                    >
+                    </b-button>
                   </div>
                   <div class="">
                     <small

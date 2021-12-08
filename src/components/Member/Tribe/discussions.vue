@@ -14,8 +14,8 @@
               text-left
             "
           >
-            <h6 class="flex-1 font-weight-bold mb-3 mb-sm-0"></h6>
-            <div class="d-flex search px-2 px-sm-0">
+
+            <div class="d-flex search px-2 px-sm-0 w-100">
               <span
                 @click="$router.go(-1)"
                 class="cursor-pointer back fs13 px-2 pt-2 d-sm-none"

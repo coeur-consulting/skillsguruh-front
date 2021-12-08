@@ -94,8 +94,7 @@ export default {
   },
   directives: {
     "click-outside": {
-      bind(el, binding, vNode) {
-        this.node = vNode;
+      bind(el, binding) {
         if (typeof binding.value !== "function") {
           return;
         }
@@ -110,8 +109,8 @@ export default {
 
         document.addEventListener("click", handler);
       },
-      unbind(el, binding) {
-        this.binding = binding;
+      unbind(el) {
+
         document.removeEventListener("click", el.__vueClickOutside__);
 
         el.__vueClickOutside__ = null;

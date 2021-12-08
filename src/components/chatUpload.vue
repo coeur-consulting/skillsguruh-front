@@ -12,6 +12,7 @@
             :id="id"
             aria-describedby="helpId"
             placeholder
+            :accept="accepted"
             @change="handleFileChange($event)"
           />
           <div class="position-relative text-center">
@@ -85,13 +86,22 @@ label {
 <script>
 export default {
   name: "CloudinaryUpload",
-  props: ["id", "type", "file_type", "image"],
+  props: {
+    id: {
+      type: String,
+      required: true,
+    },
+    type: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
-      img_ext: ["jpg", "png", "jpeg", "gif"],
-      vid_ext: ["mp4", "3gp", "mov", "flv"],
-      aud_ext: ["mp3", "aac"],
-      doc_ext: ["docx", "pdf", "ppt", "zip"],
+      img_ext: ".jpg, .png, .jpeg , .gif",
+      vid_ext: ".mp4, .3gp, .mov, .flv",
+      aud_ext: ".mp3, .aac",
+      doc_ext: ".docx, .pdf, .ppt, .zip",
       filesSelectedLength: 0,
       file: [],
       filetype: "",
@@ -99,10 +109,10 @@ export default {
       uploadedFileUrl: null,
       cloudinary: {
         uploadPreset: "skillsguruh_preset",
-        cloudName: "skillsguruh"
+        cloudName: "skillsguruh",
       },
       progress: 0,
-      start: false
+      start: false,
     };
   },
 
@@ -111,7 +121,20 @@ export default {
       this.uploadedFileUrl = this.$props.image;
     }
   },
-  computed: {},
+  computed: {
+    accepted() {
+      if (this.$props.type === "image") {
+        return this.img_ext;
+      }
+      if (this.$props.type === "video") {
+        return this.vid_ext;
+      }
+      if (this.$props.type === "audio") {
+        return this.aud_ext;
+      }
+      return this.doc_ext;
+    },
+  },
   methods: {
     getextension(fileName) {
       if (fileName) {
@@ -121,8 +144,28 @@ export default {
         return extension[0].toLowerCase();
       }
     },
+     checksize(bytes) {
+       if (bytes === 0) return 0;
+      var size = bytes / 1000;
+
+      if (this.$props.type === "image") {
+        return size < 5000 ? true : false;
+      }
+      return size < 16000 ? true : false;
+    },
     handleFileChange(event) {
       this.file = event.target.files[0];
+        if (!this.checksize(this.file.size)) {
+        if (this.$props.type === "image") {
+          this.$toast.error("One or more files too large, > 5mb");
+        } else {
+          this.$toast.error("One or more files too large, > 16mb");
+        }
+
+        this.files = [];
+        return;
+      }
+
 
       if (
         !this.img_ext.includes(this.getextension(this.file.name)) &&
@@ -173,7 +216,7 @@ export default {
     },
     loadFile() {
       let reader = new FileReader();
-      reader.onload = event => {
+      reader.onload = (event) => {
         this.uploadedFile = event.target.result;
       };
       reader.readAsDataURL(this.file);
@@ -192,16 +235,16 @@ export default {
         "POST",
         "https://api.cloudinary.com/v1_1/" + cloudName + "/upload"
       );
-      xhr.upload.onprogress = function(e) {
+      xhr.upload.onprogress = function (e) {
         if (e.lengthComputable) {
           that.progress = Math.round((e.loaded / e.total) * 100) + "%";
         }
       };
 
-      xhr.upload.onloadstart = function() {
+      xhr.upload.onloadstart = function () {
         this.progress = "Starting...";
       };
-      xhr.upload.onloadend = function() {
+      xhr.upload.onloadend = function () {
         this.progress = "Completing..";
       };
       xhr.onload = () => {
@@ -221,7 +264,7 @@ export default {
         }
       };
       xhr.send(formData);
-    }
-  }
+    },
+  },
 };
 </script>

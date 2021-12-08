@@ -12,6 +12,7 @@
             :id="id"
             aria-describedby="helpId"
             placeholder
+            :accept="accepted"
             @change="handleFileChange($event)"
           />
           <div class="position-relative text-center">
@@ -57,7 +58,7 @@
               v-if="uploadedFileUrl"
               class="fs12 text-center text-dark-green"
             >
-            Media  ready <b-icon icon="check2-circle"></b-icon>
+              Media ready <b-icon icon="check2-circle"></b-icon>
             </div>
           </div>
 
@@ -123,11 +124,21 @@ label {
 <script>
 export default {
   name: "CloudinaryUpload",
-  props: ["id"],
+  props: {
+    id: {
+      type: String,
+      required: true,
+    },
+    type: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
-      img_ext: ["jpg", "png", "jpeg", "gif"],
-      vid_ext: ["mp4", "3gp", "mov", "flv"],
+      img_ext: ".jpg, .png, .jpeg , .gif",
+      vid_ext: ".mp4, .3gp, .mov, .flv",
+
       aud_ext: ["mp3"],
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       filesSelectedLength: 0,
@@ -145,7 +156,11 @@ export default {
     };
   },
   mounted() {},
-  computed: {},
+  computed: {
+    accepted() {
+      return this.$props.type === "image" ? this.img_ext : this.vid_ext;
+    },
+  },
   methods: {
     getextension(fileName) {
       if (fileName) {
@@ -157,6 +172,16 @@ export default {
     },
     handleFileChange(event) {
       this.file = event.target.files[0];
+      if (!this.checksize(this.file.size)) {
+        if (this.$props.type === "image") {
+          this.$toast.error("One or more files too large, > 5mb");
+        } else {
+          this.$toast.error("One or more files too large, > 16mb");
+        }
+
+        this.files = [];
+        return;
+      }
 
       if (!this.vid_ext.includes(this.getextension(this.file.name))) {
         this.$toast.error("Unsupported content type !");
@@ -221,6 +246,18 @@ export default {
         }
       };
       xhr.send(formData);
+    },
+    checksize(bytes, decimals = 2) {
+      if (bytes === 0) return "0 Bytes";
+      const k = 1024;
+      const dm = decimals < 0 ? 0 : decimals;
+
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      var size = parseFloat((bytes / Math.pow(k, i)).toFixed(dm));
+      if (this.$props.type === "image") {
+        return size < 5000 ? true : false;
+      }
+      return size < 16000 ? true : false;
     },
   },
 };

@@ -312,19 +312,24 @@
                 <b-icon font-scale="1" icon="paperclip"></b-icon>
               </template>
 
-              <Upload @getUpload="getUpload" :file_type="'image'" :id="'image'">
+              <Upload @getUpload="getUpload" type="image" id="image">
                 <b-dropdown-text class="fs11 cursor-pointer">
                   Image
                 </b-dropdown-text>
               </Upload>
-              <Upload @getUpload="getUpload" :file_type="'audio'" :id="'audio'">
+              <Upload @getUpload="getUpload" type="audio" id="audio">
                 <b-dropdown-text class="fs11 cursor-pointer">
                   Audio
                 </b-dropdown-text>
               </Upload>
-              <Upload @getUpload="getUpload" :file_type="'video'" :id="'video'">
+              <Upload @getUpload="getUpload" type="video" id="video">
                 <b-dropdown-text class="fs11  cursor-pointer">
                   Video
+                </b-dropdown-text>
+              </Upload>
+               <Upload @getUpload="getUpload" type="file" id="file">
+                <b-dropdown-text class="fs11  cursor-pointer">
+                  Document
                 </b-dropdown-text>
               </Upload>
             </b-dropdown>

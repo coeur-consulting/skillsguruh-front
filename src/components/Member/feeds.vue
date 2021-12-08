@@ -71,35 +71,13 @@
           </multi-select>
         </div>
 
-        <div class="d-flex justify-content-around my-3 border rounded p-2">
-          <div>
-            <multi-upload @getUploads="getUploads" :id="'image'">
-              <b-img
-                :src="require('@/assets/images/event.svg')"
-                width="18px"
-                class="mr-1 cursor-pointer ev"
-              ></b-img>
-              <span class="ev">Image</span>
+        <div class="d-flex justify-content-around my-3 border rounded">
+
+            <multi-upload @getUploads="getUploads" :type="type" :isMultiple="isMultiple" :id="type">
+
             </multi-upload>
-          </div>
-          <div>
-            <file-upload @getUpload="getUpload" :id="'video'">
-              <b-img
-                :src="require('@/assets/images/youtube.svg')"
-                width="18px"
-                class="mr-1 cursor-pointer ev"
-              ></b-img
-              ><span class="ev">Video</span>
-            </file-upload>
-          </div>
-          <Feelings user="member" @handleChange="handleChange">
-            <b-img
-              :src="require('@/assets/images/feeling.png')"
-              width="18px"
-              class="mr-1 cursor-pointer"
-            ></b-img>
-            <span class="ev">Expressions</span>
-          </Feelings>
+
+
         </div>
         <b-button @click="post" block variant="dark-green">Post</b-button>
       </b-modal>
@@ -395,7 +373,7 @@
               </div>
 
               <div class="d-flex justify-content-around event_video">
-                <div @click="$bvModal.show('feed')">
+                <div @click="toggleFeedAdd('image',true)">
                   <b-img
                     :src="require('@/assets/images/event.svg')"
                     width="18px"
@@ -403,7 +381,7 @@
                   ></b-img>
                   <span class="cursor-pointer"> Image</span>
                 </div>
-                <div @click="$bvModal.show('feed')">
+                <div  @click="toggleFeedAdd('video',false)">
                   <b-img
                     :src="require('@/assets/images/youtube.svg')"
                     width="18px"
@@ -571,18 +549,18 @@
                           style="text-shadow: 0px 0px 2px #000"
                           indicators
                           :interval="0"
+                          class="w-100"
                         >
                           <b-carousel-slide
                             v-for="(item, id) in feed.media"
                             :key="id"
-                            background="#000"
+                            background="#fff"
                           >
                             <template #img>
                               <img
                                 @dblclick.self="toggleLike(feed.id, index)"
-                                class="d-block img-fluid w-100"
-                                width="1024"
-                                height="480"
+                                class="w-100"
+                                height="420"
                                 :src="item"
                                 alt="image"
                               />
@@ -590,15 +568,13 @@
                           </b-carousel-slide>
                         </b-carousel>
                         <video
-                         @dblclick.self="toggleLike(feed.id, index)"
+                          @dblclick.self="toggleLike(feed.id, index)"
                           v-if="vid_ext.includes(getextension(feed.media[0]))"
                           controls
                           width="100%"
-                          height="480"
+                          height="420"
                           :src="feed.media[0]"
                         ></video>
-
-
                       </div>
                     </div>
                     <div class="text-left feed_text px-3">
@@ -982,6 +958,8 @@ import ViewMore from "@/components/Member/components/viewmore";
 export default {
   data() {
     return {
+      isMultiple:null,
+      type:'image',
       report_id: null,
       report_type: null,
       index: null,
@@ -1099,6 +1077,12 @@ export default {
     },
   },
   methods: {
+    toggleFeedAdd(type,multiple) {
+      console.log("🚀 ~ file: feeds.vue ~ line 1103 ~ toggleFeedAdd ~ multiple", multiple)
+      this.type = type;
+      this.isMultiple =  multiple
+      this.$bvModal.show("feed");
+    },
     getfeedcomments(feed) {
       this.$http
         .get(`${this.$store.getters.url}/feed/comments/${feed.id}`, {
@@ -1675,8 +1659,8 @@ export default {
   border-radius: 0.5rem;
   background: #fff;
   box-shadow: 1px 1px 8px #c7dbe6;
-  top: 40px;
-  right: -150px;
+  // top: 40px;
+  // right: -150px;
 }
 .emoji-picker.picker {
   position: absolute;
@@ -1692,8 +1676,8 @@ export default {
   background: #fff;
   box-shadow: 1px 1px 8px #c7dbe6;
   top: unset;
-  bottom: 60px;
-  right: -150px;
+  // bottom: 60px;
+  // right: -150px;
 }
 .emoji-picker__search {
   display: flex;

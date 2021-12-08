@@ -93,9 +93,10 @@
                 class="bg-light rounded mb-3 p-2 d-flex result"
               >
                 <div style="width: 20%">
-                  <b-img
+                  <b-avatar
                     :src="item.cover"
-                    style="width: 100%; height: 100%; object-fit: cover"
+                    size="4rem"
+                    variant="transparent"
                   />
                 </div>
                 <div class="text-left px-2" style="width: 80%">

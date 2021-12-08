@@ -1,148 +1,150 @@
 <template>
-  <div>
-    <div>
-      <div @click="$bvModal.show('addupload')">
-        <slot>
-
-        </slot>
-      </div>
-      <div class="fs12" v-if="this.images.length">
-        <small  class="fs12 text-center text-dark-green">
-          File(s) ready <b-icon variant="text-dark-green"  icon="check2-circle"></b-icon
-        ></small>
-      </div>
-    </div>
-    <b-modal id="addupload" centered title="Upload files" ok-only :hide-footer="!images.length" ok-variant="dark-green"  ok-title="Proceed">
-      <form
-        @submit.prevent="processUpload"
-        class="text-center position-relative"
-      >
-        <div class="">
-          <div class="rounded  uploader border">
-            <div class="header">
-              <div
-                class="text-center border-right"
-                @click="show = 'computer'"
-                :class="show == 'computer' ? '' : 'text-muted'"
-              >
-                Computer
-              </div>
-              <div
-                class="text-center border-right"
-                :class="show == 'url' ? '' : 'text-muted'"
-                @click="show = 'url'"
-              >
-                Url
-              </div>
-              <div
-                class="text-center"
-                @click="show = 'google'"
-                :class="show == 'google' ? '' : 'text-muted'"
-              >
-                Google drive
-              </div>
+  <div class="w-100">
+    <div class="rounded uploader">
+      <div class="p-3">
+        <div
+          class="
+            upload-form
+            position-relative
+            bg-light
+            mb-4
+            p-3
+            d-flex
+            justify-content-center
+            align-items-center
+          "
+        >
+          <label class="form-group mb-0 text-center" :for="id">
+            <b-form-file
+              :multiple="isMultiple"
+              v-model="files"
+              type="file"
+              class="form-control hidden"
+              :id="id"
+              aria-describedby="helpId"
+              :accept="accepted"
+              placeholder
+            />
+            <span>
+              <b-icon
+                class="mb-3 text-muted text-opacity-25"
+                icon="cloud-upload"
+                font-scale="3"
+              ></b-icon>
+              <div class="text-muted">Drag / Click to upload</div>
+            </span>
+          </label>
+        </div>
+        <b-row class="preview" v-if="filepreview.length && type === 'image'">
+          <b-col
+            cols="6"
+            md="4"
+            v-for="(file, id) in filepreview"
+            :key="id"
+            class="d-flex justify-content-between align-items-center"
+          >
+            <div class="d-flex align-items-center">
+              <b-avatar
+                class="mr-3"
+                variant="transparent"
+                rounded
+                :src="file.preview"
+                size="6rem"
+              ></b-avatar>
             </div>
-
-            <div class="p-3" v-if="show === 'computer'">
-              <div class="upload-form position-relative bg-light mb-3 p-3">
-                <label class="form-group mb-0" :for="id">
-                  <b-form-file
-                    multiple
-                    v-model="files"
-                    type="file"
-                    class="form-control hidden"
-                    :id="id"
-                    aria-describedby="helpId"
-                    placeholder
-                  />
-                  <span
-                    ><div class="mb-3 text-muted">Drag/Click to upload</div>
-                    <b-icon
-                      class="mb-2 text-muted text-opacity-25"
-                      icon="cloud-upload"
-                      font-scale="3"
-                    ></b-icon
-                  ></span>
-                </label>
-                <div v-if="start" class="spinner-start">
-                  <b-spinner
-                    class="text-dark-green"
-                    style="width: 4rem; height: 4rem"
-                    label="Spinning"
-                  ></b-spinner>
-                </div>
-              </div>
-
-              <div class="container-fluid">
-                <b-row v-if="images.length">
-                  <b-col
-
-                    cols="3"
-                    class="px-1 position-relative imgbox"
-                    v-for="(item, id) in images"
-                    :key="id"
-                  >
-                  <b-icon icon="x" class="x-img"  @click="removeimage(id)"></b-icon>
-                    <b-img
-                      v-if="item"
-                      :src="item"
-                      blank-color="transparent"
-                      fluid-grow
-                    ></b-img>
-                  </b-col>
-                </b-row>
-              </div>
+            <div>
+              <b-icon
+                v-if="!uploadedFiles.length"
+                scale="1.2"
+                icon="x"
+                @click="removeimage(id)"
+              ></b-icon>
+              <b-icon
+                v-if="uploadedFiles.length"
+                scale="1.5"
+                icon="check2-circle"
+                variant="success"
+              ></b-icon>
             </div>
-            <!-- <div class="body p-3" v-show="show == 'url'">
-              <span v-if="!uploadedFileUrl"
-                ><span>Image Url </span><br />
-                <b-form-input
-                  v-model="uploadedFileUrl"
-                  placeholder="Input the image url"
-                  class="form_field"
-                ></b-form-input
-              ></span>
-              <b-img
-                v-if="uploadedFileUrl"
-                :src="uploadedFileUrl"
-                blank-color="transparent"
-              ></b-img>
+          </b-col>
+        </b-row>
+        <b-row class="preview" v-if="filepreview.length && type === 'video'">
+          <b-col
+            cols="12"
+            v-for="(file, id) in filepreview"
+            :key="id"
+            class="d-flex justify-content-between align-items-center"
+          >
+            <div class="d-flex align-items-center">
+              <video :src="file.preview" controls class="video"></video>
             </div>
-            <div class="body p-3" v-show="show == 'google'">
-              <span v-if="!uploadedFileUrl"
-                ><span>Google Drive Link </span><br />
-                <b-form-input
-                  class="form_field"
-                  v-model="uploadedFileUrl"
-                  placeholder="Input the google drive link"
-                ></b-form-input
-              ></span>
-              <b-img
-                v-if="uploadedFileUrl"
-                :src="uploadedFileUrl"
-                blank-color="transparent"
-              ></b-img>
-            </div> -->
+            <div>
+              <b-icon
+                v-if="!uploadedFiles.length"
+                scale="1.2"
+                icon="x"
+                @click="removeimage(id)"
+              ></b-icon>
+              <b-icon
+                v-if="uploadedFiles.length"
+                scale="1.5"
+                icon="check2-circle"
+                variant="success"
+              ></b-icon>
+            </div>
+          </b-col>
+        </b-row>
+
+        <div class="d-flex justify-content-end">
+          <div v-if="!uploadedFiles.length">
+            <b-button
+              size="sm"
+              variant="light"
+              @click="handleFileUpload"
+              v-if="!start"
+              :disabled="!filepreview.length"
+            >
+              Upload</b-button
+            >
+            <b-button size="sm" variant="light" disabled v-if="start"
+              >Uploading
+              <b-icon
+                icon="three-dots"
+                animation="cylon"
+                class="ml-3"
+                font-scale="1"
+              ></b-icon>
+            </b-button>
+          </div>
+
+          <div v-if="uploadedFiles.length">
+            <b-button size="sm" variant="light" disabled
+              >Files upload successful
+            </b-button>
           </div>
         </div>
-      </form>
-    </b-modal>
+      </div>
+    </div>
   </div>
 </template>
 <style scoped>
+.video {
+  width: 90%;
+  height: auto;
+  margin: 0 auto 15px;
+}
 .link_url {
   max-width: 250px;
 }
-.imgbox:hover .x-img{
+.imgbox:hover .x-img {
   display: block;
 }
-.x-img{
+.x-img {
   position: absolute;
   top: 5px;
   right: 5px;
 }
 .uploader {
-
   width: 100%;
   margin: 0 auto;
 }
@@ -161,8 +163,8 @@
   font-size: 0.8rem;
 }
 .upload-form {
-  height: 100px;
-
+  border: 1px dashed rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
 }
 .body {
   max-height: 150px;
@@ -223,92 +225,173 @@ label {
 </style>
 <script>
 export default {
-  name: "CloudinaryUpload",
-  props:['id'],
+  name: "CloudinaryMultiUpload",
+  props: {
+    id: {
+      type: String,
+      required: true,
+    },
+    type: {
+      type: String,
+      required: true,
+    },
+    isMultiple: {
+      type: Boolean,
+      require: true,
+      default: false,
+    },
+  },
   data() {
     return {
       show: "computer",
-      img_ext: ["jpg", "png", "jpeg ", "gif"],
-      vid_ext: ["mp4", "3gp", "mov", "flv"],
-      filesSelectedLength: 0,
-      file: [],
+      img_ext: ".jpg, .png, .jpeg , .gif",
+      vid_ext: ".mp4, .3gp, .mov, .flv",
+
       filetype: "",
-      uploadedFile: null,
-      uploadedFileUrl: null,
+      uploadedFiles: [],
       files: [],
+      acceptedFiles: [],
+      filepreview: [],
       cloudinary: {
-        uploadPreset: "skillsguruh_preset",
-        cloudName: "skillsguruh",
+        uploadPreset: "nzukoor_preset",
+        cloudName: "nzukoor",
       },
-      progress: 0,
       start: false,
-      images: [],
-      imageProgess: [],
     };
   },
 
-  computed: {},
   watch: {
-    files: "handleUpload",
+    files: "handleAcceptedFiles",
   },
   methods: {
-    removeimage(id){
-      this.images.splice(id,1)
-    },
     getextension(fileName) {
-      if (fileName) {
+      if (fileName && fileName.length) {
         var regex = new RegExp("[^.]+$");
         var extension = fileName.match(regex);
 
         return extension[0].toLowerCase();
       }
     },
+    removeimage(id) {
+      this.$props.isMultiple ? this.files.splice(id, 1) : (this.files = []);
+    },
 
-    async handleUpload() {
+    handleAcceptedFiles() {
+      if (this.$props.isMultiple) {
+        this.files.forEach((file) => {
+          if (!this.checksize(file.size)) {
+            if (this.$props.type === "image") {
+              this.$toast.error("One or more files too large, > 5mb");
+            } else {
+              this.$toast.error("One or more files too large, > 16mb");
+            }
 
+            this.files = [];
+            return;
+          }
+        });
+        this.filepreview = this.files.map((file) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+            formattedSize: this.formatBytes(file.size),
+          })
+        );
+      } else {
+        if (!this.checksize(this.files.size)) {
+          if (this.$props.type === "image") {
+            this.$toast.error("One or more files too large, > 5mb");
+          } else {
+            this.$toast.error("One or more files too large, > 16mb");
+          }
+
+          this.files = [];
+          return;
+        }
+        this.filepreview.push({
+          preview: URL.createObjectURL(this.files),
+          formattedSize: this.formatBytes(this.files.size),
+        });
+      }
+    },
+    handleFileUpload() {
+      this.start = true;
       var cloudName = this.cloudinary.cloudName;
       var upload_preset = this.cloudinary.uploadPreset;
       var url = "https://api.cloudinary.com/v1_1/" + cloudName + "/upload";
-      const config = {
-        onUploadProgress: (e) => {
-          if (e.lengthComputable) {
-            this.progress = Math.round((e.loaded / e.total) * 100) + "%";
-            this.start = true;
-          }
-        },
-      };
 
-      await this.files.forEach((file, item) => {
+      if (this.$props.isMultiple) {
+        const uploads = this.files.map((file) => {
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("upload_preset", upload_preset); // Replace the preset name with your own
+          formData.append("api_key", process.env.VUE_APP_CLOUDINARY_APIKEY); // Replace API key with your own Cloudinary API key
+          formData.append("timestamp", (Date.now() / 1000) | 0);
+
+          return this.$http
+            .post(`${url}`, formData, {
+              headers: { "X-Requested-With": "XMLHttpRequest" },
+            })
+            .then((response) =>
+              this.uploadedFiles.push(response.data.secure_url)
+            )
+            .catch((err) => {
+              this.start = false;
+              this.toast.error(err);
+              this.$toast.error("Upload failed");
+              // this.filepreview = []
+            });
+        });
+
+        this.$http.all(uploads).then(() => {
+          this.$emit("getUploads", this.uploadedFiles);
+          this.start = false;
+        });
+      } else {
         const formData = new FormData();
-        formData.append("file", file);
-        formData.append("resource_type", "auto");
-        formData.append("upload_preset", upload_preset);
+        formData.append("file", this.files);
+        formData.append("upload_preset", upload_preset); // Replace the preset name with your own
+        formData.append("api_key", process.env.VUE_APP_CLOUDINARY_APIKEY); // Replace API key with your own Cloudinary API key
+        formData.append("timestamp", (Date.now() / 1000) | 0);
 
         this.$http
-          .post(url, formData, config)
-          .then((res) => {
-            var obj = {};
-            obj.publiId = res.data.public_id;
-            obj.url = res.data.secure_url;
-            obj.file_name = res.data.original_filename;
-            this.images.push(res.data.secure_url);
-            this.start = false;
-            if (item == this.files.length - 1) {
-              this.sendImages();
-            }
+          .post(`${url}`, formData, {
+            headers: { "X-Requested-With": "XMLHttpRequest" },
+          })
+          .then((response) => {
+            this.uploadedFiles.push(response.data.secure_url);
+            this.$emit("getUploads", this.uploadedFiles);
           })
           .catch((err) => {
-            this.$toast.error(err);
-            this.images = [];
             this.start = false;
+            this.toast.error(err);
+            this.$toast.error("Upload failed");
+            // this.filepreview = []
           });
-      });
-    },
-    sendImages() {
-      this.$emit("getUploads", this.images);
+      }
     },
 
+    formatBytes(bytes, decimals = 2) {
+      if (bytes === 0) return "0 Bytes";
+      const k = 1024;
+      const dm = decimals < 0 ? 0 : decimals;
+      const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+    },
+    checksize(bytes) {
+      if (bytes === 0) return 0;
+      var size = bytes / 1000;
+      if (this.$props.type === "image") {
+        return size < 5000 ? true : false;
+      }
+      return size < 16000 ? true : false;
+    },
+  },
+  computed: {
+    accepted() {
+      return this.$props.type === "image" ? this.img_ext : this.vid_ext;
+    },
   },
 };
 </script>
