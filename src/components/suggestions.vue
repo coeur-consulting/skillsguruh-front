@@ -23,17 +23,17 @@
         font-scale="2.5"
         class="nav-right shadow-sm"
         @click="index++"
-        v-if="index < suggestions.length - 1"
+        v-if="index < maxnavigation"
       >
         <b-icon stacked icon="circle-fill" variant="secondary"></b-icon>
         <b-icon stacked icon="arrow-right" scale="0.5" variant="white"></b-icon>
       </b-iconstack>
       <carousel
-        :perPage="4"
-        :scrollPerPage="true"
+
+        :perPageCustom="[[300, 3], [768, 4]]"
         :paginationEnabled="false"
         :navigationEnabled="false"
-        :navigateTo="index"
+        :navigate-to="index"
       >
         <slide v-for="(item, id) in suggestions" :key="id" class="p-1">
           <b-card
@@ -99,6 +99,7 @@ export default {
       suggestions: 6,
       showConnect: false,
       index: 0,
+      perpage:4
     };
   },
   computed: {
@@ -115,10 +116,17 @@ export default {
       }
       return token;
     },
+    maxnavigation(){
+      return Math.floor(this.suggestions.length/this.perpage)
+    }
   },
   mounted() {
     this.getsimilarusers();
+    if(window.innerWidth < 768){
+      this.perpage = 3
+    }
   },
+
   methods: {
     gotoprofile(val) {
       if (this.$props.user == "member") {
