@@ -24,6 +24,7 @@
               aria-describedby="helpId"
               :accept="accepted"
               placeholder
+              dr
             />
             <span>
               <b-icon
@@ -31,7 +32,7 @@
                 icon="cloud-upload"
                 font-scale="3"
               ></b-icon>
-              <div class="text-muted">Drag / Click to upload</div>
+              <div class="text-muted">Drag / Click to upload {{type}}</div>
             </span>
           </label>
         </div>
@@ -39,8 +40,8 @@
           <b-col
             cols="6"
             md="4"
-            v-for="(file, id) in filepreview"
-            :key="id"
+            v-for="(file, idx) in filepreview"
+            :key="idx"
             class="d-flex justify-content-between align-items-center"
           >
             <div class="d-flex align-items-center">
@@ -57,7 +58,7 @@
                 v-if="!uploadedFiles.length"
                 scale="1.2"
                 icon="x"
-                @click="removeimage(id)"
+                @click="removeimage(idx)"
               ></b-icon>
               <b-icon
                 v-if="uploadedFiles.length"
@@ -95,7 +96,7 @@
           </b-col>
         </b-row>
 
-        <div class="d-flex justify-content-end">
+        <div class="d-flex justify-content-end mt-3">
           <div v-if="!uploadedFiles.length">
             <b-button
               size="sm"
@@ -130,7 +131,7 @@
 <style scoped>
 .video {
   width: 90%;
-  height: auto;
+  height: 210px;
   margin: 0 auto 15px;
 }
 .link_url {
@@ -259,7 +260,9 @@ export default {
       start: false,
     };
   },
-
+  mounted() {
+    this.$props.isMultiple ? (this.files = []) : (this.files = null);
+  },
   watch: {
     files: "handleAcceptedFiles",
   },
@@ -273,10 +276,16 @@ export default {
       }
     },
     removeimage(id) {
-      this.$props.isMultiple ? this.files.splice(id, 1) : (this.files = []);
+      if (this.$props.isMultiple) {
+        this.files.splice(id, 1);
+      } else {
+        this.filepreview = [];
+        this.files = null;
+      }
     },
 
     handleAcceptedFiles() {
+      if (!this.files ) return;
       if (this.$props.isMultiple) {
         this.files.forEach((file) => {
           if (!this.checksize(file.size)) {

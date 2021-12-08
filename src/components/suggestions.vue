@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid class="px-sm-0" v-if="suggestions.length">
+  <div class="px-3" v-if="suggestions.length">
     <div class="my-3 position-relative">
       <div class="mb-3 text-left text-muted">
         <small>Some connection suggestions</small>
@@ -29,16 +29,16 @@
         <b-icon stacked icon="arrow-right" scale="0.5" variant="white"></b-icon>
       </b-iconstack>
       <carousel
-        :perPage="5"
+        :perPage="4"
         :scrollPerPage="true"
         :paginationEnabled="false"
         :navigationEnabled="false"
         :navigateTo="index"
       >
-        <slide v-for="(item, id) in suggestions" :key="id">
+        <slide v-for="(item, id) in suggestions" :key="id" class="p-1">
           <b-card
             no-body
-            class="mr-3 suggestion position-relative rounded overflw-hidden p-1"
+            class=" suggestion position-relative rounded p-1 "
             style="min-width: 150px"
           >
             <b-card-img
@@ -83,7 +83,7 @@
         </slide>
       </carousel>
     </div>
-  </b-container>
+  </div>
 </template>
 
 <script>

@@ -948,7 +948,6 @@
 <script>
 import EmojiPicker from "@/components/emoji/EmojiPicker";
 import Feelings from "@/components/feelings";
-import FileUpload from "../feedupload";
 import MultiUpload from "@/components/uploader";
 import { MultiSelect } from "vue-search-select";
 import Interest from "../helpers/subcategory.js";
@@ -1013,7 +1012,6 @@ export default {
   components: {
     // Message,
     EmojiPicker,
-    FileUpload,
     MultiSelect,
     Suggestions,
     Feelings,
@@ -1078,7 +1076,7 @@ export default {
   },
   methods: {
     toggleFeedAdd(type,multiple) {
-      console.log("🚀 ~ file: feeds.vue ~ line 1103 ~ toggleFeedAdd ~ multiple", multiple)
+
       this.type = type;
       this.isMultiple =  multiple
       this.$bvModal.show("feed");
