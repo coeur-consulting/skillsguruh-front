@@ -6,7 +6,7 @@
       </div>
       <b-iconstack
         font-scale="2.5"
-        class="nav-left shadow-sm"
+        class="nav-left shadow-sm cursor-pointer"
         v-if="index > 0"
         @click="index--"
       >
@@ -21,7 +21,7 @@
 
       <b-iconstack
         font-scale="2.5"
-        class="nav-right shadow-sm"
+        class="nav-right shadow-sm cursor-pointer"
         @click="index++"
         v-if="index < maxnavigation"
       >
