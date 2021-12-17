@@ -92,7 +92,7 @@
                       <div class="mb-4 position-relative w-100 media bg-white">
 
                         <b-carousel
-                          v-if="img_ext.includes(getextension(feed.media[0]))"
+                           v-if="feed.mediaType==='image'"
                           id="carousel-fade"
                           style="text-shadow: 0px 0px 2px #000"
                           indicators
@@ -117,7 +117,7 @@
                         </b-carousel>
                         <video
 
-                          v-if="vid_ext.includes(getextension(feed.media[0]))"
+                           v-if="feed.mediaType==='video'"
                           controls
                           width="100%"
                           height="480"

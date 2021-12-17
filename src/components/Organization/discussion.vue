@@ -194,7 +194,7 @@
                           font-scale="1.2"
                           class="cursor-pointer"
                         ></b-icon>
-                        <span>{{ item.discussionmessagevote }}</span>
+                        <span>{{ item.votecount }}</span>
 
                         <b-icon
                           @click="votemessage(item.id, false, index)"

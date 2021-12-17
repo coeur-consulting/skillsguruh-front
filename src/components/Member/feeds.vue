@@ -441,23 +441,7 @@
                   >
                     <div class="d-flex mb-3 px-2 px-sm-3 pt-3">
                       <div class="flex-1 text-left">
-                        <div class="mr-2 mb-1 feedname" v-if="feed.admin">
-                          <b-avatar
-                            size="1.8rem"
-                            class="mr-2"
-                            :src="feed.admin.profile"
-                          ></b-avatar>
-                          <div>
-                            <div style="line-height: 1.6">
-                              {{ feed.admin.username }} <br />
-                            </div>
-                            <small
-                              v-if="feed.admin.state"
-                              class="text-muted font-weight-normal"
-                              >{{ feed.admin.state }}</small
-                            >
-                          </div>
-                        </div>
+
                         <div class="mr-2 mb-1 feedname" v-if="feed.user">
                           <b-avatar
                             size="1.8rem"
@@ -544,7 +528,7 @@
                           "
                         ></b-icon>
                         <b-carousel
-                          v-if="img_ext.includes(getextension(feed.media[0]))"
+                          v-if="feed.mediaType==='image'"
                           id="carousel-fade"
                           style="text-shadow: 0px 0px 2px #000"
                           indicators
@@ -569,7 +553,7 @@
                         </b-carousel>
                         <video
                           @dblclick.self="toggleLike(feed.id, index)"
-                          v-if="vid_ext.includes(getextension(feed.media[0]))"
+                           v-if="feed.mediaType==='video'"
                           controls
                           width="100%"
                           height="420"
@@ -966,7 +950,6 @@ export default {
       commentreply: "",
       toggleOn: null,
       link: "",
-
       description: "",
       recentfeeds: [],
       trendingfeeds: [],
@@ -987,6 +970,7 @@ export default {
         message: "",
         publicId: "",
         tags: [],
+        mediaType:''
       },
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp", "flv", "mov"],
@@ -1079,6 +1063,7 @@ export default {
 
       this.type = type;
       this.isMultiple =  multiple
+      this.feed.mediaType = type
       this.$bvModal.show("feed");
     },
     getfeedcomments(feed) {

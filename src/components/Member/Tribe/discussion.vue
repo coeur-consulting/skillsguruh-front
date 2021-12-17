@@ -223,7 +223,7 @@
                           font-scale="1.2"
                           class="cursor-pointer"
                         ></b-icon>
-                        <span>{{ item.discussionmessagevote }}</span>
+                        <span>{{ item.votecount }}</span>
 
                         <b-icon
                           @click="votemessage(item.id, false, index)"
@@ -1759,7 +1759,7 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.filteredDiscussion[index].discussionmessagevote =
+            this.filteredDiscussion[index].votecount =
               res.data.count;
           }
         })

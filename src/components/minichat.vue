@@ -2,7 +2,6 @@
   <div
     class="reply_box bg-white shadow border rounded overflow-hidden"
     :class="isMinimise ? 'minimise' : ''"
-
     v-if="isOpen"
   >
     <header
@@ -18,23 +17,24 @@
         >
       </div>
       <div class="d-flex align-items-center">
-        <router-link to="/messages" target="_blank"> <b-icon
-          class="mr-2 cursor-pointer"
-          icon="arrows-angle-expand"
-          variant="dark"
-          font-scale="1"
-          v-b-tooltip.hover="'Expand'"
-
-        ></b-icon></router-link>
+        <router-link to="/messages" target="_blank">
+          <b-icon
+            class="mr-2 cursor-pointer"
+            icon="arrows-angle-expand"
+            variant="dark"
+            font-scale="1"
+            v-b-tooltip.hover="'Expand'"
+          ></b-icon
+        ></router-link>
         <b-icon
-         v-b-tooltip.hover="'Minimise'"
+          v-b-tooltip.hover="'Minimise'"
           class="mr-2 cursor-pointer"
           icon="dash"
           font-scale="1.4"
           @click="minimiseChat"
         ></b-icon>
         <b-icon
-         v-b-tooltip.hover="'Close'"
+          v-b-tooltip.hover="'Close'"
           font-scale="1.5"
           class="cursor-pointer"
           icon="x"
@@ -44,7 +44,7 @@
     </header>
 
     <ul
-     @click="markasread"
+      @click="markasread"
       v-if="!isMinimise"
       class="chatbody reply py-3 px-3 text-left pl-0 mb-0"
       v-chat-scroll="{ always: false, smooth: true, scrollonremoved: true }"
@@ -323,12 +323,12 @@
                 </b-dropdown-text>
               </Upload>
               <Upload @getUpload="getUpload" type="video" id="video">
-                <b-dropdown-text class="fs11  cursor-pointer">
+                <b-dropdown-text class="fs11 cursor-pointer">
                   Video
                 </b-dropdown-text>
               </Upload>
-               <Upload @getUpload="getUpload" type="file" id="file">
-                <b-dropdown-text class="fs11  cursor-pointer">
+              <Upload @getUpload="getUpload" type="file" id="file">
+                <b-dropdown-text class="fs11 cursor-pointer">
                   Document
                 </b-dropdown-text>
               </Upload>
@@ -340,7 +340,6 @@
           v-model="inbox.message"
           type="text"
           autocomplete="off"
-
           placeholder="Type a message ..."
           class="border-0 no-focus rounded-pill bg-light"
         ></b-form-input>
@@ -544,12 +543,8 @@ export default {
       }
       return this.inboxes.filter((item) => {
         if (
-          (item.admin_id == this.chatter.id && this.chatter.type == "admin") ||
-          (item.user_id == this.chatter.id && this.chatter.type == "user") ||
-          (item.facilitator_id == this.chatter.id &&
-            this.chatter.type == "facilitator") ||
-          (item.receiver == this.chatter.type &&
-            item.receiver_id == this.chatter.id)
+          item.user_id == this.chatter.id ||
+          item.receiver_id == this.chatter.id
         ) {
           return item;
         }
@@ -593,38 +588,13 @@ export default {
       if (this.user == "member") {
         if (
           !this.unreadmesages.some(
-            (item) =>
-              item.receiver == "user" &&
-              item.receiver_id == this.$store.getters.member.id
+            (item) => item.receiver_id == this.$store.getters.member.id
           )
         ) {
           return;
         }
       }
 
-      if (this.user == "facilitator") {
-        if (
-          !this.unreadmesages.some(
-            (item) =>
-              item.receiver == "facilitator" &&
-              item.receiver_id == this.$store.getters.facilitator.id
-          )
-        ) {
-          return;
-        }
-      }
-
-      if (this.user == "admin") {
-        if (
-          !this.unreadmesages.some(
-            (item) =>
-              item.receiver == "admin" &&
-              item.receiver_id == this.$store.getters.admin.id
-          )
-        ) {
-          return;
-        }
-      }
       let data = {
         ids: this.unreadmesages.map((item) => item.id),
       };
@@ -697,62 +667,20 @@ export default {
     async sortmessages(arr) {
       var inboxes = await arr.map((item) => {
         var info = {};
-        if (this.user == "admin") {
-          if (item.admin_id && item.admin_id == this.useraccess.id) {
-            info.admin = item.admin_info || null;
-            info.user = item.receiver_info || null;
-            info.facilitator = item.facilitator_info || null;
-            info.message = item.message || null;
-            info.time = item.created_at || null;
-          }
-          if (
-            item.receiver == "admin" &&
-            item.receiver_id == this.useraccess.id
-          ) {
-            info.admin = item.admin || null;
-            info.user = item.user || null;
-            info.facilitator = item.facilitator || null;
-            info.message = item.message || null;
-            info.time = item.created_at || null;
-          }
-        }
-        if (this.user == "facilitator") {
-          if (
-            item.facilitator_id &&
-            item.facilitator_id == this.useraccess.id
-          ) {
-            info.admin = item.admin_info || null;
-            info.user = item.receiver_info || null;
-            info.facilitator = item.facilitator_info || null;
-            info.message = item.message || null;
-            info.time = item.created_at || null;
-          }
-          if (
-            item.receiver == "facilitator" &&
-            item.receiver_id == this.useraccess.id
-          ) {
-            info.admin = item.admin || null;
-            info.user = item.user || null;
-            info.facilitator = item.facilitator || null;
-            info.message = item.message || null;
-            info.time = item.created_at || null;
-          }
-        }
+
         if (this.user == "member") {
           if (item.user_id && item.user_id == this.useraccess.id) {
-            info.admin = item.admin_info || null;
             info.user = item.receiver_info || null;
-            info.facilitator = item.facilitator_info || null;
+
             info.message = item.message || null;
             info.time = item.created_at || null;
           }
           if (
-            item.receiver == "user" &&
+
             item.receiver_id == this.useraccess.id
           ) {
-            info.admin = item.admin || null;
             info.user = item.user || null;
-            info.facilitator = item.facilitator || null;
+
             info.message = item.message || null;
             info.time = item.created_at || null;
           }
