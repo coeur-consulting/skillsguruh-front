@@ -1397,6 +1397,33 @@ const routes = [
       title: "Event | Nzukoor",
     },
   },
+  {
+    path: "/terms",
+    name: "Terms",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "Terms" */ "../views/Terms.vue"),
+      footer: Footer,
+    },
+    meta: {
+      title: "Terms and Condiftions | Nzukoor",
+    },
+  },
+
+  {
+    path: "/policies",
+    name: "Policy",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "Policies" */ "../views/Policy.vue"),
+      footer: Footer,
+    },
+    meta: {
+      title: "Privacy Policies | Nzukoor",
+    },
+  },
 
   {
     path: "*",

@@ -51,7 +51,7 @@
               item.user.username
             }}</span>
 
-            <span class="text-muted fs11">
+            <span class="text-muted fs9">
               {{ item.created_at | moment("LT") }}</span
             >
           </div>

@@ -42,7 +42,8 @@ export default {
 .side {
   width: 25%;
   border-right: 1px solid rgba(0, 0, 0, 0.3);
-  height: 100%;
+  height: 100vh;
+  overflow-y: auto;
 }
 .box {
   width: 75%;
