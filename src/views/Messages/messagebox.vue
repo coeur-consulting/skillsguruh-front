@@ -1,457 +1,489 @@
 <template>
-  <div class="h-100 position-relative" v-if="info" @click="markasread">
-    <header class="d-flex px-3 py-2 align-items-center border-bottom">
-      <div class="d-flex flex-1 align-items-center">
-        <span class="d-flex align-items-center">
-          <b-icon
-            @click="toggleView('menu')"
-            icon="arrow-left"
-            class="mr-3 d-md-none"
-          ></b-icon>
-          <b-avatar size="2.5rem" :src="info.profile" class="mr-2"></b-avatar>
-        </span>
-        <p
-          class="chat_name hover_green text-capitalize mb-0"
-          @click="$router.push(`/member/profile/${info.username}`)"
-        >
-          {{ info.username }}
-        </p>
-      </div>
-    </header>
+  <div class="h-100 position-relative">
+    <div class="h-100 position-relative" v-if="info" @click="markasread">
+      <header class="d-flex px-3 py-2 align-items-center border-bottom">
+        <div class="d-flex flex-1 align-items-center">
+          <span class="d-flex align-items-center">
+            <b-icon
+              @click="toggleView('menu')"
+              icon="arrow-left"
+              class="mr-3 d-md-none"
+            ></b-icon>
+            <b-avatar size="2.5rem" :src="info.profile" class="mr-2"></b-avatar>
+          </span>
+          <p
+            class="chat_name hover_green text-capitalize mb-0"
+            @click="$router.push(`/member/profile/${info.username}`)"
+          >
+            {{ info.username }}
+          </p>
+        </div>
+      </header>
 
-    <ul
-      class="chatbody py-3 px-2 px-md-5 text-left pl-0 mb-0"
-      v-chat-scroll="{ always: false, smooth: true, scrollonremoved: true }"
-    >
-      <li v-for="(item, index) in messages" :key="index">
-        <div
-          v-if="item.user_id"
-          class="mb-3 shadow-sm"
-          :class="
-            item.user_id == $store.getters.member.id
-              ? 'right_text'
-              : 'left_text'
-          "
-        >
+      <ul
+        class="chatbody py-3 px-2 px-md-5 text-left pl-0 mb-0"
+        v-chat-scroll="{ always: false, smooth: true, scrollonremoved: true }"
+      >
+        <li v-for="(item, index) in messages" :key="index">
           <div
-            class="
-              d-flex
-              flex-1
-              align-items-center
-              justify-content-between
-              mb-1
+            v-if="item.user_id"
+            class="mb-3 shadow-sm"
+            :class="
+              item.user_id == $store.getters.member.id
+                ? 'right_text'
+                : 'left_text'
             "
           >
-            <span
-              class="chatting_name font-weight-bold mr-3"
-              v-if="item.user.id === useraccess.id"
-              >You</span
-            >
-            <span class="chatting_name font-weight-bold mr-3" v-else>{{
-              item.user.username
-            }}</span>
-
-            <span class="text-muted fs9">
-              {{ item.created_at | moment("LT") }}</span
-            >
-          </div>
-          <a :href="item.attachment" target="_blank" download class="mb-1">
-            <b-img
-              v-if="
-                item.attachment &&
-                img_ext.includes(getextension(item.attachment))
-              "
-              class="cursor-pointer chat_image"
-              :src="item.attachment"
-            ></b-img>
             <div
-              v-if="
-                item.attachment &&
-                vid_ext.includes(getextension(item.attachment))
-              "
               class="
-                p-1
-                bg-lighter-green
                 d-flex
+                flex-1
                 align-items-center
-                rounded
-                cursor-pointer
+                justify-content-between
+                mb-1
               "
             >
-              <div class="bg-dark-green text-center rounded p-2 mr-3">
-                <b-icon
-                  icon="camera-video-fill"
-                  variant="white"
-                  font-scale="2rem"
-                ></b-icon>
-              </div>
+              <span
+                class="chatting_name font-weight-bold mr-3"
+                v-if="item.user.id === useraccess.id"
+                >You</span
+              >
+              <span class="chatting_name font-weight-bold mr-3" v-else>{{
+                item.user.username
+              }}</span>
+
+              <span class="text-muted fs9">
+                {{ item.created_at | moment("LT") }}</span
+              >
+            </div>
+            <a :href="item.attachment" target="_blank" download class="mb-1">
+              <b-img
+                v-if="
+                  item.attachment &&
+                  img_ext.includes(getextension(item.attachment))
+                "
+                class="cursor-pointer chat_image"
+                :src="item.attachment"
+              ></b-img>
               <div
+                v-if="
+                  item.attachment &&
+                  vid_ext.includes(getextension(item.attachment))
+                "
                 class="
+                  p-1
+                  bg-lighter-green
                   d-flex
-                  w-100
                   align-items-center
-                  p-2
-                  justify-content-center justify-content-center
-                  text-dark
-                  fs15
+                  rounded
+                  cursor-pointer
                 "
               >
-                <!-- {{ getFileDetails(item.attachment).then((res) => res) }} -->
-                Download Video
+                <div class="bg-dark-green text-center rounded p-2 mr-3">
+                  <b-icon
+                    icon="camera-video-fill"
+                    variant="white"
+                    font-scale="2rem"
+                  ></b-icon>
+                </div>
+                <div
+                  class="
+                    d-flex
+                    w-100
+                    align-items-center
+                    p-2
+                    justify-content-center justify-content-center
+                    text-dark
+                    fs15
+                  "
+                >
+                  <!-- {{ getFileDetails(item.attachment).then((res) => res) }} -->
+                  Download Video
+                </div>
               </div>
-            </div>
-            <div
-              v-if="
-                item.attachment &&
-                aud_ext.includes(getextension(item.attachment))
-              "
-              class="
-                p-1
-                bg-lighter-green
-                d-flex
-                align-items-center
-                rounded
-                cursor-pointer
-              "
-            >
-              <div class="bg-dark-green text-center rounded p-2 mr-3">
-                <b-icon
-                  icon="music-note-beamed"
-                  variant="white"
-                  font-scale="2rem"
-                ></b-icon>
-              </div>
-              <!-- <div class="d-flex align-items-center">
+              <div
+                v-if="
+                  item.attachment &&
+                  aud_ext.includes(getextension(item.attachment))
+                "
+                class="
+                  p-1
+                  bg-lighter-green
+                  d-flex
+                  align-items-center
+                  rounded
+                  cursor-pointer
+                "
+              >
+                <div class="bg-dark-green text-center rounded p-2 mr-3">
+                  <b-icon
+                    icon="music-note-beamed"
+                    variant="white"
+                    font-scale="2rem"
+                  ></b-icon>
+                </div>
+                <!-- <div class="d-flex align-items-center">
                   <audio
                     :src="item.attachment"
                     controls
                     class="bg-transparent"
                   ></audio>
                 </div> -->
-              <div
-                class="
-                  d-flex
-                  w-100
-                  align-items-center
-                  p-2
-                  justify-content-center justify-content-center
-                  text-dark
-                  fs15
-                "
-              >
-                Download Audio
-              </div>
-            </div>
-            <div
-              v-if="
-                item.attachment &&
-                doc_ext.includes(getextension(item.attachment))
-              "
-              class="
-                p-1
-                bg-lighter-green
-                d-flex
-                align-items-center
-                rounded
-                cursor-pointer
-              "
-            >
-              <div class="bg-dark-green text-center rounded p-2 mr-3">
-                <b-icon icon="file" variant="white" font-scale="2rem"></b-icon>
-              </div>
-              <div
-                class="
-                  d-flex
-                  align-items-center
-                  p-2
-                  justify-content-center
-                  text-dark
-                  fs15
-                "
-              >
-                Download File
-              </div>
-            </div>
-          </a>
-          <audio
-            v-if="item.voicenote"
-            :src="item.voicenote"
-            controls
-            style="width: 100%"
-          ></audio>
-          <div class="pt-2" v-if="item.message" v-html="item.message"></div>
-        </div>
-      </li>
-    </ul>
-    <div class="mic bg-light" v-if="record">
-      <vue-dictaphone
-        mime-type="audio/mp3"
-        @stop="handleRecording($event)"
-        v-slot="{ isRecording, startRecording, stopRecording, deleteRecording }"
-      >
-        <span v-if="!isRecording" @click="startRecording">
-          Click to start recording
-        </span>
-
-        <span v-else class="d-flex align-items-center rounded-pill bg-light">
-          <b-icon
-            @click="deleteRecording"
-            class="mr-4"
-            icon="trash"
-            variant="danger"
-            font-scale=".8"
-          ></b-icon>
-          <span @click="stopRecording"> Stop recording </span>
-        </span>
-        <div class="mic_visual" v-if="isRecording">
-          <vue-dictaphone-spectrum-analyser />
-        </div>
-      </vue-dictaphone>
-    </div>
-
-    <footer class="text-left py-2 mb-1">
-      <b-input-group class="mt-1">
-        <template #append>
-          <b-input-group-text class="border-0 bg-transparent py-0">
-            <b-icon
-              v-if="!inbox.message"
-              class="cursor-pointer mr-2"
-              @click="record = !record"
-              icon="mic-fill"
-              font-scale="1.1"
-              :class="record ? 'text-muted' : 'text-dark'"
-            ></b-icon>
-
-            <b-icon
-              v-else
-              @click="addinbox"
-              font-scale="1"
-              icon="cursor-fill"
-              class="text-dark cursor-pointer"
-            ></b-icon>
-          </b-input-group-text>
-        </template>
-        <template #prepend>
-          <b-input-group-text
-            class="border-0 bg-transparent d-flex align-item-center py-0 pr-0"
-          >
-            <emoji-picker @emoji="insert" :search="search">
-              <div
-                class="emoji-invoker2"
-                slot="emoji-invoker"
-                slot-scope="{ events: { click: clickEvent } }"
-                @click.stop="clickEvent"
-              >
-                <svg
-                  height="24"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  xmlns="http://www.w3.org/2000/svg"
+                <div
+                  class="
+                    d-flex
+                    w-100
+                    align-items-center
+                    p-2
+                    justify-content-center justify-content-center
+                    text-dark
+                    fs15
+                  "
                 >
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path
-                    d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"
-                  />
-                </svg>
+                  Download Audio
+                </div>
               </div>
-              <div slot="emoji-picker" slot-scope="{ emojis, insert }">
-                <div class="emoji-picker picker">
-                  <div class="emoji-picker__search">
-                    <input type="text" v-model="search" v-focus />
-                  </div>
-                  <div>
-                    <div
-                      v-for="(emojiGroup, category) in emojis"
-                      :key="category"
-                    >
-                      <h5>{{ category }}</h5>
-                      <div class="emojis">
-                        <span
-                          v-for="(emoji, emojiName) in emojiGroup"
-                          :key="emojiName"
-                          @click="insert(emoji)"
-                          :title="emojiName"
-                          >{{ emoji }}</span
-                        >
+              <div
+                v-if="
+                  item.attachment &&
+                  doc_ext.includes(getextension(item.attachment))
+                "
+                class="
+                  p-1
+                  bg-lighter-green
+                  d-flex
+                  align-items-center
+                  rounded
+                  cursor-pointer
+                "
+              >
+                <div class="bg-dark-green text-center rounded p-2 mr-3">
+                  <b-icon
+                    icon="file"
+                    variant="white"
+                    font-scale="2rem"
+                  ></b-icon>
+                </div>
+                <div
+                  class="
+                    d-flex
+                    align-items-center
+                    p-2
+                    justify-content-center
+                    text-dark
+                    fs15
+                  "
+                >
+                  Download File
+                </div>
+              </div>
+            </a>
+            <audio
+              v-if="item.voicenote"
+              :src="item.voicenote"
+              controls
+              style="width: 100%"
+            ></audio>
+            <div class="pt-2" v-if="item.message" v-html="item.message"></div>
+          </div>
+        </li>
+      </ul>
+      <div class="mic bg-light" v-if="record">
+        <vue-dictaphone
+          mime-type="audio/mp3"
+          @stop="handleRecording($event)"
+          v-slot="{
+            isRecording,
+            startRecording,
+            stopRecording,
+            deleteRecording,
+          }"
+        >
+          <span v-if="!isRecording" @click="startRecording">
+            Click to start recording
+          </span>
+
+          <span v-else class="d-flex align-items-center rounded-pill bg-light">
+            <b-icon
+              @click="deleteRecording"
+              class="mr-4"
+              icon="trash"
+              variant="danger"
+              font-scale=".8"
+            ></b-icon>
+            <span @click="stopRecording"> Stop recording </span>
+          </span>
+          <div class="mic_visual" v-if="isRecording">
+            <vue-dictaphone-spectrum-analyser />
+          </div>
+        </vue-dictaphone>
+      </div>
+
+      <footer class="text-left py-2 mb-1">
+        <b-input-group class="mt-1" v-if="info.type == 'active'">
+          <template #append>
+            <b-input-group-text class="border-0 bg-transparent py-0">
+              <b-icon
+                v-if="!inbox.message"
+                class="cursor-pointer mr-2"
+                @click="record = !record"
+                icon="mic-fill"
+                font-scale="1.1"
+                :class="record ? 'text-muted' : 'text-dark'"
+              ></b-icon>
+
+              <b-icon
+                v-else
+                @click="addinbox"
+                font-scale="1"
+                icon="cursor-fill"
+                class="text-dark cursor-pointer"
+              ></b-icon>
+            </b-input-group-text>
+          </template>
+          <template #prepend>
+            <b-input-group-text
+              class="border-0 bg-transparent d-flex align-item-center py-0 pr-0"
+            >
+              <emoji-picker @emoji="insert" :search="search">
+                <div
+                  class="emoji-invoker2"
+                  slot="emoji-invoker"
+                  slot-scope="{ events: { click: clickEvent } }"
+                  @click.stop="clickEvent"
+                >
+                  <svg
+                    height="24"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path
+                      d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"
+                    />
+                  </svg>
+                </div>
+                <div slot="emoji-picker" slot-scope="{ emojis, insert }">
+                  <div class="emoji-picker picker">
+                    <div class="emoji-picker__search">
+                      <input type="text" v-model="search" v-focus />
+                    </div>
+                    <div>
+                      <div
+                        v-for="(emojiGroup, category) in emojis"
+                        :key="category"
+                      >
+                        <h5>{{ category }}</h5>
+                        <div class="emojis">
+                          <span
+                            v-for="(emoji, emojiName) in emojiGroup"
+                            :key="emojiName"
+                            @click="insert(emoji)"
+                            :title="emojiName"
+                            >{{ emoji }}</span
+                          >
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </emoji-picker>
-            <b-dropdown
+              </emoji-picker>
+              <b-dropdown
+                size="sm"
+                variant="transparent"
+                no-caret
+                class="no-focus"
+              >
+                <template #button-content>
+                  <b-icon font-scale="1" icon="paperclip"></b-icon>
+                </template>
+
+                <Upload @getUpload="getUpload" type="image" id="image">
+                  <b-dropdown-text class="fs11 cursor-pointer">
+                    Image
+                  </b-dropdown-text>
+                </Upload>
+                <Upload @getUpload="getUpload" type="audio" id="audio">
+                  <b-dropdown-text class="fs11 cursor-pointer">
+                    Audio
+                  </b-dropdown-text>
+                </Upload>
+                <Upload @getUpload="getUpload" type="video" id="video">
+                  <b-dropdown-text class="fs11 cursor-pointer">
+                    Video
+                  </b-dropdown-text>
+                </Upload>
+                <Upload @getUpload="getUpload" type="file" id="file">
+                  <b-dropdown-text class="fs11 cursor-pointer">
+                    Document
+                  </b-dropdown-text>
+                </Upload>
+              </b-dropdown>
+            </b-input-group-text>
+          </template>
+          <b-form-input
+            @keyup.enter="addinbox"
+            v-model="inbox.message"
+            type="text"
+            size="lg"
+            autocomplete="off"
+            placeholder="Type a message ..."
+            class="border-0 no-focus rounded-pill bg-light"
+          ></b-form-input>
+        </b-input-group>
+        <div class="text-center" v-if="info.type == 'pending'">
+          <small>You have to be connected to this user to reply!</small>
+          <div class="text-center p-2 d-flex justify-content-center">
+            <b-button
+              variant="light"
               size="sm"
-              variant="transparent"
-              no-caret
-              class="no-focus"
-            >
-              <template #button-content>
-                <b-icon font-scale="1" icon="paperclip"></b-icon>
-              </template>
+              class="mr-4 text-success"
+              @click="addconnection"
+              >Add connection <b-icon icon="check2-circle"></b-icon
+            ></b-button>
 
-             <Upload @getUpload="getUpload" type="image" id="image">
-                <b-dropdown-text class="fs11 cursor-pointer">
-                  Image
-                </b-dropdown-text>
-              </Upload>
-              <Upload @getUpload="getUpload" type="audio" id="audio">
-                <b-dropdown-text class="fs11 cursor-pointer">
-                  Audio
-                </b-dropdown-text>
-              </Upload>
-              <Upload @getUpload="getUpload" type="video" id="video">
-                <b-dropdown-text class="fs11  cursor-pointer">
-                  Video
-                </b-dropdown-text>
-              </Upload>
-               <Upload @getUpload="getUpload" type="file" id="file">
-                <b-dropdown-text class="fs11  cursor-pointer">
-                  Document
-                </b-dropdown-text>
-              </Upload>
-            </b-dropdown>
-          </b-input-group-text>
-        </template>
-        <b-form-input
-          @keyup.enter="addinbox"
-          v-model="inbox.message"
-          type="text"
-          size="lg"
-          autocomplete="off"
-          placeholder="Type a message ..."
-          class="border-0 no-focus rounded-pill bg-light"
-        ></b-form-input>
-      </b-input-group>
-    </footer>
-
-    <b-modal id="media" size="sm" centered hide-footer>
-      <b-img
-        v-if="
-          inbox.attachment && img_ext.includes(getextension(inbox.attachment))
-        "
-        fluid-grow
-        :src="inbox.attachment"
-        blank-color="transparent"
-        style="width: 7rem; height: 7rem; object-fit: contain"
-        class="rounded mb-1"
-      ></b-img>
-      <video
-        width="100%"
-        controls
-        v-if="
-          inbox.attachment && vid_ext.includes(getextension(inbox.attachment))
-        "
-        :src="inbox.attachment"
-        class="fluid-grow"
-      ></video>
-
-      <audio
-        width="100%"
-        controls
-        v-if="
-          inbox.attachment && aud_ext.includes(getextension(inbox.attachment))
-        "
-        :src="inbox.attachment"
-        class="fluid-grow"
-      ></audio>
-      <div
-        v-if="
-          inbox.attachment && doc_ext.includes(getextension(inbox.attachment))
-        "
-        class="
-          p-1
-          bg-lighter-green
-          d-flex
-          align-items-center
-          rounded
-          cursor-pointer
-        "
-      >
-        <div class="bg-dark-green text-center rounded p-2 mr-3">
-          <b-icon icon="file" variant="white" font-scale="2rem"></b-icon>
+            <b-button
+              variant="light"
+              size="sm"
+              class="text-danger"
+              @click="ignoreconnection"
+              >Ignore connection <b-icon icon="x-circle"></b-icon
+            ></b-button>
+          </div>
         </div>
+      </footer>
+
+      <b-modal id="media" size="sm" centered hide-footer>
+        <b-img
+          v-if="
+            inbox.attachment && img_ext.includes(getextension(inbox.attachment))
+          "
+          fluid-grow
+          :src="inbox.attachment"
+          blank-color="transparent"
+          style="width: 7rem; height: 7rem; object-fit: contain"
+          class="rounded mb-1"
+        ></b-img>
+        <video
+          width="100%"
+          controls
+          v-if="
+            inbox.attachment && vid_ext.includes(getextension(inbox.attachment))
+          "
+          :src="inbox.attachment"
+          class="fluid-grow"
+        ></video>
+
+        <audio
+          width="100%"
+          controls
+          v-if="
+            inbox.attachment && aud_ext.includes(getextension(inbox.attachment))
+          "
+          :src="inbox.attachment"
+          class="fluid-grow"
+        ></audio>
         <div
+          v-if="
+            inbox.attachment && doc_ext.includes(getextension(inbox.attachment))
+          "
           class="
+            p-1
+            bg-lighter-green
             d-flex
             align-items-center
-            p-2
-            justify-content-center
-            text-dark
-            fs15
+            rounded
+            cursor-pointer
           "
         >
-          Download File
+          <div class="bg-dark-green text-center rounded p-2 mr-3">
+            <b-icon icon="file" variant="white" font-scale="2rem"></b-icon>
+          </div>
+          <div
+            class="
+              d-flex
+              align-items-center
+              p-2
+              justify-content-center
+              text-dark
+              fs15
+            "
+          >
+            Download File
+          </div>
         </div>
-      </div>
-      <b-input-group class="mt-1">
-        <template #append>
-          <b-input-group-text class="border-0 bg-transparent py-0">
-            <b-icon
-              @click="addinbox"
-              font-scale="1"
-              icon="cursor-fill"
-              class="text-dark cursor-pointer"
-            ></b-icon>
-          </b-input-group-text>
-        </template>
-        <template #prepend>
-          <b-input-group-text class="border-0 bg-transparent py-0">
-            <emoji-picker @emoji="insert" :search="search">
-              <div
-                class="emoji-invoker2"
-                slot="emoji-invoker"
-                slot-scope="{ events: { click: clickEvent } }"
-                @click.stop="clickEvent"
-              >
-                <svg
-                  height="24"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  xmlns="http://www.w3.org/2000/svg"
+        <b-input-group class="mt-1">
+          <template #append>
+            <b-input-group-text class="border-0 bg-transparent py-0">
+              <b-icon
+                @click="addinbox"
+                font-scale="1"
+                icon="cursor-fill"
+                class="text-dark cursor-pointer"
+              ></b-icon>
+            </b-input-group-text>
+          </template>
+          <template #prepend>
+            <b-input-group-text class="border-0 bg-transparent py-0">
+              <emoji-picker @emoji="insert" :search="search">
+                <div
+                  class="emoji-invoker2"
+                  slot="emoji-invoker"
+                  slot-scope="{ events: { click: clickEvent } }"
+                  @click.stop="clickEvent"
                 >
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path
-                    d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"
-                  />
-                </svg>
-              </div>
-              <div slot="emoji-picker" slot-scope="{ emojis, insert }">
-                <div class="emoji-picker picker">
-                  <div class="emoji-picker__search">
-                    <input type="text" v-model="search" v-focus />
-                  </div>
-                  <div>
-                    <div
-                      v-for="(emojiGroup, category) in emojis"
-                      :key="category"
-                    >
-                      <h5>{{ category }}</h5>
-                      <div class="emojis">
-                        <span
-                          v-for="(emoji, emojiName) in emojiGroup"
-                          :key="emojiName"
-                          @click="insert(emoji)"
-                          :title="emojiName"
-                          >{{ emoji }}</span
-                        >
+                  <svg
+                    height="24"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path
+                      d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"
+                    />
+                  </svg>
+                </div>
+                <div slot="emoji-picker" slot-scope="{ emojis, insert }">
+                  <div class="emoji-picker picker">
+                    <div class="emoji-picker__search">
+                      <input type="text" v-model="search" v-focus />
+                    </div>
+                    <div>
+                      <div
+                        v-for="(emojiGroup, category) in emojis"
+                        :key="category"
+                      >
+                        <h5>{{ category }}</h5>
+                        <div class="emojis">
+                          <span
+                            v-for="(emoji, emojiName) in emojiGroup"
+                            :key="emojiName"
+                            @click="insert(emoji)"
+                            :title="emojiName"
+                            >{{ emoji }}</span
+                          >
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </emoji-picker>
-          </b-input-group-text>
-        </template>
-        <b-form-input
-          @keyup.enter="addinbox"
-          v-model="inbox.message"
-          autocomplete="off"
-          autocorrect="off"
-          placeholder="Type a message .."
-          class="border-0 no-focus rounded-pill fs13"
-        ></b-form-input>
-      </b-input-group>
-    </b-modal>
+              </emoji-picker>
+            </b-input-group-text>
+          </template>
+          <b-form-input
+            @keyup.enter="addinbox"
+            v-model="inbox.message"
+            autocomplete="off"
+            autocorrect="off"
+            placeholder="Type a message .."
+            class="border-0 no-focus rounded-pill fs13"
+          ></b-form-input>
+        </b-input-group>
+      </b-modal>
+    </div>
+    <div v-else class="text-center p-5">No active chat</div>
   </div>
 </template>
 <script>
@@ -505,6 +537,7 @@ export default {
         this.getinbox(res.id);
       }
     });
+
     channel.bind("inboxSent", (data) => {
       if (this.info.id === data.message.user.id) {
         interval = setInterval(changetitle, 700);
@@ -555,6 +588,29 @@ export default {
     newmessage: "handleNewMessage",
   },
   methods: {
+    addconnection() {
+      return this.$http
+        .post(
+          `${this.$store.getters.url}/connections`,
+          { following_id: this.info.id, follow_type: "user" },
+          {
+            headers: {
+              Authorization: `Bearer ${this.useraccess.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 201) {
+            this.$toast.success("Connected");
+            bus.$emit("reloadChat");
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    ignoreconnection() {},
+
     handleNewMessage() {
       var isOldTitle = true;
       var oldtitle = "Home - Messages";
@@ -876,8 +932,7 @@ audio {
     font-weight: 400;
   }
   .chatbody {
-  height: 83%;
-
-}
+    height: 83%;
+  }
 }
 </style>

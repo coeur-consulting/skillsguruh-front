@@ -1,5 +1,5 @@
 <template>
-  <div class="py-3 ">
+  <div class="py-3">
     <div class="text-center mb-3 px-3">
       <router-link to="/member/feeds">
         <b-img class="logo" src="/img/logo.png"></b-img
@@ -12,61 +12,137 @@
         class="rounded-pill"
         v-model="search"
         autocomplete="off"
-
       ></b-form-input>
     </div>
     <hr />
-    <b-list-group>
-      <b-list-group-item
-        v-for="(item, index) in filteredconnections"
-        :key="index"
-        class="d-flex px-2 border-0 border-bottom list"
-        :class="active === item.user_follower.id ? 'active' : ''"
-        @click="toggleChat(item.user_follower, index)"
-      >
-        <b-avatar class="mr-2" :src="item.user_follower.profile"></b-avatar>
-        <span class="text-left flex-grow-1">
-          <span class="d-flex align-items-center justify-content-between flex-1"
-            ><p
-              class="mb-0 text-truncate text-truncate--1 text-capitalize"
-              :class="item.unread_message ? 'font-weight-bold' : 'text-muted'"
-            >
-              {{ item.user_follower.username }}
-            </p>
-            <span
-              class="chat_time"
-              :class="item.unread_message ? 'text-dark-green' : 'text-muted'"
-              v-if="item.last_message"
-              >{{ $moment(item.last_message.created_at).fromNow() }}</span
-            >
-          </span>
-          <span
-            class="d-flex justify-content-between w-100"
-            v-if="item.last_message"
+    <b-tabs justified v-model="tabIndex">
+      <b-tab title="Active">
+        <b-list-group v-if="filteredconnections.length">
+          <b-list-group-item
+            v-for="(item, index) in filteredconnections"
+            :key="index"
+            class="d-flex px-2 border-0 border-bottom list"
+            :class="active === item.user_follower.id ? 'active' : ''"
+            @click="toggleChat(item.user_follower, index)"
           >
-            <small
-              class="text-truncate text-truncate--1"
-              :class="item.unread_message ? 'font-weight-bold' : 'text-muted'"
-              >{{
-                item.last_message.message
-                  ? item.last_message.message
-                  : "Sent attachment..."
-              }}</small
-            >
-            <small v-if="item.unread_message">
-              <b-badge variant="dark-green">{{
-                item.unread_message
-              }}</b-badge></small
-            >
-          </span>
-          <span class="d-flex justify-content-between w-100" v-else>
-            <small class="text-truncate text-truncate--1 text-muted"
-              >Start a conversation</small
-            >
-          </span>
-        </span>
-      </b-list-group-item>
-    </b-list-group>
+            <b-avatar class="mr-2" :src="item.user_follower.profile"></b-avatar>
+            <span class="text-left flex-grow-1">
+              <span
+                class="d-flex align-items-center justify-content-between flex-1"
+                ><p
+                  class="mb-0 text-truncate text-truncate--1 text-capitalize"
+                  :class="
+                    item.unread_message ? 'font-weight-bold' : 'text-muted'
+                  "
+                >
+                  {{ item.user_follower.username }}
+                </p>
+                <span
+                  class="chat_time"
+                  :class="
+                    item.unread_message ? 'text-dark-green' : 'text-muted'
+                  "
+                  v-if="item.last_message"
+                  >{{ $moment(item.last_message.created_at).fromNow() }}</span
+                >
+              </span>
+              <span
+                class="d-flex justify-content-between w-100"
+                v-if="item.last_message"
+              >
+                <small
+                  class="text-truncate text-truncate--1"
+                  :class="
+                    item.unread_message ? 'font-weight-bold' : 'text-muted'
+                  "
+                  >{{
+                    item.last_message.message
+                      ? item.last_message.message
+                      : "Sent attachment..."
+                  }}</small
+                >
+                <small v-if="item.unread_message">
+                  <b-badge variant="dark-green">{{
+                    item.unread_message
+                  }}</b-badge></small
+                >
+              </span>
+              <span class="d-flex justify-content-between w-100" v-else>
+                <small class="text-truncate text-truncate--1 text-muted"
+                  >Start a conversation</small
+                >
+              </span>
+            </span>
+          </b-list-group-item>
+        </b-list-group>
+        <div v-else>
+          <b-alert show>No connection available</b-alert>
+        </div>
+      </b-tab>
+      <b-tab :title="'Pending'+' '+pendingfilteredconnections.length">
+        <b-list-group v-if="pendingfilteredconnections.length">
+          <b-list-group-item
+            v-for="(item, index) in pendingfilteredconnections"
+            :key="index"
+            class="d-flex px-2 border-0 border-bottom list"
+            :class="active === item.user_follower.id ? 'active' : ''"
+            @click="togglePendingChat(item.user_follower, index)"
+          >
+            <b-avatar class="mr-2" :src="item.user_follower.profile"></b-avatar>
+            <span class="text-left flex-grow-1">
+              <span
+                class="d-flex align-items-center justify-content-between flex-1"
+                ><p
+                  class="mb-0 text-truncate text-truncate--1 text-capitalize"
+                  :class="
+                    item.unread_message ? 'font-weight-bold' : 'text-muted'
+                  "
+                >
+                  {{ item.user_follower.username }}
+                </p>
+                <span
+                  class="chat_time"
+                  :class="
+                    item.unread_message ? 'text-dark-green' : 'text-muted'
+                  "
+                  v-if="item.last_message"
+                  >{{ $moment(item.last_message.created_at).fromNow() }}</span
+                >
+              </span>
+              <span
+                class="d-flex justify-content-between w-100"
+                v-if="item.last_message"
+              >
+                <small
+                  class="text-truncate text-truncate--1"
+                  :class="
+                    item.unread_message ? 'font-weight-bold' : 'text-muted'
+                  "
+                  >{{
+                    item.last_message.message
+                      ? item.last_message.message
+                      : "Sent attachment..."
+                  }}</small
+                >
+                <small v-if="item.unread_message">
+                  <b-badge variant="dark-green">{{
+                    item.unread_message
+                  }}</b-badge></small
+                >
+              </span>
+              <span class="d-flex justify-content-between w-100" v-else>
+                <small class="text-truncate text-truncate--1 text-muted"
+                  >Start a conversation</small
+                >
+              </span>
+            </span>
+          </b-list-group-item>
+        </b-list-group>
+        <div v-else>
+          <b-alert show>No connection available</b-alert>
+        </div>
+      </b-tab>
+    </b-tabs>
   </div>
 </template>
 <script>
@@ -75,8 +151,10 @@ export default {
   data() {
     return {
       connections: [],
+      pendingconnections: [],
       active: 1,
       search: "",
+      tabIndex:0
     };
   },
   created() {
@@ -107,7 +185,13 @@ export default {
     bus.$on("unreadmessage", (res) => {
       this.connections[res.index].unread_message = 0;
     });
-  },
+    bus.$on('reloadChat',()=>{
+
+       this.getconnections();
+       this.getpendingconnections();
+      //  this.tabIndex=0
+    })
+ },
   computed: {
     filteredconnections() {
       return this.connections.filter((item) =>
@@ -116,9 +200,17 @@ export default {
           .includes(this.search.toLowerCase())
       );
     },
+    pendingfilteredconnections() {
+      return this.pendingconnections.filter((item) =>
+        item.user_follower.username
+          .toLowerCase()
+          .includes(this.search.toLowerCase())
+      );
+    },
   },
   mounted() {
     this.getconnections();
+    this.getpendingconnections();
   },
   methods: {
     arrMove(arr, oldIndex, newIndex) {
@@ -136,8 +228,20 @@ export default {
       if (this.connections[index].unread_message) {
         this.markMessagesRead(val.id);
       }
+      val.type='active';
       val.index = index;
       this.connections[index].unread_message = 0;
+      bus.$emit("switchchat", val);
+      this.$emit("toggleView", "chat");
+    },
+     togglePendingChat(val, index) {
+      this.active = val.id;
+      if (this.pendingconnections[index].unread_message) {
+        this.markMessagesRead(val.id);
+      }
+      val.index = index;
+      val.type='pending';
+      this.pendingconnections[index].unread_message = 0;
       bus.$emit("switchchat", val);
       this.$emit("toggleView", "chat");
     },
@@ -151,7 +255,7 @@ export default {
         },
       });
     },
-    async getconnections() {
+    getconnections() {
       return this.$http
         .get(`${this.$store.getters.url}/get/chat/connections`, {
           headers: {
@@ -161,13 +265,32 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.connections = res.data;
-            var info = res.data[0].user_follower;
-            info.index = 0;
-            bus.$emit("switchchat", info);
+            if (res.data.length) {
+              var info = res.data[0].user_follower;
+              info.type='active'
+              info.index = 0;
+              bus.$emit("switchchat", info);
+            }
           }
         })
         .catch((err) => {
-          this.$toast.error(err.response.data.message);
+          this.$toast.error(err);
+        });
+    },
+    getpendingconnections() {
+      return this.$http
+        .get(`${this.$store.getters.url}/get/pending/chat`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.pendingconnections = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err);
         });
     },
   },
