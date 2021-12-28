@@ -24,7 +24,7 @@
         class="chatbody py-3 px-2 px-md-5 text-left pl-0 mb-0"
         v-chat-scroll="{ always: false, smooth: true, scrollonremoved: true }"
       >
-        <li v-for="(item, index) in messages" :key="index">
+        <li v-for="(item, index) in messages" :key="index" style="margin-bottom:4rem">
           <div
             v-if="item.user_id"
             class="mb-3 shadow-sm"
@@ -36,15 +36,16 @@
           >
             <div
               class="
+              namer
                 d-flex
                 flex-1
                 align-items-center
-                justify-content-between
+
                 mb-1
               "
             >
               <span
-                class="chatting_name font-weight-bold mr-3"
+                class="chatting_name font-weight-bold ml-3"
                 v-if="item.user.id === useraccess.id"
                 >You</span
               >
@@ -52,7 +53,7 @@
                 item.user.username
               }}</span>
 
-              <span class="text-muted fs9">
+              <span class="text-muted fs9" style=" min-width: 40px;">
                 {{ item.created_at | moment("LT") }}</span
               >
             </div>
@@ -778,7 +779,20 @@ export default {
 .rounded-8 {
   border-radius: 8px;
 }
+.namer{
+  position: absolute;
+    top: -31px;
 
+
+}
+.right_text .namer{
+  justify-content: flex-end;
+  flex-direction: row-reverse;
+  right: 0;
+}
+.left_text .namer{
+left: 0;
+}
 .reply_box {
   transition: all 0.5s;
   position: fixed;
@@ -854,8 +868,9 @@ ul {
   border-bottom: 10px solid transparent;
   border-right: 15px solid #d0d2d5;
   position: absolute;
-  left: -12px;
-  top: 0;
+  left: -6px;
+  top: -10px;
+  transform: rotate(67deg);
 }
 .right_text {
   font-size: 12px;
@@ -876,8 +891,9 @@ ul {
   border-bottom: 10px solid transparent;
   border-left: 15px solid #d0d2d5;
   position: absolute;
-  right: -12px;
-  top: 0;
+  right: -6px;
+  top: -10px;
+  transform: rotate(-67deg);
 }
 .chat_name {
   font-size: 13px;
