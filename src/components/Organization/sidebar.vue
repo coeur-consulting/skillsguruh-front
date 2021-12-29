@@ -157,5 +157,9 @@ export default {
 }
 .side_item:hover {
   background: white;
+   color: var(--dark-green);
+    .b-icon.bi {
+  color: var(--dark-green) !important;
+}
 }
 </style>

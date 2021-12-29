@@ -53,7 +53,7 @@
                     <b-th></b-th> </b-tr
                 ></b-thead>
                 <b-tbody>
-                  <b-tr v-for="(item, index) in paginatedData" :key="item.id">
+                  <b-tr v-for="(item, index) in filter" :key="item.id">
                     <b-td>
                       <div class="d-flex">
                         <b-avatar
@@ -143,19 +143,14 @@
                   </b-tr>
                 </b-tbody>
               </b-table-simple>
-              <div class="p-3 d-flex justify-content-between" v-if="rows > 10">
+              <div class="p-3 d-flex justify-content-between" v-if="rows > 1">
                 <div class="fs12 text-muted">
                   Showing 1-{{ perPage }} of {{ rows }} items
                 </div>
-                <b-pagination
-                  pills
-                  size="sm"
-                  variant="dark-green"
-                  align="right"
-                  v-model="currentPage"
-                  :total-rows="rows"
-                  :per-page="perPage"
-                ></b-pagination>
+                <div>
+                  <b-icon icon="arrow-left" v-if="currentPage>1" @click="currentPage++" class="mr-4"></b-icon>
+                   <b-icon icon="arrow-right" v-if="currentPage<last_page" @click="currentPage--"></b-icon>
+                </div>
               </div>
             </div>
             <div v-else class="text-center admin_tab p-3 p-sm-5">
@@ -351,6 +346,7 @@ export default {
       rows: null,
       perPage: 10,
       users: [],
+      last_page:1,
       user: {
         name: "",
         email: "",
@@ -365,14 +361,13 @@ export default {
         .filter((item) =>
           item.name.toLowerCase().includes(this.search.toLowerCase())
         )
-        .slice(
-          this.perPage * this.currentPage - this.perPage,
-          this.perPage * this.currentPage
-        );
     },
   },
   mounted() {
     this.getusers();
+  },
+  watch:{
+    'currentPage':'paginatedData'
   },
   methods: {
     handleVerification(value, id, index) {
@@ -408,6 +403,8 @@ export default {
         )
         .then((res) => {
           this.users = res.data.data;
+           this.rows = res.data.total;
+          this.last_page = res.data.last_page
         });
     },
     getusers() {

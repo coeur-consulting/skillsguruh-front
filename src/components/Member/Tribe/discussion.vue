@@ -430,7 +430,7 @@
                                 item.user.id !== $store.getters.member.id
                               "
                               @click="
-                                handleReport(item.id, 'discussionmessage')
+                                handleReport(item.id, 'discussion message')
                               "
                             >
                               <b-icon icon="caution"></b-icon> Report

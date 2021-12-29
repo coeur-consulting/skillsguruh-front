@@ -128,15 +128,10 @@
                 <div class="fs12 text-muted">
                   Showing 1-10 of {{ users.length }} items
                 </div>
-                <b-pagination
-                  pills
-                  size="sm"
-                  variant="dark-green"
-                  align="right"
-                  v-model="currentPage"
-                  :total-rows="rows"
-                  :per-page="perPage"
-                ></b-pagination>
+               <div>
+                  <b-icon icon="arrow-left" v-if="currentPage>1" @click="currentPage++" class="mr-4"></b-icon>
+                   <b-icon icon="arrow-right" v-if="currentPage<last_page" @click="currentPage--"></b-icon>
+                </div>
               </div>
             </div>
 
@@ -333,6 +328,7 @@ export default {
       rows: null,
       perPage: 10,
       users: [],
+       last_page:1,
       user: {
         name: "",
         email: "",
@@ -341,16 +337,16 @@ export default {
       },
     };
   },
+    watch:{
+    'currentPage':'getadmins'
+  },
   computed: {
     filter() {
       return this.users
         .filter((item) =>
           item.name.toLowerCase().includes(this.search.toLowerCase())
         )
-        .slice(
-          this.perPage * this.currentPage - this.perPage,
-          this.perPage * this.currentPage
-        );
+
     },
   },
   mounted() {
@@ -380,7 +376,7 @@ export default {
     },
     getadmins() {
       this.$http
-        .get(`${this.$store.getters.url}/get/organization/admins`, {
+        .get(`${this.$store.getters.url}/get/organization/admins?page=${this.currentPage}`, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.organization.access_token}`,
           },
@@ -389,6 +385,7 @@ export default {
           if (res.status == 200) {
             this.users = res.data.data;
             this.rows = res.data.total;
+             this.last_page = res.data.last_page
           }
         })
         .catch((err) => {
