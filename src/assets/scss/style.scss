@@ -307,6 +307,16 @@ h5#alllikes___BV_modal_title_ {
   object-fit: contain;
   width: 100%;
 }
+.side-link div ul li{
+  font-size: .85rem;
+  a{
+     color: #333 !important;
+  }
+
+  @media(max-width:768px){
+    font-size: .75rem;
+  }
+}
 // .VueCarousel-navigation-next {
 //   right: 24px !important;
 //   transform: translateY(-50%) translateX(100%);

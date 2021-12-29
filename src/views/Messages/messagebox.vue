@@ -540,6 +540,8 @@ export default {
     });
 
     channel.bind("inboxSent", (data) => {
+
+      this.messages.push(data.message);
       if (this.info.id === data.message.user.id) {
         interval = setInterval(changetitle, 700);
       }
@@ -776,6 +778,9 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+li:last-child{
+  margin-bottom: 0 !important;
+}
 .rounded-8 {
   border-radius: 8px;
 }

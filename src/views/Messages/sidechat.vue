@@ -15,7 +15,7 @@
       ></b-form-input>
     </div>
     <hr />
-    <b-tabs justified v-model="tabIndex">
+    <b-tabs justified v-model="tabIndex" class="side-link">
       <b-tab title="Active">
         <b-list-group v-if="filteredconnections.length">
           <b-list-group-item
@@ -79,7 +79,7 @@
           <b-alert show>No connection available</b-alert>
         </div>
       </b-tab>
-      <b-tab :title="'Pending'+' '+pendingfilteredconnections.length">
+      <b-tab :title="`Pending ${pendingfilteredconnections.length?pendingfilteredconnections.length:''}`">
         <b-list-group v-if="pendingfilteredconnections.length">
           <b-list-group-item
             v-for="(item, index) in pendingfilteredconnections"
@@ -299,6 +299,9 @@ export default {
 
 
 <style lang="scss" scoped>
+.nav-link {
+  font-size: .8rem;
+}
 .list-group-item {
   background-color: transparent;
 }
