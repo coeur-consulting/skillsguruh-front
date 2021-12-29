@@ -24,7 +24,11 @@
         class="chatbody py-3 px-2 px-md-5 text-left pl-0 mb-0"
         v-chat-scroll="{ always: false, smooth: true, scrollonremoved: true }"
       >
-        <li v-for="(item, index) in messages" :key="index" style="margin-bottom:4rem">
+        <li
+          v-for="(item, index) in messages"
+          :key="index"
+          style="margin-bottom: 4rem"
+        >
           <div
             v-if="item.user_id"
             class="mb-3 shadow-sm"
@@ -34,16 +38,7 @@
                 : 'left_text'
             "
           >
-            <div
-              class="
-              namer
-                d-flex
-                flex-1
-                align-items-center
-
-                mb-1
-              "
-            >
+            <div class="namer d-flex flex-1 align-items-center mb-1">
               <span
                 class="chatting_name font-weight-bold ml-3"
                 v-if="item.user.id === useraccess.id"
@@ -53,7 +48,7 @@
                 item.user.username
               }}</span>
 
-              <span class="text-muted fs9" style=" min-width: 40px;">
+              <span class="text-muted fs9" style="min-width: 40px">
                 {{ item.created_at | moment("LT") }}</span
               >
             </div>
@@ -540,7 +535,6 @@ export default {
     });
 
     channel.bind("inboxSent", (data) => {
-
       this.messages.push(data.message);
       if (this.info.id === data.message.user.id) {
         interval = setInterval(changetitle, 700);
@@ -778,25 +772,23 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-li:last-child{
+li:last-child {
   margin-bottom: 0 !important;
 }
 .rounded-8 {
   border-radius: 8px;
 }
-.namer{
+.namer {
   position: absolute;
-    top: -31px;
-
-
+  top: -31px;
 }
-.right_text .namer{
+.right_text .namer {
   justify-content: flex-end;
   flex-direction: row-reverse;
   right: 0;
 }
-.left_text .namer{
-left: 0;
+.left_text .namer {
+  left: 0;
 }
 .reply_box {
   transition: all 0.5s;
@@ -864,6 +856,10 @@ ul {
   max-width: 55%;
   margin-right: auto;
   position: relative;
+  @media (max-width: 768px) {
+    width: max-content;
+    max-width: 90%;
+  }
 }
 .left_text::after {
   content: "";
@@ -887,6 +883,10 @@ ul {
   background-color: #d0d2d5;
   border-left: 3px solid var(--red);
   position: relative;
+   @media (max-width: 768px) {
+    width: max-content;
+    max-width: 90%;
+  }
 }
 .right_text::before {
   content: "";
