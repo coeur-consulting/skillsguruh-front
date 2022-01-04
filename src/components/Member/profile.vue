@@ -8,7 +8,7 @@
           @click="type = 'edit'"
         >
           <span class="flex-1">
-            <b-icon class="mr-2" icon="pencil"></b-icon
+            <b-icon class="mr-2" :icon="type == 'edit'?'pencil-fill':'pencil'"></b-icon
             ><span class="">Edit Profile</span></span
           >
           <b-icon v-if="type == 'edit'" icon="chevron-right"></b-icon>
@@ -19,7 +19,7 @@
           :class="{ 'font-weight-bold': type == 'notification' }"
         >
           <span class="flex-1">
-            <b-icon class="mr-2" icon="bell"></b-icon>
+            <b-icon class="mr-2" :icon="type == 'notification'?'bell-fill':'bell'"></b-icon>
             <span class="">Notifications</span>
           </span>
           <b-icon v-if="type == 'notification'" icon="chevron-right"></b-icon>
@@ -30,7 +30,7 @@
           :class="{ 'font-weight-bold': type == 'request' }"
         >
           <span class="flex-1">
-            <b-icon class="mr-2" icon="info-circle"></b-icon>
+            <b-icon class="mr-2"  :icon="type == 'request'?'info-circle-fill':'info-circle'"></b-icon>
             <span class="mr-1">Requests</span>
             <b-icon
               v-if="requests.some((item) => item.response == 'pending')"
@@ -48,7 +48,7 @@
           :class="{ 'font-weight-bold': type == 'preference' }"
         >
           <span class="flex-1">
-            <b-icon class="mr-2" icon="nut"></b-icon>
+            <b-icon class="mr-2"  :icon="type == 'preference'?'nut-fill':'nut'"></b-icon>
             <span class="">Preferences</span>
           </span>
           <b-icon v-if="type == 'preference'" icon="chevron-right"></b-icon>
@@ -60,10 +60,21 @@
           @click="type = 'security'"
         >
           <span class="flex-1">
-            <b-icon class="mr-2" icon="shield"></b-icon>
+            <b-icon class="mr-2"  :icon="type == 'security'?'shield-fill':'shield'"></b-icon>
             <span>Password & Security </span></span
           >
           <b-icon v-if="type == 'security'" icon="chevron-right"></b-icon>
+        </div>
+         <div
+          class="px-2 mb-3 fs12 cursor-pointer d-flex"
+          :class="{ 'font-weight-bold': type == 'analytics' }"
+          @click="type = 'analytics'"
+        >
+          <span class="flex-1">
+            <b-icon class="mr-2"  :icon="type == 'analytics'?'bar-chart-line-fill':'bar-chart-line'"></b-icon>
+            <span>Analytics</span></span
+          >
+          <b-icon v-if="type == 'analytics'" icon="chevron-right"></b-icon>
         </div>
         <div
           class="px-2 fs12 cursor-pointer d-flex"
@@ -71,13 +82,16 @@
           @click="type = 'additional'"
         >
           <span class="flex-1">
-            <b-icon class="mr-2" icon="gear"></b-icon>
+            <b-icon class="mr-2"  :icon="type == 'additional'?'gear-fill':'gear'"></b-icon>
             <span>Additional Information </span></span
           >
           <b-icon v-if="type == 'additional'" icon="chevron-right"></b-icon>
         </div>
       </b-col>
-      <b-col sm="8" class="sideB">
+      <b-col sm="8" class="sideB py-3">
+         <div v-if="type == 'analytics'" class="py-4">
+            <h5 class="font-weight-bold mb-4">Analytics</h5>
+         </div>
         <div v-if="type == 'edit'">
           <div class="mb-5">
             <Upload @getUpload="getUpload" :id="'avatar'">

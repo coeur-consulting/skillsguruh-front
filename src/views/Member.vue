@@ -6,14 +6,14 @@
       </b-row>
       <b-row>
         <b-col sm="3" class="p-0 d-none d-sm-block"> <SideBar /></b-col>
-        <b-col sm="6" class="p-0">
+        <b-col :sm="$route.meta.routeType !=='profile'?6:9" class="p-0">
           <div class="content">
             <main id="page-wrap" class="pb-5">
               <router-view></router-view>
             </main>
           </div>
         </b-col>
-        <b-col sm="3"> <RightBar /></b-col>
+        <b-col sm="3" v-if="$route.meta.routeType !=='profile'"> <RightBar /></b-col>
       </b-row>
     </b-container>
     <b-modal id="insight" size="xl" hide-footer>

@@ -10,11 +10,17 @@
         <b-avatar size="sm" :src="item.profile" class="mr-2"></b-avatar>
         <div class="text-left">
           <div
-            @click="getmessage(item.id, item.username, 'user', item.profile,0)"
+
             class="connection_name cursor-pointer fs13"
+            :id="id+item.username"
           >
             {{ item.username }}
           </div>
+          <b-popover :target="id+item.username"  triggers="hover">
+            <b-button class="mr-3" variant="light" size="sm" @click="getmessage(item.id, item.username, 'user', item.profile,0)">Message</b-button>
+             <b-button variant="light" size="sm" @click="$router.push(`/member/profile/${item.username}`)">View profile</b-button>
+
+          </b-popover>
         </div>
       </li>
     </ul>
@@ -82,7 +88,7 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.members = res.data;
+            this.members = res.data.data;
           }
         })
         .catch((err) => {

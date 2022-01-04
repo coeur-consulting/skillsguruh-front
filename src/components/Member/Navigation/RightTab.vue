@@ -16,10 +16,10 @@
         v-else-if="$route.meta.routetype == 'courses'"
         :course="$store.getters.course"
       /> -->
-      <other-discussion v-else-if="$route.meta.routetype == 'discussion'" />
-      <Schedule v-else-if="$route.meta.routetype == 'events'" />
+      <other-discussion v-else-if="$route.meta.routetype == 'tribediscussion'" />
+      <Schedule v-else-if="$route.meta.routetype == 'tribeevents'" />
       <tribe-members
-        v-else-if="$route.meta.routetype == 'feeds' && $route.params.tribe"
+        v-else-if="$route.meta.routetype == 'tribediscussions' "
       />
       <suggested-connections v-else />
     </div>

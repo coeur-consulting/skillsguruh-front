@@ -2,11 +2,12 @@
   <div class="py-5">
     <b-container>
       <b-row class="mb-4">
-        <b-col sm="6">
+        <b-col sm="12">
           <b-form-input
             v-model="search"
             type="search"
-            placeholder="Search name"
+            placeholder="Search tribe name"
+            class="w-100"
           ></b-form-input
         ></b-col>
       </b-row>
@@ -23,30 +24,9 @@
           v-for="(n, id) in filterTribes"
           :key="id"
           class="mb-4"
+          @click="entertribe(n.id)"
         >
-          <b-popover :target="`popover-${id}`" triggers="hover">
-            <template #title> {{ n.name }} </template>
-            <p class="fs13 text-capitalize mb-2">
-              Access :
-              <span v-if="n.type == 'free'">{{ n.type }}</span>
-              <span v-else>{{ n.amount | currencyFormat }}</span>
-            </p>
 
-            <p class="fs13" style="min-width: 150px">{{ n.description }}</p>
-            <p class="fs14 text-muted mb-1">
-              <font-awesome-icon :icon="users" size="1x" class="icon" />
-              {{ n.users }}
-            </p>
-
-            <b-button
-              block
-              size="sm"
-              variant="dark-green"
-              @click="entertribe(n.id)"
-            >
-              <font-awesome-icon :icon="signIn"
-            /></b-button>
-          </b-popover>
           <div class="tribe_box rounded" :id="`popover-${id}`">
             <div
               class="

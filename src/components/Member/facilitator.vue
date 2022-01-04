@@ -271,7 +271,7 @@
                               </b-dropdown>
                             </div>
 
-                            <div v-if="feed.media || feed.publicId">
+                            <div v-if="feed.media && feed.media.length">
                               <div
                                 class="
                                   mb-4
@@ -293,67 +293,40 @@
                                     animate__slow
                                   "
                                 ></b-icon>
-                                <cld-image
-                                  v-if="
-                                    feed.publicId &&
-                                    img_ext.includes(getextension(feed.media))
-                                  "
-                                  :publicId="feed.publicId"
-                                  @dblclick="toggleLike(feed.id, index)"
+                                <b-carousel
+                                  v-if="feed.mediaType === 'image'"
+                                  id="carousel-fade"
+                                  style="text-shadow: 0px 0px 2px #000"
+                                  indicators
+                                  :interval="0"
+                                  class="w-100"
                                 >
-                                  <cld-transformation
-                                    aspectRatio="1.0"
-                                    height="500"
-                                    crop="fill"
-                                  />
-                                </cld-image>
-                                <b-img
-                                  v-if="
-                                    !feed.publicId &&
-                                    feed.media &&
-                                    img_ext.includes(getextension(feed.media))
-                                  "
-                                  @dblclick="toggleLike(feed.id, index)"
-                                  class="img_feed"
-                                  :src="feed.media"
-                                ></b-img>
-
-                                <cld-video
+                                  <b-carousel-slide
+                                    v-for="(item, id) in feed.media"
+                                    :key="id"
+                                    background="#fff"
+                                  >
+                                    <template #img>
+                                      <img
+                                        @dblclick.self="
+                                          toggleLike(feed.id, index)
+                                        "
+                                        class="w-100"
+                                        height="420"
+                                        :src="item"
+                                        alt="image"
+                                      />
+                                    </template>
+                                  </b-carousel-slide>
+                                </b-carousel>
+                                <video
+                                  @dblclick.self="toggleLike(feed.id, index)"
+                                  v-if="feed.mediaType === 'video'"
                                   controls
-                                  v-if="
-                                    feed.publicId &&
-                                    vid_ext.includes(getextension(feed.media))
-                                  "
-                                  :publicId="feed.publicId"
-                                >
-                                  <cld-transformation
-                                    crop="fill"
-                                    height="500"
-                                  />
-                                </cld-video>
-
-                                <audio
                                   width="100%"
-                                  controls
-                                  v-if="
-                                    feed.media &&
-                                    aud_ext.includes(getextension(feed.media))
-                                  "
-                                  :src="feed.media"
-                                  class="fluid-grow"
-                                ></audio>
-                                <div
-                                  v-if="
-                                    feed.media &&
-                                    doc_ext.includes(getextension(feed.media))
-                                  "
-                                  class="text-center p-3 p-sm-4 bg-skills-grey"
-                                >
-                                  <b-icon
-                                    icon="image"
-                                    font-scale="3rem"
-                                  ></b-icon>
-                                </div>
+                                  height="420"
+                                  :src="feed.media[0]"
+                                ></video>
                               </div>
                             </div>
                             <div class="text-left feed_text px-3">
@@ -965,157 +938,6 @@
                       </div>
                     </div>
                   </b-card-body>
-
-                  <b-card-body v-if="active == 4" class="pt-0 px-3">
-                    <div v-if="showCourse">
-                      <b-container fluid class="main-course">
-                        <b-row>
-                          <b-col
-                            sm="4 "
-                            class="mb-3 side_box"
-                            v-for="(item, index) in filteredCourse"
-                            :key="index"
-                          >
-                            <div class="course border cursor-pointer shadow-sm">
-                              <div
-                                class="course_img"
-                                :style="{
-                                  backgroundImage: `url(${
-                                    item.cover
-                                      ? item.cover
-                                      : require('@/assets/images/default.png')
-                                  })`,
-                                }"
-                              ></div>
-                              <div class="course_text">
-                                <div class="d-flex justify-content-between">
-                                  <span
-                                    class="
-                                      px-2
-                                      py-1
-                                      rounded-pill
-                                      text-white
-                                      fs11
-                                    "
-                                    :style="{
-                                      backgroundColor: JSON.parse(
-                                        item.courseoutline.knowledge_areas
-                                      ).color,
-                                    }"
-                                  >
-                                    <b-icon
-                                      class="mr-2"
-                                      :icon="
-                                        JSON.parse(
-                                          item.courseoutline.knowledge_areas
-                                        ).icon
-                                      "
-                                    ></b-icon>
-                                    <span>{{
-                                      JSON.parse(
-                                        item.courseoutline.knowledge_areas
-                                      ).value
-                                    }}</span></span
-                                  >
-                                  <span class="text-capitalize fs11">{{
-                                    item.type
-                                  }}</span>
-                                </div>
-                                <div class="border-bottom pt-3 text-left">
-                                  <h6
-                                    class="
-                                      font-weight-bold
-                                      text-capitalize
-                                      overview-title
-                                    "
-                                  >
-                                    {{ item.title }}
-                                  </h6>
-                                  <div
-                                    class="fs13 overview"
-                                    v-html="item.courseoutline.overview"
-                                  ></div>
-                                </div>
-                                <div class="info fs11">
-                                  <div class="d-flex">
-                                    <div class="mr-2">
-                                      <b-icon
-                                        icon="people"
-                                        class="mr-1"
-                                      ></b-icon>
-                                      <span
-                                        >{{
-                                          item.enroll ? item.enroll.count : 0
-                                        }}+</span
-                                      >
-                                    </div>
-                                    <div class="mr-3">
-                                      <b-icon icon="eye" class="mr-1"></b-icon>
-                                      <span
-                                        >{{
-                                          item.viewcount
-                                            ? item.viewcount.count
-                                            : 0
-                                        }}
-                                        +</span
-                                      >
-                                    </div>
-                                    <div>
-                                      <b-icon
-                                        icon="star-fill"
-                                        style="color: gold"
-                                        class="mr-1"
-                                      ></b-icon>
-                                      <span
-                                        >{{ item.review.length }} reviews</span
-                                      >
-                                    </div>
-                                  </div>
-
-                                  <b-avatar
-                                    size="sm"
-                                    variant="light"
-                                    :src="item.cover"
-                                  >
-                                  </b-avatar>
-                                </div>
-                              </div>
-                            </div>
-                          </b-col>
-                        </b-row>
-                        <div
-                          class="p-3 d-flex justify-content-between"
-                          v-if="rows > 10"
-                        >
-                          <div class="fs12 text-muted">
-                            Showing {{ perPage * currentPage - perPage + 1 }}-{{
-                              perPage * currentPage
-                            }}
-                            of {{ courses.length }} items
-                          </div>
-                          <b-pagination
-                            pills
-                            size="sm"
-                            variant="dark-green"
-                            align="right"
-                            v-model="currentPage"
-                            :total-rows="rows"
-                            :per-page="perPage"
-                          ></b-pagination>
-                        </div>
-                      </b-container>
-                    </div>
-                    <div v-else class="text-center admin_tab p-3 p-sm-5">
-                      <div>
-                        <b-img
-                          :src="require('@/assets/images/creator.svg')"
-                        ></b-img>
-                        <h6 class="text-muted my-3 fs14">
-                          No course available
-                        </h6>
-                      </div>
-                    </div>
-                  </b-card-body>
                 </b-row>
               </b-card>
             </b-col>
@@ -1534,6 +1356,7 @@ import EmojiPicker from "@/components/emoji/EmojiPicker";
 export default {
   data() {
     return {
+      toggleOn: null,
       report_id: null,
       report_type: null,
       index: null,
@@ -2098,12 +1921,12 @@ export default {
       this.open = false;
       this.showAll = false;
     },
-    getmessage(id, name, type, profile,index) {
+    getmessage(id, name, type, profile, index) {
       this.mini_info.id = id;
       this.mini_info.name = name;
       this.mini_info.type = type;
       this.mini_info.profile = profile;
-       this.mini_info.index = index;
+      this.mini_info.index = index;
       this.$store.dispatch("getChatter", this.mini_info);
       this.$bvModal.hide("connections");
     },
@@ -2137,7 +1960,14 @@ export default {
     },
     getConnections() {
       this.$http
-        .get(`${this.$store.getters.url}/member/connections/${this.detail.id}`)
+        .get(
+          `${this.$store.getters.url}/member/connections/${this.detail.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
         .then((res) => {
           if (res.status == 200) {
             this.connections = res.data;
@@ -2370,6 +2200,9 @@ h4.card-title {
   font-size: 0.7rem !important;
   line-height: 1.4;
   border-radius: 0.2rem;
+}
+.heart{
+  z-index: 77;
 }
 @media (max-width: 600px) {
   h4.card-title {

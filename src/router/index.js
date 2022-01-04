@@ -715,7 +715,7 @@ const routes = [
                 ),
             },
             meta: {
-              routetype: "events",
+              routetype: "tribeevents",
               showtribe: true,
               typeMember: true,
             },
@@ -730,7 +730,7 @@ const routes = [
                 ),
             },
             meta: {
-              routetype: "event",
+              routetype: "tribeevent",
               showtribe: true,
               typeMember: true,
             },
@@ -745,7 +745,7 @@ const routes = [
                 ),
             },
             meta: {
-              routetype: "discussions",
+              routetype: "tribediscussions",
               showtribe: true,
               typeMember: true,
             },
@@ -760,7 +760,7 @@ const routes = [
                 ),
             },
             meta: {
-              routetype: "discussions",
+              routetype: "tribediscussion",
               showtribe: true,
               typeMember: true,
             },
@@ -1327,6 +1327,7 @@ const routes = [
             ),
         },
         meta: {
+          routeType:'profile',
           typeMember: true,
           title: "Profile | Member",
         },

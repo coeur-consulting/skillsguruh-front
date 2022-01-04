@@ -2,11 +2,12 @@
   <div class="py-5">
     <b-container>
       <b-row class="mb-4">
-        <b-col sm="6">
+        <b-col sm="12">
           <b-form-input
             v-model="search"
             type="search"
-            placeholder="Search name"
+            placeholder="Search tribe name"
+            class="w-100"
           ></b-form-input
         ></b-col>
       </b-row>
