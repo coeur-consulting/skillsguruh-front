@@ -31,6 +31,15 @@
           >
             {{ n.isMember ? "Engage" : "Join" }}</b-button
           >
+           <b-button
+              v-else-if="n.type == 'private'"
+              block
+              variant="dark-green"
+              size="sm"
+              @click="sendrequest(n.id)"
+            >
+              Request access</b-button
+            >
           <div v-else>
             <b-button
               v-if="n.isMember"
@@ -74,6 +83,25 @@ export default {
   methods: {
     purchase(id) {
       this.$router.push(`/member/order?id=${id}&type_payment=tribe`);
+    },
+     sendrequest(id) {
+      if (!this.useraccess) {
+        this.$router.push("/login?redirect=%2Fexplore%2Fcommunity");
+      }
+      this.$http
+        .get(`${process.env.VUE_APP_API_PATH}/create/tribe/request/${id}`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            this.$toast.success("Request sent");
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data);
+        });
     },
     entertribe(id) {
       if (!this.useraccess) {

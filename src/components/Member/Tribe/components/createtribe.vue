@@ -48,6 +48,11 @@
             ></b-col
           >
           <b-col>
+            <b-form-radio v-model="tribe.type" value="private"
+              >Private</b-form-radio
+            ></b-col
+          >
+          <b-col>
             <b-form-radio v-model="tribe.type" value="paid"
               >Paid</b-form-radio
             ></b-col

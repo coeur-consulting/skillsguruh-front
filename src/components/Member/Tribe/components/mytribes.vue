@@ -3,13 +3,40 @@
     <b-container>
       <b-row class="mb-4">
         <b-col sm="12">
-          <b-form-input
-            v-model="search"
-            type="search"
-            placeholder="Search tribe name"
-            class="w-100"
-          ></b-form-input
-        ></b-col>
+         <div class="search w-100">
+                <b-input-group class="topbar_search bg-white">
+                  <b-input-group-prepend is-text>
+                    <b-iconstack font-scale="1.4" class="">
+                      <b-icon
+                        stacked
+                        icon="circle-fill"
+                        variant="lighter-green"
+                      ></b-icon>
+                      <b-icon
+                        stacked
+                        icon="search"
+                        scale="0.5"
+                        variant="dark-green"
+                      ></b-icon>
+                    </b-iconstack>
+                  </b-input-group-prepend>
+                  <b-form-input
+                    placeholder="Find a tribe"
+                    class="no-focus border-0"
+                    type="search"
+                    aria-label="Text input "
+                    v-model="search"
+                  ></b-form-input>
+                  <b-input-group-append>
+                    <b-button
+                      variant="dark-green"
+
+                      ><b-icon icon="search"></b-icon
+                    ></b-button>
+                  </b-input-group-append>
+                </b-input-group>
+              </div>
+        </b-col>
       </b-row>
       <div v-if="!filterTribes.length">
         <div class="alert alert-warning alert-dismissible fade show" role="alert">

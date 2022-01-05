@@ -3,13 +3,40 @@
     <b-container>
       <b-row class="mb-4">
         <b-col sm="12">
-          <b-form-input
-            v-model="search"
-            type="search"
-            placeholder="Search tribe name"
-            class="w-100"
-          ></b-form-input
-        ></b-col>
+          <div class="search w-100">
+                <b-input-group class="topbar_search bg-white">
+                  <b-input-group-prepend is-text>
+                    <b-iconstack font-scale="1.4" class="">
+                      <b-icon
+                        stacked
+                        icon="circle-fill"
+                        variant="lighter-green"
+                      ></b-icon>
+                      <b-icon
+                        stacked
+                        icon="search"
+                        scale="0.5"
+                        variant="dark-green"
+                      ></b-icon>
+                    </b-iconstack>
+                  </b-input-group-prepend>
+                  <b-form-input
+                    placeholder="Find a tribe"
+                    class="no-focus border-0"
+                    type="search"
+                    aria-label="Text input "
+                    v-model="search"
+                  ></b-form-input>
+                  <b-input-group-append>
+                    <b-button
+                      variant="dark-green"
+
+                      ><b-icon icon="search"></b-icon
+                    ></b-button>
+                  </b-input-group-append>
+                </b-input-group>
+              </div>
+        </b-col>
       </b-row>
 
       <b-row>
@@ -24,8 +51,9 @@
             <template #title> {{ n.name }}</template>
             <p class="fs13 text-capitalize mb-2">
               Access :
-              <span v-if="n.type == 'free'">{{ n.type }}</span>
-              <span v-else>{{ n.amount | currencyFormat }}</span>
+
+              <span v-if="n.type==='paid'">{{ n.amount | currencyFormat }}</span>
+              <span v-else>{{ n.type }}</span>
             </p>
             <p class="fs13 mb-1" style="min-width: 150px">
               {{ n.description }}
@@ -43,6 +71,15 @@
               @click="entertribe(n.id)"
             >
               {{ n.isMember ? "Engage" : "Join" }}</b-button
+            >
+            <b-button
+              v-else-if="n.type == 'private'"
+              block
+              variant="dark-green"
+              size="sm"
+              @click="sendrequest(n.id)"
+            >
+              Request access</b-button
             >
             <div v-else>
               <b-button
@@ -217,6 +254,25 @@ export default {
     },
     isMember(arr) {
       return arr.some((item) => item.id == this.$store.getters.member.id);
+    },
+    sendrequest(id) {
+      if (!this.useraccess) {
+        this.$router.push("/login?redirect=%2Fexplore%2Fcommunity");
+      }
+      this.$http
+        .get(`${process.env.VUE_APP_API_PATH}/create/tribe/request/${id}`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            this.$toast.success("Request sent");
+          }
+        })
+        .catch((err) => {
+            this.$toast.error(err.response.data);
+        });
     },
     entertribe(id) {
       if (!this.useraccess) {

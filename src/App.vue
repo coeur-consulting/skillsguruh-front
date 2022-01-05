@@ -157,7 +157,7 @@ export default {
     };
   },
   watch: {
-   // $route: "getnotification",
+    $route: "getnotification",
   },
 
   components: {
@@ -210,7 +210,7 @@ export default {
       notificationChannel.bind("notificationSent", () => {
         this.$store.dispatch("getNotifications", this.user);
       });
-     // this.getnotification();
+      this.getnotification();
     }
   },
   computed: {
@@ -272,12 +272,11 @@ export default {
        this.mini_info.index = index;
       this.$store.dispatch("getChatter", this.mini_info);
     },
-    // getnotification() {
+    getnotification() {
 
+        this.$store.dispatch("getNotifications", "member");
 
-    //     this.$store.dispatch("getNotifications", "member");
-
-    // },
+    },
   },
 };
 </script>

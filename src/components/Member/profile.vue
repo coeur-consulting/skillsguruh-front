@@ -8,7 +8,10 @@
           @click="type = 'edit'"
         >
           <span class="flex-1">
-            <b-icon class="mr-2" :icon="type == 'edit'?'pencil-fill':'pencil'"></b-icon
+            <b-icon
+              class="mr-2"
+              :icon="type == 'edit' ? 'pencil-fill' : 'pencil'"
+            ></b-icon
             ><span class="">Edit Profile</span></span
           >
           <b-icon v-if="type == 'edit'" icon="chevron-right"></b-icon>
@@ -19,7 +22,10 @@
           :class="{ 'font-weight-bold': type == 'notification' }"
         >
           <span class="flex-1">
-            <b-icon class="mr-2" :icon="type == 'notification'?'bell-fill':'bell'"></b-icon>
+            <b-icon
+              class="mr-2"
+              :icon="type == 'notification' ? 'bell-fill' : 'bell'"
+            ></b-icon>
             <span class="">Notifications</span>
           </span>
           <b-icon v-if="type == 'notification'" icon="chevron-right"></b-icon>
@@ -30,7 +36,10 @@
           :class="{ 'font-weight-bold': type == 'request' }"
         >
           <span class="flex-1">
-            <b-icon class="mr-2"  :icon="type == 'request'?'info-circle-fill':'info-circle'"></b-icon>
+            <b-icon
+              class="mr-2"
+              :icon="type == 'request' ? 'info-circle-fill' : 'info-circle'"
+            ></b-icon>
             <span class="mr-1">Requests</span>
             <b-icon
               v-if="requests.some((item) => item.response == 'pending')"
@@ -48,7 +57,10 @@
           :class="{ 'font-weight-bold': type == 'preference' }"
         >
           <span class="flex-1">
-            <b-icon class="mr-2"  :icon="type == 'preference'?'nut-fill':'nut'"></b-icon>
+            <b-icon
+              class="mr-2"
+              :icon="type == 'preference' ? 'nut-fill' : 'nut'"
+            ></b-icon>
             <span class="">Preferences</span>
           </span>
           <b-icon v-if="type == 'preference'" icon="chevron-right"></b-icon>
@@ -60,18 +72,26 @@
           @click="type = 'security'"
         >
           <span class="flex-1">
-            <b-icon class="mr-2"  :icon="type == 'security'?'shield-fill':'shield'"></b-icon>
+            <b-icon
+              class="mr-2"
+              :icon="type == 'security' ? 'shield-fill' : 'shield'"
+            ></b-icon>
             <span>Password & Security </span></span
           >
           <b-icon v-if="type == 'security'" icon="chevron-right"></b-icon>
         </div>
-         <div
+        <div
           class="px-2 mb-3 fs12 cursor-pointer d-flex"
           :class="{ 'font-weight-bold': type == 'analytics' }"
           @click="type = 'analytics'"
         >
           <span class="flex-1">
-            <b-icon class="mr-2"  :icon="type == 'analytics'?'bar-chart-line-fill':'bar-chart-line'"></b-icon>
+            <b-icon
+              class="mr-2"
+              :icon="
+                type == 'analytics' ? 'bar-chart-line-fill' : 'bar-chart-line'
+              "
+            ></b-icon>
             <span>Analytics</span></span
           >
           <b-icon v-if="type == 'analytics'" icon="chevron-right"></b-icon>
@@ -82,16 +102,208 @@
           @click="type = 'additional'"
         >
           <span class="flex-1">
-            <b-icon class="mr-2"  :icon="type == 'additional'?'gear-fill':'gear'"></b-icon>
+            <b-icon
+              class="mr-2"
+              :icon="type == 'additional' ? 'gear-fill' : 'gear'"
+            ></b-icon>
             <span>Additional Information </span></span
           >
           <b-icon v-if="type == 'additional'" icon="chevron-right"></b-icon>
         </div>
       </b-col>
       <b-col sm="8" class="sideB py-3">
-         <div v-if="type == 'analytics'" class="py-4">
-            <h5 class="font-weight-bold mb-4">Analytics</h5>
-         </div>
+        <div v-if="type == 'analytics'" class="py-4">
+          <b-row>
+            <b-col cols="6" class="p-3">
+              <b-card no-body class="bg-light">
+                <b-card-body class="text-center">
+                  <h6>Owned Tribes</h6>
+                  <span class="display-4">{{ analytics.ownedtribes }}</span>
+                  <div class="d-flex justify-content-between fs11">
+                    <span>Started this week</span> <span>{{ analytics.ownedtribesthisweek }}</span>
+                  </div>
+                </b-card-body>
+              </b-card>
+            </b-col>
+            <b-col cols="6" class="p-3">
+              <b-card no-body class="bg-light">
+                <b-card-body class="text-center">
+                  <h6>Tribes You Belong Too</h6>
+                  <span class="display-4">{{ analytics.belongedtribes }}</span>
+                  <div class="d-flex justify-content-between fs11">
+                    <span>Joined this week</span> <span>{{ analytics.belongedtribesthisweek }}</span>
+                  </div>
+                </b-card-body>
+              </b-card>
+            </b-col>
+          </b-row>
+
+          <b-row>
+            <b-col cols="6" class="p-3">
+              <b-card no-body class="bg-light">
+                <b-card-body class="text-center">
+                  <h6>Your Discussions</h6>
+                  <span class="display-4">{{ analytics.discussions }}</span>
+                  <div class="d-flex justify-content-between fs11">
+                    <span>Started this week</span>
+                    <span>{{ analytics.discussionsthisweek }}</span>
+                  </div>
+                </b-card-body>
+              </b-card>
+            </b-col>
+            <b-col cols="6" class="p-3">
+              <b-card no-body class="bg-light">
+                <b-card-body class="text-center">
+                  <h6>Unique Tribe Members</h6>
+                  <span class="display-4">{{ analytics.uniquemembers }}</span>
+                  <div class="d-flex justify-content-between fs11">
+                    <span>Members this week</span> <span>0</span>
+                  </div>
+                </b-card-body>
+              </b-card>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col cols="4" class="p-3">
+              <b-card no-body class="bg-light">
+                <b-card-body class="text-center">
+                  <h6>Total Connections</h6>
+                  <span class="display-4">{{ analytics.connections }}</span>
+                  <div class="d-flex justify-content-between fs11">
+                    <span>Post this week</span>
+                    <span>{{ analytics.connectionsthisweek }}</span>
+                  </div>
+                </b-card-body>
+              </b-card>
+            </b-col>
+            <b-col cols="4" class="p-3">
+              <b-card no-body class="bg-light">
+                <b-card-body class="text-center">
+                  <h6>Total Posts</h6>
+                  <span class="display-4">{{ analytics.posts }}</span>
+                  <div class="d-flex justify-content-between fs11">
+                    <span>Post this week</span>
+                    <span>{{ analytics.poststhisweek }}</span>
+                  </div>
+                </b-card-body>
+              </b-card>
+            </b-col>
+            <b-col cols="4" class="p-3">
+              <b-card no-body class="bg-light">
+                <b-card-body class="text-center">
+                  <h6>Total Interactions</h6>
+                  <div class="d-flex justify-content-between fs14">
+                    <span>Total Likes</span> <span>{{ analytics.likes }}</span>
+                  </div>
+                  <div class="d-flex justify-content-between fs14">
+                    <span>Total Comments</span>
+                    <span>{{ analytics.comments }}</span>
+                  </div>
+                  <div class="d-flex justify-content-between fs14">
+                    <span>Total Replies</span>
+                    <span>{{ analytics.replies }}</span>
+                  </div>
+                  <div class="d-flex justify-content-between fs14">
+                    <span>Total Votes</span> <span>{{ analytics.votes }}</span>
+                  </div>
+                </b-card-body>
+              </b-card>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col cols="12" class="p-3">
+              <b-card no-body class="bg-light">
+                <b-card-body class="text-left">
+                  <h6>Interactions This Week</h6>
+
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between fs14">
+                      <span class="mr-2"> Likes</span>
+                      <span
+                        >{{ analytics.likesthisweek }}
+                        <b-icon icon="heart-fill"></b-icon
+                      ></span>
+                    </div>
+                    <div class="d-flex justify-content-between fs14">
+                      <span class="mr-2"> Comments</span>
+                      <span
+                        >{{ analytics.commentsthisweek }}
+                        <b-icon icon="chat-dot-fill"></b-icon
+                      ></span>
+                    </div>
+                    <div class="d-flex justify-content-between fs14">
+                      <span class="mr-2"> Replies</span>
+                      <span
+                        >{{ analytics.repliesthisweek }}
+                        <b-icon icon="reply-fill"></b-icon
+                      ></span>
+                    </div>
+                    <div class="d-flex justify-content-between fs14">
+                      <span class="mr-2"> Votes</span>
+                      <span
+                        >{{ analytics.votesthisweek }}
+                        <b-icon icon="caret-down-fill"></b-icon
+                      ></span>
+                    </div>
+                    <div class="d-flex justify-content-between fs14">
+                      <span class="mr-2"> Posts</span>
+                      <span
+                        >{{ analytics.postthisweek }}
+                        <b-icon icon="pencil-fill"></b-icon
+                      ></span>
+                    </div>
+                  </div>
+                </b-card-body>
+              </b-card>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col cols="6" class="p-3">
+              <b-card no-body class="bg-light">
+                <b-card-body class="text-left">
+                  <h6>Age distribution</h6>
+                  <apexchart
+                    type="bar"
+                    :options="ageOptions"
+                    :series="ageSeries"
+                    :height="230"
+                  ></apexchart>
+                </b-card-body>
+              </b-card>
+            </b-col>
+            <b-col cols="6" class="p-3">
+              <b-card no-body class="bg-light">
+                <b-card-body class="text-left">
+                  <h6>Gender distribution</h6>
+
+                  <apexchart
+                    class="text-center"
+                    type="pie"
+                    :options="genderOptions"
+                    :series="genderseries"
+                    width="100%"
+                    :height="250"
+                  ></apexchart>
+                </b-card-body>
+              </b-card>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col class="p-3">
+              <b-card no-body class="bg-light">
+                <b-card-body class="text-left">
+                  <h6>Popular Locations</h6>
+                  <apexchart
+                    type="bar"
+                    :options="stateOptions"
+                    :series="stateSeries"
+                    :height="300"
+                  ></apexchart>
+                </b-card-body>
+              </b-card>
+            </b-col>
+          </b-row>
+        </div>
         <div v-if="type == 'edit'">
           <div class="mb-5">
             <Upload @getUpload="getUpload" :id="'avatar'">
@@ -246,7 +458,7 @@
 
         <div v-if="type == 'notification'" class="py-4">
           <div class="notif text-left pt-4">
-            <h5 class="font-weight-bold mb-4">Notifications</h5>
+            <h6 class="font-weight-bold mb-4">Notifications</h6>
 
             <div
               class="d-flex mb-3 border bg-light p-3 rounded fs14"
@@ -305,50 +517,66 @@
         </div>
         <div v-if="type == 'request'">
           <div class="notif text-left pt-4">
-            <h5 class="font-weight-bold mb-4">Requests</h5>
+            <h6 class="font-weight-bold mb-4">Requests</h6>
 
-            <div class="d-flex mb-3" v-for="item in requests" :key="item.id">
-              <b-icon
-                variant="dark-green"
-                icon="bell-fill"
-                class="mr-2 mt-1"
-              ></b-icon>
-              <div class="d-flex justify-content-between">
-                <p class="mb-0">{{ item.body }} -</p>
-                <div
-                  class="d-flex text-right"
-                  v-if="!item.response == 'pending'"
-                >
-                  <span>
+            <div v-if="triberequests.length">
+              <div
+                class="d-flex mb-3"
+                v-for="item in triberequests"
+                :key="item.id"
+              >
+                <b-icon
+                  variant="dark-green"
+                  icon="bell-fill"
+                  class="mr-2 mt-1"
+                ></b-icon>
+                <div class="d-flex justify-content-between">
+                  <p class="mb-0 fs14 mr-3 flex-1">
+                    <span class="text-capitalize font-weight-bold">{{
+                      item.user.name
+                    }}</span>
+                    has requested to join your tribe
+                    <span class="text-capitalize font-weight-bold">{{
+                      item.tribe.name
+                    }}</span>
+                  </p>
+                  <div>
+                    <b-button
+                      class="mr-2 rounded-circle"
+                      variant="light"
+                      size="sm"
+                      v-b-tooltip.hover
+                      title="Approve"
+                      ><b-icon
+                        @click="accept(item, 'approve')"
+                        icon="check2-circle"
+                      ></b-icon>
+                    </b-button>
+
                     <b-button
                       v-b-tooltip.hover
-                      title="Accept request"
-                      class="mr-3 fs11"
-                      variant="lighter-green"
+                      title="Reject"
+                      class="rounded-circle"
                       size="sm"
-                      @click="accept(item)"
-                      ><b-icon icon="check2-circle"></b-icon></b-button
-                  ></span>
-                  <span>
-                    <b-button
-                      v-b-tooltip.hover
-                      title="Reject request"
-                      class="fs11"
-                      size="sm"
-                      @click="reject(item)"
-                      ><b-icon icon="x-circle-fill"></b-icon></b-button
-                  ></span>
-                </div>
-                <div v-else class="text-capitalize text-muted">
-                  {{ item.response }}
+                      variant="light"
+                      @click="accept(item, 'reject')"
+                      ><b-icon icon="x-circle-fill"></b-icon
+                    ></b-button>
+                  </div>
                 </div>
               </div>
+            </div>
+            <div v-else class="py-3">
+              <b-alert show>
+                <b-icon icon="info-circle"></b-icon> No pending requests
+                available</b-alert
+              >
             </div>
           </div>
         </div>
         <div v-if="type == 'additional'" class="p-4">
           <div class="notif text-left pt-4">
-            <h5 class="font-weight-bold mb-4">Additional Information</h5>
+            <h6 class="font-weight-bold mb-4">Additional Information</h6>
 
             <b-form>
               <b-form-row>
@@ -423,6 +651,109 @@ import Interest from "../InterestComponent";
 export default {
   data() {
     return {
+      analytics: [],
+     // genderseries: [33, 33, 34],
+      genderOptions: {
+        chart: {
+          type: "pie",
+        },
+        colors: ["#377f87", "#3d96a5", "#6beed1"],
+        labels: ["Males", "Females", "Others"],
+        // responsive: [
+        //   {
+        //     breakpoint: 480,
+        //     options: {
+        //       chart: {
+        //   type: "pie",
+        // },
+        //       legend: {
+        //         position: "bottom",
+        //       },
+        //     },
+        //   },
+        // ],
+      },
+
+      stateOptions: {
+        chart: {
+          type: "bar",
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: "55%",
+            endingShape: "rounded",
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        colors: ["#377f87"],
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ["transparent"],
+        },
+        xaxis: {
+          categories: ["Lagos", "Ogun", "Edo", "Abuja", "Delta",'others'],
+        },
+        yaxis: {
+          title: {
+            text: "Members",
+          },
+        },
+        fill: {
+          opacity: 1,
+        },
+        tooltip: {
+          y: {
+            formatter: function (val) {
+              return val;
+            },
+          },
+        },
+      },
+
+      ageOptions: {
+        chart: {
+          type: "bar",
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: "55%",
+            endingShape: "rounded",
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        colors: ["#377f87", "#88b6bf", "#6beed1"],
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ["transparent"],
+        },
+        xaxis: {
+          categories: ["0-14", "15-24", "25-35", "36-above","others"],
+        },
+        yaxis: {
+          title: {
+            text: "Members",
+          },
+        },
+        fill: {
+          opacity: 1,
+        },
+        tooltip: {
+          y: {
+            formatter: function (val) {
+              return val;
+            },
+          },
+        },
+      },
+      triberequests: [],
       type: "edit",
       user: {
         address: null,
@@ -465,13 +796,34 @@ export default {
   },
   created() {
     this.getbanks();
+    this.getanalytics();
+    this.getuser();
+    this.gettriberequests();
   },
   mounted() {
-    this.getuser();
-    this.getrequests();
     window.document.title = `${this.$store.getters.member.name} | Nzukoor`;
   },
   computed: {
+    genderseries() {
+      return this.analytics.gender;
+    },
+    ageSeries() {
+     return  [
+         {
+          name: "",
+          data: this.analytics.ages,
+        },
+       ]
+
+    },
+    stateSeries() {
+     return  [
+         {
+          name: "",
+          data: this.analytics.locations,
+        },
+       ]
+    },
     voices() {
       return this.$store.getters.voices;
     },
@@ -480,6 +832,42 @@ export default {
     },
   },
   methods: {
+    getGender() {
+      this.genderseries = ["33", "33", "34"];
+      this.genderOptions = {
+        chart: {
+          type: "pie",
+        },
+        colors: ["#377f87", "#3d96a5", "#6beed1"],
+        labels: ["Males", "Females", "Others"],
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {},
+              legend: {
+                position: "bottom",
+              },
+            },
+          },
+        ],
+      };
+    },
+    gettriberequests() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/tribe/requests`,
+
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          this.triberequests = res.data;
+        });
+    },
     handleBank() {
       var bank = this.banks.find((item) => item.id == this.bank_id);
       if (!bank) {
@@ -529,28 +917,22 @@ export default {
         this.banks = res.data;
       });
     },
-    accept(item) {
+    accept(item, response) {
       this.$http
-        .post(`${this.$store.getters.url}/discussion/private`, item, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
-        })
+        .put(
+          `${this.$store.getters.url}/respond/tribe/request/${item.id}`,
+          { response },
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
         .then(() => {
-          this.getrequests();
+          this.gettriberequests();
         });
     },
-    reject(item) {
-      this.$http
-        .post(`${this.$store.getters.url}/discussion/reject`, item, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
-        })
-        .then(() => {
-          this.getrequests();
-        });
-    },
+
     getUpload(val) {
       this.user.profile = val;
       this.updateuser();
@@ -576,6 +958,17 @@ export default {
               this.bank_id = bank.id;
             }
           }
+        });
+    },
+    getanalytics() {
+      this.$http
+        .get(`${this.$store.getters.url}/get/analytics`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          this.analytics = res.data;
         });
     },
     updateuser() {
