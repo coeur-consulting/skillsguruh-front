@@ -38,7 +38,7 @@
       "density": "4.0"
     }
   ],
-  "start_url": "/member/feeds",
+  "start_url": "/member",
   "scope": ".",
   "display": "standalone",
   "background_color": "#fff",

@@ -54,7 +54,7 @@
               title="Explore"
           /></b-nav-item>
 
-          <b-nav-item to="/member/feeds" class="mr-sm-4 position-relative">
+          <b-nav-item to="/member" class="mr-sm-4 position-relative">
             <b-icon icon="circle-fill" class="dot" font-scale=".8"></b-icon>
             <font-awesome-icon
               :icon="rss"
@@ -341,7 +341,7 @@
             <b-nav-item to="/explore" class="mr-4 position-relative">
               <font-awesome-icon :icon="globe" size="2x" class="icon" />
             </b-nav-item>
-            <b-nav-item to="/member/feeds" class="mr-4 position-relative">
+            <b-nav-item to="/member" class="mr-4 position-relative">
               <font-awesome-icon :icon="rss" size="2x" class="icon"
             /></b-nav-item>
             <b-nav-item to="/explore/community" class="mr-4 position-relative">

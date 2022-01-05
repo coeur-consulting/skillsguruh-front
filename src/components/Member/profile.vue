@@ -7,7 +7,7 @@
 
 
         >
-        <router-link to="/member"> <span class="cursor-pointer text-dark-green">Home</span> </router-link> <span class="mx-1"> <b-icon icon="chevron-right" scale=".7"></b-icon> </span> <span class="">Profile</span>
+        <router-link to="/member"> <span class="cursor-pointer text-dark-green">Feed</span> </router-link> <span class="mx-1"> <b-icon icon="chevron-right" scale=".7"></b-icon> </span> <span class="">Profile</span>
 
 
 

@@ -40,7 +40,7 @@
             <h5 class="mb-0">{{ $store.getters.member.org_name }}</h5>
           </div>
 
-          <router-link to="/member/feeds">
+          <router-link to="/member">
             <div class="side_item">
               <home-icon size="1.2x" class="custom-class"></home-icon>
               <span class="side-link px-2">Dashboard</span>
@@ -62,7 +62,7 @@
               class="px-3 py-1 animate__slideInDown animate__slideInUp"
               v-if="toggleCommunity"
             >
-              <router-link to="/member/feeds">
+              <router-link to="/member">
                 <div class="side_item py-1">
                   <rss-icon size="1.2x" class="custom-class"></rss-icon>
                   <span class="side-link px-2"

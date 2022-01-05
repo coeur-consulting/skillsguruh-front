@@ -847,7 +847,7 @@
                     </div> -->
                   </div>
                   <div class="text-center mt-2">
-                    <router-link to="/member/feeds" class="text-dark-green"
+                    <router-link to="/member" class="text-dark-green"
                       ><small
                         >View all feed
                         <b-icon

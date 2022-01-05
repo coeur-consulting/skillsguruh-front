@@ -1,7 +1,7 @@
 <template>
   <div class="py-3">
     <div class="text-center mb-3 px-3">
-      <router-link to="/member/feeds">
+      <router-link to="/member">
         <b-img class="logo" src="/img/logo.png"></b-img
       ></router-link>
     </div>

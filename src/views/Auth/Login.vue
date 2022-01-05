@@ -314,7 +314,7 @@ export default {
                     window.location.href = this.$route.query.redirect;
                     return;
                   }
-                  window.location.href = "/member/feeds";
+                  window.location.href = "/member";
                 }
               })
               .catch(() => {
