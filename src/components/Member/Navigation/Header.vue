@@ -30,12 +30,14 @@
       </b-navbar-brand>
 
       <div class="position-relative d-none d-md-flex align-items-center">
-        <b-icon icon="search" class="sbtn" font-scale=".9"></b-icon>
+        <!-- <b-icon icon="search" class="sbtn" font-scale=".9"></b-icon>
         <b-form-input
           class="rounded-pill pl-5 tsrch"
           size="sm"
           placeholder="Search Nzukoor"
-        ></b-form-input>
+        ></b-form-input> -->
+        <div id="google_translate_element"></div>
+
       </div>
     </b-col>
 

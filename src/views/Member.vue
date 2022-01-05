@@ -5,8 +5,8 @@
         <b-col class="px-0"> <TopBar /></b-col>
       </b-row>
       <b-row>
-        <b-col sm="3" class="p-0 d-none d-sm-block"> <SideBar /></b-col>
-        <b-col :sm="$route.meta.routeType !=='profile'?6:9" class="p-0">
+        <b-col sm="3" class="p-0 d-none d-sm-block" v-if="$route.meta.routeType !=='profile'"> <SideBar /></b-col>
+        <b-col :sm="$route.meta.routeType !=='profile'?6:12" class="p-0">
           <div class="content">
             <main id="page-wrap" class="pb-5">
               <router-view></router-view>

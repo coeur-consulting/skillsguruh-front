@@ -2,6 +2,16 @@
   <b-container fluid class="p-0 bg-white">
     <b-row class="m-0 h-100">
       <b-col sm="4" class="border-right text-left py-3 pl-3 pr-1">
+         <div
+          class="mb-4 px-2 fs11  d-flex align-items-center"
+
+
+        >
+        <router-link to="/member"> <span class="cursor-pointer text-dark-green">Home</span> </router-link> <span class="mx-1"> <b-icon icon="chevron-right" scale=".7"></b-icon> </span> <span class="">Profile</span>
+
+
+
+        </div>
         <div
           class="mb-3 px-2 fs12 cursor-pointer d-flex align-items-center"
           :class="{ 'font-weight-bold': type == 'edit' }"
