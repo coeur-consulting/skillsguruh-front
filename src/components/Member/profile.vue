@@ -124,7 +124,7 @@
       <b-col sm="8" class="sideB py-3">
         <div v-if="type == 'analytics'" class="py-4">
           <b-row>
-            <b-col cols="6" class="p-3">
+            <b-col md="6" class="p-3">
               <b-card no-body class="bg-light">
                 <b-card-body class="text-center">
                   <h6>Owned Tribes</h6>
@@ -135,7 +135,7 @@
                 </b-card-body>
               </b-card>
             </b-col>
-            <b-col cols="6" class="p-3">
+            <b-col md="6" class="p-3">
               <b-card no-body class="bg-light">
                 <b-card-body class="text-center">
                   <h6>Tribes You Belong Too</h6>
@@ -149,7 +149,7 @@
           </b-row>
 
           <b-row>
-            <b-col cols="6" class="p-3">
+            <b-col md="6" class="p-3">
               <b-card no-body class="bg-light">
                 <b-card-body class="text-center">
                   <h6>Your Discussions</h6>
@@ -161,7 +161,7 @@
                 </b-card-body>
               </b-card>
             </b-col>
-            <b-col cols="6" class="p-3">
+            <b-col md="6" class="p-3">
               <b-card no-body class="bg-light">
                 <b-card-body class="text-center">
                   <h6>Unique Tribe Members</h6>
@@ -310,7 +310,7 @@
             </b-col>
           </b-row>
           <b-row>
-            <b-col cols="6" class="p-3">
+            <b-col md="6" class="p-3">
               <b-card no-body class="bg-light">
                 <b-card-body class="text-left">
                   <h6>Age distribution</h6>
@@ -323,7 +323,7 @@
                 </b-card-body>
               </b-card>
             </b-col>
-            <b-col cols="6" class="p-3">
+            <b-col md="6" class="p-3">
               <b-card no-body class="bg-light">
                 <b-card-body class="text-left">
                   <h6>Gender distribution</h6>
