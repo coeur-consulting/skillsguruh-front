@@ -36,7 +36,7 @@
           size="sm"
           placeholder="Search Nzukoor"
         ></b-form-input> -->
-       <b-button class="fs12" size="sm" variant="lighter-green" @click="$bvModal.show('translate')">Translate</b-button>
+       <b-button class="fs10" size="sm" variant="lighter-green" @click="$bvModal.show('translate')">Translate</b-button>
 
       </div>
     </b-col>
