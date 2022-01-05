@@ -130,8 +130,8 @@
                 <b-card-body class="text-center">
                   <h6>Tribes You Belong Too</h6>
                   <span class="display-4">{{ analytics.belongedtribes }}</span>
-                  <div class="d-flex justify-content-between fs11">
-                    <span>Joined this week</span> <span>{{ analytics.belongedtribesthisweek }}</span>
+                  <div class="d-flex justify-content-center fs11">
+                    <span class="mr-3">Joined this week</span> <span>{{ analytics.belongedtribesthisweek }}</span>
                   </div>
                 </b-card-body>
               </b-card>
@@ -144,8 +144,8 @@
                 <b-card-body class="text-center">
                   <h6>Your Discussions</h6>
                   <span class="display-4">{{ analytics.discussions }}</span>
-                  <div class="d-flex justify-content-between fs11">
-                    <span>Started this week</span>
+                  <div class="d-flex justify-content-center fs11">
+                    <span class="mr-3">Started this week</span>
                     <span>{{ analytics.discussionsthisweek }}</span>
                   </div>
                 </b-card-body>
@@ -156,8 +156,8 @@
                 <b-card-body class="text-center">
                   <h6>Unique Tribe Members</h6>
                   <span class="display-4">{{ analytics.uniquemembers }}</span>
-                  <div class="d-flex justify-content-between fs11">
-                    <span>Members this week</span> <span>0</span>
+                  <div class="d-flex justify-content-center fs11">
+                    <span class="mr-3">Members this week</span> <span>0</span>
                   </div>
                 </b-card-body>
               </b-card>
@@ -169,8 +169,8 @@
                 <b-card-body class="text-center">
                   <h6>Total Connections</h6>
                   <span class="display-4">{{ analytics.connections }}</span>
-                  <div class="d-flex justify-content-between fs11">
-                    <span>Post this week</span>
+                  <div class="d-flex justify-content-center fs11">
+                    <span class="mr-3">Connections this week</span>
                     <span>{{ analytics.connectionsthisweek }}</span>
                   </div>
                 </b-card-body>
@@ -181,8 +181,8 @@
                 <b-card-body class="text-center">
                   <h6>Total Posts</h6>
                   <span class="display-4">{{ analytics.posts }}</span>
-                  <div class="d-flex justify-content-between fs11">
-                    <span>Post this week</span>
+                  <div class="d-flex justify-content-center fs11">
+                    <span class="mr-3">Post this week</span>
                     <span>{{ analytics.poststhisweek }}</span>
                   </div>
                 </b-card-body>
@@ -248,7 +248,49 @@
                     <div class="d-flex justify-content-between fs14">
                       <span class="mr-2"> Posts</span>
                       <span
-                        >{{ analytics.postthisweek }}
+                        >{{ analytics.poststhisweek }}
+                        <b-icon icon="pencil-fill"></b-icon
+                      ></span>
+                    </div>
+                  </div>
+                </b-card-body>
+                <hr>
+                <b-card-body class="text-left">
+                  <h6>Interactions This Month</h6>
+
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between fs14">
+                      <span class="mr-2"> Likes</span>
+                      <span
+                        >{{ analytics.likesthismonth }}
+                        <b-icon icon="heart-fill"></b-icon
+                      ></span>
+                    </div>
+                    <div class="d-flex justify-content-between fs14">
+                      <span class="mr-2"> Comments</span>
+                      <span
+                        >{{ analytics.commentsthismonth }}
+                        <b-icon icon="chat-dot-fill"></b-icon
+                      ></span>
+                    </div>
+                    <div class="d-flex justify-content-between fs14">
+                      <span class="mr-2"> Replies</span>
+                      <span
+                        >{{ analytics.repliesthismonth }}
+                        <b-icon icon="reply-fill"></b-icon
+                      ></span>
+                    </div>
+                    <div class="d-flex justify-content-between fs14">
+                      <span class="mr-2"> Votes</span>
+                      <span
+                        >{{ analytics.votesthismonth }}
+                        <b-icon icon="caret-down-fill"></b-icon
+                      ></span>
+                    </div>
+                    <div class="d-flex justify-content-between fs14">
+                      <span class="mr-2"> Posts</span>
+                      <span
+                        >{{ analytics.poststhismonth }}
                         <b-icon icon="pencil-fill"></b-icon
                       ></span>
                     </div>
