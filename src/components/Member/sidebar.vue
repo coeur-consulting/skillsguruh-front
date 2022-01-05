@@ -410,7 +410,9 @@ export default {
                 this.$router.push(`/member/tribes`);
                 this.$toast.success("You have left the tribe");
               }
-            });
+            }).catch(err=>{
+          this.$toast.error(err.response.data)
+        });
           }
         });
     },
