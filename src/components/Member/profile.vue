@@ -129,8 +129,8 @@
                 <b-card-body class="text-center">
                   <h6>Owned Tribes</h6>
                   <span class="display-4">{{ analytics.ownedtribes }}</span>
-                  <div class="d-flex justify-content-between fs11">
-                    <span>Started this week</span> <span>{{ analytics.ownedtribesthisweek }}</span>
+                  <div class="d-flex justify-content-center fs11">
+                    <span class="mr-3">Started this week</span> <span>{{ analytics.ownedtribesthisweek }}</span>
                   </div>
                 </b-card-body>
               </b-card>
@@ -174,7 +174,7 @@
             </b-col>
           </b-row>
           <b-row>
-            <b-col cols="4" class="p-3">
+            <b-col md="4" class="p-3">
               <b-card no-body class="bg-light">
                 <b-card-body class="text-center">
                   <h6>Total Connections</h6>
@@ -186,7 +186,7 @@
                 </b-card-body>
               </b-card>
             </b-col>
-            <b-col cols="4" class="p-3">
+            <b-col md="4" class="p-3">
               <b-card no-body class="bg-light">
                 <b-card-body class="text-center">
                   <h6>Total Posts</h6>
@@ -198,22 +198,22 @@
                 </b-card-body>
               </b-card>
             </b-col>
-            <b-col cols="4" class="p-3">
+            <b-col md="4" class="p-3">
               <b-card no-body class="bg-light">
                 <b-card-body class="text-center">
                   <h6>Total Interactions</h6>
-                  <div class="d-flex justify-content-between fs14">
+                  <div class="d-flex justify-content-between fs13">
                     <span>Total Likes</span> <span>{{ analytics.likes }}</span>
                   </div>
-                  <div class="d-flex justify-content-between fs14">
+                  <div class="d-flex justify-content-between fs13">
                     <span>Total Comments</span>
                     <span>{{ analytics.comments }}</span>
                   </div>
-                  <div class="d-flex justify-content-between fs14">
+                  <div class="d-flex justify-content-between fs13">
                     <span>Total Replies</span>
                     <span>{{ analytics.replies }}</span>
                   </div>
-                  <div class="d-flex justify-content-between fs14">
+                  <div class="d-flex justify-content-between fs13">
                     <span>Total Votes</span> <span>{{ analytics.votes }}</span>
                   </div>
                 </b-card-body>
@@ -226,85 +226,87 @@
                 <b-card-body class="text-left">
                   <h6>Interactions This Week</h6>
 
-                  <div class="d-flex justify-content-between">
-                    <div class="d-flex justify-content-between fs14">
+                  <b-row class=" justify-content-between">
+                    <b-col cols="6" sm="2" class=" fs13">
                       <span class="mr-2"> Likes</span>
                       <span
                         >{{ analytics.likesthisweek }}
                         <b-icon icon="heart-fill"></b-icon
                       ></span>
-                    </div>
-                    <div class="d-flex justify-content-between fs14">
-                      <span class="mr-2"> Comments</span>
-                      <span
-                        >{{ analytics.commentsthisweek }}
-                        <b-icon icon="chat-dot-fill"></b-icon
-                      ></span>
-                    </div>
-                    <div class="d-flex justify-content-between fs14">
+                    </b-col>
+
+                    <b-col cols="6" sm="2" class=" fs13">
                       <span class="mr-2"> Replies</span>
                       <span
                         >{{ analytics.repliesthisweek }}
                         <b-icon icon="reply-fill"></b-icon
                       ></span>
-                    </div>
-                    <div class="d-flex justify-content-between fs14">
+                    </b-col>
+                    <b-col cols="6" sm="2" class=" fs13">
                       <span class="mr-2"> Votes</span>
                       <span
                         >{{ analytics.votesthisweek }}
                         <b-icon icon="caret-down-fill"></b-icon
                       ></span>
-                    </div>
-                    <div class="d-flex justify-content-between fs14">
+                    </b-col>
+                    <b-col cols="6" sm="2" class=" fs13">
                       <span class="mr-2"> Posts</span>
                       <span
                         >{{ analytics.poststhisweek }}
                         <b-icon icon="pencil-fill"></b-icon
                       ></span>
-                    </div>
-                  </div>
+                    </b-col>
+                     <b-col cols="6" sm="2" class=" fs13">
+                      <span class="mr-2"> Comments</span>
+                      <span
+                        >{{ analytics.commentsthisweek }}
+                        <b-icon icon="chat-fill"></b-icon
+                      ></span>
+                    </b-col>
+                  </b-row>
                 </b-card-body>
                 <hr>
                 <b-card-body class="text-left">
                   <h6>Interactions This Month</h6>
 
-                  <div class="d-flex justify-content-between">
-                    <div class="d-flex justify-content-between fs14">
+                  <b-row class="justify-content-between">
+                    <b-col cols="6" sm="2" class=" fs13">
                       <span class="mr-2"> Likes</span>
                       <span
                         >{{ analytics.likesthismonth }}
                         <b-icon icon="heart-fill"></b-icon
                       ></span>
-                    </div>
-                    <div class="d-flex justify-content-between fs14">
-                      <span class="mr-2"> Comments</span>
-                      <span
-                        >{{ analytics.commentsthismonth }}
-                        <b-icon icon="chat-dot-fill"></b-icon
-                      ></span>
-                    </div>
-                    <div class="d-flex justify-content-between fs14">
+                    </b-col>
+
+                    <b-col cols="6" sm="2" class=" fs13">
                       <span class="mr-2"> Replies</span>
                       <span
                         >{{ analytics.repliesthismonth }}
                         <b-icon icon="reply-fill"></b-icon
                       ></span>
-                    </div>
-                    <div class="d-flex justify-content-between fs14">
+                    </b-col>
+                    <b-col cols="6" sm="2" class=" fs13">
                       <span class="mr-2"> Votes</span>
                       <span
                         >{{ analytics.votesthismonth }}
                         <b-icon icon="caret-down-fill"></b-icon
                       ></span>
-                    </div>
-                    <div class="d-flex justify-content-between fs14">
+                    </b-col>
+                    <b-col cols="6" sm="2" class=" fs13">
                       <span class="mr-2"> Posts</span>
                       <span
                         >{{ analytics.poststhismonth }}
                         <b-icon icon="pencil-fill"></b-icon
                       ></span>
-                    </div>
-                  </div>
+                    </b-col>
+                       <b-col cols="6" sm="2" class=" fs13">
+                      <span class="mr-2">Comments</span>
+                      <span
+                        >{{ analytics.commentsthismonth }}
+                        <b-icon icon="chat-fill"></b-icon
+                      ></span>
+                    </b-col>
+                  </b-row>
                 </b-card-body>
               </b-card>
             </b-col>
@@ -513,7 +515,7 @@
             <h6 class="font-weight-bold mb-4">Notifications</h6>
 
             <div
-              class="d-flex mb-3 border bg-light p-3 rounded fs14"
+              class="d-flex mb-3 border bg-light p-3 rounded fs13"
               v-for="item in notifications"
               :key="item.id"
             >
@@ -583,7 +585,7 @@
                   class="mr-2 mt-1"
                 ></b-icon>
                 <div class="d-flex justify-content-between">
-                  <p class="mb-0 fs14 mr-3 flex-1">
+                  <p class="mb-0 fs13 mr-3 flex-1">
                     <span class="text-capitalize font-weight-bold">{{
                       item.user.name
                     }}</span>

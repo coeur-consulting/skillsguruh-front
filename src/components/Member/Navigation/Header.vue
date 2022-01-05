@@ -36,7 +36,7 @@
           size="sm"
           placeholder="Search Nzukoor"
         ></b-form-input> -->
-        <div id="google_translate_element"></div>
+       <b-button class="fs12" size="sm" variant="lighter-green" @click="$bvModal.show('translate')">Translate</b-button>
 
       </div>
     </b-col>
@@ -646,9 +646,13 @@
         </div>
       </div>
     </b-modal>
+    <b-modal id="translate" hide-footer centered title="Choose a language">
+        <Translator  @on-country-click="$bvModal.hide('translate')"/>
+    </b-modal>
   </b-navbar>
 </template>
 <script>
+import { Translator } from 'vue-google-translate';
 import {
   faCircle,
   faBell,
@@ -665,6 +669,7 @@ import {
 import { LogOutIcon } from "vue-feather-icons";
 import { bus } from "@/main.js";
 export default {
+
   data() {
     return {
       authMember: false,
@@ -700,6 +705,7 @@ export default {
   },
   components: {
     LogOutIcon,
+    Translator
   },
   watch: {
     $route: "getnotification",
