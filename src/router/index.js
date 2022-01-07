@@ -328,7 +328,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Feeds | Nzukoor",
+      title: "Feed | Nzukoor",
     },
   },
   {
@@ -1137,7 +1137,7 @@ const routes = [
         },
         meta: {
           typeMember: true,
-          title: "Discussion | Member",
+          title: "Discussion | Nzukoor",
           routetype: "discussion",
         },
       },
@@ -1152,7 +1152,7 @@ const routes = [
         },
         meta: {
           typeMember: true,
-          title: "Feeds | Member",
+          title: "Feed | Nzukoor",
           routetype: "feeds",
         },
       },
@@ -1327,7 +1327,7 @@ const routes = [
             ),
         },
         meta: {
-          routeType:'profile',
+          routeType: "profile",
           typeMember: true,
           title: "Profile | Member",
         },

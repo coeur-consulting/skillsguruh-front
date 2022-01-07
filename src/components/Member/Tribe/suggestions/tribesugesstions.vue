@@ -5,7 +5,7 @@
       <li class="d-flex mb-3" v-for="(n, id) in tribes" :key="n.id">
         <b-avatar class="mr-2" :src="n.cover"></b-avatar>
         <div class="text-left" :id="`suggestedpopover-${id}`">
-          <div class="tribe_name">{{ n.name }} Tribe</div>
+          <div class="tribe_name text-left">{{ n.name }} Tribe</div>
           <div class="tribe_members">
             <span class="d-flex align-items-center"
               >{{ n.users }}
