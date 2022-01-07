@@ -138,7 +138,7 @@
             <b-col md="6" class="p-3">
               <b-card no-body class="bg-light">
                 <b-card-body class="text-center">
-                  <h6>Tribes You Belong Too</h6>
+                  <h6>Tribes You Belong To</h6>
                   <span class="display-4">{{ analytics.belongedtribes }}</span>
                   <div class="d-flex justify-content-center fs11">
                     <span class="mr-3">Joined this week</span> <span>{{ analytics.belongedtribesthisweek }}</span>

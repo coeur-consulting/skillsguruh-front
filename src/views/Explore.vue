@@ -81,35 +81,7 @@
                     <font-awesome-icon :icon="myusers" size="1x" class="icon" />
                     {{ n.users }}
                   </p>
-                  <b-button
-                    v-if="n.type == 'free'"
-                    block
-                    variant="dark-green"
-                    size="sm"
-                    @click="entertribe(n.id)"
-                  >
-                    {{ n.isMember ? "Engage" : "Join" }}</b-button
-                  >
-                  <div v-else>
-                    <b-button
-                      v-if="n.isMember"
-                      block
-                      variant="dark-green"
-                      size="sm"
-                      @click="entertribe(n.id)"
-                    >
-                      <font-awesome-icon :icon="signIn"
-                    /></b-button>
-                    <b-button
-                      v-else
-                      block
-                      variant="dark-green"
-                      size="sm"
-                      @click="purchase(n.id)"
-                    >
-                      <font-awesome-icon :icon="signIn"
-                    /></b-button>
-                  </div>
+
                 </b-popover>
                 <div class="tribe_box rounded" :id="`popover-${id}`">
                   <div
@@ -455,10 +427,12 @@
           </div>
         </b-container>
         <div class="text-center mt-0 mt-md-5 pt-md-5">
-          <small
-            @click="$router.push('/member/explore/discussions')"
+
+           <small
+
+            @click="$router.push('/member/tribes')"
             class="cursor-pointer text-dark-green"
-            >View all discussions
+            >Load more
             <b-icon font-scale=".85" icon="chevron-right"></b-icon
           ></small>
         </div>
@@ -471,8 +445,8 @@
             </h2>
           </div>
 
-          <b-row>
-            <b-col sm="7" class="mb-4 mb-sm-0">
+          <b-row class="justify-content-center">
+            <b-col sm="9" class="mb-4 mb-sm-0">
               <div v-if="showFeeds">
                 <div v-if="filteredFeeds.length">
                   <div
@@ -826,7 +800,7 @@
                 </div>
               </div>
             </b-col>
-            <b-col sm="4" class="px-3">
+            <!-- <b-col sm="4" class="px-3">
               <div class="text-left">
                 <h6 class="mb-4 fs12 text-dark-green">
                   Trending in Last 24hrs
@@ -850,7 +824,7 @@
                 </div>
                 <div v-else class="text-center text-muted">Unavailable</div>
               </div>
-            </b-col>
+            </b-col> -->
           </b-row>
         </b-container>
       </section>
