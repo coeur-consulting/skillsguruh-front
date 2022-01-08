@@ -105,7 +105,7 @@
                       font-scale="1.2"
                       class="cursor-pointer"
                     ></b-icon>
-                    <span>{{ discussion.discussionvote }}</span>
+                    <span>{{ discussion.discussionvote?discussion.discussionvote:0 }}</span>
 
                     <b-icon
                       @click="dropvote"
@@ -406,8 +406,9 @@
                             justify-content-between
                           "
                         >
-                          <span>
+                          <span >
                             <small class="mr-2"
+                            v-show="item.commentCount"
                               >{{ item.commentCount }}
                               {{
                                 item.commentCount > 1 ? "Comments" : "Comment"
@@ -927,7 +928,7 @@
         </b-input-group>
       </div>
     </b-modal>
-    <b-modal id="addcomment" centered hide-footer>
+    <b-modal id="adddiscussioncomment" centered hide-footer>
       <div v-html="comment_message"></div>
       <b-form @submit.prevent="replyPost" class="">
         <b-form-group>
@@ -1439,7 +1440,7 @@ export default {
       this.index = index;
       this.reply.message_id = val.id;
       this.comment_message = val.message;
-      this.$bvModal.show("addcomment");
+      this.$bvModal.show("adddiscussioncomment");
     },
     viewmessagecomment(val) {
       this.comments = val;
@@ -1480,7 +1481,7 @@ export default {
         .then((res) => {
           if (res.status == 201) {
             this.isDisabled = false;
-            this.$bvModal.hide("addcomment");
+            this.$bvModal.hide("adddiscussioncomment");
             this.filteredDiscussion[this.index].discussionmessagecomment.push(
               res.data
             );
