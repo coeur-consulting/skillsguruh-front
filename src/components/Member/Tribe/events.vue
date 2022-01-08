@@ -11,9 +11,10 @@
                 border-bottom
                 d-flex
                 justify-content-between
+                w-100
               "
             >
-              <div class="search">
+              <div class="search w-100">
                 <b-input-group class="topbar_search bg-white">
                   <b-input-group-prepend is-text>
                     <b-iconstack font-scale="1.4" class="">

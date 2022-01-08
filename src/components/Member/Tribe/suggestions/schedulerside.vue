@@ -185,11 +185,11 @@ export default {
   },
   watch: {},
   created() {
-    this.getcourses().then(() => {
+
       this.getfacilitators().then(() => {
         this.getevents();
       });
-    });
+  
   },
   mounted() {
     this.$root.$on("bv::modal::hide", () => {
