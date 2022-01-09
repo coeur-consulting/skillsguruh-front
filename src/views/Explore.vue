@@ -1365,15 +1365,14 @@ export default {
       this.auth = true;
     }
     this.gettrendingfeeds();
-    this.mostenrolled();
-    this.getcourses();
+
     this.gettribes();
     this.getmembers();
     this.getevents();
-    this.getfacilitators();
+
     this.getdiscussions();
     this.getcontributors();
-    // this.getTrendingFeeds();
+
     this.interests = Interests;
     this.SubInterests = SubInterests;
   },
@@ -1715,15 +1714,7 @@ export default {
         (item) => item.id == this.$route.query.course_id
       );
     },
-    mostenrolled() {
-      this.$http
-        .get(`${this.$store.getters.url}/guest/mostenrolled`)
-        .then((res) => {
-          if (res.status == 200) {
-            this.mostenrolledcourse = res.data;
-          }
-        });
-    },
+
     getcontributors() {
       this.$http.get(`${this.$store.getters.url}/contributors`).then((res) => {
         if (res.status == 200) {
@@ -1760,19 +1751,7 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
-    getcourses() {
-      this.$http
-        .get(`${this.$store.getters.url}/guest/courses`)
-        .then((res) => {
-          if (res.status == 200) {
-            this.courses = res.data;
-            this.showCourse = true;
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
-    },
+
     gettribes() {
       this.$http
         .get(`${this.$store.getters.url}/guest/tribes`)

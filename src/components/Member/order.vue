@@ -52,7 +52,7 @@ export default {
       this.order_type = "tribe";
       this.gettribe();
     } else {
-      this.getcourse();
+      // this.getcourse();
     }
   },
   methods: {

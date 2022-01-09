@@ -415,7 +415,7 @@ export default {
       obj.icon = item.icon;
       return obj;
     });
-    this.getcourses();
+    // this.getcourses();
     this.getothers();
   },
   computed: {

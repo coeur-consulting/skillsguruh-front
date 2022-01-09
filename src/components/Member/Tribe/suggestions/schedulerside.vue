@@ -189,7 +189,7 @@ export default {
       this.getfacilitators().then(() => {
         this.getevents();
       });
-  
+
   },
   mounted() {
     this.$root.$on("bv::modal::hide", () => {
@@ -366,22 +366,22 @@ export default {
         });
     },
 
-    async getcourses() {
-      return this.$http
-        .get(`${this.$store.getters.url}/courses`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 200) {
-            this.courses = res.data;
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
-    },
+    // async getcourses() {
+    //   return this.$http
+    //     .get(`${this.$store.getters.url}/courses`, {
+    //       headers: {
+    //         Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+    //       },
+    //     })
+    //     .then((res) => {
+    //       if (res.status == 200) {
+    //         this.courses = res.data;
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       this.$toast.error(err.response.data.message);
+    //     });
+    // },
 
     async getevents() {
       return this.$http

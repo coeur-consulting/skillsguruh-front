@@ -468,7 +468,7 @@ export default {
     this.getfacilitators();
     this.getusers();
     this.getevents();
-    this.getcourses();
+    // this.getcourses();
     this.getschedules();
     this.getLibrary();
   },

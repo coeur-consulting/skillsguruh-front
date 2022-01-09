@@ -1573,8 +1573,7 @@ export default {
       this.auth = true;
     }
     this.gettrendingfeeds();
-    this.mostenrolled();
-    this.getcourses();
+ 
     this.gettribes();
     this.getmembers();
     this.getevents();
