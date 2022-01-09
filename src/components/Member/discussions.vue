@@ -15,7 +15,7 @@
             "
           >
             <h6 class="flex-1 font-weight-bold mb-3 mb-sm-0"></h6>
-            <div class="d-flex search px-2 px-sm-0">
+            <div class="d-flex search px-2 px-sm-0 w-100">
               <span
                 @click="$router.go(-1)"
                 class="cursor-pointer back fs13 px-2 pt-2 d-sm-none"
@@ -43,36 +43,7 @@
             </div>
           </div>
           <div class="border bg-white py-4 rounded">
-            <div
-              class="
-                top_header
-                border-bottom
-                d-flex
-                justify-content-around
-                position-relative
-                discussion_title
-              "
-            >
-              <div
-                :class="{ active: show == 'recent' }"
-                @click="show = 'recent'"
-              >
-                Recent
-              </div>
 
-              <div
-                :class="{ active: show == 'trending' }"
-                @click="show = 'trending'"
-              >
-                Trending
-              </div>
-              <!-- <div
-                :class="{ active: show == 'private' }"
-                @click="show = 'private'"
-              >
-                Custom
-              </div> -->
-            </div>
             <div v-if="showDiscussion">
               <div class="main_content" v-if="filteredData.length">
                 <div
@@ -534,7 +505,7 @@ export default {
       currentPageT: 1,
       perPageT: 0,
       rowsT: 0,
-      show: "recent",
+      show: "trending",
       discussions: [],
       trenddiscussions: [],
       interestdiscussions: [],
