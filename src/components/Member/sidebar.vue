@@ -45,7 +45,7 @@
         </div>
         <div class="d-flex justify-content-start align-items-center tribe_name">
           <b-avatar size="sm" :src="tribe.cover" class="mr-2"></b-avatar>
-          <span class="">{{ tribe.name }} Tribe</span>
+          <span class="text-left">{{ tribe.name }} </span>
         </div>
         <nav class="mb-3 class text-left">
           <b-nav vertical>

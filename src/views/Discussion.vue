@@ -1118,6 +1118,7 @@ export default {
       aud_ext: ["mp3"],
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       discussion: {},
+
       link: "",
       info: {
         attachment: "",
@@ -1620,6 +1621,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.discussion = res.data;
+           
             this.rows = res.data.discussionmessage.length;
             window.document.title = `${res.data.name} | Nzukoor`;
             this.showdiscussion = true;
