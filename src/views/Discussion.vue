@@ -1175,7 +1175,7 @@ export default {
   mounted() {
     this.getdiscussion();
     this.addview();
-    this.getvote();
+    // this.getvote();
     this.getconnections();
     if (localStorage.getItem("authMember")) {
       this.auth = true;
@@ -1272,19 +1272,10 @@ export default {
     },
     views() {
       return this.discussion.discussionview
-        ? this.discussion.discussionview.view
-        : null;
     },
     vote() {
-      var positive = this.discussion.discussionvote.filter(
-        (item) => item.vote
-      ).length;
-      var negative = this.discussion.discussionvote.filter(
-        (item) => !item.vote
-      ).length;
-      return Number(positive) - Number(negative);
+     return  this.discussion.discussionvote
     },
-
     filteredConnections() {
       return this.connections.filter((item) => {
         if (item.user_follower) {
@@ -1444,38 +1435,7 @@ export default {
         this.$toast.info("Login to complete action");
         return;
       }
-      if (!this.reply.message) {
-        this.$toast.info("Type a message!");
-        return;
-      }
-      this.reply.discussion_id = this.$route.params.id;
-      this.$http
-        .post(
-          `${this.$store.getters.url}/discussion/message/replies`,
-          this.reply,
-          {
-            headers: {
-              Authorization: `Bearer ${this.useraccess.access_token}`,
-            },
-          }
-        )
-        .then((res) => {
-          if (res.status == 201) {
-            this.$bvModal.hide("addcomment");
-            this.filteredDiscussion[this.index].discussionmessagecomment.push(
-              res.data
-            );
-
-            this.reply = {
-              message_id: null,
-              message: "",
-              discussion_id: null,
-            };
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
+      this.$toast.info("Join tribe to reply!");
     },
     toText(HTML) {
       if (!HTML) return;
@@ -1621,7 +1581,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.discussion = res.data;
-           
+
             this.rows = res.data.discussionmessage.length;
             window.document.title = `${res.data.name} | Nzukoor`;
             this.showdiscussion = true;
