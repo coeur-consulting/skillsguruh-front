@@ -259,7 +259,7 @@
                     <div class="interactions text-left py-1">
                       <span
                         class="mr-2 cursor-pointer"
-                        @click="toggleLike(feed.id, index)"
+                        @click="toggleLike(feed.id)"
                       >
                         <b-icon
                           font-scale="1.1"
@@ -707,7 +707,7 @@ export default {
           }
         });
     },
-    likecommentreply(id, index) {
+    likecommentreply(id) {
       if (this.$store.getters.member.id != this.feed.user.id) {
         return;
       }
