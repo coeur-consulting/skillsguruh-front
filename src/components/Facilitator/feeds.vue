@@ -1284,7 +1284,7 @@ export default {
     },
     sharenow(feed) {
       this.description = this.toText(feed.message);
-      this.link = `https://nzukoor.com/explore/feed/view/${feed.id}?utf_medium=share`;
+      this.link = `https://nzukoor.com/member/feed/view/${feed.id}?utf_medium=share`;
       this.$bvModal.show("share");
     },
     gettrendingfeeds() {

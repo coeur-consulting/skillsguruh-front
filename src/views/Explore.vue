@@ -496,7 +496,7 @@
                         </template>
                         <b-dropdown-item
                           class="fs12"
-                          @click="$router.push(`/explore/feed/view/${feed.id}`)"
+                          @click="$router.push(`/member/feed/view/${feed.id}`)"
                           >View</b-dropdown-item
                         >
 
@@ -1706,7 +1706,7 @@ export default {
     },
     sharenow(feed) {
       this.description = this.toText(feed.message);
-      this.link = `https://nzukoor.com/explore/feed/view/${feed.id}?utf_medium=share`;
+      this.link = `https://nzukoor.com/member/feed/view/${feed.id}?utf_medium=share`;
       this.$bvModal.show("share");
     },
     loadCourse() {
