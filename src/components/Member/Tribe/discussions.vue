@@ -14,10 +14,9 @@
               text-left
             "
           >
-
             <div class="d-flex search px-2 px-sm-0 w-100">
               <span
-                @click="$router.go(-1)"
+                @click="$router.push('/member/tribes')"
                 class="cursor-pointer back fs13 px-2 pt-2 d-sm-none"
               >
                 <span class="">
@@ -203,7 +202,7 @@
                     <div>
                       <span
                         @click="
-                          $router.push(`/member/tribe/discussion/${item.id}`)
+                          $router.push(`/member/tribe/${$route.params.tribe}/discussion/${item.id}`)
                         "
                         class="
                           text-dark-green
@@ -465,17 +464,31 @@ export default {
     MultiSelect,
     Report,
   },
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      var details = {
+        tribe_id: vm.$route.params.tribe,
+        user: vm.$store.getters.member,
+      };
+
+      vm.$store.dispatch("checkTribe", details).then((res) => {
+        if (res.data.message == "found") {
+          vm.getdiscussions();
+          vm.getdiscussionsbytrend();
+          vm.getothers();
+        } else {
+          vm.$toast.error('No access')
+          vm.$router.push("/member/tribes");
+        }
+      });
+    });
+  },
 
   mounted() {
-    this.getdiscussions();
-    this.getdiscussionsbytrend();
     this.mytags = Interest.map((item) => {
       item.text = item.value;
-
       return item;
     });
-
-    this.getothers();
   },
   computed: {
     filteredData() {
@@ -582,7 +595,7 @@ export default {
     },
     joindiscussion(item) {
       if (item.user && item.user.id == this.$store.getters.member.id) {
-        this.$router.push(`/member/tribe/discussion/${item.id}`);
+        this.$router.push(`/member/tribe/${item.tribe_id}/discussion/${item.id}`);
       } else {
         this.$http
           .get(`${this.$store.getters.url}/discussion/private/${item.id}`, {
@@ -597,7 +610,7 @@ export default {
                 .includes(this.$store.getters.member.id);
 
               if (result) {
-                this.$router.push(`/member/tribe/discussion/${item.id}`);
+                this.$router.push(`/member/tribe/${item.tribe_id}/discussion/${item.id}`);
               } else {
                 this.discussion_id = item.id;
                 this.$bvModal.show("access");

@@ -11,15 +11,18 @@
             <div class="bg-white py-4 rounded">
               <div class="main_content text-left">
                 <div class="d-flex justify-content-between">
-                  <span
-                    @click="$router.go(-1)"
-                    class="pl-3 cursor-pointer back"
+                  <span class="crumbs">
+                    <span
+                      @click="$router.go(-1)"
+                      class="pl-3 cursor-pointer back text-dark-green"
+                    >
+                      <span class="mr-2">
+                        <b-icon icon="arrow-left" class=""></b-icon
+                      ></span>
+                      <span>Back</span>
+                    </span>
+                    / <span>{{ discussion.tribe.name }}</span></span
                   >
-                    <span class="mr-2">
-                      <b-icon icon="arrow-left" class=""></b-icon
-                    ></span>
-                    <span>Back</span>
-                  </span>
 
                   <b-dropdown
                     v-if="auth"
@@ -845,13 +848,12 @@
                 variant="dark-green"
                 class="fs12 py-1 px-2"
                 @click="sendinvite(discussion.name)"
+                :disabled="isDisabled"
               >
                 Send Invite
               </b-button>
             </div>
           </div>
-
-         
         </div>
       </b-modal>
       <b-modal id="media" centered hide-footer>
@@ -1081,6 +1083,32 @@
         <EditDiscussion :information="discussion" @refresh="refresh" />
       </b-modal>
     </div>
+
+    <div class="tribe_join animated animate_fadeIn" v-show="toggleJoin">
+
+      <div class="position-absolute p-3 p-md-5 shadow rounded bg-white">
+         <span class="cancel">
+        <b-icon icon="x" class="text-white" @click="toggleJoin=!toggleJoin"></b-icon>
+      </span>
+        <span class="mb-4 text-center font-weight-bold text-warning">
+          OOPS! You need to join this tribe to post a reply</span
+        >
+        <br />
+        <h5 class="mb-3 text-left">Tribe information</h5>
+        <div class="d-flex text-left">
+          <b-avatar class="mr-3" :src="discussion.cover" size="5rem"></b-avatar>
+          <span>
+            <span class="font-weight-bold">{{ discussion.name }}</span> <br />
+            <span>{{ discussion.description }}</span>
+          </span>
+        </div>
+        <div class="mt-4 text-right">
+          <b-button @click="jointribe"
+            >Join Tribe <b-icon icon="arrow-right"></b-icon
+          ></b-button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1095,6 +1123,8 @@ import EditDiscussion from "@/components/editdiscussion";
 export default {
   data() {
     return {
+      isDisabled:false,
+      toggleJoin: false,
       description: "",
       members: [],
       auth: false,
@@ -1278,6 +1308,42 @@ export default {
     },
   },
   methods: {
+    jointribe() {
+      if (!this.auth) {
+        this.$router.push(
+          `/login?tribe_id=${this.discussion.tribe.id}&discussion_id=${this.discussion.id}&type=join_tribe`
+        );
+      } else {
+        this.entertribe(this.discussion.tribe.id);
+      }
+    },
+    entertribe(id) {
+      var details = {
+        tribe_id: id,
+        user: this.$store.getters.member,
+      };
+
+
+      this.$store.dispatch("checkTribe", details).then((res) => {
+        if (res.status == 200 && res.data.message == "found") {
+          window.location.href = `/member/tribe/${this.dicussion.tribe_id}/discussion/${this.discussion.id}`;
+        } else {
+          this.$bvModal
+            .msgBoxConfirm("Do you wish to join this tribe?")
+            .then((val) => {
+              if (val) {
+                this.$store.dispatch("joinTribe", details).then((res) => {
+                  if (res.status == 200 && res.data.message == "successful") {
+                    this.$toast.success("Joined successfully");
+                    window.location.href = `/member/tribe//${this.dicussion.tribe_id}/discussion/${this.discussion.id}`;
+                  }
+                });
+              }
+            });
+        }
+      });
+
+   },
     drop(id) {
       this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
@@ -1418,10 +1484,9 @@ export default {
     },
     replyPost() {
       if (!this.auth) {
-        this.$toast.info("Login to complete action");
+        this.toggleJoin = true;
         return;
       }
-      this.$toast.info("Join tribe to reply!");
     },
     toText(HTML) {
       if (!HTML) return;
@@ -1491,6 +1556,7 @@ export default {
         });
     },
     sendinvite() {
+      this.isDisabled = true
       var emails = this.emails.map((item) => {
         return {
           email: item,
@@ -1511,6 +1577,7 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
+            this.isDisabled = false
             this.$toast.success("Invite Sent");
             this.$bvModal.hide("share");
             this.inviteUsers = {
@@ -1522,6 +1589,8 @@ export default {
               ],
             };
           }
+        }).catch(()=>{
+          this.isDisabled = false
         });
     },
     addinvite() {
@@ -1587,11 +1656,7 @@ export default {
         });
     },
     post() {
-      if (!this.auth) {
-        this.$toast.info("Login to complete action");
-        return;
-      }
-      this.$toast.info("Join tribe to reply!");
+      this.toggleJoin = true
     },
     addview() {
       if (!this.auth) {
@@ -1725,6 +1790,31 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.cancel{
+  position:absolute;
+  top:-25px;
+  right:-25px;
+  padding:10px 14px;
+  border-radius:50rem;
+  background:black;
+}
+.tribe_join {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.tribe_join div:first-child {
+  bottom: 40%;
+  width: 70%;
+  transform: translateX(50%);
+  right: 50%;
+}
 .image {
   width: 80%;
   height: auto;
@@ -1892,5 +1982,8 @@ export default {
     line-height: 1.5;
     border-radius: 0.2rem;
   }
+}
+.crumbs {
+  font-size: 0.8rem;
 }
 </style>

@@ -48,7 +48,7 @@
         <b-col
           cols="6"
           sm="4"
-          v-for="(n, id) in filterTribes"
+          v-for="(n, id) in sortedTribes"
           :key="id"
           class="mb-4"
           @click="entertribe(n.id)"
@@ -156,9 +156,12 @@ import Category from "@/components/helpers/category.js";
 import CreateTribe from "./createtribe.vue";
 import EditTribe from "./edittribe.vue";
 import { faUsers, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import { bus } from "@/main.js";
 export default {
   data() {
     return {
+      interest: "",
+      sortValue: "all",
       index: null,
       signIn: faSignInAlt,
       users: faUsers,
@@ -201,8 +204,47 @@ export default {
         item.name.toLowerCase().includes(this.search.toLowerCase())
       );
     },
+     sortedTribes() {
+
+      if (this.sortValue == "members") {
+        return this.filterTribes.slice().sort(function (a, b) {
+          return b.users - a.users;
+        });
+      }
+      if (this.sortValue == "alpha") {
+        return this.filterTribes.slice().sort(function (a, b) {
+          let fa = a.name.toLowerCase();
+          let fb = b.name.toLowerCase();
+
+          if (fa > fb) {
+            return 1;
+          }
+          if (fa < fb) {
+            return -1;
+          }
+          return 0;
+        });
+      }
+      if (this.sortValue == "interest") {
+        return this.filterTribes.filter((item) => {
+         var mapped = item.tags.map(val=> val.value.toLowerCase())
+
+        return mapped.includes(this.interest.toLowerCase())
+       })
+
+      }
+      return this.filterTribes;
+    },
   },
   created() {
+      bus.$on("toggleSort", (res) => {
+      if (res.interest) {
+        this.sortValue = "interest";
+        this.interest = res.val;
+      } else {
+        this.sortValue = res.val;
+      }
+    });
     this.mytags = Interest.map((item) => {
       item.text = item.value;
 
@@ -225,8 +267,7 @@ export default {
       };
     },
     entertribe(id) {
-      localStorage.removeItem("tribe");
-      localStorage.setItem("tribe", id);
+
       window.location.href = `/member/tribe/discussions/${id}`;
     },
     infiniteHandler($state) {

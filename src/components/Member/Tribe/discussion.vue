@@ -7,11 +7,18 @@
           <div class="bg-white py-4 rounded">
             <div class="main_content text-left">
               <div class="d-flex justify-content-between">
-                <span @click="$router.go(-1)" class="pl-3 cursor-pointer back">
+                <span
+                  @click="
+                    $router.push(
+                      `/member/tribe/discussions/${discussion.tribe_id}`
+                    )
+                  "
+                  class="pl-3 cursor-pointer back"
+                >
                   <span class="mr-2">
                     <b-icon icon="arrow-left" class=""></b-icon
                   ></span>
-                  <span>Back</span>
+                  <span class="back">Back to discussions</span>
                 </span>
 
                 <b-dropdown
@@ -105,7 +112,9 @@
                       font-scale="1.2"
                       class="cursor-pointer"
                     ></b-icon>
-                    <span>{{ discussion.discussionvote?discussion.discussionvote:0 }}</span>
+                    <span>{{
+                      discussion.discussionvote ? discussion.discussionvote : 0
+                    }}</span>
 
                     <b-icon
                       @click="dropvote"
@@ -172,7 +181,7 @@
                   </div>
                 </div>
                 <div class="text-right" v-if="posts.length">
-                  <b-button-group>
+                  <b-button-group size="sm">
                     <b-button
                       @click="toggleview = 'recent'"
                       :variant="
@@ -406,9 +415,8 @@
                             justify-content-between
                           "
                         >
-                          <span >
-                            <small class="mr-2"
-                            v-show="item.commentCount"
+                          <span>
+                            <small class="mr-2" v-show="item.commentCount"
                               >{{ item.commentCount }}
                               {{
                                 item.commentCount > 1 ? "Comments" : "Comment"
@@ -706,7 +714,13 @@
         >
       </div>
     </b-modal> -->
-    <b-modal no-close-on-backdrop id="discussionshare" hide-footer centered size="lg">
+    <b-modal
+      no-close-on-backdrop
+      id="discussionshare"
+      hide-footer
+      centered
+      size="lg"
+    >
       <div class="p-2 text-center">
         <h6 class="font-weight-bold mb-3">Share Invite</h6>
         <ShareNetwork
@@ -785,7 +799,13 @@
       </div>
     </b-modal>
 
-    <b-modal no-close-on-backdrop id="discussioninvite" size="sm" centered hide-footer>
+    <b-modal
+      no-close-on-backdrop
+      id="discussioninvite"
+      size="sm"
+      centered
+      hide-footer
+    >
       <div class="box text-center">
         <h6 class="text-center">Invite your friends</h6>
         <div class="mb-4">
@@ -820,6 +840,7 @@
               variant="dark-green"
               class="fs12 py-1 px-2"
               @click="sendinvite(discussion.name)"
+              :disabled="isDisabled"
             >
               Send Invite
             </b-button>
@@ -1198,14 +1219,26 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next((vm) => {
-      vm.checkaccess(next);
+      var details = {
+        discussion_id: vm.$route.params.id,
+        user: vm.$store.getters.member,
+      };
+
+      vm.$store.dispatch("checkTribeDiscussion", details).then((res) => {
+        if (res.data.message == "found") {
+          vm.getdiscussion();
+          vm.addview();
+          vm.getvote();
+          vm.getconnections();
+        } else {
+          vm.$toast.error("No access");
+          vm.$router.push("/member/tribes");
+        }
+      });
     });
   },
+
   created() {
-    this.getdiscussion();
-    this.addview();
-    this.getvote();
-    this.getconnections();
     this.link =
       "https://nzukoor.com/explore/discussion/" + this.$route.params.id;
     var channel = this.$pusher.subscribe("adddiscussion");
@@ -1215,7 +1248,7 @@ export default {
       this.discussion.discussionmessage.unshift(data.message);
     });
   },
-  mounted() {},
+
   watch: {
     $route: "getdiscussion",
   },
@@ -1760,8 +1793,7 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.filteredDiscussion[index].votecount =
-              res.data.count;
+            this.filteredDiscussion[index].votecount = res.data.count;
           }
         })
         .catch((err) => {
@@ -1844,6 +1876,9 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.back {
+  font-size: 0.7rem;
+}
 .image {
   width: 80%;
   height: auto;

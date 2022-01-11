@@ -170,32 +170,32 @@ router.beforeEach((to, from, next) => {
     next();
   }
 
-  if (to.matched.some((record) => record.meta.showtribe)) {
-    var user = JSON.parse(localStorage.getItem("authMember"));
-    var tribe = localStorage.getItem("tribe");
+  // if (to.matched.some((record) => record.meta.showtribe)) {
+  //   var user = JSON.parse(localStorage.getItem("authMember"));
+  //   var tribe = localStorage.getItem("tribe");
 
-    if (tribe && user) {
-      Vue.axios
-        .get(`${process.env.VUE_APP_API_PATH}/check/tribe/${tribe}`, {
-          headers: {
-            Authorization: `Bearer ${user.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 200 && res.data.message == "found") {
-            next();
-          } else {
-            Vue.$toast.error("Unauthorised access");
-            next("/member/tribes");
-          }
-        });
-    } else {
-      Vue.$toast.error("Unauthorised access");
-      next("/member/tribes");
-    }
-  } else {
-    next();
-  }
+  //   if (tribe && user) {
+  //     Vue.axios
+  //       .get(`${process.env.VUE_APP_API_PATH}/check/tribe/${tribe}`, {
+  //         headers: {
+  //           Authorization: `Bearer ${user.access_token}`,
+  //         },
+  //       })
+  //       .then((res) => {
+  //         if (res.status == 200 && res.data.message == "found") {
+  //           next();
+  //         } else {
+  //           Vue.$toast.error("Unauthorised access");
+  //           next("/member/tribes");
+  //         }
+  //       });
+  //   } else {
+  //     Vue.$toast.error("Unauthorised access");
+  //     next("/member/tribes");
+  //   }
+  // } else {
+  //   next();
+  // }
 });
 
 new Vue({

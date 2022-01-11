@@ -17,7 +17,7 @@
             <h6 class="flex-1 font-weight-bold mb-3 mb-sm-0"></h6>
             <div class="d-flex search px-2 px-sm-0 w-100">
               <span
-                @click="$router.go(-1)"
+                @click="$router.push(`/member/tribes`)"
                 class="cursor-pointer back fs13 px-2 pt-2 d-sm-none"
               >
                 <span class="">
@@ -652,8 +652,7 @@ export default {
         user: this.$store.getters.member,
       };
 
-      localStorage.removeItem("tribe");
-      localStorage.setItem("tribe", id);
+
       this.$store.dispatch("checkTribe", details).then((res) => {
         if (res.status == 200 && res.data.message == "found") {
           window.location.href = `/member/tribe/discussions/${id}`;

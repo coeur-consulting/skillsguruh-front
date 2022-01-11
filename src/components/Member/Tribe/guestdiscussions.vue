@@ -486,7 +486,7 @@ export default {
         });
     },
     joindiscussion(item) {
-      this.$router.push(`/member/tribe/discussion/${item.id}`);
+      this.$router.push(`/member/tribe/${item.tribe_id}/discussion/${item.id}`);
     },
 
     getdiscussions() {

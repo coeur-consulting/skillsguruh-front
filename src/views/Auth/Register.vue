@@ -331,38 +331,7 @@ export default {
 
       if (this.user.agree) {
         this.loading = true;
-        // if (this.type == "organization") {
-        //   this.$http
-        //     .post(`${this.$store.getters.url}/register-organization`, this.user)
-        //     .then((res) => {
-        //       if (res.status == 201) {
-        //         this.$toast.success("Registration successful");
-        //         this.$router.push("/login");
-        //         this.user = {
-        //           name: "",
-        //           email: "",
-        //           phone: "",
-        //           password: "",
-        //           profile: "",
-        //         };
-        //       }
-        //     })
-        //     .catch((err) => {
-        //       this.loading = false;
-        //       if (err.response.data.errors.email) {
-        //         this.$toast.error(err.response.data.errors.email[0]);
-        //       }
-        //       if (err.response.data.errors.phone) {
-        //         this.$toast.error(err.response.data.errors.phone[0]);
-        //       }
-        //       if (err.response.data.errors.name) {
-        //         this.$toast.error(err.response.data.errors.name[0]);
-        //       }
-        //       if (err.response.data.errors.password) {
-        //         this.$toast.error(err.response.data.errors.password[0]);
-        //       }
-        //     });
-        // }
+
         if (this.type) {
           this.$http
             .post(`${this.$store.getters.url}/facilitator-register`, this.user)
@@ -405,9 +374,17 @@ export default {
                   this.$router.push(
                     `/login/?course_id=${this.$route.query.course_id}`
                   );
-                } else {
-                  this.$router.push("/login");
+                  return
                 }
+                if (this.$route.query.type==='join_tribe') {
+                  this.$router.push(
+                    `/login/?tribe_id=${this.$route.query.tribe_id}&discussion_id=${this.$route.query.discussion_id}&type=join_tribe`
+                  );
+                  return
+                }
+
+                  this.$router.push("/login");
+
 
                 this.user = {
                   name: "",

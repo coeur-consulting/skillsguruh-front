@@ -45,7 +45,7 @@
                 You do not have an account?
                 <span
                   class="text-secondary cursor-pointer"
-                  @click="$router.push('/register')"
+                  @click="$route.query.type=='join_tribe' ?$router.push(`/register?tribe_id=${$route.query.tribe_id}&discussion_id=${$route.query.discussion_id}&type=join_tribe`):$router.push(`/register`)"
                   >Sign Up</span
                 >
               </div>
@@ -312,6 +312,10 @@ export default {
                   this.$toast.success("Login successful");
                   if (this.$route.query.redirect) {
                     window.location.href = this.$route.query.redirect;
+                    return;
+                  }
+                  if (this.$route.query.type==='join_tribe') {
+                    window.location.href = `/member/tribe/${this.$route.query.tribe_id}/discussion/${this.$route.query.discussion_id}`;
                     return;
                   }
                   window.location.href = "/member";

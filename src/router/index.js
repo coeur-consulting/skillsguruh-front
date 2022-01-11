@@ -751,7 +751,7 @@ const routes = [
             },
           },
           {
-            path: "discussion/:id",
+            path: ":tribe/discussion/:id",
             name: "tribe discussion",
             components: {
               default: () =>

@@ -221,7 +221,7 @@
             >
               <div
                 class="discussion_container position-relative"
-                @click="$router.push(`/member/tribe/discussion/${item.id}`)"
+                @click="$router.push(`/member/tribe/${item.tribe_id}/discussion/${item.id}`)"
               >
                 <div class="p-4 dicussion_overlay position-relative">
                   <b-avatar
@@ -332,7 +332,7 @@
               >
                 <div
                   class="discussion_container position-relative"
-                  @click="$router.push(`/member/tribe/discussion/${item.id}`)"
+                  @click="$router.push(`/member/tribe/${item.tribe_id}/discussion/${item.id}`)"
                 >
                   <div class="p-4 dicussion_overlay position-relative">
                     <b-avatar
@@ -1443,8 +1443,7 @@ export default {
         tribe_id: id,
         user: this.$store.getters.member,
       };
-      localStorage.removeItem("tribe");
-      localStorage.setItem("tribe", id);
+
       this.$store.dispatch("checkTribe", details).then((res) => {
         if (res.status == 200 && res.data.message == "found") {
           window.location.href = `/member/tribe/discussions/${id}`;

@@ -4,38 +4,36 @@
       <b-row class="mb-4">
         <b-col sm="12">
           <div class="search w-100">
-                <b-input-group class="topbar_search bg-white">
-                  <b-input-group-prepend is-text>
-                    <b-iconstack font-scale="1.4" class="">
-                      <b-icon
-                        stacked
-                        icon="circle-fill"
-                        variant="lighter-green"
-                      ></b-icon>
-                      <b-icon
-                        stacked
-                        icon="search"
-                        scale="0.5"
-                        variant="dark-green"
-                      ></b-icon>
-                    </b-iconstack>
-                  </b-input-group-prepend>
-                  <b-form-input
-                    placeholder="Find a tribe"
-                    class="no-focus border-0"
-                    type="search"
-                    aria-label="Text input "
-                    v-model="search"
-                  ></b-form-input>
-                  <b-input-group-append>
-                    <b-button
-                      variant="dark-green"
-
-                      ><b-icon icon="search"></b-icon
-                    ></b-button>
-                  </b-input-group-append>
-                </b-input-group>
-              </div>
+            <b-input-group class="topbar_search bg-white">
+              <b-input-group-prepend is-text>
+                <b-iconstack font-scale="1.4" class="">
+                  <b-icon
+                    stacked
+                    icon="circle-fill"
+                    variant="lighter-green"
+                  ></b-icon>
+                  <b-icon
+                    stacked
+                    icon="search"
+                    scale="0.5"
+                    variant="dark-green"
+                  ></b-icon>
+                </b-iconstack>
+              </b-input-group-prepend>
+              <b-form-input
+                placeholder="Find a tribe"
+                class="no-focus border-0"
+                type="search"
+                aria-label="Text input "
+                v-model="search"
+              ></b-form-input>
+              <b-input-group-append>
+                <b-button variant="dark-green"
+                  ><b-icon icon="search"></b-icon
+                ></b-button>
+              </b-input-group-append>
+            </b-input-group>
+          </div>
         </b-col>
       </b-row>
 
@@ -43,16 +41,21 @@
         <b-col
           cols="6"
           sm="4"
-          v-for="(n, id) in filterTribes"
+          v-for="(n, id) in sortedTribes"
           :key="id"
-          class="mb-4"
+          class="mb-4 position-relative"
         >
+       <span  class="position-absolute check">
+          <b-icon icon="check-circle-fill" v-if="n.isMember" class="text-white"></b-icon>
+       </span>
           <b-popover :target="`popover-${id}`" triggers="hover">
             <template #title> {{ n.name }}</template>
             <p class="fs13 text-capitalize mb-2">
               Access :
 
-              <span v-if="n.type==='paid'">{{ n.amount | currencyFormat }}</span>
+              <span v-if="n.type === 'paid'">{{
+                n.amount | currencyFormat
+              }}</span>
               <span v-else>{{ n.type }}</span>
             </p>
             <p class="fs13 mb-1" style="min-width: 150px">
@@ -179,9 +182,12 @@ import Interest from "@/components/helpers/subcategory.js";
 import Category from "@/components/helpers/category.js";
 import CreateTribe from "./createtribe.vue";
 import { faUsers, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import { bus } from "@/main.js";
 export default {
   data() {
     return {
+      interest: "",
+      sortValue: "all",
       signIn: faSignInAlt,
       users: faUsers,
       search: "",
@@ -234,8 +240,47 @@ export default {
         item.name.toLowerCase().includes(this.search.toLowerCase())
       );
     },
+    sortedTribes() {
+
+      if (this.sortValue == "members") {
+        return this.filterTribes.slice().sort(function (a, b) {
+          return b.users - a.users;
+        });
+      }
+      if (this.sortValue == "alpha") {
+        return this.filterTribes.slice().sort(function (a, b) {
+          let fa = a.name.toLowerCase();
+          let fb = b.name.toLowerCase();
+
+          if (fa > fb) {
+            return 1;
+          }
+          if (fa < fb) {
+            return -1;
+          }
+          return 0;
+        });
+      }
+      if (this.sortValue == "interest") {
+        return this.filterTribes.filter((item) => {
+         var mapped = item.tags.map(val=> val.value.toLowerCase())
+
+        return mapped.includes(this.interest.toLowerCase())
+       })
+
+      }
+      return this.filterTribes;
+    },
   },
   created() {
+    bus.$on("toggleSort", (res) => {
+      if (res.interest) {
+        this.sortValue = "interest";
+        this.interest = res.val;
+      } else {
+        this.sortValue = res.val;
+      }
+    });
     this.mytags = Interest.map((item) => {
       item.text = item.value;
 
@@ -271,7 +316,7 @@ export default {
           }
         })
         .catch((err) => {
-            this.$toast.error(err.response.data);
+          this.$toast.error(err.response.data);
         });
     },
     entertribe(id) {
@@ -283,8 +328,6 @@ export default {
         user: this.$store.getters.member,
       };
 
-      localStorage.removeItem("tribe");
-      localStorage.setItem("tribe", id);
       this.$store.dispatch("checkTribe", details).then((res) => {
         if (res.status == 200 && res.data.message == "found") {
           window.location.href = `/member/tribe/discussions/${id}`;
@@ -353,5 +396,11 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.check{
+  top:10px;
+  right: 10px;
+  z-index:10;
+
+}
 </style>
 

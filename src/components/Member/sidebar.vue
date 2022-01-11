@@ -2,7 +2,7 @@
   <div id="sidebar" class="py-4 d-grid">
     <div>
       <div class="side_tab_1" v-if="!$route.meta.showtribe">
-        <nav class="mb-3 class text-left">
+        <nav class="mb-5 class text-left">
           <b-nav vertical>
             <b-nav-item to="/member/tribes">
               <b-img
@@ -20,7 +20,11 @@
               />
               Community</b-nav-item
             >
-            <b-nav-item target="_blank" to="/messages" class="d-flex align-items-center">
+            <b-nav-item
+              target="_blank"
+              to="/messages"
+              class="d-flex align-items-center"
+            >
               <font-awesome-icon
                 :icon="envelope"
                 class="imgtribe mr-2 text-dark-green"
@@ -29,18 +33,62 @@
             >
           </b-nav>
         </nav>
+
+        <div
+          class="text-left pl-3 text-dark fs13"
+          v-if="
+            $route.path == '/explore/community' || $route.path == '/member/tribes'
+          "
+        >
+          <h6 class="fs13 font-weight-bold">Sort by</h6>
+          <ul style="list-style: none" class="pl-3 mb-4">
+            <li
+              class="mb-1"
+              :class="sortvalue == 'all' ? '' : 'text-muted'"
+              @click="toggleSort('all')"
+            >
+              All
+            </li>
+            <li
+              class="mb-1"
+              :class="sortvalue == 'alpha' ? '' : 'text-muted'"
+              @click="toggleSort('alpha')"
+            >
+              A to Z
+            </li>
+            <li
+              :class="sortvalue == 'members' ? '' : 'text-muted'"
+              @click="toggleSort('members')"
+            >
+              Most Members
+            </li>
+          </ul>
+
+          <h6 class="fs13 font-weight-bold">Sort by Interests</h6>
+          <ul style="list-style: none" class="pl-3">
+            <li
+              @click="toggleSort(item, true)"
+              v-for="(item, id) in interests"
+              :key="id"
+              class="mb-1"
+              :class="sortvalue == item ? '' : 'text-muted'"
+            >
+              {{ item }}
+            </li>
+          </ul>
+        </div>
       </div>
 
       <div class="side_tab_1 text-left" v-if="$route.meta.showtribe && tribe">
         <div class="mb-4 text-muted">
           <small
             @click="$router.push('/member/tribes')"
-            class="pl-3 cursor-pointer back"
+            class="pl-3 cursor-pointer back text-dark-green"
           >
             <span class="mr-2">
               <b-icon icon="arrow-left" class=""></b-icon
             ></span>
-            <span>Back</span>
+            <span>Tribes</span>
           </small>
         </div>
         <div class="d-flex justify-content-start align-items-center tribe_name">
@@ -97,25 +145,6 @@
         <log-out-icon size="1x" class="custom-class"></log-out-icon>
         <span class="side-link p-2">Leave tribe</span>
       </div>
-
-      <!-- <div class="border-top">
-        <router-link to="/explore">
-          <div class="side_item mt-1">
-            <b-icon icon="app-indicator" font-scale="1.1" class="mr-2"></b-icon>
-            <span class="side-link">Explore</span>
-          </div></router-link
-        >
-        <router-link to="/">
-          <div class="side_item mt-1">
-            <b-icon icon="arrow-left" font-scale="1.1" class="mr-2"></b-icon>
-            <span class="side-link">Back to Home</span>
-          </div>
-        </router-link>
-        <div class="side_item mt-1" @click="logout">
-          <log-out-icon size="1x" class="custom-class"></log-out-icon>
-          <span class="side-link p-2">Log out</span>
-        </div>
-      </div> -->
     </div>
     <b-modal id="sharetribe" centered hide-footer size="lg">
       <div class="box p-3 text-center">
@@ -257,6 +286,7 @@
   </div>
 </template>
 <script>
+import { bus } from "@/main.js";
 import {
   faCircle,
   faBell,
@@ -267,15 +297,17 @@ import {
   faBookOpen,
   faComments,
   faCalendar,
-  faEnvelope
+  faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
 import { LogOutIcon } from "vue-feather-icons";
 export default {
   components: {
     LogOutIcon,
   },
+
   data() {
     return {
+      sortvalue: "all",
       events: [],
       envelope: faEnvelope,
       toggleCourse: false,
@@ -292,6 +324,7 @@ export default {
       rss: faRss,
       tribe: {},
       tribe_id: null,
+
       inviteUsers: [
         {
           email: "",
@@ -303,10 +336,11 @@ export default {
       description: "",
     };
   },
-  watch: {
-    $route: "gettribe",
-  },
+
   computed: {
+    interests() {
+      return this.$store.getters.member.interests;
+    },
     useraccess() {
       var token = null;
       if (localStorage.getItem("authAdmin")) {
@@ -324,13 +358,22 @@ export default {
       return this.events.filter((item) => item.status == "active").length;
     },
   },
+
   created() {
-    this.gettribe();
-  },
-  mounted() {
-    this.link = `https://nzukoor.com/register?tribe_id=${this.$store.getters.tribe}`;
+    this.link = `https://nzukoor.com/register?tribe_id=${this.$route.params.tribe}`;
+    if (this.$route.params.tribe) {
+      this.gettribe();
+    }
   },
   methods: {
+    toggleSort(val, interest = false) {
+      var data = {
+        val,
+        interest,
+      };
+      this.sortvalue = val;
+      bus.$emit("toggleSort", data);
+    },
     addToFeed() {
       this.feed = {
         message: `Come join my tribe - ${this.tribe.name} <br> ${this.description}`,
@@ -405,29 +448,24 @@ export default {
         .msgBoxConfirm("Are you sure you wish to exit this tribe?")
         .then((val) => {
           if (val) {
-            this.$store.dispatch("leaveTribe", details).then((res) => {
-              if (res.status == 200 && res.data.message == "successful") {
-                this.$router.push(`/member/tribes`);
-                this.$toast.success("You have left the tribe");
-              }
-            }).catch(err=>{
-          this.$toast.error(err.response.data)
-        });
+            this.$store
+              .dispatch("leaveTribe", details)
+              .then((res) => {
+                if (res.status == 200 && res.data.message == "successful") {
+                  this.$router.push(`/member/tribes`);
+                  this.$toast.success("You have left the tribe");
+                }
+              })
+              .catch((err) => {
+                this.$toast.error(err.response.data);
+              });
           }
         });
     },
 
     gettribe() {
-      if (!this.useraccess) {
-        return;
-      }
-      var tribe = localStorage.getItem("tribe");
-
-      if (!tribe) {
-        return;
-      }
       this.$http
-        .get(`${this.$store.getters.url}/tribes/${tribe}`, {
+        .get(`${this.$store.getters.url}/tribes/${this.$route.params.tribe}`, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.member.access_token}`,
           },

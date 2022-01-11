@@ -139,6 +139,13 @@ export default new Vuex.Store({
         },
       });
     },
+    async checkTribeDiscussion({ state }, detail) {
+      return Vue.axios.get(`${state.url}/check/tribe/discussion/${detail.discussion_id}`, {
+        headers: {
+          Authorization: `Bearer ${detail.user.access_token}`,
+        },
+      });
+    },
     async joinTribe({ state }, detail) {
       return Vue.axios.get(`${state.url}/join/tribe/${detail.tribe_id}`, {
         headers: {
