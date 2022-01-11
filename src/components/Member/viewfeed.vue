@@ -225,12 +225,12 @@
                             <b-icon
                               class="mr-2"
                               :icon="
-                                comment.feedcommentlikes
+                                comment.isLiked
                                   ? 'heart-fill'
                                   : 'heart'
                               "
                               :class="
-                                comment.feedcommentlikes ? 'text-danger' : ''
+                                comment.isLiked ? 'text-danger' : ''
                               "
                               @click="likecomment(comment.id, id, feed.user.id)"
                             ></b-icon>
@@ -238,14 +238,14 @@
                         </div>
 
                         <div
-                          v-if="comment.feedcommentreplies.length"
+                          v-if="comment.commentreplycount"
                           class="replyfeed text-muted"
                           @click="handlereplies(comment)"
                         >
                           <small>
-                            View {{ comment.feedcommentreplies.length }}
+                            View {{ comment.commentreplycount }}
                             {{
-                              comment.feedcommentreplies.length > 1
+                              comment.commentreplycount > 1
                                 ? "replies"
                                 : "reply"
                             }}</small
@@ -622,8 +622,8 @@
                   }}</span>
                   <span
                     ><b-icon
-                      :icon="rep.feedcommentreplylikes ? 'heart-fill' : 'heart'"
-                      :class="rep.feedcommentreplylikes ? 'text-danger' : ''"
+                      :icon="rep.isLiked ? 'heart-fill' : 'heart'"
+                      :class="rep.isLiked ? 'text-danger' : ''"
                       @click="likecommentreply(rep.id, id)"
                       font-scale=".5"
                     ></b-icon
@@ -701,9 +701,9 @@ export default {
         )
         .then((res) => {
           if (res.data === "success") {
-            this.feed.comments[index].feedcommentlikes = res.data;
+            this.feed.comments[index].isLiked = true;
           } else {
-            this.feed.comments[index].feedcommentlikes = null;
+            this.feed.comments[index].isLiked = false;
           }
         });
     },
@@ -723,11 +723,11 @@ export default {
         )
         .then((res) => {
           if (res.data === "success") {
-            this.allreplies.feedcommentreplies[index].feedcommentreplylikes =
-              res.data;
+            this.allreplies.feedcommentreplies[this.comment_index].isLiked = true
+
           } else {
-            this.allreplies.feedcommentreplies[index].feedcommentreplylikes =
-              null;
+            this.allreplies.feedcommentreplies[this.comment_index].isLiked = false
+
           }
         });
     },
@@ -755,6 +755,7 @@ export default {
             this.feed.comments[this.comment_index].feedcommentreplies.unshift(
               res.data
             );
+            this.feed.comments[this.comment_index].commentreplycount++
             this.commentreply = "";
             this.$bvModal.hide("replycomment");
           }
