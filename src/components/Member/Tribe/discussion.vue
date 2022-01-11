@@ -615,13 +615,13 @@
                       <div class="share text-left">
                         <span
                           class="mr-3 fs12 cursor-pointer"
-                          @click="$bvModal.show('share')"
+                          @click="$bvModal.show('discussionshare')"
                           >Share
                           <b-icon icon="share-fill" font-scale=".9"></b-icon
                         ></span>
                         <span
                           class="fs12 cursor-pointer"
-                          @click="$bvModal.show('invite')"
+                          @click="$bvModal.show('discussioninvite')"
                           >Invite
                           <b-icon
                             icon="person-plus-fill"
@@ -706,7 +706,7 @@
         >
       </div>
     </b-modal> -->
-    <b-modal no-close-on-backdrop id="share" hide-footer centered size="lg">
+    <b-modal no-close-on-backdrop id="discussionshare" hide-footer centered size="lg">
       <div class="p-2 text-center">
         <h6 class="font-weight-bold mb-3">Share Invite</h6>
         <ShareNetwork
@@ -785,7 +785,7 @@
       </div>
     </b-modal>
 
-    <b-modal no-close-on-backdrop id="invite" size="sm" centered hide-footer>
+    <b-modal no-close-on-backdrop id="discussioninvite" size="sm" centered hide-footer>
       <div class="box text-center">
         <h6 class="text-center">Invite your friends</h6>
         <div class="mb-4">
@@ -1566,7 +1566,7 @@ export default {
         .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Added to feeds ");
-            this.$bvModal.hide("share");
+            this.$bvModal.hide("discussionshare");
 
             this.feed = {
               media: "",
@@ -1602,7 +1602,7 @@ export default {
           if (res.status == 200) {
             this.isDisabled = false;
             this.$toast.success("Invite Sent");
-            this.$bvModal.hide("share");
+            this.$bvModal.hide("discussionshare");
             this.inviteUsers = {
               title: "",
               users: [

@@ -700,37 +700,7 @@ export default {
         });
     },
     joindiscussion(item) {
-      if (!this.useraccess) {
-        this.$router.push("/login?redirect=%2Fexplore%2Fcommunity");
-      }
-      if (
-        !item.tribe.users.some(
-          (item) => item.id == this.$store.getters.member.id
-        )
-      ) {
-        this.$bvModal
-          .msgBoxConfirm("Do you wish to join this tribe?")
-          .then((val) => {
-            if (val) {
-              localStorage.removeItem("tribe");
-              localStorage.setItem("tribe", item.tribe.id);
-              var details = {
-                tribe_id: item.tribe.id,
-                user: this.$store.getters.member,
-              };
-              this.$store.dispatch("joinTribe", details).then((res) => {
-                if (res.status == 200 && res.data.message == "successful") {
-                  this.$toast.success("Joined successfully");
-                  this.$router.push(`/member/tribe/discussion/${item.id}`);
-                }
-              });
-            }
-          });
-        return;
-      }
-      localStorage.removeItem("tribe");
-      localStorage.setItem("tribe", item.tribe.id);
-      this.$router.push(`/member/tribe/discussion/${item.id}`);
+     this.$router.push(`/explore/discussion/${item.id}`);
     },
     getcourses() {
       this.$http

@@ -851,58 +851,7 @@
             </div>
           </div>
 
-          <div class="connections p-3 border rounded">
-            <h6 class="mb-3 fs13 text-left">Connections</h6>
-            <div
-              class="px-2 py-1 d-flex align-items-center search bg-light mb-3"
-            >
-              <b-icon icon="search"></b-icon>
-              <b-form-input
-                autocomplete="off"
-                autocorrect="off"
-                size="sm"
-                v-model="search"
-                class="flex-1 border-0 no-focus search-bg"
-                type="search"
-                placeholder="Search name"
-              ></b-form-input>
-            </div>
-            <div v-for="(item, id) in filteredConnections" :key="id">
-              <div
-                v-if="item.user_follower"
-                class="d-flex align-items-end mb-4"
-              >
-                <b-form-checkbox
-                  size="sm"
-                  v-model="emails"
-                  :value="item.user_follower.email"
-                >
-                  <div class="d-flex align-items-center flex-1">
-                    <b-avatar class="mr-2" size="1.3rem"></b-avatar>
-                    <div class="text-left" style="line-height: 1.1">
-                      <span class="fs12">{{
-                        item.user_follower.username
-                      }}</span>
-                    </div>
-                  </div>
-                </b-form-checkbox>
-              </div>
-              <div v-else class="d-flex align-items-end mb-4">
-                <b-form-checkbox
-                  size="sm"
-                  :value="item.facilitator_follower.email"
-                  v-model="emails"
-                >
-                  <div class="d-flex align-items-center flex-1">
-                    <b-avatar class="mr-2" size="1.3rem"></b-avatar>
-                    <div>
-                      <span>{{ item.facilitator_follower.username }}</span>
-                    </div>
-                  </div>
-                </b-form-checkbox>
-              </div>
-            </div>
-          </div>
+         
         </div>
       </b-modal>
       <b-modal id="media" centered hide-footer>
