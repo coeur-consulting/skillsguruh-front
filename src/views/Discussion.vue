@@ -1096,10 +1096,10 @@
         <br />
         <h5 class="mb-2 mb-md-3 text-left fs15">Tribe information</h5>
         <div class="d-flex flex-column flex-md-row text-left">
-          <b-avatar class="mb-4 mb-md-0 mr-md-3" :src="discussion.cover" size="4rem"></b-avatar>
+          <b-avatar class="mb-4 mb-md-0 mr-md-3" :src="discussion.tribe.cover" size="4rem"></b-avatar>
           <span>
-            <span class="font-weight-bold">{{ discussion.name }}</span> <br />
-            <span>{{ discussion.description }}</span>
+            <span class="font-weight-bold">{{ discussion.tribe.name }}</span> <br />
+            <span>{{ discussion.tribe.description }}</span>
           </span>
         </div>
         <div class="mt-4 text-right">

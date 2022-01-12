@@ -81,31 +81,42 @@
                     <font-awesome-icon :icon="myusers" size="1x" class="icon" />
                     {{ n.users }}
                   </p>
-                  <b-button
-                    v-if="n.type == 'paid'"
-                    block
-                    variant="lighter-green"
-                    size="sm"
-                    @click="purchase(n.id)"
-                    >Join</b-button
-                  >
-                  <b-button
-                    v-else-if="n.type == 'private'"
-                    block
-                    variant="dark-green"
-                    size="sm"
-                    @click="sendrequest(n.id)"
-                  >
-                    Request access</b-button
-                  >
-                  <b-button
-                    v-else
-                    block
-                    variant="lighter-green"
-                    size="sm"
-                    @click="entertribe(n.id)"
-                    >Join</b-button
-                  >
+                  <span v-if="n.isMember">
+                    <b-button
+                      block
+                      variant="lighter-green"
+                      size="sm"
+                      @click="entertribe(n.id)"
+                      >Engage</b-button
+                    >
+                  </span>
+                  <span v-else>
+                    <b-button
+                      v-if="n.type == 'paid'"
+                      block
+                      variant="lighter-green"
+                      size="sm"
+                      @click="purchase(n.id)"
+                      >Join</b-button
+                    >
+                    <b-button
+                      v-else-if="n.type == 'private'"
+                      block
+                      variant="dark-green"
+                      size="sm"
+                      @click="sendrequest(n.id)"
+                    >
+                      Request access</b-button
+                    >
+                    <b-button
+                      v-else
+                      block
+                      variant="lighter-green"
+                      size="sm"
+                      @click="entertribe(n.id)"
+                      >Join</b-button
+                    >
+                  </span>
                 </b-popover>
                 <div class="tribe_box rounded" :id="`popover-${id}`">
                   <div
@@ -171,32 +182,42 @@
                       <p class="fs13 text-muted mb-3">
                         {{ n.events.length }} active events
                       </p> -->
-                      <b-button
-                        v-if="n.type === 'paid'"
-                        block
-                        variant="lighter-green"
-                        size="sm"
-                        @click="purchase(n.id)"
-                        >Join</b-button
-                      >
-                      <b-button
-                        v-else-if="n.type == 'private'"
-                        block
-                        variant="dark-green"
-                        size="sm"
-                        @click="sendrequest(n.id)"
-                      >
-                        Request access</b-button
-                      >
-
-                      <b-button
-                        v-else
-                        block
-                        variant="lighter-green"
-                        size="sm"
-                        @click="entertribe(n.id)"
-                        >Join</b-button
-                      >
+                      <span v-if="n.isMember">
+                        <b-button
+                          block
+                          variant="lighter-green"
+                          size="sm"
+                          @click="entertribe(n.id)"
+                          >Engage</b-button
+                        >
+                      </span>
+                      <span v-else>
+                        <b-button
+                          v-if="n.type == 'paid'"
+                          block
+                          variant="lighter-green"
+                          size="sm"
+                          @click="purchase(n.id)"
+                          >Join</b-button
+                        >
+                        <b-button
+                          v-else-if="n.type == 'private'"
+                          block
+                          variant="dark-green"
+                          size="sm"
+                          @click="sendrequest(n.id)"
+                        >
+                          Request access</b-button
+                        >
+                        <b-button
+                          v-else
+                          block
+                          variant="lighter-green"
+                          size="sm"
+                          @click="entertribe(n.id)"
+                          >Join</b-button
+                        >
+                      </span>
                     </b-popover>
                     <div class="tribe_box rounded" :id="`popoverm-${id}`">
                       <div
@@ -1808,17 +1829,35 @@ export default {
     },
 
     gettribes() {
-      this.$http
-        .get(`${this.$store.getters.url}/guest/tribes`)
-        .then((res) => {
-          if (res.status == 200) {
-            this.tribes = res.data;
-            this.showTribes = true;
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
+      if (this.auth) {
+        this.$http
+          .get(`${this.$store.getters.url}/guest/tribes`, {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          })
+          .then((res) => {
+            if (res.status == 200) {
+              this.tribes = res.data;
+              this.showTribes = true;
+            }
+          })
+          .catch((err) => {
+            this.$toast.error(err.response.data.message);
+          });
+      } else {
+        this.$http
+          .get(`${this.$store.getters.url}/guest/tribes`)
+          .then((res) => {
+            if (res.status == 200) {
+              this.tribes = res.data;
+              this.showTribes = true;
+            }
+          })
+          .catch((err) => {
+            this.$toast.error(err.response.data.message);
+          });
+      }
     },
     getmembers() {
       this.$http.get(`${this.$store.getters.url}/get/members`).then((res) => {
@@ -2000,7 +2039,7 @@ export default {
         .get(`${this.$store.getters.url}/guest/explore/discussions`)
         .then((res) => {
           if (res.status == 200) {
-            this.discussions = res.data.data;
+            this.discussions = res.data;
           }
         });
     },
