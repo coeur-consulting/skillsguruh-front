@@ -362,7 +362,7 @@
         <hr />
         <div id="sidebar" class="py-4">
           <div class="side_tab_1" v-if="!$route.meta.showtribe && tribe">
-            <nav class="mb-3 class text-left">
+            <nav class="mb-3 class text-left mb-4">
               <b-nav vertical>
                 <b-nav-item to="/member/tribes">
                   <b-img
@@ -382,6 +382,50 @@
                 >
               </b-nav>
             </nav>
+
+             <div
+          class="text-left pl-3 text-dark fs13"
+          v-if="
+            $route.path == '/explore/community' || $route.path == '/member/tribes'
+          "
+        >
+          <h6 class="fs13 font-weight-bold">Sort by</h6>
+          <ul style="list-style: none" class="pl-3 mb-4">
+            <li
+              class="mb-1"
+              :class="sortvalue == 'all' ? '' : 'text-muted'"
+              @click="toggleSort('all')"
+            >
+              All
+            </li>
+            <li
+              class="mb-1"
+              :class="sortvalue == 'alpha' ? '' : 'text-muted'"
+              @click="toggleSort('alpha')"
+            >
+              A to Z
+            </li>
+            <li
+              :class="sortvalue == 'members' ? '' : 'text-muted'"
+              @click="toggleSort('members')"
+            >
+              Most Members
+            </li>
+          </ul>
+
+          <h6 class="fs13 font-weight-bold">Sort by Interests</h6>
+          <ul style="list-style: none" class="pl-3">
+            <li
+              @click="toggleSort(item, true)"
+              v-for="(item, id) in interests"
+              :key="id"
+              class="mb-1"
+              :class="sortvalue == item ? '' : 'text-muted'"
+            >
+              {{ item }}
+            </li>
+          </ul>
+        </div>
           </div>
           <div
             class="side_tab_1 text-left"
@@ -653,6 +697,7 @@
 </template>
 <script>
 import { Translator } from 'vue-google-translate';
+import { bus } from "@/main.js";
 import {
   faCircle,
   faBell,
@@ -667,11 +712,12 @@ import {
   faGlobe,
 } from "@fortawesome/free-solid-svg-icons";
 import { LogOutIcon } from "vue-feather-icons";
-import { bus } from "@/main.js";
+
 export default {
 
   data() {
     return {
+      sortvalue: "all",
       authMember: false,
       authAdmin: false,
       authOrg: false,
@@ -752,6 +798,9 @@ export default {
     this.getconnections();
   },
   computed: {
+    interests() {
+      return this.$store.getters.member.interests;
+    },
     version() {
       return process.env.VUE_APP_VERSION;
     },
@@ -857,6 +906,14 @@ export default {
     },
   },
   methods: {
+      toggleSort(val, interest = false) {
+      var data = {
+        val,
+        interest,
+      };
+      this.sortvalue = val;
+      bus.$emit("toggleSort", data);
+    },
     markMessagesRead(id) {
       let data = {
         id: id,
