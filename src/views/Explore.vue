@@ -850,7 +850,7 @@
               md="3"
               ><b-img
                 :src="item.image"
-                @click="$router.push(`/explore/interests/${item.id}`)"
+               
                 class="mb-2 interest"
               ></b-img>
               <h6 class="interest text-center w-100">
