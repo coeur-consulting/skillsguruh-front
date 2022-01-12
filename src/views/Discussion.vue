@@ -1090,13 +1090,13 @@
          <span class="cancel">
         <b-icon icon="x" class="text-white" @click="toggleJoin=!toggleJoin"></b-icon>
       </span>
-        <span class="mb-4 text-center font-weight-bold text-warning">
-          OOPS! You need to join this tribe to post a reply</span
+        <div class="mb-4 text-center font-weight-bold text-warning">
+          OOPS! You need to join this tribe to post a reply</div
         >
         <br />
-        <h5 class="mb-3 text-left">Tribe information</h5>
-        <div class="d-flex text-left">
-          <b-avatar class="mr-3" :src="discussion.cover" size="5rem"></b-avatar>
+        <h5 class="mb-2 mb-md-3 text-left fs15">Tribe information</h5>
+        <div class="d-flex flex-column flex-md-row text-left">
+          <b-avatar class="mb-4 mb-md-0 mr-md-3" :src="discussion.cover" size="4rem"></b-avatar>
           <span>
             <span class="font-weight-bold">{{ discussion.name }}</span> <br />
             <span>{{ discussion.description }}</span>
@@ -1814,6 +1814,10 @@ export default {
   width: 70%;
   transform: translateX(50%);
   right: 50%;
+  @media(max-width:768px){
+    width:90%;
+    font-size:14px;
+  }
 }
 .image {
   width: 80%;
