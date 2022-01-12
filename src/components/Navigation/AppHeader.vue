@@ -135,10 +135,10 @@ export default {
 }
 .navbar-light .navbar-nav .nav-link:hover,
 .navbar-light .navbar-nav .nav-link:focus {
-  color: var(--dark-green);
+  color: var(--secondary);
 }
 .navbar-light .navbar-nav .nav-link.router-link-exact-active {
-  color: var(--dark-green);
+  color: var(--secondary);
 }
 .navtog {
   display: flex;

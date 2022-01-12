@@ -81,7 +81,31 @@
                     <font-awesome-icon :icon="myusers" size="1x" class="icon" />
                     {{ n.users }}
                   </p>
-
+                  <b-button
+                    v-if="n.type == 'paid'"
+                    block
+                    variant="lighter-green"
+                    size="sm"
+                    @click="purchase(n.id)"
+                    >Join</b-button
+                  >
+                  <b-button
+                    v-else-if="n.type == 'private'"
+                    block
+                    variant="dark-green"
+                    size="sm"
+                    @click="sendrequest(n.id)"
+                  >
+                    Request access</b-button
+                  >
+                  <b-button
+                    v-else
+                    block
+                    variant="lighter-green"
+                    size="sm"
+                    @click="entertribe(n.id)"
+                    >Join</b-button
+                  >
                 </b-popover>
                 <div class="tribe_box rounded" :id="`popover-${id}`">
                   <div
@@ -148,6 +172,25 @@
                         {{ n.events.length }} active events
                       </p> -->
                       <b-button
+                        v-if="n.type === 'paid'"
+                        block
+                        variant="lighter-green"
+                        size="sm"
+                        @click="purchase(n.id)"
+                        >Join</b-button
+                      >
+                      <b-button
+                        v-else-if="n.type == 'private'"
+                        block
+                        variant="dark-green"
+                        size="sm"
+                        @click="sendrequest(n.id)"
+                      >
+                        Request access</b-button
+                      >
+
+                      <b-button
+                        v-else
                         block
                         variant="lighter-green"
                         size="sm"
@@ -221,7 +264,7 @@
             >
               <div
                 class="discussion_container position-relative"
-                @click="$router.push(`/member/tribe/${item.tribe_id}/discussion/${item.id}`)"
+                @click="$router.push(`/explore/discussion/${item.id}`)"
               >
                 <div class="p-4 dicussion_overlay position-relative">
                   <b-avatar
@@ -238,8 +281,6 @@
                   <div class="discussion_title">
                     {{ item.name }}
                   </div>
-
-
 
                   <div
                     class="comment_carousel"
@@ -332,7 +373,11 @@
               >
                 <div
                   class="discussion_container position-relative"
-                  @click="$router.push(`/member/tribe/${item.tribe_id}/discussion/${item.id}`)"
+                  @click="
+                    $router.push(
+                      `/member/tribe/${item.tribe_id}/discussion/${item.id}`
+                    )
+                  "
                 >
                   <div class="p-4 dicussion_overlay position-relative">
                     <b-avatar
@@ -365,8 +410,6 @@
                       {{ item.name }}
                     </div>
 
-
-
                     <div
                       class="comment_carousel"
                       v-if="item.discussionmessage.length"
@@ -384,8 +427,6 @@
                         "
                       >
                         <div class="comment_image">
-
-
                           <b-img
                             v-if="message.user"
                             :src="
@@ -396,8 +437,6 @@
                           ></b-img>
                         </div>
                         <div class="comment_box">
-
-
                           <div class="comment_name" v-if="message.user">
                             {{ message.user.username }}
                           </div>
@@ -427,13 +466,10 @@
           </div>
         </b-container>
         <div class="text-center mt-0 mt-md-5 pt-md-5">
-
-           <small
-
+          <small
             @click="$router.push('/member/tribes')"
             class="cursor-pointer text-dark-green"
-            >Load more
-            <b-icon font-scale=".85" icon="chevron-right"></b-icon
+            >Load more <b-icon font-scale=".85" icon="chevron-right"></b-icon
           ></small>
         </div>
       </section>
@@ -848,11 +884,7 @@
               cols="4"
               sm="2"
               md="3"
-              ><b-img
-                :src="item.image"
-               
-                class="mb-2 interest"
-              ></b-img>
+              ><b-img :src="item.image" class="mb-2 interest"></b-img>
               <h6 class="interest text-center w-100">
                 {{ item.value }}
               </h6></b-col
@@ -861,7 +893,7 @@
         </b-container>
       </section>
 
-      <section class="py-3 py-sm-5">
+      <!-- <section class="py-3 py-sm-5">
         <b-container>
           <div class="d-flex justify-content-center">
             <div class="trending">
@@ -1002,7 +1034,7 @@
             </div>
           </div>
         </b-container>
-      </section>
+      </section> -->
     </div>
     <b-modal id="allcomments" hide-footer centered size="md">
       <template #modal-title>
@@ -1463,7 +1495,31 @@ export default {
         }
       });
     },
+    sendrequest(id) {
+      if (!this.auth) {
+        this.$toast.error("login to access");
+        return;
+      }
+      this.$http
+        .get(`${process.env.VUE_APP_API_PATH}/create/tribe/request/${id}`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            this.$toast.success("Request sent");
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data);
+        });
+    },
     purchase(id) {
+      if (!this.auth) {
+        this.$toast.error("login to access");
+        return;
+      }
       this.$router.push(`/member/order?id=${id}&type_payment=tribe`);
     },
     likeimage(index) {

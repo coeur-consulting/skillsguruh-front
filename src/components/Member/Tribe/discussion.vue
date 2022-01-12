@@ -841,6 +841,7 @@
               class="fs12 py-1 px-2"
               @click="sendinvite(discussion.name)"
               :disabled="isDisabled"
+              
             >
               Send Invite
             </b-button>

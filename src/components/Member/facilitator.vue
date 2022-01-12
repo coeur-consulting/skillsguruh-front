@@ -163,13 +163,13 @@
                         >
                           Discussions
                         </li>
-                        <li
+                        <!-- <li
                           class="h6 fs14 cursor-pointer mb-0"
                           :class="active == 3 ? 'active' : ''"
                           @click="active = 3"
                         >
                           Events
-                        </li>
+                        </li> -->
                       </ul>
                     </nav>
                   </b-card-body>
@@ -1889,7 +1889,7 @@ export default {
             this.id = this.detail.id;
             this.getFeeds();
             this.getConnections();
-            this.getEvents();
+            // this.getEvents();
             this.getdiscussions();
             this.getmyconnections();
           }

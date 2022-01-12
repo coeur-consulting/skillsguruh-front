@@ -409,7 +409,7 @@
               :class="sortvalue == 'members' ? '' : 'text-muted'"
               @click="toggleSort('members')"
             >
-              Most Members
+              Popularity
             </li>
           </ul>
 
@@ -472,12 +472,12 @@
                     class="icon mr-3"
                   />Courses</b-nav-item
                 > -->
-                <b-nav-item :to="`/member/tribe/events/${$route.params.tribe}`">
+                <!-- <b-nav-item :to="`/member/tribe/events/${$route.params.tribe}`">
                   <font-awesome-icon
                     :icon="calendar"
                     class="icon mr-3"
                   />Events</b-nav-item
-                >
+                > -->
               </b-nav>
             </nav>
           </div>

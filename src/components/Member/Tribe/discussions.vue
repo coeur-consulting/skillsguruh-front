@@ -48,7 +48,7 @@
                     v-model="search"
                   ></b-form-input>
                   <b-input-group-append>
-                    <b-button
+                    <b-button v-b-tooltip.hover title="Add discussion"
                       variant="dark-green"
                       @click="$bvModal.show('start')"
                       ><b-icon icon="plus"></b-icon
@@ -58,18 +58,20 @@
               </div>
             </div>
           </div>
-          <div class="border bg-white py-4 rounded">
+          <div class="border bg-white pb-4 rounded">
             <div
               class="
                 top_header
                 border-bottom
                 d-flex
-                justify-content-around
+                justify-content-between
                 position-relative
                 discussion_title
+                px-3
+                py-2
               "
             >
-              <div
+              <!-- <div
                 :class="{ active: show == 'recent' }"
                 @click="show = 'recent'"
               >
@@ -81,7 +83,28 @@
                 @click="show = 'trending'"
               >
                 Trending
-              </div>
+              </div> -->
+              <span class="fs14 text-muted">Showing {{show}} discussions</span>
+              <span id="sorter" class="cursor-pointer"><b-icon icon="funnel-fill"></b-icon></span>
+              <b-popover target="sorter" triggers="hover">
+                <h6 class="fs14 font-weight-bold">Filter by</h6>
+                <ul class="pl-2" style="list-style: none">
+                  <li
+                    :class="{ active: show == 'recent' }"
+                    @click="show = 'recent'"
+                    class="fs14 mb-1 text-muted"
+                  >
+                    Recent
+                  </li>
+                  <li
+                    :class="{ active: show == 'trending' }"
+                    @click="show = 'trending'"
+                    class="fs14 text-muted"
+                  >
+                    Trending
+                  </li>
+                </ul>
+              </b-popover>
             </div>
             <div v-if="showDiscussion">
               <div class="main_content" v-if="filteredData.length">
@@ -202,7 +225,9 @@
                     <div>
                       <span
                         @click="
-                          $router.push(`/member/tribe/${$route.params.tribe}/discussion/${item.id}`)
+                          $router.push(
+                            `/member/tribe/${$route.params.tribe}/discussion/${item.id}`
+                          )
                         "
                         class="
                           text-dark-green
@@ -477,7 +502,7 @@ export default {
           vm.getdiscussionsbytrend();
           vm.getothers();
         } else {
-          vm.$toast.error('No access')
+          vm.$toast.error("No access");
           vm.$router.push("/member/tribes");
         }
       });
@@ -595,7 +620,9 @@ export default {
     },
     joindiscussion(item) {
       if (item.user && item.user.id == this.$store.getters.member.id) {
-        this.$router.push(`/member/tribe/${item.tribe_id}/discussion/${item.id}`);
+        this.$router.push(
+          `/member/tribe/${item.tribe_id}/discussion/${item.id}`
+        );
       } else {
         this.$http
           .get(`${this.$store.getters.url}/discussion/private/${item.id}`, {
@@ -610,7 +637,9 @@ export default {
                 .includes(this.$store.getters.member.id);
 
               if (result) {
-                this.$router.push(`/member/tribe/${item.tribe_id}/discussion/${item.id}`);
+                this.$router.push(
+                  `/member/tribe/${item.tribe_id}/discussion/${item.id}`
+                );
               } else {
                 this.discussion_id = item.id;
                 this.$bvModal.show("access");
@@ -776,11 +805,9 @@ export default {
   border-bottom: 2px solid transparent;
   left: 0;
 }
-.top_header div:hover::after {
-  border-color: var(--dark-green);
-}
-.top_header div.active::after {
-  border-color: var(--dark-green);
+
+.active {
+  color: var(--dark-green) !important;
 }
 .top_header div.active {
   color: var(--dark-green);
