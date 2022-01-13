@@ -561,7 +561,11 @@
               </b-form-group>
 
               <div class="my-3">
-                <b-button variant="dark-green" :disabled="disabled" type="submit" class="px-5"
+                <b-button
+                  variant="dark-green"
+                  :disabled="disabled"
+                  type="submit"
+                  class="px-5"
                   >Update password</b-button
                 >
               </div>
@@ -963,7 +967,7 @@ export default {
           localStorage.setItem("authMember", JSON.stringify(authMember));
           this.$toast.success("Updated successfully");
           this.disabled = false;
-           window.location.reload()
+          window.location.reload();
         })
         .error(() => {
           this.disabled = false;
@@ -1042,14 +1046,17 @@ export default {
     updateuser() {
       this.disabled = true;
       this.$http
-        .put(`${this.$store.getters.url}/users/${this.user.id}`, this.user, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
-        })
+        .put(
+          `${this.$store.getters.url}/users/${this.$store.getters.member.id}`,
+          this.user,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
         .then((res) => {
           if (res.status == 200) {
-
             this.user = res.data;
             var authMember = JSON.parse(localStorage.getItem("authMember"));
             authMember.profile = res.data.profile;
@@ -1068,7 +1075,7 @@ export default {
 
             localStorage.setItem("authMember", JSON.stringify(authMember));
             this.$toast.success("Updated successfully");
-            window.location.reload()
+            window.location.reload();
           }
           this.disabled = false;
         })
@@ -1077,7 +1084,7 @@ export default {
         });
     },
     updatepassword() {
-      this.disabled = true
+      this.disabled = true;
       this.$http
         .post(`${this.$store.getters.url}/update-password`, this.detail, {
           headers: {
@@ -1088,13 +1095,14 @@ export default {
           if (res.status == 200) {
             if (res.data.message == "success") {
               this.$toast.success("Password updated");
-              this.disabled = false
+              this.disabled = false;
               return;
             }
             this.$toast.error(res.data.message);
           }
-        }).then(()=>{
-          this.$toast.error('Update failed')
+        })
+        .then(() => {
+          this.$toast.error("Update failed");
         });
     },
   },

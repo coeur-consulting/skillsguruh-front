@@ -24,43 +24,7 @@
                     / <span>{{ discussion.tribe.name }}</span></span
                   >
 
-                  <b-dropdown
-                    v-if="auth"
-                    size="sm"
-                    variant="transparent"
-                    no-caret
-                    class="no-focus"
-                  >
-                    <template #button-content>
-                      <b-icon
-                        icon="three-dots-vertical"
-                        font-scale="1.2"
-                      ></b-icon>
-                    </template>
-                    <b-dropdown-item
-                      class="fs12"
-                      v-if="
-                        discussion.user &&
-                        discussion.user.id == $store.getters.member.id
-                      "
-                    >
-                      <span @click="$bvModal.show('edit')"
-                        ><b-icon icon="pencil-square" class="mr-1"></b-icon>
-                        <span class="">Edit</span></span
-                      >
-                    </b-dropdown-item>
 
-                    <b-dropdown-item
-                      class="fs12"
-                      @click="drop(discussion.id)"
-                      v-if="
-                        discussion.user &&
-                        discussion.user.id == $store.getters.member.id
-                      "
-                      ><b-icon icon="dash-circle" class="mr-1"></b-icon>
-                      Delete</b-dropdown-item
-                    >
-                  </b-dropdown>
                 </div>
                 <div class="content px-2 py-3 pt-4 pb-3">
                   <div class="top_dis d-flex align-items-center mb-2">
@@ -1074,14 +1038,7 @@
           </div>
         </div>
       </b-modal>
-      <b-modal
-        id="edit"
-        size="lg"
-        hide-footer
-        title="Update Discussion Information"
-      >
-        <EditDiscussion :information="discussion" @refresh="refresh" />
-      </b-modal>
+
     </div>
 
     <div class="tribe_join animated animate_fadeIn" v-show="toggleJoin">
@@ -1093,8 +1050,8 @@
         <div class="mb-4 text-center font-weight-bold text-warning">
           OOPS! You need to join this tribe to post a reply</div
         >
-        <br />
-        <h5 class="mb-2 mb-md-3 text-left fs15">Tribe information</h5>
+
+
         <div class="d-flex flex-column flex-md-row text-left">
           <b-avatar class="mb-4 mb-md-0 mr-md-3" :src="discussion.tribe.cover" size="4rem"></b-avatar>
           <span>
@@ -1175,7 +1132,7 @@ export default {
     SpeechToText,
     TextToSpeech,
     Editor,
-    EditDiscussion,
+   
   },
   created() {
     this.link =

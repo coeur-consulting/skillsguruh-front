@@ -450,12 +450,12 @@
             </div>
             <nav class="mb-3 class text-left">
               <b-nav vertical>
-                <b-nav-item :to="`/member/tribe/feed/${$route.params.tribe}`"
+                <!-- <b-nav-item :to="`/member/tribe/feed/${$route.params.tribe}`"
                   ><font-awesome-icon
                     :icon="rss"
                     class="icon mr-3"
                   />Feeds</b-nav-item
-                >
+                > -->
                 <b-nav-item
                   :to="`/member/tribe/discussions/${$route.params.tribe}`"
                 >
@@ -1019,7 +1019,9 @@ export default {
           this.$toast.error("Sending failed!");
         });
     },
-    invitetotribe() {},
+    invitetotribe() {
+       this.$bvModal.show("sharetribe");
+    },
     leavetribe() {
       var details = {
         tribe_id: this.$route.params.tribe,

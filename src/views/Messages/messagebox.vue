@@ -178,7 +178,7 @@
               v-if="item.voicenote"
               :src="item.voicenote"
               controls
-              style="width: 100%;min-width:250px;"
+              style="width: 100%; min-width: 250px"
             ></audio>
             <div class="pt-2" v-if="item.message" v-html="item.message"></div>
           </div>
@@ -650,10 +650,10 @@ export default {
         });
     },
     handleRecording({ blob, src }) {
-      console.log("🚀 ~ file: messagebox.vue ~ line 653 ~ handleRecording ~ src", src)
-      console.log("🚀 ~ file: messagebox.vue ~ line 653 ~ handleRecording ~ blob", blob)
-      this.blobvalue = blob;
-      this.inbox.voicenote = src;
+      this.blobvalue = src;
+      let url =  URL.createObjectURL(blob);
+      this.inbox.voicenote = url
+
       this.addinbox();
     },
     insert(emoji) {
@@ -885,7 +885,7 @@ ul {
   background-color: #d0d2d5;
   border-left: 3px solid var(--red);
   position: relative;
-   @media (max-width: 768px) {
+  @media (max-width: 768px) {
     width: max-content;
     max-width: 90%;
   }
@@ -908,7 +908,7 @@ ul {
 }
 .chatting_name {
   font-size: 12px;
-  min-width:100%;
+  min-width: 100%;
 }
 audio {
   height: 44px;
