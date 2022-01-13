@@ -282,6 +282,45 @@
           >
         </div>
       </div>
+       <div class="connections p-3 border rounded">
+            <h6 class="mb-3 fs13 text-left">Connections</h6>
+            <div
+              class="px-2 py-1 d-flex align-items-center search bg-light mb-3"
+            >
+              <b-icon icon="search"></b-icon>
+              <b-form-input
+                autocomplete="off"
+                autocorrect="off"
+                size="sm"
+                v-model="search"
+                class="flex-1 border-0 no-focus search-bg"
+                type="search"
+                placeholder="Search name"
+              ></b-form-input>
+            </div>
+            <div v-for="(item, id) in filteredConnections" :key="id">
+              <div
+                v-if="item.user_follower"
+                class="d-flex align-items-end mb-4"
+              >
+                <b-form-checkbox
+                  size="sm"
+                  v-model="emails"
+                  :value="item.user_follower.email"
+                >
+                  <div class="d-flex align-items-center flex-1">
+                    <b-avatar class="mr-2" size="1.3rem"></b-avatar>
+                    <div class="text-left" style="line-height: 1.1">
+                      <span class="fs12">{{
+                        item.user_follower.username
+                      }}</span>
+                    </div>
+                  </div>
+                </b-form-checkbox>
+              </div>
+
+            </div>
+          </div>
     </b-modal>
   </div>
 </template>
@@ -307,6 +346,7 @@ export default {
 
   data() {
     return {
+      search:'',
       sortvalue: "all",
       events: [],
       envelope: faEnvelope,
@@ -324,13 +364,14 @@ export default {
       rss: faRss,
       tribe: {},
       tribe_id: null,
+      connections:[],
 
       inviteUsers: [
         {
           email: "",
         },
       ],
-
+emails:[],
       sending: false,
       link: "",
       description: "",
@@ -338,6 +379,16 @@ export default {
   },
 
   computed: {
+    filteredConnections() {
+      return this.connections.filter((item) => {
+
+          return item.user_follower.name
+            .toLowerCase()
+            .includes(this.search.toLowerCase());
+
+
+      });
+    },
     interests() {
       return this.$store.getters.member.interests;
     },
@@ -360,12 +411,33 @@ export default {
   },
 
   created() {
-    this.link = `https://nzukoor.com/register?tribe_id=${this.$route.params.tribe}`;
+
     if (this.$route.params.tribe) {
       this.gettribe();
     }
+    this.getconnections()
+  },
+  mounted() {
+    this.link = `https://nzukoor.com/explore?activity=join_tribe&tribe_id=${this.$route.params.tribe}`;
   },
   methods: {
+    async getconnections() {
+
+      return this.$http
+        .get(`${this.$store.getters.url}/connections`, {
+          headers: {
+            Authorization: `Bearer ${this.useraccess.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.connections = res.data;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     toggleSort(val, interest = false) {
       var data = {
         val,
@@ -409,10 +481,14 @@ export default {
     },
     sendinvite() {
       this.sending = true;
+      var emails = this.emails.concat(this.inviteUsers.map(item=>item.email))
       var data = {
-        emails: this.inviteUsers,
+        emails: emails,
         id: this.$route.params.tribe,
       };
+
+
+
       this.$http
         .post(`${this.$store.getters.url}/tribe/invite`, data, {
           headers: {
@@ -424,6 +500,7 @@ export default {
             this.$toast.success("Invite Sent");
             this.sending = false;
             this.$bvModal.hide("sharetribe");
+            this.emails =[]
             this.inviteUsers = [
               {
                 email: "",

@@ -841,7 +841,7 @@
               class="fs12 py-1 px-2"
               @click="sendinvite(discussion.name)"
               :disabled="isDisabled"
-              
+
             >
               Send Invite
             </b-button>
@@ -1165,6 +1165,7 @@ import Report from "@/components/helpers/report";
 export default {
   data() {
     return {
+
       isDisabled: false,
       report_id: null,
       report_type: null,
@@ -1233,7 +1234,7 @@ export default {
           vm.getconnections();
         } else {
           vm.$toast.error("No access");
-          vm.$router.push("/member/tribes");
+          vm.$router.push(`/explore/community?activity=join_tribe&tribe_id=${vm.$route.params.tribe}`);
         }
       });
     });

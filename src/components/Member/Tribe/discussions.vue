@@ -429,6 +429,7 @@
     >
       <report :id="report_id" :type="report_type"></report>
     </b-modal>
+
     <b-icon
       class="mobile-add btn-circle btn-raised shadow"
       icon="plus-circle-fill"
@@ -503,7 +504,7 @@ export default {
           vm.getothers();
         } else {
           vm.$toast.error("No access");
-          vm.$router.push("/member/tribes");
+          vm.$router.push(`/explore/community?activity=join_tribe&tribe_id=${vm.$route.params.tribe}`);
         }
       });
     });

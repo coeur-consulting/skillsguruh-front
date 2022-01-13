@@ -1345,6 +1345,31 @@
         >Reply</b-button
       >
     </b-modal>
+     <div class="tribe_join animated animate_fadeIn" v-show="toggleJoin">
+
+      <div class="position-absolute p-3 p-md-5 shadow rounded bg-white">
+         <span class="cancel">
+        <b-icon icon="x" class="text-white" @click="toggleJoin=!toggleJoin"></b-icon>
+      </span>
+        <div class="mb-4 text-center font-weight-bold text-warning">
+          You have been invited to join this tribe</div
+        >
+
+
+        <div class="d-flex flex-column flex-md-row text-left" v-if="tribe">
+          <b-avatar class="mb-4 mb-md-0 mr-md-3" :src="tribe.cover" size="4rem"></b-avatar>
+          <span>
+            <span class="font-weight-bold">{{ tribe.name }}</span> <br />
+            <span>{{ tribe.description }}</span>
+          </span>
+        </div>
+        <div class="mt-4 text-right">
+          <b-button @click="jointribe"
+            >Join Tribe <b-icon icon="arrow-right"></b-icon
+          ></b-button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -1360,6 +1385,7 @@ import ViewMore from "@/components/Member/components/viewmore";
 export default {
   data() {
     return {
+      toggleJoin: false,
       report_id: null,
       report_type: null,
       index: null,
@@ -1400,6 +1426,7 @@ export default {
       alllikes: null,
       toggleOn: null,
       tribes: [],
+      tribe:{},
       showTribes: false,
     };
   },
@@ -1411,6 +1438,10 @@ export default {
     },
   },
   mounted() {
+    if(this.$route.query.activity=='join_tribe'){
+
+      this.gettribe()
+    }
     if (
       localStorage.getItem("authMember") ||
       localStorage.getItem("authFacilitator")
@@ -1484,8 +1515,35 @@ export default {
     },
   },
   methods: {
+     gettribe() {
+      this.$http
+        .get(`${this.$store.getters.url}/tribes/${this.$route.query.tribe_id}`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.tribe = res.data.data;
+ this.toggleJoin = true
+
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
     isMember(arr) {
       return arr.some((item) => item.id == this.$store.getters.member.id);
+    },
+     jointribe() {
+      if (!this.auth) {
+        this.$router.push(
+          `/login?tribe_id=${this.tribe.id}&type=join_tribe`
+        );
+      } else {
+        this.entertribe(this.tribe.id);
+      }
     },
     entertribe(id) {
       if (!this.auth) {

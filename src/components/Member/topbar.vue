@@ -244,8 +244,8 @@
                       : ''
                   "
                 >
-                  <span v-if="lastMessage(message).message" class="text-muted">
-                    {{ lastMessage(message).message }}</span
+                  <span v-if="lastMessage(message).message" class="text-muted" v-html="lastMessage(message).message">
+                   </span
                   >
                   <span v-else class="text-muted fs11"
                     ><i>Sent attachment</i></span

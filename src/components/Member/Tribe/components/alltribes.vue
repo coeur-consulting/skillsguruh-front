@@ -45,9 +45,13 @@
           :key="id"
           class="mb-4 position-relative"
         >
-       <span  class="position-absolute check">
-          <b-icon icon="check-circle-fill" v-if="n.isMember" class="text-white"></b-icon>
-       </span>
+          <span class="position-absolute check">
+            <b-icon
+              icon="check-circle-fill"
+              v-if="n.isMember"
+              class="text-white"
+            ></b-icon>
+          </span>
           <b-popover :target="`popover-${id}`" triggers="hover">
             <template #title> {{ n.name }}</template>
             <p class="fs13 text-capitalize mb-2">
@@ -174,6 +178,37 @@
     <b-modal id="start" hide-footer centered title="Create your tribe">
       <create-tribe @response="response" />
     </b-modal>
+    <div class="tribe_join animated animate_fadeIn" v-show="toggleJoin">
+      <div class="position-absolute p-3 p-md-5 shadow rounded bg-white">
+        <span class="cancel">
+          <b-icon
+            icon="x"
+            class="text-white"
+            @click="toggleJoin = !toggleJoin"
+          ></b-icon>
+        </span>
+        <div class="mb-4 text-center font-weight-bold text-warning">
+          You have belong to the tribe first!
+        </div>
+
+        <div class="d-flex flex-column flex-md-row text-left" v-if="newtribe">
+          <b-avatar
+            class="mb-4 mb-md-0 mr-md-3"
+            :src="newtribe.cover"
+            size="4rem"
+          ></b-avatar>
+          <span>
+            <span class="font-weight-bold">{{ newtribe.name }}</span> <br />
+            <span>{{ newtribe.description }}</span>
+          </span>
+        </div>
+        <div class="mt-4 text-right">
+          <b-button @click="jointribe"
+            >Join Tribe <b-icon icon="arrow-right"></b-icon
+          ></b-button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -186,6 +221,7 @@ import { bus } from "@/main.js";
 export default {
   data() {
     return {
+      toggleJoin: false,
       interest: "",
       sortValue: "all",
       signIn: faSignInAlt,
@@ -200,6 +236,7 @@ export default {
         amount: "",
       },
       price: "free",
+      newtribe: {},
       tribes: [],
       ags: [],
       mytags: [],
@@ -241,7 +278,6 @@ export default {
       );
     },
     sortedTribes() {
-
       if (this.sortValue == "members") {
         return this.filterTribes.slice().sort(function (a, b) {
           return b.users - a.users;
@@ -263,11 +299,10 @@ export default {
       }
       if (this.sortValue == "interest") {
         return this.filterTribes.filter((item) => {
-         var mapped = item.tags.map(val=> val.value.toLowerCase())
+          var mapped = item.tags.map((val) => val.value.toLowerCase());
 
-        return mapped.includes(this.interest.toLowerCase())
-       })
-
+          return mapped.includes(this.interest.toLowerCase());
+        });
       }
       return this.filterTribes;
     },
@@ -292,8 +327,38 @@ export default {
     if (this.$route.query.tribe) {
       this.search = this.$route.query.tribe;
     }
+    if (this.$route.query.activity == "join_tribe") {
+      this.gettribe();
+    }
   },
   methods: {
+    gettribe() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/tribes/${this.$route.query.tribe_id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.newtribe = res.data.data;
+            this.toggleJoin = true;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    jointribe() {
+      if (this.newtribe.type == "paid") {
+        this.purchase(this.newtribe.id);
+      } else {
+        this.entertribe(this.newtribe.id);
+      }
+    },
     purchase(id) {
       this.$router.push(`/member/order?id=${id}&type_payment=tribe`);
     },
@@ -396,11 +461,10 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.check{
-  top:10px;
+.check {
+  top: 10px;
   right: 10px;
-  z-index:10;
-
+  z-index: 10;
 }
 </style>
 

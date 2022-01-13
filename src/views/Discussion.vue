@@ -818,6 +818,58 @@
               </b-button>
             </div>
           </div>
+           <div class="connections p-3 border rounded" v-if="auth">
+            <h6 class="mb-3 fs13 text-left">Connections</h6>
+            <div
+              class="px-2 py-1 d-flex align-items-center search bg-light mb-3"
+            >
+              <b-icon icon="search"></b-icon>
+              <b-form-input
+                autocomplete="off"
+                autocorrect="off"
+                size="sm"
+                v-model="search"
+                class="flex-1 border-0 no-focus search-bg"
+                type="search"
+                placeholder="Search name"
+              ></b-form-input>
+            </div>
+            <div v-for="(item, id) in filteredConnections" :key="id">
+              <div
+                v-if="item.user_follower"
+                class="d-flex align-items-end mb-4"
+              >
+                <b-form-checkbox
+                  size="sm"
+                  v-model="emails"
+                  :value="item.user_follower.email"
+                >
+                  <div class="d-flex align-items-center flex-1">
+                    <b-avatar class="mr-2" size="1.3rem"></b-avatar>
+                    <div class="text-left" style="line-height: 1.1">
+                      <span class="fs12">{{
+                        item.user_follower.username
+                      }}</span>
+                    </div>
+                  </div>
+                </b-form-checkbox>
+              </div>
+              <div v-else class="d-flex align-items-end mb-4">
+                <b-form-checkbox
+                  size="sm"
+                  :value="item.facilitator_follower.email"
+                  v-model="emails"
+                >
+                  <div class="d-flex align-items-center flex-1">
+                    <b-avatar class="mr-2" size="1.3rem"></b-avatar>
+                    <div>
+                      <span>{{ item.facilitator_follower.username }}</span>
+                    </div>
+                  </div>
+                </b-form-checkbox>
+              </div>
+            </div>
+          </div>
         </div>
       </b-modal>
       <b-modal id="media" centered hide-footer>
@@ -1052,7 +1104,7 @@
         >
 
 
-        <div class="d-flex flex-column flex-md-row text-left">
+        <div class="d-flex flex-column flex-md-row text-left" v-if="discussion.tribe">
           <b-avatar class="mb-4 mb-md-0 mr-md-3" :src="discussion.tribe.cover" size="4rem"></b-avatar>
           <span>
             <span class="font-weight-bold">{{ discussion.tribe.name }}</span> <br />
@@ -1143,15 +1195,15 @@ export default {
     //   this.$toast.success("Posted");
     //   this.discussion.discussionmessage.unshift(data.message);
     // });
-  },
-  mounted() {
-    this.getdiscussion();
-    this.addview();
-    // this.getvote();
-    this.getconnections();
     if (localStorage.getItem("authMember")) {
       this.auth = true;
     }
+  },
+  mounted() {
+
+    this.getdiscussion();
+    this.getconnections();
+
   },
   computed: {
     useraccess() {
@@ -1255,11 +1307,7 @@ export default {
             .toLowerCase()
             .includes(this.search.toLowerCase());
         }
-        if (item.facilitator_follower) {
-          return item.facilitator_follower.name
-            .toLowerCase()
-            .includes(this.search.toLowerCase());
-        }
+
       });
     },
   },
@@ -1458,11 +1506,11 @@ export default {
     getText(res) {
       this.info.message = `${this.info.message} ${res}`;
     },
-    async getconnections() {
+  getconnections() {
       if (!this.auth) {
         return;
       }
-      return this.$http
+       this.$http
         .get(`${this.$store.getters.url}/connections`, {
           headers: {
             Authorization: `Bearer ${this.useraccess.access_token}`,
@@ -1746,35 +1794,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.cancel{
-  position:absolute;
-  top:-25px;
-  right:-25px;
-  padding:10px 14px;
-  border-radius:50rem;
-  background:black;
-}
-.tribe_join {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 99;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-.tribe_join div:first-child {
-  bottom: 40%;
-  width: 70%;
-  transform: translateX(50%);
-  right: 50%;
-  @media(max-width:768px){
-    width:90%;
-    font-size:14px;
-  }
-}
+
 .image {
   width: 80%;
   height: auto;

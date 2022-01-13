@@ -240,11 +240,22 @@
                             ? 'font-weight-bold'
                             : 'text-muted'
                         "
-                        >{{
-                          item.last_message.message
-                            ? item.last_message.message
-                            : "Sent attachment..."
-                        }}</small
+                        v-if=" item.last_message.message"
+                        v-html="item.last_message.message"
+                        ></small
+                      >
+                       <small
+                        class="text-truncate text-truncate--1"
+                        :class="
+                          item.unread_message
+                            ? 'font-weight-bold'
+                            : 'text-muted'
+                        "
+                        v-else
+                        >
+
+                             Sent attachment...
+                        </small
                       >
                       <small v-if="item.unread_message">
                         <b-badge variant="primary">{{
@@ -789,7 +800,7 @@ export default {
   },
 
   mounted() {
-    this.link = `https://nzukoor.com/register?tribe_id=${this.$route.params.tribe}`;
+    this.link = `https://nzukoor.com/explore?activity=join_tribe&tribe_id=${this.$route.params.tribe}`;
 
     this.gettribe();
     if (localStorage.getItem("authMember")) {
