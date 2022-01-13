@@ -2,15 +2,14 @@
   <b-container fluid class="p-0 bg-white">
     <b-row class="m-0 h-100">
       <b-col sm="4" class="border-right text-left py-3 pl-3 pr-1">
-         <div
-          class="mb-4 px-2 fs11  d-flex align-items-center"
-
-
-        >
-        <router-link to="/member"> <span class="cursor-pointer text-dark-green">Feed</span> </router-link> <span class="mx-1"> <b-icon icon="chevron-right" scale=".7"></b-icon> </span> <span class="">Profile</span>
-
-
-
+        <div class="mb-4 px-2 fs11 d-flex align-items-center">
+          <router-link to="/member">
+            <span class="cursor-pointer text-dark-green">Feed</span>
+          </router-link>
+          <span class="mx-1">
+            <b-icon icon="chevron-right" scale=".7"></b-icon>
+          </span>
+          <span class="">Profile</span>
         </div>
         <div
           class="mb-3 px-2 fs12 cursor-pointer d-flex align-items-center"
@@ -130,7 +129,8 @@
                   <h6>Owned Tribes</h6>
                   <span class="display-4">{{ analytics.ownedtribes }}</span>
                   <div class="d-flex justify-content-center fs11">
-                    <span class="mr-3">Started this week</span> <span>{{ analytics.ownedtribesthisweek }}</span>
+                    <span class="mr-3">Started this week</span>
+                    <span>{{ analytics.ownedtribesthisweek }}</span>
                   </div>
                 </b-card-body>
               </b-card>
@@ -141,7 +141,8 @@
                   <h6>Tribes You Belong To</h6>
                   <span class="display-4">{{ analytics.belongedtribes }}</span>
                   <div class="d-flex justify-content-center fs11">
-                    <span class="mr-3">Joined this week</span> <span>{{ analytics.belongedtribesthisweek }}</span>
+                    <span class="mr-3">Joined this week</span>
+                    <span>{{ analytics.belongedtribesthisweek }}</span>
                   </div>
                 </b-card-body>
               </b-card>
@@ -226,8 +227,8 @@
                 <b-card-body class="text-left">
                   <h6>Interactions This Week</h6>
 
-                  <b-row class=" justify-content-between">
-                    <b-col cols="6" sm="2" class=" fs13">
+                  <b-row class="justify-content-between">
+                    <b-col cols="6" sm="2" class="fs13">
                       <span class="mr-2"> Likes</span>
                       <span
                         >{{ analytics.likesthisweek }}
@@ -235,28 +236,28 @@
                       ></span>
                     </b-col>
 
-                    <b-col cols="6" sm="2" class=" fs13">
+                    <b-col cols="6" sm="2" class="fs13">
                       <span class="mr-2"> Replies</span>
                       <span
                         >{{ analytics.repliesthisweek }}
                         <b-icon icon="reply-fill"></b-icon
                       ></span>
                     </b-col>
-                    <b-col cols="6" sm="2" class=" fs13">
+                    <b-col cols="6" sm="2" class="fs13">
                       <span class="mr-2"> Votes</span>
                       <span
                         >{{ analytics.votesthisweek }}
                         <b-icon icon="caret-down-fill"></b-icon
                       ></span>
                     </b-col>
-                    <b-col cols="6" sm="2" class=" fs13">
+                    <b-col cols="6" sm="2" class="fs13">
                       <span class="mr-2"> Posts</span>
                       <span
                         >{{ analytics.poststhisweek }}
                         <b-icon icon="pencil-fill"></b-icon
                       ></span>
                     </b-col>
-                     <b-col cols="6" sm="2" class=" fs13">
+                    <b-col cols="6" sm="2" class="fs13">
                       <span class="mr-2"> Comments</span>
                       <span
                         >{{ analytics.commentsthisweek }}
@@ -265,12 +266,12 @@
                     </b-col>
                   </b-row>
                 </b-card-body>
-                <hr>
+                <hr />
                 <b-card-body class="text-left">
                   <h6>Interactions This Month</h6>
 
                   <b-row class="justify-content-between">
-                    <b-col cols="6" sm="2" class=" fs13">
+                    <b-col cols="6" sm="2" class="fs13">
                       <span class="mr-2"> Likes</span>
                       <span
                         >{{ analytics.likesthismonth }}
@@ -278,28 +279,28 @@
                       ></span>
                     </b-col>
 
-                    <b-col cols="6" sm="2" class=" fs13">
+                    <b-col cols="6" sm="2" class="fs13">
                       <span class="mr-2"> Replies</span>
                       <span
                         >{{ analytics.repliesthismonth }}
                         <b-icon icon="reply-fill"></b-icon
                       ></span>
                     </b-col>
-                    <b-col cols="6" sm="2" class=" fs13">
+                    <b-col cols="6" sm="2" class="fs13">
                       <span class="mr-2"> Votes</span>
                       <span
                         >{{ analytics.votesthismonth }}
                         <b-icon icon="caret-down-fill"></b-icon
                       ></span>
                     </b-col>
-                    <b-col cols="6" sm="2" class=" fs13">
+                    <b-col cols="6" sm="2" class="fs13">
                       <span class="mr-2"> Posts</span>
                       <span
                         >{{ analytics.poststhismonth }}
                         <b-icon icon="pencil-fill"></b-icon
                       ></span>
                     </b-col>
-                       <b-col cols="6" sm="2" class=" fs13">
+                    <b-col cols="6" sm="2" class="fs13">
                       <span class="mr-2">Comments</span>
                       <span
                         >{{ analytics.commentsthismonth }}
@@ -503,7 +504,11 @@
               ></b-col>
             </b-form-row>
             <div>
-              <b-button variant="dark-green" type="submit" class="px-5 mt-4"
+              <b-button
+                variant="dark-green"
+                type="submit"
+                :disabled="disabled"
+                class="px-5 mt-4"
                 >Save</b-button
               >
             </div>
@@ -556,7 +561,7 @@
               </b-form-group>
 
               <div class="my-3">
-                <b-button variant="dark-green" type="submit" class="px-5"
+                <b-button variant="dark-green" :disabled="disabled" type="submit" class="px-5"
                   >Update password</b-button
                 >
               </div>
@@ -687,7 +692,10 @@
                 </b-col>
               </b-form-row>
               <b-form-group class="mt-5 text-center">
-                <b-button variant="dark-green" @click="updateinformation"
+                <b-button
+                  variant="dark-green"
+                  :disabled="disabled"
+                  @click="updateinformation"
                   >Save Information</b-button
                 >
               </b-form-group>
@@ -706,7 +714,7 @@ export default {
   data() {
     return {
       analytics: [],
-     // genderseries: [33, 33, 34],
+      // genderseries: [33, 33, 34],
       genderOptions: {
         chart: {
           type: "pie",
@@ -749,7 +757,7 @@ export default {
           colors: ["transparent"],
         },
         xaxis: {
-          categories: ["Lagos", "Ogun", "Edo", "Abuja", "Delta",'others'],
+          categories: ["Lagos", "Ogun", "Edo", "Abuja", "Delta", "others"],
         },
         yaxis: {
           title: {
@@ -789,7 +797,7 @@ export default {
           colors: ["transparent"],
         },
         xaxis: {
-          categories: ["0-14", "15-24", "25-35", "36-above","others"],
+          categories: ["0-14", "15-24", "25-35", "36-above", "others"],
         },
         yaxis: {
           title: {
@@ -839,6 +847,7 @@ export default {
         new_password: "",
       },
       banks: [],
+      disabled: false,
     };
   },
   components: {
@@ -862,21 +871,20 @@ export default {
       return this.analytics.gender;
     },
     ageSeries() {
-     return  [
-         {
+      return [
+        {
           name: "",
           data: this.analytics.ages,
         },
-       ]
-
+      ];
     },
     stateSeries() {
-     return  [
-         {
+      return [
+        {
           name: "",
           data: this.analytics.locations,
         },
-       ]
+      ];
     },
     voices() {
       return this.$store.getters.voices;
@@ -931,6 +939,7 @@ export default {
       this.user.bank_code = bank.code;
     },
     updateinformation() {
+      this.disabled = true;
       var userinformation = {
         show_age: this.user.show_age,
         show_email: this.user.show_age,
@@ -953,6 +962,11 @@ export default {
           authMember.showname = res.data.showname;
           localStorage.setItem("authMember", JSON.stringify(authMember));
           this.$toast.success("Updated successfully");
+          this.disabled = false;
+           window.location.reload()
+        })
+        .error(() => {
+          this.disabled = false;
         });
     },
     getrequests() {
@@ -1026,6 +1040,7 @@ export default {
         });
     },
     updateuser() {
+      this.disabled = true;
       this.$http
         .put(`${this.$store.getters.url}/users/${this.user.id}`, this.user, {
           headers: {
@@ -1034,26 +1049,35 @@ export default {
         })
         .then((res) => {
           if (res.status == 200) {
+
             this.user = res.data;
             var authMember = JSON.parse(localStorage.getItem("authMember"));
             authMember.profile = res.data.profile;
             authMember.voice = res.data.voice;
-            this.user.account_no = res.data.accountdetail.account_no;
-            var bank = this.banks.find(
-              (item) => item.code == res.data.accountdetail.bank_code
-            );
-            if (bank) {
-              this.bank_id = bank.id;
+            authMember.username = res.data.username;
+
+            if (this.user.account_no) {
+              this.user.account_no = res.data.accountdetail.account_no;
+              var bank = this.banks.find(
+                (item) => item.code == res.data.accountdetail.bank_code
+              );
+              if (bank) {
+                this.bank_id = bank.id;
+              }
             }
+
             localStorage.setItem("authMember", JSON.stringify(authMember));
             this.$toast.success("Updated successfully");
+            window.location.reload()
           }
+          this.disabled = false;
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Update failed");
         });
     },
     updatepassword() {
+      this.disabled = true
       this.$http
         .post(`${this.$store.getters.url}/update-password`, this.detail, {
           headers: {
@@ -1064,10 +1088,13 @@ export default {
           if (res.status == 200) {
             if (res.data.message == "success") {
               this.$toast.success("Password updated");
+              this.disabled = false
               return;
             }
             this.$toast.error(res.data.message);
           }
+        }).then(()=>{
+          this.$toast.error('Update failed')
         });
     },
   },

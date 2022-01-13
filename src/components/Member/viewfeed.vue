@@ -67,7 +67,7 @@
                   </b-dropdown>
                 </div>
                 <div >
-                  <p class="px-3" v-html="feed.message"> </p>
+                  <p class="px-3" v-html="highlightText(feed.message)"> </p>
                   <div v-if="feed.url" class="text-dark-green mb-1">
                     <a :href="feed.url" target="_blank">Click link</a>
                   </div>
@@ -199,9 +199,9 @@
                         >{{ comment.user.username }}</span
                       >
 
-                      <span class="comment_text mr-2">{{
-                        comment.comment
-                      }}</span>
+                      <span class="comment_text mr-2" v-html="highlightText(comment.comment)">
+
+                      </span>
                       <div
                         class="
                           d-flex
@@ -563,7 +563,7 @@
         <div
           class="font-weight-bold"
           v-if="replycomment"
-          v-html="replycomment.comment"
+          v-html="highlightText(replycomment.comment)"
         ></div>
       </template>
       <b-textarea class="mb-3" v-model="commentreply"> </b-textarea>
@@ -930,6 +930,22 @@ export default {
 
         return extension[0].toLowerCase();
       }
+    },
+     highlightText(text) {
+      let reg = /(?:^|\W)@(\w+)(?!\w)/g,
+        match;
+
+      var str = text
+        .split(/\s+/)
+        .map((item) => {
+          if ((match = reg.exec(item))) {
+            item = `  <a  href='/member/profile/${match[1]}'><span class='highlight'>@${match[1]}</span></a> `;
+            return item;
+          }
+          return item;
+        })
+        .join(" ");
+      return str;
     },
     getfeeds() {
       this.$http

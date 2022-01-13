@@ -873,6 +873,7 @@ ul {
 }
 .chatting_name {
   font-size: 12px;
+  min-width:100%;
 }
 audio {
   height: 44px;

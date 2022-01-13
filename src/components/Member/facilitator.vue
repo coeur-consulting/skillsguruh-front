@@ -330,7 +330,7 @@
                               </div>
                             </div>
                             <div class="text-left feed_text px-3">
-                              <div class="mb-1" v-html="feed.message"></div>
+                              <div class="mb-1" v-html="highlightText(feed.message)"></div>
 
                               <div v-if="feed.url" class="text-dark-green mb-1">
                                 <a :href="feed.url" target="_blank"
@@ -450,12 +450,7 @@
                                   :key="item.id"
                                 >
                                   <div class="flex-1 pr-2">
-                                    <span
-                                      class="comment_name mr-2"
-                                      v-if="item.admin"
-                                    >
-                                      {{ item.admin.name }}</span
-                                    >
+
                                     <span
                                       class="comment_name mr-2 hover_green"
                                       @click="
@@ -467,30 +462,14 @@
                                     >
                                       {{ item.user.username }}</span
                                     >
-                                    <span
-                                      class="comment_name mr-2 hover_green"
-                                      @click="
-                                        $router.push(
-                                          `/member/profile/f/${item.facilitator.id}`
-                                        )
-                                      "
-                                      v-if="item.facilitator"
-                                    >
-                                      {{ item.facilitator.username }}</span
-                                    >
 
-                                    <span class="comment_text">{{
-                                      item.comment
-                                    }}</span>
+                                    <span class="comment_text" v-html="highlightText(item.comment)">
+
+                                    </span>
                                   </div>
                                   <div>
                                     <small
-                                      v-if="
-                                        (feed.user &&
-                                          feed.user.id ==
-                                            $store.getters.member.id) ||
-                                        $store.getters.member.id == item.user.id
-                                      "
+
                                     >
                                       <b-icon
                                         class="mr-2"
@@ -973,7 +952,7 @@
         <div
           class="font-weight-bold"
           v-if="replycomment"
-          v-html="replycomment.comment"
+          v-html="highlightText(replycomment.comment)"
         ></div>
       </template>
       <b-textarea class="mb-3" v-model="commentreply"> </b-textarea>
@@ -1028,7 +1007,7 @@
                           >
                             {{ item.user.username }}
                           </div>
-                          <div class="comment_text">{{ item.comment }}</div>
+                          <div class="comment_text" v-html="highlightText(item.comment)"></div>
                         </div>
                         <small
                           class="text-muted mr-2"
@@ -1497,6 +1476,22 @@ export default {
     }
   },
   methods: {
+     highlightText(text) {
+      let reg = /(?:^|\W)@(\w+)(?!\w)/g,
+        match;
+
+      var str = text
+        .split(/\s+/)
+        .map((item) => {
+          if ((match = reg.exec(item))) {
+            item = `  <a  href='/member/profile/${match[1]}'><span class='highlight'>@${match[1]}</span></a> `;
+            return item;
+          }
+          return item;
+        })
+        .join(" ");
+      return str;
+    },
     insertcomment(emoji, id, index) {
       if (this.feeds[index].comment == null) {
         this.feeds[index].comment = "";

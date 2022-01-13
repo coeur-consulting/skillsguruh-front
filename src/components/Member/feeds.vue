@@ -10,7 +10,7 @@
               class="rounded border-0"
               v-model="feed.message"
               :placeholder="
-                'What\'s on your mind ' + $store.getters.member.name + '?'
+                'What\'s on your mind ' + $store.getters.member.username + '?'
               "
             ></b-form-textarea>
           </div>
@@ -90,7 +90,7 @@
               class="rounded border-0"
               v-model="feed.message"
               :placeholder="
-                'What\'s on your mind ' + $store.getters.member.name + '?'
+                'What\'s on your mind ' + $store.getters.member.username + '?'
               "
             ></b-form-textarea>
           </div>
@@ -194,8 +194,8 @@
                             >
                               {{ item.user.username }}
                             </div>
-                            <div class="comment_text" :id="item.comment">
-                              {{ item.comment }}
+                            <div class="comment_text" :id="item.comment" v-html="highlightText(item.comment)">
+
                             </div>
                           </div>
                           <small
@@ -367,7 +367,7 @@
                   readonly
                   @click="$bvModal.show('feed')"
                   :placeholder="
-                    'What\'s on your mind ' + $store.getters.member.name + '?'
+                    'What\'s on your mind ' + $store.getters.member.username + '?'
                   "
                 ></b-form-input>
               </div>
@@ -562,7 +562,7 @@
                       </div>
                     </div>
                     <div class="text-left feed_text px-3">
-                      <div class="mb-1" v-html="feed.message"></div>
+                      <div class="mb-1" v-html="highlightText(feed.message)"></div>
 
                       <div v-if="feed.url" class="text-dark-green mb-1">
                         <a :href="feed.url" target="_blank">Click link</a>
@@ -659,7 +659,7 @@
                               {{ item.user.username }}</span
                             >
 
-                            <span class="comment_text">{{ item.comment }}</span>
+                            <span class="comment_text" v-html="highlightText(item.comment)"></span>
                           </div>
                           <div>
                             <small>
@@ -909,7 +909,7 @@
         <div
           class="font-weight-bold"
           v-if="replycomment"
-          v-html="replycomment.comment"
+          v-html="highlightText(replycomment.comment)"
         ></div>
       </template>
       <b-textarea class="mb-3" v-model="commentreply"> </b-textarea>
@@ -1059,6 +1059,22 @@ export default {
     },
   },
   methods: {
+     highlightText(text) {
+      let reg = /(?:^|\W)@(\w+)(?!\w)/g,
+        match;
+
+      var str = text
+        .split(/\s+/)
+        .map((item) => {
+          if ((match = reg.exec(item))) {
+            item = `  <a  href='/member/profile/${match[1]}'><span class='highlight'>@${match[1]}</span></a> `;
+            return item;
+          }
+          return item;
+        })
+        .join(" ");
+      return str;
+    },
     toggleFeedAdd(type,multiple) {
 
       this.type = type;
