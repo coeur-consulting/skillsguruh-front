@@ -104,7 +104,7 @@
               />Feeds</b-nav-item
             > -->
             <b-nav-item
-              :to="`/member/tribe/discussions/${$store.getters.tribe}`"
+              :to="`/member/tribe/discussions/${$route.params.tribe}`"
             >
               <font-awesome-icon
                 :icon="comments"
@@ -411,7 +411,7 @@ export default {
       this.sending = true;
       var data = {
         emails: this.inviteUsers,
-        id: this.$store.getters.tribe,
+        id: this.$route.params.tribe,
       };
       this.$http
         .post(`${this.$store.getters.url}/tribe/invite`, data, {
@@ -441,7 +441,7 @@ export default {
     },
     leavetribe() {
       var details = {
-        tribe_id: this.$store.getters.tribe,
+        tribe_id: this.$route.params.tribe,
         user: this.$store.getters.member,
       };
       this.$bvModal

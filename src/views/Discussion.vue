@@ -1075,7 +1075,6 @@ import Attachment from "@/components/miniupload";
 import Editor from "@tinymce/tinymce-vue";
 import SpeechToText from "@/components/speechToText";
 import TextToSpeech from "@/components/textToSpeech";
-import EditDiscussion from "@/components/editdiscussion";
 
 export default {
   data() {
@@ -1132,7 +1131,7 @@ export default {
     SpeechToText,
     TextToSpeech,
     Editor,
-   
+
   },
   created() {
     this.link =
