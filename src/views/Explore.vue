@@ -1517,14 +1517,10 @@ export default {
   methods: {
      gettribe() {
       this.$http
-        .get(`${this.$store.getters.url}/tribes/${this.$route.query.tribe_id}`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
-        })
+        .get(`${this.$store.getters.url}/guest/tribe/${this.$route.query.tribe_id}`)
         .then((res) => {
           if (res.status == 200) {
-            this.tribe = res.data.data;
+            this.tribe = res.data;
  this.toggleJoin = true
 
           }
