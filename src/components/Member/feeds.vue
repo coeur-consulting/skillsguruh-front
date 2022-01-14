@@ -199,7 +199,7 @@
                             </div>
                           </div>
                           <small
-                            class="text-muted mr-2"
+                            class="text-muted mr-2 cursor-pointer"
                             @click="handlereplycomment(item, index)"
                             >Reply
                           </small>
@@ -208,6 +208,7 @@
                             <b-icon
                               :icon="item.isLiked ? 'heart-fill' : 'heart'"
                               :class="item.isLiked ? 'text-danger' : ''"
+                              class="cursor-pointer"
                               @click="
                                 likecomment(item.id, index, commentUser.id)
                               "
