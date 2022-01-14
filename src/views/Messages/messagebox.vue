@@ -908,7 +908,7 @@ ul {
 }
 .chatting_name {
   font-size: 12px;
-  min-width: 100%;
+  min-width: 60%;
 }
 audio {
   height: 44px;
