@@ -1187,7 +1187,7 @@ export default {
   },
   created() {
     this.link =
-      "https://nzukoor.com//explore/discussion/" + this.$route.params.id;
+      "https://nzukoor.com/explore/discussion/" + this.$route.params.id;
 
     // var channel = this.$pusher.subscribe("adddiscussion");
 
