@@ -24,20 +24,36 @@
         class="chatbody py-3 px-2 px-md-5 text-left pl-0 mb-0"
         v-chat-scroll="{ always: false, smooth: true, scrollonremoved: true }"
       >
-        <li
-          v-for="(item, index) in messages"
+        <span v-for="(messages,idx) in messagesbydate" :key="idx">
+         <div class="mb-5 text-center"> <span class="bg-light fs13 p-2 mb-3 text-center rounded-pill">{{messages.date}}</span></div>
+          <li
+          v-for="(item, index) in messages.messages"
           :key="index"
           style="margin-bottom: 4rem"
         >
           <div
             v-if="item.user_id"
-            class="mb-3 shadow-sm"
+            class="mb-3 shadow-sm relative"
             :class="
               item.user_id == $store.getters.member.id
                 ? 'right_text'
                 : 'left_text'
             "
           >
+            <span
+              class="message_status"
+              v-if="item.user_id == $store.getters.member.id"
+            >
+              <b-icon v-if="!item.status" icon="clock-history"></b-icon>
+              <b-icon
+                v-if="item.status && !item.is_read"
+                icon="check2"
+              ></b-icon>
+              <b-icon
+                v-if="item.status && item.is_read"
+                icon="check2-all"
+              ></b-icon>
+            </span>
             <div class="namer d-flex flex-1 align-items-center mb-1">
               <span
                 class="chatting_name font-weight-bold ml-3"
@@ -118,13 +134,13 @@
                     font-scale="2rem"
                   ></b-icon>
                 </div>
-                <!-- <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center">
                   <audio
                     :src="item.attachment"
                     controls
                     class="bg-transparent"
                   ></audio>
-                </div> -->
+                </div>
                 <div
                   class="
                     d-flex
@@ -183,6 +199,7 @@
             <div class="pt-2" v-if="item.message" v-html="item.message"></div>
           </div>
         </li>
+        </span>
       </ul>
       <div class="mic bg-light" v-if="record">
         <vue-dictaphone
@@ -486,14 +503,14 @@
 import Upload from "@/components/chatUpload";
 import EmojiPicker from "vue-emoji-picker";
 import { bus } from "@/main.js";
-
+import moment from "moment";
 export default {
   data() {
     return {
       loading: false,
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp", "mov", "flv"],
-      aud_ext: ["mp3", "aac"],
+      aud_ext: ["mp3", "aac", "wav"],
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       record: false,
 
@@ -577,6 +594,24 @@ export default {
     });
   },
   computed: {
+    sortbydate() {
+      let sortarr = this.messages.map((item) =>
+        moment(item.created_at).format("MMMM D YYYY")
+      );
+      let newset = new Set(sortarr);
+      return [...newset];
+    },
+    messagesbydate() {
+      return this.sortbydate.map((item) => {
+        return {
+          date: item,
+          messages: this.messages.filter(
+            (val) => moment(val.created_at).format("MMMM D YYYY") == item
+          ),
+        };
+      });
+    },
+
     useraccess() {
       return this.$store.getters.member;
     },
@@ -651,8 +686,8 @@ export default {
     },
     handleRecording({ blob, src }) {
       this.blobvalue = src;
-      let url =  URL.createObjectURL(blob);
-      this.inbox.voicenote = url
+      let url = URL.createObjectURL(blob);
+      this.inbox.voicenote = url;
 
       this.addinbox();
     },
@@ -712,6 +747,23 @@ export default {
       }
       this.inbox.receiver_id = this.info.id;
       this.inbox.receiver = this.info.type;
+      let data = {
+        attachment: this.inbox.attachment,
+        created_at: this.$moment.now(),
+        id: 2455,
+        is_read: 0,
+        message: this.inbox.message,
+        receiver: "user",
+        receiver_id: this.info.id,
+        receiver_info: {},
+        status: 0,
+        user: this.$store.getters.member,
+        user_id: this.$store.getters.member.id,
+        voicenote: this.inbox.voicenote,
+      };
+      let index = this.messages.length;
+
+      this.messages.push(data);
       this.$http
         .post(`${this.$store.getters.url}/inboxes`, this.inbox, {
           headers: {
@@ -720,7 +772,6 @@ export default {
         })
         .then((res) => {
           if (res.status === 201) {
-            this.$toast.success("Message sent ");
             var val = {
               message: res.data.message,
               index: this.info.index,
@@ -728,7 +779,7 @@ export default {
 
             bus.$emit("lastmessage", val);
             this.loading = false;
-            this.messages.push(res.data);
+            this.messages[index].status = 1;
             if (this.inbox.attachment) {
               this.$bvModal.hide("media");
             }

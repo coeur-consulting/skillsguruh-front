@@ -55,11 +55,17 @@
                   :class="
                     item.unread_message ? 'font-weight-bold' : 'text-muted'
                   "
-                  >{{
-                    item.last_message.message
-                      ? item.last_message.message
-                      : "Sent attachment..."
-                  }}</small
+                  v-if=" item.last_message.message"
+                  v-html="item.last_message.message"
+                  ></small
+                >
+                  <small
+                  v-else
+                  class="text-truncate text-truncate--1 text-muted"
+
+                  >
+                    Sent attachment...
+                </small
                 >
                 <small v-if="item.unread_message">
                   <b-badge variant="dark-green">{{

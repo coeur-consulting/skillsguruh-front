@@ -49,162 +49,182 @@
       class="chatbody reply py-3 px-3 text-left pl-0 mb-0"
       v-chat-scroll="{ always: false, smooth: true, scrollonremoved: true }"
     >
-      <li v-for="(item, index) in messages" :key="index">
-        <div
-          v-if="item.user_id"
-          class="mb-2"
-          :class="
-            item.user_id == $store.getters.member.id
-              ? 'right_text'
-              : 'left_text'
-          "
+      <span v-for="(messages,idx) in messagesbydate" :key="idx">
+         <div class="mb-5 text-center"> <span class="bg-light fs13 p-2 mb-3 text-center rounded-pill">{{messages.date}}</span></div>
+          <li
+          v-for="(item, index) in messages.messages"
+          :key="index"
+          style="margin-bottom: 4rem"
         >
           <div
-            class="
-              d-flex
-              flex-1
-              align-items-center
-              justify-content-between
-              mb-1
+            v-if="item.user_id"
+            class="mb-3 shadow-sm relative"
+            :class="
+              item.user_id == $store.getters.member.id
+                ? 'right_text'
+                : 'left_text'
             "
           >
             <span
-              class="chatting_name font-weight-bold mr-3"
-              v-if="item.user"
-              >{{ item.user.username }}</span
+              class="message_status"
+              v-if="item.user_id == $store.getters.member.id"
             >
+              <b-icon v-if="!item.status" icon="clock-history"></b-icon>
+              <b-icon
+                v-if="item.status && !item.is_read"
+                icon="check2"
+              ></b-icon>
+              <b-icon
+                v-if="item.status && item.is_read"
+                icon="check2-all"
+              ></b-icon>
+            </span>
+            <div class="namer d-flex flex-1 align-items-center mb-1">
+              <span
+                class="chatting_name font-weight-bold ml-3"
+                v-if="item.user.id === useraccess.id"
+                >You</span
+              >
+              <span class="chatting_name font-weight-bold mr-3" v-else>{{
+                item.user.username
+              }}</span>
 
-            <span class="text-muted fs11">
-              {{ item.created_at | moment("LT") }}</span
-            >
-          </div>
-          <a :href="item.attachment" target="_blank" download class="mb-1">
-            <b-img
-              v-if="
-                item.attachment &&
-                img_ext.includes(getextension(item.attachment))
-              "
-              class="cursor-pointer chat_image"
-              :src="item.attachment"
-            ></b-img>
-            <div
-              v-if="
-                item.attachment &&
-                vid_ext.includes(getextension(item.attachment))
-              "
-              class="
-                p-1
-                bg-lighter-green
-                d-flex
-                align-items-center
-                rounded
-                cursor-pointer
-              "
-            >
-              <div class="bg-dark-green text-center rounded p-2 mr-3">
-                <b-icon
-                  icon="camera-video-fill"
-                  variant="white"
-                  font-scale="2rem"
-                ></b-icon>
-              </div>
+              <span class="text-muted fs9" style="min-width: 40px">
+                {{ item.created_at | moment("LT") }}</span
+              >
+            </div>
+            <a :href="item.attachment" target="_blank" download class="mb-1">
+              <b-img
+                v-if="
+                  item.attachment &&
+                  img_ext.includes(getextension(item.attachment))
+                "
+                class="cursor-pointer chat_image"
+                :src="item.attachment"
+              ></b-img>
               <div
+                v-if="
+                  item.attachment &&
+                  vid_ext.includes(getextension(item.attachment))
+                "
                 class="
+                  p-1
+                  bg-lighter-green
                   d-flex
-                  w-100
                   align-items-center
-                  p-2
-                  justify-content-center justify-content-center
-                  text-dark
-                  fs15
+                  rounded
+                  cursor-pointer
                 "
               >
-                <!-- {{ getFileDetails(item.attachment).then((res) => res) }} -->
-                Download Video
+                <div class="bg-dark-green text-center rounded p-2 mr-3">
+                  <b-icon
+                    icon="camera-video-fill"
+                    variant="white"
+                    font-scale="2rem"
+                  ></b-icon>
+                </div>
+                <div
+                  class="
+                    d-flex
+                    w-100
+                    align-items-center
+                    p-2
+                    justify-content-center justify-content-center
+                    text-dark
+                    fs15
+                  "
+                >
+                  <!-- {{ getFileDetails(item.attachment).then((res) => res) }} -->
+                  Download Video
+                </div>
               </div>
-            </div>
-            <div
-              v-if="
-                item.attachment &&
-                aud_ext.includes(getextension(item.attachment))
-              "
-              class="
-                p-1
-                bg-lighter-green
-                d-flex
-                align-items-center
-                rounded
-                cursor-pointer
-              "
-            >
-              <div class="bg-dark-green text-center rounded p-2 mr-3">
-                <b-icon
-                  icon="music-note-beamed"
-                  variant="white"
-                  font-scale="2rem"
-                ></b-icon>
-              </div>
-              <!-- <div class="d-flex align-items-center">
+              <div
+                v-if="
+                  item.attachment &&
+                  aud_ext.includes(getextension(item.attachment))
+                "
+                class="
+                  p-1
+                  bg-lighter-green
+                  d-flex
+                  align-items-center
+                  rounded
+                  cursor-pointer
+                "
+              >
+                <div class="bg-dark-green text-center rounded p-2 mr-3">
+                  <b-icon
+                    icon="music-note-beamed"
+                    variant="white"
+                    font-scale="2rem"
+                  ></b-icon>
+                </div>
+                <div class="d-flex align-items-center">
                   <audio
                     :src="item.attachment"
                     controls
                     class="bg-transparent"
                   ></audio>
-                </div> -->
-              <div
-                class="
-                  d-flex
-                  w-100
-                  align-items-center
-                  p-2
-                  justify-content-center justify-content-center
-                  text-dark
-                  fs15
-                "
-              >
-                Download Audio
-              </div>
-            </div>
-            <div
-              v-if="
-                item.attachment &&
-                doc_ext.includes(getextension(item.attachment))
-              "
-              class="
-                p-1
-                bg-lighter-green
-                d-flex
-                align-items-center
-                rounded
-                cursor-pointer
-              "
-            >
-              <div class="bg-dark-green text-center rounded p-2 mr-3">
-                <b-icon icon="file" variant="white" font-scale="2rem"></b-icon>
+                </div>
+                <div
+                  class="
+                    d-flex
+                    w-100
+                    align-items-center
+                    p-2
+                    justify-content-center justify-content-center
+                    text-dark
+                    fs15
+                  "
+                >
+                  Download Audio
+                </div>
               </div>
               <div
+                v-if="
+                  item.attachment &&
+                  doc_ext.includes(getextension(item.attachment))
+                "
                 class="
+                  p-1
+                  bg-lighter-green
                   d-flex
                   align-items-center
-                  p-2
-                  justify-content-center
-                  text-dark
-                  fs15
+                  rounded
+                  cursor-pointer
                 "
               >
-                Download File
+                <div class="bg-dark-green text-center rounded p-2 mr-3">
+                  <b-icon
+                    icon="file"
+                    variant="white"
+                    font-scale="2rem"
+                  ></b-icon>
+                </div>
+                <div
+                  class="
+                    d-flex
+                    align-items-center
+                    p-2
+                    justify-content-center
+                    text-dark
+                    fs15
+                  "
+                >
+                  Download File
+                </div>
               </div>
-            </div>
-          </a>
-          <audio
-            v-if="item.voicenote"
-            :src="item.voicenote"
-            controls
-            style="width: 100%"
-          ></audio>
-          <div class="pt-2" v-if="item.message" v-html="item.message"></div>
-        </div>
-      </li>
+            </a>
+            <audio
+              v-if="item.voicenote"
+              :src="item.voicenote"
+              controls
+              style="width: 100%;"
+            ></audio>
+            <div class="pt-2" v-if="item.message" v-html="item.message"></div>
+          </div>
+        </li>
+        </span>
     </ul>
     <div class="mic bg-light" v-if="record">
       <vue-dictaphone
@@ -480,6 +500,7 @@
 import Upload from "@/components/chatUpload";
 import EmojiPicker from "vue-emoji-picker";
 import { bus } from "@/main.js";
+import moment from "moment";
 export default {
   props: ["user"],
   data() {
@@ -488,7 +509,7 @@ export default {
       loading: false,
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp", "mov", "flv"],
-      aud_ext: ["mp3", "aac"],
+      aud_ext: ["mp3", "aac","wav"],
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       record: false,
 
@@ -519,6 +540,23 @@ export default {
   },
 
   computed: {
+ sortbydate() {
+      let sortarr = this.messages.map((item) =>
+        moment(item.created_at).format("MMMM D YYYY")
+      );
+      let newset = new Set(sortarr);
+      return [...newset];
+    },
+    messagesbydate() {
+      return this.sortbydate.map((item) => {
+        return {
+          date: item,
+          messages: this.messages.filter(
+            (val) => moment(val.created_at).format("MMMM D YYYY") == item
+          ),
+        };
+      });
+    },
     isMinimise() {
       return this.$store.getters.isMinimise;
     },
@@ -552,6 +590,7 @@ export default {
     },
   },
   methods: {
+
     markasread() {
       let data = {
         id: this.chatter.id,
@@ -698,6 +737,23 @@ export default {
       }
       this.inbox.receiver_id = this.chatter.id;
       this.inbox.receiver = this.chatter.type;
+      let data = {
+        attachment: this.inbox.attachment,
+        created_at: this.$moment.now(),
+        id: 2455,
+        is_read: 0,
+        message: this.inbox.message,
+        receiver: "user",
+        receiver_id: this.chatter.id,
+        receiver_info: {},
+        status: 0,
+        user: this.$store.getters.member,
+        user_id: this.$store.getters.member.id,
+        voicenote: this.inbox.voicenote,
+      };
+      let index = this.inboxes.length
+
+      this.inboxes.push(data);
       this.$http
         .post(`${this.$store.getters.url}/inboxes`, this.inbox, {
           headers: {
@@ -706,9 +762,9 @@ export default {
         })
         .then((res) => {
           if (res.status == 201) {
-            this.$toast.success("Message sent ");
+
             this.loading = false;
-            this.inboxes.push(res.data);
+          this.inboxes[index].status = 1;
             var val = {
               message: res.data.message,
               index: this.chatter.index,
@@ -759,6 +815,9 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+li:last-child {
+  margin-bottom: 0 !important;
+}
 .rounded-8 {
   border-radius: 8px;
 }
