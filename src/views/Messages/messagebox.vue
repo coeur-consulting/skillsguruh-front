@@ -24,186 +24,193 @@
         class="chatbody py-3 px-2 px-md-5 text-left pl-0 mb-0"
         v-chat-scroll="{ always: false, smooth: true, scrollonremoved: true }"
       >
-        <span v-for="(messages,idx) in messagesbydate" :key="idx">
-         <div class="mb-5 text-center"> <span class="bg-light fs13 p-2 mb-3 text-center rounded-pill">{{messages.date}}</span></div>
-          <li
-          v-for="(item, index) in messages.messages"
-          :key="index"
-          style="margin-bottom: 4rem"
-        >
-          <div
-            v-if="item.user_id"
-            class="mb-3 shadow-sm relative"
-            :class="
-              item.user_id == $store.getters.member.id
-                ? 'right_text'
-                : 'left_text'
-            "
-          >
-            <span
-              class="message_status"
-              v-if="item.user_id == $store.getters.member.id"
-            >
-              <b-icon v-if="!item.status" icon="clock-history"></b-icon>
-              <b-icon
-                v-if="item.status && !item.is_read"
-                icon="check2"
-              ></b-icon>
-              <b-icon
-                v-if="item.status && item.is_read"
-                icon="check2-all"
-              ></b-icon>
-            </span>
-            <div class="namer d-flex flex-1 align-items-center mb-1">
-              <span
-                class="chatting_name font-weight-bold ml-3"
-                v-if="item.user.id === useraccess.id"
-                >You</span
-              >
-              <span class="chatting_name font-weight-bold mr-3" v-else>{{
-                item.user.username
-              }}</span>
-
-              <span class="text-muted fs9" style="min-width: 40px">
-                {{ item.created_at | moment("LT") }}</span
-              >
-            </div>
-            <a :href="item.attachment" target="_blank" download class="mb-1">
-              <b-img
-                v-if="
-                  item.attachment &&
-                  img_ext.includes(getextension(item.attachment))
-                "
-                class="cursor-pointer chat_image"
-                :src="item.attachment"
-              ></b-img>
-              <div
-                v-if="
-                  item.attachment &&
-                  vid_ext.includes(getextension(item.attachment))
-                "
-                class="
-                  p-1
-                  bg-lighter-green
-                  d-flex
-                  align-items-center
-                  rounded
-                  cursor-pointer
-                "
-              >
-                <div class="bg-dark-green text-center rounded p-2 mr-3">
-                  <b-icon
-                    icon="camera-video-fill"
-                    variant="white"
-                    font-scale="2rem"
-                  ></b-icon>
-                </div>
-                <div
-                  class="
-                    d-flex
-                    w-100
-                    align-items-center
-                    p-2
-                    justify-content-center justify-content-center
-                    text-dark
-                    fs15
-                  "
-                >
-                  <!-- {{ getFileDetails(item.attachment).then((res) => res) }} -->
-                  Download Video
-                </div>
-              </div>
-              <div
-                v-if="
-                  item.attachment &&
-                  aud_ext.includes(getextension(item.attachment))
-                "
-                class="
-                  p-1
-                  bg-lighter-green
-                  d-flex
-                  align-items-center
-                  rounded
-                  cursor-pointer
-                "
-              >
-                <div class="bg-dark-green text-center rounded p-2 mr-3">
-                  <b-icon
-                    icon="music-note-beamed"
-                    variant="white"
-                    font-scale="2rem"
-                  ></b-icon>
-                </div>
-                <div class="d-flex align-items-center">
-                  <audio
-                    :src="item.attachment"
-                    controls
-                    class="bg-transparent"
-                  ></audio>
-                </div>
-                <div
-                  class="
-                    d-flex
-                    w-100
-                    align-items-center
-                    p-2
-                    justify-content-center justify-content-center
-                    text-dark
-                    fs15
-                  "
-                >
-                  Download Audio
-                </div>
-              </div>
-              <div
-                v-if="
-                  item.attachment &&
-                  doc_ext.includes(getextension(item.attachment))
-                "
-                class="
-                  p-1
-                  bg-lighter-green
-                  d-flex
-                  align-items-center
-                  rounded
-                  cursor-pointer
-                "
-              >
-                <div class="bg-dark-green text-center rounded p-2 mr-3">
-                  <b-icon
-                    icon="file"
-                    variant="white"
-                    font-scale="2rem"
-                  ></b-icon>
-                </div>
-                <div
-                  class="
-                    d-flex
-                    align-items-center
-                    p-2
-                    justify-content-center
-                    text-dark
-                    fs15
-                  "
-                >
-                  Download File
-                </div>
-              </div>
-            </a>
-            <audio
-              v-if="item.voicenote"
-              :src="item.voicenote"
-              controls
-              style="width: 100%; min-width: 250px"
-            ></audio>
-            <div class="pt-2" v-if="item.message" v-html="item.message"></div>
+        <span v-for="(messages, idx) in messagesbydate" :key="idx">
+          <div class="mb-5 text-center">
+            <span class="bg-light fs13 p-2 mb-3 text-center rounded-pill">{{
+              messages.date
+            }}</span>
           </div>
-        </li>
+          <li
+            v-for="(item, index) in messages.messages"
+            :key="index"
+            style="margin-bottom: 4rem"
+          >
+            <div
+              v-if="item.user_id"
+              class="mb-3 shadow-sm relative"
+              :class="
+                item.user_id == $store.getters.member.id
+                  ? 'right_text'
+                  : 'left_text'
+              "
+            >
+              <span
+                class="message_status"
+                v-if="item.user_id == $store.getters.member.id"
+              >
+                <b-icon v-if="!item.status" icon="clock-history"></b-icon>
+                <b-icon
+                  v-if="item.status && !item.is_read"
+                  icon="check2"
+                ></b-icon>
+                <b-icon
+                  v-if="item.status && item.is_read"
+                  icon="check2-all"
+                ></b-icon>
+              </span>
+              <div class="namer d-flex flex-1 align-items-center mb-1">
+                <span
+                  class="chatting_name font-weight-bold ml-3"
+                  v-if="item.user.id === useraccess.id"
+                  >You</span
+                >
+                <span class="chatting_name font-weight-bold mr-3" v-else>{{
+                  item.user.username
+                }}</span>
+
+                <span class="text-muted fs9" style="min-width: 40px">
+                  {{ item.created_at | moment("LT") }}</span
+                >
+              </div>
+              <a :href="item.attachment" target="_blank" download class="mb-1">
+                <b-img
+                  v-if="
+                    item.attachment &&
+                    img_ext.includes(getextension(item.attachment))
+                  "
+                  class="cursor-pointer chat_image"
+                  :src="item.attachment"
+                ></b-img>
+                <div
+                  v-if="
+                    item.attachment &&
+                    vid_ext.includes(getextension(item.attachment))
+                  "
+                  class="
+                    p-1
+                    bg-lighter-green
+                    d-flex
+                    align-items-center
+                    rounded
+                    cursor-pointer
+                  "
+                >
+                  <div class="bg-dark-green text-center rounded p-2 mr-3">
+                    <b-icon
+                      icon="camera-video-fill"
+                      variant="white"
+                      font-scale="2rem"
+                    ></b-icon>
+                  </div>
+                  <div
+                    class="
+                      d-flex
+                      w-100
+                      align-items-center
+                      p-2
+                      justify-content-center justify-content-center
+                      text-dark
+                      fs15
+                    "
+                  >
+                    <!-- {{ getFileDetails(item.attachment).then((res) => res) }} -->
+                    Download Video
+                  </div>
+                </div>
+                <div
+                  v-if="
+                    item.attachment &&
+                    aud_ext.includes(getextension(item.attachment))
+                  "
+                  class="
+                    p-1
+                    bg-lighter-green
+                    d-flex
+                    align-items-center
+                    rounded
+                    cursor-pointer
+                  "
+                >
+                  <div class="bg-dark-green text-center rounded p-2 mr-3">
+                    <b-icon
+                      icon="music-note-beamed"
+                      variant="white"
+                      font-scale="2rem"
+                    ></b-icon>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <audio
+                      :src="item.attachment"
+                      controls
+                      class="bg-transparent"
+                    ></audio>
+                  </div>
+                  <div
+                    class="
+                      d-flex
+                      w-100
+                      align-items-center
+                      p-2
+                      justify-content-center justify-content-center
+                      text-dark
+                      fs15
+                    "
+                  >
+                    Download Audio
+                  </div>
+                </div>
+                <div
+                  v-if="
+                    item.attachment &&
+                    doc_ext.includes(getextension(item.attachment))
+                  "
+                  class="
+                    p-1
+                    bg-lighter-green
+                    d-flex
+                    align-items-center
+                    rounded
+                    cursor-pointer
+                  "
+                >
+                  <div class="bg-dark-green text-center rounded p-2 mr-3">
+                    <b-icon
+                      icon="file"
+                      variant="white"
+                      font-scale="2rem"
+                    ></b-icon>
+                  </div>
+                  <div
+                    class="
+                      d-flex
+                      align-items-center
+                      p-2
+                      justify-content-center
+                      text-dark
+                      fs15
+                    "
+                  >
+                    Download File
+                  </div>
+                </div>
+              </a>
+              <audio
+                v-if="item.voicenote"
+                :src="item.voicenote"
+                controls
+                style="width: 100%; min-width: 250px"
+              ></audio>
+              <div class="pt-2" v-if="item.message" v-html="item.message"></div>
+            </div>
+          </li>
         </span>
       </ul>
-      <div class="mic bg-light" v-if="record">
+      <div class="mic" v-if="record">
+        <span @click="record = false" class="position-absolute stopmic mr-3">
+          <b-icon icon="x"></b-icon
+        ></span>
         <vue-dictaphone
-          mime-type="audio/mp3"
+          mime-type="audio/wav"
           @stop="handleRecording($event)"
           v-slot="{
             isRecording,
@@ -212,11 +219,24 @@
             deleteRecording,
           }"
         >
-          <span v-if="!isRecording" @click="startRecording">
-            Click to start recording
+          <span
+            v-if="!isRecording"
+            @click="startRecording"
+            class="position-relative text-white"
+          >
+            <span> <b-icon icon="mic"></b-icon> Click to start recording</span>
           </span>
 
-          <span v-else class="d-flex align-items-center rounded-pill bg-light">
+          <span
+            v-else
+            class="
+              d-flex
+              align-items-center
+              rounded-pill
+              position-relative
+              text-white
+            "
+          >
             <b-icon
               @click="deleteRecording"
               class="mr-4"
@@ -226,7 +246,7 @@
             ></b-icon>
             <span @click="stopRecording"> Stop recording </span>
           </span>
-          <div class="mic_visual" v-if="isRecording">
+          <div class="mic_visual relative z-2" v-if="isRecording">
             <vue-dictaphone-spectrum-analyser />
           </div>
         </vue-dictaphone>
@@ -685,11 +705,68 @@ export default {
         });
     },
     handleRecording({ blob, src }) {
-      this.blobvalue = src;
-      let url = URL.createObjectURL(blob);
-      this.inbox.voicenote = url;
+      const fileName = moment().format("DDMMYYYY") + "recording";
 
-      this.addinbox();
+      const audioFile = new File([blob], `${fileName}.wav`, {
+        type: "audio/wav",
+        lastModified: Date.now(),
+      });
+
+      this.inbox.voicenote = src;
+      let res = {
+        attachment: this.inbox.attachment,
+        created_at: this.$moment.now(),
+        id: 2455,
+        is_read: 0,
+        message: this.inbox.message,
+        receiver: "user",
+        receiver_id: this.info.id,
+        receiver_info: {},
+        status: 0,
+        user: this.$store.getters.member,
+        user_id: this.$store.getters.member.id,
+        voicenote: this.inbox.voicenote,
+      };
+      let index = this.messages.length;
+
+      this.messages.push(res);
+      let data = new FormData();
+      data.append("file", audioFile);
+      data.append("receiver_id", this.info.id);
+      data.append("receiver", this.info.type);
+
+      this.$http
+        .post(`${this.$store.getters.url}/inboxes`, data, {
+          headers: {
+            Authorization: `Bearer ${this.useraccess.access_token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          if (res.status === 201) {
+            var val = {
+              message: res.data.message,
+              index: this.info.index,
+            };
+
+            bus.$emit("lastmessage", val);
+            this.loading = false;
+            this.messages[index].status = 1;
+            if (this.inbox.attachment) {
+              this.$bvModal.hide("media");
+            }
+            if (this.record) {
+              this.record = false;
+            }
+            this.inbox = {
+              attachment: "",
+              message: "",
+              receiver: "",
+              receiver_id: "",
+              voicenote: "",
+            };
+          }
+        });
     },
     insert(emoji) {
       this.inbox.message = this.inbox.message + emoji;
@@ -880,7 +957,7 @@ footer {
   justify-content: center;
   align-items: center;
   z-index: 2;
-  height: 85%;
+  height: 100%;
 }
 .mic_visual {
   width: 200px;

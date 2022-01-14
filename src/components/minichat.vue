@@ -226,30 +226,38 @@
         </li>
         </span>
     </ul>
-    <div class="mic bg-light" v-if="record">
-      <vue-dictaphone
-        mime-type="audio/mp3"
-        @stop="handleRecording($event)"
-        v-slot="{ isRecording, startRecording, stopRecording, deleteRecording }"
-      >
-        <span v-if="!isRecording" @click="startRecording">
-          Click to start recording
-        </span>
+    <div class="mic " v-if="record">
+       <span @click="record=false" class="position-absolute stopmic mr-3">  <b-icon  icon="x"></b-icon></span>
+        <vue-dictaphone
+          mime-type="audio/wav"
+          @stop="handleRecording($event)"
+          v-slot="{
+            isRecording,
+            startRecording,
+            stopRecording,
+            deleteRecording,
+          }"
+        >
 
-        <span v-else class="d-flex align-items-center rounded-pill bg-light">
-          <b-icon
-            @click="deleteRecording"
-            class="mr-4"
-            icon="trash"
-            variant="danger"
-            font-scale=".8"
-          ></b-icon>
-          <span @click="stopRecording"> Stop recording </span>
-        </span>
-        <div class="mic_visual" v-if="isRecording">
-          <vue-dictaphone-spectrum-analyser />
-        </div>
-      </vue-dictaphone>
+          <span v-if="!isRecording" @click="startRecording" class="position-relative text-white">
+            <span> <b-icon icon="mic"></b-icon>
+            Click to start recording</span>
+          </span>
+
+          <span v-else class="d-flex align-items-center rounded-pill position-relative text-white">
+            <b-icon
+              @click="deleteRecording"
+              class="mr-4"
+              icon="trash"
+              variant="danger"
+              font-scale=".8"
+            ></b-icon>
+            <span @click="stopRecording"> Stop recording </span>
+          </span>
+          <div class="mic_visual relative z-2" v-if="isRecording">
+            <vue-dictaphone-spectrum-analyser />
+          </div>
+        </vue-dictaphone>
     </div>
 
     <footer v-if="!isMinimise" class="text-left py-2 mb-1">
@@ -611,9 +619,67 @@ export default {
         });
     },
     handleRecording({ blob, src }) {
-      this.blob = blob;
+      const fileName = moment().format("DDMMYYYY") + "recording";
+      const audioFile = new File([blob], `${fileName}.wav`, {
+        type: "audio/wav",
+        lastModified: Date.now(),
+      });
+
       this.inbox.voicenote = src;
-      this.addinbox();
+      let res = {
+        attachment: this.inbox.attachment,
+        created_at: this.$moment.now(),
+        id: 2455,
+        is_read: 0,
+        message: this.inbox.message,
+        receiver: "user",
+        receiver_id: this.chatter.id,
+        receiver_info: {},
+        status: 0,
+        user: this.$store.getters.member,
+        user_id: this.$store.getters.member.id,
+        voicenote: this.inbox.voicenote,
+      };
+      let index = this.messages.length;
+
+      this.inboxes.push(res);
+      let data = new FormData();
+      data.append("file", audioFile);
+      data.append("receiver_id", this.chatter.id);
+      data.append("receiver", this.chatter.type);
+
+      this.$http
+        .post(`${this.$store.getters.url}/inboxes`, data, {
+          headers: {
+            Authorization: `Bearer ${this.useraccess.access_token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          if (res.status === 201) {
+           var val = {
+              message: res.data.message,
+              index: this.chatter.index,
+            };
+
+            bus.$emit("lastmessage", val);
+            this.loading = false;
+            this.inboxes[index].status = 1;
+            if (this.inbox.attachment) {
+              this.$bvModal.hide("media");
+            }
+            if (this.record) {
+              this.record = false;
+            }
+            this.inbox = {
+              attachment: "",
+              message: "",
+              receiver: "",
+              receiver_id: "",
+              voicenote: "",
+            };
+          }
+        });
     },
     insert(emoji) {
       this.inbox.message = this.inbox.message + emoji;
