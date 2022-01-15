@@ -54,7 +54,7 @@
           <li
           v-for="(item, index) in messages.messages"
           :key="index"
-          style="margin-bottom: 4rem"
+          style="margin-bottom: 2rem"
         >
           <div
             v-if="item.user_id"
