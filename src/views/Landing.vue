@@ -12,9 +12,9 @@
         v-model="bannerIndex"
         class="banner"
       >
-        <slide>
+        <!-- <slide>
           <div class="banner_1"></div>
-        </slide>
+        </slide> -->
         <slide>
           <div class="banner_2"></div>
         </slide>
@@ -155,7 +155,7 @@
           :font-scale="bannerIndex > 0 ? '1.5' : '1'"
         ></b-icon>
         <b-icon
-          @click="bannerIndex < 1 ? bannerIndex++ : ''"
+          
           icon="arrow-right-circle"
           class="cursor-pointer"
           :class="bannerIndex < 1 ? 'text-white' : 'text-light'"
@@ -435,7 +435,7 @@ export default {
         tribe_id: id,
         user: this.$store.getters.member,
       };
-      
+
       this.$store.dispatch("checkTribe", details).then((res) => {
         if (res.status == 200 && res.data.message == "found") {
           window.location.href = `/member/tribe/discussions/${id}`;
