@@ -33,7 +33,7 @@
           <li
             v-for="(item, index) in messages.messages"
             :key="index"
-            style="margin-bottom: 4rem"
+            style="margin-bottom: 2rem"
           >
             <div
               v-if="item.user_id"
@@ -734,6 +734,13 @@ export default {
       data.append("file", audioFile);
       data.append("receiver_id", this.info.id);
       data.append("receiver", this.info.type);
+      this.inbox = {
+              attachment: "",
+              message: "",
+              receiver: "",
+              receiver_id: "",
+              voicenote: "",
+            };
 
       this.$http
         .post(`${this.$store.getters.url}/inboxes`, data, {
@@ -758,13 +765,7 @@ export default {
             if (this.record) {
               this.record = false;
             }
-            this.inbox = {
-              attachment: "",
-              message: "",
-              receiver: "",
-              receiver_id: "",
-              voicenote: "",
-            };
+
           }
         });
     },
@@ -841,6 +842,13 @@ export default {
       let index = this.messages.length;
 
       this.messages.push(data);
+      this.inbox = {
+              attachment: "",
+              message: "",
+              receiver: "",
+              receiver_id: "",
+              voicenote: "",
+            };
       this.$http
         .post(`${this.$store.getters.url}/inboxes`, this.inbox, {
           headers: {
@@ -863,13 +871,7 @@ export default {
             if (this.record) {
               this.record = false;
             }
-            this.inbox = {
-              attachment: "",
-              message: "",
-              receiver: "",
-              receiver_id: "",
-              voicenote: "",
-            };
+
           }
         })
         .catch(() => {

@@ -648,6 +648,13 @@ export default {
       data.append("receiver_id", this.chatter.id);
       data.append("receiver", this.chatter.type);
 
+this.inbox = {
+              attachment: "",
+              message: "",
+              receiver: "",
+              receiver_id: "",
+              voicenote: "",
+            };
       this.$http
         .post(`${this.$store.getters.url}/inboxes`, data, {
           headers: {
@@ -671,13 +678,7 @@ export default {
             if (this.record) {
               this.record = false;
             }
-            this.inbox = {
-              attachment: "",
-              message: "",
-              receiver: "",
-              receiver_id: "",
-              voicenote: "",
-            };
+
           }
         });
     },
@@ -820,6 +821,13 @@ export default {
       let index = this.inboxes.length
 
       this.inboxes.push(data);
+       this.inbox = {
+              attachment: "",
+              message: "",
+              receiver: "",
+              receiver_id: "",
+              voicenote: "",
+            };
       this.$http
         .post(`${this.$store.getters.url}/inboxes`, this.inbox, {
           headers: {
@@ -842,13 +850,7 @@ export default {
             if (this.record) {
               this.record = false;
             }
-            this.inbox = {
-              attachment: "",
-              message: "",
-              receiver: "",
-              receiver_id: "",
-              voicenote: "",
-            };
+
           }
         })
         .catch(() => {
