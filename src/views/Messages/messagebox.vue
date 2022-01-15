@@ -257,7 +257,7 @@
           <template #append>
             <b-input-group-text class="border-0 bg-transparent py-0">
               <b-icon
-                v-if="!inbox.message"
+                v-if="!message"
                 class="cursor-pointer mr-2"
                 @click="record = !record"
                 icon="mic-fill"
@@ -357,7 +357,7 @@
           </template>
           <b-form-input
             @keyup.enter="addinbox"
-            v-model="inbox.message"
+            v-model="message"
             type="text"
             size="lg"
             autocomplete="off"
@@ -507,7 +507,7 @@
           </template>
           <b-form-input
             @keyup.enter="addinbox"
-            v-model="inbox.message"
+            v-model="message"
             autocomplete="off"
             autocorrect="off"
             placeholder="Type a message .."
@@ -533,7 +533,7 @@ export default {
       aud_ext: ["mp3", "aac", "wav"],
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       record: false,
-
+      message:'',
       inbox: {
         message: "",
         attachment: "",
@@ -718,7 +718,7 @@ export default {
         created_at: this.$moment.now(),
         id: 2455,
         is_read: 0,
-        message: this.inbox.message,
+        message: '',
         receiver: "user",
         receiver_id: this.info.id,
         receiver_info: {},
@@ -734,13 +734,6 @@ export default {
       data.append("file", audioFile);
       data.append("receiver_id", this.info.id);
       data.append("receiver", this.info.type);
-      this.inbox = {
-              attachment: "",
-              message: "",
-              receiver: "",
-              receiver_id: "",
-              voicenote: "",
-            };
 
       this.$http
         .post(`${this.$store.getters.url}/inboxes`, data, {
@@ -765,12 +758,19 @@ export default {
             if (this.record) {
               this.record = false;
             }
+              this.inbox = {
+              attachment: "",
+              message: "",
+              receiver: "",
+              receiver_id: "",
+              voicenote: "",
+            };
 
           }
         });
     },
     insert(emoji) {
-      this.inbox.message = this.inbox.message + emoji;
+      this.message = this.message + emoji;
     },
 
     async getFileDetails(media) {
@@ -820,17 +820,18 @@ export default {
     addinbox() {
       if (this.loading) return;
       this.loading = true;
-      if (this.inbox.attachment && this.inbox.message && this.inbox.voicenote) {
+      if (this.inbox.attachment && this.message && this.inbox.voicenote) {
         return this.$toast.info("Cannot be empty");
       }
       this.inbox.receiver_id = this.info.id;
       this.inbox.receiver = this.info.type;
+      this.inbox.message = this.message
       let data = {
         attachment: this.inbox.attachment,
         created_at: this.$moment.now(),
         id: 2455,
         is_read: 0,
-        message: this.inbox.message,
+        message: this.message,
         receiver: "user",
         receiver_id: this.info.id,
         receiver_info: {},
@@ -842,13 +843,7 @@ export default {
       let index = this.messages.length;
 
       this.messages.push(data);
-      this.inbox = {
-              attachment: "",
-              message: "",
-              receiver: "",
-              receiver_id: "",
-              voicenote: "",
-            };
+      this.message = ''
       this.$http
         .post(`${this.$store.getters.url}/inboxes`, this.inbox, {
           headers: {
@@ -871,7 +866,13 @@ export default {
             if (this.record) {
               this.record = false;
             }
-
+  this.inbox = {
+              attachment: "",
+              message: "",
+              receiver: "",
+              receiver_id: "",
+              voicenote: "",
+            };
           }
         })
         .catch(() => {

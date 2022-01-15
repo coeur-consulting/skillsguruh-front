@@ -49,9 +49,13 @@
       class="chatbody reply py-3 px-3 text-left pl-0 mb-0"
       v-chat-scroll="{ always: false, smooth: true, scrollonremoved: true }"
     >
-      <span v-for="(messages,idx) in messagesbydate" :key="idx">
-         <div class="mb-5 text-center"> <span class="bg-light fs13 p-2 mb-3 text-center rounded-pill">{{messages.date}}</span></div>
-          <li
+      <span v-for="(messages, idx) in messagesbydate" :key="idx">
+        <div class="mb-5 text-center">
+          <span class="bg-light fs13 p-2 mb-3 text-center rounded-pill">{{
+            messages.date
+          }}</span>
+        </div>
+        <li
           v-for="(item, index) in messages.messages"
           :key="index"
           style="margin-bottom: 2rem"
@@ -219,45 +223,53 @@
               v-if="item.voicenote"
               :src="item.voicenote"
               controls
-              style="width: 100%;"
+              style="width: 100%"
             ></audio>
             <div class="pt-2" v-if="item.message" v-html="item.message"></div>
           </div>
         </li>
-        </span>
+      </span>
     </ul>
-    <div class="mic " v-if="record">
-       <span @click="record=false" class="position-absolute stopmic mr-3">  <b-icon  icon="x"></b-icon></span>
-        <vue-dictaphone
-          mime-type="audio/wav"
-          @stop="handleRecording($event)"
-          v-slot="{
-            isRecording,
-            startRecording,
-            stopRecording,
-            deleteRecording,
-          }"
+    <div class="mic" v-if="record">
+      <span @click="record = false" class="position-absolute stopmic mr-3">
+        <b-icon icon="x"></b-icon
+      ></span>
+      <vue-dictaphone
+        mime-type="audio/wav"
+        @stop="handleRecording($event)"
+        v-slot="{ isRecording, startRecording, stopRecording, deleteRecording }"
+      >
+        <span
+          v-if="!isRecording"
+          @click="startRecording"
+          class="position-relative text-white"
         >
+          <span> <b-icon icon="mic"></b-icon> Click to start recording</span>
+        </span>
 
-          <span v-if="!isRecording" @click="startRecording" class="position-relative text-white">
-            <span> <b-icon icon="mic"></b-icon>
-            Click to start recording</span>
-          </span>
-
-          <span v-else class="d-flex align-items-center rounded-pill position-relative text-white">
-            <b-icon
-              @click="deleteRecording"
-              class="mr-4"
-              icon="trash"
-              variant="danger"
-              font-scale=".8"
-            ></b-icon>
-            <span @click="stopRecording"> Stop recording </span>
-          </span>
-          <div class="mic_visual relative z-2" v-if="isRecording">
-            <vue-dictaphone-spectrum-analyser />
-          </div>
-        </vue-dictaphone>
+        <span
+          v-else
+          class="
+            d-flex
+            align-items-center
+            rounded-pill
+            position-relative
+            text-white
+          "
+        >
+          <b-icon
+            @click="deleteRecording"
+            class="mr-4"
+            icon="trash"
+            variant="danger"
+            font-scale=".8"
+          ></b-icon>
+          <span @click="stopRecording"> Stop recording </span>
+        </span>
+        <div class="mic_visual relative z-2" v-if="isRecording">
+          <vue-dictaphone-spectrum-analyser />
+        </div>
+      </vue-dictaphone>
     </div>
 
     <footer v-if="!isMinimise" class="text-left py-2 mb-1">
@@ -265,7 +277,7 @@
         <template #append>
           <b-input-group-text class="border-0 bg-transparent py-0">
             <b-icon
-              v-if="!inbox.message"
+              v-if="!message"
               class="cursor-pointer mr-2"
               @click="record = !record"
               icon="mic-fill"
@@ -365,7 +377,7 @@
         </template>
         <b-form-input
           @keyup.enter="addinbox"
-          v-model="inbox.message"
+          v-model="message"
           type="text"
           autocomplete="off"
           placeholder="Type a message ..."
@@ -494,7 +506,7 @@
         </template>
         <b-form-input
           @keyup.enter="addinbox"
-          v-model="inbox.message"
+          v-model="message"
           autocomplete="off"
           autocorrect="off"
           placeholder="Type a message .."
@@ -517,7 +529,7 @@ export default {
       loading: false,
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp", "mov", "flv"],
-      aud_ext: ["mp3", "aac","wav"],
+      aud_ext: ["mp3", "aac", "wav"],
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       record: false,
 
@@ -548,7 +560,7 @@ export default {
   },
 
   computed: {
- sortbydate() {
+    sortbydate() {
       let sortarr = this.messages.map((item) =>
         moment(item.created_at).format("MMMM D YYYY")
       );
@@ -598,7 +610,6 @@ export default {
     },
   },
   methods: {
-
     markasread() {
       let data = {
         id: this.chatter.id,
@@ -631,7 +642,7 @@ export default {
         created_at: this.$moment.now(),
         id: 2455,
         is_read: 0,
-        message: this.inbox.message,
+        message: "",
         receiver: "user",
         receiver_id: this.chatter.id,
         receiver_info: {},
@@ -648,13 +659,6 @@ export default {
       data.append("receiver_id", this.chatter.id);
       data.append("receiver", this.chatter.type);
 
-this.inbox = {
-              attachment: "",
-              message: "",
-              receiver: "",
-              receiver_id: "",
-              voicenote: "",
-            };
       this.$http
         .post(`${this.$store.getters.url}/inboxes`, data, {
           headers: {
@@ -664,7 +668,7 @@ this.inbox = {
         })
         .then((res) => {
           if (res.status === 201) {
-           var val = {
+            var val = {
               message: res.data.message,
               index: this.chatter.index,
             };
@@ -678,12 +682,18 @@ this.inbox = {
             if (this.record) {
               this.record = false;
             }
-
+            this.inbox = {
+              attachment: "",
+              message: "",
+              receiver: "",
+              receiver_id: "",
+              voicenote: "",
+            };
           }
         });
     },
     insert(emoji) {
-      this.inbox.message = this.inbox.message + emoji;
+      this.message = this.message + emoji;
     },
 
     markMessagesRead() {
@@ -781,10 +791,7 @@ this.inbox = {
             info.message = item.message || null;
             info.time = item.created_at || null;
           }
-          if (
-
-            item.receiver_id == this.useraccess.id
-          ) {
+          if (item.receiver_id == this.useraccess.id) {
             info.user = item.user || null;
 
             info.message = item.message || null;
@@ -799,17 +806,18 @@ this.inbox = {
     addinbox() {
       if (this.loading) return;
       this.loading = true;
-      if (this.inbox.attachment && this.inbox.message && this.inbox.voicenote) {
+      if (this.inbox.attachment && this.message && this.inbox.voicenote) {
         return this.$toast.info("Cannot be empty");
       }
       this.inbox.receiver_id = this.chatter.id;
       this.inbox.receiver = this.chatter.type;
+      this.inbox.message = this.message;
       let data = {
         attachment: this.inbox.attachment,
         created_at: this.$moment.now(),
         id: 2455,
         is_read: 0,
-        message: this.inbox.message,
+        message: this.message,
         receiver: "user",
         receiver_id: this.chatter.id,
         receiver_info: {},
@@ -818,16 +826,10 @@ this.inbox = {
         user_id: this.$store.getters.member.id,
         voicenote: this.inbox.voicenote,
       };
-      let index = this.inboxes.length
+      let index = this.inboxes.length;
 
       this.inboxes.push(data);
-       this.inbox = {
-              attachment: "",
-              message: "",
-              receiver: "",
-              receiver_id: "",
-              voicenote: "",
-            };
+      this.message = "";
       this.$http
         .post(`${this.$store.getters.url}/inboxes`, this.inbox, {
           headers: {
@@ -836,9 +838,8 @@ this.inbox = {
         })
         .then((res) => {
           if (res.status == 201) {
-
             this.loading = false;
-          this.inboxes[index].status = 1;
+            this.inboxes[index].status = 1;
             var val = {
               message: res.data.message,
               index: this.chatter.index,
@@ -850,7 +851,13 @@ this.inbox = {
             if (this.record) {
               this.record = false;
             }
-
+            this.inbox = {
+              attachment: "",
+              message: "",
+              receiver: "",
+              receiver_id: "",
+              voicenote: "",
+            };
           }
         })
         .catch(() => {
@@ -1000,7 +1007,7 @@ ul {
 }
 .chatting_name {
   font-size: 12px;
-  min-width:60%;
+  min-width: 60%;
 }
 audio {
   height: 44px;
