@@ -388,19 +388,21 @@
         </b-form-group>
 
         <b-button
+        :disabled="disabled"
           size="lg"
           variant="dark-green"
           type="submit"
           class="d-none d-sm-block px-3"
-          >Create</b-button
+          > Create</b-button
         >
         <b-button
+         :disabled="disabled"
           size="lg"
           variant="dark-green"
           type="submit"
           class="d-sm-none"
           block
-          >Create</b-button
+          > Create</b-button
         >
       </b-form>
     </b-modal>
@@ -447,6 +449,7 @@ import Report from "@/components/helpers/report";
 export default {
   data() {
     return {
+      disabled:false,
       currentPage: 1,
       perPage: 0,
       rows: 0,
@@ -471,7 +474,7 @@ export default {
         course: null,
         tags: [],
         category: {},
-        tribe_id: this.$store.getters.tribe,
+        tribe_id: this.$route.params.tribe,
       },
       courses: [],
       tag: "",
@@ -724,8 +727,9 @@ export default {
         this.$toast.error("Fill all fields");
         return;
       }
+      this.disabled = true
       this.discussion.category = this.$store.getters.tribe_info.category;
-
+      this.discussion.tribe_id = this.$route.params.tribe;
       this.$http
         .post(`${this.$store.getters.url}/discussions`, this.discussion, {
           headers: {
@@ -734,6 +738,7 @@ export default {
         })
         .then((res) => {
           if (res.status == 201) {
+            this.disabled = false
             this.$toast.success("Discussion created");
             this.getdiscussions();
             this.getdiscussionsbytrend();
@@ -744,12 +749,13 @@ export default {
               course: null,
               tags: [],
               category: this.$store.getters.tribe_info.category,
-              tribe_id: this.$store.getters.tribe,
+              tribe_id: this.$route.params.tribe,
             };
             this.$bvModal.hide("start");
           }
         })
         .catch((err) => {
+          this.disabled = false
           err.response.data.errors.forEach((element) => {
             this.$toast.error(element);
           });

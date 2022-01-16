@@ -535,9 +535,17 @@
                   </div>
                 </div>
               </div>
-              <div class="py-1 px-3 text-post">
+              <div class="py-1 px-3 text-post position-relative">
+                 <span class="tagslist shadow" v-if="isShowingTags">
+                      <ul class="list-style-none">
+                        <li>jamie</li>
+                         <li>jason</li>
+                          <li>janet</li>
+                      </ul>
+                    </span>
                 <b-form @submit.prevent="post" class="wrapper">
-                  <b-form-group>
+                  <b-form-group class="position-relative">
+
                     <editor
                       api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
                       @keyup.enter="post"
@@ -841,7 +849,6 @@
               class="fs12 py-1 px-2"
               @click="sendinvite(discussion.name)"
               :disabled="isDisabled"
-
             >
               Send Invite
             </b-button>
@@ -1165,7 +1172,7 @@ import Report from "@/components/helpers/report";
 export default {
   data() {
     return {
-
+      isShowingTags: false,
       isDisabled: false,
       report_id: null,
       report_type: null,
@@ -1234,7 +1241,9 @@ export default {
           vm.getconnections();
         } else {
           vm.$toast.error("No access");
-          vm.$router.push(`/explore/community?activity=join_tribe&tribe_id=${vm.$route.params.tribe}`);
+          vm.$router.push(
+            `/explore/community?activity=join_tribe&tribe_id=${vm.$route.params.tribe}`
+          );
         }
       });
     });
@@ -1253,6 +1262,10 @@ export default {
 
   watch: {
     $route: "getdiscussion",
+    info: {
+      deep: true,
+      handler: "showtags",
+    },
   },
   computed: {
     filteredDiscussion() {
@@ -1359,6 +1372,16 @@ export default {
     },
   },
   methods: {
+    showtags() {
+      if (this.toText(this.info.message)) {
+        let lastchar = this.toText(this.info.message).charAt(this.toText(this.info.message).length - 1);
+        if(lastchar == '@'){
+          this.isShowingTags = true
+        }else{
+          this.isShowingTags = false
+        }
+      }
+    },
     handleReport(id, type) {
       this.report_type = type;
       this.report_id = id;
