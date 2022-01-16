@@ -536,13 +536,13 @@
                 </div>
               </div>
               <div class="py-1 px-3 text-post position-relative">
-                 <span class="tagslist shadow" v-if="isShowingTags">
+                 <!-- <span class="tagslist shadow" v-if="isShowingTags">
                       <ul class="list-style-none">
                         <li>jamie</li>
                          <li>jason</li>
                           <li>janet</li>
                       </ul>
-                    </span>
+                    </span> -->
                 <b-form @submit.prevent="post" class="wrapper">
                   <b-form-group class="position-relative">
 
@@ -1262,10 +1262,10 @@ export default {
 
   watch: {
     $route: "getdiscussion",
-    info: {
-      deep: true,
-      handler: "showtags",
-    },
+    // info: {
+    //   deep: true,
+    //   handler: "showtags",
+    // },
   },
   computed: {
     filteredDiscussion() {
