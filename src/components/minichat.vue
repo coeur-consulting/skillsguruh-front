@@ -525,6 +525,7 @@ export default {
   props: ["user"],
   data() {
     return {
+      message:'',
       blob: null,
       loading: false,
       img_ext: ["jpg", "png", "jpeg", "gif"],
@@ -1008,6 +1009,7 @@ ul {
 .chatting_name {
   font-size: 12px;
   min-width: 60%;
+  white-space:nowrap;
 }
 audio {
   height: 44px;

@@ -1040,6 +1040,7 @@ ul {
 .chatting_name {
   font-size: 12px;
   min-width: 60%;
+  white-space:nowrap;
 }
 audio {
   height: 44px;
