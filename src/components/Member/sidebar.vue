@@ -43,14 +43,14 @@
           <h6 class="fs13 font-weight-bold">Sort by</h6>
           <ul style="list-style: none" class="pl-3 mb-4">
             <li
-              class="mb-1"
+              class="mb-1 cursor-pointer"
               :class="sortvalue == 'all' ? '' : 'text-muted'"
               @click="toggleSort('all')"
             >
               All
             </li>
             <li
-              class="mb-1"
+              class="mb-1 cursor-pointer"
               :class="sortvalue == 'alpha' ? '' : 'text-muted'"
               @click="toggleSort('alpha')"
             >
@@ -59,6 +59,7 @@
             <li
               :class="sortvalue == 'members' ? '' : 'text-muted'"
               @click="toggleSort('members')"
+              class="cursor-pointer"
             >
              Popularity
             </li>
@@ -70,7 +71,7 @@
               @click="toggleSort(item, true)"
               v-for="(item, id) in interests"
               :key="id"
-              class="mb-1"
+              class="mb-1 cursor-pointer"
               :class="sortvalue == item ? '' : 'text-muted'"
             >
               {{ item }}
