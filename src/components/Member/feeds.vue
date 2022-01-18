@@ -5,14 +5,23 @@
       <b-modal id="feed" hide-footer centered title="Create feed" size="md">
         <div class="mb-4">
           <div class="wrapper mb-2">
-            <b-form-textarea
-              rows="3"
-              class="rounded border-0"
-              v-model="feed.message"
-              :placeholder="
-                'What\'s on your mind ' + $store.getters.member.username + '?'
-              "
-            ></b-form-textarea>
+            <div class="w-100 d-flex commentreply_container">
+              <a-mentions
+                v-model="feed.message"
+                :placeholder="
+                  'What\'s on your mind ' + $store.getters.member.username + '?'
+                "
+                class="mb-3 commentreply w-100 rounded border-0"
+              >
+                <a-mentions-option
+                  v-for="(item, id) in connections"
+                  :key="id"
+                  :value="item"
+                >
+                  {{ item }}
+                </a-mentions-option>
+              </a-mentions>
+            </div>
           </div>
           <emoji-picker
             class="d-none d-md-block"
@@ -72,27 +81,37 @@
         </div>
 
         <div class="d-flex justify-content-around my-3 border rounded">
-
-            <multi-upload @getUploads="getUploads" :type="type" :isMultiple="isMultiple" :id="type">
-
-            </multi-upload>
-
-
+          <multi-upload
+            @getUploads="getUploads"
+            :type="type"
+            :isMultiple="isMultiple"
+            :id="type"
+          >
+          </multi-upload>
         </div>
-        <b-button @click="post" block variant="dark-green">Post</b-button>
+        <b-button @click="post" block variant="dark-green" :disabled="disabled">Post</b-button>
       </b-modal>
 
-      <b-modal id="editfeed" hide-footer centered title="Edit feed" size="md">
+      <b-modal id="feededit" hide-footer centered title="Edit feed" size="md">
         <div class="mb-4">
           <div class="wrapper mb-2">
-            <b-form-textarea
-              rows="3"
-              class="rounded border-0"
-              v-model="feed.message"
-              :placeholder="
-                'What\'s on your mind ' + $store.getters.member.username + '?'
-              "
-            ></b-form-textarea>
+            <div class="w-100 d-flex commentreply_container">
+              <a-mentions
+                v-model="feed.message"
+                :placeholder="
+                  'What\'s on your mind ' + $store.getters.member.username + '?'
+                "
+                class="mb-3 commentreply w-100 rounded border-0"
+              >
+                <a-mentions-option
+                  v-for="(item, id) in connections"
+                  :key="id"
+                  :value="item"
+                >
+                  {{ item }}
+                </a-mentions-option>
+              </a-mentions>
+            </div>
           </div>
           <emoji-picker
             class="d-none d-md-block"
@@ -140,18 +159,9 @@
             </div>
           </emoji-picker>
         </div>
-        <div>
-          <h6 class="text-muted fs11 mb-2">Add tags</h6>
-          <multi-select
-            :options="options"
-            :selected-options="feed.tags"
-            placeholder="Choose tag"
-            @select="onSelect"
-          >
-          </multi-select>
-        </div>
 
-        <b-button @click="updatepost" block variant="dark-green"
+
+        <b-button @click="updatepost" :disabled="disabled" block variant="dark-green"
           >Update post</b-button
         >
       </b-modal>
@@ -194,9 +204,11 @@
                             >
                               {{ item.user.username }}
                             </div>
-                            <div class="comment_text" :id="item.comment" v-html="highlightText(item.comment)">
-
-                            </div>
+                            <div
+                              class="comment_text"
+                              :id="item.comment"
+                              v-html="highlightText(item.comment)"
+                            ></div>
                           </div>
                           <small
                             class="text-muted mr-2 cursor-pointer"
@@ -261,9 +273,7 @@
                                 >
                                   {{ rep.user.username }}
                                 </span>
-                                <span class="comment_text flex-1">{{
-                                  rep.message
-                                }}</span>
+                                <span class="comment_text flex-1" v-html="highlightText(rep.message)"></span>
                               </p>
                               <span
                                 ><b-icon
@@ -368,13 +378,15 @@
                   readonly
                   @click="$bvModal.show('feed')"
                   :placeholder="
-                    'What\'s on your mind ' + $store.getters.member.username + '?'
+                    'What\'s on your mind ' +
+                    $store.getters.member.username +
+                    '?'
                   "
                 ></b-form-input>
               </div>
 
               <div class="d-flex justify-content-around event_video">
-                <div @click="toggleFeedAdd('image',true)">
+                <div @click="toggleFeedAdd('image', true)">
                   <b-img
                     :src="require('@/assets/images/event.svg')"
                     width="18px"
@@ -382,7 +394,7 @@
                   ></b-img>
                   <span class="cursor-pointer"> Image</span>
                 </div>
-                <div  @click="toggleFeedAdd('video',false)">
+                <div @click="toggleFeedAdd('video', false)">
                   <b-img
                     :src="require('@/assets/images/youtube.svg')"
                     width="18px"
@@ -442,7 +454,6 @@
                   >
                     <div class="d-flex mb-3 px-2 px-sm-3 pt-3">
                       <div class="flex-1 text-left">
-
                         <div class="mr-2 mb-1 feedname" v-if="feed.user">
                           <b-avatar
                             size="1.8rem"
@@ -455,7 +466,7 @@
                                 `/member/profile/${feed.user.username}`
                               )
                             "
-                            class="hover_green"
+                            class="hover_green mr-1"
                           >
                             <div style="line-height: 1.2">
                               {{ feed.user.username }}
@@ -466,6 +477,7 @@
                               >{{ feed.user.state }}</small
                             >
                           </span>
+                          <small class="text-muted fs10" v-if="feed.isEdited">Edited</small>
                         </div>
                       </div>
                       <b-dropdown
@@ -492,7 +504,7 @@
                             feed.user.id == $store.getters.member.id
                           "
                           class="fs12"
-                          @click="editfeed(feed, index)"
+                          @click="feededit(feed, index)"
                           >Edit</b-dropdown-item
                         >
 
@@ -529,7 +541,7 @@
                           "
                         ></b-icon>
                         <b-carousel
-                          v-if="feed.mediaType==='image'"
+                          v-if="feed.mediaType === 'image'"
                           id="carousel-fade"
                           style="text-shadow: 0px 0px 2px #000"
                           indicators
@@ -554,7 +566,7 @@
                         </b-carousel>
                         <video
                           @dblclick.self="toggleLike(feed.id, index)"
-                           v-if="feed.mediaType==='video'"
+                          v-if="feed.mediaType === 'video'"
                           controls
                           width="100%"
                           height="420"
@@ -563,7 +575,10 @@
                       </div>
                     </div>
                     <div class="text-left feed_text px-3">
-                      <div class="mb-1" v-html="highlightText(feed.message)"></div>
+                      <div
+                        class="mb-1"
+                        v-html="highlightText(feed.message)"
+                      ></div>
 
                       <div v-if="feed.url" class="text-dark-green mb-1">
                         <a :href="feed.url" target="_blank">Click link</a>
@@ -660,7 +675,10 @@
                               {{ item.user.username }}</span
                             >
 
-                            <span class="comment_text" v-html="highlightText(item.comment)"></span>
+                            <span
+                              class="comment_text"
+                              v-html="highlightText(item.comment)"
+                            ></span>
                           </div>
                           <div>
                             <small>
@@ -764,13 +782,22 @@
                             </emoji-picker>
                           </b-input-group-text>
                         </template>
-                        <b-form-input
-                          autocomplete="off"
-                          autocorrect="off"
+                        <a-mentions
                           v-model="feed.comment"
-                          placeholder="Add comment"
-                          class="border-0 no-focus"
-                        ></b-form-input>
+                          type="text"
+                          size="lg"
+                          autocomplete="off"
+                          placeholder="Type a comment ..."
+                          class="border-0 no-focus rounded-pill bg-light"
+                        >
+                          <a-mentions-option
+                            v-for="(item, id) in connections"
+                            :key="id"
+                            :value="item"
+                          >
+                            {{ item }}
+                          </a-mentions-option>
+                        </a-mentions>
                       </b-input-group>
                     </div>
                     <div
@@ -913,8 +940,24 @@
           v-html="highlightText(replycomment.comment)"
         ></div>
       </template>
-      <b-textarea class="mb-3" v-model="commentreply"> </b-textarea>
-      <b-button variant="dark-green" @click="postreply" size="sm"
+      <!-- <b-textarea class="mb-3" v-model="commentreply"> </b-textarea> -->
+      <div class="w-100 d-flex commentreply_container">
+        <a-mentions
+          v-model="commentreply"
+          placeholder="Reply comment"
+          class="mb-3 commentreply w-100"
+        >
+          <a-mentions-option
+            v-for="(item, id) in connections"
+            :key="id"
+            :value="item"
+          >
+            {{ item }}
+          </a-mentions-option>
+        </a-mentions>
+      </div>
+
+      <b-button variant="dark-green" :disabled="disabled" @click="postreply" size="sm"
         >Reply</b-button
       >
     </b-modal>
@@ -942,8 +985,9 @@ import ViewMore from "@/components/Member/components/viewmore";
 export default {
   data() {
     return {
-      isMultiple:null,
-      type:'image',
+      disabled:false,
+      isMultiple: null,
+      type: "image",
       report_id: null,
       report_type: null,
       index: null,
@@ -971,7 +1015,7 @@ export default {
         message: "",
         publicId: "",
         tags: [],
-        mediaType:''
+        mediaType: "",
       },
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp", "flv", "mov"],
@@ -992,6 +1036,7 @@ export default {
       alllikes: null,
       counter: 0,
       comment_index: null,
+      value: "@afc163",
     };
   },
   components: {
@@ -1005,6 +1050,7 @@ export default {
     MultiUpload,
   },
   created() {
+    this.$store.dispatch("GET_CONNECTIONS");
     var channel = this.$pusher.subscribe("addfeed");
 
     channel.bind("addfeed", (data) => {
@@ -1017,6 +1063,9 @@ export default {
     });
   },
   computed: {
+    connections() {
+      return this.$store.getters.connections.map((item) => item.username);
+    },
     filteredFeeds() {
       if (this.feedShown == "recent" && this.recentfeeds.length) {
         return this.recentfeeds;
@@ -1060,7 +1109,13 @@ export default {
     },
   },
   methods: {
-     highlightText(text) {
+    onSelectM(option) {
+      console.log("select", option);
+    },
+    onChange(value) {
+      console.log("Change:", value);
+    },
+    highlightText(text) {
       let reg = /(?:^|\W)@(\w+)(?!\w)/g,
         match;
 
@@ -1076,11 +1131,10 @@ export default {
         .join(" ");
       return str;
     },
-    toggleFeedAdd(type,multiple) {
-
+    toggleFeedAdd(type, multiple) {
       this.type = type;
-      this.isMultiple =  multiple
-      this.feed.mediaType = type
+      this.isMultiple = multiple;
+      this.feed.mediaType = type;
       this.$bvModal.show("feed");
     },
     getfeedcomments(feed) {
@@ -1194,6 +1248,7 @@ export default {
         this.$toast.info("Cannot be empty");
         return;
       }
+      this.disabled=true
       var data = {
         feed_comment_id: this.replycomment.id,
         message: this.commentreply,
@@ -1208,6 +1263,7 @@ export default {
         })
         .then((res) => {
           if (res.status == 201) {
+            this.disabled=false
             this.$toast.success("Reply successful ");
 
             this.getcustomfeeds();
@@ -1221,6 +1277,7 @@ export default {
           }
         })
         .catch((err) => {
+          this.disabled=false
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1457,6 +1514,7 @@ export default {
       if (!this.feed.message && !this.feed.media) {
         return;
       }
+      this.disabled=true
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
           headers: {
@@ -1468,7 +1526,7 @@ export default {
             this.$toast.success("Feed Updated ");
             this.$bvModal.hide("feed");
             // this.feeds.unshift(res.data);
-
+this.disabled=false
             this.feed = {
               media: "",
               message: "",
@@ -1478,10 +1536,12 @@ export default {
           }
         })
         .catch((err) => {
+          this.disabled=false
           this.$toast.error(err.response.data.message);
         });
     },
     updatepost() {
+      this.disabled=true
       this.$http
         .put(`${this.$store.getters.url}/feeds/${this.feed.id}`, this.feed, {
           headers: {
@@ -1491,9 +1551,9 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Feed Updated ");
-
+this.disabled=false
             this.filteredFeeds[this.index].message = res.data.message;
-            this.$bvModal.hide("editfeed");
+            this.$bvModal.hide("feededit");
             this.feed = {
               media: "",
               message: "",
@@ -1503,6 +1563,7 @@ export default {
           }
         })
         .catch((err) => {
+          this.disabled=false
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1511,6 +1572,7 @@ export default {
         this.$toast.info("Cannot be empty");
         return;
       }
+      this.disabled= true
       this.comment.id = id;
       this.comment.comment = comment;
 
@@ -1522,6 +1584,7 @@ export default {
         })
         .then((res) => {
           if (res.status == 201) {
+            this.disabled=false
             this.$toast.success("Comment updated ");
 
             this.filteredFeeds[index].comments.unshift(res.data);
@@ -1535,10 +1598,12 @@ export default {
           }
         })
         .catch((err) => {
+          this.disabled=false
           this.$toast.error(err.response.data.message);
         });
     },
     toggleLike(id, index) {
+      this.disabled=true
       this.$http
         .post(
           `${this.$store.getters.url}/feed-likes`,
@@ -1551,24 +1616,27 @@ export default {
         )
         .then((res) => {
           if (res.status == 201 || res.status == 200) {
+            this.disabled=false
             this.likeimage(index);
             this.filteredFeeds[index].isLiked = res.data.like;
             this.filteredFeeds[index].likes = res.data.feed.likes;
           }
         })
         .catch((err) => {
+          this.disabled=false
           this.$toast.error(err.response.data.message);
         });
     },
 
-    editfeed(feed, index) {
+    feededit(feed, index) {
+
       this.index = index;
       this.feed.message = feed.message;
       this.feed.id = feed.id;
       this.feed.media = feed.media;
       this.feed.publicId = feed.publicId;
       this.feed.tags = feed.tags;
-      this.$bvModal.show("editfeed");
+      this.$bvModal.show("feededit");
     },
     drop(id, index) {
       this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {

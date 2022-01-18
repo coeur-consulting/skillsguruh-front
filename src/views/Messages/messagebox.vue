@@ -355,7 +355,7 @@
               </b-dropdown>
             </b-input-group-text>
           </template>
-          <b-form-input
+          <!-- <b-form-input
             @keyup.enter="addinbox"
             v-model="message"
             type="text"
@@ -363,7 +363,20 @@
             autocomplete="off"
             placeholder="Type a message ..."
             class="border-0 no-focus rounded-pill bg-light"
-          ></b-form-input>
+          ></b-form-input> -->
+             <a-mentions
+               @keyup.enter="addinbox"
+            v-model="message"
+            type="text"
+            size="lg"
+            autocomplete="off"
+            placeholder="Type a message ..."
+            class="border-0 no-focus rounded-pill bg-light"
+            >
+             <a-mentions-option v-for="(item,id) in connections" :key="id" :value="item">
+                            {{ item}}
+                          </a-mentions-option>
+            </a-mentions>
         </b-input-group>
         <div class="text-center" v-if="info.type == 'pending'">
           <small>You have to be connected to this user to reply!</small>
@@ -562,6 +575,7 @@ export default {
   },
 
   created() {
+    this.$store.dispatch('GET_CONNECTIONS');
     var channel = this.$pusher.subscribe(`inbox.${this.useraccess.id}`);
     bus.$on("switchchat", (res) => {
       if (!this.info || this.info.id != res.id) {
@@ -614,6 +628,9 @@ export default {
     });
   },
   computed: {
+    connections(){
+        return this.$store.getters.connections.map(item=>item.username)
+    },
     sortbydate() {
       let sortarr = this.messages.map((item) =>
         moment(item.created_at).format("MMMM D YYYY")

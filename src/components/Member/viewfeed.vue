@@ -382,13 +382,23 @@
                           </emoji-picker>
                         </b-input-group-text>
                       </template>
-                      <b-form-input
-                        autocomplete="off"
-                        autocorrect="off"
-                        v-model="comment.comment"
-                        placeholder="Add comment"
-                        class="border-0 no-focus"
-                      ></b-form-input>
+
+                       <a-mentions
+                          v-model="comment.comment"
+                          type="text"
+
+                          autocomplete="off"
+                          placeholder="Type a comment ..."
+                          class="border-0 no-focus "
+                        >
+                          <a-mentions-option
+                            v-for="(item, id) in connections"
+                            :key="id"
+                            :value="item"
+                          >
+                            {{ item }}
+                          </a-mentions-option>
+                        </a-mentions>
                     </b-input-group>
                   </div>
                 </b-card-body>
@@ -566,7 +576,19 @@
           v-html="highlightText(replycomment.comment)"
         ></div>
       </template>
-      <b-textarea class="mb-3" v-model="commentreply"> </b-textarea>
+      <a-mentions
+          v-model="commentreply"
+          placeholder="Reply comment"
+          class="mb-3 commentreply w-100"
+        >
+          <a-mentions-option
+            v-for="(item, id) in connections"
+            :key="id"
+            :value="item"
+          >
+            {{ item }}
+          </a-mentions-option>
+        </a-mentions>
       <b-button variant="dark-green" @click="postreply" size="sm"
         >Reply</b-button
       >
@@ -617,9 +639,7 @@
               </div>
               <div class="d-flex align-items-start flex-1">
                 <span class="d-flex justify-content-between w-100 flex-1">
-                  <span class="comment_text flex-1 d-flex align-items-center">{{
-                    rep.message
-                  }}</span>
+                  <span class="comment_text flex-1 d-flex align-items-center" v-html="highlightText(rep.message)"></span>
                   <span
                     ><b-icon
                       :icon="rep.isLiked ? 'heart-fill' : 'heart'"
@@ -668,8 +688,12 @@ export default {
   },
   created() {
     this.getfeeds();
+     this.$store.dispatch("GET_CONNECTIONS");
   },
   computed: {
+     connections() {
+      return this.$store.getters.connections.map((item) => item.username);
+    },
     useraccess() {
       var token = null;
       if (this.$store.getters.admin.access_token) {

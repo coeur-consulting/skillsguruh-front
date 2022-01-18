@@ -536,7 +536,7 @@
                 </div>
               </div>
               <div class="py-1 px-3 text-post position-relative">
-                 <!-- <span class="tagslist shadow" v-if="isShowingTags">
+                <!-- <span class="tagslist shadow" v-if="isShowingTags">
                       <ul class="list-style-none">
                         <li>jamie</li>
                          <li>jason</li>
@@ -545,7 +545,6 @@
                     </span> -->
                 <b-form @submit.prevent="post" class="wrapper">
                   <b-form-group class="position-relative">
-
                     <editor
                       api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
                       @keyup.enter="post"
@@ -729,7 +728,7 @@
       centered
       size="lg"
     >
-      <div class="p-2 text-center">
+      <div class="p-2 text-center"  v-if="discussion">
         <h6 class="font-weight-bold mb-3">Share Invite</h6>
         <ShareNetwork
           v-if="discussion.name"
@@ -958,15 +957,25 @@
       </div>
     </b-modal>
     <b-modal id="adddiscussioncomment" centered hide-footer>
-      <div v-html="comment_message"></div>
+      <div v-html="comment_message" class="mb-4"></div>
       <b-form @submit.prevent="replyPost" class="">
         <b-form-group>
-          <b-form-textarea
-            @keyup.enter="replyPost"
-            class="regular-input mb-4"
-            placeholder="Start typing here.."
-            v-model="reply.message"
-          ></b-form-textarea>
+          <div class="w-100 d-flex commentreply_container">
+            <a-mentions
+              @keyup.enter="replyPost"
+              placeholder="Start typing here.."
+              v-model="reply.message"
+              class="mb-3 commentreply w-100"
+            >
+              <a-mentions-option
+                v-for="(item, id) in discussionusers"
+                :key="id"
+                :value="item"
+              >
+                {{ item }}
+              </a-mentions-option>
+            </a-mentions>
+          </div>
         </b-form-group>
 
         <div class="d-flex align-items-center justify-content-end">
@@ -1183,7 +1192,7 @@ export default {
       vid_ext: ["mp4", "3gp"],
       aud_ext: ["mp3"],
       doc_ext: ["docx", "pdf", "ppt", "zip"],
-      discussion: {},
+      discussion: null,
       link: "",
       info: {
         attachment: "",
@@ -1250,6 +1259,7 @@ export default {
   },
 
   created() {
+   // this.$store.dispatch("GET_CONNECTIONS");
     this.link =
       "https://nzukoor.com/explore/discussion/" + this.$route.params.id;
     var channel = this.$pusher.subscribe("adddiscussion");
@@ -1268,6 +1278,23 @@ export default {
     // },
   },
   computed: {
+    discussionusers() {
+      if(!this.discussion) return []
+      let users = [];
+      users.push(this.discussion.user.username);
+      this.discussion.discussionmessage.forEach((val) => {
+        users.push(val.user.username);
+        val.discussionmessagecomment.forEach((v) => {
+          users.push(v.user.username);
+        });
+      });
+      let setusers = new Set(users)
+
+      return [...setusers];
+    },
+    // connectiontags() {
+    //   return this.$store.getters.connections.map((item) => item.username);
+    // },
     filteredDiscussion() {
       var res = this.posts.slice();
       if (this.toggleview == "recent") {
@@ -1374,11 +1401,13 @@ export default {
   methods: {
     showtags() {
       if (this.toText(this.info.message)) {
-        let lastchar = this.toText(this.info.message).charAt(this.toText(this.info.message).length - 1);
-        if(lastchar == '@'){
-          this.isShowingTags = true
-        }else{
-          this.isShowingTags = false
+        let lastchar = this.toText(this.info.message).charAt(
+          this.toText(this.info.message).length - 1
+        );
+        if (lastchar == "@") {
+          this.isShowingTags = true;
+        } else {
+          this.isShowingTags = false;
         }
       }
     },

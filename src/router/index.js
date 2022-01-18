@@ -1384,6 +1384,15 @@ const routes = [
       title: "Questionnaire | Member",
     },
   },
+   {
+    path: "/test",
+    name: "test",
+    components: {
+      default: () =>
+        import(/* webpackChunkName: "question" */ "@/views/text.vue"),
+    },
+
+  },
 
   {
     path: "/invite/:code",

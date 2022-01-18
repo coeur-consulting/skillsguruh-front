@@ -25,8 +25,12 @@ export default new Vuex.Store({
     tribe: localStorage.getItem("tribe"),
     tribe_info: {},
     tribes: [],
+    connections: [],
   },
   mutations: {
+    SET_CONNECTIONS(state, connections) {
+      state.connections = connections;
+    },
     SET_TRIBE(state, tribe) {
       state.tribe = tribe;
     },
@@ -71,6 +75,22 @@ export default new Vuex.Store({
           headers: {
             Authorization: `Bearer ${state.member.access_token}`,
           },
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    GET_CONNECTIONS({ state, commit }) {
+      Vue.axios
+        .get(`${state.url}/connections`, {
+          headers: {
+            Authorization: `Bearer ${state.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            commit("SET_CONNECTIONS", res.data.map(item=> item.user_follower));
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -140,11 +160,14 @@ export default new Vuex.Store({
       });
     },
     async checkTribeDiscussion({ state }, detail) {
-      return Vue.axios.get(`${state.url}/check/tribe/discussion/${detail.discussion_id}`, {
-        headers: {
-          Authorization: `Bearer ${detail.user.access_token}`,
-        },
-      });
+      return Vue.axios.get(
+        `${state.url}/check/tribe/discussion/${detail.discussion_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${detail.user.access_token}`,
+          },
+        }
+      );
     },
     async joinTribe({ state }, detail) {
       return Vue.axios.get(`${state.url}/join/tribe/${detail.tribe_id}`, {
@@ -326,5 +349,6 @@ export default new Vuex.Store({
     tribe: (state) => state.tribe,
     tribes: (state) => state.tribes,
     tribe_info: (state) => state.tribe_info,
+    connections: (state) => state.connections,
   },
 });

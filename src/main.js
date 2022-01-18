@@ -33,7 +33,9 @@ import "vue-search-select/dist/VueSearchSelect.css";
 import "./assets/scss/style.scss";
 import "./cloudinary.js";
 import VueDictaphone from "vue-dictaphone";
-
+import Antd from "ant-design-vue";
+import "ant-design-vue/dist/antd.css";
+Vue.use(Antd);
 export const bus = new Vue();
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

@@ -375,14 +375,18 @@
             </b-dropdown>
           </b-input-group-text>
         </template>
-        <b-form-input
-          @keyup.enter="addinbox"
-          v-model="message"
-          type="text"
-          autocomplete="off"
-          placeholder="Type a message ..."
-          class="border-0 no-focus rounded-pill bg-light"
-        ></b-form-input>
+        <a-mentions
+               @keyup.enter="addinbox"
+            v-model="message"
+            type="text"
+            autocomplete="off"
+            placeholder="Type a message ..."
+            class="border-0 no-focus rounded-pill bg-light"
+            >
+             <a-mentions-option v-for="(item,id) in connections" :key="id" :value="item">
+                            {{ item}}
+                          </a-mentions-option>
+            </a-mentions>
       </b-input-group>
     </footer>
 
@@ -504,14 +508,20 @@
             </emoji-picker>
           </b-input-group-text>
         </template>
-        <b-form-input
-          @keyup.enter="addinbox"
-          v-model="message"
-          autocomplete="off"
-          autocorrect="off"
-          placeholder="Type a message .."
-          class="border-0 no-focus rounded-pill fs13"
-        ></b-form-input>
+
+         <a-mentions
+               @keyup.enter="addinbox"
+            v-model="message"
+            type="text"
+            size="lg"
+            autocomplete="off"
+            placeholder="Type a message ..."
+            class="border-0 no-focus rounded-pill bg-light"
+            >
+            <a-mentions-option v-for="(item,id) in connections" :key="id" :value="item">
+                            {{ item}}
+                          </a-mentions-option>
+            </a-mentions>
       </b-input-group>
     </b-modal>
   </div>
@@ -559,8 +569,13 @@ export default {
   watch: {
     isOpen: "markMessagesRead",
   },
-
+  created() {
+    this.$store.dispatch('GET_CONNECTIONS');
+  },
   computed: {
+    connections(){
+        return this.$store.getters.connections.map(item=>item.username)
+    },
     sortbydate() {
       let sortarr = this.messages.map((item) =>
         moment(item.created_at).format("MMMM D YYYY")

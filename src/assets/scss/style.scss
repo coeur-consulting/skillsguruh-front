@@ -1727,3 +1727,22 @@ top:-100%;
 max-height:300px;
 overflow-y: auto;
 }
+
+.mention-item {
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.mention-selected {
+  background: rgb(192, 250, 153);
+}
+
+.ant-mentions{
+  flex:1
+}
+.ant-mentions > textarea{
+min-height:34px !important;
+}
+.commentreply > textarea{
+min-height:60px !important;
+}
