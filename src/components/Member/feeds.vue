@@ -982,6 +982,7 @@ import Interest from "../helpers/subcategory.js";
 import Report from "@/components/helpers/report";
 import Suggestions from "@/components/suggestions.vue";
 import ViewMore from "@/components/Member/components/viewmore";
+import "ant-design-vue/dist/antd.css";
 export default {
   data() {
     return {

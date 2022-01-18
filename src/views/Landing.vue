@@ -155,7 +155,7 @@
           :font-scale="bannerIndex > 0 ? '1.5' : '1'"
         ></b-icon>
         <b-icon
-          
+
           icon="arrow-right-circle"
           class="cursor-pointer"
           :class="bannerIndex < 1 ? 'text-white' : 'text-light'"
@@ -533,7 +533,7 @@ export default {
 }
 .banner_text {
   text-align: center;
-  color: white;
+  color: rgba($color: #ffffff, $alpha: 0.85);
 
   margin: 0 auto;
 }
@@ -543,6 +543,7 @@ export default {
   font-weight: 600;
   letter-spacing: 0.06em;
   word-wrap: break-word;
+  color: white;
 }
 .btn.banner-btn {
   height: 56px;
@@ -616,6 +617,9 @@ export default {
     width: 35%;
     margin: 0 auto;
   }
+}
+h1{
+  color:white;
 }
 @media (max-width: 1440px) {
   #with_nzukoor {

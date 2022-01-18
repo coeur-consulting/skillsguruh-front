@@ -531,6 +531,7 @@ import Upload from "@/components/chatUpload";
 import EmojiPicker from "vue-emoji-picker";
 import { bus } from "@/main.js";
 import moment from "moment";
+import "ant-design-vue/dist/antd.css";
 export default {
   props: ["user"],
   data() {

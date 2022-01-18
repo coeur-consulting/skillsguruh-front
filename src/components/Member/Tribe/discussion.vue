@@ -1178,6 +1178,7 @@ import SpeechToText from "@/components/speechToText";
 import TextToSpeech from "@/components/textToSpeech";
 import EditDiscussion from "@/components/editdiscussion";
 import Report from "@/components/helpers/report";
+import "ant-design-vue/dist/antd.css";
 export default {
   data() {
     return {

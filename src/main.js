@@ -30,11 +30,11 @@ import "vue-toast-notification/dist/theme-sugar.css";
 import "animate.css";
 import "vue-event-calendar/dist/style.css";
 import "vue-search-select/dist/VueSearchSelect.css";
-import "./assets/scss/style.scss";
+
 import "./cloudinary.js";
 import VueDictaphone from "vue-dictaphone";
 import Antd from "ant-design-vue";
-import "ant-design-vue/dist/antd.css";
+import "./assets/scss/style.scss";
 Vue.use(Antd);
 export const bus = new Vue();
 

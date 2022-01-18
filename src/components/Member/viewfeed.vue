@@ -659,6 +659,7 @@
 </template>
 <script>
 import EmojiPicker from "vue-emoji-picker";
+import "ant-design-vue/dist/antd.css";
 export default {
   data() {
     return {
