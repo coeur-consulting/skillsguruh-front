@@ -443,9 +443,9 @@
                                     : "comment"
                                 }}</span
                               >
-                              <div class="all_comment">
+                              <div class="all_comment" style="line-height:1;">
                                 <div
-                                  class="comment d-flex text-left mb-1"
+                                  class="comment d-flex text-left "
                                   v-for="item in feed.comments.slice(0, 2)"
                                   :key="item.id"
                                 >
@@ -1994,11 +1994,36 @@ export default {
         });
     },
     joindiscussion(item) {
-      // if (!this.useraccess) {
-      //   this.$router.push("/login?redirect=%2Fmember%2Fdiscussions");
-      // }
-      this.$router.push(`/member/explore/discussion/${item.id}`);
+
+      this.entertribe(item);
     },
+     entertribe(item) {
+      var details = {
+        tribe_id: item.tribe_id,
+        user: this.$store.getters.member,
+      };
+
+
+      this.$store.dispatch("checkTribe", details).then((res) => {
+        if (res.status == 200 && res.data.message == "found") {
+          window.location.href = `/member/tribe/${item.tribe_id}/discussion/${item.id}`;
+        } else {
+          this.$bvModal
+            .msgBoxConfirm("Do you wish to join this tribe?")
+            .then((val) => {
+              if (val) {
+                this.$store.dispatch("joinTribe", details).then((res) => {
+                  if (res.status == 200 && res.data.message == "successful") {
+                    this.$toast.success("Joined successfully");
+                    window.location.href = `/member/tribe//${item.tribe_id}/discussion/${item.id}`;
+                  }
+                });
+              }
+            });
+        }
+      });
+
+   },
 
     async addconnections(id, type) {
       return this.$http

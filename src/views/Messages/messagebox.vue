@@ -679,7 +679,28 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
-    ignoreconnection() {},
+    ignoreconnection() {
+     
+       this.$http
+        .post(
+          `${this.$store.getters.url}/remove/pending/connections`,
+          { following_id: this.info.id, follow_type: "user" },
+          {
+            headers: {
+              Authorization: `Bearer ${this.useraccess.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+
+            bus.$emit("reloadChat");
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
 
     handleNewMessage() {
       var isOldTitle = true;

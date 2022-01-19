@@ -9,7 +9,7 @@
             :src="require('@/assets/images/logo.png')"
           ></b-img>
           <div class="position-relative">
-            <h2 class="mt-4">
+            <h2 class="mt-4 text-white">
               Get comfortable, your tribe is here Connect with over 100 tribes
             </h2>
           </div>

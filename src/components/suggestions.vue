@@ -2,7 +2,7 @@
   <div class="px-3" v-if="suggestions.length">
     <div class="my-3 position-relative">
       <div class="mb-3 text-left text-muted">
-        <small>Some connection suggestions</small>
+        <small>Connection suggestions</small>
       </div>
       <b-iconstack
         font-scale="2.5"
@@ -165,7 +165,7 @@ export default {
         .then((res) => {
           if (res.status == 201) {
             this.getsimilarusers();
-            this.$toast.success("Connected");
+           
             this.$store.dispatch("newConnection", {
               id,
               type,

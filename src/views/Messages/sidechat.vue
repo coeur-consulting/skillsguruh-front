@@ -214,11 +214,23 @@ export default {
       );
     },
   },
+  watch: {
+    tabIndex:'toggleActivity'
+  },
   mounted() {
     this.getconnections();
     this.getpendingconnections();
   },
   methods: {
+    toggleActivity(){
+
+      if(this.tabIndex===0){
+         var info = this.connections[0].user_follower;
+              info.type='active'
+              info.index = 0;
+              bus.$emit("switchchat", info);
+      }
+    },
     arrMove(arr, oldIndex, newIndex) {
       if (newIndex >= arr.length) {
         let i = newIndex - arr.length + 1;
@@ -273,6 +285,7 @@ export default {
             this.connections = res.data;
             if (res.data.length) {
               var info = res.data[0].user_follower;
+              //this.active = res.data[0].user_follower.id
               info.type='active'
               info.index = 0;
               bus.$emit("switchchat", info);
