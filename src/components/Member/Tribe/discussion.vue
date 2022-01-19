@@ -40,7 +40,7 @@
                       discussion.user.id == $store.getters.member.id
                     "
                   >
-                    <span @click="$bvModal.show('edit')">
+                    <span @click="$bvModal.show('editDiscussion')">
                       <span class="">Edit</span></span
                     >
                   </b-dropdown-item>
@@ -252,7 +252,7 @@
                             size="sm"
                             variant="transparent"
                             no-caret
-                            class="no-focus ml-3"
+                            class="no-focus ml-2"
                           >
                             <template #button-content>
                               <b-icon
@@ -609,11 +609,12 @@
                   </div>
                 </div>
               </div>
-              <div class="py-1 px-3 text-post position-relative">
+              <div class="py-1 px-3 text-post position-relative" >
 
-                <b-form @submit.prevent="post" class="wrapper">
+                <b-form @submit.prevent="post" class="wrapper" >
                   <b-form-group class="position-relative">
                     <editor
+id="firsteditor"
                       api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
                       @keyup.enter="post"
                       class="regular-input mb-4"
@@ -1228,31 +1229,40 @@
       <report :id="report_id" :type="report_type"></report>
     </b-modal>
     <b-modal
-      id="edit"
+      id="editDiscussion"
       size="lg"
       hide-footer
       title="Update Discussion Information"
     >
       <EditDiscussion :information="discussion" @refresh="refresh" />
     </b-modal>
-    <b-modal id="editdiscussioncomment" centered hide-footer>
+    <b-modal id="editdiscussioncomment" centered hide-footer >
       <b-form @submit.prevent="updatediscussioncomment" class="">
         <b-form-group>
-          <div class="w-100 d-flex commentreply_container">
-            <a-mentions
-              placeholder="Start typing here.."
-              v-model="edittedcomment.message"
-              class="mb-3 commentreply w-100"
-            >
-              <a-mentions-option
-                v-for="(item, id) in discussionusers"
-                :key="id"
-                :value="item"
-              >
-                {{ item }}
-              </a-mentions-option>
-            </a-mentions>
-          </div>
+
+          <editor
+          id="secondeditor"
+                      api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
+                      @keyup.enter="post"
+                      class="regular-input mb-4"
+                      placeholder="Start typing here.."
+                      v-model="edittedcomment.message"
+                      :init="{
+                        height: 150,
+                        menubar: false,
+                        content_style: font,
+                        font_formats: 'Poppins',
+                        plugins: [
+                          '  lists link  charmap   anchor',
+                          'searchreplace visualblocks code fullscreen',
+                          '  table paste code',
+                        ],
+                        toolbar:
+                          ' styleselect | bold italic | \
+           alignleft aligncenter alignright alignjustify | \
+           bullist numlist  ',
+                      }"
+                    />
         </b-form-group>
 
         <div class="d-flex align-items-center justify-content-end">
@@ -1404,6 +1414,7 @@ import "ant-design-vue/dist/antd.css";
 export default {
   data() {
     return {
+      isEditing:false,
       edittedcomment: {},
       edittedreply: {},
       isShowingTags: false,
@@ -1757,7 +1768,9 @@ export default {
     editdiscussioncomment(val, index) {
       this.index = index;
       this.edittedcomment = val;
-      this.$bvModal.show("editdiscussioncomment");
+      this.isEditing = true
+      this.info.message = val.message
+       this.$bvModal.show("editdiscussioncomment");
     },
     editdiscussionreply(val, index) {
       this.index = index;
@@ -1767,6 +1780,7 @@ export default {
     },
     updatediscussioncomment() {
       this.isDisabled = true;
+      this.edittedcomment.message = this.info.message
       this.$http
         .post(
           `${this.$store.getters.url}/update/discussion/comment`,
@@ -1781,6 +1795,7 @@ export default {
           this.isDisabled = false;
           if (res.status == 200) {
             this.getdiscussion();
+            this.$bvModal.hide("editdiscussioncomment");
           }
         })
         .catch((err) => {
@@ -1803,7 +1818,12 @@ export default {
         .then((res) => {
           this.isDisabled = false;
           if (res.status == 200) {
+            this.info.message = ''
+
             this.getdiscussion();
+           this.isEditing = false
+           this.$toast.success('Updated')
+           this.$bvModal.hide("editdiscussionreply");
           }
         })
         .catch((err) => {
@@ -2052,6 +2072,10 @@ export default {
         });
     },
     post() {
+      if(this.isEditing){
+        this.updatediscussioncomment()
+        return
+      }
       if (!this.info.message && !this.info.attachment) {
         this.$toast.info("Type a message!");
         return;
@@ -2402,11 +2426,14 @@ export default {
 .bottom_bar {
   // width: 85%;
   margin-left: auto;
-  padding: 13px;
+  padding:20px 15px;
   border-radius: 4px;
   background: #fbfbfb;
   font-size: 12px;
   margin-top: 14px;
+  @media(max-width: 767px){
+padding:15px 12px;
+  }
 }
 .related_quest {
   border-radius: 8px;

@@ -141,7 +141,7 @@ export default {
       return item;
     });
 
-    this.getcourses();
+    // this.getcourses();
     this.setDiscussion();
   },
   computed: {
@@ -198,18 +198,18 @@ export default {
       this.lastSelectItem = lastSelectItem;
     },
 
-    getcourses() {
-      this.$http
-        .get(`${this.$store.getters.url}/guest/courses`)
-        .then((res) => {
-          if (res.status == 200) {
-            this.courses = res.data;
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
-    },
+    // getcourses() {
+    //   this.$http
+    //     .get(`${this.$store.getters.url}/guest/courses`)
+    //     .then((res) => {
+    //       if (res.status == 200) {
+    //         this.courses = res.data;
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       this.$toast.error(err.response.data.message);
+    //     });
+    // },
 
     creatediscussion() {
       this.$http
