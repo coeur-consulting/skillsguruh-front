@@ -935,7 +935,7 @@
                         ></b-img>
                       </b-col>
                       <b-col cols="9" sm="9" class="flex-1">
-                        <b-card-body title="User nor found" class="text-left">
+                        <b-card-body title="User not found" class="text-left">
                         </b-card-body>
                       </b-col>
                     </b-row>

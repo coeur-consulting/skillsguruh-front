@@ -55,18 +55,12 @@
                   :class="
                     item.unread_message ? 'font-weight-bold' : 'text-muted'
                   "
-                  v-if=" item.last_message.message"
+                  v-if="item.last_message.message"
                   v-html="item.last_message.message"
-                  ></small
-                >
-                  <small
-                  v-else
-                  class="text-truncate text-truncate--1 text-muted"
-
-                  >
-                    Sent attachment...
-                </small
-                >
+                ></small>
+                <small v-else class="text-truncate text-truncate--1 text-muted">
+                  Sent attachment...
+                </small>
                 <small v-if="item.unread_message">
                   <b-badge variant="dark-green">{{
                     item.unread_message
@@ -85,7 +79,13 @@
           <b-alert show>No connection available</b-alert>
         </div>
       </b-tab>
-      <b-tab :title="`Pending ${pendingfilteredconnections.length?pendingfilteredconnections.length:''}`">
+      <b-tab
+        :title="`Pending ${
+          pendingfilteredconnections.length
+            ? pendingfilteredconnections.length
+            : ''
+        }`"
+      >
         <b-list-group v-if="pendingfilteredconnections.length">
           <b-list-group-item
             v-for="(item, index) in pendingfilteredconnections"
@@ -160,7 +160,7 @@ export default {
       pendingconnections: [],
       active: 1,
       search: "",
-      tabIndex:0
+      tabIndex: 0,
     };
   },
   created() {
@@ -191,13 +191,12 @@ export default {
     bus.$on("unreadmessage", (res) => {
       this.connections[res.index].unread_message = 0;
     });
-    bus.$on('reloadChat',()=>{
-
-       this.getconnections();
-       this.getpendingconnections();
-      //  this.tabIndex=0
-    })
- },
+    bus.$on("reloadChat", () => {
+      this.getconnections();
+      this.getpendingconnections();
+      this.tabIndex=0
+    });
+  },
   computed: {
     filteredconnections() {
       return this.connections.filter((item) =>
@@ -215,20 +214,28 @@ export default {
     },
   },
   watch: {
-    tabIndex:'toggleActivity'
+    tabIndex: "toggleActivity",
   },
   mounted() {
     this.getconnections();
     this.getpendingconnections();
   },
   methods: {
-    toggleActivity(){
-
-      if(this.tabIndex===0){
-         var info = this.connections[0].user_follower;
-              info.type='active'
-              info.index = 0;
-              bus.$emit("switchchat", info);
+    toggleActivity() {
+      var info = {};
+      if (this.tabIndex === 0) {
+        if( !this.connections.length) return
+        info = this.connections[0].user_follower;
+        info.type = "active";
+        info.index = 0;
+        bus.$emit("switchchat", info);
+      } else {
+        if(!this.pendingconnections.length) return
+        info = this.pendingconnections[0].user_follower;
+        info.type = "pending";
+        info.index = 0;
+        bus.$emit("switchchat", info);
+        this.$emit("toggleView", "chat");
       }
     },
     arrMove(arr, oldIndex, newIndex) {
@@ -246,19 +253,19 @@ export default {
       if (this.connections[index].unread_message) {
         this.markMessagesRead(val.id);
       }
-      val.type='active';
+      val.type = "active";
       val.index = index;
       this.connections[index].unread_message = 0;
       bus.$emit("switchchat", val);
       this.$emit("toggleView", "chat");
     },
-     togglePendingChat(val, index) {
+    togglePendingChat(val, index) {
       this.active = val.id;
       if (this.pendingconnections[index].unread_message) {
         this.markMessagesRead(val.id);
       }
       val.index = index;
-      val.type='pending';
+      val.type = "pending";
       this.pendingconnections[index].unread_message = 0;
       bus.$emit("switchchat", val);
       this.$emit("toggleView", "chat");
@@ -286,7 +293,7 @@ export default {
             if (res.data.length) {
               var info = res.data[0].user_follower;
               //this.active = res.data[0].user_follower.id
-              info.type='active'
+              info.type = "active";
               info.index = 0;
               bus.$emit("switchchat", info);
             }
@@ -319,7 +326,7 @@ export default {
 
 <style lang="scss" scoped>
 .nav-link {
-  font-size: .8rem;
+  font-size: 0.8rem;
 }
 .list-group-item {
   background-color: transparent;

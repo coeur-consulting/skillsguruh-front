@@ -10,7 +10,7 @@
         <b-avatar size="sm" :src="item.profile" class="mr-2"></b-avatar>
         <div class="text-left">
           <div
-            @click="$router.push(`/member/profile/${item.username}`)"
+            @click="$router.push(`/member/profile/${item.user.username}`)"
             class="connection_name cursor-pointer fs13"
             :id="`similar-${id}`"
           >

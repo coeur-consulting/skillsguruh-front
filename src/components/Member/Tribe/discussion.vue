@@ -74,7 +74,7 @@
                       :src="discussion.user.profile"
                       v-if="discussion.user"
                       @click="
-                        $router.push(`/member/profile/${discussion.username}`)
+                        $router.push(`/member/profile/${discussion.user.username}`)
                       "
                     ></b-avatar>
                   </div>
@@ -174,7 +174,7 @@
                       v-if="discussion.user"
                       class="cursor-pointer text-dark-green hover_green"
                       @click="
-                        $router.push(`/member/profile/${discussion.username}`)
+                        $router.push(`/member/profile/${discussion.user.username}`)
                       "
                       >{{ discussion.user.username }}</span
                     >
@@ -242,12 +242,58 @@
                         ></b-icon>
                       </div>
                       <div class="position-relative flex-1">
-                        <span v-if="item.message" class="text2speech">
+                        <span v-if="item.message" class="text2speech d-flex align-items-center">
                           <text-to-speech
                             :text="toText(item.message)"
                             :voice="voices"
                           ></text-to-speech>
+
+                          <b-dropdown
+                            size="sm"
+                            variant="transparent"
+                            no-caret
+                            class="no-focus ml-3"
+                          >
+                            <template #button-content>
+                              <b-icon
+                                icon="three-dots-vertical"
+                                font-scale="1.2"
+                              ></b-icon>
+                            </template>
+                            <b-dropdown-item
+                              class="fs12"
+                              v-if="
+                                item.user &&
+                                item.user.id == $store.getters.member.id
+                              "
+                            >
+                              <span  @click="editdiscussioncomment(item, index)">
+                                <span class="">Edit</span></span
+                              >
+                            </b-dropdown-item>
+
+                            <b-dropdown-item
+                              class="fs12"
+                             @click="dropdiscussioncomment(item, index)"
+                               v-if="
+                               ( item.user &&
+                                item.user.id == $store.getters.member.id)
+                              "
+                            >
+                              Delete</b-dropdown-item
+                            >
+                            <b-dropdown-item
+                              v-if="
+                                item.user &&
+                                item.user.id !== $store.getters.member.id
+                              "
+                              @click="handleReport(discussion.id, 'discussion message')"
+                              class="fs12"
+                              >Report
+                            </b-dropdown-item>
+                          </b-dropdown>
                         </span>
+
                         <div>
                           <p
                             class="discusion_text"
@@ -398,7 +444,7 @@
                             <span
                               v-if="item.user"
                               @click="
-                                $router.push(`/member/profile/${item.username}`)
+                                $router.push(`/member/profile/${item.user.username}`)
                               "
                               class="fs13 cursor-pointer hover_green"
                               >{{ item.user.username }}</span
@@ -423,15 +469,29 @@
                               }}</small
                             >
                           </span>
-                          <span
-                            ><small
-                              class="cursor-pointer mr-2"
+                          <span>
+                            <!-- <small
+                              class="cursor-pointer mr-1"
+                              @click="editdiscussioncomment(item, index)"
+                            >
+                              <b-icon icon="pencil-square"></b-icon>
+                              Edit
+                            </small>
+                            <small
+                              class="cursor-pointer mr-1"
+                              @click="dropdiscussioncomment(item.id)"
+                            >
+                              <b-icon icon="trash"></b-icon>
+                              Delete
+                            </small> -->
+                            <small
+                              class="cursor-pointer mr-1"
                               @click="addmessagecomment(item, index)"
                             >
                               <b-icon icon="arrow-counterclockwise"></b-icon>
                               Reply
                             </small>
-
+<!--
                             <small
                               class="cursor-pointer"
                               v-if="
@@ -443,7 +503,8 @@
                               "
                             >
                               <b-icon icon="caution"></b-icon> Report
-                            </small></span
+                            </small> -->
+                            </span
                           >
                         </div>
                         <div
@@ -467,49 +528,62 @@
                               reply, index
                             ) in item.discussionmessagecomment.slice(0, 2)"
                             :key="index"
-                            class="mb-1 d-flex align-items-start"
                           >
-                            <div class="d-flex flex-1">
-                              <b-avatar
-                                v-if="reply.admin"
-                                size="sm"
-                                :src="reply.admin.profile"
-                                class="mr-1 message_comment_avatar"
-                              ></b-avatar>
-                              <b-avatar
-                                v-if="reply.facilitator"
-                                size="sm"
-                                :src="reply.facilitator.profile"
-                                class="mr-1 message_comment_avatar"
-                              ></b-avatar>
-                              <b-avatar
-                                v-if="reply.user"
-                                size="sm"
-                                :src="reply.user.profile"
-                                class="mr-1 message_comment_avatar"
-                              ></b-avatar>
-                              <span>
-                                <span
+                            <div class="mb-1 d-flex align-items-start">
+                              <div class="d-flex flex-1">
+                                <b-avatar
                                   v-if="reply.user"
-                                  @click="
-                                    $router.push(
-                                      `/member/profile/${reply.user.username}`
-                                    )
-                                  "
-                                  class="message_comment_name mr-1"
-                                  >{{ reply.user.username }}</span
-                                >
-                                <span
-                                  class="message_comment_text"
-                                  v-html="highlightText(reply.message)"
-                                >
-                                </span
-                              ></span>
+                                  size="sm"
+                                  :src="reply.user.profile"
+                                  class="mr-1 message_comment_avatar"
+                                ></b-avatar>
+                                <span>
+                                  <span
+                                    v-if="reply.user"
+                                    @click="
+                                      $router.push(
+                                        `/member/profile/${reply.user.username}`
+                                      )
+                                    "
+                                    class="message_comment_name mr-1"
+                                    >{{ reply.user.username }}</span
+                                  >
+                                  <span
+                                    class="message_comment_text"
+                                    v-html="highlightText(reply.message)"
+                                  >
+                                  </span
+                                ></span>
+                              </div>
+                              <div class="text-right">
+                                <span class="message_comment_date">{{
+                                  $moment(reply.created_at).fromNow()
+                                }}</span>
+                              </div>
                             </div>
                             <div class="text-right">
-                              <span class="message_comment_date">{{
-                                $moment(reply.created_at).fromNow()
-                              }}</span>
+                              <small
+                               v-if="
+                               ( reply.user &&
+                                reply.user.id == $store.getters.member.id)
+                              "
+                                class="cursor-pointer mr-1"
+                                @click="editdiscussionreply(reply, index)"
+                              >
+                                <b-icon icon="pencil-square"></b-icon>
+                                Edit
+                              </small>
+                              <small
+                               v-if="
+                               ( reply.user &&
+                                reply.user.id == $store.getters.member.id)
+                              "
+                                class="cursor-pointer mr-1"
+                                @click="dropdiscussionreply(reply.id)"
+                              >
+                                <b-icon icon="trash"></b-icon>
+                                Delete
+                              </small>
                             </div>
                           </div>
                           <small
@@ -536,13 +610,7 @@
                 </div>
               </div>
               <div class="py-1 px-3 text-post position-relative">
-                <!-- <span class="tagslist shadow" v-if="isShowingTags">
-                      <ul class="list-style-none">
-                        <li>jamie</li>
-                         <li>jason</li>
-                          <li>janet</li>
-                      </ul>
-                    </span> -->
+
                 <b-form @submit.prevent="post" class="wrapper">
                   <b-form-group class="position-relative">
                     <editor
@@ -728,7 +796,7 @@
       centered
       size="lg"
     >
-      <div class="p-2 text-center"  v-if="discussion">
+      <div class="p-2 text-center" v-if="discussion">
         <h6 class="font-weight-bold mb-3">Share Invite</h6>
         <ShareNetwork
           v-if="discussion.name"
@@ -1167,6 +1235,160 @@
     >
       <EditDiscussion :information="discussion" @refresh="refresh" />
     </b-modal>
+    <b-modal id="editdiscussioncomment" centered hide-footer>
+      <b-form @submit.prevent="updatediscussioncomment" class="">
+        <b-form-group>
+          <div class="w-100 d-flex commentreply_container">
+            <a-mentions
+              placeholder="Start typing here.."
+              v-model="edittedcomment.message"
+              class="mb-3 commentreply w-100"
+            >
+              <a-mentions-option
+                v-for="(item, id) in discussionusers"
+                :key="id"
+                :value="item"
+              >
+                {{ item }}
+              </a-mentions-option>
+            </a-mentions>
+          </div>
+        </b-form-group>
+
+        <div class="d-flex align-items-center justify-content-end">
+          <div class="mr-2">
+            <emoji-picker @emoji="insertReply" :search="search">
+              <div
+                class=""
+                slot="emoji-invoker"
+                slot-scope="{ events: { click: clickEvent } }"
+                @click.stop="clickEvent"
+              >
+                <svg
+                  height="24"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <path
+                    d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"
+                  />
+                </svg>
+              </div>
+              <div slot="emoji-picker" slot-scope="{ emojis, insert }">
+                <div class="emoji-picker">
+                  <div class="emoji-picker__search">
+                    <input type="text" v-model="search" v-focus />
+                  </div>
+                  <div>
+                    <div
+                      v-for="(emojiGroup, category) in emojis"
+                      :key="category"
+                    >
+                      <h5>{{ category }}</h5>
+                      <div class="emojis">
+                        <span
+                          v-for="(emoji, emojiName) in emojiGroup"
+                          :key="emojiName"
+                          @click="insert(emoji, 'reply')"
+                          :title="emojiName"
+                          >{{ emoji }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </emoji-picker>
+          </div>
+          <b-button
+            variant="dark-green"
+            size="sm"
+            :disabled="isDisabled"
+            type="submit"
+            >Reply</b-button
+          >
+        </div>
+      </b-form>
+    </b-modal>
+    <b-modal id="editdiscussionreply" centered hide-footer>
+      <b-form @submit.prevent="updatediscussionreply" class="">
+        <b-form-group>
+          <div class="w-100 d-flex commentreply_container">
+            <a-mentions
+              placeholder="Start typing here.."
+              v-model="edittedreply.message"
+              class="mb-3 commentreply w-100"
+            >
+              <a-mentions-option
+                v-for="(item, id) in discussionusers"
+                :key="id"
+                :value="item"
+              >
+                {{ item }}
+              </a-mentions-option>
+            </a-mentions>
+          </div>
+        </b-form-group>
+
+        <div class="d-flex align-items-center justify-content-end">
+          <div class="mr-2">
+            <emoji-picker @emoji="insertReply" :search="search">
+              <div
+                class=""
+                slot="emoji-invoker"
+                slot-scope="{ events: { click: clickEvent } }"
+                @click.stop="clickEvent"
+              >
+                <svg
+                  height="24"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <path
+                    d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"
+                  />
+                </svg>
+              </div>
+              <div slot="emoji-picker" slot-scope="{ emojis, insert }">
+                <div class="emoji-picker">
+                  <div class="emoji-picker__search">
+                    <input type="text" v-model="search" v-focus />
+                  </div>
+                  <div>
+                    <div
+                      v-for="(emojiGroup, category) in emojis"
+                      :key="category"
+                    >
+                      <h5>{{ category }}</h5>
+                      <div class="emojis">
+                        <span
+                          v-for="(emoji, emojiName) in emojiGroup"
+                          :key="emojiName"
+                          @click="insert(emoji, 'reply')"
+                          :title="emojiName"
+                          >{{ emoji }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </emoji-picker>
+          </div>
+          <b-button
+            variant="dark-green"
+            size="sm"
+            :disabled="isDisabled"
+            type="submit"
+            >Reply</b-button
+          >
+        </div>
+      </b-form>
+    </b-modal>
   </div>
 </template>
 
@@ -1182,6 +1404,8 @@ import "ant-design-vue/dist/antd.css";
 export default {
   data() {
     return {
+      edittedcomment: {},
+      edittedreply: {},
       isShowingTags: false,
       isDisabled: false,
       report_id: null,
@@ -1260,7 +1484,7 @@ export default {
   },
 
   created() {
-   // this.$store.dispatch("GET_CONNECTIONS");
+    // this.$store.dispatch("GET_CONNECTIONS");
     this.link =
       "https://nzukoor.com/explore/discussion/" + this.$route.params.id;
     var channel = this.$pusher.subscribe("adddiscussion");
@@ -1280,7 +1504,7 @@ export default {
   },
   computed: {
     discussionusers() {
-      if(!this.discussion) return []
+      if (!this.discussion) return [];
       let users = [];
       users.push(this.discussion.user.username);
       this.discussion.discussionmessage.forEach((val) => {
@@ -1289,7 +1513,7 @@ export default {
           users.push(v.user.username);
         });
       });
-      let setusers = new Set(users)
+      let setusers = new Set(users);
 
       return [...setusers];
     },
@@ -1529,6 +1753,63 @@ export default {
       this.reply.message_id = val.id;
       this.comment_message = val.message;
       this.$bvModal.show("adddiscussioncomment");
+    },
+    editdiscussioncomment(val, index) {
+      this.index = index;
+      this.edittedcomment = val;
+      this.$bvModal.show("editdiscussioncomment");
+    },
+    editdiscussionreply(val, index) {
+      this.index = index;
+      this.edittedreply = val;
+
+      this.$bvModal.show("editdiscussionreply");
+    },
+    updatediscussioncomment() {
+      this.isDisabled = true;
+      this.$http
+        .post(
+          `${this.$store.getters.url}/update/discussion/comment`,
+          this.edittedcomment,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          this.isDisabled = false;
+          if (res.status == 200) {
+            this.getdiscussion();
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+          this.isDisabled = false;
+        });
+    },
+    updatediscussionreply() {
+      this.isDisabled = true;
+      this.$http
+        .post(
+          `${this.$store.getters.url}/update/discussion/reply`,
+          this.edittedreply,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          this.isDisabled = false;
+          if (res.status == 200) {
+            this.getdiscussion();
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+          this.isDisabled = false;
+        });
     },
     viewmessagecomment(val) {
       this.comments = val;
@@ -1912,6 +2193,55 @@ export default {
             .then((res) => {
               if (res.status == 200) {
                 this.$router.go(-1);
+              }
+            })
+            .catch((err) => {
+              this.$toast.error(err.response.data.message);
+            });
+        }
+      });
+    },
+
+    dropdiscussioncomment(id) {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+        if (val) {
+          this.$http
+            .delete(
+              `${this.$store.getters.url}/drop/discussion/comment/${id}`,
+
+              {
+                headers: {
+                  Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+                },
+              }
+            )
+            .then((res) => {
+              if (res.status == 200) {
+                this.getdiscussion();
+              }
+            })
+            .catch((err) => {
+              this.$toast.error(err.response.data.message);
+            });
+        }
+      });
+    },
+    dropdiscussionreply(id) {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+        if (val) {
+          this.$http
+            .delete(
+              `${this.$store.getters.url}/drop/discussion/reply/${id}`,
+
+              {
+                headers: {
+                  Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+                },
+              }
+            )
+            .then((res) => {
+              if (res.status == 200) {
+                this.getdiscussion();
               }
             })
             .catch((err) => {

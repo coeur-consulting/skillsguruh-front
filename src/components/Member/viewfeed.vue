@@ -32,7 +32,7 @@
                       class="mr-2"
                     ></b-avatar>
                     <div
-                      @click="$router.push(`/member/profile/${feed.username}`)"
+                      @click="$router.push(`/member/profile/${feed.user.username}`)"
                       class="feed_name"
                     >
                       {{ feed.user.username }}
@@ -445,7 +445,7 @@
                   <div class="d-flex mb-1" v-if="item.user">
                     <div
                       class="d-flex flex-1"
-                      @click="$router.push(`/member/profile/${item.username}`)"
+                      @click="$router.push(`/member/profile/${item.user.username}`)"
                     >
                       <b-avatar
                         class="mr-2"

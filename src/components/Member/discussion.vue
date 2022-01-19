@@ -59,7 +59,7 @@
                       :src="discussion.user.profile"
                       v-if="discussion.user"
                       @click="
-                        $router.push(`/member/profile/${discussion.username}`)
+                        $router.push(`/member/profile/${discussion.user.username}`)
                       "
                     ></b-avatar>
                   </div>
@@ -161,7 +161,7 @@
                       v-if="discussion.user"
                       class="cursor-pointer text-dark-green hover_green"
                       @click="
-                        $router.push(`/member/profile/${discussion.username}`)
+                        $router.push(`/member/profile/${discussion.user.username}`)
                       "
                       >{{ discussion.user.username }}</span
                     >
@@ -362,7 +362,7 @@
                           c
                           v-if="item.user"
                           @click="
-                            $router.push(`/member/profile/${item.username}`)
+                            $router.push(`/member/profile/${item.user.username}`)
                           "
                           class="fs13 cursor-pointer hover_green"
                           >{{ item.user.username }}</span

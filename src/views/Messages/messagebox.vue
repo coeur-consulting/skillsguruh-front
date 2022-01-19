@@ -659,7 +659,7 @@ export default {
   },
   methods: {
     addconnection() {
-      return this.$http
+       this.$http
         .post(
           `${this.$store.getters.url}/connections`,
           { following_id: this.info.id, follow_type: "user" },
@@ -670,7 +670,7 @@ export default {
           }
         )
         .then((res) => {
-          if (res.status == 201) {
+          if (res.status == 201 ) {
             this.$toast.success("Connected");
             bus.$emit("reloadChat");
           }
@@ -680,7 +680,7 @@ export default {
         });
     },
     ignoreconnection() {
-     
+
        this.$http
         .post(
           `${this.$store.getters.url}/remove/pending/connections`,
