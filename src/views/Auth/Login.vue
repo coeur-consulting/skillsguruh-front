@@ -41,7 +41,7 @@
                 Login in to
                 <span class="font-weight-bold text-dark-green">Nzukoor</span>
               </legend>
-              <div class="form-text mb-4 text-muted">
+              <div class="form-text mb-5 text-muted">
                 Don't have an account?
                 <span
                   class="text-secondary cursor-pointer"
@@ -51,7 +51,7 @@
               </div>
 
               <div>
-                <b-form-row class="mb-2">
+                <b-form-row class="mb-3">
                   <b-col class="pr-sm-3">
                     <b-form-group>
                       <b-form-input
@@ -73,7 +73,7 @@
                     </b-form-group>
                   </b-col>
                 </b-form-row>
-                <b-form-row class="mb-2">
+                <b-form-row class="mb-3">
                   <b-col cols="12" class="pr-sm-3">
                     <b-form-group>
                       <b-input-group size="lg">

@@ -50,7 +50,7 @@
                 >
               </div>
               <div>
-                <b-form-row class="mb-4">
+                <b-form-row class="mb-3">
                   <b-col md="6">
                     <b-form-group>
                       <b-form-input
@@ -97,7 +97,7 @@
                     </b-form-group>
                   </b-col>
                 </b-form-row>
-                <b-form-row class="mb-4">
+                <b-form-row class="mb-3">
 
                   <b-col md="4">
                     <b-form-group>
@@ -108,7 +108,7 @@
                         v-model="user.username"
                          :state="validateState('username')"
                         type="text"
-                       
+
                         placeholder="Username"
                         aria-describedby="username-feedback"
                       ></b-form-input>
