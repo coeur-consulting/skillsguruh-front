@@ -35,6 +35,19 @@ import "./cloudinary.js";
 import VueDictaphone from "vue-dictaphone";
 import Antd from "ant-design-vue";
 import "./assets/scss/style.scss";
+//Import Froala Editor
+import 'froala-editor/js/plugins.pkgd.min.js';
+//Import third party plugins
+import 'froala-editor/js/third_party/embedly.min';
+import 'froala-editor/js/third_party/font_awesome.min';
+import 'froala-editor/js/third_party/spell_checker.min';
+import 'froala-editor/js/third_party/image_tui.min';
+// Import Froala Editor css files.
+import 'froala-editor/css/froala_editor.pkgd.min.css';
+import VueFroala from "vue-froala-wysiwyg";
+Vue.use(VueFroala);
+
+
 Vue.use(Antd);
 export const bus = new Vue();
 
@@ -84,6 +97,26 @@ Vue.filter("currencyFormat", function(numb) {
     return "₦0.00";
   }
 });
+function tags(text){
+   var reg = /(?:^|\W)@(\w+)(?!\w)/g,
+     match;
+
+   var str = text
+     .split(/\s+/)
+     .map((item) => {
+       if ((match = reg.exec(item))) {
+         reg.exec(item);
+         item = `  <a  href='/member/profile/${match[1]}'><span class='highlight'>${match[0]}</span></a> `;
+         return item;
+       }
+       return item;
+     })
+     .join(" ");
+   return str;
+}
+Vue.filter('tagsfilter', function(text){
+   return tags(text);
+})
 Vue.use(require("vue-pusher"), {
   api_key: "35db7038d78ae4a57201",
   options: {
@@ -204,4 +237,9 @@ new Vue({
   router,
   store,
   render: (h) => h(App),
+  methods: {
+    handletags(text){
+      return tags(text)
+    }
+  },
 }).$mount("#app");

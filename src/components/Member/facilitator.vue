@@ -330,7 +330,7 @@
                               </div>
                             </div>
                             <div class="text-left feed_text px-3">
-                              <div class="mb-1" v-html="highlightText(feed.message)"></div>
+                              <div class="mb-1" v-html="$options.filters.tagsfilter(feed.message)"></div>
 
                               <div v-if="feed.url" class="text-dark-green mb-1">
                                 <a :href="feed.url" target="_blank"
@@ -463,7 +463,7 @@
                                       {{ item.user.username }}</span
                                     >
 
-                                    <span class="comment_text" v-html="highlightText(item.comment)">
+                                    <span class="comment_text" v-html="$options.filters.tagsfilter(item.comment)">
 
                                     </span>
                                   </div>
@@ -952,7 +952,7 @@
         <div
           class="font-weight-bold"
           v-if="replycomment"
-          v-html="highlightText(replycomment.comment)"
+          v-html="$options.filters.tagsfilter(replycomment.comment)"
         ></div>
       </template>
       <b-textarea class="mb-3" v-model="commentreply"> </b-textarea>
@@ -1007,7 +1007,7 @@
                           >
                             {{ item.user.username }}
                           </div>
-                          <div class="comment_text" v-html="highlightText(item.comment)"></div>
+                          <div class="comment_text" v-html="$options.filters.tagsfilter(item.comment)"></div>
                         </div>
                         <small
                           class="text-muted mr-2"
@@ -1476,22 +1476,7 @@ export default {
     }
   },
   methods: {
-     highlightText(text) {
-      let reg = /(?:^|\W)@(\w+)(?!\w)/g,
-        match;
-
-      var str = text
-        .split(/\s+/)
-        .map((item) => {
-          if ((match = reg.exec(item))) {
-            item = `  <a  href='/member/profile/${match[1]}'><span class='highlight'>@${match[1]}</span></a> `;
-            return item;
-          }
-          return item;
-        })
-        .join(" ");
-      return str;
-    },
+  
     insertcomment(emoji, id, index) {
       if (this.feeds[index].comment == null) {
         this.feeds[index].comment = "";

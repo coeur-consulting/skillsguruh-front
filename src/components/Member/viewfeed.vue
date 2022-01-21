@@ -67,7 +67,7 @@
                   </b-dropdown>
                 </div>
                 <div >
-                  <p class="px-3" v-html="highlightText(feed.message)"> </p>
+                  <p class="px-3" v-html="$options.filters.tagsfilter(feed.message)"> </p>
                   <div v-if="feed.url" class="text-dark-green mb-1">
                     <a :href="feed.url" target="_blank">Click link</a>
                   </div>
@@ -199,7 +199,7 @@
                         >{{ comment.user.username }}</span
                       >
 
-                      <span class="comment_text mr-2" v-html="highlightText(comment.comment)">
+                      <span class="comment_text mr-2" v-html="$options.filters.tagsfilter(comment.comment)">
 
                       </span>
                       <div
@@ -573,7 +573,7 @@
         <div
           class="font-weight-bold"
           v-if="replycomment"
-          v-html="highlightText(replycomment.comment)"
+          v-html="$options.filters.tagsfilter(replycomment.comment)"
         ></div>
       </template>
       <a-mentions
@@ -639,7 +639,7 @@
               </div>
               <div class="d-flex align-items-start flex-1">
                 <span class="d-flex justify-content-between w-100 flex-1">
-                  <span class="comment_text flex-1 d-flex align-items-center" v-html="highlightText(rep.message)"></span>
+                  <span class="comment_text flex-1 d-flex align-items-center" v-html="$options.filters.tagsfilter(rep.message)"></span>
                   <span
                     ><b-icon
                       :icon="rep.isLiked ? 'heart-fill' : 'heart'"
@@ -956,22 +956,7 @@ export default {
         return extension[0].toLowerCase();
       }
     },
-     highlightText(text) {
-      let reg = /(?:^|\W)@(\w+)(?!\w)/g,
-        match;
-
-      var str = text
-        .split(/\s+/)
-        .map((item) => {
-          if ((match = reg.exec(item))) {
-            item = `  <a  href='/member/profile/${match[1]}'><span class='highlight'>@${match[1]}</span></a> `;
-            return item;
-          }
-          return item;
-        })
-        .join(" ");
-      return str;
-    },
+    
     getfeeds() {
       this.$http
         .get(`${this.$store.getters.url}/feeds/${this.id}`)

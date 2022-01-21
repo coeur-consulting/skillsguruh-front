@@ -207,7 +207,7 @@
                             <div
                               class="comment_text"
                               :id="item.comment"
-                              v-html="highlightText(item.comment)"
+                              v-html="$options.filters.tagsfilter(item.comment)"
                             ></div>
                           </div>
                           <small
@@ -273,7 +273,7 @@
                                 >
                                   {{ rep.user.username }}
                                 </span>
-                                <span class="comment_text flex-1" v-html="highlightText(rep.message)"></span>
+                                <span class="comment_text flex-1" v-html="$options.filters.tagsfilter(rep.message)"></span>
                               </p>
                               <span
                                 ><b-icon
@@ -577,7 +577,7 @@
                     <div class="text-left feed_text px-3">
                       <div
                         class="mb-1"
-                        v-html="highlightText(feed.message)"
+                        v-html="$options.filters.tagsfilter(feed.message)"
                       ></div>
 
                       <div v-if="feed.url" class="text-dark-green mb-1">
@@ -677,7 +677,7 @@
 
                             <span
                               class="comment_text"
-                              v-html="highlightText(item.comment)"
+                              v-html="$options.filters.tagsfilter(item.comment)"
                             ></span>
                           </div>
                           <div>
@@ -937,7 +937,7 @@
         <div
           class="font-weight-bold"
           v-if="replycomment"
-          v-html="highlightText(replycomment.comment)"
+          v-html="$options.filters.tagsfilter(replycomment.comment)"
         ></div>
       </template>
       <!-- <b-textarea class="mb-3" v-model="commentreply"> </b-textarea> -->
@@ -1116,22 +1116,7 @@ export default {
     onChange(value) {
       console.log("Change:", value);
     },
-    highlightText(text) {
-      let reg = /(?:^|\W)@(\w+)(?!\w)/g,
-        match;
 
-      var str = text
-        .split(/\s+/)
-        .map((item) => {
-          if ((match = reg.exec(item))) {
-            item = `  <a  href='/member/profile/${match[1]}'><span class='highlight'>@${match[1]}</span></a> `;
-            return item;
-          }
-          return item;
-        })
-        .join(" ");
-      return str;
-    },
     toggleFeedAdd(type, multiple) {
       this.type = type;
       this.isMultiple = multiple;

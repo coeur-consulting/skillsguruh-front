@@ -182,7 +182,7 @@
                         <p
                           class="discusion_text"
                           v-if="item.message"
-                          v-html="highlightText(item.message)"
+                          v-html="$options.filters.tagsfilter(item.message)"
                         ></p>
                         <div
                           class="text-center"
@@ -448,7 +448,7 @@
                               >
                               <span
                                 class="message_comment_text"
-                                v-html="highlightText(reply.message)"
+                                v-html="$options.filters.tagsfilter(reply.message)"
                               >
                               </span
                             ></span>
@@ -1039,7 +1039,7 @@
           </div>
           <div
             v-if="comments.message"
-            v-html="highlightText(comments.message)"
+            v-html="$options.filters.tagsfilter(comments.message)"
           ></div>
           <div
             v-for="(reply, index) in comments.discussionmessagecomment"
@@ -1381,22 +1381,7 @@ export default {
           this.members = res.data;
         });
     },
-    highlightText(text) {
-      let reg = /(?:^|\W)@(\w+)(?!\w)/g,
-        match;
-
-      var str = text
-        .split(/\s+/)
-        .map((item) => {
-          if ((match = reg.exec(item))) {
-            item = `  <a  href='/profile/${match[1]}'><span class='highlight'>@${match[1]}</span></a> `;
-            return item;
-          }
-          return item;
-        })
-        .join(" ");
-      return str;
-    },
+   
     requestAccess() {
       var data = {
         discussion_id: this.discussion.id,
@@ -1571,19 +1556,14 @@ export default {
       this.inviteUsers.users = this.inviteUsers.users.concat(emails);
       this.$http
         .post(
-          `${this.$store.getters.url}/send/discussion/invite`,
-          this.inviteUsers,
-          {
-            headers: {
-              Authorization: `Bearer ${this.useraccess.access_token}`,
-            },
-          }
+          `${this.$store.getters.url}/guest/send/discussion/invite`,
+          this.inviteUsers
         )
         .then((res) => {
           if (res.status == 200) {
             this.isDisabled = false
             this.$toast.success("Invite Sent");
-            this.$bvModal.hide("share");
+            this.$bvModal.hide("invite");
             this.inviteUsers = {
               title: "",
               users: [

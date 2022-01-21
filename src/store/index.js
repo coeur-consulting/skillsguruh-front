@@ -81,6 +81,7 @@ export default new Vuex.Store({
         });
     },
     GET_CONNECTIONS({ state, commit }) {
+      if (!state.member.access_token) return;
       Vue.axios
         .get(`${state.url}/connections`, {
           headers: {
@@ -89,7 +90,10 @@ export default new Vuex.Store({
         })
         .then((res) => {
           if (res.status === 200) {
-            commit("SET_CONNECTIONS", res.data.map(item=> item.user_follower));
+            commit(
+              "SET_CONNECTIONS",
+              res.data.map((item) => item.user_follower)
+            );
           }
         })
         .catch((err) => {
@@ -121,37 +125,7 @@ export default new Vuex.Store({
           console.log(err);
         });
     },
-    async highlightText({ state }, text) {
-      var part = text.substring(text.indexOf("@") + 1, text.lastIndexOf(""));
-      console.log(part);
-      var trimmpart = part
-        .replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi, "")
-        .replace(/<[^>]+?>/g, "")
-        .replace(/\s+/g, " ")
-        .replace(/ /g, " ")
-        .replace(/>/g, " ");
-      if (part.length) {
-        var result = await Vue.axios
-          .get(`${state.url}/get/userprofile/${trimmpart}`, {
-            headers: {
-              Authorization: `Bearer ${state.member.access_token}`,
-            },
-          })
-          .then((res) => {
-            if (res.status == 200 && res.data.message == "found") {
-              return text.replace(
-                `@${part}`,
-                `<a  href='/member/profile/${res.data.data.username}'><span class='highlight'>@${trimmpart}</span></a>`
-              );
-            } else {
-              return text;
-            }
-          });
 
-        return result;
-      }
-      return text;
-    },
     async checkTribe({ state }, detail) {
       return Vue.axios.get(`${state.url}/check/tribe/${detail.tribe_id}`, {
         headers: {
@@ -184,6 +158,7 @@ export default new Vuex.Store({
       });
     },
     newConnection({ state }, user) {
+      if (!user.token) return;
       Vue.axios.post(`${state.url}/new/connection`, user, {
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -281,7 +256,7 @@ export default new Vuex.Store({
       //       commit("SET_NOTIFICATION", response.data);
       //     });
       // }
-      if (user == "member") {
+      if (user == "member" && state.member.access_token) {
         Vue.axios
           .get(`${state.url}/get-notifications`, {
             headers: {

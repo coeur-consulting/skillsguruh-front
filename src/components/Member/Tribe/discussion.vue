@@ -74,7 +74,9 @@
                       :src="discussion.user.profile"
                       v-if="discussion.user"
                       @click="
-                        $router.push(`/member/profile/${discussion.user.username}`)
+                        $router.push(
+                          `/member/profile/${discussion.user.username}`
+                        )
                       "
                     ></b-avatar>
                   </div>
@@ -174,7 +176,9 @@
                       v-if="discussion.user"
                       class="cursor-pointer text-dark-green hover_green"
                       @click="
-                        $router.push(`/member/profile/${discussion.user.username}`)
+                        $router.push(
+                          `/member/profile/${discussion.user.username}`
+                        )
                       "
                       >{{ discussion.user.username }}</span
                     >
@@ -242,7 +246,10 @@
                         ></b-icon>
                       </div>
                       <div class="position-relative flex-1">
-                        <span v-if="item.message" class="text2speech d-flex align-items-center">
+                        <span
+                          v-if="item.message"
+                          class="text2speech d-flex align-items-center"
+                        >
                           <text-to-speech
                             :text="toText(item.message)"
                             :voice="voices"
@@ -267,17 +274,17 @@
                                 item.user.id == $store.getters.member.id
                               "
                             >
-                              <span  @click="editdiscussioncomment(item, index)">
+                              <span @click="editdiscussioncomment(item, index)">
                                 <span class="">Edit</span></span
                               >
                             </b-dropdown-item>
 
                             <b-dropdown-item
                               class="fs12"
-                             @click="dropdiscussioncomment(item, index)"
-                               v-if="
-                               ( item.user &&
-                                item.user.id == $store.getters.member.id)
+                              @click="dropdiscussioncomment(item, index)"
+                              v-if="
+                                item.user &&
+                                item.user.id == $store.getters.member.id
                               "
                             >
                               Delete</b-dropdown-item
@@ -287,7 +294,12 @@
                                 item.user &&
                                 item.user.id !== $store.getters.member.id
                               "
-                              @click="handleReport(discussion.id, 'discussion message')"
+                              @click="
+                                handleReport(
+                                  discussion.id,
+                                  'discussion message'
+                                )
+                              "
                               class="fs12"
                               >Report
                             </b-dropdown-item>
@@ -298,7 +310,7 @@
                           <p
                             class="discusion_text"
                             v-if="item.message"
-                            v-html="highlightText(item.message)"
+                            :inner-html.prop="item.message | tagsfilter"
                           ></p>
                           <div
                             class="text-center"
@@ -444,7 +456,9 @@
                             <span
                               v-if="item.user"
                               @click="
-                                $router.push(`/member/profile/${item.user.username}`)
+                                $router.push(
+                                  `/member/profile/${item.user.username}`
+                                )
                               "
                               class="fs13 cursor-pointer hover_green"
                               >{{ item.user.username }}</span
@@ -491,7 +505,7 @@
                               <b-icon icon="arrow-counterclockwise"></b-icon>
                               Reply
                             </small>
-<!--
+                            <!--
                             <small
                               class="cursor-pointer"
                               v-if="
@@ -504,8 +518,7 @@
                             >
                               <b-icon icon="caution"></b-icon> Report
                             </small> -->
-                            </span
-                          >
+                          </span>
                         </div>
                         <div
                           class="
@@ -550,7 +563,9 @@
                                   >
                                   <span
                                     class="message_comment_text"
-                                    v-html="highlightText(reply.message)"
+                                    :inner-html.prop="
+                                      reply.message | tagsfilter
+                                    "
                                   >
                                   </span
                                 ></span>
@@ -563,10 +578,10 @@
                             </div>
                             <div class="text-right">
                               <small
-                               v-if="
-                               ( reply.user &&
-                                reply.user.id == $store.getters.member.id)
-                              "
+                                v-if="
+                                  reply.user &&
+                                  reply.user.id == $store.getters.member.id
+                                "
                                 class="cursor-pointer mr-1"
                                 @click="editdiscussionreply(reply, index)"
                               >
@@ -574,10 +589,10 @@
                                 Edit
                               </small>
                               <small
-                               v-if="
-                               ( reply.user &&
-                                reply.user.id == $store.getters.member.id)
-                              "
+                                v-if="
+                                  reply.user &&
+                                  reply.user.id == $store.getters.member.id
+                                "
                                 class="cursor-pointer mr-1"
                                 @click="dropdiscussionreply(reply.id)"
                               >
@@ -609,33 +624,18 @@
                   </div>
                 </div>
               </div>
-              <div class="py-1 px-3 text-post position-relative" >
-
-                <b-form @submit.prevent="post" class="wrapper" >
+              <div class="py-1 px-3 text-post position-relative">
+                <b-form @submit.prevent="post" class="wrapper">
                   <b-form-group class="position-relative">
-                    <editor
-id="firsteditor"
-                      api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
+                    <froala
+                      id="edit"
+                      :tag="'textarea'"
+                      :config="config"
                       @keyup.enter="post"
                       class="regular-input mb-4"
                       placeholder="Start typing here.."
                       v-model="info.message"
-                      :init="{
-                        height: 150,
-                        menubar: false,
-                        content_style: font,
-                        font_formats: 'Poppins',
-                        plugins: [
-                          '  lists link  charmap   anchor',
-                          'searchreplace visualblocks code fullscreen',
-                          '  table paste code',
-                        ],
-                        toolbar:
-                          ' styleselect | bold italic | \
-           alignleft aligncenter alignright alignjustify | \
-           bullist numlist  ',
-                      }"
-                    />
+                    ></froala>
                   </b-form-group>
 
                   <div class="d-flex justify-content-between">
@@ -1153,7 +1153,7 @@ id="firsteditor"
         </div>
         <div
           v-if="comments.message"
-          v-html="highlightText(comments.message)"
+          :inner-html.prop="comments.message | tagsfilter"
         ></div>
         <div
           v-for="(reply, index) in comments.discussionmessagecomment"
@@ -1236,33 +1236,17 @@ id="firsteditor"
     >
       <EditDiscussion :information="discussion" @refresh="refresh" />
     </b-modal>
-    <b-modal id="editdiscussioncomment" centered hide-footer >
+    <b-modal id="editdiscussioncomment" centered hide-footer>
       <b-form @submit.prevent="updatediscussioncomment" class="">
         <b-form-group>
-
-          <editor
-          id="secondeditor"
-                      api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
-                      @keyup.enter="post"
-                      class="regular-input mb-4"
-                      placeholder="Start typing here.."
-                      v-model="edittedcomment.message"
-                      :init="{
-                        height: 150,
-                        menubar: false,
-                        content_style: font,
-                        font_formats: 'Poppins',
-                        plugins: [
-                          '  lists link  charmap   anchor',
-                          'searchreplace visualblocks code fullscreen',
-                          '  table paste code',
-                        ],
-                        toolbar:
-                          ' styleselect | bold italic | \
-           alignleft aligncenter alignright alignjustify | \
-           bullist numlist  ',
-                      }"
-                    />
+          <froala
+            id="editor"
+            :tag="'textarea'"
+            :config="config"
+            class="regular-input mb-4"
+            placeholder="Start typing here.."
+            v-model="edittedcomment.message"
+          ></froala>
         </b-form-group>
 
         <div class="d-flex align-items-center justify-content-end">
@@ -1405,7 +1389,6 @@ id="firsteditor"
 <script>
 import EmojiPicker from "vue-emoji-picker";
 import Attachment from "@/components/miniupload";
-import Editor from "@tinymce/tinymce-vue";
 import SpeechToText from "@/components/speechToText";
 import TextToSpeech from "@/components/textToSpeech";
 import EditDiscussion from "@/components/editdiscussion";
@@ -1414,7 +1397,55 @@ import "ant-design-vue/dist/antd.css";
 export default {
   data() {
     return {
-      isEditing:false,
+      config: {
+        fileUploadParam: "file_param",
+
+        // Set the file upload URL.
+        fileUploadURL: "/upload_file",
+
+        // Additional upload params.
+        fileUploadParams: { id: "my_editor" },
+
+        // Set request type.
+        fileUploadMethod: "POST",
+
+        // Set max file size to 20MB.
+        fileMaxSize: 20 * 1024 * 1024,
+
+        // Allow to upload any file.
+        fileAllowedTypes: ["*"],
+        events: {
+          "file.beforeUpload": function (files) {
+            console.log(
+              "🚀 ~ file: discussion.vue ~ line 1411 ~ data ~ files",
+              files
+            );
+            // Return false if you want to stop the file upload.
+          },
+          "file.uploaded": function (response) {
+            console.log(
+              "🚀 ~ file: discussion.vue ~ line 1415 ~ data ~ response",
+              response
+            );
+            // File was uploaded to the server.
+          },
+          "file.inserted": function ($file, response) {
+            console.log(
+              "🚀 ~ file: discussion.vue ~ line 1419 ~ data ~ response",
+              response
+            );
+            console.log(
+              "🚀 ~ file: discussion.vue ~ line 1419 ~ data ~ $file",
+              $file
+            );
+            // File was inserted in the editor.
+          },
+          initialized: function () {
+            console.log("initialized");
+          },
+        },
+      },
+      isEditing: false,
       edittedcomment: {},
       edittedreply: {},
       isShowingTags: false,
@@ -1467,7 +1498,6 @@ export default {
     Attachment,
     SpeechToText,
     TextToSpeech,
-    Editor,
     EditDiscussion,
     Report,
   },
@@ -1666,22 +1696,7 @@ export default {
           this.members = res.data;
         });
     },
-    highlightText(text) {
-      let reg = /(?:^|\W)@(\w+)(?!\w)/g,
-        match;
 
-      var str = text
-        .split(/\s+/)
-        .map((item) => {
-          if ((match = reg.exec(item))) {
-            item = `  <a  href='/member/profile/${match[1]}'><span class='highlight'>@${match[1]}</span></a> `;
-            return item;
-          }
-          return item;
-        })
-        .join(" ");
-      return str;
-    },
     requestAccess() {
       var data = {
         discussion_id: this.discussion.id,
@@ -1768,9 +1783,7 @@ export default {
     editdiscussioncomment(val, index) {
       this.index = index;
       this.edittedcomment = val;
-      this.isEditing = true
-      this.info.message = val.message
-       this.$bvModal.show("editdiscussioncomment");
+      this.$bvModal.show("editdiscussioncomment");
     },
     editdiscussionreply(val, index) {
       this.index = index;
@@ -1780,7 +1793,7 @@ export default {
     },
     updatediscussioncomment() {
       this.isDisabled = true;
-      this.edittedcomment.message = this.info.message
+
       this.$http
         .post(
           `${this.$store.getters.url}/update/discussion/comment`,
@@ -1818,12 +1831,12 @@ export default {
         .then((res) => {
           this.isDisabled = false;
           if (res.status == 200) {
-            this.info.message = ''
+            this.info.message = "";
 
             this.getdiscussion();
-           this.isEditing = false
-           this.$toast.success('Updated')
-           this.$bvModal.hide("editdiscussionreply");
+            this.isEditing = false;
+            this.$toast.success("Updated");
+            this.$bvModal.hide("editdiscussionreply");
           }
         })
         .catch((err) => {
@@ -2072,9 +2085,9 @@ export default {
         });
     },
     post() {
-      if(this.isEditing){
-        this.updatediscussioncomment()
-        return
+      if (this.isEditing) {
+        this.updatediscussioncomment();
+        return;
       }
       if (!this.info.message && !this.info.attachment) {
         this.$toast.info("Type a message!");
@@ -2426,13 +2439,13 @@ export default {
 .bottom_bar {
   // width: 85%;
   margin-left: auto;
-  padding:20px 15px;
+  padding: 20px 15px;
   border-radius: 4px;
   background: #fbfbfb;
   font-size: 12px;
   margin-top: 14px;
-  @media(max-width: 767px){
-padding:15px 12px;
+  @media (max-width: 767px) {
+    padding: 15px 12px;
   }
 }
 .related_quest {
