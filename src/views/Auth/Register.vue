@@ -2,7 +2,7 @@
   <div id="register">
     <b-container fluid class="p-sm-0 h-100">
       <b-row class="h-100">
-        <b-col cols="0" sm="6" class="side p-3 p-sm-4 d-none d-sm-flex">
+        <b-col cols="0" sm="5" class="side p-3 p-sm-4 d-none d-sm-flex">
           <b-img
             class="logo cursor-pointer"
             @click="$router.push('/')"
@@ -16,7 +16,7 @@
         </b-col>
         <b-col
           cols="12"
-          sm="6"
+          sm="7"
           class="
             main
             p-3 p-sm-4
@@ -41,7 +41,7 @@
                 Sign up to
                 <span class="font-weight-bold text-dark-green">Nzukoor</span>
               </legend>
-              <div class="form-text mb-4">
+              <div class="form-text mb-4 text-muted">
                 Already a member?
                 <span
                   class="text-secondary cursor-pointer"
@@ -51,9 +51,10 @@
               </div>
               <div>
                 <b-form-row class="mb-4">
-                  <b-col sm="12">
+                  <b-col md="6">
                     <b-form-group>
                       <b-form-input
+                       autofocus
                         size="lg"
                         class="custom"
                         v-model="user.name"
@@ -72,9 +73,7 @@
                       </b-form-valid-feedback>
                     </b-form-group>
                   </b-col>
-                </b-form-row>
-                <b-form-row class="mb-4">
-                  <b-col sm="6">
+                  <b-col md="6">
                     <b-form-group>
                       <b-form-input
                         class="custom"
@@ -97,23 +96,32 @@
                       </b-form-valid-feedback>
                     </b-form-group>
                   </b-col>
-                  <b-col sm="6">
+                </b-form-row>
+                <b-form-row class="mb-4">
+
+                  <b-col md="4">
                     <b-form-group>
                       <b-form-input
                         size="lg"
                         class="custom"
                         autocomplete="off"
                         v-model="user.username"
+                         :state="validateState('username')"
                         type="text"
-                        :required="!type"
-                        placeholder="Username "
+                       
+                        placeholder="Username"
+                        aria-describedby="username-feedback"
                       ></b-form-input>
                       <label class="custom" for="username">Username</label>
+                       <b-form-invalid-feedback id="username-feedback"
+                        >Username is required
+                      </b-form-invalid-feedback>
+                      <b-form-valid-feedback id="username-feedback"
+                        >Looks good
+                      </b-form-valid-feedback>
                     </b-form-group>
                   </b-col>
-                </b-form-row>
-                <b-form-row class="mb-4">
-                  <b-col sm="6">
+                    <b-col md="4">
                     <b-form-group>
                       <b-form-input
                         size="lg"
@@ -136,20 +144,7 @@
                       </b-form-valid-feedback>
                     </b-form-group>
                   </b-col>
-                  <b-col sm="6">
-                    <div class="form-group">
-                      <Upload @getUpload="getUpload" />
-                      <!-- <label class="custom" for="">
-                        {{
-                          type == "organization" ? "Logo" : "Profile image"
-                        }}</label
-                      > -->
-                    </div>
-                  </b-col>
-                </b-form-row>
-
-                <b-form-row class="mb-4">
-                  <b-col sm="6">
+                   <b-col md="4">
                     <b-form-group>
                       <b-form-input
                         size="lg"
@@ -165,9 +160,18 @@
                     </b-form-group>
                   </b-col>
                 </b-form-row>
+                <b-form-row class="mb-2">
+
+                  <b-col sm="9">
+                    <div class="form-group">
+                      <Upload @getUpload="getUpload" />
+
+                    </div>
+                  </b-col>
+                </b-form-row>
 
                 <b-form-group>
-                  <div class="mb-3 mt-4">
+                  <div class="mb-3">
                     <div class="form-text">
                       <span
                         ><b-form-checkbox
@@ -190,14 +194,32 @@
                       >Looks good
                     </b-form-valid-feedback>
                   </div>
-                  <div class="mb-3">
+                  <div class="mb-3 ">
                     <b-button
+                      type="submit"
+                      variant="dark-green"
+                      size="lg"
+                      :disabled="loading"
+                      class="px-5 d-none d-md-block ml-auto shadow-sm"
+                      >
+                      <span  v-if="!loading">  Create Account</span>
+
+                      <b-icon
+                        icon="three-dots"
+                        v-if="loading"
+                        animation="cylon"
+                        class=""
+                        font-scale="1.5"
+                      ></b-icon
+                    ></b-button>
+                     <b-button
                       type="submit"
                       variant="dark-green"
                       block
                       :disabled="loading"
-                      class="px-5"
-                      >Create Account
+                      class="px-5 d-md-none"
+                      >
+                      <span  v-if="!loading">  Create Account</span>
                       <b-icon
                         icon="three-dots"
                         v-if="loading"
@@ -223,34 +245,10 @@
                     ></b-img>
                     Sign up with Google
                   </div>
-                  <!-- <div
-                    class="social shadow-sm border btn-shadow bg-light"
-                    @click="socialregister('facebook')"
-                  >
-                    <b-img
-                      :src="require('@/assets/images/auth/face.png')"
-                      class="mr-2"
-                    ></b-img>
-                    Sign up with Facebook
-                  </div> -->
+
                 </div>
               </div>
-              <!-- <div class="text-center mt-4">
-                <span
-                  v-if="type == false"
-                  class="text-secondary cursor-pointer"
-                  @click="type = true"
-                >
-                  I want to be a Facilitator
-                </span>
-                <span
-                  v-else
-                  class="text-secondary cursor-pointer"
-                  @click="type = false"
-                >
-                  I want to be a Member
-                </span>
-              </div> -->
+
             </b-form>
           </div>
         </b-col>
@@ -303,11 +301,13 @@ export default {
     user: {
       agree: { required },
       name: { required, minLength: minLength(3) },
+       username: { required, minLength: minLength(3) },
       phone: { required, minLength: minLength(11), integer },
       email: {
         required,
         email,
       },
+
       password: {
         required,
         minLength: minLength(3),
@@ -320,6 +320,7 @@ export default {
       const { $dirty, $error } = this.$v.user[name];
       return $dirty ? !$error : null;
     },
+
     getUpload(val) {
       this.user.profile = val;
     },
@@ -425,7 +426,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 #register {
   height: 100vh;
   overflow: hidden;
@@ -530,6 +531,11 @@ p {
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
+  width:50%;
+  margin:0 auto;
+  @media (max-width:767px){
+    width:100%;
+  }
 }
 .social:hover {
   background: #f4faf8;

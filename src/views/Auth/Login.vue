@@ -41,8 +41,8 @@
                 Login in to
                 <span class="font-weight-bold text-dark-green">Nzukoor</span>
               </legend>
-              <div class="form-text mb-4">
-                You do not have an account?
+              <div class="form-text mb-4 text-muted">
+                Don't have an account?
                 <span
                   class="text-secondary cursor-pointer"
                   @click="$route.query.type=='join_tribe' ?$router.push(`/register?tribe_id=${$route.query.tribe_id}&discussion_id=${$route.query.discussion_id}&type=join_tribe`):$router.push(`/register`)"
@@ -57,6 +57,7 @@
                       <b-form-input
                         size="lg"
                         required
+                        autofocus
                         v-model="user.email"
                         name="email"
                         :state="validation"
@@ -113,16 +114,34 @@
                 </b-form-row>
 
                 <b-form-group>
-                  <div class="mb-3">
+                  <div class="mb-2">
                     <b-button
+                      type="submit"
+                      variant="dark-green"
+                      size="lg"
+
+                      :disabled="loading"
+                      class="px-5 d-none d-md-flex justify-content-center ml-auto"
+                    >
+                      <span class="fs16" v-if="!loading">Login</span>
+                      <b-icon
+                        icon="three-dots"
+                        v-if="loading"
+                        animation="cylon"
+                        class="ml-3"
+                        font-scale="1.5"
+                      ></b-icon
+                    >
+                    </b-button>
+                     <b-button
                       type="submit"
                       variant="dark-green"
                       size="lg"
                       block
                       :disabled="loading"
-                      class="px-5 d-flex justify-content-center"
+                      class="px-5 d-flex d-md-none justify-content-center"
                     >
-                      <span class="fs16">Login</span>
+                      <span class="fs16" v-if="!loading">Login</span>
                       <b-icon
                         icon="three-dots"
                         v-if="loading"
@@ -450,6 +469,11 @@ p {
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
+   width:70%;
+  margin:0 auto;
+  @media (max-width:767px){
+    width:100%;
+  }
 }
 .social:hover {
   background: #f4faf8;
