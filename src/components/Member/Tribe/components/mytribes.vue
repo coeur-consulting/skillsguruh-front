@@ -4,7 +4,7 @@
       <b-row class="mb-4">
         <b-col sm="12">
          <div class="search w-100">
-                <b-input-group class="topbar_search bg-white">
+                <b-input-group class="topbar_search ">
                   <b-input-group-prepend is-text>
                     <b-iconstack font-scale="1.4" class="">
                       <b-icon

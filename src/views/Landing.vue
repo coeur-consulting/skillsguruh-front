@@ -163,158 +163,7 @@
         ></b-icon>
       </div>
     </section>
-    <!--
-    <section id="with_nzukoor">
-      <h2 class="mb-5"><span>Get N-circled</span></h2>
-      <p class="mb-5">
-        Follow our 3E-I to make the most of your time here. We promise it’ll be
-        well worth your while.
-      </p>
-      <b-container>
-        <b-row class="d-flex flex-column flex-md-row">
-          <b-col
-            sm="6"
-            md="6"
-            lg="3"
-            class="mb-5 px-3 cursor-pointer"
-            v-for="(item, id) in about"
-            :key="id"
-            v-animate-onscroll="item.animation"
-            @click="$router.push(item.url)"
-          >
-            <div class="rules shadow-sm position-relative">
-              <kinesis-container>
-                <kinesis-element :strength="8" type="depth">
-                  <b-img class="rounded mb-4" :src="item.image"></b-img>
-                </kinesis-element>
-                <div>{{ item.name }}</div>
-                <p class="text-muted text-center text-md-left">
-                  {{ item.text }}
-                </p>
-              </kinesis-container>
-            </div>
-          </b-col>
-        </b-row>
-      </b-container>
-    </section>
 
-    <section id="joinnow" class="bg-dark-green">
-      <b-img class="eli1" :src="require('../assets/images/dot-im.png')"></b-img>
-
-      <b-container>
-        <b-row>
-          <b-col class="joinnow position-relative">
-            <span class="eli2">
-              <b-img :src="require('../assets/images/large-elli.png')"></b-img>
-            </span>
-            <h2 class="mb-3 mb-sm-5 text-white">
-              Create and deliver curated learning in minutes
-            </h2>
-
-            <b-button
-              @click="$router.push('/register')"
-              size="lg"
-              variant="outline-dark-green"
-              class="
-                bg-white
-                text-dark-green
-                px-3 px-lg-5
-                border-white
-                btn-raised btn-shadow
-              "
-              >Join Now</b-button
-            >
-          </b-col>
-        </b-row>
-        <b-img
-          class="brush"
-          :src="require('../assets/images/landing/white-brush.png')"
-        ></b-img>
-      </b-container>
-    </section>
-
-    <section id="members">
-      <h2 class="mb-5"><span>Nzukoor Stories</span></h2>
-      <p class="mb-5">
-        Connect with experts and learners with similar interests. Join trending
-        discussions and lend your voice to issues of
-      </p>
-      <b-container>
-        <b-row>
-          <b-col class="text-center members">
-            <div class="shadow member position-relative">
-              <b-iconstack
-                font-scale="2.5"
-                class="nav-left shadow-sm"
-                v-if="index > 0"
-                @click="index--"
-              >
-                <b-icon stacked icon="circle-fill" variant="white"></b-icon>
-                <b-icon
-                  stacked
-                  icon="arrow-left"
-                  scale="0.5"
-                  variant="secondary"
-                ></b-icon>
-              </b-iconstack>
-
-              <b-iconstack
-                font-scale="2.5"
-                class="nav-right shadow-sm"
-                @click="index++"
-                v-if="index < stories.length - 1"
-              >
-                <b-icon stacked icon="circle-fill" variant="secondary"></b-icon>
-                <b-icon
-                  stacked
-                  icon="arrow-right"
-                  scale="0.5"
-                  variant="white"
-                ></b-icon>
-              </b-iconstack>
-              <carousel
-                :perPage="1"
-                :paginationEnabled="false"
-                :navigationEnabled="false"
-                :autoplay="true"
-                :speed="1000"
-                :autoplayTimeout="5000"
-                :loop="true"
-                class="py-3"
-                :navigateTo="index"
-              >
-                <slide v-for="(item, id) in stories" :key="id" class="py-1">
-                  <b-row>
-                    <b-col sm="4" class="d-flex align-items-center">
-                      <div class="p-4 testimonial">
-                        <kinesis-container>
-                          <kinesis-element :strength="10">
-                            <b-img class="member-img" :src="item.image"></b-img>
-                          </kinesis-element>
-                        </kinesis-container>
-                      </div>
-                    </b-col>
-                    <b-col sm="8" class="d-flex align-items-center">
-                      <div class="text-center p-2 p-sm-4 py-sm-5">
-                        <b-icon
-                          :icon="item.icon"
-                          class="text-secondary mb-4"
-                          font-scale="3.5"
-                        ></b-icon>
-                        <p class="p-3">
-                          {{ item.story }}
-                        </p>
-                        <div class="test-1">{{ item.name }}</div>
-                      </div>
-                    </b-col>
-                  </b-row>
-                </slide>
-              </carousel>
-            </div>
-          </b-col>
-        </b-row>
-      </b-container>
-    </section> -->
   </div>
 </template>
 <script>
@@ -403,7 +252,7 @@ export default {
   mounted() {
     var channel = this.$pusher.subscribe(`search`);
     channel.bind("searchResults", (e) => {
-      this.$store.commit("SET_TRIBES", e.tribes);
+      this.$store.commit("SET_TRIBES", e.result);
     });
     this.$store.dispatch("GET_TRIBES");
 
@@ -424,6 +273,7 @@ export default {
   },
   methods: {
     searchProducts() {
+       if(!this.query.length) return
       this.$store.dispatch("SEARCH_TRIBES", this.query);
     },
     entertribe(id) {

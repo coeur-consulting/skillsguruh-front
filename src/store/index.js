@@ -26,10 +26,14 @@ export default new Vuex.Store({
     tribe_info: {},
     tribes: [],
     connections: [],
+    allusers:[]
   },
   mutations: {
     SET_CONNECTIONS(state, connections) {
       state.connections = connections;
+    },
+    SET_USERS(state, allusers) {
+      state.allusers = allusers;
     },
     SET_TRIBE(state, tribe) {
       state.tribe = tribe;
@@ -119,6 +123,32 @@ export default new Vuex.Store({
         .then((res) => {
           {
             commit("SET_TRIBES", res.data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+
+    SEARCH_USERS({ state }, query) {
+      let params = {
+        query,
+      };
+      Vue.axios
+        .get(`${state.url}/search/users`, { params })
+        .then((res) => {
+          if (res.data === "ok") console.log("request sent successfully");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    GET_USERS({ state, commit }) {
+      Vue.axios
+        .get(`${state.url}/all/users`)
+        .then((res) => {
+          {
+            commit("SET_USERS", res.data);
           }
         })
         .catch((err) => {
@@ -325,5 +355,6 @@ export default new Vuex.Store({
     tribes: (state) => state.tribes,
     tribe_info: (state) => state.tribe_info,
     connections: (state) => state.connections,
+    allusers:(state) => state.allusers
   },
 });

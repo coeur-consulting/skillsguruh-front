@@ -30,14 +30,53 @@
       </b-navbar-brand>
 
       <div class="position-relative d-none d-md-flex align-items-center">
-        <!-- <b-icon icon="search" class="sbtn" font-scale=".9"></b-icon>
-        <b-form-input
-          class="rounded-pill pl-5 tsrch"
-          size="sm"
-          placeholder="Search Nzukoor"
-        ></b-form-input> -->
-       <b-button class="fs10" size="sm" variant="lighter-green" @click="$bvModal.show('translate')">Translate</b-button>
+        <div class="position-relative d-none d-md-flex align-items-center">
+          <b-form-input
+            class="rounded-md"
+            size="sm"
+            placeholder="Search username"
+            v-model="query"
+            type="search"
+            autocomplete="off"
+          ></b-form-input>
 
+          <div
+            class="shadow-sm rounded bg-white search_box p-3"
+            v-show="query.length"
+          >
+            <div v-if="!groupedUsers.length">
+              <span class="text-muted search_result fs11">
+                <b-icon icon="search"></b-icon> No search result</span
+              >
+            </div>
+
+            <ul class="pl-0" v-else>
+              <li
+                class="p-2 mb-1 border-bottom"
+                v-for="user in groupedUsers"
+                :key="user.id"
+              >
+                <router-link :to="`/member/profile/${user.username}`">
+                  <span class="d-flex align-items-center search_item"
+                    ><b-avatar
+                      :src="user.profile"
+                      size="sm"
+                      class="mr-2"
+                    ></b-avatar>
+                    {{ user.username }}</span
+                  ></router-link
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <b-button
+          class="fs10 ml-3"
+          size="sm"
+          variant="lighter-green"
+          @click="$bvModal.show('translate')"
+          >Translate</b-button
+        >
       </div>
     </b-col>
 
@@ -150,7 +189,10 @@
               }}</b-badge></small
             >
           </div>
-           <div class="position-relative d-md-none" @click="$router.push('/messages')">
+          <div
+            class="position-relative d-md-none"
+            @click="$router.push('/messages')"
+          >
             <font-awesome-layers class="fa-2x">
               <font-awesome-icon :icon="circle" class="text-lighter-green" />
               <font-awesome-icon
@@ -165,7 +207,6 @@
               }}</b-badge></small
             >
           </div>
-
 
           <b-popover
             id="inbox1"
@@ -240,11 +281,10 @@
                             ? 'font-weight-bold'
                             : 'text-muted'
                         "
-                        v-if=" item.last_message.message"
+                        v-if="item.last_message.message"
                         v-html="item.last_message.message"
-                        ></small
-                      >
-                       <small
+                      ></small>
+                      <small
                         class="text-truncate text-truncate--1"
                         :class="
                           item.unread_message
@@ -252,11 +292,9 @@
                             : 'text-muted'
                         "
                         v-else
-                        >
-
-                             Sent attachment...
-                        </small
                       >
+                        Sent attachment...
+                      </small>
                       <small v-if="item.unread_message">
                         <b-badge variant="primary">{{
                           item.unread_message
@@ -394,49 +432,50 @@
               </b-nav>
             </nav>
 
-             <div
-          class="text-left pl-3 text-dark fs13"
-          v-if="
-            $route.path == '/explore/community' || $route.path == '/member/tribes'
-          "
-        >
-          <h6 class="fs13 font-weight-bold">Sort by</h6>
-          <ul style="list-style: none" class="pl-3 mb-4">
-            <li
-              class="mb-1"
-              :class="sortvalue == 'all' ? '' : 'text-muted'"
-              @click="toggleSort('all')"
+            <div
+              class="text-left pl-3 text-dark fs13"
+              v-if="
+                $route.path == '/explore/community' ||
+                $route.path == '/member/tribes'
+              "
             >
-              All
-            </li>
-            <li
-              class="mb-1"
-              :class="sortvalue == 'alpha' ? '' : 'text-muted'"
-              @click="toggleSort('alpha')"
-            >
-              A to Z
-            </li>
-            <li
-              :class="sortvalue == 'members' ? '' : 'text-muted'"
-              @click="toggleSort('members')"
-            >
-              Popularity
-            </li>
-          </ul>
+              <h6 class="fs13 font-weight-bold">Sort by</h6>
+              <ul style="list-style: none" class="pl-3 mb-4">
+                <li
+                  class="mb-1"
+                  :class="sortvalue == 'all' ? '' : 'text-muted'"
+                  @click="toggleSort('all')"
+                >
+                  All
+                </li>
+                <li
+                  class="mb-1"
+                  :class="sortvalue == 'alpha' ? '' : 'text-muted'"
+                  @click="toggleSort('alpha')"
+                >
+                  A to Z
+                </li>
+                <li
+                  :class="sortvalue == 'members' ? '' : 'text-muted'"
+                  @click="toggleSort('members')"
+                >
+                  Popularity
+                </li>
+              </ul>
 
-          <h6 class="fs13 font-weight-bold">Sort by Interests</h6>
-          <ul style="list-style: none" class="pl-3">
-            <li
-              @click="toggleSort(item, true)"
-              v-for="(item, id) in interests"
-              :key="id"
-              class="mb-1"
-              :class="sortvalue == item ? '' : 'text-muted'"
-            >
-              {{ item }}
-            </li>
-          </ul>
-        </div>
+              <h6 class="fs13 font-weight-bold">Sort by Interests</h6>
+              <ul style="list-style: none" class="pl-3">
+                <li
+                  @click="toggleSort(item, true)"
+                  v-for="(item, id) in interests"
+                  :key="id"
+                  class="mb-1"
+                  :class="sortvalue == item ? '' : 'text-muted'"
+                >
+                  {{ item }}
+                </li>
+              </ul>
+            </div>
           </div>
           <div
             class="side_tab_1 text-left"
@@ -702,13 +741,15 @@
       </div>
     </b-modal>
     <b-modal id="translate" hide-footer centered title="Choose a language">
-        <Translator  @on-country-click="$bvModal.hide('translate')"/>
+      <Translator @on-country-click="$bvModal.hide('translate')" />
     </b-modal>
   </b-navbar>
 </template>
 <script>
-import { Translator } from 'vue-google-translate';
+import { Translator } from "vue-google-translate";
 import { bus } from "@/main.js";
+import { mapGetters } from "vuex";
+import _ from "lodash";
 import {
   faCircle,
   faBell,
@@ -725,9 +766,10 @@ import {
 import { LogOutIcon } from "vue-feather-icons";
 
 export default {
-
   data() {
     return {
+      auth: null,
+      query: "",
       sortvalue: "all",
       authMember: false,
       authAdmin: false,
@@ -758,14 +800,20 @@ export default {
       link: "",
       description: "",
       connections: [],
+      search: "",
     };
   },
   components: {
     LogOutIcon,
-    Translator
+    Translator,
   },
   watch: {
     $route: "getnotification",
+    query: {
+      handler: _.debounce(function () {
+        this.searchUsers();
+      }, 100),
+    },
   },
 
   created() {
@@ -807,8 +855,28 @@ export default {
       this.authMember = true;
     }
     this.getconnections();
+    var channel = this.$pusher.subscribe(`search`);
+    channel.bind("searchResults", (e) => {
+      this.$store.commit("SET_USERS", e.result);
+    });
+
+    // this.$store.dispatch("GET_USERS");
+
+    setTimeout(() => {
+      this.showTitle = true;
+    }, 350);
+    if (localStorage.getItem("authMember")) {
+      this.auth = true;
+    } else {
+      return;
+    }
   },
   computed: {
+    groupedUsers() {
+      return this.allusers;
+    },
+    ...mapGetters(["allusers"]),
+
     interests() {
       return this.$store.getters.member.interests;
     },
@@ -917,7 +985,11 @@ export default {
     },
   },
   methods: {
-      toggleSort(val, interest = false) {
+    searchUsers() {
+      if(!this.query.length) return
+      this.$store.dispatch("SEARCH_USERS", this.query);
+    },
+    toggleSort(val, interest = false) {
       var data = {
         val,
         interest,
@@ -1031,7 +1103,7 @@ export default {
         });
     },
     invitetotribe() {
-       this.$bvModal.show("sharetribe");
+      this.$bvModal.show("sharetribe");
     },
     leavetribe() {
       var details = {
@@ -1042,14 +1114,17 @@ export default {
         .msgBoxConfirm("Are you sure you wish to exit this tribe?")
         .then((val) => {
           if (val) {
-            this.$store.dispatch("leaveTribe", details).then((res) => {
-              if (res.status == 200 && res.data.message == "successful") {
-                this.$router.push(`/member/tribes`);
-                this.$toast.success("You have left the tribe");
-              }
-            }).catch(err=>{
-          this.$toast.error(err.response.data)
-        });
+            this.$store
+              .dispatch("leaveTribe", details)
+              .then((res) => {
+                if (res.status == 200 && res.data.message == "successful") {
+                  this.$router.push(`/member/tribes`);
+                  this.$toast.success("You have left the tribe");
+                }
+              })
+              .catch((err) => {
+                this.$toast.error(err.response.data);
+              });
           }
         });
     },
@@ -1074,6 +1149,7 @@ export default {
         });
     },
     getnotification() {
+      this.query = "";
       // if (this.$route.params.tribe && this.$route.meta.showtribe) {
       //   this.gettribe();
       // }
@@ -1102,6 +1178,29 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.form-control-sm::placeholder {
+  font-size: 11px;
+}
+.search_box {
+  position: absolute;
+  top: 34px;
+  width: 100%;
+  max-height: 400px;
+  min-height: 100px;
+  overflow-y: auto;
+  ul {
+    list-style: none;
+    li {
+      font-size: 0.7rem;
+      .search_item {
+        color: rgba($color: #000000, $alpha: 0.74);
+        &:hover {
+          color: rgba($color: #000000, $alpha: 0.64);
+        }
+      }
+    }
+  }
+}
 .chat_time {
   font-size: 0.65rem;
 }
