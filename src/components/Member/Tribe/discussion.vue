@@ -310,7 +310,7 @@
                           <p
                             class="discusion_text"
                             v-if="item.message"
-                            :inner-html.prop="item.message | tagsfilter"
+                            :inner-html.prop="toText(item.message) | tagsfilter"
                           ></p>
                           <div
                             class="text-center"
@@ -564,7 +564,7 @@
                                   <span
                                     class="message_comment_text"
                                     :inner-html.prop="
-                                      reply.message | tagsfilter
+                                      toText(reply.message) | tagsfilter
                                     "
                                   >
                                   </span
@@ -1116,44 +1116,22 @@
           <span class="">
             <b-avatar
               size="sm"
-              :src="comments.admin.profile"
-              v-if="comments.admin"
-              class="mr-1 member"
-            ></b-avatar>
-            <b-avatar
-              size="sm"
               :src="comments.user.profile"
               v-if="comments.user"
               class="mr-1 member"
             ></b-avatar>
-            <b-avatar
-              size="sm"
-              :src="comments.facilitator.profile"
-              v-if="comments.facilitator"
-              class="mr-1 member"
-            ></b-avatar>
           </span>
-          <span v-if="comments.admin" class="fs12 cursor-pointer">{{
-            comments.admin.name
-          }}</span>
+
           <span
             v-if="comments.user"
             @click="$router.push(`/member/profile/${comments.user.username}`)"
             class="fs12 cursor-pointer hover_green"
             >{{ comments.user.username }}</span
           >
-          <span
-            v-if="comments.facilitator"
-            @click="
-              $router.push(`/member/profile/f/${comments.facilitator.id}`)
-            "
-            class="fs12 cursor-pointer hover_green"
-            >{{ comments.facilitator.username }}</span
-          >
         </div>
         <div
           v-if="comments.message"
-          :inner-html.prop="comments.message | tagsfilter"
+          :inner-html.prop="toText(comments.message) | tagsfilter"
         ></div>
         <div
           v-for="(reply, index) in comments.discussionmessagecomment"
@@ -1394,57 +1372,12 @@ import TextToSpeech from "@/components/textToSpeech";
 import EditDiscussion from "@/components/editdiscussion";
 import Report from "@/components/helpers/report";
 import "ant-design-vue/dist/antd.css";
+import FroalaEditor from "froala-editor";
+import Tribute from "tributejs";
+import "tributejs/dist/tribute.css";
 export default {
   data() {
     return {
-      config: {
-        fileUploadParam: "file_param",
-
-        // Set the file upload URL.
-        fileUploadURL: "/upload_file",
-
-        // Additional upload params.
-        fileUploadParams: { id: "my_editor" },
-
-        // Set request type.
-        fileUploadMethod: "POST",
-
-        // Set max file size to 20MB.
-        fileMaxSize: 20 * 1024 * 1024,
-
-        // Allow to upload any file.
-        fileAllowedTypes: ["*"],
-        events: {
-          "file.beforeUpload": function (files) {
-            console.log(
-              "🚀 ~ file: discussion.vue ~ line 1411 ~ data ~ files",
-              files
-            );
-            // Return false if you want to stop the file upload.
-          },
-          "file.uploaded": function (response) {
-            console.log(
-              "🚀 ~ file: discussion.vue ~ line 1415 ~ data ~ response",
-              response
-            );
-            // File was uploaded to the server.
-          },
-          "file.inserted": function ($file, response) {
-            console.log(
-              "🚀 ~ file: discussion.vue ~ line 1419 ~ data ~ response",
-              response
-            );
-            console.log(
-              "🚀 ~ file: discussion.vue ~ line 1419 ~ data ~ $file",
-              $file
-            );
-            // File was inserted in the editor.
-          },
-          initialized: function () {
-            console.log("initialized");
-          },
-        },
-      },
       isEditing: false,
       edittedcomment: {},
       edittedreply: {},
@@ -1525,7 +1458,6 @@ export default {
   },
 
   created() {
-    // this.$store.dispatch("GET_CONNECTIONS");
     this.link =
       "https://nzukoor.com/explore/discussion/" + this.$route.params.id;
     var channel = this.$pusher.subscribe("adddiscussion");
@@ -1538,12 +1470,37 @@ export default {
 
   watch: {
     $route: "getdiscussion",
-    // info: {
-    //   deep: true,
-    //   handler: "showtags",
-    // },
   },
   computed: {
+    config() {
+      var that = this;
+      return {
+        events: {
+          initialized: function () {
+            console.log("initialized");
+
+            let editor = this;
+            let tribute = new Tribute({
+              values: that.userlist,
+              selectTemplate: function (item) {
+                return "@" + item.original.key;
+              },
+            });
+            tribute.attach(editor.el);
+
+            editor.events.on(
+              "keydown",
+              function (e) {
+                if (e.which == FroalaEditor.KEYCODE.ENTER && tribute.isActive) {
+                  return false;
+                }
+              },
+              true
+            );
+          },
+        },
+      };
+    },
     discussionusers() {
       if (!this.discussion) return [];
       let users = [];
@@ -1554,13 +1511,30 @@ export default {
           users.push(v.user.username);
         });
       });
-      let setusers = new Set(users);
+      let setusers = new Set(users.filter(item=>item !== this.$store.getters.member.username));
 
       return [...setusers];
     },
-    // connectiontags() {
-    //   return this.$store.getters.connections.map((item) => item.username);
-    // },
+    userlist() {
+      if (!this.discussion) return [];
+      let users = [];
+      users.push(this.discussion.user.username);
+      this.discussion.discussionmessage.forEach((val) => {
+        users.push(val.user.username);
+        val.discussionmessagecomment.forEach((v) => {
+          users.push(v.user.username);
+        });
+      });
+     let setusers = new Set(users.filter(item=>item !== this.$store.getters.member.username));
+
+      return [...setusers].map((item) => {
+        return {
+          key: item,
+          value: item.toLowerCase(),
+        };
+      });
+    },
+   
     filteredDiscussion() {
       var res = this.posts.slice();
       if (this.toggleview == "recent") {

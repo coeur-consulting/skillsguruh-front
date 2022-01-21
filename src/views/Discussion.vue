@@ -182,7 +182,7 @@
                         <p
                           class="discusion_text"
                           v-if="item.message"
-                          v-html="$options.filters.tagsfilter(item.message)"
+                          :inner-html.prop="toText(item.message) | tagsfilter"
                         ></p>
                         <div
                           class="text-center"
@@ -1381,7 +1381,7 @@ export default {
           this.members = res.data;
         });
     },
-   
+
     requestAccess() {
       var data = {
         discussion_id: this.discussion.id,
