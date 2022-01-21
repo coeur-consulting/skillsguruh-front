@@ -656,7 +656,7 @@
                         View {{ feed.commentCount }}
                         {{ feed.commentCount > 1 ? "comments" : "comment" }}
                       </div>
-                      <div class="all_comment">
+                      <div class="all_comment"  style="line-height: 1">
                         <div
                           class="comment d-flex text-left mb-1"
                           v-for="(item, idx) in feed.comments.slice(0, 2)"

@@ -330,7 +330,12 @@
                               </div>
                             </div>
                             <div class="text-left feed_text px-3">
-                              <div class="mb-1" v-html="$options.filters.tagsfilter(feed.message)"></div>
+                              <div
+                                class="mb-1"
+                                v-html="
+                                  $options.filters.tagsfilter(feed.message)
+                                "
+                              ></div>
 
                               <div v-if="feed.url" class="text-dark-green mb-1">
                                 <a :href="feed.url" target="_blank"
@@ -443,14 +448,19 @@
                                     : "comment"
                                 }}</span
                               >
-                              <div class="all_comment" style="line-height:1;">
+                              <div class="all_comment"  style="line-height: 1">
                                 <div
-                                  class="comment d-flex text-left "
-                                  v-for="item in feed.comments.slice(0, 2)"
+                                  class="comment d-flex text-left mb-1"
+                                  v-for="(item, idx) in feed.comments.slice(
+                                    0,
+                                    2
+                                  )"
                                   :key="item.id"
                                 >
-                                  <div class="flex-1 pr-2">
-
+                                  <div
+                                    class="flex-1 pr-2"
+                                    style="line-height: 1"
+                                  >
                                     <span
                                       class="comment_name mr-2 hover_green"
                                       @click="
@@ -463,31 +473,31 @@
                                       {{ item.user.username }}</span
                                     >
 
-                                    <span class="comment_text" v-html="$options.filters.tagsfilter(item.comment)">
-
-                                    </span>
+                                    <span
+                                      class="comment_text"
+                                      v-html="
+                                        $options.filters.tagsfilter(
+                                          item.comment
+                                        )
+                                      "
+                                    ></span>
                                   </div>
                                   <div>
-                                    <small
-
-                                    >
+                                    <small>
                                       <b-icon
                                         class="mr-2"
                                         :icon="
-                                          item.feedcommentlikes
-                                            ? 'heart-fill'
-                                            : 'heart'
+                                          item.isLiked ? 'heart-fill' : 'heart'
                                         "
                                         :class="
-                                          item.feedcommentlikes
-                                            ? 'text-danger'
-                                            : ''
+                                          item.isLiked ? 'text-danger' : ''
                                         "
                                         @click="
-                                          likecomment(
+                                          likefeedcomment(
                                             item.id,
                                             index,
-                                            item.user.id
+                                            idx,
+                                            feed.user.id
                                           )
                                         "
                                       ></b-icon>
@@ -586,13 +596,27 @@
                                     </emoji-picker>
                                   </b-input-group-text>
                                 </template>
-                                <b-form-input
-                                  autocomplete="off"
-                                  autocorrect="off"
+                                <a-mentions
                                   v-model="feed.comment"
-                                  placeholder="Add comment"
-                                  class="border-0 no-focus"
-                                ></b-form-input>
+                                  type="text"
+                                  size="lg"
+                                  autocomplete="off"
+                                  placeholder="Type a comment ..."
+                                  class="
+                                    border-0
+                                    no-focus
+                                    rounded-pill
+                                    bg-light
+                                  "
+                                >
+                                  <a-mentions-option
+                                    v-for="(item, id) in tagconnections"
+                                    :key="id"
+                                    :value="item"
+                                  >
+                                    {{ item }}
+                                  </a-mentions-option>
+                                </a-mentions>
                               </b-input-group>
                             </div>
                             <div
@@ -1007,7 +1031,10 @@
                           >
                             {{ item.user.username }}
                           </div>
-                          <div class="comment_text" v-html="$options.filters.tagsfilter(item.comment)"></div>
+                          <div
+                            class="comment_text"
+                            v-html="$options.filters.tagsfilter(item.comment)"
+                          ></div>
                         </div>
                         <small
                           class="text-muted mr-2"
@@ -1332,6 +1359,7 @@
 <script>
 import Report from "@/components/helpers/report";
 import EmojiPicker from "@/components/emoji/EmojiPicker";
+import "ant-design-vue/dist/antd.css";
 export default {
   data() {
     return {
@@ -1389,6 +1417,9 @@ export default {
     EmojiPicker,
   },
   computed: {
+    tagconnections() {
+      return this.$store.getters.connections.map((item) => item.username);
+    },
     useraccess() {
       var token = null;
       if (this.$store.getters.admin.access_token) {
@@ -1476,7 +1507,6 @@ export default {
     }
   },
   methods: {
-  
     insertcomment(emoji, id, index) {
       if (this.feeds[index].comment == null) {
         this.feeds[index].comment = "";
@@ -1979,15 +2009,13 @@ export default {
         });
     },
     joindiscussion(item) {
-
       this.entertribe(item);
     },
-     entertribe(item) {
+    entertribe(item) {
       var details = {
         tribe_id: item.tribe_id,
         user: this.$store.getters.member,
       };
-
 
       this.$store.dispatch("checkTribe", details).then((res) => {
         if (res.status == 200 && res.data.message == "found") {
@@ -2007,8 +2035,7 @@ export default {
             });
         }
       });
-
-   },
+    },
 
     async addconnections(id, type) {
       return this.$http
@@ -2206,7 +2233,7 @@ h4.card-title {
   line-height: 1.4;
   border-radius: 0.2rem;
 }
-.heart{
+.heart {
   z-index: 77;
 }
 @media (max-width: 600px) {
