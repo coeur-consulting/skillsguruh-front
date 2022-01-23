@@ -3,7 +3,7 @@
   <div class="bg-dark" style="height:80px">
 
     </div>
-     <div class="container">
+     <div class="container text-left">
            <div class="bread">
                <ul>
             <li v-for="(breadcrumb, index) in breadcrumbList"  v-bind:key="index" @click="routeTo(index)"  :class="{linked: !!breadcrumb.link}">

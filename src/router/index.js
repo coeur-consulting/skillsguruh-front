@@ -1431,7 +1431,7 @@ const routes = [
       footer: Footer,
     },
     meta: {
-      title: "Privacy Policies | Nzukoor",
+      title: "Privacy Policy | Nzukoor",
     },
   },
 
