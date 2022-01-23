@@ -180,8 +180,8 @@
                           name="agree"
                           aria-describedby="agree-feedback"
                           >I agree to the
-                          <router-link to="">Terms</router-link> and
-                          <router-link to=""
+                          <router-link to="/terms">Terms</router-link> and
+                          <router-link to="/policy"
                             >Privacy Policy</router-link
                           ></b-form-checkbox
                         >

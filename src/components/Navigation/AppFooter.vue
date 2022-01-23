@@ -19,8 +19,8 @@
 
           <div>
             <small
-              ><span>Terms of services</span><span class="mx-1">|</span
-              ><span>Privacy Policy</span></small
+              ><span @click="$router.push('/terms')">Terms of services</span><span class="mx-1">|</span
+              ><span  @click="$router.push('/policy')">Privacy Policy</span></small
             >
           </div>
 

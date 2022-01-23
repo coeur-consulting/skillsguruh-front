@@ -1422,7 +1422,7 @@ const routes = [
   },
 
   {
-    path: "/policies",
+    path: "/policy",
     name: "Policy",
     components: {
       header: Header,
