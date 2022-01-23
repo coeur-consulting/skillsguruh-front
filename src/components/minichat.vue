@@ -83,9 +83,9 @@
                 icon="check2-all"
               ></b-icon>
             </span>
-            <div class="namer d-flex flex-1 align-items-center mb-1">
+            <div class="namer d-flex flex-1 align-items-center justify-content-between mb-1">
               <span
-                class="chatting_name font-weight-bold ml-3"
+                class="chatting_name font-weight-bold "
                 v-if="item.user.id === useraccess.id"
                 >You</span
               >

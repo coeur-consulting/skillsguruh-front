@@ -6,7 +6,7 @@
     <b-container>
       <b-row>
         <b-col class="p-5 text-left">
-          <h2 class="text-center">NZUKOOR PRIVACY POLICY</h1>
+          <h2 class="text-center">NZUKOOR PRIVACY POLICY</h2>
           <p>
             Your privacy is important to Nzukoor and always has been. So we've
             developed a Privacy Policy that covers how we collect, use,
