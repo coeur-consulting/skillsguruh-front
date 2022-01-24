@@ -205,7 +205,7 @@
               class="mb-2 mb-sm-0"
               variant="outline-dark-green"
               ><b-icon class="mr-1" icon="facebook"></b-icon>
-              <span class="d-none d-md-block">Facebook</span></b-button
+              <span class="d-none d-md-block fs11">Facebook</span></b-button
             >
           </ShareNetwork>
           <ShareNetwork
@@ -222,7 +222,7 @@
               class="mb-2 mb-sm-0"
               variant="outline-dark-green"
               ><b-icon class="mr-1" icon="twitter"></b-icon>
-              <span class="d-none d-md-block">Twitter</span>
+              <span class="d-none d-md-block fs11">Twitter</span>
             </b-button>
           </ShareNetwork>
           <ShareNetwork
@@ -252,7 +252,7 @@
                   scale="0.5"
                 ></b-icon>
               </b-iconstack>
-              <span class="d-none d-md-block">Whatsapp</span>
+              <span class="d-none d-md-block fs11">Whatsapp</span>
             </b-button>
           </ShareNetwork>
           <ShareNetwork
@@ -269,7 +269,7 @@
               class="mb-2 mb-sm-0"
               variant="outline-dark-green"
               ><b-icon class="mr-1" icon="cursor-fill"></b-icon>
-              <span class="d-none d-md-block">Telegram</span>
+              <span class="d-none d-md-block fs11">Telegram</span>
             </b-button>
           </ShareNetwork>
           <b-button
@@ -280,7 +280,7 @@
           >
             <b-icon icon="rss-fill" variant="dark-green"></b-icon>
 
-            <span class="d-none d-md-block">Feeds</span></b-button
+            <span class="d-none d-md-block fs11">Feeds</span></b-button
           >
         </div>
       </div>
