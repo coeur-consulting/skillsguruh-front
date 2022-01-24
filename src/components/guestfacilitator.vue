@@ -333,7 +333,7 @@
                           </span>
                           <span class="mr-3">
                             <span class="mr-1">{{ feed.comments.length }}</span>
-                            <b-icon icon="chat-fill" class="mr-1"></b-icon>
+                            <b-icon icon="chat" class="mr-1"></b-icon>
 
                             comments</span
                           >

@@ -290,7 +290,7 @@
                       <span class="mr-3">
                         <b-icon
                           font-scale="1.1"
-                          icon="chat-fill"
+                          icon="chat"
                           class="mr-1"
                         ></b-icon>
                         <span
@@ -956,7 +956,7 @@ export default {
         return extension[0].toLowerCase();
       }
     },
-    
+
     getfeeds() {
       this.$http
         .get(`${this.$store.getters.url}/feeds/${this.id}`)

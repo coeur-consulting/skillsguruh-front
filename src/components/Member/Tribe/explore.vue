@@ -663,7 +663,7 @@
                       <span class="mr-3">
                         <b-icon
                           font-scale="1.3"
-                          icon="chat-fill"
+                          icon="chat"
                           class="mr-1"
                         ></b-icon>
                         <span

@@ -261,7 +261,7 @@
                       <span class="mr-2"> Comments</span>
                       <span
                         >{{ analytics.commentsthisweek }}
-                        <b-icon icon="chat-fill"></b-icon
+                        <b-icon icon="chat"></b-icon
                       ></span>
                     </b-col>
                   </b-row>
@@ -304,7 +304,7 @@
                       <span class="mr-2">Comments</span>
                       <span
                         >{{ analytics.commentsthismonth }}
-                        <b-icon icon="chat-fill"></b-icon
+                        <b-icon icon="chat"></b-icon
                       ></span>
                     </b-col>
                   </b-row>

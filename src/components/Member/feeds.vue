@@ -616,7 +616,7 @@
                       <span class="mr-3">
                         <b-icon
                           font-scale="1.3"
-                          icon="chat-fill"
+                          icon="chat"
                           class="mr-1"
                         ></b-icon>
                         <span
@@ -683,9 +683,9 @@
                           <div>
                             <small>
                               <b-icon
-                                class="mr-2"
+                                class="mr-2 text-danger"
                                 :icon="item.isLiked ? 'heart-fill' : 'heart'"
-                                :class="item.isLiked ? 'text-danger' : ''"
+
                                 @click="
                                   likefeedcomment(
                                     item.id,
