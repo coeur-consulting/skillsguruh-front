@@ -273,7 +273,7 @@ export default {
       user: {
         name: "",
         email: "",
-        phone: "08160777867",
+        phone: "",
         password: "",
         profile: "",
         referral: "",
