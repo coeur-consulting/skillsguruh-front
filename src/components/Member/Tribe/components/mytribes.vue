@@ -22,7 +22,7 @@
                   </b-input-group-prepend>
                   <b-form-input
                     placeholder="Find a tribe"
-                    class="no-focus border-0"
+                    class="no-focus border-0 bg-light"
                     type="search"
                     aria-label="Text input "
                     v-model="search"

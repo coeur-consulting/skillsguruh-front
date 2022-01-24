@@ -147,7 +147,7 @@
         <span class="side-link p-2">Leave tribe</span>
       </div>
     </div>
-    <b-modal id="sharetribe" centered hide-footer size="lg">
+    <b-modal id="sharetribe" centered hide-footer >
       <div class="box p-3 text-center">
         <h6 class="text-center">Invite your friends</h6>
         <div>
@@ -166,6 +166,7 @@
                 type="email"
                 v-model="item.email"
                 placeholder="Enter email address"
+
               ></b-form-input>
             </b-input-group>
           </div>
@@ -367,11 +368,7 @@ export default {
       tribe_id: null,
       connections:[],
 
-      inviteUsers: [
-        {
-          email: "",
-        },
-      ],
+      inviteUsers: [],
 emails:[],
       sending: false,
       link: "",

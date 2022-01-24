@@ -1339,7 +1339,7 @@ export default {
                 this.$store.dispatch("joinTribe", details).then((res) => {
                   if (res.status == 200 && res.data.message == "successful") {
                     this.$toast.success("Joined successfully");
-                    window.location.href = `/member/tribe//${this.discussion.tribe_id}/discussion/${this.discussion.id}`;
+                    window.location.href = `/member/tribe/${this.discussion.tribe_id}/discussion/${this.discussion.id}`;
                   }
                 });
               }
