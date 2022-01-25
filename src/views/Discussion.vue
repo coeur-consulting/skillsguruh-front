@@ -23,8 +23,6 @@
                     </span>
                     / <span>{{ discussion.tribe.name }}</span></span
                   >
-
-
                 </div>
                 <div class="content px-2 py-3 pt-4 pb-3">
                   <div class="top_dis d-flex align-items-center mb-2">
@@ -34,7 +32,9 @@
                         :src="discussion.user.profile"
                         v-if="discussion.user"
                         @click="
-                          $router.push(`/member/profile/${discussion.user.username}`)
+                          $router.push(
+                            `/member/profile/${discussion.user.username}`
+                          )
                         "
                       ></b-avatar>
                     </div>
@@ -132,7 +132,9 @@
                         v-if="discussion.user"
                         class="cursor-pointer text-dark-green hover_green"
                         @click="
-                          $router.push(`/member/profile/${discussion.user.username}`)
+                          $router.push(
+                            `/member/profile/${discussion.user.username}`
+                          )
                         "
                         >{{ discussion.user.username }}</span
                       >
@@ -337,7 +339,9 @@
                             c
                             v-if="item.user"
                             @click="
-                              $router.push(`/member/profile/${item.user.username}`)
+                              $router.push(
+                                `/member/profile/${item.user.username}`
+                              )
                             "
                             class="fs13 cursor-pointer hover_green"
                             >{{ item.user.username }}</span
@@ -448,7 +452,9 @@
                               >
                               <span
                                 class="message_comment_text"
-                                v-html="$options.filters.tagsfilter(reply.message)"
+                                v-html="
+                                  $options.filters.tagsfilter(reply.message)
+                                "
                               >
                               </span
                             ></span>
@@ -501,7 +507,9 @@
                             '  lists link  charmap   anchor',
                             'searchreplace visualblocks code fullscreen',
                             '  table paste code',
+                           
                           ],
+
                           toolbar:
                             ' styleselect | bold italic | \
            alignleft aligncenter alignright alignjustify | \
@@ -818,7 +826,7 @@
               </b-button>
             </div>
           </div>
-           <div class="connections p-3 border rounded" v-if="auth">
+          <div class="connections p-3 border rounded" v-if="auth">
             <h6 class="mb-3 fs13 text-left">Connections</h6>
             <div
               class="px-2 py-1 d-flex align-items-center search bg-light mb-3"
@@ -1090,24 +1098,33 @@
           </div>
         </div>
       </b-modal>
-
     </div>
 
     <div class="tribe_join animated animate_fadeIn" v-show="toggleJoin">
-
       <div class="position-absolute p-3 p-md-5 shadow rounded bg-white">
-         <span class="cancel">
-        <b-icon icon="x" class="text-white" @click="toggleJoin=!toggleJoin"></b-icon>
-      </span>
+        <span class="cancel">
+          <b-icon
+            icon="x"
+            class="text-white"
+            @click="toggleJoin = !toggleJoin"
+          ></b-icon>
+        </span>
         <div class="mb-4 text-center font-weight-bold text-warning">
-          OOPS! You need to join this tribe to post a reply</div
+          OOPS! You need to join this tribe to post a reply
+        </div>
+
+        <div
+          class="d-flex flex-column flex-md-row text-left"
+          v-if="discussion.tribe"
         >
-
-
-        <div class="d-flex flex-column flex-md-row text-left" v-if="discussion.tribe">
-          <b-avatar class="mb-4 mb-md-0 mr-md-3" :src="discussion.tribe.cover" size="4rem"></b-avatar>
+          <b-avatar
+            class="mb-4 mb-md-0 mr-md-3"
+            :src="discussion.tribe.cover"
+            size="4rem"
+          ></b-avatar>
           <span>
-            <span class="font-weight-bold">{{ discussion.tribe.name }}</span> <br />
+            <span class="font-weight-bold">{{ discussion.tribe.name }}</span>
+            <br />
             <span>{{ discussion.tribe.description }}</span>
           </span>
         </div>
@@ -1131,7 +1148,7 @@ import TextToSpeech from "@/components/textToSpeech";
 export default {
   data() {
     return {
-      isDisabled:false,
+      isDisabled: false,
       toggleJoin: false,
       description: "",
       members: [],
@@ -1183,7 +1200,6 @@ export default {
     SpeechToText,
     TextToSpeech,
     Editor,
-
   },
   created() {
     this.link =
@@ -1200,10 +1216,8 @@ export default {
     }
   },
   mounted() {
-
     this.getdiscussion();
     this.getconnections();
-
   },
   computed: {
     useraccess() {
@@ -1307,7 +1321,6 @@ export default {
             .toLowerCase()
             .includes(this.search.toLowerCase());
         }
-
       });
     },
   },
@@ -1327,7 +1340,6 @@ export default {
         user: this.$store.getters.member,
       };
 
-
       this.$store.dispatch("checkTribe", details).then((res) => {
         if (res.status == 200 && res.data.message == "found") {
           window.location.href = `/member/tribe/${this.discussion.tribe_id}/discussion/${this.discussion.id}`;
@@ -1346,8 +1358,7 @@ export default {
             });
         }
       });
-
-   },
+    },
     drop(id) {
       this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
@@ -1491,11 +1502,11 @@ export default {
     getText(res) {
       this.info.message = `${this.info.message} ${res}`;
     },
-  getconnections() {
+    getconnections() {
       if (!this.auth) {
         return;
       }
-       this.$http
+      this.$http
         .get(`${this.$store.getters.url}/connections`, {
           headers: {
             Authorization: `Bearer ${this.useraccess.access_token}`,
@@ -1545,7 +1556,7 @@ export default {
         });
     },
     sendinvite() {
-      this.isDisabled = true
+      this.isDisabled = true;
       var emails = this.emails.map((item) => {
         return {
           email: item,
@@ -1561,7 +1572,7 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.isDisabled = false
+            this.isDisabled = false;
             this.$toast.success("Invite Sent");
             this.$bvModal.hide("invite");
             this.inviteUsers = {
@@ -1573,8 +1584,9 @@ export default {
               ],
             };
           }
-        }).catch(()=>{
-          this.isDisabled = false
+        })
+        .catch(() => {
+          this.isDisabled = false;
         });
     },
     addinvite() {
@@ -1640,7 +1652,7 @@ export default {
         });
     },
     post() {
-      this.toggleJoin = true
+      this.toggleJoin = true;
     },
     addview() {
       if (!this.auth) {
@@ -1774,7 +1786,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 .image {
   width: 80%;
   height: auto;

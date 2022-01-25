@@ -627,15 +627,30 @@
               <div class="py-1 px-3 text-post position-relative">
                 <b-form @submit.prevent="post" class="wrapper">
                   <b-form-group class="position-relative">
-                    <froala
-                      id="edit"
-                      :tag="'textarea'"
-                      :config="config"
+                    <editor
+                      api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
                       @keyup.enter="post"
                       class="regular-input mb-4"
                       placeholder="Start typing here.."
                       v-model="info.message"
-                    ></froala>
+                      :init="{
+                        selector: '#editor1',
+                        height: 150,
+                        menubar: false,
+                        content_style: font,
+                        font_formats: 'Poppins',
+                        plugins: [
+                          '  lists link  charmap   anchor',
+                          'searchreplace visualblocks code fullscreen',
+                          '  table paste code',
+                        ],
+
+                        toolbar:
+                          ' styleselect | bold italic | \
+           alignleft aligncenter alignright alignjustify | \
+           bullist numlist  ',
+                      }"
+                    />
                   </b-form-group>
 
                   <div class="d-flex justify-content-between">
@@ -775,23 +790,9 @@
         </div>
       </div>
     </b-container>
-    <!-- <b-modal id="access" title="Request Access" hide-footer centered>
-      <div class="text-center">
-        <p class="mb-4 fs16">Do you wish to join this discussion?</p>
-        <b-button
-          variant="outline-dark"
-          class="mr-3"
-          size="sm"
-          @click="$bvModal.hide('access')"
-          >Cancel</b-button
-        >
-        <b-button variant="dark" size="sm" @click="requestAccess"
-          >Send a request</b-button
-        >
-      </div>
-    </b-modal> -->
+
     <b-modal
-      no-close-on-backdrop
+
       id="discussionshare"
       hide-footer
       centered
@@ -1216,15 +1217,30 @@
     </b-modal>
     <b-modal id="editdiscussioncomment" centered hide-footer>
       <b-form @submit.prevent="updatediscussioncomment" class="">
-        <b-form-group>
-          <froala
-            id="editor"
-            :tag="'textarea'"
-            :config="config"
+        <b-form-group @focusin.stop>
+          <editor
+            api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
             class="regular-input mb-4"
             placeholder="Start typing here.."
             v-model="edittedcomment.message"
-          ></froala>
+            :init="{
+              selector: '#editor2',
+              height: 150,
+              menubar: false,
+              content_style: font,
+              font_formats: 'Poppins',
+              plugins: [
+                '  lists link  charmap   anchor',
+
+                '  table paste code',
+              ],
+
+              toolbar:
+                ' styleselect | bold italic | \
+           alignleft aligncenter alignright alignjustify | \
+           bullist numlist  ',
+            }"
+          />
         </b-form-group>
 
         <div class="d-flex align-items-center justify-content-end">
@@ -1361,6 +1377,98 @@
         </div>
       </b-form>
     </b-modal>
+
+    <div class="position-fixed d-flex justify-content-center align-items-center  manual_editor animate__animated animate__fadeIn"  v-if="isOpen" @click.self="isOpen=false">
+      <div class="bg-white p-3 rounded">
+        <div class="d-flex justify-content-between py-3">
+          <span class="font-weight-bold">Edit reply</span>
+          <span><b-icon icon="x" size="1.4" @click="isOpen=false"></b-icon></span>
+        </div>
+     <b-form @submit.prevent="updatediscussioncomment" class="">
+        <b-form-group @focusin.stop>
+          <editor
+            api-key="0faxd6jp8vlrnoj74njdtskkywu2nqvbuta5scv42arkdczq"
+            class="regular-input mb-4"
+            placeholder="Start typing here.."
+            v-model="edittedcomment.message"
+            :init="{
+              selector: '#editor2',
+              height: 150,
+              menubar: false,
+              content_style: font,
+              font_formats: 'Poppins',
+              plugins: [
+                '  lists link  charmap   anchor',
+
+                '  table paste code',
+              ],
+
+              toolbar:
+                ' styleselect | bold italic | \
+           alignleft aligncenter alignright alignjustify | \
+           bullist numlist  ',
+            }"
+          />
+        </b-form-group>
+
+        <div class="d-flex align-items-center justify-content-end">
+          <div class="mr-2">
+            <emoji-picker @emoji="insertReply" :search="search">
+              <div
+                class=""
+                slot="emoji-invoker"
+                slot-scope="{ events: { click: clickEvent } }"
+                @click.stop="clickEvent"
+              >
+                <svg
+                  height="24"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <path
+                    d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"
+                  />
+                </svg>
+              </div>
+              <div slot="emoji-picker" slot-scope="{ emojis, insert }">
+                <div class="emoji-picker">
+                  <div class="emoji-picker__search">
+                    <input type="text" v-model="search" v-focus />
+                  </div>
+                  <div>
+                    <div
+                      v-for="(emojiGroup, category) in emojis"
+                      :key="category"
+                    >
+                      <h5>{{ category }}</h5>
+                      <div class="emojis">
+                        <span
+                          v-for="(emoji, emojiName) in emojiGroup"
+                          :key="emojiName"
+                          @click="insert(emoji, 'reply')"
+                          :title="emojiName"
+                          >{{ emoji }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </emoji-picker>
+          </div>
+          <b-button
+            variant="dark-green"
+            size="sm"
+            :disabled="isDisabled"
+            type="submit"
+            >Reply</b-button
+          >
+        </div>
+      </b-form>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -1372,13 +1480,12 @@ import TextToSpeech from "@/components/textToSpeech";
 import EditDiscussion from "@/components/editdiscussion";
 import Report from "@/components/helpers/report";
 import "ant-design-vue/dist/antd.css";
-import FroalaEditor from "froala-editor";
-import Tribute from "tributejs";
-import "tributejs/dist/tribute.css";
+import Editor from "@tinymce/tinymce-vue";
+
 export default {
   data() {
     return {
-      isEditing: false,
+      isOpen: false,
       edittedcomment: {},
       edittedreply: {},
       isShowingTags: false,
@@ -1433,6 +1540,7 @@ export default {
     TextToSpeech,
     EditDiscussion,
     Report,
+    Editor,
   },
   beforeRouteEnter(to, from, next) {
     next((vm) => {
@@ -1472,35 +1580,7 @@ export default {
     $route: "getdiscussion",
   },
   computed: {
-    config() {
-      var that = this;
-      return {
-        events: {
-          initialized: function () {
-            console.log("initialized");
 
-            let editor = this;
-            let tribute = new Tribute({
-              values: that.userlist,
-              selectTemplate: function (item) {
-                return "@" + item.original.key;
-              },
-            });
-            tribute.attach(editor.el);
-
-            editor.events.on(
-              "keydown",
-              function (e) {
-                if (e.which == FroalaEditor.KEYCODE.ENTER && tribute.isActive) {
-                  return false;
-                }
-              },
-              true
-            );
-          },
-        },
-      };
-    },
     discussionusers() {
       if (!this.discussion) return [];
       let users = [];
@@ -1511,7 +1591,9 @@ export default {
           users.push(v.user.username);
         });
       });
-      let setusers = new Set(users.filter(item=>item !== this.$store.getters.member.username));
+      let setusers = new Set(
+        users.filter((item) => item !== this.$store.getters.member.username)
+      );
 
       return [...setusers];
     },
@@ -1525,7 +1607,9 @@ export default {
           users.push(v.user.username);
         });
       });
-     let setusers = new Set(users.filter(item=>item !== this.$store.getters.member.username));
+      let setusers = new Set(
+        users.filter((item) => item !== this.$store.getters.member.username)
+      );
 
       return [...setusers].map((item) => {
         return {
@@ -1534,7 +1618,7 @@ export default {
         };
       });
     },
-   
+
     filteredDiscussion() {
       var res = this.posts.slice();
       if (this.toggleview == "recent") {
@@ -1745,7 +1829,8 @@ export default {
       }
     },
     refresh() {
-      this.getdiscussion;
+      this.getdiscussion();
+      this.$bvModal.hide("editDiscussion");
     },
 
     addmessagecomment(val, index) {
@@ -1757,7 +1842,8 @@ export default {
     editdiscussioncomment(val, index) {
       this.index = index;
       this.edittedcomment = val;
-      this.$bvModal.show("editdiscussioncomment");
+      // this.$bvModal.show("editdiscussioncomment");
+      this.isOpen=true
     },
     editdiscussionreply(val, index) {
       this.index = index;
@@ -1782,7 +1868,7 @@ export default {
           this.isDisabled = false;
           if (res.status == 200) {
             this.getdiscussion();
-            this.$bvModal.hide("editdiscussioncomment");
+            this.isOpen=false
           }
         })
         .catch((err) => {
@@ -2272,6 +2358,19 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.manual_editor{
+  z-index:9;
+  top:0;
+  bottom:0;
+  right:0;
+  left:0;
+  background:rgba($color: #000, $alpha: .64);
+  height:100vh;
+  width:100vw;
+  div{
+    min-width:30%;
+  }
+}
 .back {
   font-size: 0.7rem;
 }

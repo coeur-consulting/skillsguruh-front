@@ -12,6 +12,7 @@
 
         <b-form-group label="Description">
           <b-form-textarea
+          rows="5"
             required
             v-model="discussion.description"
             placeholder="Write a brief Description"
@@ -45,16 +46,6 @@
           </b-col> -->
         </b-form-row>
 
-        <b-form-group label="Category">
-          <model-list-select
-            :list="category"
-            v-model="discussion.category"
-            option-value="value"
-            option-text="value"
-            placeholder="select category"
-          >
-          </model-list-select>
-        </b-form-group>
 
         <b-form-group label="Interests">
           <multi-select
@@ -90,7 +81,7 @@
 import Interest from "@/components/helpers/subcategory.js";
 import Category from "@/components//helpers/category.js";
 import { MultiSelect } from "vue-search-select";
-import { ModelListSelect } from "vue-search-select";
+
 export default {
   props: {
     information: {
@@ -127,7 +118,7 @@ export default {
     };
   },
   components: {
-    ModelListSelect,
+
     MultiSelect,
   },
   watch: {
@@ -172,7 +163,7 @@ export default {
   methods: {
     setDiscussion() {
       this.discussion = this.$props.information;
-      this.discussion.category = this.$props.information.category.value;
+
       this.discussion.tags = this.$props.information.tags;
     },
     getcustomdiscussions() {
@@ -224,9 +215,9 @@ export default {
         )
         .then((res) => {
           if (res.status == 201 || res.status == 200) {
-            this.$toast.success("Discussion created");
+            this.$toast.success("Discussion updated");
             this.$emit("refresh");
-            this.$bvModal.hide("start");
+           
           }
         })
         .catch((err) => {
