@@ -298,8 +298,9 @@ h5#alllikes___BV_modal_title_ {
 .media video,
 .media audio {
   width: 100%;
-  height: 100%;
+  height: 500px;
   object-fit: contain;
+  background:black;
 }
 .img-s {
   width: 80px;

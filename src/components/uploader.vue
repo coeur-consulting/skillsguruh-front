@@ -97,7 +97,7 @@
         </b-row>
 
         <div class="d-flex justify-content-end mt-3">
-          <div v-if="!uploadedFiles.length">
+          <!-- <div v-if="!uploadedFiles.length">
             <b-button
               size="sm"
               variant="light"
@@ -116,7 +116,7 @@
                 font-scale="1"
               ></b-icon>
             </b-button>
-          </div>
+          </div> -->
 
           <div v-if="uploadedFiles.length">
             <b-button size="sm" variant="light" disabled
@@ -321,6 +321,7 @@ export default {
           formattedSize: this.formatBytes(this.files.size),
         });
       }
+    this.handleFileUpload()
     },
     handleFileUpload() {
       this.start = true;

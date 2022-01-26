@@ -79,8 +79,30 @@
           >
           </multi-select>
         </div>
+        <div class="d-flex justify-content-around event_video my-4">
+          <div @click="showFeedUpload('image', true)">
+            <b-img
+              :src="require('@/assets/images/event.svg')"
+              width="18px"
+              class="mr-1 cursor-pointer"
+            ></b-img>
+            <span class="cursor-pointer"> Image</span>
+          </div>
+          <div @click="showFeedUpload('video', false)">
+            <b-img
+              :src="require('@/assets/images/youtube.svg')"
+              width="18px"
+              class="mr-1 cursor-pointer"
+            ></b-img>
+            <span class="cursor-pointer"> Video</span>
+          </div>
 
-        <div class="d-flex justify-content-around my-3 border rounded">
+        </div>
+
+        <div
+          class="d-flex justify-content-around my-3 border rounded"
+          v-if="isShown"
+        >
           <multi-upload
             @getUploads="getUploads"
             :type="type"
@@ -89,7 +111,9 @@
           >
           </multi-upload>
         </div>
-        <b-button @click="post" block variant="dark-green" :disabled="disabled">Post</b-button>
+        <b-button @click="post" block variant="dark-green" :disabled="disabled"
+          >Post</b-button
+        >
       </b-modal>
 
       <b-modal id="feededit" hide-footer centered title="Edit feed" size="md">
@@ -160,8 +184,11 @@
           </emoji-picker>
         </div>
 
-
-        <b-button @click="updatepost" :disabled="disabled" block variant="dark-green"
+        <b-button
+          @click="updatepost"
+          :disabled="disabled"
+          block
+          variant="dark-green"
           >Update post</b-button
         >
       </b-modal>
@@ -207,6 +234,7 @@
                             <div
                               class="comment_text"
                               :id="item.comment"
+                              v-if="item.comment"
                               v-html="$options.filters.tagsfilter(item.comment)"
                             ></div>
                           </div>
@@ -273,7 +301,13 @@
                                 >
                                   {{ rep.user.username }}
                                 </span>
-                                <span class="comment_text flex-1" v-html="$options.filters.tagsfilter(rep.message)"></span>
+                                <span
+                                  class="comment_text flex-1"
+                                  v-if="rep.message"
+                                  v-html="
+                                    $options.filters.tagsfilter(rep.message)
+                                  "
+                                ></span>
                               </p>
                               <span
                                 ><b-icon
@@ -477,7 +511,9 @@
                               >{{ feed.user.state }}</small
                             >
                           </span>
-                          <small class="text-muted fs10" v-if="feed.isEdited">Edited</small>
+                          <small class="text-muted fs10" v-if="feed.isEdited"
+                            >Edited</small
+                          >
                         </div>
                       </div>
                       <b-dropdown
@@ -499,7 +535,7 @@
                         >
                         <b-dropdown-item
                           v-if="
-                            checkpost(feed.message) &&
+                           feed.message &&
                             feed.user &&
                             feed.user.id == $store.getters.member.id
                           "
@@ -576,6 +612,7 @@
                     </div>
                     <div class="text-left feed_text px-3">
                       <div
+                      v-if="feed.message"
                         class="mb-1"
                         v-html="$options.filters.tagsfilter(feed.message)"
                       ></div>
@@ -656,7 +693,7 @@
                         View {{ feed.commentCount }}
                         {{ feed.commentCount > 1 ? "comments" : "comment" }}
                       </div>
-                      <div class="all_comment"  style="line-height: 1">
+                      <div class="all_comment" style="line-height: 1">
                         <div
                           class="comment d-flex text-left mb-1"
                           v-for="(item, idx) in feed.comments.slice(0, 2)"
@@ -677,6 +714,7 @@
 
                             <span
                               class="comment_text"
+                              v-if="item.comment"
                               v-html="$options.filters.tagsfilter(item.comment)"
                             ></span>
                           </div>
@@ -685,7 +723,6 @@
                               <b-icon
                                 class="mr-2 text-danger"
                                 :icon="item.isLiked ? 'heart-fill' : 'heart'"
-
                                 @click="
                                   likefeedcomment(
                                     item.id,
@@ -936,7 +973,7 @@
       <template #modal-title>
         <div
           class="font-weight-bold"
-          v-if="replycomment"
+          v-if="replycomment.comment"
           v-html="$options.filters.tagsfilter(replycomment.comment)"
         ></div>
       </template>
@@ -957,7 +994,11 @@
         </a-mentions>
       </div>
 
-      <b-button variant="dark-green" :disabled="disabled" @click="postreply" size="sm"
+      <b-button
+        variant="dark-green"
+        :disabled="disabled"
+        @click="postreply"
+        size="sm"
         >Reply</b-button
       >
     </b-modal>
@@ -986,7 +1027,8 @@ import "ant-design-vue/dist/antd.css";
 export default {
   data() {
     return {
-      disabled:false,
+      isShown: false,
+      disabled: false,
       isMultiple: null,
       type: "image",
       report_id: null,
@@ -1110,6 +1152,12 @@ export default {
     },
   },
   methods: {
+    showFeedUpload(type, multiple) {
+      this.type = type;
+      this.isMultiple = multiple;
+      this.feed.mediaType = type;
+      this.isShown = true;
+    },
     onSelectM(option) {
       console.log("select", option);
     },
@@ -1234,7 +1282,7 @@ export default {
         this.$toast.info("Cannot be empty");
         return;
       }
-      this.disabled=true
+      this.disabled = true;
       var data = {
         feed_comment_id: this.replycomment.id,
         message: this.commentreply,
@@ -1249,7 +1297,7 @@ export default {
         })
         .then((res) => {
           if (res.status == 201) {
-            this.disabled=false
+            this.disabled = false;
             this.$toast.success("Reply successful ");
 
             this.getcustomfeeds();
@@ -1263,7 +1311,7 @@ export default {
           }
         })
         .catch((err) => {
-          this.disabled=false
+          this.disabled = false;
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1500,7 +1548,7 @@ export default {
       if (!this.feed.message && !this.feed.media) {
         return;
       }
-      this.disabled=true
+      this.disabled = true;
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
           headers: {
@@ -1512,7 +1560,8 @@ export default {
             this.$toast.success("Feed Updated ");
             this.$bvModal.hide("feed");
             // this.feeds.unshift(res.data);
-this.disabled=false
+            this.disabled = false;
+            this.isShown = false;
             this.feed = {
               media: "",
               message: "",
@@ -1522,12 +1571,12 @@ this.disabled=false
           }
         })
         .catch((err) => {
-          this.disabled=false
+          this.disabled = false;
           this.$toast.error(err.response.data.message);
         });
     },
     updatepost() {
-      this.disabled=true
+      this.disabled = true;
       this.$http
         .put(`${this.$store.getters.url}/feeds/${this.feed.id}`, this.feed, {
           headers: {
@@ -1537,7 +1586,7 @@ this.disabled=false
         .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Feed Updated ");
-this.disabled=false
+            this.disabled = false;
             this.filteredFeeds[this.index].message = res.data.message;
             this.$bvModal.hide("feededit");
             this.feed = {
@@ -1549,7 +1598,7 @@ this.disabled=false
           }
         })
         .catch((err) => {
-          this.disabled=false
+          this.disabled = false;
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1558,7 +1607,7 @@ this.disabled=false
         this.$toast.info("Cannot be empty");
         return;
       }
-      this.disabled= true
+      this.disabled = true;
       this.comment.id = id;
       this.comment.comment = comment;
 
@@ -1570,7 +1619,7 @@ this.disabled=false
         })
         .then((res) => {
           if (res.status == 201) {
-            this.disabled=false
+            this.disabled = false;
             this.$toast.success("Comment updated ");
 
             this.filteredFeeds[index].comments.unshift(res.data);
@@ -1584,12 +1633,12 @@ this.disabled=false
           }
         })
         .catch((err) => {
-          this.disabled=false
+          this.disabled = false;
           this.$toast.error(err.response.data.message);
         });
     },
     toggleLike(id, index) {
-      this.disabled=true
+      this.disabled = true;
       this.$http
         .post(
           `${this.$store.getters.url}/feed-likes`,
@@ -1602,20 +1651,19 @@ this.disabled=false
         )
         .then((res) => {
           if (res.status == 201 || res.status == 200) {
-            this.disabled=false
+            this.disabled = false;
             this.likeimage(index);
             this.filteredFeeds[index].isLiked = res.data.like;
             this.filteredFeeds[index].likes = res.data.feed.likes;
           }
         })
         .catch((err) => {
-          this.disabled=false
+          this.disabled = false;
           this.$toast.error(err.response.data.message);
         });
     },
 
     feededit(feed, index) {
-
       this.index = index;
       this.feed.message = feed.message;
       this.feed.id = feed.id;
