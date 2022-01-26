@@ -298,9 +298,10 @@ h5#alllikes___BV_modal_title_ {
 .media video,
 .media audio {
   width: 100%;
-  height: 500px;
+  height:auto;
+  max-height: 500px;
   object-fit: contain;
-  background:black;
+  background:white;
 }
 .img-s {
   width: 80px;
@@ -321,6 +322,13 @@ h5#alllikes___BV_modal_title_ {
     font-size: .75rem;
   }
 }
+.feed_contain{
+  @media(max-width:768px){
+    width:96%;
+    margin: 0 auto;
+  }
+  }
+
 // .VueCarousel-navigation-next {
 //   right: 24px !important;
 //   transform: translateY(-50%) translateX(100%);
@@ -1224,7 +1232,7 @@ ol.subquest {
   .media img,
   .media video,
   .media audio {
-    height: 450px;
+    max-height: 450px;
   }
   .side_dis {
     font-size: 0.7rem;

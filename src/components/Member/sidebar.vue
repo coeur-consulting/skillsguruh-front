@@ -20,7 +20,7 @@
               />
               Community</b-nav-item
             >
-            <b-nav-item
+            <!-- <b-nav-item
               target="_blank"
               to="/messages"
               class="d-flex align-items-center"
@@ -30,7 +30,7 @@
                 class="imgtribe mr-2 text-dark-green"
               />
               Messages</b-nav-item
-            >
+            > -->
           </b-nav>
         </nav>
 

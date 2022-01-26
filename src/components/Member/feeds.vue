@@ -484,7 +484,7 @@
                   <div
                     v-for="(feed, index) in filteredFeeds"
                     :key="index"
-                    class="border bg-white rounded-8 mb-3"
+                    class="border bg-white rounded-8 mb-3 feed_contain"
                   >
                     <div class="d-flex mb-3 px-2 px-sm-3 pt-3">
                       <div class="flex-1 text-left">
