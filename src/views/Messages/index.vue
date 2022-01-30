@@ -6,15 +6,18 @@
     <span class="box" v-show="!mobile || mobile === 'chat'">
       <message-box @toggleView="toggleView"></message-box
     ></span>
+<BottomBar class="d-md-none" v-if="!mobile || mobile === 'menu'"/>
   </div>
 </template>
 <script>
 import SideChat from "./sidechat.vue";
 import MessageBox from "./messagebox.vue";
+import BottomBar from "@/components/Member/Navigation/BottomNav.vue";
 export default {
   components: {
     SideChat,
     MessageBox,
+    BottomBar
   },
   data() {
     return {

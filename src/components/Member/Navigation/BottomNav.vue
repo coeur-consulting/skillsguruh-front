@@ -1,29 +1,29 @@
 <template lang="">
   <div class="position-fixed bottom-nav d-flex justify-content-between align-items-center border-top bg-white">
-    <router-link to="/">  <font-awesome-icon
+    <router-link to="/member" class="d-flex align-items-center">  <font-awesome-icon
                 :icon="rss"
-                style="font-size:14px"
+                style="font-size:20px"
                 class="  mr-1"
                 v-b-tooltip.hover
                 title="Feed"
               /> <span v-show="$route.path==='/member'"> Feed</span></router-link>
-      <router-link to="/member/tribes">  <font-awesome-icon
+      <router-link to="/member/tribes" class="d-flex align-items-center">  <font-awesome-icon
                 :icon="users"
-                style="font-size:14px"
+                style="font-size:20px"
                 class="  mr-1"
                 v-b-tooltip.hover
                 title="Tribes"
               /> <span v-show="$route.path==='/member/tribes'">  Tribes</span></router-link>
-      <router-link to="/member/community">  <font-awesome-icon
+      <router-link to="/member/community" class="d-flex align-items-center">  <font-awesome-icon
                 :icon="link"
-                style="font-size:14px"
+                style="font-size:20px"
                 class="  mr-1"
                 v-b-tooltip.hover
                 title="connections"
               /> <span v-show="$route.path==='/member/community'"> Connections</span></router-link>
-      <router-link to="/messages" class="position-relative">   <font-awesome-icon
+      <router-link to="/messages" class="position-relative d-flex align-items-center">   <font-awesome-icon
                 :icon="envelope"
-                style="font-size:14px"
+                style="font-size:20px"
                 class="  mr-1"
                 v-b-tooltip.hover
                 title="Messages"
@@ -119,7 +119,7 @@ export default {
 .bottom-nav {
   bottom: 0;
   width: 100vw;
-  padding: 10px 25px;
+  padding: 20px 25px;
   z-index: 999;
   a {
     font-size: 0.8rem;
