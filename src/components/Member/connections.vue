@@ -149,9 +149,9 @@
                 </div>
               </div>
             </b-tab>
-            <b-tab title="My Tribes" lazy>
+            <!-- <b-tab title="My Tribes" lazy>
               <Tribes />
-            </b-tab>
+            </b-tab> -->
           </b-tabs>
         </div>
       </b-col>
@@ -160,7 +160,7 @@
 </template>
 
 <script>
-import Tribes from "./Tribe/components/mytribes.vue";
+
 export default {
   data() {
     return {
@@ -181,9 +181,7 @@ export default {
       myconnections: [],
     };
   },
-  components: {
-    Tribes,
-  },
+
   mounted() {
     this.getconnections();
     this.getmyconnections();

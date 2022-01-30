@@ -7,7 +7,7 @@
             <b-nav-item to="/explore">
               <font-awesome-icon
                 :icon="globe"
-               style="font-size:24px"
+               style="font-size:18px;width:25px"
                 class=" mr-2"
                 v-b-tooltip.hover
                 title="Explore"
@@ -17,7 +17,7 @@
             <b-nav-item to="/member">
               <font-awesome-icon
                 :icon="rss"
-                style="font-size:24px"
+                style="font-size:18px;width:25px"
                 class="  mr-2"
                 v-b-tooltip.hover
                 title="Feed"
@@ -25,18 +25,22 @@
               Feed</b-nav-item
             >
             <b-nav-item to="/member/tribes">
-              <b-img
-                :src="require('@/assets/images/mask.png')"
-                class="imgtribe mr-2"
-                alt="tribe"
+             <font-awesome-icon
+                :icon="users"
+                style="font-size:18px; width:25px"
+                class="  mr-2"
+                v-b-tooltip.hover
+                title="Tribes"
               />
               Tribes</b-nav-item
             >
             <b-nav-item to="/member/community">
-              <b-img
-                :src="require('@/assets/images/globe.png')"
-                alt="community"
-                class="imgtribe mr-2"
+              <font-awesome-icon
+                :icon="falink"
+                style="font-size:18px;width:25px"
+                class="  mr-2"
+                v-b-tooltip.hover
+                title="Connections"
               />
               Connections</b-nav-item
             >
@@ -341,6 +345,7 @@ import {
   faComments,
   faCalendar,
   faEnvelope,
+  faLink
 } from "@fortawesome/free-solid-svg-icons";
 import {  faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { LogOutIcon } from "vue-feather-icons";
@@ -351,6 +356,7 @@ export default {
 
   data() {
     return {
+      falink: faLink,
       search: "",
       sortvalue: "all",
       events: [],
@@ -630,11 +636,11 @@ export default {
   padding: 30px 0 0 30px;
 }
 .icon {
-  width: 24px;
+  width: 20px;
 }
 .imgtribe {
-  width: 24px;
-  font-size: 24px;
+  width: 20px;
+  font-size: 20px;
 }
 nav .nav li {
   text-align: left;

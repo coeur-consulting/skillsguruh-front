@@ -1,10 +1,10 @@
 <template>
-  <div class="py-5">
+  <div class="py-3">
     <b-container>
       <b-row class="mb-4">
         <b-col sm="12">
           <div class="search w-100">
-            <b-input-group class="topbar_search bg-white">
+            <b-input-group class="topbar_search">
               <b-input-group-prepend is-text>
                 <b-iconstack font-scale="1.4" class="">
                   <b-icon
@@ -22,14 +22,16 @@
               </b-input-group-prepend>
               <b-form-input
                 placeholder="Find a tribe"
-                class="no-focus border-0"
+                class="no-focus border-0 bg-light"
                 type="search"
                 aria-label="Text input "
                 v-model="search"
               ></b-form-input>
               <b-input-group-append>
                 <b-button variant="dark-green"
-                  ><b-icon icon="search"></b-icon
+                v-b-tooltip.hover title="Create a tribe"
+                 @click="$bvModal.show('start')"
+                  ><b-icon icon="plus-circle-fill"></b-icon
                 ></b-button>
               </b-input-group-append>
             </b-input-group>
@@ -462,8 +464,8 @@ export default {
 </script>
 <style scoped lang="scss">
 .check {
-  top: 10px;
-  right: 10px;
+  top: 7px;
+  right: 20px;
   z-index: 10;
 }
 </style>

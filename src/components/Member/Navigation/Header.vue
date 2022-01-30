@@ -106,7 +106,7 @@
             </span>
           </div>
         </b-nav-item>
-        <b-nav-item class="last_nav mr-2">
+        <b-nav-item class="last_nav mr-2 d-none d-md-block">
           <div class="position-relative d-none d-md-block" id="inbox">
             <font-awesome-layers class="fa-2x">
               <font-awesome-icon :icon="circle" class="text-lighter-green" />
@@ -263,14 +263,7 @@
             id="prof_ava"
           >
             <template #button-content>
-              <!-- <font-awesome-layers class="fa-3x">
-                <font-awesome-icon :icon="circle" class="text-lighter-green" />
-                <font-awesome-icon
-                  :icon="caretDown"
-                  transform="shrink-6"
-                  class="text-dark-green"
-                />
-              </font-awesome-layers> -->
+
               <b-avatar
                 :src="$store.getters.member.profile"
                 id="profile"
@@ -311,31 +304,7 @@
         <div><b-img style="width: 90px" src="/img/logo.png"></b-img></div>
       </template>
       <div>
-        <!-- <div class="px-3 py-2">
-          <b-navbar-nav
-            class="
-              align-items-center
-              justify-content-md-center
-              mx-md-auto
-              flex-row
-            "
-          >
-            <b-nav-item to="/explore" class="mr-4 position-relative">
-              <font-awesome-icon :icon="globe" size="2x" class="icon" />
-            </b-nav-item>
-            <b-nav-item to="/member" class="mr-4 position-relative">
-              <font-awesome-icon :icon="rss" size="2x" class="icon"
-            /></b-nav-item>
-            <b-nav-item to="/explore/community" class="mr-4 position-relative">
-              <font-awesome-icon :icon="users" size="2x" class="icon" />
-            </b-nav-item>
 
-            <b-nav-item to="/member/discussions" class="mr-4 position-relative">
-              <font-awesome-icon :icon="comments" size="2x" class="icon"
-            /></b-nav-item>
-
-          </b-navbar-nav>
-        </div> -->
         <hr />
         <div id="sidebar" class="py-4">
           <div class="side_tab_1" v-if="!$route.meta.showtribe && tribe">
@@ -351,7 +320,7 @@
               />
               Explore</b-nav-item
             >
-            <b-nav-item to="/member">
+            <b-nav-item to="/member" class="d-none d-md-flex">
               <font-awesome-icon
                 :icon="rss"
                 style="font-size:24px"
@@ -361,7 +330,7 @@
               />
               Feed</b-nav-item
             >
-            <b-nav-item to="/member/tribes">
+            <b-nav-item to="/member/tribes" class="d-none d-md-flex">
               <b-img
                 :src="require('@/assets/images/mask.png')"
                 class="imgtribe mr-2"
@@ -369,7 +338,7 @@
               />
               Tribes</b-nav-item
             >
-            <b-nav-item to="/member/community">
+            <b-nav-item to="/member/community" class="d-none d-md-flex">
               <b-img
                 :src="require('@/assets/images/globe.png')"
                 alt="community"
@@ -380,7 +349,7 @@
 
           </b-nav>
             </nav>
-
+<hr>
             <div
               class="text-left pl-3 text-dark fs13"
               v-if="
@@ -794,6 +763,7 @@ export default {
     bus.$on("unreadmessage", (res) => {
       this.connections[res.index].unread_message = 0;
     });
+
   },
 
   mounted() {

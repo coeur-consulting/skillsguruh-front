@@ -1,49 +1,50 @@
 <template>
-  <div class="py-5">
-    <b-container>
+  <div class="py-3">
+    <b-container  v-if="showTribes">
       <b-row class="mb-4">
         <b-col sm="12">
-         <div class="search w-100">
-                <b-input-group class="topbar_search ">
-                  <b-input-group-prepend is-text>
-                    <b-iconstack font-scale="1.4" class="">
-                      <b-icon
-                        stacked
-                        icon="circle-fill"
-                        variant="lighter-green"
-                      ></b-icon>
-                      <b-icon
-                        stacked
-                        icon="search"
-                        scale="0.5"
-                        variant="dark-green"
-                      ></b-icon>
-                    </b-iconstack>
-                  </b-input-group-prepend>
-                  <b-form-input
-                    placeholder="Find a tribe"
-                    class="no-focus border-0 bg-light"
-                    type="search"
-                    aria-label="Text input "
-                    v-model="search"
-                  ></b-form-input>
-                  <b-input-group-append>
-                    <b-button
-                      variant="dark-green"
+          <div class="search w-100">
+            <b-input-group class="topbar_search">
+              <b-input-group-prepend is-text>
+                <b-iconstack font-scale="1.4" class="">
+                  <b-icon
+                    stacked
+                    icon="circle-fill"
+                    variant="lighter-green"
+                  ></b-icon>
+                  <b-icon
+                    stacked
+                    icon="search"
+                    scale="0.5"
+                    variant="dark-green"
+                  ></b-icon>
+                </b-iconstack>
+              </b-input-group-prepend>
+              <b-form-input
+                placeholder="Find a tribe"
+                class="no-focus border-0 bg-white"
+                type="search"
+                aria-label="Text input "
+                v-model="search"
+              ></b-form-input>
+              <b-input-group-append>
+                <b-button variant="dark-green"
+                 @click="$bvModal.show('createtribe')"
 
-                      ><b-icon icon="search"></b-icon
-                    ></b-button>
-                  </b-input-group-append>
-                </b-input-group>
-              </div>
+                  ><b-icon icon="plus-circle-fill"></b-icon
+                ></b-button>
+              </b-input-group-append>
+            </b-input-group>
+          </div>
+          <div class="text-right mt-3 text-dark-green">
+            <small class="" @click="$bvModal.show('alltribes')"
+              ><span class="mr-1">Show all tribes</span>
+              <b-icon icon="arrow-right"></b-icon
+            ></small>
+          </div>
         </b-col>
       </b-row>
-      <div v-if="!filterTribes.length">
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
 
-          <small>You do not belong to any tribe yet! Try joining one or <span @click="$bvModal.show('start')">Create yours now</span></small>
-        </div>
-      </div>
       <b-row>
         <b-col
           cols="6"
@@ -53,7 +54,6 @@
           class="mb-4"
           @click="entertribe(n.id)"
         >
-
           <div class="tribe_box rounded" :id="`popover-${id}`">
             <div
               class="
@@ -108,7 +108,7 @@
         </b-col>
         <b-col cols="6" sm="4" class="mb-4">
           <div
-            @click="$bvModal.show('start')"
+            @click="$bvModal.show('createtribe')"
             class="
               bg-lighter-green
               tribe_box
@@ -135,7 +135,21 @@
 
       <infinite-loading @infinite="infiniteHandler"></infinite-loading>
     </b-container>
-    <b-modal id="start" hide-footer centered title="Create your tribe">
+    <b-container  v-if="!showTribes">
+       <div>
+        <div
+          class="alert alert-warning alert-dismissible fade show"
+          role="alert"
+        >
+          <small
+            >You do not belong to any tribe yet! Try joining one or
+            <span @click="$bvModal.show('createtribe')">Create yours now</span></small
+          >
+        </div>
+        <AllTribes/>
+      </div>
+    </b-container>
+    <b-modal id="createtribe" hide-footer centered title="Create your tribe">
       <create-tribe @response="response" @resetTribe="resetTribe" />
     </b-modal>
     <b-modal
@@ -147,6 +161,9 @@
     >
       <edit-tribe :tribe="tribe" @response="response" />
     </b-modal>
+    <b-modal id="alltribes" hide-footer  centered title="Showing all tribes" size="lg">
+      <AllTribes />
+    </b-modal>
   </div>
 </template>
 
@@ -157,9 +174,11 @@ import CreateTribe from "./createtribe.vue";
 import EditTribe from "./edittribe.vue";
 import { faUsers, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import { bus } from "@/main.js";
+import AllTribes from "./alltribes.vue";
 export default {
   data() {
     return {
+      showTribes:false,
       interest: "",
       sortValue: "all",
       index: null,
@@ -191,6 +210,7 @@ export default {
   components: {
     CreateTribe,
     EditTribe,
+    AllTribes,
   },
   computed: {
     filteredinterests() {
@@ -204,8 +224,7 @@ export default {
         item.name.toLowerCase().includes(this.search.toLowerCase())
       );
     },
-     sortedTribes() {
-
+    sortedTribes() {
       if (this.sortValue == "members") {
         return this.filterTribes.slice().sort(function (a, b) {
           return b.users - a.users;
@@ -227,17 +246,17 @@ export default {
       }
       if (this.sortValue == "interest") {
         return this.filterTribes.filter((item) => {
-         var mapped = item.tags.map(val=> val.value.toLowerCase())
+          var mapped = item.tags.map((val) => val.value.toLowerCase());
 
-        return mapped.includes(this.interest.toLowerCase())
-       })
-
+          return mapped.includes(this.interest.toLowerCase());
+        });
       }
       return this.filterTribes;
     },
   },
   created() {
-      bus.$on("toggleSort", (res) => {
+    this.gettribes()
+    bus.$on("toggleSort", (res) => {
       if (res.interest) {
         this.sortValue = "interest";
         this.interest = res.val;
@@ -254,6 +273,21 @@ export default {
   },
 
   methods: {
+     gettribes() {
+      this.$http
+        .get(`${process.env.VUE_APP_API_PATH}/user/tribes`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.data.data.length) {
+
+            this.showTribes = true
+
+          }
+        });
+    },
     resetTribe() {
       this.tribe = {
         id: "",
@@ -267,7 +301,6 @@ export default {
       };
     },
     entertribe(id) {
-
       window.location.href = `/member/tribe/discussions/${id}`;
     },
     infiniteHandler($state) {
@@ -280,6 +313,7 @@ export default {
         .then((res) => {
           if (res.data.data.length) {
             this.page += 1;
+            this.showTribes = true
             this.tribes.push(...res.data.data);
             $state.loaded();
           } else {
@@ -302,7 +336,7 @@ export default {
     response(type, res) {
       if (type == "create") {
         this.$toast.success("Tribe Created");
-        this.$bvModal.hide("start");
+        this.$bvModal.hide("createtribe");
         this.tribes.unshift(res);
       }
       if (type == "edit") {
