@@ -187,7 +187,7 @@
             @click="toggleJoin = !toggleJoin"
           ></b-icon>
         </span>
-        <div class="mb-4 text-center font-weight-bold text-warning">
+        <div class="mb-4 text-center font-weight-bold text-dark-green">
           You have belong to the tribe first!
         </div>
 

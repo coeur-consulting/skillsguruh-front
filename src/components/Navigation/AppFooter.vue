@@ -7,10 +7,12 @@
           <div
             class="d-flex mb-3 justify-content-center justify-content-md-start"
           >
+          <a href="https://play.google.com/store/apps/details?id=com.nzukoor.app" target="_blank">
             <b-img
               class="googleplay"
               :src="require('@/assets/images/landing/googleplay.png')"
             ></b-img>
+            </a>
             <b-img
               class="appstore"
               :src="require('@/assets/images/landing/appstore.png')"
@@ -165,7 +167,7 @@ p {
 }
 .googleplay,
 .appstore {
-  width: 25%;
+  width: 135px;
   max-height: 40px;
 }
 @media (max-width: 768px) {
@@ -193,7 +195,7 @@ p {
 
   .googleplay,
   .appstore {
-    width: 25%;
+    width: 125px;
   }
   footer {
     padding-top: 3rem;

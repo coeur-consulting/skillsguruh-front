@@ -1703,7 +1703,7 @@ ol.subquest {
 }
 .tribe_join div:first-child {
   bottom: 40%;
-  width: 70%;
+  width: 50%;
   transform: translateX(50%);
   right: 50%;
   @media(max-width:768px){
@@ -1751,7 +1751,7 @@ overflow-y: auto;
   flex:1
 }
 .ant-mentions > textarea{
-min-height:34px !important;
+min-height:36px !important;
 }
 .commentreply > textarea{
 min-height:60px !important;

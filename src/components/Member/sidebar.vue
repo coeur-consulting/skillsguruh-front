@@ -4,6 +4,26 @@
       <div class="side_tab_1" v-if="!$route.meta.showtribe">
         <nav class="mb-5 class text-left">
           <b-nav vertical>
+            <b-nav-item to="/explore">
+              <font-awesome-icon
+                :icon="globe"
+               style="font-size:24px"
+                class=" mr-2"
+                v-b-tooltip.hover
+                title="Explore"
+              />
+              Explore</b-nav-item
+            >
+            <b-nav-item to="/member">
+              <font-awesome-icon
+                :icon="rss"
+                style="font-size:24px"
+                class="  mr-2"
+                v-b-tooltip.hover
+                title="Feed"
+              />
+              Feed</b-nav-item
+            >
             <b-nav-item to="/member/tribes">
               <b-img
                 :src="require('@/assets/images/mask.png')"
@@ -18,26 +38,17 @@
                 alt="community"
                 class="imgtribe mr-2"
               />
-              Community</b-nav-item
+              Connections</b-nav-item
             >
-            <!-- <b-nav-item
-              target="_blank"
-              to="/messages"
-              class="d-flex align-items-center"
-            >
-              <font-awesome-icon
-                :icon="envelope"
-                class="imgtribe mr-2 text-dark-green"
-              />
-              Messages</b-nav-item
-            > -->
+
           </b-nav>
         </nav>
 
         <div
           class="text-left pl-3 text-dark fs13"
           v-if="
-            $route.path == '/explore/community' || $route.path == '/member/tribes'
+            $route.path == '/explore/community' ||
+            $route.path == '/member/tribes'
           "
         >
           <h6 class="fs13 font-weight-bold">Sort by</h6>
@@ -61,7 +72,7 @@
               @click="toggleSort('members')"
               class="cursor-pointer"
             >
-             Popularity
+              Popularity
             </li>
           </ul>
 
@@ -147,7 +158,7 @@
         <span class="side-link p-2">Leave tribe</span>
       </div>
     </div>
-    <b-modal id="sharetribe" centered hide-footer >
+    <b-modal id="sharetribe" centered hide-footer>
       <div class="box p-3 text-center">
         <h6 class="text-center">Invite your friends</h6>
         <div>
@@ -166,7 +177,6 @@
                 type="email"
                 v-model="item.email"
                 placeholder="Enter email address"
-
               ></b-form-input>
             </b-input-group>
           </div>
@@ -284,45 +294,37 @@
           >
         </div>
       </div>
-       <div class="connections p-3 border rounded">
-            <h6 class="mb-3 fs13 text-left">Connections</h6>
-            <div
-              class="px-2 py-1 d-flex align-items-center search bg-light mb-3"
+      <div class="connections p-3 border rounded">
+        <h6 class="mb-3 fs13 text-left">Connections</h6>
+        <div class="px-2 py-1 d-flex align-items-center search bg-light mb-3">
+          <b-icon icon="search"></b-icon>
+          <b-form-input
+            autocomplete="off"
+            autocorrect="off"
+            size="sm"
+            v-model="search"
+            class="flex-1 border-0 no-focus search-bg"
+            type="search"
+            placeholder="Search name"
+          ></b-form-input>
+        </div>
+        <div v-for="(item, id) in filteredConnections" :key="id">
+          <div v-if="item.user_follower" class="d-flex align-items-end mb-4">
+            <b-form-checkbox
+              size="sm"
+              v-model="emails"
+              :value="item.user_follower.email"
             >
-              <b-icon icon="search"></b-icon>
-              <b-form-input
-                autocomplete="off"
-                autocorrect="off"
-                size="sm"
-                v-model="search"
-                class="flex-1 border-0 no-focus search-bg"
-                type="search"
-                placeholder="Search name"
-              ></b-form-input>
-            </div>
-            <div v-for="(item, id) in filteredConnections" :key="id">
-              <div
-                v-if="item.user_follower"
-                class="d-flex align-items-end mb-4"
-              >
-                <b-form-checkbox
-                  size="sm"
-                  v-model="emails"
-                  :value="item.user_follower.email"
-                >
-                  <div class="d-flex align-items-center flex-1">
-                    <b-avatar class="mr-2" size="1.3rem"></b-avatar>
-                    <div class="text-left" style="line-height: 1.1">
-                      <span class="fs12">{{
-                        item.user_follower.username
-                      }}</span>
-                    </div>
-                  </div>
-                </b-form-checkbox>
+              <div class="d-flex align-items-center flex-1">
+                <b-avatar class="mr-2" size="1.3rem"></b-avatar>
+                <div class="text-left" style="line-height: 1.1">
+                  <span class="fs12">{{ item.user_follower.username }}</span>
+                </div>
               </div>
-
-            </div>
+            </b-form-checkbox>
           </div>
+        </div>
+      </div>
     </b-modal>
   </div>
 </template>
@@ -340,6 +342,7 @@ import {
   faCalendar,
   faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
+import {  faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { LogOutIcon } from "vue-feather-icons";
 export default {
   components: {
@@ -348,7 +351,7 @@ export default {
 
   data() {
     return {
-      search:'',
+      search: "",
       sortvalue: "all",
       events: [],
       envelope: faEnvelope,
@@ -366,25 +369,24 @@ export default {
       rss: faRss,
       tribe: {},
       tribe_id: null,
-      connections:[],
+      connections: [],
 
       inviteUsers: [],
-emails:[],
+      emails: [],
       sending: false,
       link: "",
       description: "",
+
+      globe: faGlobe,
     };
   },
 
   computed: {
     filteredConnections() {
       return this.connections.filter((item) => {
-
-          return item.user_follower.name
-            .toLowerCase()
-            .includes(this.search.toLowerCase());
-
-
+        return item.user_follower.name
+          .toLowerCase()
+          .includes(this.search.toLowerCase());
       });
     },
     interests() {
@@ -409,18 +411,16 @@ emails:[],
   },
 
   created() {
-
     if (this.$route.params.tribe) {
       this.gettribe();
     }
-    this.getconnections()
+    this.getconnections();
   },
   mounted() {
     this.link = `https://nzukoor.com/explore?activity=join_tribe&tribe_id=${this.$route.params.tribe}`;
   },
   methods: {
     async getconnections() {
-
       return this.$http
         .get(`${this.$store.getters.url}/connections`, {
           headers: {
@@ -479,13 +479,13 @@ emails:[],
     },
     sendinvite() {
       this.sending = true;
-      var emails = this.emails.concat(this.inviteUsers.map(item=>item.email))
+      var emails = this.emails.concat(
+        this.inviteUsers.map((item) => item.email)
+      );
       var data = {
         emails: emails,
         id: this.$route.params.tribe,
       };
-
-
 
       this.$http
         .post(`${this.$store.getters.url}/tribe/invite`, data, {
@@ -498,7 +498,7 @@ emails:[],
             this.$toast.success("Invite Sent");
             this.sending = false;
             this.$bvModal.hide("sharetribe");
-            this.emails =[]
+            this.emails = [];
             this.inviteUsers = [
               {
                 email: "",
@@ -630,11 +630,11 @@ emails:[],
   padding: 30px 0 0 30px;
 }
 .icon {
-  width: 25px;
+  width: 24px;
 }
 .imgtribe {
-  width: 30px;
-  font-size: 20px;
+  width: 24px;
+  font-size: 24px;
 }
 nav .nav li {
   text-align: left;

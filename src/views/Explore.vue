@@ -1351,7 +1351,7 @@
          <span class="cancel">
         <b-icon icon="x" class="text-white" @click="toggleJoin=!toggleJoin"></b-icon>
       </span>
-        <div class="mb-4 text-center font-weight-bold text-warning">
+        <div class="mb-4 text-center font-weight-bold text-dark-green">
           You have been invited to join this tribe</div
         >
 
@@ -1604,14 +1604,12 @@ export default {
         this.toggleOn = null;
       }, 1500);
     },
-    likecomment(id, index, userId) {
+    likecomment(id, index) {
       if (!this.auth) {
         this.$toast.error("login to access");
         return;
       }
-      if (this.$store.getters.member.id != userId) {
-        return;
-      }
+
       this.$http
         .post(
           `${this.$store.getters.url}/feed/comment/like`,
@@ -1632,14 +1630,12 @@ export default {
           this.gettrendingfeeds();
         });
     },
-    likecommentreply(id, index, idx, userId) {
+    likecommentreply(id, index, idx) {
       if (!this.auth) {
         this.$toast.error("login to access");
         return;
       }
-      if (this.$store.getters.member.id != userId) {
-        return;
-      }
+
       this.$http
         .post(
           `${this.$store.getters.url}/feed/comment/reply/like`,

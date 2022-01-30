@@ -4,11 +4,11 @@
     type="light"
     variant="white"
     sticky
-    class="border-bottom py-0"
+    class="border-bottom py-0 justify-content-between"
   >
     <b-col
       cols="3"
-      sm="4"
+      sm="6"
       class="text-left d-flex align-items-center pl-0 pl-md-3"
     >
       <b-navbar-toggle
@@ -80,73 +80,6 @@
       </div>
     </b-col>
 
-    <b-col cols="2" sm="4" class="d-flex align-items-center">
-      <b-collapse id="mynav" is-nav class="w-100">
-        <b-navbar-nav class="align-items-center justify-content-center mx-auto">
-          <b-nav-item to="/explore" class="mr-sm-4 position-relative">
-            <b-icon icon="circle-fill" class="dot" font-scale=".8"></b-icon>
-            <font-awesome-icon
-              :icon="globe"
-              size="2x"
-              class="icon"
-              v-b-tooltip.hover
-              title="Explore"
-          /></b-nav-item>
-
-          <b-nav-item to="/member" class="mr-sm-4 position-relative">
-            <b-icon icon="circle-fill" class="dot" font-scale=".8"></b-icon>
-            <font-awesome-icon
-              :icon="rss"
-              size="2x"
-              class="icon"
-              v-b-tooltip.hover
-              title="Feed"
-          /></b-nav-item>
-          <b-nav-item to="/explore/community" class="mr-sm-4 position-relative">
-            <b-icon icon="circle-fill" class="dot" font-scale=".8"></b-icon>
-            <font-awesome-icon
-              :icon="users"
-              size="2x"
-              class="icon"
-              v-b-tooltip.hover
-              title="Community"
-            />
-          </b-nav-item>
-          <!--
-          <b-nav-item to="/member/courses" class="mr-sm-4 position-relative">
-            <b-icon icon="circle-fill" font-scale=".8" class="dot"></b-icon>
-            <font-awesome-icon :icon="bookopen" size="2x" class="icon"
-          /></b-nav-item> -->
-          <b-nav-item
-            v-if="useraccess"
-            to="/member/discussions"
-            class="mr-sm-4 position-relative"
-          >
-            <b-icon icon="circle-fill" class="dot" font-scale=".8"></b-icon>
-            <font-awesome-icon
-              :icon="comments"
-              size="2x"
-              class="icon"
-              v-b-tooltip.hover
-              title="Discussions"
-          /></b-nav-item>
-
-          <b-nav-item
-            v-else
-            to="/member/explore/discussions"
-            class="mr-sm-4 position-relative"
-          >
-            <b-icon icon="circle-fill" class="dot" font-scale=".8"></b-icon>
-            <font-awesome-icon :icon="comments" size="2x" class="icon"
-          /></b-nav-item>
-
-          <!-- <b-nav-item to="/member/events" class="position-relative">
-            <b-icon icon="circle-fill" class="dot" font-scale=".8"></b-icon>
-            <font-awesome-icon :icon="calendar" size="2x" class="icon"
-          /></b-nav-item> -->
-        </b-navbar-nav>
-      </b-collapse>
-    </b-col>
 
     <b-col cols="7" sm="4" class="pr-0 pr-sm-3">
       <b-navbar-nav
@@ -378,7 +311,7 @@
         <div><b-img style="width: 90px" src="/img/logo.png"></b-img></div>
       </template>
       <div>
-        <div class="px-3 py-2">
+        <!-- <div class="px-3 py-2">
           <b-navbar-nav
             class="
               align-items-center
@@ -396,40 +329,56 @@
             <b-nav-item to="/explore/community" class="mr-4 position-relative">
               <font-awesome-icon :icon="users" size="2x" class="icon" />
             </b-nav-item>
-            <!-- <b-nav-item to="/member/courses" class="mr-4 position-relative">
-              <font-awesome-icon :icon="bookopen" size="2x" class="icon"
-            /></b-nav-item> -->
+
             <b-nav-item to="/member/discussions" class="mr-4 position-relative">
               <font-awesome-icon :icon="comments" size="2x" class="icon"
             /></b-nav-item>
 
-            <!-- <b-nav-item to="/member/events" class="position-relative">
-              <font-awesome-icon :icon="calendar" size="2x" class="icon"
-            /></b-nav-item> -->
           </b-navbar-nav>
-        </div>
+        </div> -->
         <hr />
         <div id="sidebar" class="py-4">
           <div class="side_tab_1" v-if="!$route.meta.showtribe && tribe">
             <nav class="mb-3 class text-left mb-4">
               <b-nav vertical>
-                <b-nav-item to="/member/tribes">
-                  <b-img
-                    :src="require('@/assets/images/mask.png')"
-                    class="imgtribe mr-2"
-                    alt="tribe"
-                  />
-                  Tribes</b-nav-item
-                >
-                <b-nav-item to="/member/community">
-                  <b-img
-                    :src="require('@/assets/images/globe.png')"
-                    alt="community"
-                    class="imgtribe mr-2"
-                  />
-                  Community</b-nav-item
-                >
-              </b-nav>
+            <b-nav-item to="/explore">
+              <font-awesome-icon
+                :icon="globe"
+               style="font-size:24px"
+                class=" mr-2"
+                v-b-tooltip.hover
+                title="Explore"
+              />
+              Explore</b-nav-item
+            >
+            <b-nav-item to="/member">
+              <font-awesome-icon
+                :icon="rss"
+                style="font-size:24px"
+                class="  mr-2"
+                v-b-tooltip.hover
+                title="Feed"
+              />
+              Feed</b-nav-item
+            >
+            <b-nav-item to="/member/tribes">
+              <b-img
+                :src="require('@/assets/images/mask.png')"
+                class="imgtribe mr-2"
+                alt="tribe"
+              />
+              Tribes</b-nav-item
+            >
+            <b-nav-item to="/member/community">
+              <b-img
+                :src="require('@/assets/images/globe.png')"
+                alt="community"
+                class="imgtribe mr-2"
+              />
+              Connections</b-nav-item
+            >
+
+          </b-nav>
             </nav>
 
             <div
@@ -1322,7 +1271,7 @@ export default {
   border-color: var(--dark-green);
 }
 .imgtribe {
-  width: 30px;
+  width: 24px;
 }
 nav .nav li {
   text-align: left;

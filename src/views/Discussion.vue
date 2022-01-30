@@ -507,7 +507,7 @@
                             '  lists link  charmap   anchor',
                             'searchreplace visualblocks code fullscreen',
                             '  table paste code',
-                           
+
                           ],
 
                           toolbar:
@@ -1109,7 +1109,7 @@
             @click="toggleJoin = !toggleJoin"
           ></b-icon>
         </span>
-        <div class="mb-4 text-center font-weight-bold text-warning">
+        <div class="mb-4 text-center font-weight-bold text-dark-green">
           OOPS! You need to join this tribe to post a reply
         </div>
 

@@ -29,7 +29,7 @@ export default {
 </script>
 <style scoped>
 .minimum {
-  height: 50px;
+  min-height: 50px;
   overflow-y: hidden;
   -webkit-transition: height 0.4s ease-in-out;
   -moz-transition: height 0.4s ease-in-out;
@@ -37,7 +37,7 @@ export default {
   transition: height 0.4s ease-in-out;
 }
 .full {
-  height: 200px;
+  max-height: 200px;
   -webkit-transition: height 0.4s ease-in-out;
   -moz-transition: height 0.4s ease-in-out;
   -o-transition: height 0.4s ease-in-out;

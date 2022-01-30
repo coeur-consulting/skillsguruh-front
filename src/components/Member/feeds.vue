@@ -96,7 +96,6 @@
             ></b-img>
             <span class="cursor-pointer"> Video</span>
           </div>
-
         </div>
 
         <div
@@ -238,22 +237,40 @@
                               v-html="$options.filters.tagsfilter(item.comment)"
                             ></div>
                           </div>
-                          <small
-                            class="text-muted mr-2 cursor-pointer"
-                            @click="handlereplycomment(item, index)"
-                            >Reply
-                          </small>
+                          <div class="d-flex justify-content-between">
+                            <span
+                              ><small
+                                class="text-muted mr-2 cursor-pointer"
+                                @click="handlereplycomment(item, index)"
+                                >Reply
+                              </small>
 
-                          <small>
-                            <b-icon
-                              :icon="item.isLiked ? 'heart-fill' : 'heart'"
-                              :class="item.isLiked ? 'text-danger' : ''"
-                              class="cursor-pointer"
-                              @click="
-                                likecomment(item.id, index, commentUser.id)
-                              "
-                            ></b-icon>
-                          </small>
+                              <small>
+                                <span class="mr-1">{{
+                                  item.likeCount ? item.likeCount : ""
+                                }}</span>
+                                <b-icon
+                                  :icon="item.isLiked ? 'heart-fill' : 'heart'"
+                                  class="cursor-pointer text-danger"
+                                  @click="
+                                    likecomment(item.id, index, commentUser.id)
+                                  "
+                                ></b-icon> </small
+                            ></span>
+                            <span>
+                              <small v-if="item.replyCount" class="mr-2"
+                                >{{ item.replyCount }}
+                                {{
+                                  item.replyCount > 1 ? "replies" : "reply"
+                                }}</small
+                              >
+                              <b-icon
+                                icon="trash"
+                                v-if="$store.getters.member.id === item.user_id"
+                                @click="dropcomment(item.id, index)"
+                              ></b-icon>
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -266,7 +283,7 @@
                   </div>
                   <div
                     class="p-2 bg-light rounded w-100"
-                    v-if="item.feedcommentreplies.length"
+                    v-if="item.replyCount"
                   >
                     <div class="text-muted fs12 font-weight-bold mb-2">
                       <a :href="`#${item.comment}`" class="text-muted">
@@ -289,7 +306,7 @@
                               class="mr-2 feedcommentavatar"
                               :src="rep.user.profile"
                             ></b-avatar>
-                            <div class="d-flex align-items-start flex-1">
+                            <div class="d-flex align-items-center flex-1">
                               <p class="flex-1 mr-2 mb-1">
                                 <span
                                   class="comment_name mr-1"
@@ -309,21 +326,22 @@
                                   "
                                 ></span>
                               </p>
-                              <span
-                                ><b-icon
+                              <span class="mr-2">
+                                <span class="mr-2">{{
+                                  rep.likeCount ? rep.likeCount : ""
+                                }}</span>
+                                <b-icon
                                   :icon="rep.isLiked ? 'heart-fill' : 'heart'"
-                                  :class="rep.isLiked ? 'text-danger' : ''"
-                                  @click="
-                                    likecommentreply(
-                                      rep.id,
-                                      index,
-                                      id,
-                                      rep.user.id
-                                    )
-                                  "
+                                  class="text-danger"
+                                  @click="likecommentreply(rep.id, index, id)"
                                   font-scale=".8"
                                 ></b-icon
                               ></span>
+                              <b-icon
+                                icon="trash"
+                                v-if="$store.getters.member.id === rep.user_id"
+                                @click="dropcommentreply(rep.id, index, id)"
+                              ></b-icon>
                             </div>
                           </div>
                           <small class="text-muted">{{
@@ -535,7 +553,7 @@
                         >
                         <b-dropdown-item
                           v-if="
-                           feed.message &&
+                            feed.message &&
                             feed.user &&
                             feed.user.id == $store.getters.member.id
                           "
@@ -612,7 +630,7 @@
                     </div>
                     <div class="text-left feed_text px-3">
                       <div
-                      v-if="feed.message"
+                        v-if="feed.message"
                         class="mb-1"
                         v-html="$options.filters.tagsfilter(feed.message)"
                       ></div>
@@ -646,7 +664,7 @@
                         <b-icon
                           font-scale="1.3"
                           :icon="feed.isLiked ? 'heart-fill' : 'heart'"
-                          :class="feed.isLiked ? 'text-danger' : ''"
+                          class="text-danger"
                         ></b-icon>
                       </span>
 
@@ -657,10 +675,11 @@
                           class="mr-1"
                         ></b-icon>
                         <span
-                          ><span>{{ feed.commentCount }}</span></span
+                          ><span>{{
+                            feed.commentCount ? feed.commentCount : ""
+                          }}</span></span
                         >
-                        comments</span
-                      >
+                      </span>
                       <span class="cursor-pointer flex-1 text-right"
                         ><b-icon
                           @click="sharenow(feed)"
@@ -681,7 +700,7 @@
                     </div>
 
                     <div
-                      class="comments px-3 pt-2 border-bottom text-left"
+                      class="comments px-3 pt-2 text-left"
                       style="line-height: 1.6"
                       v-if="feed.commentCount"
                     >
@@ -720,6 +739,9 @@
                           </div>
                           <div>
                             <small>
+                              <span class="mr-1">{{
+                                item.likeCount ? item.likeCount : ""
+                              }}</span>
                               <b-icon
                                 class="mr-2 text-danger"
                                 :icon="item.isLiked ? 'heart-fill' : 'heart'"
@@ -741,7 +763,7 @@
                       </div>
                     </div>
 
-                    <div class="interact text-left py-1">
+                    <div class="interact text-left py-1 border-top">
                       <b-input-group class="">
                         <template #append>
                           <b-input-group-text
@@ -1203,10 +1225,7 @@ export default {
         return true;
       }
     },
-    likefeedcomment(id, index, idx, userId) {
-      if (this.$store.getters.member.id != userId) {
-        return;
-      }
+    likefeedcomment(id, index, idx) {
       this.$http
         .post(
           `${this.$store.getters.url}/feed/comment/like`,
@@ -1229,10 +1248,7 @@ export default {
           this.getrecentfeeds();
         });
     },
-    likecomment(id, index, userId) {
-      if (this.$store.getters.member.id != userId) {
-        return;
-      }
+    likecomment(id, index) {
       this.$http
         .post(
           `${this.$store.getters.url}/feed/comment/like`,
@@ -1255,10 +1271,7 @@ export default {
           this.getrecentfeeds();
         });
     },
-    likecommentreply(id, index, idx, userId) {
-      if (this.$store.getters.member.id != userId) {
-        return;
-      }
+    likecommentreply(id, index, idx) {
       this.$http
         .post(
           `${this.$store.getters.url}/feed/comment/reply/like`,
@@ -1685,6 +1698,52 @@ export default {
               if (res.status == 200) {
                 this.$toast.success("Feed deleted");
                 this.filteredFeeds.splice(index, 1);
+              }
+            })
+            .catch((err) => {
+              this.$toast.error(err.response.data.message);
+            });
+        }
+      });
+    },
+    dropcomment(id, index) {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+        if (val) {
+          this.$http
+            .delete(`${this.$store.getters.url}/feed-comments/${id}`, {
+              headers: {
+                Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+              },
+            })
+            .then((res) => {
+              if (res.status == 200) {
+                this.$toast.success("Removed");
+                this.allcomments.splice(index, 1);
+                this.getcustomfeeds();
+                this.getrecentfeeds();
+              }
+            })
+            .catch((err) => {
+              this.$toast.error(err.response.data.message);
+            });
+        }
+      });
+    },
+    dropcommentreply(id, idx, index) {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+        if (val) {
+          this.$http
+            .delete(`${this.$store.getters.url}/feed/comment/reply/${id}`, {
+              headers: {
+                Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+              },
+            })
+            .then((res) => {
+              if (res.status == 200) {
+                this.$toast.success(" deleted");
+                this.getcustomfeeds();
+                this.getrecentfeeds();
+                this.allcomments[idx].feedcommentreplies.splice(index, 1);
               }
             })
             .catch((err) => {

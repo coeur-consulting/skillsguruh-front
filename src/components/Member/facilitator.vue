@@ -1565,9 +1565,7 @@ export default {
         this.$toast.info("Login to complete action");
         return;
       }
-      if (this.$store.getters.member.id != this.id) {
-        return;
-      }
+
       this.$http
         .post(
           `${this.$store.getters.url}/feed/comment/like`,
@@ -1594,9 +1592,7 @@ export default {
         this.$toast.info("Login to complete action");
         return;
       }
-      if (this.$store.getters.member.id != this.id) {
-        return;
-      }
+
       this.$http
         .post(
           `${this.$store.getters.url}/feed/comment/reply/like`,
