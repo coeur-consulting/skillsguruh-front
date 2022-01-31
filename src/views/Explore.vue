@@ -718,7 +718,7 @@
                       </div>
                     </div>
 
-                    <div class="interact text-left pb-1 px-2">
+                    <div class="interact text-left py-1 border">
                       <b-input-group class="mt-1">
                         <template #append>
                           <b-input-group-text

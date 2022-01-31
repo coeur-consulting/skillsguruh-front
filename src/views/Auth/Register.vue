@@ -99,7 +99,7 @@
                 </b-form-row>
                 <b-form-row class="mb-3">
 
-                  <b-col md="4">
+                  <b-col md="6">
                     <b-form-group>
                       <b-form-input
                         size="lg"
@@ -121,7 +121,7 @@
                       </b-form-valid-feedback>
                     </b-form-group>
                   </b-col>
-                    <b-col md="4">
+                    <b-col md="6">
                     <b-form-group>
                       <b-form-input
                         size="lg"
@@ -144,13 +144,13 @@
                       </b-form-valid-feedback>
                     </b-form-group>
                   </b-col>
-                   <b-col md="4">
+                   <b-col md="7" class="mt-sm-3">
                     <b-form-group>
                       <b-form-input
                         size="lg"
                         class="custom"
                         v-model="user.referral"
-                        type="tel"
+                        type="text"
                         placeholder="Referral"
                         id="code"
                       ></b-form-input>
@@ -431,7 +431,9 @@ export default {
   height: 100vh;
   overflow: hidden;
 }
-
+.form-control-lg {
+    font-size: .8rem;
+}
 ::placeholder {
   font-size: 0.7rem;
 }

@@ -2,7 +2,7 @@
   <b-container class="py-5 text-left">
     <b-row>
       <b-col sm="7" v-if="showRef">
-        <div class="box border p-3 p-sm-4 mb-4">
+        <div class="box border py-3 px-2 py-sm-4 px-sm-3 mb-4">
           <h6 class="mb-4">Invite Friends and Earn Points</h6>
 
           <div class="mb-3">
@@ -14,9 +14,10 @@
                 ></b-img
               ></b-col>
               <b-col sm="12">
-                <p>
-                  Refer your friends to nzukoor and earn bonus point we also
-                  give your friends bonus because we value your friendship
+                <p class="fs14">
+                  Refer your friends to nzukoor and earn bonus points.
+                  <!-- we also
+                  give your friends bonus because we value your friendship -->
                 </p>
                 <b-form
                   class="text-center p-3 mb-4"
@@ -75,96 +76,33 @@
                     </div>
                   </div>
                 </b-form>
-
-                <!-- <div class="d-none d-md-block">
-                  <b-row class="justify-content-center">
-                    <div class="mr-4">
-                      <b-img
-                        width="20"
-                        :src="require('@/assets/images/twitter.png')"
-                      ></b-img>
-                    </div>
-                    <div class="mr-4">
-                      <b-img
-                        width="20"
-                        :src="require('@/assets/images/linked.png')"
-                      ></b-img>
-                    </div>
-                    <div class="mr-4">
-                      <b-img
-                        width="20"
-                        :src="require('@/assets/images/fb.png')"
-                      ></b-img>
-                    </div>
-                    <div>
-                      <b-img
-                        width="20"
-                        :src="require('@/assets/images/google.png')"
-                      ></b-img>
-                    </div>
-                  </b-row>
-                </div> -->
               </b-col>
             </b-row>
-            <div class="p-3 text-center mb-4">
+            <div class="py-3 px-2 text-center mb-4">
               <h6>Your referral link</h6>
               <div
-                class="px-3 py-2 d-flex align-items-center search bg-light mb-3"
+                class="px-2 py-2 d-flex align-items-center search bg-light mb-3"
               >
-                <b-icon icon="link45deg" font-scale="1.5rem"></b-icon>
                 <b-form-input
                   v-model="message"
                   readonly
-                  class="flex-1 border-0 no-focus search-bg"
+                  class="flex-1 border-0 no-focus search-bg fs12"
                 >
                 </b-form-input>
-              </div>
-              <div>
                 <b-button
                   size="sm"
-                  variant="lighter-green"
+                  variant="dark-green"
                   type="button"
                   v-clipboard:copy="message"
                   v-clipboard:success="onCopy"
                   v-clipboard:error="onError"
-                  class="rounded px-4"
-                  >Copy link</b-button
+                  class="fs13"
+                  >Copy</b-button
                 >
               </div>
             </div>
           </div>
         </div>
-
-        <!-- <div class="box border text-left mb-4" v-if="communities_link">
-          <h6 class="mb-4 py-2 px-3">Course Referral Links</h6>
-          <b-table-simple class="border-top-0" responsive v-if="showCommunity">
-            <b-thead class="border-0">
-              <b-tr>
-                <b-th class="fs14">Course</b-th>
-                <b-th class="fs14">Referral link</b-th>
-              </b-tr>
-            </b-thead>
-            <b-tbody>
-              <b-tr v-for="item in communities_link" :key="item.id">
-                <b-td class="fs13">{{ item.course.title }}</b-td>
-                <b-td
-                  class="fs13 cursor-copy"
-                  v-clipboard:copy="`https://nzukoor.com/invite/${item.code}`"
-                  v-clipboard:success="onCopy"
-                  >{{ `https://nzukoor.com/invite/${item.code}` }}</b-td
-                >
-              </b-tr>
-            </b-tbody>
-          </b-table-simple>
-
-          <div v-else>
-            <b-skeleton-table
-              :rows="3"
-              :columns="2"
-              :table-props="{ bordered: true, striped: true }"
-            ></b-skeleton-table>
-          </div>
-        </div> -->
       </b-col>
       <b-col sm="7" v-else class="p-5">
         <div class="d-flex w-100 mb-3 border">
@@ -195,32 +133,36 @@
       </b-col>
       <b-col sm="5">
         <div class="box">
-          <h5 class="py-2 px-3">Referral List</h5>
+          <h5 class="py-2">Referral History</h5>
+          <div class="mb-1">
+            <small class="text-muted">Your earnings</small>
+            <p>{{ referrals.length * 200 }}</p>
+          </div>
+          <div class="mb-3">
+            <small class="text-muted">Total referrals</small>
+            <p>{{ referrals.length }}</p>
+          </div>
           <div class="" v-if="showReferral">
             <b-table-simple v-if="referrals.length">
               <b-thead>
                 <b-tr>
-                  <b-th class="fs14">Name</b-th>
-                  <b-th class="fs14">Earning</b-th>
+                  <b-th class="fs13">Username</b-th>
                 </b-tr>
               </b-thead>
               <b-tbody>
                 <b-tr v-for="item in referrals" :key="item.id">
-                  <b-td class="text-capitalize">{{
+                  <b-td class="text-capitalize fs13">{{
                     item.member_detail.username
                   }}</b-td>
-                  <b-td class="fs14">200 points</b-td>
                 </b-tr>
                 <b-tr>
-                  <b-td>Total earnings</b-td>
-                  <b-td class="text-dark-green fs14">
-                    {{ referrals.length * 200 }} points</b-td
+                  <b-td class="fs13"
+                    >Total earnings :
+                    <span> {{ referrals.length * 200 }} points</span></b-td
                   >
                 </b-tr>
               </b-tbody>
             </b-table-simple>
-
-            <h6 v-else class="text-center text-muted">No Data Available</h6>
           </div>
 
           <div v-else>
@@ -258,7 +200,7 @@ export default {
   },
   mounted() {
     this.getreferrals();
-    this.getcommunity();
+
     this.message = `https://nzukoor.com/invite/${this.$store.getters.member.referral}`;
   },
   methods: {
@@ -285,23 +227,7 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
-    getcommunity() {
-      this.$http
-        .get(`${this.$store.getters.url}/add-community`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 200) {
-            this.communities_link = res.data;
-            this.showCommunity = true;
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
-        });
-    },
+
     sendInvite() {
       var data = {
         emails: this.inviteUsers.users,
@@ -317,6 +243,14 @@ export default {
           if (res.status == 200) {
             this.$toast.success("Invite sent");
             this.email = "";
+            this.invitedUsers = {
+              code: "",
+              users: [
+                {
+                  email: "",
+                },
+              ],
+            };
           }
         })
         .catch((err) => {
@@ -326,9 +260,9 @@ export default {
     onCopy: function (e) {
       alert("You just copied the following text to the clipboard: " + e.text);
     },
-    onError: function (e) {
+    onError: function () {
       alert("Failed to copy the text to the clipboard");
-      console.log(e);
+
     },
   },
 };

@@ -105,6 +105,22 @@
           >
           <b-icon v-if="type == 'analytics'" icon="chevron-right"></b-icon>
         </div>
+         <div
+          class="px-2 mb-3 fs12 cursor-pointer d-flex"
+          :class="{ 'font-weight-bold': type == 'referrals' }"
+          @click="type = 'referrals'"
+        >
+          <span class="flex-1">
+            <b-icon
+              class="mr-2"
+              :icon="
+                type == 'referrals' ? 'person-plus-fill' : 'person-plus'
+              "
+            ></b-icon>
+            <span>Referral program</span></span
+          >
+          <b-icon v-if="type == 'referrals'" icon="chevron-right"></b-icon>
+        </div>
         <div
           class="px-2 fs12 cursor-pointer d-flex"
           :class="{ 'font-weight-bold': type == 'additional' }"
@@ -121,6 +137,9 @@
         </div>
       </b-col>
       <b-col sm="8" class="sideB py-3">
+        <div v-if="type == 'referrals'" class="py-4">
+            <Referral />
+        </div>
         <div v-if="type == 'analytics'" class="py-4">
           <b-row>
             <b-col md="6" class="p-3">
@@ -714,6 +733,7 @@
 <script>
 import Upload from "../fileupload";
 import Interest from "../InterestComponent";
+import Referral from  "./referrals"
 export default {
   data() {
     return {
@@ -857,20 +877,20 @@ export default {
   components: {
     Upload,
     Interest,
+    Referral
   },
   watch: {
     bank_id: "handleBank",
   },
   created() {
-    this.getbanks();
-
-  },
-  mounted() {
     window.document.title = `${this.$store.getters.member.name} | Nzukoor`;
-    this.getanalytics();
-    this.getuser();
-    this.gettriberequests();
+    this.getbanks().then(() => {
+      this.getanalytics();
+      this.getuser();
+      this.gettriberequests();
+    });
   },
+
   computed: {
     genderseries() {
       return this.analytics.gender;
@@ -985,10 +1005,12 @@ export default {
           this.requests = res.data;
         });
     },
-    getbanks() {
-      this.$http.get(`${this.$store.getters.url}/get/banks`).then((res) => {
-        this.banks = res.data;
-      });
+    async getbanks() {
+      return this.$http
+        .get(`${this.$store.getters.url}/get/banks`)
+        .then((res) => {
+          this.banks = res.data;
+        });
     },
     accept(item, response) {
       this.$http

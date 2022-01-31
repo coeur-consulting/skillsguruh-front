@@ -4,7 +4,7 @@
       <div class="cursor-pointer d-flex align-items-center">
         <b-form-file
           type="file"
-          class="form-control mr-3"
+          class="form-control mr-3 border-0"
           id="logo"
           aria-describedby="helpId"
           placeholder="Choose an image"

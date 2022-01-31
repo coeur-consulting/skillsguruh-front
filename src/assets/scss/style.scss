@@ -992,7 +992,11 @@ ol.subquest {
   position: relative;
   width: 95%;
 }
-
+.interact{
+  border-radius: 20px;
+    width: 98%;
+    margin: 0.5rem auto;
+}
 .interactions {
   font-size: 14px;
   display: flex;

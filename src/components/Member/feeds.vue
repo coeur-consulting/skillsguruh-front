@@ -763,7 +763,7 @@
                       </div>
                     </div>
 
-                    <div class="interact text-left py-1 border-top">
+                    <div class="interact text-left py-1 border">
                       <b-input-group class="">
                         <template #append>
                           <b-input-group-text

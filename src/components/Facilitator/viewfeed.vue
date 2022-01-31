@@ -331,7 +331,7 @@
                       {{ $moment(feed.created_at).fromNow() }}
                     </div>
                   </div>
-                  <div class="interact text-left">
+                  <div class="interact text-left py-1 border">
                     <b-input-group class="py-2">
                       <template #append>
                         <b-input-group-text

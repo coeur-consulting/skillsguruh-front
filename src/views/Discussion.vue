@@ -1101,12 +1101,12 @@
     </div>
 
     <div class="tribe_join animated animate_fadeIn" v-show="toggleJoin">
-      <div class="position-absolute p-3 p-md-5 shadow rounded bg-white">
-        <span class="cancel">
+      <div class="position-absolute p-3 p-md-5  rounded bg-white">
+        <span class="cancel"  @click="toggleJoin = !toggleJoin">
           <b-icon
             icon="x"
             class="text-white"
-            @click="toggleJoin = !toggleJoin"
+
           ></b-icon>
         </span>
         <div class="mb-4 text-center font-weight-bold text-dark-green">
