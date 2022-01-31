@@ -136,7 +136,7 @@
           <h5 class="py-2">Referral History</h5>
           <div class="mb-1">
             <small class="text-muted">Your earnings</small>
-            <p>{{ referrals.length * 200 }}</p>
+            <p>{{ referrals.length * 5  | currencyFormat}}</p>
           </div>
           <div class="mb-3">
             <small class="text-muted">Total referrals</small>
@@ -155,12 +155,7 @@
                     item.member_detail.username
                   }}</b-td>
                 </b-tr>
-                <b-tr>
-                  <b-td class="fs13"
-                    >Total earnings :
-                    <span> {{ referrals.length * 200 }} points</span></b-td
-                  >
-                </b-tr>
+              
               </b-tbody>
             </b-table-simple>
           </div>

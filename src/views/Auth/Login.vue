@@ -371,7 +371,9 @@ export default {
   height: 100vh;
   overflow: hidden;
 }
-
+.form-control-lg {
+    font-size: .85rem;
+}
 .side {
   text-align: center;
   background-image: url("/img/auth.png");
