@@ -43,6 +43,7 @@
           <div
             class="shadow-sm rounded bg-white search_box p-3"
             v-show="query.length"
+             v-click-outside="hide"
           >
             <div v-if="!groupedUsers.length">
               <span class="text-muted search_result fs11">
@@ -668,6 +669,8 @@ import { Translator } from "vue-google-translate";
 import { bus } from "@/main.js";
 import { mapGetters } from "vuex";
 import _ from "lodash";
+import ClickOutside from 'vue-click-outside'
+
 import {
   faCircle,
   faBell,
@@ -724,6 +727,10 @@ export default {
   components: {
     LogOutIcon,
     Translator,
+
+  },
+    directives: {
+    ClickOutside
   },
   watch: {
     $route: "getnotification",
@@ -904,6 +911,10 @@ export default {
     },
   },
   methods: {
+    hide(){
+      console.log('click');
+      this.query =''
+    },
     searchUsers() {
       if(!this.query.length) return
       this.$store.dispatch("SEARCH_USERS", this.query);

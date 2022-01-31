@@ -863,12 +863,13 @@ export default {
   },
   created() {
     this.getbanks();
-    this.getanalytics();
-    this.getuser();
-    this.gettriberequests();
+
   },
   mounted() {
     window.document.title = `${this.$store.getters.member.name} | Nzukoor`;
+    this.getanalytics();
+    this.getuser();
+    this.gettriberequests();
   },
   computed: {
     genderseries() {

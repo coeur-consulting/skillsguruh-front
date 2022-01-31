@@ -16,7 +16,7 @@
           v-for="interest in filteredInterest"
           :key="interest.value"
           class="mb-4 px-1"
-          style="min-width: 140px"
+
         >
           <div
             class="
@@ -54,11 +54,11 @@
         </div>
       </b-row>
 
-      <div class="text-center" v-if="initial != 60">
+      <!-- <div class="text-center" v-if="initial != 60">
         <span @click="loadMore" class="fs12 cursor-pointer text-muted"
           >Load more</span
         >
-      </div>
+      </div> -->
 
       <div class="text-center my-4">
         <b-button
@@ -92,13 +92,9 @@ export default {
   },
   created() {
     this.interests = Interest;
+    this.selected_interests = this.$store.getters.member.interests;
 
-    if (this.$props.type == "member") {
-      this.selected_interests = this.$store.getters.member.interests || [];
-    }
-    if (this.$props.type == "facilitator") {
-      this.selected_interests = this.$store.getters.facilitator.interests || [];
-    }
+
   },
   computed: {
     filteredInterest() {
@@ -106,7 +102,7 @@ export default {
         .filter((item) =>
           item.value.toLowerCase().includes(this.search.toLowerCase())
         )
-        .slice(0, this.initial);
+        ;
     },
   },
   methods: {
@@ -171,7 +167,8 @@ export default {
   left: 20px;
 }
 .disabled {
-  opacity: 0.5;
+  opacity: 0.65;
+  background-color:rgba(0,0,0,.5) !important;
 }
 span.value_1 {
   font-size: 0.6rem;
