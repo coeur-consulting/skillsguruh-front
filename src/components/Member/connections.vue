@@ -101,7 +101,7 @@
                       <b-avatar
                         class="mr-2"
                         size="2rem"
-                        :src="item.profile"
+                        :src="item.user_follower.profile"
                       ></b-avatar>
                       <div>
                         <div
