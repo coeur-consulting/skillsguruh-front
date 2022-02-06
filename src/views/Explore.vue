@@ -547,7 +547,10 @@
                         class="no-focus"
                       >
                         <template #button-content>
-                          <b-icon icon="three-dots" font-scale="1.4"></b-icon>
+                          <b-icon
+                            icon="three-dots-vertical"
+                            font-scale="1.4"
+                          ></b-icon>
                         </template>
                         <b-dropdown-item
                           class="fs12"
@@ -598,27 +601,8 @@
                       >
                         <b-icon
                           font-scale="1.3"
-                          :icon="
-                            feed.likes
-                              .filter((item) => item.like)
-                              .find(
-                                (item) =>
-                                  item.user_id == $store.getters.member.id
-                              )
-                              ? 'heart-fill'
-                              : 'heart'
-                          "
-                          class="mr-1"
-                          :class="
-                            feed.likes
-                              .filter((item) => item.like)
-                              .find(
-                                (item) =>
-                                  item.user_id == $store.getters.member.id
-                              )
-                              ? 'text-danger'
-                              : ''
-                          "
+                          :icon="feed.isLiked ? 'heart-fill' : 'heart'"
+                          class="mr-1 text-danger"
                         ></b-icon>
                       </span>
 
@@ -669,15 +653,13 @@
                           feed.comments.length > 1 ? "comments" : "comment"
                         }}</span
                       >
-                      <div class="all_comment" style="line-height:1">
+                      <div class="all_comment" style="line-height: 1">
                         <div
                           class="comment d-flex text-left mb-1"
-
                           v-for="item in feed.comments.slice(0, 2)"
                           :key="item.id"
                         >
                           <div class="flex-1 pr-2">
-
                             <span
                               class="comment_name mr-2 hover_green"
                               @click="
@@ -688,21 +670,20 @@
                               {{ item.user.username }}</span
                             >
 
-                            <span class="comment_text"   v-html="$options.filters.tagsfilter(item.comment)"></span>
+                            <span
+                              class="comment_text"
+                              v-html="$options.filters.tagsfilter(item.comment)"
+                            ></span>
                           </div>
                           <div>
                             <div>
                               <small>
+                                <span class="mr-1">{{
+                                  item.likeCount ? item.likeCount : ""
+                                }}</span>
                                 <b-icon
-                                  class="mr-2"
-                                  :icon="
-                                    item.feedcommentlikes
-                                      ? 'heart-fill'
-                                      : 'heart'
-                                  "
-                                  :class="
-                                    item.feedcommentlikes ? 'text-danger' : ''
-                                  "
+                                  class="mr-2 text-danger"
+                                  :icon="item.isLiked ? 'heart-fill' : 'heart'"
                                 ></b-icon>
                               </small>
                             </div>
@@ -1096,19 +1077,13 @@
                           >Reply
                         </small>
 
-                        <small
-                          v-if="
-                            (allcomments.user &&
-                              allcomments.user.id ==
-                                $store.getters.member.id) ||
-                            $store.getters.member.id == item.user.id
-                          "
-                        >
+                        <small>
+                          <span class="mr-1">{{
+                            item.likeCount ? item.likeCount : ""
+                          }}</span>
                           <b-icon
-                            :icon="
-                              item.feedcommentlikes ? 'heart-fill' : 'heart'
-                            "
-                            :class="item.feedcommentlikes ? 'text-danger' : ''"
+                            :icon="item.isLiked ? 'heart-fill' : 'heart'"
+                            class="text-danger"
                             @click="likecomment(item.id, index, item.user.id)"
                           ></b-icon>
                         </small>
@@ -1163,16 +1138,13 @@
                                 rep.message
                               }}</span>
                             </p>
-                            <span
-                              ><b-icon
-                                :icon="
-                                  rep.feedcommentreplylikes
-                                    ? 'heart-fill'
-                                    : 'heart'
-                                "
-                                :class="
-                                  rep.feedcommentreplylikes ? 'text-danger' : ''
-                                "
+                            <span>
+                              <span class="mr-1">{{
+                                rep.likeCount ? rep.likeCount : ""
+                              }}</span>
+                              <b-icon
+                                :icon="rep.isLiked ? 'heart-fill' : 'heart'"
+                                class="text-danger"
                                 @click="
                                   likecommentreply(
                                     rep.id,
@@ -1615,9 +1587,9 @@ export default {
         )
         .then((res) => {
           if (res.data === "success") {
-            this.allcomments.comments[index].feedcommentlikes = res.data;
+            this.allcomments.comments[index].isLiked = res.data;
           } else {
-            this.allcomments.comments[index].feedcommentlikes = null;
+            this.allcomments.comments[index].isLiked = null;
           }
 
           this.gettrendingfeeds();
@@ -1641,13 +1613,11 @@ export default {
         )
         .then((res) => {
           if (res.data === "success") {
-            this.allcomments.comments[idx].feedcommentreplies[
-              index
-            ].feedcommentreplylikes = res.data;
+            this.allcomments.comments[idx].feedcommentreplies[index].isLiked =
+              res.data;
           } else {
-            this.allcomments.comments[idx].feedcommentreplies[
-              index
-            ].feedcommentreplylikes = null;
+            this.allcomments.comments[idx].feedcommentreplies[index].isLiked =
+              null;
           }
         });
     },
@@ -1728,7 +1698,11 @@ export default {
     // },
     getTrendingFeeds() {
       this.$http
-        .get(`${this.$store.getters.url}/guest/trending/feeds`)
+        .get(`${this.$store.getters.url}/guest/trending/feeds`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
         .then((res) => {
           if (res.status == 200) {
             this.trendingFeed = res.data;
@@ -1737,7 +1711,11 @@ export default {
     },
     gettrendingfeeds() {
       this.$http
-        .get(`${this.$store.getters.url}/trending/feeds`)
+        .get(`${this.$store.getters.url}/explore/trending/feeds`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
         .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.feeds = res.data.data;
@@ -1885,24 +1863,16 @@ export default {
           }
         )
         .then((res) => {
-          if (res.status == 201) {
+          if (res.status == 201 || res.status == 200) {
+            this.disabled = false;
             this.likeimage(index);
-            this.filteredFeeds[index].likes.push(res.data);
-          }
-          if (res.status == 200) {
-            this.likeimage(index);
-            this.filteredFeeds[index].likes.map((item) => {
-              if (this.$store.getters.facilitator.access_token) {
-                if (item.facilitator_id == this.$store.getters.facilitator.id) {
-                  return (item.like = res.data.like);
-                }
-              }
-              if (this.$store.getters.member.access_token) {
-                if (item.user_id == this.$store.getters.member.id) {
-                  return (item.like = res.data.like);
-                }
-              }
-            });
+            this.filteredFeeds[index].isLiked = res.data.like;
+            this.filteredFeeds[index].likes = res.data.feed.likes;
+            if (res.data.like) {
+              this.filteredFeeds[index].likesCount++;
+            } else {
+              this.filteredFeeds[index].likesCount--;
+            }
           }
         })
         .catch((err) => {

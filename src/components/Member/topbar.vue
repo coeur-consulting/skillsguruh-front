@@ -46,7 +46,7 @@
               <span class="side-link px-2">Dashboard</span>
             </div>
           </router-link>
-          <router-link to="/me/connections">
+          <router-link to="/member/connections">
             <div class="side_item">
               <link-icon size="1.2x" class="custom-class"></link-icon>
               <span class="side-link px-2">Connections</span>
@@ -244,9 +244,12 @@
                       : ''
                   "
                 >
-                  <span v-if="lastMessage(message).message" class="text-muted" v-html="lastMessage(message).message">
-                   </span
+                  <span
+                    v-if="lastMessage(message).message"
+                    class="text-muted"
+                    v-html="lastMessage(message).message"
                   >
+                  </span>
                   <span v-else class="text-muted fs11"
                     ><i>Sent attachment</i></span
                   >
@@ -308,7 +311,7 @@ import {
   BookmarkIcon,
   DatabaseIcon,
   CreditCardIcon,
-  LogOutIcon,
+  LogOutIcon
 } from "vue-feather-icons";
 export default {
   components: {
@@ -326,7 +329,7 @@ export default {
     LinkIcon,
     BookmarkIcon,
     CreditCardIcon,
-    LogOutIcon,
+    LogOutIcon
   },
   data() {
     return {
@@ -340,19 +343,19 @@ export default {
 
       current: {
         id: "",
-        type: "",
+        type: ""
       },
       mini_info: {
         id: "",
         name: "",
         type: "",
-        profile: "",
-      },
+        profile: ""
+      }
     };
   },
 
   watch: {
-    $route: "close",
+    $route: "close"
   },
   methods: {
     close() {
@@ -363,7 +366,7 @@ export default {
         id: "",
         name: "",
         type: "",
-        profile: "",
+        profile: ""
       };
     },
     logout() {
@@ -373,12 +376,12 @@ export default {
     markread() {
       this.$http.get(`${this.$store.getters.url}/mark-notifications`, {
         headers: {
-          Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-        },
+          Authorization: `Bearer ${this.$store.getters.member.access_token}`
+        }
       });
     },
     lastMessage(info) {
-      var mess = this.sortmessages.filter((item) => {
+      var mess = this.sortmessages.filter(item => {
         if (info.type == "user" && item.user && item.user.id == info.id) {
           return item;
         }
@@ -409,23 +412,23 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/inboxes`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.sortmessages(res.data.reverse());
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
-    },
+    }
   },
   computed: {
     unreadmesages() {
       return this.inboxes.filter(
-        (item) =>
+        item =>
           !item.status &&
           item.receiver_id == this.$store.getters.member.id &&
           item.receiver == "user"
@@ -438,14 +441,13 @@ export default {
       return this.$store.getters.notifications;
     },
     unreadnotifications() {
-      return this.$store.getters.notifications.filter((item) => !item.read_at);
+      return this.$store.getters.notifications.filter(item => !item.read_at);
     },
     sortmessages() {
-      return this.inboxes.map((item) => {
+      return this.inboxes.map(item => {
         var info = {};
 
         if (item.user_id && item.user_id == this.$store.getters.member.id) {
-
           info.user = item.receiver_info || null;
 
           info.message = item.message || null;
@@ -458,7 +460,6 @@ export default {
           item.receiver == "user" &&
           item.receiver_id == this.$store.getters.member.id
         ) {
-
           info.user = item.user || null;
 
           info.message = item.message || null;
@@ -471,7 +472,7 @@ export default {
       });
     },
     chatter() {
-      var allnames = this.sortmessages.map((item) => {
+      var allnames = this.sortmessages.map(item => {
         var checkers = {};
 
         if (item.user && item.user.id != this.$store.getters.member.id) {
@@ -485,23 +486,26 @@ export default {
           return checkers;
         }
       });
-      console.log("🚀 ~ file: topbar.vue ~ line 488 ~ allnames ~ allnames", allnames)
+      console.log(
+        "🚀 ~ file: topbar.vue ~ line 488 ~ allnames ~ allnames",
+        allnames
+      );
       return [
         ...new Set(
           allnames
-            .filter((item) => item)
-            .map((item) => {
+            .filter(item => item)
+            .map(item => {
               return JSON.stringify({
                 name: item.name,
                 id: item.id,
                 type: item.type,
-                profile: item.profile,
+                profile: item.profile
               });
             })
-        ),
-      ].map((item) => JSON.parse(item));
-    },
-  },
+        )
+      ].map(item => JSON.parse(item));
+    }
+  }
 };
 </script>
 <style scoped>

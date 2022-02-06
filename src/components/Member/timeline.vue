@@ -422,12 +422,12 @@
                               </span>
                             </div>
                             <div class="d-flex align-items-center">
-                             <div
-                        v-if="feed.likesCount"
-                        class="liked_by px-3 border-bottom"
-                        @click="showlikes(feed)"
-                        v-html="getlikes(feed.likesCount)"
-                      ></div>
+                              <div
+                                v-if="feed.likesCount"
+                                class="liked_by px-3 border-bottom"
+                                @click="showlikes(feed)"
+                                v-html="getlikes(feed.likesCount)"
+                              ></div>
                             </div>
 
                             <div
@@ -1711,12 +1711,9 @@ export default {
       this.$bvModal.show("alllikes");
     },
     getlikes(item) {
-
-
-       return item>1? `${item} people liked this post`:`${item} person liked this post`;
-
-
-
+      return item > 1
+        ? `${item} people liked this post`
+        : `${item} person liked this post`;
     },
     updateProfile() {
       this.getinfo();
@@ -1780,7 +1777,7 @@ export default {
 
     getdiscussions() {
       this.$http
-        .get(`${this.$store.getters.url}/me/discussions/${this.detail.id}`)
+        .get(`${this.$store.getters.url}/member/discussions/${this.detail.id}`)
         .then(res => {
           if (res.status == 200) {
             this.discussions = res.data;
@@ -1811,7 +1808,7 @@ export default {
     },
     getFeeds() {
       this.$http
-        .get(`${this.$store.getters.url}/me/feeds/${this.detail.id}`)
+        .get(`${this.$store.getters.url}/member/feeds/${this.detail.id}`)
         .then(res => {
           if (res.status == 200) {
             this.feeds = res.data;
@@ -1839,11 +1836,14 @@ export default {
     },
     getConnections() {
       this.$http
-        .get(`${this.$store.getters.url}/me/connections/${this.detail.id}`, {
-          headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`
+        .get(
+          `${this.$store.getters.url}/member/connections/${this.detail.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`
+            }
           }
-        })
+        )
         .then(res => {
           if (res.status == 200) {
             this.connections = res.data;

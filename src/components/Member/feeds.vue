@@ -252,6 +252,8 @@
                                 <b-icon
                                   :icon="item.isLiked ? 'heart-fill' : 'heart'"
                                   class="cursor-pointer text-danger"
+                                   v-b-tooltip.hover
+                        title="Like comment"
                                   @click="
                                     likecomment(item.id, index, commentUser.id)
                                   "
@@ -331,6 +333,8 @@
                                   rep.likeCount ? rep.likeCount : ""
                                 }}</span>
                                 <b-icon
+                                 v-b-tooltip.hover
+                        title="Like reply"
                                   :icon="rep.isLiked ? 'heart-fill' : 'heart'"
                                   class="text-danger"
                                   @click="likecommentreply(rep.id, index, id)"
@@ -380,7 +384,9 @@
               <b-col
                 cols="6"
                 class="comment d-flex text-left mb-2"
-                v-for="(item, index) in alllikes.likes.filter(val => val.like)"
+                v-for="(item, index) in alllikes.likes.filter(
+                  (val) => val.like
+                )"
                 :key="index"
               >
                 <div class="flex-1">
@@ -429,8 +435,8 @@
                   @click="$bvModal.show('feed')"
                   :placeholder="
                     'What\'s on your mind ' +
-                      $store.getters.member.username +
-                      '?'
+                    $store.getters.member.username +
+                    '?'
                   "
                 ></b-form-input>
               </div>
@@ -550,8 +556,8 @@
                         <b-dropdown-item
                           v-if="
                             feed.message &&
-                              feed.user &&
-                              feed.user.id == $store.getters.member.id
+                            feed.user &&
+                            feed.user.id == $store.getters.member.id
                           "
                           class="fs12"
                           @click="feededit(feed, index)"
@@ -563,7 +569,7 @@
                           @click="drop(feed.id, index)"
                           v-if="
                             feed.user &&
-                              feed.user.id == $store.getters.member.id
+                            feed.user.id == $store.getters.member.id
                           "
                           >Delete</b-dropdown-item
                         >
@@ -658,6 +664,8 @@
                         @click="toggleLike(feed.id, index)"
                       >
                         <b-icon
+                         v-b-tooltip.hover
+                        title="Like post"
                           font-scale="1.3"
                           :icon="feed.isLiked ? 'heart-fill' : 'heart'"
                           class="text-danger"
@@ -759,7 +767,7 @@
                       </div>
                     </div>
 
-                    <div class="interact text-left  border">
+                    <div class="interact text-left border">
                       <b-input-group class="">
                         <template #append>
                           <b-input-group-text
@@ -821,8 +829,9 @@
                                       <h5>{{ category }}</h5>
                                       <div class="emojis">
                                         <span
-                                          v-for="(emoji,
-                                          emojiName) in emojiGroup"
+                                          v-for="(
+                                            emoji, emojiName
+                                          ) in emojiGroup"
                                           :key="emojiName"
                                           @click="insert(emoji)"
                                           :title="emojiName"
@@ -841,7 +850,7 @@
                           type="text"
                           size="lg"
                           autocomplete="off"
-                          placeholder="Type a comment ..."
+                          placeholder="Leave a comment "
                           class="border-0 no-focus rounded-pill bg-light"
                         >
                           <a-mentions-option
@@ -1075,7 +1084,7 @@ export default {
         message: "",
         publicId: "",
         tags: [],
-        mediaType: ""
+        mediaType: "",
       },
       img_ext: ["jpg", "png", "jpeg", "gif"],
       vid_ext: ["mp4", "3gp", "flv", "mov"],
@@ -1083,20 +1092,20 @@ export default {
       doc_ext: ["docx", "pdf", "ppt", "zip"],
       comment: {
         comment: "",
-        id: ""
+        id: "",
       },
       mini_info: {
         id: "",
         name: "",
         type: "",
-        profile: ""
+        profile: "",
       },
       showFeeds: false,
       page: 1,
       alllikes: null,
       counter: 0,
       comment_index: null,
-      value: "@afc163"
+      value: "@afc163",
     };
   },
   components: {
@@ -1107,16 +1116,16 @@ export default {
     Feelings,
     Report,
     ViewMore,
-    MultiUpload
+    MultiUpload,
   },
   created() {
     this.$store.dispatch("GET_CONNECTIONS");
     var channel = this.$pusher.subscribe("addfeed");
 
-    channel.bind("addfeed", data => {
+    channel.bind("addfeed", (data) => {
       this.filteredFeeds.unshift(data.message);
     });
-    this.options = Interest.map(item => {
+    this.options = Interest.map((item) => {
       item.text = item.value;
 
       return item;
@@ -1124,7 +1133,7 @@ export default {
   },
   computed: {
     connections() {
-      return this.$store.getters.connections.map(item => item.username);
+      return this.$store.getters.connections.map((item) => item.username);
     },
     filteredFeeds() {
       if (this.feedShown == "recent" && this.recentfeeds.length) {
@@ -1151,7 +1160,7 @@ export default {
         return "member";
       }
       return token;
-    }
+    },
   },
   mounted() {
     this.getcustomfeeds();
@@ -1159,14 +1168,14 @@ export default {
     this.getrecentfeeds();
   },
   watch: {
-    feedShown: "toggleFeeds"
+    feedShown: "toggleFeeds",
   },
   directives: {
     focus: {
       inserted(el) {
         el.focus();
-      }
-    }
+      },
+    },
   },
   methods: {
     showFeedUpload(type, multiple) {
@@ -1192,10 +1201,10 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/feed/comments/${feed.id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.allcomments = res.data.data;
             this.commentFeed = feed.message;
@@ -1203,7 +1212,7 @@ export default {
             this.$bvModal.show("allcomments");
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1227,11 +1236,11 @@ export default {
           { feed_comment_id: id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.data === "success") {
             this.filteredFeeds[index].comments[idx].isLiked = true;
           } else {
@@ -1250,11 +1259,11 @@ export default {
           { feed_comment_id: id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.data === "success") {
             this.allcomments[index].isLiked = true;
           } else {
@@ -1273,11 +1282,11 @@ export default {
           { feed_comment_reply_id: id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.data === "success") {
             this.allcomments[index].feedcommentreplies[idx].isLiked = true;
           } else {
@@ -1294,16 +1303,16 @@ export default {
       var data = {
         feed_comment_id: this.replycomment.id,
         message: this.commentreply,
-        feed_id: this.replycomment.feed_id
+        feed_id: this.replycomment.feed_id,
       };
 
       this.$http
         .post(`${this.$store.getters.url}/feed/comment/reply`, data, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.disabled = false;
             this.$toast.success("Reply successful ");
@@ -1318,7 +1327,7 @@ export default {
             this.$bvModal.hide("replycomment");
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.disabled = false;
           this.$toast.error(err.response.data.message);
         });
@@ -1354,12 +1363,9 @@ export default {
       this.$bvModal.show("alllikes");
     },
     getlikes(item) {
-
-
-       return item>1? `${item} people liked this post`:`${item} person liked this post`;
-
-
-
+      return item > 1
+        ? `${item} people liked this post`
+        : `${item} person liked this post`;
     },
     toggle(id) {
       console.log("🚀 ~ file: feeds.vue ~ line 967 ~ toggle ~ id", id);
@@ -1384,10 +1390,10 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/feeds?page=${this.page}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.data.data.length) {
             this.page += 1;
             this.feeds.push(...res.data.data);
@@ -1443,15 +1449,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/get/feeds/tags`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.feedTags = res.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1460,15 +1466,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/trending/feeds`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.trendingfeeds = res.data.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1476,17 +1482,17 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/custom/feeds`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             if (res.data !== "empty") {
               this.customfeeds = res.data.data;
             }
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1494,10 +1500,10 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/recent/feeds`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             if (res.data !== "empty") {
               this.recentfeeds = res.data.data;
@@ -1506,7 +1512,7 @@ export default {
             this.showFeeds = true;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1518,10 +1524,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Feed Updated ");
             this.$bvModal.hide("feed");
@@ -1532,11 +1538,11 @@ export default {
               media: "",
               message: "",
               publicId: "",
-              tags: []
+              tags: [],
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.disabled = false;
           this.$toast.error(err.response.data.message);
         });
@@ -1546,10 +1552,10 @@ export default {
       this.$http
         .put(`${this.$store.getters.url}/feeds/${this.feed.id}`, this.feed, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.$toast.success("Feed Updated ");
             this.disabled = false;
@@ -1559,11 +1565,11 @@ export default {
               media: "",
               message: "",
               publicId: "",
-              tags: []
+              tags: [],
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.disabled = false;
           this.$toast.error(err.response.data.message);
         });
@@ -1580,10 +1586,10 @@ export default {
       this.$http
         .post(`${this.$store.getters.url}/feed-comments`, this.comment, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`
-          }
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.status == 201) {
             this.disabled = false;
             this.$toast.success("Comment updated ");
@@ -1594,11 +1600,11 @@ export default {
 
             this.comment = {
               comment: "",
-              id: ""
+              id: "",
             };
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.disabled = false;
           this.$toast.error(err.response.data.message);
         });
@@ -1611,19 +1617,24 @@ export default {
           { id },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`
-            }
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
           }
         )
-        .then(res => {
+        .then((res) => {
           if (res.status == 201 || res.status == 200) {
             this.disabled = false;
             this.likeimage(index);
             this.filteredFeeds[index].isLiked = res.data.like;
             this.filteredFeeds[index].likes = res.data.feed.likes;
+            if (res.data.like) {
+              this.filteredFeeds[index].likesCount++;
+            } else {
+              this.filteredFeeds[index].likesCount--;
+            }
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.disabled = false;
           this.$toast.error(err.response.data.message);
         });
@@ -1639,36 +1650,36 @@ export default {
       this.$bvModal.show("feededit");
     },
     drop(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/feeds/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.member.access_token}`
-              }
+                Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+              },
             })
-            .then(res => {
+            .then((res) => {
               if (res.status == 200) {
                 this.$toast.success("Feed deleted");
                 this.filteredFeeds.splice(index, 1);
               }
             })
-            .catch(err => {
+            .catch((err) => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
     },
     dropcomment(id, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/feed-comments/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.member.access_token}`
-              }
+                Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+              },
             })
-            .then(res => {
+            .then((res) => {
               if (res.status == 200) {
                 this.$toast.success("Removed");
                 this.allcomments.splice(index, 1);
@@ -1676,22 +1687,22 @@ export default {
                 this.getrecentfeeds();
               }
             })
-            .catch(err => {
+            .catch((err) => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
     },
     dropcommentreply(id, idx, index) {
-      this.$bvModal.msgBoxConfirm("Are you sure").then(val => {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
         if (val) {
           this.$http
             .delete(`${this.$store.getters.url}/feed/comment/reply/${id}`, {
               headers: {
-                Authorization: `Bearer ${this.$store.getters.member.access_token}`
-              }
+                Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+              },
             })
-            .then(res => {
+            .then((res) => {
               if (res.status == 200) {
                 this.$toast.success(" deleted");
                 this.getcustomfeeds();
@@ -1699,13 +1710,13 @@ export default {
                 this.allcomments[idx].feedcommentreplies.splice(index, 1);
               }
             })
-            .catch(err => {
+            .catch((err) => {
               this.$toast.error(err.response.data.message);
             });
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped lang="scss">

@@ -13,7 +13,7 @@
         <b-col>
           <b-card no-body class="">
             <b-row no-gutters>
-              <b-col md="8" class="text-left p-0 py-md-4 border-right">
+              <b-col md="7" class="text-left  px-md-0 py-md-4 border-right">
                 <div
                   class="
                     d-flex
@@ -67,29 +67,13 @@
                 </div>
                 <div>
                   <p
-                    class="px-3"
+                    class="p-3"
                     v-html="$options.filters.tagsfilter(feed.message)"
                   ></p>
                   <div v-if="feed.url" class="text-dark-green mb-1">
                     <a :href="feed.url" target="_blank">Click link</a>
                   </div>
-                  <!-- <div v-if="feed.tags" class="px-3 px-md-0 mb-1">
-                    <div class="d-flex justify-content-start">
-                      <b-col
-                        cols="auto"
-                        class="px-2 "
-                        v-for="(tag, id) in feed.tags"
-                        :key="id"
-                      >
-                        <b-badge
-                          class="fs10 text-dark font-weight-normal"
-                          size="sm"
-                          variant="lighter-green"
-                          >{{ tag.text }}</b-badge
-                        >
-                      </b-col>
-                    </div>
-                  </div> -->
+
                   <div class="px-1" v-if="feed.media && feed.media.length">
                     <div class="mb-4 position-relative w-100 media bg-white">
                       <b-carousel
@@ -126,7 +110,7 @@
                   </div>
                 </div>
               </b-col>
-              <b-col md="4">
+              <b-col md="5">
                 <b-card-body
                   class="text-left px-0 d-flex flex-column h-100 pb-0"
                 >
@@ -174,7 +158,7 @@
                   </div>
 
                   <hr />
-                  <div class="comments px-3 flex-1">
+                  <div class="comments py-2 px-3 flex-1">
                     <div v-if="feed.comments.length" class="comment_header">
                       View {{ feed.comments.length }}
                       {{ feed.comments.length > 1 ? "comments" : "comment" }}
@@ -182,8 +166,8 @@
                     <b-card-text
                       v-for="(comment, id) in feed.comments"
                       :key="id"
-                      style="line-height: 1.1"
-                      class="mb-1"
+                      style="line-height: 1"
+                      class="mb-2"
                     >
                       <span
                         class="comment_name mr-1"
@@ -206,26 +190,33 @@
                           align-items-center
                         "
                       >
-                        <div class="replyfeed">
-                          <small
-                            class="text-muted mr-2"
-                            @click="handlereplycomment(comment, id)"
-                            >Reply
-                          </small>
-                          <small
-                            v-if="
-                              (feed.user &&
-                                feed.user.id == $store.getters.member.id) ||
-                              $store.getters.member.id == comment.user.id
-                            "
-                          >
-                            <b-icon
-                              class="mr-2"
-                              :icon="comment.isLiked ? 'heart-fill' : 'heart'"
-                              :class="comment.isLiked ? 'text-danger' : ''"
-                              @click="likecomment(comment.id, id, feed.user.id)"
-                            ></b-icon>
-                          </small>
+                        <div class="replyfeed d-flex justify-content-between align-items-center">
+                          <span>
+                            <small
+                              class="text-muted mr-2"
+                              @click="handlereplycomment(comment, id)"
+                              >Reply
+                            </small>
+                            <small>
+                              <span class="mr-1">{{
+                                  comment.likeCount ? comment.likeCount : ""
+                                }}</span>
+                              <b-icon
+                                v-b-tooltip.hover
+                                title="Like comment"
+                                class="mr-2 text-danger"
+                                :icon="comment.isLiked ? 'heart-fill' : 'heart'"
+                                @click="likecomment(comment.id, id)"
+                              ></b-icon>
+                            </small>
+                          </span>
+
+                          <b-icon
+                            icon="trash"
+                             font-scale=".8"
+                            v-if="$store.getters.member.id === feed.user_id"
+                            @click="dropcomment(comment.id, id)"
+                          ></b-icon>
                         </div>
 
                         <div
@@ -246,35 +237,18 @@
                     </b-card-text>
                   </div>
                   <hr />
-                  <div class=" border-bottom ">
+                  <div class="border-bottom">
                     <div class="interactions text-left py-1 px-3">
                       <span
                         class="mr-2 cursor-pointer"
                         @click="toggleLike(feed.id)"
+                        v-b-tooltip.hover
+                        title="Like post"
                       >
                         <b-icon
                           font-scale="1.1"
-                          :icon="
-                            feed.likes
-                              .filter((item) => item.like)
-                              .find(
-                                (item) =>
-                                  item.user_id == $store.getters.member.id
-                              )
-                              ? 'heart-fill'
-                              : 'heart'
-                          "
-                          class="mr-1"
-                          :class="
-                            feed.likes
-                              .filter((item) => item.like)
-                              .find(
-                                (item) =>
-                                  item.user_id == $store.getters.member.id
-                              )
-                              ? 'text-danger'
-                              : ''
-                          "
+                          :icon="feed.isLiked ? 'heart-fill' : 'heart'"
+                          class="mr-1 text-danger"
                         ></b-icon>
                       </span>
 
@@ -287,8 +261,7 @@
                         <span
                           ><span>{{ feed.comments.length }}</span></span
                         >
-                        comments</span
-                      >
+                      </span>
                       <span class="cursor-pointer flex-1 text-right"
                         ><b-icon
                           @click="sharenow(feed)"
@@ -306,7 +279,7 @@
                       v-html="getlikes(feed.likesCount)"
                     ></div>
 
-                    <div class="fs12 text-muted py-1 px-3 text-right ">
+                    <div class="fs10 text-muted py-1 px-3 text-right">
                       {{ $moment(feed.created_at).fromNow() }}
                     </div>
                   </div>
@@ -318,7 +291,12 @@
                           class="border-0 bg-transparent d-block"
                           ><span
                             @click="addcomment(feed.id, index)"
-                            class="text-dark-green cursor-pointer comment_post fs14"
+                            class="
+                              text-dark-green
+                              cursor-pointer
+                              comment_post
+                              fs14
+                            "
                             >Post</span
                           ></b-input-group-text
                         >
@@ -379,7 +357,7 @@
                         v-model="comment.comment"
                         type="text"
                         autocomplete="off"
-                        placeholder="Type a comment ..."
+                        placeholder="Leave comment"
                         class="rounded-pill no-focus"
                       >
                         <a-mentions-option
@@ -560,7 +538,7 @@
           </span>
         </div>
         <div
-          class="font-weight-bold"
+          class="fs14"
           v-if="replycomment"
           v-html="$options.filters.tagsfilter(replycomment.comment)"
         ></div>
@@ -632,14 +610,27 @@
                     class="comment_text flex-1 d-flex align-items-center"
                     v-html="$options.filters.tagsfilter(rep.message)"
                   ></span>
-                  <span
-                    ><b-icon
-                      :icon="rep.isLiked ? 'heart-fill' : 'heart'"
-                      :class="rep.isLiked ? 'text-danger' : ''"
-                      @click="likecommentreply(rep.id, id)"
-                      font-scale=".5"
-                    ></b-icon
-                  ></span>
+                  <span>
+                    <span v-b-tooltip.hover title="Like reply" class="mr-2">
+                      <span class="mr-1">{{
+                                  rep.likeCount ? rep.likeCount : ""
+                                }}</span>
+                      <b-icon
+                        :icon="rep.isLiked ? 'heart-fill' : 'heart'"
+                        class="text-danger"
+                        @click="likecommentreply(rep.id, id)"
+                        font-scale=".8"
+                      ></b-icon
+                    ></span>
+                    <b-icon
+                      v-b-tooltip.hover
+                      title="Delete reply"
+                      icon="trash"
+                      font-scale=".8"
+                      v-if="$store.getters.member.id === rep.user_id"
+                      @click="dropcommentreply(rep.id, id)"
+                    ></b-icon>
+                  </span>
                 </span>
               </div>
             </div>
@@ -702,10 +693,7 @@ export default {
     },
   },
   methods: {
-    likecomment(id, index, userId) {
-      if (this.$store.getters.member.id != userId) {
-        return;
-      }
+    likecomment(id, index) {
       this.$http
         .post(
           `${this.$store.getters.url}/feed/comment/like`,
@@ -724,10 +712,8 @@ export default {
           }
         });
     },
+
     likecommentreply(id) {
-      if (this.$store.getters.member.id != this.feed.user.id) {
-        return;
-      }
       this.$http
         .post(
           `${this.$store.getters.url}/feed/comment/reply/like`,
@@ -830,7 +816,11 @@ export default {
 
     getfeeds() {
       this.$http
-        .get(`${this.$store.getters.url}/feeds/${this.id}`)
+        .get(`${this.$store.getters.url}/feeds/${this.id}`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
         .then((res) => {
           if (res.status == 200) {
             this.feed = res.data;
@@ -890,15 +880,8 @@ export default {
           }
         )
         .then((res) => {
-          if (res.status == 201) {
-            this.feed.likes.push(res.data);
-          }
-          if (res.status == 200) {
-            this.feed.likes.map((item) => {
-              if (item.user_id == this.$store.getters.member.id) {
-                return (item.like = res.data.like);
-              }
-            });
+          if (res.status == 201 || res.status == 200) {
+            this.getfeeds();
           }
         })
         .catch((err) => {
@@ -953,6 +936,50 @@ export default {
         }
       });
     },
+    dropcomment(id, index) {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+        if (val) {
+          this.$http
+            .delete(`${this.$store.getters.url}/feed-comments/${id}`, {
+              headers: {
+                Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+              },
+            })
+            .then((res) => {
+              if (res.status == 200) {
+                this.$toast.success("Removed");
+                this.feed.comments.splice(index, 1);
+
+              }
+            })
+            .catch((err) => {
+              this.$toast.error(err.response.data.message);
+            });
+        }
+      });
+    },
+    dropcommentreply(id, index) {
+      this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {
+        if (val) {
+          this.$http
+            .delete(`${this.$store.getters.url}/feed/comment/reply/${id}`, {
+              headers: {
+                Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+              },
+            })
+            .then((res) => {
+              if (res.status == 200) {
+                this.$toast.success(" deleted");
+                this.getfeeds();
+                this.allreplies.feedcommentreplies.splice(index, 1);
+              }
+            })
+            .catch((err) => {
+              this.$toast.error(err.response.data.message);
+            });
+        }
+      });
+    },
   },
 };
 </script>
@@ -977,9 +1004,16 @@ hr {
 }
 .replyfeed {
   font-size: 0.8rem;
-  padding: 6px 0 0;
+  padding: 4px 0 0;
 }
 @media (max-width: 768px) {
+  .feed_name{
+    font-size:14px;
+  }
+  .comments{
+    border-top:1px solid rgba(0, 0, 0, 0.01);
+
+  }
   .main-card {
     height: auto;
   }

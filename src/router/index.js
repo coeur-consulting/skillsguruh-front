@@ -279,23 +279,23 @@ const routes = [
       title: "Feed | Nzukoor",
     },
   },
-  {
-    path: "/me/feed/:id",
-    name: " Show Feed",
-    components: {
-      header: Header,
-      default: () =>
-        import(
-          /* webpackChunkName: "viewfeed" */ "@/components/Member/viewfeed.vue"
-        ),
-      footer: Footer,
-    },
-    meta: {
-      typeMember: true,
-      title: "Feed | Nzukoor",
-      routetype: "feed",
-    },
-  },
+  // {
+  //   path: "/me/feed/:id",
+  //   name: " Show Feed",
+  //   components: {
+  //     header: Header,
+  //     default: () =>
+  //       import(
+  //         /* webpackChunkName: "viewfeed" */ "@/components/Member/viewfeed.vue"
+  //       ),
+  //     footer: Footer,
+  //   },
+  //   meta: {
+  //     typeMember: true,
+  //     title: "Feed | Nzukoor",
+  //     routetype: "feed",
+  //   },
+  // },
   {
     path: "/explore/discussion/:id",
     name: "Show Discussion",
@@ -795,6 +795,21 @@ const routes = [
               typeMember: true,
             },
           },
+          {
+            path: "/discussion/:id",
+            name: "tribe discussion",
+            components: {
+              default: () =>
+                import(
+                  /* webpackChunkName: "tribediscussion" */ "@/components/Member/Tribe/discussion.vue"
+                ),
+            },
+            meta: {
+              routetype: "tribediscussion",
+              showtribe: true,
+              typeMember: true,
+            },
+          },
 
           {
             path: "courses/:tribe",
@@ -872,6 +887,23 @@ const routes = [
       {
         path: "feed/view/:id",
         name: "View member Feed",
+        components: {
+          header: Header,
+          default: () =>
+            import(
+              /* webpackChunkName: "viewfeed" */ "@/components/Member/viewfeed.vue"
+            ),
+          footer: Footer,
+        },
+        meta: {
+          typeMember: true,
+          title: "Feed | Nzukoor",
+          routetype: "feed",
+        },
+      },
+      {
+        path: "feed/:id",
+        name: "showa  Feed",
         components: {
           header: Header,
           default: () =>

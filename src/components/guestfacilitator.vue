@@ -258,7 +258,7 @@
                             <cld-image
                               v-if="
                                 feed.publicId &&
-                                img_ext.includes(getextension(feed.media))
+                                  img_ext.includes(getextension(feed.media))
                               "
                               :publicId="feed.publicId"
                             >
@@ -271,8 +271,8 @@
                             <b-img
                               v-if="
                                 !feed.publicId &&
-                                feed.media &&
-                                img_ext.includes(getextension(feed.media))
+                                  feed.media &&
+                                  img_ext.includes(getextension(feed.media))
                               "
                               class="img_feed"
                               :src="feed.media"
@@ -282,7 +282,7 @@
                               controls
                               v-if="
                                 feed.publicId &&
-                                vid_ext.includes(getextension(feed.media))
+                                  vid_ext.includes(getextension(feed.media))
                               "
                               :publicId="feed.publicId"
                             >
@@ -294,7 +294,7 @@
                               controls
                               v-if="
                                 feed.media &&
-                                aud_ext.includes(getextension(feed.media))
+                                  aud_ext.includes(getextension(feed.media))
                               "
                               :src="feed.media"
                               class="fluid-grow"
@@ -302,7 +302,7 @@
                             <div
                               v-if="
                                 feed.media &&
-                                doc_ext.includes(getextension(feed.media))
+                                  doc_ext.includes(getextension(feed.media))
                               "
                               class="text-center p-3 p-sm-4 bg-skills-grey"
                             >
@@ -316,12 +316,12 @@
                             @click="toggleLike(feed.id, index)"
                           >
                             <span class="mr-1">{{
-                              feed.likes.filter((item) => item.like).length
+                              feed.likes.filter(item => item.like).length
                             }}</span>
                             <b-icon
                               :icon="
                                 feed.likes.find(
-                                  (item) =>
+                                  item =>
                                     item.like &&
                                     item.user_id == $store.getters.member.id
                                 )
@@ -673,7 +673,7 @@
                                 item.cover
                                   ? item.cover
                                   : require('@/assets/images/default.png')
-                              })`,
+                              })`
                             }"
                           ></div>
                           <div class="course_text">
@@ -690,7 +690,7 @@
                                 :style="{
                                   backgroundColor: JSON.parse(
                                     item.courseoutline.knowledge_areas
-                                  ).color,
+                                  ).color
                                 }"
                               >
                                 <b-icon
@@ -867,9 +867,7 @@
                           <div
                             class="comment_name"
                             @click="
-                              $router.push(
-                                `/me/profile/${item.user.username}`
-                              )
+                              $router.push(`/me/profile/${item.user.username}`)
                             "
                           >
                             {{ item.user.username }}
@@ -974,7 +972,7 @@
             <b-col
               cols="6"
               class="comment d-flex text-left mb-2"
-              v-for="(item, index) in alllikes.likes.filter((val) => val.like)"
+              v-for="(item, index) in alllikes.likes.filter(val => val.like)"
               :key="index"
             >
               <div class="flex-1">
@@ -982,9 +980,7 @@
                   <div class="d-flex mb-1" v-if="item.user">
                     <div
                       class="d-flex flex-1"
-                      @click="
-                        $router.push(`/me/profile/${item.user.username}`)
-                      "
+                      @click="$router.push(`/me/profile/${item.user.username}`)"
                     >
                       <b-avatar
                         class="mr-2"
@@ -1046,7 +1042,7 @@
                   <div
                     v-if="
                       $store.getters.facilitator &&
-                      $store.getters.facilitator.id == $route.params.id
+                        $store.getters.facilitator.id == $route.params.id
                     "
                   >
                     <b-button
@@ -1135,7 +1131,7 @@ export default {
         id: "",
         name: "",
         type: "",
-        profile: "",
+        profile: ""
       },
       open: false,
       showAll: false,
@@ -1167,11 +1163,11 @@ export default {
       showCourse: false,
       auth: false,
       alllikes: null,
-      showbio: false,
+      showbio: false
     };
   },
   components: {
-    Minichat,
+    Minichat
   },
   computed: {
     useraccess() {
@@ -1194,7 +1190,7 @@ export default {
           this.perPage * this.currentPage
         )
         .filter(
-          (item) =>
+          item =>
             item.title.toLowerCase().includes(this.search.toLowerCase()) ||
             JSON.parse(item.courseoutline.knowledge_areas)
               .value.toLowerCase()
@@ -1207,11 +1203,11 @@ export default {
       }
       var courseType;
       if (this.course_type == "free") {
-        courseType = title.filter((item) => item.type == "free");
+        courseType = title.filter(item => item.type == "free");
       } else if (this.course_type == "paid") {
-        courseType = title.filter((item) => item.type == "paid");
+        courseType = title.filter(item => item.type == "paid");
       } else if (this.course_type == "group") {
-        courseType = title.filter((item) => item.type == "group");
+        courseType = title.filter(item => item.type == "group");
       } else {
         courseType = title;
       }
@@ -1225,7 +1221,7 @@ export default {
       if (!this.connections.length) {
         return [];
       }
-      return this.connections.filter((item) => {
+      return this.connections.filter(item => {
         if (item.user_follower) {
           return item.user_follower.username
             .toLowerCase()
@@ -1236,14 +1232,14 @@ export default {
 
     filterFeeds() {
       return this.feeds
-        .filter((item) =>
+        .filter(item =>
           item.name.toLowerCase().includes(this.search.toLowerCase())
         )
         .slice(
           this.perPage * this.currentPage - this.perPage,
           this.perPage * this.currentPage
         );
-    },
+    }
   },
   created() {
     if (localStorage.getItem("authMember")) {
@@ -1259,7 +1255,7 @@ export default {
       this.$bvModal.show("alllikes");
     },
     getlikes(item) {
-      var arr = item.filter((val) => val.like);
+      var arr = item.filter(val => val.like);
       var first = {};
       var check = null;
       first = arr.slice().shift();
@@ -1296,22 +1292,23 @@ export default {
       if (arr.length > 1) {
         if (this.$store.getters.member.access_token) {
           check = arr.some(
-            (val) => val.user_id && val.user.id == this.$store.getters.member.id
+            val => val.user_id && val.user.id == this.$store.getters.member.id
           );
           if (check) {
             result = `Liked by you and ${arr.length - 1} others`;
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${first.user.username} and  ${arr.length -
+                1} ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${
+                first.facilitator.username
+              } and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
               return result;
             }
             if (first.admin) {
@@ -1324,7 +1321,7 @@ export default {
         }
         if (this.$store.getters.facilitator.access_token) {
           check = arr.some(
-            (val) =>
+            val =>
               val.facilitator_id &&
               val.facilitator.id == this.$store.getters.facilitator.id
           );
@@ -1333,15 +1330,16 @@ export default {
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${first.user.username} and  ${arr.length -
+                1} ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${
+                first.facilitator.username
+              } and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
               return result;
             }
             if (first.admin) {
@@ -1354,22 +1352,23 @@ export default {
         }
         if (this.$store.getters.admin.access_token) {
           check = arr.some(
-            (val) => val.admin && val.admin.id == this.$store.getters.admin.id
+            val => val.admin && val.admin.id == this.$store.getters.admin.id
           );
           if (check) {
             result = `Liked by you and ${arr.length - 1} others`;
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${first.user.username} and  ${arr.length -
+                1} ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${
+                first.facilitator.username
+              } and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
               return result;
             }
             if (first.admin) {
@@ -1396,22 +1395,22 @@ export default {
           { following_id: id, follow_type: type },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200 || res.status == 201) {
             this.$toast.success("Connected");
             this.getmyconnections();
             this.$store.dispatch("newConnection", {
               id,
               type,
-              token: this.$store.getters.member.access_token,
+              token: this.$store.getters.member.access_token
             });
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1422,15 +1421,15 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/connections`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
-        })
-        .then((res) => {
-          if (res.status == 200) {
-            this.myconnections = res.data.filter((item) => item.user_follower);
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`
           }
         })
-        .catch((err) => {
+        .then(res => {
+          if (res.status == 200) {
+            this.myconnections = res.data.filter(item => item.user_follower);
+          }
+        })
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1439,24 +1438,24 @@ export default {
         this.$toast.error("Login to complete action");
         return;
       }
-      var res = this.myconnections.find((item) => {
+      var res = this.myconnections.find(item => {
         return item.user_follower.id == user.id;
       });
 
       this.$http
         .delete(`${this.$store.getters.url}/connections/${res.id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
-            this.myconnections = res.data.filter((item) => item.user_follower);
+            this.myconnections = res.data.filter(item => item.user_follower);
             this.$toast.success("Unfollowed");
             this.getmyconnections();
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1464,7 +1463,7 @@ export default {
       if (!this.auth) {
         return;
       }
-      var res = this.myconnections.some((item) => {
+      var res = this.myconnections.some(item => {
         return item.user_follower.id == user.id;
       });
       return res;
@@ -1487,7 +1486,7 @@ export default {
         .get(
           `${this.$store.getters.url}/get/userprofile/${this.$route.params.username}`
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             if (res.data.message == "not found") {
               this.showbio = false;
@@ -1502,7 +1501,7 @@ export default {
             this.getmyconnections();
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1513,25 +1512,23 @@ export default {
           .get(
             `${this.$store.getters.url}/facilitator/discussions/${this.detail.id}`
           )
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.discussions = res.data;
             }
           })
-          .catch((err) => {
+          .catch(err => {
             this.$toast.error(err.response.data.message);
           });
       } else {
         this.$http
-          .get(
-            `${this.$store.getters.url}/me/discussions/${this.detail.id}`
-          )
-          .then((res) => {
+          .get(`${this.$store.getters.url}/member/discussions/${this.detail.id}`)
+          .then(res => {
             if (res.status == 200) {
               this.discussions = res.data;
             }
           })
-          .catch((err) => {
+          .catch(err => {
             this.$toast.error(err.response.data.message);
           });
       }
@@ -1541,12 +1538,12 @@ export default {
         id: "",
         name: "",
         type: "",
-        profile: "",
+        profile: ""
       };
       this.open = false;
       this.showAll = false;
     },
-    getmessage(id, name, type, profile,index) {
+    getmessage(id, name, type, profile, index) {
       if (!this.auth) {
         this.$toast.error("Login to complete action");
         return;
@@ -1556,7 +1553,7 @@ export default {
       this.mini_info.name = name;
       this.mini_info.type = type;
       this.mini_info.profile = profile;
-       this.mini_info.index = index;
+      this.mini_info.index = index;
       this.$store.dispatch("getChatter", this.mini_info);
       this.$bvModal.hide("connections");
     },
@@ -1564,23 +1561,23 @@ export default {
       if (this.$route.params.user == "f") {
         this.$http
           .get(`${this.$store.getters.url}/facilitator/feeds/${this.detail.id}`)
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.feeds = res.data;
             }
           })
-          .catch((err) => {
+          .catch(err => {
             this.$toast.error(err.response.data.message);
           });
       } else {
         this.$http
-          .get(`${this.$store.getters.url}/me/feeds/${this.detail.id}`)
-          .then((res) => {
+          .get(`${this.$store.getters.url}/member/feeds/${this.detail.id}`)
+          .then(res => {
             if (res.status == 200) {
               this.feeds = res.data;
             }
           })
-          .catch((err) => {
+          .catch(err => {
             this.$toast.error(err.response.data.message);
           });
       }
@@ -1591,12 +1588,12 @@ export default {
           .get(
             `${this.$store.getters.url}/facilitator/events/${this.detail.id}`
           )
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.events = res.data;
             }
           })
-          .catch((err) => {
+          .catch(err => {
             this.$toast.error(err.response.data.message);
           });
       }
@@ -1607,13 +1604,13 @@ export default {
           .get(
             `${this.$store.getters.url}/facilitator/courses/${this.detail.id}`
           )
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.courses = res.data;
               this.showCourse = true;
             }
           })
-          .catch((err) => {
+          .catch(err => {
             this.$toast.error(err.response.data.message);
           });
       }
@@ -1631,47 +1628,47 @@ export default {
           .get(
             `${this.$store.getters.url}/facilitator/connections/${this.detail.id}`
           )
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.connections = res.data;
             }
           })
-          .catch((err) => {
+          .catch(err => {
             this.$toast.error(err.response.data.message);
           });
       } else {
         this.$http
           .get(
-            `${this.$store.getters.url}/me/connections/${this.detail.id}`
+            `${this.$store.getters.url}/member/connections/${this.detail.id}`
           )
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.connections = res.data;
             }
           })
-          .catch((err) => {
+          .catch(err => {
             this.$toast.error(err.response.data.message);
           });
       }
     },
     requestAccess() {
       var data = {
-        discussion_id: this.discussion_id,
+        discussion_id: this.discussion_id
       };
 
       this.$http
         .post(`${this.$store.getters.url}/join-discussion`, data, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.info("Your request has been sent");
             this.$bvModal.hide("access");
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1679,13 +1676,13 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/discussion/private/${item.id}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             var result = res.data
-              .map((item) => item.facilitator_id)
+              .map(item => item.facilitator_id)
               .includes(this.$store.getters.facilitator.id);
 
             if (result) {
@@ -1698,11 +1695,11 @@ export default {
         });
     },
     vote(val) {
-      var positive = val.filter((item) => item.vote).length;
-      var negative = val.filter((item) => !item.vote).length;
+      var positive = val.filter(item => item.vote).length;
+      var negative = val.filter(item => !item.vote).length;
       return Number(positive) - Number(negative);
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">
