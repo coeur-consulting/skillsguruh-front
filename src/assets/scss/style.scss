@@ -1762,6 +1762,11 @@ overflow-y: auto;
 }
 .ant-mentions > textarea{
 min-height:36px !important;
+padding:9px 11px !important;
+font-size:.8rem;
+&::placeholder{
+  font-size:.7rem;
+}
 }
 .commentreply > textarea{
 min-height:60px !important;
@@ -1773,4 +1778,7 @@ min-height:60px !important;
   &:hover{
     opacity: .7;
   }
+}
+.mini_like{
+  font-size:.6rem;
 }

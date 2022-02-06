@@ -245,15 +245,15 @@
                                 >Reply
                               </small>
 
-                              <small>
+                              <small class="mini_like">
                                 <span class="mr-1">{{
                                   item.likeCount ? item.likeCount : ""
                                 }}</span>
                                 <b-icon
                                   :icon="item.isLiked ? 'heart-fill' : 'heart'"
                                   class="cursor-pointer text-danger"
-                                   v-b-tooltip.hover
-                        title="Like comment"
+                                  v-b-tooltip.hover
+                                  title="Like comment"
                                   @click="
                                     likecomment(item.id, index, commentUser.id)
                                   "
@@ -328,13 +328,13 @@
                                   "
                                 ></span>
                               </p>
-                              <span class="mr-2">
+                              <span class="mr-2 mini_like">
                                 <span class="mr-2">{{
                                   rep.likeCount ? rep.likeCount : ""
                                 }}</span>
                                 <b-icon
-                                 v-b-tooltip.hover
-                        title="Like reply"
+                                  v-b-tooltip.hover
+                                  title="Like reply"
                                   :icon="rep.isLiked ? 'heart-fill' : 'heart'"
                                   class="text-danger"
                                   @click="likecommentreply(rep.id, index, id)"
@@ -664,8 +664,8 @@
                         @click="toggleLike(feed.id, index)"
                       >
                         <b-icon
-                         v-b-tooltip.hover
-                        title="Like post"
+                          v-b-tooltip.hover
+                          title="Like post"
                           font-scale="1.3"
                           :icon="feed.isLiked ? 'heart-fill' : 'heart'"
                           class="text-danger"
@@ -708,21 +708,22 @@
                       style="line-height: 1.6"
                       v-if="feed.commentCount"
                     >
-                      <div
-                        v-if="feed.comments.length"
-                        class="comment_header mb-1 cursor-pointer"
-                        @click="getfeedcomments(feed)"
-                      >
-                        View {{ feed.commentCount }}
-                        {{ feed.commentCount > 1 ? "comments" : "comment" }}
-                      </div>
-                      <div class="all_comment" style="line-height: 1">
+                      <div class="all_comment mb-1">
+                        <span
+                          v-if="feed.comments.length"
+                          class="comment_header cursor-pointer"
+                          @click="getfeedcomments(feed)"
+                        >
+                          View {{ feed.commentCount }}
+                          {{ feed.commentCount > 1 ? "comments" : "comment" }}
+                        </span>
                         <div
-                          class="comment d-flex text-left mb-1"
+                          class="comment d-flex text-left"
+                          style="line-height: 1.2"
                           v-for="(item, idx) in feed.comments.slice(0, 2)"
                           :key="item.id"
                         >
-                          <div class="flex-1 pr-2" style="line-height: 1">
+                          <div class="flex-1 pr-2 mb-1" style="line-height: 1">
                             <span
                               class="comment_name mr-2 hover_green"
                               @click="
@@ -742,7 +743,7 @@
                             ></span>
                           </div>
                           <div>
-                            <small>
+                            <small class="mini_like">
                               <span class="mr-1">{{
                                 item.likeCount ? item.likeCount : ""
                               }}</span>
@@ -848,7 +849,6 @@
                         <a-mentions
                           v-model="feed.comment"
                           type="text"
-                          size="lg"
                           autocomplete="off"
                           placeholder="Leave a comment "
                           class="border-0 no-focus rounded-pill bg-light"

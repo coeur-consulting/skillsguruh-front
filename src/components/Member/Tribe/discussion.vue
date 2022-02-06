@@ -161,12 +161,12 @@
                     <span class="mr-3 dis_set"
                       ><b-icon icon="chat" class="mr-1"></b-icon>
                       <span v-if="posts"> {{ posts.length }}</span>
-                      <span v-else>0</span> replies</span
+                      <span v-else>0</span> {{posts.length>1?'replies':'reply'}}</span
                     >
                     <span class="mr-3 dis_set"
                       ><b-icon icon="eye-fill" class="mr-1"></b-icon>
                       <span v-if="views"> {{ views }}</span>
-                      <span v-else>0</span> views</span
+                      <span v-else>0</span> {{views>1?'views':'view'}}</span
                     >
                   </div>
                   <div class="dis_set">
@@ -586,7 +586,7 @@
                                 @click="editdiscussionreply(reply, index)"
                               >
                                 <b-icon icon="pencil-square"></b-icon>
-                                Edit
+                                <span class=" d-md-none">Edit</span>
                               </small>
                               <small
                                 v-if="
@@ -597,7 +597,7 @@
                                 @click="dropdiscussionreply(reply.id)"
                               >
                                 <b-icon icon="trash"></b-icon>
-                                Delete
+                                 <span class=" d-md-none">Delete</span>
                               </small>
                             </div>
                           </div>

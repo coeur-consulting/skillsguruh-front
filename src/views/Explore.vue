@@ -641,10 +641,12 @@
                         border-bottom border-top
                         text-left
                       "
-                      style="line-height: 1.2"
+
                       v-if="feed.comments.length"
                     >
-                      <span
+
+                      <div class="all_comment mb-1" >
+                         <span
                         v-if="feed.comments.length"
                         @click="showcomments(feed)"
                         class="comment_header cursor-pointer"
@@ -653,9 +655,9 @@
                           feed.comments.length > 1 ? "comments" : "comment"
                         }}</span
                       >
-                      <div class="all_comment" style="line-height: 1">
                         <div
-                          class="comment d-flex text-left mb-1"
+                          class="comment d-flex text-left"
+                          style="line-height: 1.2"
                           v-for="item in feed.comments.slice(0, 2)"
                           :key="item.id"
                         >
@@ -663,7 +665,7 @@
                             <span
                               class="comment_name mr-2 hover_green"
                               @click="
-                                $router.push(`/profile/${item.user.username}`)
+                                $router.push(`/me/profile/${item.user.username}`)
                               "
                               v-if="item.user"
                             >
@@ -677,7 +679,7 @@
                           </div>
                           <div>
                             <div>
-                              <small>
+                              <small class="mini_like">
                                 <span class="mr-1">{{
                                   item.likeCount ? item.likeCount : ""
                                 }}</span>
@@ -693,7 +695,7 @@
                     </div>
 
                     <div class="interact text-left py-1 border">
-                      <b-input-group class="mt-1">
+                      <b-input-group class="">
                         <template #append>
                           <b-input-group-text
                             class="border-0 bg-transparent d-block"
@@ -773,12 +775,12 @@
                           </b-input-group-text>
                         </template>
                         <b-form-input
-                          size="sm"
+
                           autocomplete="off"
                           autocorrect="off"
                           rows="1"
                           v-model="feed.comment"
-                          placeholder="Add comment"
+                          placeholder="Leave a comment"
                           class="border-0 no-focus"
                         ></b-form-input>
                       </b-input-group>
@@ -1077,7 +1079,7 @@
                           >Reply
                         </small>
 
-                        <small>
+                        <small class="mini_like">
                           <span class="mr-1">{{
                             item.likeCount ? item.likeCount : ""
                           }}</span>
@@ -1138,7 +1140,7 @@
                                 rep.message
                               }}</span>
                             </p>
-                            <span>
+                            <span class="mini_like">
                               <span class="mr-1">{{
                                 rep.likeCount ? rep.likeCount : ""
                               }}</span>
