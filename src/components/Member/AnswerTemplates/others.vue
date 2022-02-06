@@ -603,7 +603,7 @@ export default {
                 centered: true,
               })
               .then(() => {
-                this.$router.push("/member/assessments");
+                this.$router.push("/me/assessments");
               });
           }
         });

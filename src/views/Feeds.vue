@@ -181,7 +181,7 @@
                                 class="comment_name"
                                 @click="
                                   $router.push(
-                                    `/member/profile/${item.user.username}`
+                                    `/me/profile/${item.user.username}`
                                   )
                                 "
                               >
@@ -238,7 +238,7 @@
                                     class="comment_name mr-1"
                                     @click="
                                       $router.push(
-                                        `/member/profile/${rep.user.username}`
+                                        `/me/profile/${rep.user.username}`
                                       )
                                     "
                                   >
@@ -317,9 +317,7 @@
                         <div
                           class="d-flex flex-1"
                           @click="
-                            $router.push(
-                              `/member/profile/${item.user.username}`
-                            )
+                            $router.push(`/me/profile/${item.user.username}`)
                           "
                         >
                           <b-avatar
@@ -462,7 +460,7 @@
                             <span
                               @click="
                                 $router.push(
-                                  `/member/profile/${feed.user.username}`
+                                  `/me/profile/${feed.user.username}`
                                 )
                               "
                               class="hover_green"
@@ -492,9 +490,7 @@
                           </template>
                           <b-dropdown-item
                             class="fs12"
-                            @click="
-                              $router.push(`/member/feed/view/${feed.id}`)
-                            "
+                            @click="$router.push(`/me/feed/${feed.id}`)"
                             >View</b-dropdown-item
                           >
                           <b-dropdown-item
@@ -716,7 +712,7 @@
                                 class="comment_name mr-2 hover_green"
                                 @click="
                                   $router.push(
-                                    `/member/profile/${item.user.username}`
+                                    `/me/profile/${item.user.username}`
                                   )
                                 "
                                 v-if="item.user"
@@ -727,7 +723,7 @@
                                 class="comment_name mr-2 hover_green"
                                 @click="
                                   $router.push(
-                                    `/member/profile/f/${item.facilitator.id}`
+                                    `/me/profile/f/${item.facilitator.id}`
                                   )
                                 "
                                 v-if="item.facilitator"
@@ -1305,7 +1301,7 @@ export default {
     },
     sharenow(feed) {
       this.description = this.toText(feed.message);
-      this.link = `https://nzukoor.com/member/feed/view/${feed.id}?utf_medium=share`;
+      this.link = `https://nzukoor.com/me/feed/${feed.id}?utf_medium=share`;
       this.$bvModal.show("share");
     },
     gettrendingfeeds() {

@@ -376,7 +376,7 @@ export default {
     },
     getAssessments() {
       this.$http
-        .get(`${this.$store.getters.url}/member/assessments`, {
+        .get(`${this.$store.getters.url}/me/assessments`, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.member.access_token}`,
           },
@@ -393,9 +393,9 @@ export default {
     },
     solve(id, type) {
       if (type == "quiz") {
-        this.$router.push(`/member/solve/assessment/quiz/${id}`);
+        this.$router.push(`/me/solve/assessment/quiz/${id}`);
       } else {
-        this.$router.push(`/member/solve/assessment/${id}`);
+        this.$router.push(`/me/solve/assessment/${id}`);
       }
     },
     handleCheck() {

@@ -112,7 +112,7 @@
                             class="px-0 text-left cursor-pointer"
                             @click="
                               $router.push(
-                                `/administrator/view/member/${item.id}`
+                                `/administrator/view/me/${item.id}`
                               )
                             "
                           >

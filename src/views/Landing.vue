@@ -45,7 +45,16 @@
             in one place
           </h1>
         </div>
-        <div class="banner_search mb-4 position-relative">
+        <div
+          class="
+            banner_search
+            mb-4
+            position-relative
+            rounded-lg
+            bg-white
+            overflow-hidden
+          "
+        >
           <b-input-group>
             <b-input
               class="banner-search"
@@ -95,6 +104,7 @@
                 <div style="width: 20%">
                   <b-avatar
                     :src="item.cover"
+                    icon="image"
                     size="4rem"
                     variant="transparent"
                   />
@@ -113,15 +123,16 @@
                     v-if="item.users"
                   >
                     <span class="fs10 text-muted"
-                      >{{ item.users.length }}
-                      {{ item.users.length > 1 ? "members" : "member" }}</span
+                      >{{ item.users }}
+                      {{ item.users > 1 ? "members" : "member" }}</span
                     >
-                    <span
-                      class="text-dark-green jointribe"
-                      @click="entertribe(item.id)"
-                      >Join Tribe</span
-                    >
+
                   </span>
+                  <div
+                      class=" text-right"
+
+                      > <span  class="text-dark-green jointribe fs14 cursor-pointer"  @click="entertribe(item.id)">Join Tribe</span> </div
+                    >
                 </div>
               </div>
             </div>
@@ -150,20 +161,18 @@
         <b-icon
           @click="bannerIndex > 0 ? bannerIndex-- : ''"
           icon="arrow-left-circle"
-          class="mr-3 cursor-pointer"
+          class="mr-3 "
           :class="bannerIndex > 0 ? 'text-white' : 'text-light'"
           :font-scale="bannerIndex > 0 ? '1.5' : '1'"
         ></b-icon>
         <b-icon
-
           icon="arrow-right-circle"
-          class="cursor-pointer"
+          class=""
           :class="bannerIndex < 1 ? 'text-white' : 'text-light'"
           :font-scale="bannerIndex < 1 ? '1.5' : '1'"
         ></b-icon>
       </div>
     </section>
-
   </div>
 </template>
 <script>
@@ -232,7 +241,7 @@ export default {
           text: "Invite your friends and win with your tribe",
           image: require("@/assets/images/landing/impact.png"),
           animation: "animate__animated animate__slideInUp",
-          url: "explore/members",
+          url: "explore/mes",
         },
       ],
     };
@@ -273,7 +282,7 @@ export default {
   },
   methods: {
     searchProducts() {
-       if(!this.query.length) return
+      if (!this.query.length) return;
       this.$store.dispatch("SEARCH_TRIBES", this.query);
     },
     entertribe(id) {
@@ -288,7 +297,7 @@ export default {
 
       this.$store.dispatch("checkTribe", details).then((res) => {
         if (res.status == 200 && res.data.message == "found") {
-          window.location.href = `/member/tribe/discussions/${id}`;
+          window.location.href = `/me/tribe/discussions/${id}`;
         } else {
           this.$bvModal
             .msgBoxConfirm("Do you wish to join this tribe?")
@@ -297,7 +306,7 @@ export default {
                 this.$store.dispatch("joinTribe", details).then((res) => {
                   if (res.status == 200 && res.data.message == "successful") {
                     this.$toast.success("Joined successfully");
-                    window.location.href = `/member/tribe/discussions/${id}`;
+                    window.location.href = `/me/tribe/discussions/${id}`;
                   }
                 });
               }
@@ -318,6 +327,7 @@ export default {
 #main {
   max-width: 100vw;
   overflow-x: hidden;
+  transition: all 0.6s;
 }
 #main ::-webkit-scrollbar {
   display: none;
@@ -396,20 +406,30 @@ export default {
   color: white;
 }
 .btn.banner-btn {
-  height: 56px;
+  height: 52px;
 }
 .banner-search {
-  height: 56px;
+  height: 52px;
 }
-.search_container {
-  width: 100%;
-  background: #fff;
-  max-height: 350px;
-  overflow-y: scroll;
-  padding: 15px;
-  position: absolute;
-  z-index: 4;
+.banner_search {
+  width: 65%;
+  margin: 0 auto;
+  transition: all 0.6s;
+  @media (max-width: 600px) {
+    width: 90%;
+  }
+  .search_container {
+    transition: all 0.6s;
+    width: 100%;
+    background: #fff;
+    max-height: 450px;
+    overflow-y: scroll;
+    padding: 15px;
+    // position: absolute;
+    z-index: 4;
+  }
 }
+
 .banner_text p {
   font-size: 18px;
   font-style: normal;
@@ -432,7 +452,7 @@ export default {
   margin-bottom: 0px;
 }
 .result {
-  cursor: pointer;
+
   height: 90px;
 }
 .down_b {
@@ -468,8 +488,8 @@ export default {
     margin: 0 auto;
   }
 }
-h1{
-  color:white;
+h1 {
+  color: white;
 }
 @media (max-width: 1440px) {
   #with_nzukoor {

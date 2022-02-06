@@ -1032,7 +1032,7 @@
                 <div class="d-flex mb-1" v-if="item.user">
                   <div
                     class="d-flex flex-1"
-                    @click="$router.push(`/member/profile/${item.user.username}`)"
+                    @click="$router.push(`/me/profile/${item.user.username}`)"
                   >
                     <b-avatar
                       class="mr-2"
@@ -1050,7 +1050,7 @@
                   <div
                     class="d-flex flex-1"
                     @click="
-                      $router.push(`/member/profile/f/${item.facilitator.id}`)
+                      $router.push(`/me/profile/f/${item.facilitator.id}`)
                     "
                   >
                     <b-avatar
@@ -1692,7 +1692,7 @@ export default {
       } else {
         this.$http
           .get(
-            `${this.$store.getters.url}/member/info/${this.$route.params.id}`
+            `${this.$store.getters.url}/me/info/${this.$route.params.id}`
           )
           .then((res) => {
             if (res.status == 200) {
@@ -1722,7 +1722,7 @@ export default {
       } else {
         this.$http
           .get(
-            `${this.$store.getters.url}/member/discussions/${this.$route.params.id}`
+            `${this.$store.getters.url}/me/discussions/${this.$route.params.id}`
           )
           .then((res) => {
             if (res.status == 200) {
@@ -1769,7 +1769,7 @@ export default {
       } else {
         this.$http
           .get(
-            `${this.$store.getters.url}/member/feeds/${this.$route.params.id}`
+            `${this.$store.getters.url}/me/feeds/${this.$route.params.id}`
           )
           .then((res) => {
             if (res.status == 200) {
@@ -1838,7 +1838,7 @@ export default {
       } else {
         this.$http
           .get(
-            `${this.$store.getters.url}/member/connections/${this.$route.params.id}`
+            `${this.$store.getters.url}/me/connections/${this.$route.params.id}`
           )
           .then((res) => {
             if (res.status == 200) {

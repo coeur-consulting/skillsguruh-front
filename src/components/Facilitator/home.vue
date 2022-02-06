@@ -149,7 +149,7 @@
                       class="course border"
                       @click="
                         $router.push(
-                          `/member/courses?course_id=${this.course.id}`
+                          `/me/courses?course_id=${this.course.id}`
                         )
                       "
                     >
@@ -271,7 +271,7 @@
                   >
                     <div
                       class="course border"
-                      @click="$router.push('/member/courses')"
+                      @click="$router.push('/me/courses')"
                     >
                       <div
                         class="course_img"
@@ -495,7 +495,7 @@
                       <div
                         class="fs13 text-capitalize text-left"
                         @click="
-                          $router.push(`/member/profile/${user.username}`)
+                          $router.push(`/me/profile/${user.username}`)
                         "
                       >
                         {{ user.username }}

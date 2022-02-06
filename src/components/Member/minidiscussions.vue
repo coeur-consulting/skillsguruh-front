@@ -190,7 +190,7 @@
                     <div>
                       <span
                         v-if="item.type == 'public'"
-                        @click="$router.push(`/member/discussion/${item.id}`)"
+                        @click="$router.push(`/me/discussion/${item.id}`)"
                         class="
                           text-dark-green
                           font-weight-bold
@@ -492,7 +492,7 @@ export default {
     },
     joindiscussion(item) {
       if (item.user && item.user.id == this.$store.getters.member.id) {
-        this.$router.push(`/member/discussion/${item.id}`);
+        this.$router.push(`/me/discussion/${item.id}`);
       } else {
         this.$http
           .get(`${this.$store.getters.url}/discussion/private/${item.id}`, {
@@ -507,7 +507,7 @@ export default {
                 .includes(this.$store.getters.member.id);
 
               if (result) {
-                this.$router.push(`/member/discussion/${item.id}`);
+                this.$router.push(`/me/discussion/${item.id}`);
               } else {
                 this.discussion_id = item.id;
                 this.$bvModal.show("access");

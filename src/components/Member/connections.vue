@@ -39,7 +39,7 @@
                           class="connection_name cursor-pointer"
                           @click="
                             $router.push(
-                              `/member/profile/${item.user_follower.username}`
+                              `/me/profile/${item.user_follower.username}`
                             )
                           "
                         >
@@ -107,7 +107,7 @@
                         <div
                           class="connection_name cursor-pointer"
                           @click="
-                            $router.push(`/member/profile/${item.user_follower.username}`)
+                            $router.push(`/me/profile/${item.user_follower.username}`)
                           "
                         >
                           {{ item.user_follower.username }}

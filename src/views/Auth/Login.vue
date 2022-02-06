@@ -334,10 +334,10 @@ export default {
                     return;
                   }
                   if (this.$route.query.type==='join_tribe') {
-                    window.location.href = `/member/tribe/${this.$route.query.tribe_id}/discussion/${this.$route.query.discussion_id}`;
+                    window.location.href = `/me/tribe/${this.$route.query.tribe_id}/discussion/${this.$route.query.discussion_id}`;
                     return;
                   }
-                  window.location.href = "/member";
+                  window.location.href = "/me";
                 }
               })
               .catch(() => {

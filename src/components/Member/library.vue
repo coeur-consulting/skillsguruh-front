@@ -173,7 +173,7 @@
                             variant="dark-green"
                             size="sm"
                             @click="
-                              $router.push(`/member/media/${item.course.id}`)
+                              $router.push(`/me/media/${item.course.id}`)
                             "
                             ><b-icon icon="book" class="mr-2"></b-icon> View
                             course</b-button
@@ -567,7 +567,7 @@ export default {
       this.type = mod.file_type.toLowerCase();
       this.module_id = module_id;
       this.$router.push(
-        `/member/solve/template/${mod.template.id}/${module_id}/${id}`
+        `/me/solve/template/${mod.template.id}/${module_id}/${id}`
       );
     },
     getTemplates(val) {

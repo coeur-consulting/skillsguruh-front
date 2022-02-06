@@ -871,7 +871,7 @@
                 <div class="d-flex mb-1" v-if="item.user">
                   <div
                     class="d-flex flex-1"
-                    @click="$router.push(`/member/profile/${item.user.username}`)"
+                    @click="$router.push(`/me/profile/${item.user.username}`)"
                   >
                     <b-avatar
                       class="mr-2"
@@ -889,7 +889,7 @@
                   <div
                     class="d-flex flex-1"
                     @click="
-                      $router.push(`/member/profile/f/${item.facilitator.id}`)
+                      $router.push(`/me/profile/f/${item.facilitator.id}`)
                     "
                   >
                     <b-avatar
@@ -1208,7 +1208,7 @@ export default {
     },
     sharenow(feed) {
       this.description = this.toText(feed.message);
-      this.link = `https://nzukoor.com/member/feed/view/${feed.id}?utf_medium=share`;
+      this.link = `https://nzukoor.com/me/feed/${feed.id}?utf_medium=share`;
       this.$bvModal.show("share");
     },
     infiniteHandler($state) {
@@ -1241,7 +1241,7 @@ export default {
       this.mini_info.name = name;
       this.mini_info.type = type;
       this.mini_info.profile = profile;
-       this.mini_info.index = index;
+      this.mini_info.index = index;
       this.$store.dispatch("getChatter", this.mini_info);
     },
     showcomments(feed) {

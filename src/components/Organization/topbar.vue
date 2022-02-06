@@ -56,7 +56,7 @@
               <span class="side-link">Facilitators</span>
             </div>
           </router-link>
-          <router-link to="/organization/members">
+          <router-link to="/organization/mes">
             <div class="side_item">
               <b-icon
                 icon="people-fill"

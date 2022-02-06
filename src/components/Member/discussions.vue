@@ -17,7 +17,7 @@
             <h6 class="flex-1 font-weight-bold mb-3 mb-sm-0"></h6>
             <div class="d-flex search px-2 px-sm-0 w-100">
               <span
-                @click="$router.push(`/member/tribes`)"
+                @click="$router.push(`/me/tribes`)"
                 class="cursor-pointer back fs13 px-2 pt-2 d-sm-none"
               >
                 <span class="">
@@ -328,7 +328,7 @@
                       </div>
                     </div>
                     <span
-                      @click="$router.push(`/member/discussion/${dis.id}`)"
+                      @click="$router.push(`/me/discussion/${dis.id}`)"
                       class="related text-left text-capitalize font-weight-bold"
                       >{{ dis.name }}</span
                     >
@@ -655,7 +655,7 @@ export default {
 
       this.$store.dispatch("checkTribe", details).then((res) => {
         if (res.status == 200 && res.data.message == "found") {
-          window.location.href = `/member/tribe/discussions/${id}`;
+          window.location.href = `/me/tribe/discussions/${id}`;
         } else {
           this.$bvModal
             .msgBoxConfirm("Do you wish to join this tribe?")
@@ -664,7 +664,7 @@ export default {
                 this.$store.dispatch("joinTribe", details).then((res) => {
                   if (res.status == 200 && res.data.message == "successful") {
                     this.$toast.success("Joined successfully");
-                    window.location.href = `/member/tribe/discussions/${id}`;
+                    window.location.href = `/me/tribe/discussions/${id}`;
                   }
                 });
               }
@@ -699,7 +699,7 @@ export default {
         });
     },
     joindiscussion(item) {
-     this.$router.push(`/explore/discussion/${item.id}`);
+     this.$router.push(`/g/discussion/${item.id}`);
     },
     getcourses() {
       this.$http

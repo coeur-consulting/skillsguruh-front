@@ -103,36 +103,36 @@ export default {
           text: "Discover people, knowledge and opportunities across interests",
           image: require("@/assets/images/landing/explore.png"),
           animation: "animate__animated animate__slideInUp ",
-          url: "/explore",
+          url: "/explore"
         },
         {
           name: "Engage",
           text: "Start and join discussions to connect with your tribe",
           image: require("@/assets/images/landing/engage.png"),
           animation: " animate__animated animate__slideInUp",
-          url: "/explore/discussions",
+          url: "/explore/discussions"
         },
         {
           name: "Evolve",
           text: "Maximize courses and events, and soar",
           image: require("@/assets/images/landing/evolve.png"),
           animation: "animate__animated animate__slideInUp ",
-          url: "/explore/courses",
+          url: "/explore/courses"
         },
         {
           name: "Impact",
           text: "Invite your friends and win with your tribe",
           image: require("@/assets/images/landing/impact.png"),
           animation: "animate__animated animate__slideInUp",
-          url: "explore/members",
-        },
-      ],
+          url: "explore/mes"
+        }
+      ]
     };
   },
   components: {
     KinesisContainer,
-    KinesisElement,
-  },
+    KinesisElement
+  }
 };
 </script>
 <style scoped lang="scss">

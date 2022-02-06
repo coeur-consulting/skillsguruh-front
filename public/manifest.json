@@ -38,7 +38,7 @@
       "density": "4.0"
     }
   ],
-  "start_url": "/member",
+  "start_url": "/me",
   "scope": ".",
   "display": "standalone",
   "background_color": "#fff",
@@ -51,7 +51,7 @@
       "name": "Check out your tribes",
       "short_name": "My tribes",
       "description": "View all your tribes",
-      "url": "/member/tribes",
+      "url": "/me/tribes",
       "icons": [
         {
           "src": "\/img/icons/android-icon-192x192.png",
@@ -65,7 +65,7 @@
       "name": "Check out your community",
       "short_name": "Community",
       "description": "View your community and see your connections",
-      "url": "/member/community",
+      "url": "/me/community",
       "icons": [
         {
           "src": "\/img/icons/android-icon-192x192.png",

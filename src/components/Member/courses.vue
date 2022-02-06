@@ -1164,7 +1164,7 @@ export default {
       });
     },
     purchase(course) {
-      this.$router.push(`/member/order?id=${course.id}`);
+      this.$router.push(`/me/order?id=${course.id}`);
     },
     addToFeed() {
       if (this.checkLibrary()) {
@@ -1186,7 +1186,7 @@ export default {
             this.course.title.bold() +
             " Check it out here!",
           url:
-            "https://nzukoor.com/member/courses/?course_id=" + this.course.id,
+            "https://nzukoor.com/me/courses/?course_id=" + this.course.id,
         };
       }
       this.$http
@@ -1611,7 +1611,7 @@ export default {
 
     getmostenrolled() {
       this.$http
-        .get(`${this.$store.getters.url}/member/mostenrolled`, {
+        .get(`${this.$store.getters.url}/me/mostenrolled`, {
           headers: {
             Authorization: `Bearer ${this.$store.getters.member.access_token}`,
           },

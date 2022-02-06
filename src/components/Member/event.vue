@@ -564,7 +564,7 @@ export default {
           "Let’s attend the event, " +
           this.event.title.toUpperCase() +
           " together",
-        url: "https://nzukoor.com/member/event/" + this.event.id,
+        url: "https://nzukoor.com/me/event/" + this.event.id,
       };
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {

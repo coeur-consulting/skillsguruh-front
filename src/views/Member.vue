@@ -19,7 +19,11 @@
             </main>
           </div>
         </b-col>
-        <b-col sm="3" v-if="$route.meta.routeType !== 'profile'" class="d-none d-md-block">
+        <b-col
+          sm="3"
+          v-if="$route.meta.routeType !== 'profile'"
+          class="d-none d-md-block"
+        >
           <RightBar
         /></b-col>
       </b-row>
@@ -42,11 +46,11 @@ export default {
     RightBar,
     TopBar,
     Insight,
-    BottomBar,
+    BottomBar
   },
   beforeRouteEnter(to, from, next) {
-    next((vm) => {
-      window.speechSynthesis.onvoiceschanged = function () {
+    next(vm => {
+      window.speechSynthesis.onvoiceschanged = function() {
         var speech = window.speechSynthesis.getVoices();
 
         vm.$store.commit("SET_SPEECH", speech);
@@ -54,7 +58,7 @@ export default {
     });
   },
   watch: {
-    $route: "getnotification",
+    $route: "getnotification"
   },
 
   mounted() {
@@ -88,15 +92,15 @@ export default {
 
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`
+            }
           }
         )
         .then()
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
-    },
+    }
   },
   computed: {
     useraccess() {
@@ -111,8 +115,8 @@ export default {
         return this.$store.getters.member;
       }
       return token;
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

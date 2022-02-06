@@ -360,7 +360,7 @@
                             <span
                               v-if="item.user"
                               @click="
-                                $router.push(`/member/profile/${item.username}`)
+                                $router.push(`/me/profile/${item.username}`)
                               "
                               class="fs13 cursor-pointer hover_green"
                               >{{ item.user.username }}</span
@@ -455,7 +455,7 @@
                                   v-if="reply.user"
                                   @click="
                                     $router.push(
-                                      `/member/profile/${reply.user.username}`
+                                      `/me/profile/${reply.user.username}`
                                     )
                                   "
                                   class="message_comment_name mr-1"

@@ -55,7 +55,7 @@
                 </div>
                 <span
                   class="fs13 cursor-pointer"
-                  @click="$router.push('/member/courses')"
+                  @click="$router.push('/me/courses')"
                   >More <b-icon icon="arrow-right"></b-icon
                 ></span>
               </div>
@@ -80,7 +80,7 @@
                       <div
                         class="course border cursor-pointer"
                         @click="
-                          $router.push(`/member/courses?course_id=${item.id}`)
+                          $router.push(`/me/courses?course_id=${item.id}`)
                         "
                       >
                         <div
@@ -246,7 +246,7 @@
                         <div class="">
                           <b-button
                             @click="
-                              $router.push(`/member/media/${item.course.id}`)
+                              $router.push(`/me/media/${item.course.id}`)
                             "
                             block
                             size="sm"
@@ -370,7 +370,7 @@
                         <div
                           class="fs13 text-capitalize text-left"
                           @click="
-                            $router.push(`/member/profile/${user.username}`)
+                            $router.push(`/me/profile/${user.username}`)
                           "
                         >
                           {{ user.username }}

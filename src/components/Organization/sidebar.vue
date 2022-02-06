@@ -22,7 +22,7 @@
         </div>
       </router-link>
 
-      <router-link to="/organization/members">
+      <router-link to="/organization/mes">
         <div class="side_item">
           <b-icon icon="people-fill" font-scale="1.25" class="mr-3"></b-icon>
           <span class="side-link">Members</span>

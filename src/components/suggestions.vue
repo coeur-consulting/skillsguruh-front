@@ -130,7 +130,7 @@ export default {
   methods: {
     gotoprofile(val) {
       if (this.$props.user == "member") {
-        return this.$router.push(`/member/profile/${val.username}`);
+        return this.$router.push(`/me/profile/${val.username}`);
       }
     },
 
@@ -165,7 +165,7 @@ export default {
         .then((res) => {
           if (res.status == 201) {
             this.getsimilarusers();
-           
+
             this.$store.dispatch("newConnection", {
               id,
               type,

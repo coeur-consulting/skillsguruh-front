@@ -851,7 +851,7 @@ export default {
     },
     view(id) {
       this.$router.push(
-        `/member/tribe/event/${this.$route.params.tribe}/${id}`
+        `/me/tribe/event/${this.$route.params.tribe}/${id}`
       );
     },
     drop(id, index) {

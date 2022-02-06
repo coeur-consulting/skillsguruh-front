@@ -113,7 +113,7 @@ export default {
       search: "",
       currentPage: 1,
       rows: null,
-      perPage: 12,
+      perPage: 12
     };
   },
   mounted() {
@@ -121,7 +121,7 @@ export default {
   },
   computed: {
     filteredName() {
-      var name = this.members.filter((item) =>
+      var name = this.members.filter(item =>
         item.username.toLowerCase().includes(this.search.toLowerCase())
       );
 
@@ -129,18 +129,18 @@ export default {
         this.perPage * this.currentPage - this.perPage,
         this.perPage * this.currentPage
       );
-    },
+    }
   },
   methods: {
     getmembers() {
-      this.$http.get(`${this.$store.getters.url}/get/members`).then((res) => {
+      this.$http.get(`${this.$store.getters.url}/get/mes`).then(res => {
         if (res.status == 200) {
           this.members = res.data;
           this.rows = res.data.length;
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -11,16 +11,16 @@
 </template>
 <script>
 import Facilitator from "./facilitators";
-import Members from "./members";
+import Members from "./mes";
 export default {
   data() {
     return {
-      team: true,
+      team: true
     };
   },
   components: {
     Facilitator,
-    Members,
-  },
+    Members
+  }
 };
 </script>

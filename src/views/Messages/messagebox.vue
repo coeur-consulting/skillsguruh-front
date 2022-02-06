@@ -13,7 +13,7 @@
           </span>
           <p
             class="chat_name hover_green text-capitalize mb-0"
-            @click="$router.push(`/member/profile/${info.username}`)"
+            @click="$router.push(`/me/profile/${info.username}`)"
           >
             {{ info.username }}
           </p>

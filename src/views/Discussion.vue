@@ -33,7 +33,7 @@
                         v-if="discussion.user"
                         @click="
                           $router.push(
-                            `/member/profile/${discussion.user.username}`
+                            `/me/profile/${discussion.user.username}`
                           )
                         "
                       ></b-avatar>
@@ -133,7 +133,7 @@
                         class="cursor-pointer text-dark-green hover_green"
                         @click="
                           $router.push(
-                            `/member/profile/${discussion.user.username}`
+                            `/me/profile/${discussion.user.username}`
                           )
                         "
                         >{{ discussion.user.username }}</span
@@ -340,7 +340,7 @@
                             v-if="item.user"
                             @click="
                               $router.push(
-                                `/member/profile/${item.user.username}`
+                                `/me/profile/${item.user.username}`
                               )
                             "
                             class="fs13 cursor-pointer hover_green"
@@ -350,7 +350,7 @@
                             v-if="item.facilitator"
                             @click="
                               $router.push(
-                                `/member/profile/f/${item.facilitator.id}`
+                                `/me/profile/f/${item.facilitator.id}`
                               )
                             "
                             class="fs13 cursor-pointer hover_green"
@@ -444,7 +444,7 @@
                                 v-if="reply.user"
                                 @click="
                                   $router.push(
-                                    `/member/profile/${reply.user.username}`
+                                    `/me/profile/${reply.user.username}`
                                   )
                                 "
                                 class="message_comment_name mr-1"
@@ -1203,7 +1203,7 @@ export default {
   },
   created() {
     this.link =
-      "https://nzukoor.com/explore/discussion/" + this.$route.params.id;
+      "https://nzukoor.com/g/discussion/" + this.$route.params.id;
 
     // var channel = this.$pusher.subscribe("adddiscussion");
 
@@ -1342,7 +1342,7 @@ export default {
 
       this.$store.dispatch("checkTribe", details).then((res) => {
         if (res.status == 200 && res.data.message == "found") {
-          window.location.href = `/member/tribe/${this.discussion.tribe_id}/discussion/${this.discussion.id}`;
+          window.location.href = `/me/tribe/${this.discussion.tribe_id}/discussion/${this.discussion.id}`;
         } else {
           this.$bvModal
             .msgBoxConfirm("Do you wish to join this tribe?")
@@ -1351,7 +1351,7 @@ export default {
                 this.$store.dispatch("joinTribe", details).then((res) => {
                   if (res.status == 200 && res.data.message == "successful") {
                     this.$toast.success("Joined successfully");
-                    window.location.href = `/member/tribe/${this.discussion.tribe_id}/discussion/${this.discussion.id}`;
+                    window.location.href = `/me/tribe/${this.discussion.tribe_id}/discussion/${this.discussion.id}`;
                   }
                 });
               }
@@ -1386,7 +1386,7 @@ export default {
     getmembers() {
       this.$http
         .get(
-          `${this.$store.getters.url}/get/discussion/members/${this.$route.params.id}`
+          `${this.$store.getters.url}/get/discussion/mes/${this.$route.params.id}`
         )
         .then((res) => {
           this.members = res.data;
@@ -1532,7 +1532,7 @@ export default {
           "I just started a discussion, " +
           this.discussion.name.toUpperCase() +
           " and I’d like to hear your thoughts",
-        url: "https://nzukoor.com/explore/discussion/" + this.discussion.id,
+        url: "https://nzukoor.com/g/discussion/" + this.discussion.id,
       };
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {

@@ -59,7 +59,7 @@
                       :src="discussion.user.profile"
                       v-if="discussion.user"
                       @click="
-                        $router.push(`/member/profile/${discussion.user.username}`)
+                        $router.push(`/me/profile/${discussion.user.username}`)
                       "
                     ></b-avatar>
                   </div>
@@ -161,7 +161,7 @@
                       v-if="discussion.user"
                       class="cursor-pointer text-dark-green hover_green"
                       @click="
-                        $router.push(`/member/profile/${discussion.user.username}`)
+                        $router.push(`/me/profile/${discussion.user.username}`)
                       "
                       >{{ discussion.user.username }}</span
                     >
@@ -170,7 +170,7 @@
                       class="cursor-pointer text-dark-green hover_green"
                       @click="
                         $router.push(
-                          `/member/profile/f/${discussion.facilitator.id}`
+                          `/me/profile/f/${discussion.facilitator.id}`
                         )
                       "
                       >{{ discussion.facilitator.username }}</span
@@ -362,7 +362,7 @@
                           c
                           v-if="item.user"
                           @click="
-                            $router.push(`/member/profile/${item.user.username}`)
+                            $router.push(`/me/profile/${item.user.username}`)
                           "
                           class="fs13 cursor-pointer hover_green"
                           >{{ item.user.username }}</span
@@ -371,7 +371,7 @@
                           v-if="item.facilitator"
                           @click="
                             $router.push(
-                              `/member/profile/f/${item.facilitator.id}`
+                              `/me/profile/f/${item.facilitator.id}`
                             )
                           "
                           class="fs13 cursor-pointer hover_green"
@@ -465,7 +465,7 @@
                               v-if="reply.user"
                               @click="
                                 $router.push(
-                                  `/member/profile/${reply.user.username}`
+                                  `/me/profile/${reply.user.username}`
                                 )
                               "
                               class="message_comment_name mr-1"
@@ -1001,14 +1001,14 @@
           }}</span>
           <span
             v-if="comments.user"
-            @click="$router.push(`/member/profile/${comments.user.username}`)"
+            @click="$router.push(`/me/profile/${comments.user.username}`)"
             class="fs12 cursor-pointer hover_green"
             >{{ comments.user.username }}</span
           >
           <span
             v-if="comments.facilitator"
             @click="
-              $router.push(`/member/profile/f/${comments.facilitator.id}`)
+              $router.push(`/me/profile/f/${comments.facilitator.id}`)
             "
             class="fs12 cursor-pointer hover_green"
             >{{ comments.facilitator.username }}</span
@@ -1161,7 +1161,7 @@ export default {
   },
   created() {
     this.link =
-      "https://nzukoor.com/explore/discussion/" + this.$route.params.id;
+      "https://nzukoor.com/g/discussion/" + this.$route.params.id;
 
     var channel = this.$pusher.subscribe("adddiscussion");
 
@@ -1287,7 +1287,7 @@ export default {
     getmembers() {
       this.$http
         .get(
-          `${this.$store.getters.url}/get/discussion/members/${this.$route.params.id}`,
+          `${this.$store.getters.url}/get/discussion/mes/${this.$route.params.id}`,
           {
             headers: {
               Authorization: `Bearer ${this.$store.getters.member.access_token}`,
@@ -1299,7 +1299,7 @@ export default {
         });
     },
 
-   
+
     requestAccess() {
       var data = {
         discussion_id: this.discussion.id,
@@ -1349,7 +1349,7 @@ export default {
     },
     joindiscussion(item) {
       if (item.user && item.user.id == this.$store.getters.member.id) {
-        this.$router.push(`/member/discussion/${item.id}`);
+        this.$router.push(`/me/discussion/${item.id}`);
       } else {
         this.$http
           .get(`${this.$store.getters.url}/discussion/private/${item.id}`, {
@@ -1364,7 +1364,7 @@ export default {
                 .includes(this.$store.getters.member.id);
 
               if (result) {
-                this.$router.push(`/member/discussion/${item.id}`);
+                this.$router.push(`/me/discussion/${item.id}`);
               } else {
                 this.discussion_id = item.id;
                 this.$bvModal.show("access");
@@ -1477,7 +1477,7 @@ export default {
             "I just started a discussion, " +
             this.discussion.name.bold() +
             " and I’d like to hear your thoughts",
-          url: "https://nzukoor.com/explore/discussion/" + this.discussion.id,
+          url: "https://nzukoor.com/g/discussion/" + this.discussion.id,
         };
       } else {
         this.feed = {
@@ -1485,7 +1485,7 @@ export default {
             "I just joined a discussion, " +
             this.discussion.name.bold() +
             " and I’d like to hear your thoughts",
-          url: "https://nzukoor.com/explore/discussion/" + this.discussion.id,
+          url: "https://nzukoor.com/g/discussion/" + this.discussion.id,
         };
       }
       this.feed = {
@@ -1493,7 +1493,7 @@ export default {
           "I just started a discussion, " +
           this.discussion.name.toUpperCase() +
           " and I’d like to hear your thoughts",
-        url: "https://nzukoor.com/explore/discussion/" + this.discussion.id,
+        url: "https://nzukoor.com/g/discussion/" + this.discussion.id,
       };
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {

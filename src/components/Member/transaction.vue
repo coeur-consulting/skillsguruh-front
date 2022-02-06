@@ -22,7 +22,7 @@
               <p>{{ order.message }}</p>
             </div>
 
-            <router-link to="/member">
+            <router-link to="/me">
               <b-button variant="lighter-green"
                 >Back to Home</b-button
               ></router-link

@@ -86,7 +86,7 @@
                       variant="lighter-green"
                       @click="
                         $router.push(
-                          `/member/solve/template/${media.template.id}/${module_id}/${$route.params.id}`
+                          `/me/solve/template/${media.template.id}/${module_id}/${$route.params.id}`
                         )
                       "
                       >View response</b-button

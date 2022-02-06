@@ -868,7 +868,7 @@
                             class="comment_name"
                             @click="
                               $router.push(
-                                `/member/profile/${item.user.username}`
+                                `/me/profile/${item.user.username}`
                               )
                             "
                           >
@@ -915,7 +915,7 @@
                                 class="comment_name mr-1"
                                 @click="
                                   $router.push(
-                                    `/member/profile/${rep.user.username}`
+                                    `/me/profile/${rep.user.username}`
                                   )
                                 "
                               >
@@ -983,7 +983,7 @@
                     <div
                       class="d-flex flex-1"
                       @click="
-                        $router.push(`/member/profile/${item.user.username}`)
+                        $router.push(`/me/profile/${item.user.username}`)
                       "
                     >
                       <b-avatar
@@ -1524,7 +1524,7 @@ export default {
       } else {
         this.$http
           .get(
-            `${this.$store.getters.url}/member/discussions/${this.detail.id}`
+            `${this.$store.getters.url}/me/discussions/${this.detail.id}`
           )
           .then((res) => {
             if (res.status == 200) {
@@ -1574,7 +1574,7 @@ export default {
           });
       } else {
         this.$http
-          .get(`${this.$store.getters.url}/member/feeds/${this.detail.id}`)
+          .get(`${this.$store.getters.url}/me/feeds/${this.detail.id}`)
           .then((res) => {
             if (res.status == 200) {
               this.feeds = res.data;
@@ -1642,7 +1642,7 @@ export default {
       } else {
         this.$http
           .get(
-            `${this.$store.getters.url}/member/connections/${this.detail.id}`
+            `${this.$store.getters.url}/me/connections/${this.detail.id}`
           )
           .then((res) => {
             if (res.status == 200) {

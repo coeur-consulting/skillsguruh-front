@@ -77,7 +77,7 @@
             </div>
             <span
               class="tribe_circle cursor-pointer"
-              @click="$router.push(`/member/tribe/feed/${n.id}`)"
+              @click="$router.push(`/me/tribe/feed/${n.id}`)"
             >
               <b-avatar size="lg" :src="n.cover"></b-avatar>
             </span>
@@ -296,10 +296,10 @@ export default {
         tribe_id: id,
         user: this.$store.getters.member,
       };
-  
+
       this.$store.dispatch("checkTribe", details).then((res) => {
         if (res.status == 200 && res.data.message == "found") {
-          window.location.href = `/member/tribe/feed/${id}`;
+          window.location.href = `/me/tribe/feed/${id}`;
         } else {
           this.$bvModal
             .msgBoxConfirm("Do you wish to join this tribe?")
@@ -308,7 +308,7 @@ export default {
                 this.$store.dispatch("joinTribe", details).then((res) => {
                   if (res.status == 200 && res.data.message == "successful") {
                     this.$toast.success("Joined successfully");
-                    window.location.href = `/member/tribe/feed/${id}`;
+                    window.location.href = `/me/tribe/feed/${id}`;
                   }
                 });
               }

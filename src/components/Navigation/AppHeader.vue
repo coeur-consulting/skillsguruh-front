@@ -44,7 +44,7 @@
                   </div>
                 </template>
 
-                <b-dropdown-item to="/member" class="fs14">
+                <b-dropdown-item to="/me" class="fs14">
                   <div
                     class="d-flex align-items-center justify-content-between"
                   >

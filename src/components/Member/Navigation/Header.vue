@@ -57,7 +57,7 @@
                 v-for="user in groupedUsers"
                 :key="user.id"
               >
-                <router-link :to="`/member/profile/${user.username}`">
+                <router-link :to="`/me/profile/${user.username}`">
                   <span class="d-flex align-items-center search_item"
                     ><b-avatar
                       :src="user.profile"
@@ -278,7 +278,7 @@
 
             <b-dropdown-item
               class="fs14"
-              @click="$router.push(`/member/profile`)"
+              @click="$router.push(`/me/profile`)"
             >
               <div class="d-flex align-items-center justify-content-between">
                 <span class="mr-4"> Profile</span>
@@ -321,7 +321,7 @@
               />
               Explore</b-nav-item
             >
-            <b-nav-item to="/member" class="d-none d-md-flex">
+            <b-nav-item to="/me" class="d-none d-md-flex">
               <font-awesome-icon
                 :icon="rss"
                 style="font-size:24px"
@@ -331,7 +331,7 @@
               />
               Feed</b-nav-item
             >
-            <b-nav-item to="/member/tribes" class="d-none d-md-flex">
+            <b-nav-item to="/me/tribes" class="d-none d-md-flex">
               <b-img
                 :src="require('@/assets/images/mask.png')"
                 class="imgtribe mr-2"
@@ -339,7 +339,7 @@
               />
               Tribes</b-nav-item
             >
-            <b-nav-item to="/member/community" class="d-none d-md-flex">
+            <b-nav-item to="/me/community" class="d-none d-md-flex">
               <b-img
                 :src="require('@/assets/images/globe.png')"
                 alt="community"
@@ -355,7 +355,7 @@
               class="text-left pl-3 text-dark fs13"
               v-if="
                 $route.path == '/explore/community' ||
-                $route.path == '/member/tribes'
+                $route.path == '/me/tribes'
               "
             >
               <h6 class="fs13 font-weight-bold">Sort by</h6>
@@ -402,7 +402,7 @@
           >
             <div class="mb-4 text-muted">
               <small
-                @click="$router.push('/member/tribes')"
+                @click="$router.push('/me/tribes')"
                 class="pl-3 cursor-pointer back"
               >
                 <span class="mr-2">
@@ -419,14 +419,14 @@
             </div>
             <nav class="mb-3 class text-left">
               <b-nav vertical>
-                <!-- <b-nav-item :to="`/member/tribe/feed/${$route.params.tribe}`"
+                <!-- <b-nav-item :to="`/me/tribe/feed/${$route.params.tribe}`"
                   ><font-awesome-icon
                     :icon="rss"
                     class="icon mr-3"
                   />Feeds</b-nav-item
                 > -->
                 <b-nav-item
-                  :to="`/member/tribe/discussions/${$route.params.tribe}`"
+                  :to="`/me/tribe/discussions/${$route.params.tribe}`"
                 >
                   <font-awesome-icon
                     :icon="comments"
@@ -434,14 +434,14 @@
                   />Discussions</b-nav-item
                 >
                 <!-- <b-nav-item
-                  :to="`/member/tribe/courses/${$route.params.tribe}`"
+                  :to="`/me/tribe/courses/${$route.params.tribe}`"
                 >
                   <font-awesome-icon
                     :icon="bookopen"
                     class="icon mr-3"
                   />Courses</b-nav-item
                 > -->
-                <!-- <b-nav-item :to="`/member/tribe/events/${$route.params.tribe}`">
+                <!-- <b-nav-item :to="`/me/tribe/events/${$route.params.tribe}`">
                   <font-awesome-icon
                     :icon="calendar"
                     class="icon mr-3"
@@ -1048,7 +1048,7 @@ export default {
               .dispatch("leaveTribe", details)
               .then((res) => {
                 if (res.status == 200 && res.data.message == "successful") {
-                  this.$router.push(`/member/tribes`);
+                  this.$router.push(`/me/tribes`);
                   this.$toast.success("You have left the tribe");
                 }
               })

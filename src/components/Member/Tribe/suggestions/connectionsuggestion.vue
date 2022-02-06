@@ -30,7 +30,7 @@
           >
             <b-card-img
             class="cursor-pointer"
-             @click="$router.push(`/member/profile/${item.username}`)"
+             @click="$router.push(`/me/profile/${item.username}`)"
               :src="
                 item.profile
                   ? item.profile

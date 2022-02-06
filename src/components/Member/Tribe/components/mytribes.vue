@@ -301,7 +301,7 @@ export default {
       };
     },
     entertribe(id) {
-      window.location.href = `/member/tribe/discussions/${id}`;
+      window.location.href = `/me/tribe/discussions/${id}`;
     },
     infiniteHandler($state) {
       this.$http

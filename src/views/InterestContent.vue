@@ -31,7 +31,6 @@
                 >
                   <b-card-body class="p-0">
                     <div class="d-flex align-items-center">
-
                       <div
                         class="text-left d-inline d-sm-none border-right p-2"
                       >
@@ -45,7 +44,6 @@
                           <span class="d-none d-sm-inline">Back</span>
                         </span>
                       </div>
-
                     </div>
                     <hr class="mt-0" />
                     <nav class="w-100">
@@ -58,8 +56,6 @@
                           list-unstyled
                         "
                       >
-
-
                         <li
                           class="h6 fs14 cursor-pointer mb-0 text-muted"
                           :class="active == 2 ? 'active' : ''"
@@ -67,7 +63,6 @@
                         >
                           Discussions
                         </li>
-
                       </ul>
                     </nav>
                   </b-card-body>
@@ -81,7 +76,6 @@
                   style=""
                 >
                   <b-card-body class="px-0">
-
                     <div v-if="active == 2" class="pt-0 px-0">
                       <div>
                         <div class="main_content" v-if="discussions.length">
@@ -232,8 +226,6 @@
                               </div>
                             </div>
                           </div>
-
-
                         </div>
 
                         <div v-else class="text-center admin_tab p-3 p-sm-5">
@@ -247,12 +239,25 @@
                           </div>
                         </div>
                       </div>
-                      <div class="d-flex justify-content-end mt-4" v-if="discussions.length">
-                             <b-button  size="sm" class="mr-2" :disabled="page===1" @click="page--">Prev</b-button>
-                            <b-button size="sm" :disabled="page===lastpage" @click="page++">Next</b-button>
-                          </div>
+                      <div
+                        class="d-flex justify-content-end mt-4"
+                        v-if="discussions.length"
+                      >
+                        <b-button
+                          size="sm"
+                          class="mr-2"
+                          :disabled="page === 1"
+                          @click="page--"
+                          >Prev</b-button
+                        >
+                        <b-button
+                          size="sm"
+                          :disabled="page === lastpage"
+                          @click="page++"
+                          >Next</b-button
+                        >
+                      </div>
                     </div>
-
                   </b-card-body>
                 </b-card>
               </b-col>
@@ -268,7 +273,6 @@
                   :class="subId == sub.value ? 'activesub' : ''"
                   class="d-flex align-items-center"
                 >
-
                   <span>{{ sub.value.trim() }}</span>
                 </li>
               </ul>
@@ -291,7 +295,9 @@
             network="facebook"
             :url="link"
             title="COURSE INVITATION"
-            :description="`I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`"
+            :description="
+              `I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`
+            "
             quote="Nzukoor"
             hashtags="Nzukoor,  Social learning"
           >
@@ -305,7 +311,9 @@
             network="twitter"
             :url="link"
             title="COURSE INVITATION"
-            :description="`I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`"
+            :description="
+              `I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`
+            "
             quote="Nzukoor"
             hashtags="Nzukoor,  Social learning"
           >
@@ -319,7 +327,9 @@
             network="whatsApp"
             :url="link"
             title="COURSE INVITATION"
-            :description="`I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`"
+            :description="
+              `I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`
+            "
             quote="Nzukoor"
             hashtags="Nzukoor,  Social learning"
           >
@@ -345,7 +355,9 @@
             network="Telegram"
             :url="link"
             title="COURSE INVITATION"
-            :description="`I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`"
+            :description="
+              `I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`
+            "
             quote="Nzukoor"
             hashtags="Nzukoor,  Social learning"
           >
@@ -716,7 +728,7 @@
             <h6>Liked by</h6>
             <div
               class="comment d-flex text-left mb-2"
-              v-for="(item, index) in alllikes.likes.filter((val) => val.like)"
+              v-for="(item, index) in alllikes.likes.filter(val => val.like)"
               :key="index"
             >
               <div class="flex-1">
@@ -738,7 +750,7 @@
                   <div class="d-flex mb-1" v-if="item.user">
                     <div
                       class="d-flex flex-1"
-                      @click="$router.push(`/member/profile/${item.username}`)"
+                      @click="$router.push(`/me/profile/${item.username}`)"
                     >
                       <b-avatar
                         class="mr-2"
@@ -756,7 +768,7 @@
                     <div
                       class="d-flex flex-1"
                       @click="
-                        $router.push(`/member/profile/f/${item.facilitator.id}`)
+                        $router.push(`/me/profile/f/${item.facilitator.id}`)
                       "
                     >
                       <b-avatar
@@ -809,7 +821,7 @@ export default {
         id: "",
         name: "",
         type: "",
-        profile: "",
+        profile: ""
       },
       open: false,
       showAll: false,
@@ -824,9 +836,9 @@ export default {
         url: "",
         users: [
           {
-            email: "",
-          },
-        ],
+            email: ""
+          }
+        ]
       },
       course: null,
       courses: [],
@@ -842,8 +854,8 @@ export default {
       feed: null,
       alllikes: null,
       allcomments: null,
-      page:1,
-      lastpage:null
+      page: 1,
+      lastpage: null
     };
   },
   created() {
@@ -854,7 +866,7 @@ export default {
     $route: "getcontent",
     filteredinterests: "setSubInterest",
     subId: "getcontent",
-    page:"getcontent"
+    page: "getcontent"
   },
   computed: {
     usertoken() {
@@ -872,12 +884,12 @@ export default {
     },
     filteredinterests() {
       return this.subinterests.filter(
-        (item) => item.category_id == this.$route.params.id
+        item => item.category_id == this.$route.params.id
       );
     },
     currentinterests() {
       var result = this.interests.filter(
-        (item) => item.id == this.$route.params.id
+        item => item.id == this.$route.params.id
       );
       return result.slice().shift();
     },
@@ -887,8 +899,7 @@ export default {
         this.perPage * this.currentPage - this.perPage,
         this.perPage * this.currentPage
       );
-    },
-
+    }
   },
 
   methods: {
@@ -902,11 +913,14 @@ export default {
     },
     sharenow(feed) {
       this.description = this.toText(feed.message);
-      this.link = `https://nzukoor.com/member/feed/view/${feed.id}?utf_medium=share`;
+      this.link = `https://nzukoor.com/me/feed/${feed.id}?utf_medium=share`;
       this.$bvModal.show("share");
     },
     setSubInterest() {
-      this.subId = this.filteredinterests.slice().shift().value.trim();
+      this.subId = this.filteredinterests
+        .slice()
+        .shift()
+        .value.trim();
     },
     sharelink(id) {
       this.link = `https://nzukoor.com/explore/courses/?course=${encodeURIComponent(
@@ -916,7 +930,7 @@ export default {
     },
     loadCourse() {
       this.course = this.courses.find(
-        (item) => item.id == this.$route.query.course_id
+        item => item.id == this.$route.query.course_id
       );
     },
     getmediacount(arr, media) {
@@ -925,8 +939,8 @@ export default {
         return 0;
       }
       if (media == "document") {
-        arr.forEach((val) => {
-          JSON.parse(val.modules).forEach((item) => {
+        arr.forEach(val => {
+          JSON.parse(val.modules).forEach(item => {
             if (
               item.file_type.toLowerCase() == media.toLowerCase() ||
               item.file_type.toLowerCase() == "worksheet"
@@ -936,8 +950,8 @@ export default {
           });
         });
       } else {
-        arr.forEach((val) => {
-          JSON.parse(val.modules).forEach((item) => {
+        arr.forEach(val => {
+          JSON.parse(val.modules).forEach(item => {
             if (item.file_type.toLowerCase() == media.toLowerCase()) {
               newarr.push(item);
             }
@@ -971,7 +985,7 @@ export default {
       this.$bvModal.show("allcomments");
     },
     getlikes(item) {
-      var arr = item.filter((val) => val.like);
+      var arr = item.filter(val => val.like);
       var first = {};
       var check = null;
       first = arr.slice().shift();
@@ -1008,22 +1022,23 @@ export default {
       if (arr.length > 1) {
         if (this.$store.getters.member.access_token) {
           check = arr.some(
-            (val) => val.user_id && val.user.id == this.$store.getters.member.id
+            val => val.user_id && val.user.id == this.$store.getters.member.id
           );
           if (check) {
             result = `Liked by you and ${arr.length - 1} others`;
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${first.user.username} and  ${arr.length -
+                1} ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${
+                first.facilitator.username
+              } and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
               return result;
             }
             if (first.admin) {
@@ -1036,7 +1051,7 @@ export default {
         }
         if (this.$store.getters.facilitator.access_token) {
           check = arr.some(
-            (val) =>
+            val =>
               val.facilitator_id &&
               val.facilitator.id == this.$store.getters.facilitator.id
           );
@@ -1045,15 +1060,16 @@ export default {
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${first.user.username} and  ${arr.length -
+                1} ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${
+                first.facilitator.username
+              } and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
               return result;
             }
             if (first.admin) {
@@ -1066,22 +1082,23 @@ export default {
         }
         if (this.$store.getters.admin.access_token) {
           check = arr.some(
-            (val) => val.admin && val.admin.id == this.$store.getters.admin.id
+            val => val.admin && val.admin.id == this.$store.getters.admin.id
           );
           if (check) {
             result = `Liked by you and ${arr.length - 1} others`;
             return result;
           } else {
             if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${first.user.username} and  ${arr.length -
+                1} ${arr.length - 1 > 1 ? "others" : "other"} `;
               return result;
             }
             if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
+              result = `Liked by  ${
+                first.facilitator.username
+              } and  ${arr.length - 1} ${
+                arr.length - 1 > 1 ? "others" : "other"
+              } `;
               return result;
             }
             if (first.admin) {
@@ -1108,12 +1125,14 @@ export default {
 
     getcontent() {
       this.$http
-        .get(`${this.$store.getters.url}/get/interests/${this.subId}?page=${this.page}`)
-        .then((res) => {
+        .get(
+          `${this.$store.getters.url}/get/interests/${this.subId}?page=${this.page}`
+        )
+        .then(res => {
           if (res.status == 200) {
-            this.discussions =res.data.discussions.data;
+            this.discussions = res.data.discussions.data;
             this.showCourse = true;
-            this.lastpage = res.data.discussions.last_page
+            this.lastpage = res.data.discussions.last_page;
           }
         })
         .catch(() => {
@@ -1123,7 +1142,7 @@ export default {
     getUsers() {
       this.$http
         .get(`${this.$store.getters.url}/guest/users/${this.subId}`)
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.users = res.data;
             this.rows = res.data.length;
@@ -1133,12 +1152,12 @@ export default {
     getfacilitators() {
       this.$http
         .get(`${this.$store.getters.url}/guest/facilitators`)
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1147,8 +1166,8 @@ export default {
       this.$bvModal.show("sharecourse");
     },
     vote(val) {
-      var positive = val.filter((item) => item.vote).length;
-      var negative = val.filter((item) => !item.vote).length;
+      var positive = val.filter(item => item.vote).length;
+      var negative = val.filter(item => !item.vote).length;
       return Number(positive) - Number(negative);
     },
     sendinvite(title) {
@@ -1160,10 +1179,10 @@ export default {
         this.$http
           .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
             headers: {
-              Authorization: `Bearer ${this.usertoken.access_token}`,
-            },
+              Authorization: `Bearer ${this.usertoken.access_token}`
+            }
           })
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.$toast.success("Invite Sent");
               this.$bvModal.hide("sharecourse");
@@ -1173,9 +1192,9 @@ export default {
                 title: "",
                 users: [
                   {
-                    email: "",
-                  },
-                ],
+                    email: ""
+                  }
+                ]
               };
             }
           })
@@ -1187,10 +1206,10 @@ export default {
         this.$http
           .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+            }
           })
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.$toast.success("Invite Sent");
               this.$bvModal.hide("sharecourse");
@@ -1200,9 +1219,9 @@ export default {
                 title: "",
                 users: [
                   {
-                    email: "",
-                  },
-                ],
+                    email: ""
+                  }
+                ]
               };
             }
           })
@@ -1216,7 +1235,7 @@ export default {
             `${this.$store.getters.url}/guest/send/invite`,
             this.inviteUsers
           )
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.$toast.success("Invite Sent");
               this.$bvModal.hide("sharecourse");
@@ -1226,9 +1245,9 @@ export default {
                 title: "",
                 users: [
                   {
-                    email: "",
-                  },
-                ],
+                    email: ""
+                  }
+                ]
               };
             }
           })
@@ -1240,17 +1259,17 @@ export default {
     },
     addinvite() {
       this.inviteUsers.users.push({
-        email: "",
+        email: ""
       });
     },
-    onCopy: function (e) {
+    onCopy: function(e) {
       alert("You just copied the following text to the clipboard: " + e.text);
     },
-    onError: function (e) {
+    onError: function(e) {
       alert("Failed to copy the text to the clipboard");
       console.log(e);
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">
@@ -1384,7 +1403,6 @@ h4.card-title {
 }
 .my_courses {
   max-height: 100%;
-
 }
 .my_courses::-webkit-scrollbar {
   display: none;

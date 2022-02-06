@@ -101,7 +101,7 @@
                         <b-button
                           variant="light"
                           @click="
-                            $router.push(`/facilitator/view/member/${item.id}`)
+                            $router.push(`/facilitator/view/me/${item.id}`)
                           "
                           class="fs12 text-muted px-2"
                           >View</b-button

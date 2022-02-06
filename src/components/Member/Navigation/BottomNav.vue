@@ -1,26 +1,26 @@
 <template lang="">
   <div class="position-fixed bottom-nav d-flex justify-content-between align-items-center border-top bg-white">
-    <router-link to="/member" class="d-flex align-items-center">  <font-awesome-icon
+    <router-link to="/me" class="d-flex align-items-center">  <font-awesome-icon
                 :icon="rss"
                 style="font-size:20px"
                 class="  mr-1"
                 v-b-tooltip.hover
                 title="Feed"
-              /> <span v-show="$route.path==='/member'"> Feed</span></router-link>
-      <router-link to="/member/tribes" class="d-flex align-items-center">  <font-awesome-icon
+              /> <span v-show="$route.path==='/me'"> Feed</span></router-link>
+      <router-link to="/me/tribes" class="d-flex align-items-center">  <font-awesome-icon
                 :icon="users"
                 style="font-size:20px"
                 class="  mr-1"
                 v-b-tooltip.hover
                 title="Tribes"
-              /> <span v-show="$route.path==='/member/tribes'">  Tribes</span></router-link>
-      <router-link to="/member/community" class="d-flex align-items-center">  <font-awesome-icon
+              /> <span v-show="$route.path==='/me/tribes'">  Tribes</span></router-link>
+      <router-link to="/me/community" class="d-flex align-items-center">  <font-awesome-icon
                 :icon="link"
                 style="font-size:20px"
                 class="  mr-1"
                 v-b-tooltip.hover
                 title="connections"
-              /> <span v-show="$route.path==='/member/community'"> Connections</span></router-link>
+              /> <span v-show="$route.path==='/me/community'"> Connections</span></router-link>
       <router-link to="/messages" class="position-relative d-flex align-items-center">   <font-awesome-icon
                 :icon="envelope"
                 style="font-size:20px"

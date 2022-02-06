@@ -70,7 +70,7 @@
                             pill
                             size="sm"
                             variant="outline-dark-green"
-                            @click="$router.push(`/member/event/${item.id}`)"
+                            @click="$router.push(`/me/event/${item.id}`)"
                             >View Event</b-button
                           >
                           <div v-else>
@@ -79,7 +79,7 @@
                               pill
                               size="sm"
                               variant="outline-dark-green"
-                              @click="$router.push(`/member/event/${item.id}`)"
+                              @click="$router.push(`/me/event/${item.id}`)"
                               >View Event</b-button
                             >
                             <a :href="item.url" target="_blank">
@@ -256,7 +256,7 @@
                     <span
                       ><router-link
                         class="text-dark-green"
-                        to="/member/courses?action=setupcourse"
+                        to="/me/courses?action=setupcourse"
                         >Set up Now</router-link
                       ></span
                     >
@@ -480,7 +480,7 @@ export default {
         this.getschedules();
         this.getevents();
       });
-  
+
   },
   mounted() {
     this.$root.$on("bv::modal::hide", () => {

@@ -18,7 +18,7 @@
           </div>
           <b-popover :target="id+item.username"  triggers="hover">
             <b-button class="mr-3" variant="light" size="sm" @click="getmessage(item.id, item.username, 'user', item.profile,0)">Message</b-button>
-             <b-button variant="light" size="sm" @click="$router.push(`/member/profile/${item.username}`)">View profile</b-button>
+             <b-button variant="light" size="sm" @click="$router.push(`/me/profile/${item.username}`)">View profile</b-button>
 
           </b-popover>
         </div>
@@ -79,7 +79,7 @@ export default {
     async getmembers() {
       return this.$http
         .get(
-          `${this.$store.getters.url}/tribe/members/${this.$route.params.tribe}`,
+          `${this.$store.getters.url}/tribe/mes/${this.$route.params.tribe}`,
           {
             headers: {
               Authorization: `Bearer ${this.$store.getters.member.access_token}`,

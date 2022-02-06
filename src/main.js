@@ -106,7 +106,7 @@ function tags(text){
      .map((item) => {
        if ((match = reg.exec(item))) {
          reg.exec(item);
-         item = `  <a  href='/member/profile/${match[1]}'><span class='highlight'>${match[0]}</span></a> `;
+         item = `  <a  href='/me/profile/${match[1]}'><span class='highlight'>${match[0]}</span></a> `;
          return item;
        }
        return item;
@@ -221,12 +221,12 @@ router.beforeEach((to, from, next) => {
   //           next();
   //         } else {
   //           Vue.$toast.error("Unauthorised access");
-  //           next("/member/tribes");
+  //           next("/me/tribes");
   //         }
   //       });
   //   } else {
   //     Vue.$toast.error("Unauthorised access");
-  //     next("/member/tribes");
+  //     next("/me/tribes");
   //   }
   // } else {
   //   next();

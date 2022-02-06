@@ -44,7 +44,7 @@
               <span class="side-link">Team</span>
             </div>
           </router-link>
-          <!-- <router-link to="/administrator/members">
+          <!-- <router-link to="/administrator/mes">
           <div class="side_item">
             <b-icon
               icon="people"

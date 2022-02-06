@@ -379,7 +379,7 @@ export default {
         });
     },
     view(id) {
-      this.$router.push(`/member/event/${id}`);
+      this.$router.push(`/me/event/${id}`);
     },
     drop(id, index) {
       this.$bvModal.msgBoxConfirm("Are you sure").then((val) => {

@@ -24,7 +24,6 @@
                     border-bottom
                   "
                 >
-
                   <div class="d-flex align-items-center" v-if="feed.user">
                     <b-avatar
                       :src="feed.user.profile"
@@ -32,7 +31,7 @@
                       class="mr-2"
                     ></b-avatar>
                     <div
-                      @click="$router.push(`/member/profile/${feed.user.username}`)"
+                      @click="$router.push(`/me/profile/${feed.user.username}`)"
                       class="feed_name"
                     >
                       {{ feed.user.username }}
@@ -66,16 +65,19 @@
                     </b-dropdown-item>
                   </b-dropdown>
                 </div>
-                <div >
-                  <p class="px-3" v-html="$options.filters.tagsfilter(feed.message)"> </p>
+                <div>
+                  <p
+                    class="px-3"
+                    v-html="$options.filters.tagsfilter(feed.message)"
+                  ></p>
                   <div v-if="feed.url" class="text-dark-green mb-1">
                     <a :href="feed.url" target="_blank">Click link</a>
                   </div>
-                  <div v-if="feed.tags" class="px-3 px-md-0 mb-1">
+                  <!-- <div v-if="feed.tags" class="px-3 px-md-0 mb-1">
                     <div class="d-flex justify-content-start">
                       <b-col
                         cols="auto"
-                        class="pr-2 pl-0"
+                        class="px-2 "
                         v-for="(tag, id) in feed.tags"
                         :key="id"
                       >
@@ -87,46 +89,41 @@
                         >
                       </b-col>
                     </div>
-                  </div>
-                   <div class="px-1" v-if="feed.media && feed.media.length">
-                      <div class="mb-4 position-relative w-100 media bg-white">
-
-                        <b-carousel
-                           v-if="feed.mediaType==='image'"
-                          id="carousel-fade"
-                          style="text-shadow: 0px 0px 2px #000"
-                          indicators
-                          :interval="0"
+                  </div> -->
+                  <div class="px-1" v-if="feed.media && feed.media.length">
+                    <div class="mb-4 position-relative w-100 media bg-white">
+                      <b-carousel
+                        v-if="feed.mediaType === 'image'"
+                        id="carousel-fade"
+                        style="text-shadow: 0px 0px 2px #000"
+                        indicators
+                        :interval="0"
+                      >
+                        <b-carousel-slide
+                          v-for="(item, id) in feed.media"
+                          :key="id"
+                          background="#000"
                         >
-                          <b-carousel-slide
-                            v-for="(item, id) in feed.media"
-                            :key="id"
-                            background="#000"
-                          >
-                            <template #img>
-                              <img
-
-                                class="d-block img-fluid w-100"
-                                width="1024"
-                                height="480"
-                                :src="item"
-                                alt="image"
-                              />
-                            </template>
-                          </b-carousel-slide>
-                        </b-carousel>
-                        <video
-
-                           v-if="feed.mediaType==='video'"
-                          controls
-                          width="100%"
-                          height="480"
-                          :src="feed.media[0]"
-                        ></video>
-
-
-                      </div>
+                          <template #img>
+                            <img
+                              class="d-block img-fluid w-100"
+                              width="1024"
+                              height="480"
+                              :src="item"
+                              alt="image"
+                            />
+                          </template>
+                        </b-carousel-slide>
+                      </b-carousel>
+                      <video
+                        v-if="feed.mediaType === 'video'"
+                        controls
+                        width="100%"
+                        height="480"
+                        :src="feed.media[0]"
+                      ></video>
                     </div>
+                  </div>
                 </div>
               </b-col>
               <b-col md="4">
@@ -142,7 +139,7 @@
                       ></b-avatar>
                       <div
                         @click="
-                          $router.push(`/member/profile/${feed.user.username}`)
+                          $router.push(`/me/profile/${feed.user.username}`)
                         "
                         class="feed_name"
                       >
@@ -191,16 +188,16 @@
                       <span
                         class="comment_name mr-1"
                         @click="
-                          $router.push(
-                            `/member/profile/${comment.user.username}`
-                          )
+                          $router.push(`/me/profile/${comment.user.username}`)
                         "
                         v-if="comment.user"
                         >{{ comment.user.username }}</span
                       >
 
-                      <span class="comment_text mr-2" v-html="$options.filters.tagsfilter(comment.comment)">
-
+                      <span
+                        class="comment_text mr-2"
+                        v-html="$options.filters.tagsfilter(comment.comment)"
+                      >
                       </span>
                       <div
                         class="
@@ -224,14 +221,8 @@
                           >
                             <b-icon
                               class="mr-2"
-                              :icon="
-                                comment.isLiked
-                                  ? 'heart-fill'
-                                  : 'heart'
-                              "
-                              :class="
-                                comment.isLiked ? 'text-danger' : ''
-                              "
+                              :icon="comment.isLiked ? 'heart-fill' : 'heart'"
+                              :class="comment.isLiked ? 'text-danger' : ''"
                               @click="likecomment(comment.id, id, feed.user.id)"
                             ></b-icon>
                           </small>
@@ -255,8 +246,8 @@
                     </b-card-text>
                   </div>
                   <hr />
-                  <div class="px-3 py-2 border-bottom">
-                    <div class="interactions text-left py-1">
+                  <div class=" border-bottom ">
+                    <div class="interactions text-left py-1 px-3">
                       <span
                         class="mr-2 cursor-pointer"
                         @click="toggleLike(feed.id)"
@@ -309,12 +300,13 @@
                       </span>
                     </div>
                     <div
-                      class="liked_by py-1"
+                      v-if="feed.likesCount"
+                      class="liked_by px-3"
                       @click="showlikes(feed)"
-                      v-html="getlikes(feed.likes)"
+                      v-html="getlikes(feed.likesCount)"
                     ></div>
 
-                    <div class="fs12 text-muted py-1">
+                    <div class="fs12 text-muted py-1 px-3 text-right ">
                       {{ $moment(feed.created_at).fromNow() }}
                     </div>
                   </div>
@@ -326,7 +318,7 @@
                           class="border-0 bg-transparent d-block"
                           ><span
                             @click="addcomment(feed.id, index)"
-                            class="text-dark-green cursor-pointer comment_post"
+                            class="text-dark-green cursor-pointer comment_post fs14"
                             >Post</span
                           ></b-input-group-text
                         >
@@ -383,22 +375,21 @@
                         </b-input-group-text>
                       </template>
 
-                       <a-mentions
-                          v-model="comment.comment"
-                          type="text"
-
-                          autocomplete="off"
-                          placeholder="Type a comment ..."
-                          class="border-0 no-focus "
+                      <a-mentions
+                        v-model="comment.comment"
+                        type="text"
+                        autocomplete="off"
+                        placeholder="Type a comment ..."
+                        class="rounded-pill no-focus"
+                      >
+                        <a-mentions-option
+                          v-for="(item, id) in connections"
+                          :key="id"
+                          :value="item"
                         >
-                          <a-mentions-option
-                            v-for="(item, id) in connections"
-                            :key="id"
-                            :value="item"
-                          >
-                            {{ item }}
-                          </a-mentions-option>
-                        </a-mentions>
+                          {{ item }}
+                        </a-mentions-option>
+                      </a-mentions>
                     </b-input-group>
                   </div>
                 </b-card-body>
@@ -445,7 +436,7 @@
                   <div class="d-flex mb-1" v-if="item.user">
                     <div
                       class="d-flex flex-1"
-                      @click="$router.push(`/member/profile/${item.user.username}`)"
+                      @click="$router.push(`/me/profile/${item.user.username}`)"
                     >
                       <b-avatar
                         class="mr-2"
@@ -463,7 +454,7 @@
                     <div
                       class="d-flex flex-1"
                       @click="
-                        $router.push(`/member/profile/f/${item.facilitator.id}`)
+                        $router.push(`/me/profile/f/${item.facilitator.id}`)
                       "
                     >
                       <b-avatar
@@ -563,9 +554,7 @@
           ></b-avatar>
           <span
             class="comment_name"
-            @click="
-              $router.push(`/member/profile/${replycomment.user.username}`)
-            "
+            @click="$router.push(`/me/profile/${replycomment.user.username}`)"
           >
             {{ replycomment.user.username }}
           </span>
@@ -577,18 +566,18 @@
         ></div>
       </template>
       <a-mentions
-          v-model="commentreply"
-          placeholder="Reply comment"
-          class="mb-3 commentreply w-100"
+        v-model="commentreply"
+        placeholder="Reply comment"
+        class="mb-3 commentreply w-100"
+      >
+        <a-mentions-option
+          v-for="(item, id) in connections"
+          :key="id"
+          :value="item"
         >
-          <a-mentions-option
-            v-for="(item, id) in connections"
-            :key="id"
-            :value="item"
-          >
-            {{ item }}
-          </a-mentions-option>
-        </a-mentions>
+          {{ item }}
+        </a-mentions-option>
+      </a-mentions>
       <b-button variant="dark-green" @click="postreply" size="sm"
         >Reply</b-button
       >
@@ -602,7 +591,7 @@
           ></b-avatar>
           <span
             class="comment_name"
-            @click="$router.push(`/member/profile/${allreplies.user.username}`)"
+            @click="$router.push(`/me/profile/${allreplies.user.username}`)"
           >
             {{ allreplies.user.username }}
           </span>
@@ -632,14 +621,17 @@
                 ></b-avatar>
                 <span
                   class="comment_name"
-                  @click="$router.push(`/member/profile/${rep.user.username}`)"
+                  @click="$router.push(`/me/profile/${rep.user.username}`)"
                 >
                   {{ rep.user.username }}
                 </span>
               </div>
               <div class="d-flex align-items-start flex-1">
                 <span class="d-flex justify-content-between w-100 flex-1">
-                  <span class="comment_text flex-1 d-flex align-items-center" v-html="$options.filters.tagsfilter(rep.message)"></span>
+                  <span
+                    class="comment_text flex-1 d-flex align-items-center"
+                    v-html="$options.filters.tagsfilter(rep.message)"
+                  ></span>
                   <span
                     ><b-icon
                       :icon="rep.isLiked ? 'heart-fill' : 'heart'"
@@ -689,10 +681,10 @@ export default {
   },
   created() {
     this.getfeeds();
-     this.$store.dispatch("GET_CONNECTIONS");
+    this.$store.dispatch("GET_CONNECTIONS");
   },
   computed: {
-     connections() {
+    connections() {
       return this.$store.getters.connections.map((item) => item.username);
     },
     useraccess() {
@@ -748,11 +740,13 @@ export default {
         )
         .then((res) => {
           if (res.data === "success") {
-            this.allreplies.feedcommentreplies[this.comment_index].isLiked = true
-
+            this.allreplies.feedcommentreplies[
+              this.comment_index
+            ].isLiked = true;
           } else {
-            this.allreplies.feedcommentreplies[this.comment_index].isLiked = false
-
+            this.allreplies.feedcommentreplies[
+              this.comment_index
+            ].isLiked = false;
           }
         });
     },
@@ -780,7 +774,7 @@ export default {
             this.feed.comments[this.comment_index].feedcommentreplies.unshift(
               res.data
             );
-            this.feed.comments[this.comment_index].commentreplycount++
+            this.feed.comments[this.comment_index].commentreplycount++;
             this.commentreply = "";
             this.$bvModal.hide("replycomment");
           }
@@ -816,133 +810,10 @@ export default {
       this.$bvModal.show("alllikes");
     },
     getlikes(item) {
-      var arr = item.filter((val) => val.like);
-      var first = {};
-      var check = null;
-      first = arr.slice().shift();
-      var result = "";
-      if (arr.length == 1) {
-        if (first.user) {
-          result = `<span>Liked by ${
-            this.useraccess == "member" &&
-            this.$store.getters.member.id == first.user.id
-              ? "you"
-              : first.user.username
-          } </span>`;
-          return result;
-        }
-        if (first.facilitator) {
-          result = `<span>Liked by ${
-            this.useraccess == "facilitator" &&
-            this.$store.getters.facilitator.id == first.facilitator.id
-              ? "you"
-              : first.facilitator.username
-          } </span>`;
-          return result;
-        }
-        if (first.admin) {
-          result = `<span>Liked by ${
-            this.useraccess == "admin" &&
-            this.$store.getters.admin.id == first.admin.id
-              ? "you"
-              : first.admin.name
-          } </span>`;
-          return result;
-        }
-      }
-      if (arr.length > 1) {
-        if (this.$store.getters.member.access_token) {
-          check = arr.some(
-            (val) => val.user_id && val.user.id == this.$store.getters.member.id
-          );
-          if (check) {
-            result = `Liked by you and ${arr.length - 1} others`;
-            return result;
-          } else {
-            if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
-              return result;
-            }
-            if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
-              return result;
-            }
-            if (first.admin) {
-              result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
-                arr.length - 1 > 1 ? "others" : "other"
-              } `;
-              return result;
-            }
-          }
-        }
-        if (this.$store.getters.facilitator.access_token) {
-          check = arr.some(
-            (val) =>
-              val.facilitator_id &&
-              val.facilitator.id == this.$store.getters.facilitator.id
-          );
-          if (check) {
-            result = `Liked by you and ${arr.length - 1} others`;
-            return result;
-          } else {
-            if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
-              return result;
-            }
-            if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
-              return result;
-            }
-            if (first.admin) {
-              result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
-                arr.length - 1 > 1 ? "others" : "other"
-              } `;
-              return result;
-            }
-          }
-        }
-        if (this.$store.getters.admin.access_token) {
-          check = arr.some(
-            (val) => val.admin && val.admin.id == this.$store.getters.admin.id
-          );
-          if (check) {
-            result = `Liked by you and ${arr.length - 1} others`;
-            return result;
-          } else {
-            if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
-              return result;
-            }
-            if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
-              return result;
-            }
-            if (first.admin) {
-              result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
-                arr.length - 1 > 1 ? "others" : "other"
-              } `;
-              return result;
-            }
-          }
-        } else {
-          result = `Liked by ${arr.length} people`;
-          return result;
-        }
-      }
+      return item > 1
+        ? `${item} people liked this post`
+        : `${item} person liked this post`;
     },
-
     sharenow(feed) {
       this.description = this.toText(feed.message);
       this.link = `https://nzukoor.com/feed/${feed.id}?utf_medium=share`;

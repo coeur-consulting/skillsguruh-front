@@ -57,7 +57,7 @@ const routes = [
         if (!user) {
           next();
         } else {
-          next("/member");
+          next("/me");
         }
       } else if (localStorage.getItem("authFacilitator")) {
         let user = localStorage.getItem("authFacilitator");
@@ -280,7 +280,37 @@ const routes = [
     },
   },
   {
+    path: "/me/feed/:id",
+    name: " Show Feed",
+    components: {
+      header: Header,
+      default: () =>
+        import(
+          /* webpackChunkName: "viewfeed" */ "@/components/Member/viewfeed.vue"
+        ),
+      footer: Footer,
+    },
+    meta: {
+      typeMember: true,
+      title: "Feed | Nzukoor",
+      routetype: "feed",
+    },
+  },
+  {
     path: "/explore/discussion/:id",
+    name: "Show Discussion",
+    components: {
+      header: Header,
+      default: () =>
+        import(/* webpackChunkName: "about" */ "../views/Discussion.vue"),
+      footer: Footer,
+    },
+    meta: {
+      title: "Discussion | Nzukoor",
+    },
+  },
+  {
+    path: "/me/discussion/:id",
     name: "Discussion",
     components: {
       header: Header,
@@ -658,7 +688,7 @@ const routes = [
   },
 
   {
-    path: "/member",
+    path: "/me",
 
     components: {
       default: () =>
@@ -906,7 +936,7 @@ const routes = [
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Memberfacilitators" */ "@/components/Member/facilitator.vue"
+              /* webpackChunkName: "Memberfacilitators" */ "@/components/Member/timeline.vue"
             ),
         },
         meta: {
@@ -920,7 +950,7 @@ const routes = [
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Memberprofile" */ "@/components/Member/facilitator.vue"
+              /* webpackChunkName: "Memberprofile" */ "@/components/Member/timeline.vue"
             ),
         },
         meta: {
@@ -990,7 +1020,7 @@ const routes = [
         components: {
           default: () =>
             import(
-              /* webpackChunkName: "Memberfacilitator" */ "@/components/Member/facilitator.vue"
+              /* webpackChunkName: "Memberfacilitator" */ "@/components/Member/timeline.vue"
             ),
         },
         meta: {
@@ -1384,14 +1414,13 @@ const routes = [
       title: "Questionnaire | Member",
     },
   },
-   {
+  {
     path: "/test",
     name: "test",
     components: {
       default: () =>
         import(/* webpackChunkName: "question" */ "@/views/text.vue"),
     },
-
   },
 
   {
@@ -1453,7 +1482,7 @@ const routes = [
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes,
+  routes
 });
 
 router.beforeEach((to, from, next) => {

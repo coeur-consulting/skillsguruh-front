@@ -87,7 +87,7 @@
                           item.cover
                             ? item.cover
                             : require('@/assets/images/default.png')
-                        })`,
+                        })`
                       }"
                     ></div>
                     <div class="course_text">
@@ -104,7 +104,7 @@
                           :style="{
                             backgroundColor: JSON.parse(
                               item.courseoutline.knowledge_areas
-                            ).color,
+                            ).color
                           }"
                         >
                           <b-icon
@@ -365,9 +365,11 @@
                   <b-icon
                     stacked
                     icon="circle-fill"
-                    :style="`color:${
-                      JSON.parse(course.courseoutline.knowledge_areas).color
-                    }`"
+                    :style="
+                      `color:${
+                        JSON.parse(course.courseoutline.knowledge_areas).color
+                      }`
+                    "
                   ></b-icon>
                   <b-icon
                     stacked
@@ -723,7 +725,7 @@
                     <div
                       v-if="
                         course.modules.some(
-                          (i) =>
+                          i =>
                             i.module.toLowerCase() == item.module.toLowerCase()
                         )
                       "
@@ -732,7 +734,7 @@
                         <div
                           v-for="(mod, index) in JSON.parse(
                             course.modules.find(
-                              (i) =>
+                              i =>
                                 i.module.toLowerCase() ==
                                 item.module.toLowerCase()
                             ).modules
@@ -875,10 +877,10 @@
                         v-if="item.facilitator_id != null"
                         >{{
                           facilitators.some(
-                            (val) => val.id == item.facilitator_id
+                            val => val.id == item.facilitator_id
                           )
                             ? facilitators.find(
-                                (val) => val.id == item.facilitator_id
+                                val => val.id == item.facilitator_id
                               ).name
                             : "N/A"
                         }}</span
@@ -918,7 +920,9 @@
           network="facebook"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`"
+          :description="
+            `I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`
+          "
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning"
         >
@@ -932,7 +936,9 @@
           network="twitter"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`"
+          :description="
+            `I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`
+          "
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning"
         >
@@ -946,7 +952,9 @@
           network="whatsApp"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`"
+          :description="
+            `I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`
+          "
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning"
         >
@@ -968,7 +976,9 @@
           network="Telegram"
           :url="link"
           title="COURSE INVITATION"
-          :description="`I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`"
+          :description="
+            `I enrolled for the course, *${course.title}* on Nzukoor and I think you'd like it. Join me`
+          "
           quote="Nzukoor"
           hashtags="Nzukoor,  Social learning"
         >
@@ -1001,9 +1011,11 @@
               <b-icon
                 stacked
                 icon="circle-fill"
-                :style="`color:${
-                  JSON.parse(course.courseoutline.knowledge_areas).color
-                }`"
+                :style="
+                  `color:${
+                    JSON.parse(course.courseoutline.knowledge_areas).color
+                  }`
+                "
               ></b-icon>
               <b-icon
                 stacked
@@ -1250,7 +1262,7 @@
                 <div
                   v-if="
                     course.modules.some(
-                      (i) => i.module.toLowerCase() == item.module.toLowerCase()
+                      i => i.module.toLowerCase() == item.module.toLowerCase()
                     )
                   "
                 >
@@ -1258,7 +1270,7 @@
                     <div
                       v-for="(mod, index) in JSON.parse(
                         course.modules.find(
-                          (i) =>
+                          i =>
                             i.module.toLowerCase() == item.module.toLowerCase()
                         ).modules
                       )"
@@ -1392,10 +1404,9 @@
                 <div>
                   <span class="fs14 mr-2 text-muted">Facilitator: </span>
                   <span class="text-sm" v-if="item.facilitator_id != null">{{
-                    facilitators.some((val) => val.id == item.facilitator_id)
-                      ? facilitators.find(
-                          (val) => val.id == item.facilitator_id
-                        ).name
+                    facilitators.some(val => val.id == item.facilitator_id)
+                      ? facilitators.find(val => val.id == item.facilitator_id)
+                          .name
                       : "N/A"
                   }}</span>
                   <span v-else class="text-sm">Unavailable</span>
@@ -1475,9 +1486,9 @@ export default {
         url: "",
         users: [
           {
-            email: "",
-          },
-        ],
+            email: ""
+          }
+        ]
       },
       courses: [],
       search: "",
@@ -1500,7 +1511,7 @@ export default {
       perPage: 12,
       description: "",
 
-      auth: false,
+      auth: false
     };
   },
   mounted() {
@@ -1522,7 +1533,7 @@ export default {
     },
     filteredCourse() {
       var title = this.filter.filter(
-        (item) =>
+        item =>
           item.title.toLowerCase().includes(this.search.toLowerCase()) ||
           JSON.parse(item.courseoutline.knowledge_areas)
             .value.toLowerCase()
@@ -1535,11 +1546,11 @@ export default {
       }
       var courseType;
       if (this.course_type == "free") {
-        courseType = title.filter((item) => item.type == "free");
+        courseType = title.filter(item => item.type == "free");
       } else if (this.course_type == "paid") {
-        courseType = title.filter((item) => item.type == "paid");
+        courseType = title.filter(item => item.type == "paid");
       } else if (this.course_type == "group") {
-        courseType = title.filter((item) => item.type == "group");
+        courseType = title.filter(item => item.type == "group");
       } else {
         courseType = title;
       }
@@ -1548,7 +1559,7 @@ export default {
         return courseType.slice().reverse();
       }
       return courseType;
-    },
+    }
   },
   methods: {
     getCommunity() {
@@ -1558,15 +1569,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/apply-community`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.communitylink = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1580,18 +1591,18 @@ export default {
 
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.message = `https://nzukoor.com/explore/courses/?course_id=${this.course.id}&invite=${res.data.code}`;
             this.inviteUsers.code = res.data.code;
             this.$bvModal.show("sharecourse");
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1600,7 +1611,7 @@ export default {
         this.$toast.info("Login to add course");
         return;
       }
-      this.$router.push(`/member/order?id=${course.id}`);
+      this.$router.push(`/me/order?id=${course.id}`);
     },
     addcount(id) {
       this.$http.get(`${this.$store.getters.url}/course/view/${id}`);
@@ -1614,15 +1625,15 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/libraries`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.library = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1632,7 +1643,7 @@ export default {
       }
 
       var check = this.communitylink.find(
-        (item) => item.course_id == this.course.id
+        item => item.course_id == this.course.id
       );
 
       return check;
@@ -1647,7 +1658,7 @@ export default {
       }
 
       var check = this.library.find(
-        (item) =>
+        item =>
           item.user_id == this.$store.getters.member.id &&
           item.course_id == this.course.id
       );
@@ -1664,15 +1675,15 @@ export default {
           `${this.$store.getters.url}/apply-community`,
           {
             amount: amount,
-            course_id: id,
+            course_id: id
           },
           {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`
+            }
           }
         )
-        .then((res) => {
+        .then(res => {
           if (res.status == 201) {
             this.communitylink.push(res.data);
             this.message = `https://nzukoor.com/explore/courses/?course_id=${this.course.id}&invite=${res.data.code}`;
@@ -1681,7 +1692,7 @@ export default {
             this.$bvModal.show("courselink");
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1693,7 +1704,7 @@ export default {
     },
     loadCourse() {
       this.course = this.courses.find(
-        (item) => item.id == this.$route.query.course_id
+        item => item.id == this.$route.query.course_id
       );
       if (window.innerWidth < 600) {
         this.$bvModal.show("mobile-course");
@@ -1705,8 +1716,8 @@ export default {
         return 0;
       }
       if (media == "document") {
-        arr.forEach((val) => {
-          JSON.parse(val.modules).forEach((item) => {
+        arr.forEach(val => {
+          JSON.parse(val.modules).forEach(item => {
             if (
               item.file_type.toLowerCase() == media.toLowerCase() ||
               item.file_type.toLowerCase() == "worksheet"
@@ -1716,8 +1727,8 @@ export default {
           });
         });
       } else {
-        arr.forEach((val) => {
-          JSON.parse(val.modules).forEach((item) => {
+        arr.forEach(val => {
+          JSON.parse(val.modules).forEach(item => {
             if (item.file_type.toLowerCase() == media.toLowerCase()) {
               newarr.push(item);
             }
@@ -1746,7 +1757,7 @@ export default {
     getcourses() {
       this.$http
         .get(`${this.$store.getters.url}/guest/courses`)
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.courses = res.data;
             this.showCourse = true;
@@ -1756,19 +1767,19 @@ export default {
             }
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     getfacilitators() {
       this.$http
         .get(`${this.$store.getters.url}/guest/facilitators`)
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.facilitators = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -1785,10 +1796,10 @@ export default {
         this.$http
           .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`
+            }
           })
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.$toast.success("Invite Sent");
               this.$bvModal.hide("sharecourse");
@@ -1798,9 +1809,9 @@ export default {
                 title: "",
                 users: [
                   {
-                    email: "",
-                  },
-                ],
+                    email: ""
+                  }
+                ]
               };
             }
           })
@@ -1812,10 +1823,10 @@ export default {
         this.$http
           .post(`${this.$store.getters.url}/send/invite`, this.inviteUsers, {
             headers: {
-              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`,
-            },
+              Authorization: `Bearer ${this.$store.getters.facilitator.access_token}`
+            }
           })
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.$toast.success("Invite Sent");
               this.$bvModal.hide("sharecourse");
@@ -1825,9 +1836,9 @@ export default {
                 title: "",
                 users: [
                   {
-                    email: "",
-                  },
-                ],
+                    email: ""
+                  }
+                ]
               };
             }
           })
@@ -1841,7 +1852,7 @@ export default {
             `${this.$store.getters.url}/guest/send/invite`,
             this.inviteUsers
           )
-          .then((res) => {
+          .then(res => {
             if (res.status == 200) {
               this.$toast.success("Invite Sent");
               this.$bvModal.hide("sharecourse");
@@ -1851,9 +1862,9 @@ export default {
                 title: "",
                 users: [
                   {
-                    email: "",
-                  },
-                ],
+                    email: ""
+                  }
+                ]
               };
             }
           })
@@ -1865,17 +1876,17 @@ export default {
     },
     addinvite() {
       this.inviteUsers.users.push({
-        email: "",
+        email: ""
       });
     },
-    onCopy: function (e) {
+    onCopy: function(e) {
       alert("You just copied the following text to the clipboard: " + e.text);
     },
-    onError: function (e) {
+    onError: function(e) {
       alert("Failed to copy the text to the clipboard");
       console.log(e);
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

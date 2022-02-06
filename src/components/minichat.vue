@@ -12,7 +12,7 @@
         <b-avatar size="2rem" :src="chatter.profile" class="mr-2"></b-avatar>
         <span
           class="chat_name hover_green"
-          @click="$router.push(`/member/profile/${chatter.name}`)"
+          @click="$router.push(`/me/profile/${chatter.name}`)"
           >{{ chatter.name }}</span
         >
       </div>

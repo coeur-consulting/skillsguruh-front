@@ -16,7 +16,7 @@
           >
             <div class="d-flex search px-2 px-sm-0 w-100">
               <span
-                @click="$router.push('/member/tribes')"
+                @click="$router.push('/me/tribes')"
                 class="cursor-pointer back fs13 px-2 pt-2 d-sm-none"
               >
                 <span class="">
@@ -226,7 +226,7 @@
                       <span
                         @click="
                           $router.push(
-                            `/member/tribe/${$route.params.tribe}/discussion/${item.id}`
+                            `/me/tribe/${$route.params.tribe}/discussion/${item.id}`
                           )
                         "
                         class="
@@ -625,7 +625,7 @@ export default {
     joindiscussion(item) {
       if (item.user && item.user.id == this.$store.getters.member.id) {
         this.$router.push(
-          `/member/tribe/${item.tribe_id}/discussion/${item.id}`
+          `/me/tribe/${item.tribe_id}/discussion/${item.id}`
         );
       } else {
         this.$http
@@ -642,7 +642,7 @@ export default {
 
               if (result) {
                 this.$router.push(
-                  `/member/tribe/${item.tribe_id}/discussion/${item.id}`
+                  `/me/tribe/${item.tribe_id}/discussion/${item.id}`
                 );
               } else {
                 this.discussion_id = item.id;

@@ -3,7 +3,7 @@
     <b-row class="m-0 h-100">
       <b-col sm="4" class="border-right text-left py-3 pl-3 pr-1">
         <div class="mb-4 px-2 fs11 d-flex align-items-center">
-          <router-link to="/member">
+          <router-link to="/me">
             <span class="cursor-pointer text-dark-green">Feed</span>
           </router-link>
           <span class="mx-1">

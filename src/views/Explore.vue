@@ -285,7 +285,7 @@
             >
               <div
                 class="discussion_container position-relative"
-                @click="$router.push(`/explore/discussion/${item.id}`)"
+                @click="$router.push(`/g/discussion/${item.id}`)"
               >
                 <div class="p-4 dicussion_overlay position-relative">
                   <b-avatar
@@ -396,7 +396,7 @@
                   class="discussion_container position-relative"
                   @click="
                     $router.push(
-                      `/member/tribe/${item.tribe_id}/discussion/${item.id}`
+                      `/me/tribe/${item.tribe_id}/discussion/${item.id}`
                     )
                   "
                 >
@@ -488,7 +488,7 @@
         </b-container>
         <div class="text-center mt-0 mt-md-5 pt-md-5">
           <small
-            @click="$router.push('/member/tribes')"
+            @click="$router.push('/me/tribes')"
             class="cursor-pointer text-dark-green"
             >Load more <b-icon font-scale=".85" icon="chevron-right"></b-icon
           ></small>
@@ -521,9 +521,7 @@
                           ></b-avatar>
                           <span
                             @click="
-                              $router.push(
-                                `/member/profile/${feed.user.username}`
-                              )
+                              $router.push(`/me/profile/${feed.user.username}`)
                             "
                             class="hover_green"
                           >
@@ -553,7 +551,7 @@
                         </template>
                         <b-dropdown-item
                           class="fs12"
-                          @click="$router.push(`/member/feed/view/${feed.id}`)"
+                          @click="$router.push(`/me/feed/${feed.id}`)"
                           >View</b-dropdown-item
                         >
 
@@ -646,12 +644,19 @@
                       </span>
                     </div>
                     <div
-                      class="liked_by px-3 border-bottom"
+                      v-if="feed.likesCount"
+                      class="liked_by px-3"
                       @click="showlikes(feed)"
-                      v-html="getlikes(feed.likes)"
+                      v-html="getlikes(feed.likesCount)"
                     ></div>
                     <div
-                      class="comments px-3 pt-2 border-bottom text-left"
+                      class="
+                        comments
+                        px-3
+                        pt-2
+                        border-bottom border-top
+                        text-left
+                      "
                       style="line-height: 1.2"
                       v-if="feed.comments.length"
                     >
@@ -664,16 +669,15 @@
                           feed.comments.length > 1 ? "comments" : "comment"
                         }}</span
                       >
-                      <div class="all_comment">
+                      <div class="all_comment" style="line-height:1">
                         <div
                           class="comment d-flex text-left mb-1"
+
                           v-for="item in feed.comments.slice(0, 2)"
                           :key="item.id"
                         >
                           <div class="flex-1 pr-2">
-                            <span class="comment_name mr-2" v-if="item.admin">
-                              {{ item.admin.name }}</span
-                            >
+
                             <span
                               class="comment_name mr-2 hover_green"
                               @click="
@@ -683,19 +687,8 @@
                             >
                               {{ item.user.username }}</span
                             >
-                            <span
-                              class="comment_name mr-2 hover_green"
-                              @click="
-                                $router.push(
-                                  `/profile/f/${item.facilitator.id}`
-                                )
-                              "
-                              v-if="item.facilitator"
-                            >
-                              {{ item.facilitator.username }}</span
-                            >
 
-                            <span class="comment_text">{{ item.comment }}</span>
+                            <span class="comment_text"   v-html="$options.filters.tagsfilter(item.comment)"></span>
                           </div>
                           <div>
                             <div>
@@ -823,7 +816,7 @@
                     </div> -->
                   </div>
                   <div class="text-center mt-2">
-                    <router-link to="/member" class="text-dark-green"
+                    <router-link to="/me" class="text-dark-green"
                       ><small
                         >View all feed
                         <b-icon
@@ -1088,9 +1081,7 @@
                           <div
                             class="comment_name"
                             @click="
-                              $router.push(
-                                `/member/profile/${item.user.username}`
-                              )
+                              $router.push(`/me/profile/${item.user.username}`)
                             "
                           >
                             {{ item.user.username }}
@@ -1162,7 +1153,7 @@
                                 class="comment_name mr-1"
                                 @click="
                                   $router.push(
-                                    `/member/profile/${rep.user.username}`
+                                    `/me/profile/${rep.user.username}`
                                   )
                                 "
                               >
@@ -1239,9 +1230,7 @@
                   <div class="d-flex mb-1" v-if="item.user">
                     <div
                       class="d-flex flex-1"
-                      @click="
-                        $router.push(`/member/profile/${item.user.username}`)
-                      "
+                      @click="$router.push(`/me/profile/${item.user.username}`)"
                     >
                       <b-avatar
                         class="mr-2"
@@ -1345,19 +1334,25 @@
         >Reply</b-button
       >
     </b-modal>
-     <div class="tribe_join animated animate_fadeIn" v-show="toggleJoin">
-
+    <div class="tribe_join animated animate_fadeIn" v-show="toggleJoin">
       <div class="position-absolute p-3 p-md-5 shadow rounded bg-white">
-         <span class="cancel">
-        <b-icon icon="x" class="text-white" @click="toggleJoin=!toggleJoin"></b-icon>
-      </span>
+        <span class="cancel">
+          <b-icon
+            icon="x"
+            class="text-white"
+            @click="toggleJoin = !toggleJoin"
+          ></b-icon>
+        </span>
         <div class="mb-4 text-center font-weight-bold text-dark-green">
-          You have been invited to join this tribe</div
-        >
-
+          You have been invited to join this tribe
+        </div>
 
         <div class="d-flex flex-column flex-md-row text-left" v-if="tribe">
-          <b-avatar class="mb-4 mb-md-0 mr-md-3" :src="tribe.cover" size="4rem"></b-avatar>
+          <b-avatar
+            class="mb-4 mb-md-0 mr-md-3"
+            :src="tribe.cover"
+            size="4rem"
+          ></b-avatar>
           <span>
             <span class="font-weight-bold">{{ tribe.name }}</span> <br />
             <span>{{ tribe.description }}</span>
@@ -1426,7 +1421,7 @@ export default {
       alllikes: null,
       toggleOn: null,
       tribes: [],
-      tribe:{},
+      tribe: {},
       showTribes: false,
     };
   },
@@ -1438,9 +1433,8 @@ export default {
     },
   },
   mounted() {
-    if(this.$route.query.activity=='join_tribe'){
-
-      this.gettribe()
+    if (this.$route.query.activity == "join_tribe") {
+      this.gettribe();
     }
     if (
       localStorage.getItem("authMember") ||
@@ -1515,14 +1509,15 @@ export default {
     },
   },
   methods: {
-     gettribe() {
+    gettribe() {
       this.$http
-        .get(`${this.$store.getters.url}/guest/tribe/${this.$route.query.tribe_id}`)
+        .get(
+          `${this.$store.getters.url}/guest/tribe/${this.$route.query.tribe_id}`
+        )
         .then((res) => {
           if (res.status == 200) {
             this.tribe = res.data;
- this.toggleJoin = true
-
+            this.toggleJoin = true;
           }
         })
         .catch((err) => {
@@ -1532,11 +1527,9 @@ export default {
     isMember(arr) {
       return arr.some((item) => item.id == this.$store.getters.member.id);
     },
-     jointribe() {
+    jointribe() {
       if (!this.auth) {
-        this.$router.push(
-          `/login?tribe_id=${this.tribe.id}&type=join_tribe`
-        );
+        this.$router.push(`/login?tribe_id=${this.tribe.id}&type=join_tribe`);
       } else {
         this.entertribe(this.tribe.id);
       }
@@ -1553,7 +1546,7 @@ export default {
 
       this.$store.dispatch("checkTribe", details).then((res) => {
         if (res.status == 200 && res.data.message == "found") {
-          window.location.href = `/member/tribe/discussions/${id}`;
+          window.location.href = `/me/tribe/discussions/${id}`;
         } else {
           this.$bvModal
             .msgBoxConfirm("Do you wish to join this tribe?")
@@ -1562,7 +1555,7 @@ export default {
                 this.$store.dispatch("joinTribe", details).then((res) => {
                   if (res.status == 200 && res.data.message == "successful") {
                     this.$toast.success("Joined successfully");
-                    window.location.href = `/member/tribe/discussions/${id}`;
+                    window.location.href = `/me/tribe/discussions/${id}`;
                   }
                 });
               }
@@ -1595,7 +1588,7 @@ export default {
         this.$toast.error("login to access");
         return;
       }
-      this.$router.push(`/member/order?id=${id}&type_payment=tribe`);
+      this.$router.push(`/me/order?id=${id}&type_payment=tribe`);
     },
     likeimage(index) {
       this.toggleOn = index;
@@ -1704,135 +1697,13 @@ export default {
       this.$bvModal.show("alllikes");
     },
     getlikes(item) {
-      var arr = item.filter((val) => val.like);
-      var first = {};
-      var check = null;
-      first = arr.slice().shift();
-      var result = "";
-      if (arr.length == 1) {
-        if (first.user) {
-          result = `<span>Liked by ${
-            this.useraccess == "member" &&
-            this.$store.getters.member.id == first.user.id
-              ? "you"
-              : first.user.username
-          } </span>`;
-          return result;
-        }
-        if (first.facilitator) {
-          result = `<span>Liked by ${
-            this.useraccess == "facilitator" &&
-            this.$store.getters.facilitator.id == first.facilitator.id
-              ? "you"
-              : first.facilitator.username
-          } </span>`;
-          return result;
-        }
-        if (first.admin) {
-          result = `<span>Liked by ${
-            this.useraccess == "admin" &&
-            this.$store.getters.admin.id == first.admin.id
-              ? "you"
-              : first.admin.name
-          } </span>`;
-          return result;
-        }
-      }
-      if (arr.length > 1) {
-        if (this.$store.getters.member.access_token) {
-          check = arr.some(
-            (val) => val.user_id && val.user.id == this.$store.getters.member.id
-          );
-          if (check) {
-            result = `Liked by you and ${arr.length - 1} others`;
-            return result;
-          } else {
-            if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
-              return result;
-            }
-            if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
-              return result;
-            }
-            if (first.admin) {
-              result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
-                arr.length - 1 > 1 ? "others" : "other"
-              } `;
-              return result;
-            }
-          }
-        }
-        if (this.$store.getters.facilitator.access_token) {
-          check = arr.some(
-            (val) =>
-              val.facilitator_id &&
-              val.facilitator.id == this.$store.getters.facilitator.id
-          );
-          if (check) {
-            result = `Liked by you and ${arr.length - 1} others`;
-            return result;
-          } else {
-            if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
-              return result;
-            }
-            if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
-              return result;
-            }
-            if (first.admin) {
-              result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
-                arr.length - 1 > 1 ? "others" : "other"
-              } `;
-              return result;
-            }
-          }
-        }
-        if (this.$store.getters.admin.access_token) {
-          check = arr.some(
-            (val) => val.admin && val.admin.id == this.$store.getters.admin.id
-          );
-          if (check) {
-            result = `Liked by you and ${arr.length - 1} others`;
-            return result;
-          } else {
-            if (first.user) {
-              result = `Liked by  ${first.user.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
-              return result;
-            }
-            if (first.facilitator) {
-              result = `Liked by  ${first.facilitator.username} and  ${
-                arr.length - 1
-              } ${arr.length - 1 > 1 ? "others" : "other"} `;
-              return result;
-            }
-            if (first.admin) {
-              result = `Liked by  ${first.admin.name} and  ${arr.length - 1} ${
-                arr.length - 1 > 1 ? "others" : "other"
-              } `;
-              return result;
-            }
-          }
-        } else {
-          result = `Liked by ${arr.length} people`;
-          return result;
-        }
-      }
+      return item > 1
+        ? `${item} people liked this post`
+        : `${item} person liked this post`;
     },
     sharenow(feed) {
       this.description = this.toText(feed.message);
-      this.link = `https://nzukoor.com/member/feed/view/${feed.id}?utf_medium=share`;
+      this.link = `https://nzukoor.com/me/feed/${feed.id}?utf_medium=share`;
       this.$bvModal.show("share");
     },
     loadCourse() {
@@ -1910,7 +1781,7 @@ export default {
       }
     },
     getmembers() {
-      this.$http.get(`${this.$store.getters.url}/get/members`).then((res) => {
+      this.$http.get(`${this.$store.getters.url}/get/mes`).then((res) => {
         if (res.status == 200) {
           this.users = res.data;
           this.rows = res.data.length;

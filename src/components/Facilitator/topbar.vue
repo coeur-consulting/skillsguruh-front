@@ -47,7 +47,7 @@
               <span class="side-link">Team</span>
             </div>
           </router-link>
-          <!-- <router-link to="/facilitator/members">
+          <!-- <router-link to="/facilitator/mes">
           <div class="side_item">
             <b-icon
               icon="people"

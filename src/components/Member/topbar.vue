@@ -40,13 +40,13 @@
             <h5 class="mb-0">{{ $store.getters.member.org_name }}</h5>
           </div>
 
-          <router-link to="/member">
+          <router-link to="/me">
             <div class="side_item">
               <home-icon size="1.2x" class="custom-class"></home-icon>
               <span class="side-link px-2">Dashboard</span>
             </div>
           </router-link>
-          <router-link to="/member/connections">
+          <router-link to="/me/connections">
             <div class="side_item">
               <link-icon size="1.2x" class="custom-class"></link-icon>
               <span class="side-link px-2">Connections</span>
@@ -62,7 +62,7 @@
               class="px-3 py-1 animate__slideInDown animate__slideInUp"
               v-if="toggleCommunity"
             >
-              <router-link to="/member">
+              <router-link to="/me">
                 <div class="side_item py-1">
                   <rss-icon size="1.2x" class="custom-class"></rss-icon>
                   <span class="side-link px-2"
@@ -70,14 +70,14 @@
                   </span>
                 </div>
               </router-link>
-              <router-link to="/member/discussions">
+              <router-link to="/me/discussions">
                 <div class="side_item py-1">
                   <twitch-icon size="1.2x" class="custom-class"></twitch-icon>
                   <span class="side-link px-2">Discussions</span>
                 </div>
               </router-link>
 
-              <router-link to="/member/events">
+              <router-link to="/me/events">
                 <div class="side_item py-1">
                   <bookmark-icon
                     size="1.2x"
@@ -105,19 +105,19 @@
               "
               v-if="toggleCourse"
             >
-              <router-link to="/member/courses">
+              <router-link to="/me/courses">
                 <div class="side_item py-1">
                   <folder-icon size="1.2x" class="custom-class"></folder-icon>
                   <span class="side-link px-2">Courses</span>
                 </div>
               </router-link>
-              <router-link to="/member/assessments">
+              <router-link to="/me/assessments">
                 <div class="side_item py-1">
                   <database-icon size="1x" class="custom-class"></database-icon>
                   <span class="side-link px-2">Assessments</span>
                 </div>
               </router-link>
-              <router-link to="/member/library">
+              <router-link to="/me/library">
                 <div class="side_item py-1">
                   <book-icon size="1.2x" class="custom-class"></book-icon>
                   <span class="side-link px-2">Library</span>
@@ -135,7 +135,7 @@
               class="px-3 py-1 animate__slideInDown animate__slideInUp"
               v-if="toggleSchedule"
             >
-              <router-link to="/member/schedule">
+              <router-link to="/me/schedule">
                 <div class="side_item py-1">
                   <calendar-icon
                     size="1.2x"
@@ -147,7 +147,7 @@
             </div>
           </div>
 
-          <router-link to="/member/referrals">
+          <router-link to="/me/referrals">
             <div class="side_item">
               <credit-card-icon
                 size="1.2x"
@@ -192,7 +192,7 @@
           </div>
         </PushRotate>
       </div>
-      <div class="org_name" @click="$router.push('/member')">
+      <div class="org_name" @click="$router.push('/me')">
         {{ this.$store.getters.member.org_name }}
       </div>
     </div>
@@ -283,7 +283,7 @@
             }}</span>
           </template>
 
-          <b-dropdown-item class="fs14" @click="$router.push(`/member/profile`)"
+          <b-dropdown-item class="fs14" @click="$router.push(`/me/profile`)"
             >Profile</b-dropdown-item
           >
 

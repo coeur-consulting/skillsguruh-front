@@ -82,7 +82,7 @@ export default {
   },
   methods: {
     purchase(id) {
-      this.$router.push(`/member/order?id=${id}&type_payment=tribe`);
+      this.$router.push(`/me/order?id=${id}&type_payment=tribe`);
     },
      sendrequest(id) {
       if (!this.useraccess) {
@@ -115,7 +115,7 @@ export default {
 
       this.$store.dispatch("checkTribe", details).then((res) => {
         if (res.status == 200 && res.data.message == "found") {
-          window.location.href = `/member/tribe/discussions/${id}`;
+          window.location.href = `/me/tribe/discussions/${id}`;
         } else {
           this.$bvModal
             .msgBoxConfirm("Do you wish to join this tribe?")
@@ -124,7 +124,7 @@ export default {
                 this.$store.dispatch("joinTribe", details).then((res) => {
                   if (res.status == 200 && res.data.message == "successful") {
                     this.$toast.success("Joined successfully");
-                    window.location.href = `/member/tribe/discussions/${id}`;
+                    window.location.href = `/me/tribe/discussions/${id}`;
                   }
                 });
               }

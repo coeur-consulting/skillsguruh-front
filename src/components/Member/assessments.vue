@@ -12,7 +12,7 @@
               text-left
               cursor-pointer
             "
-            @click="$router.push('/member/assessment/quiz')"
+            @click="$router.push('/me/assessment/quiz')"
           >
             <b-badge class="mybadge font-weight-normal fs11" variant="danger">{{
               quiz.length
@@ -49,7 +49,7 @@
               text-left
               cursor-pointer
             "
-            @click="$router.push('/member/assessment/test')"
+            @click="$router.push('/me/assessment/test')"
           >
             <b-badge class="mybadge font-weight-normal fs11" variant="danger">{{
               test.length
@@ -86,7 +86,7 @@
               text-left
               cursor-pointer
             "
-            @click="$router.push('/member/assessment/worksheet')"
+            @click="$router.push('/me/assessment/worksheet')"
           >
             <b-badge class="mybadge font-weight-normal fs11" variant="danger">{{
               worksheet.length

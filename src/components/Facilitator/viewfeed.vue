@@ -490,7 +490,7 @@
                 <div class="d-flex mb-1" v-if="item.user">
                   <div
                     class="d-flex flex-1"
-                    @click="$router.push(`/member/profile/${item.username}`)"
+                    @click="$router.push(`/me/profile/${item.username}`)"
                   >
                     <b-avatar
                       class="mr-2"
@@ -508,7 +508,7 @@
                   <div
                     class="d-flex flex-1"
                     @click="
-                      $router.push(`/member/profile/f/${item.facilitator.id}`)
+                      $router.push(`/me/profile/f/${item.facilitator.id}`)
                     "
                   >
                     <b-avatar

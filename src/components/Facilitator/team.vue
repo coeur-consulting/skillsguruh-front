@@ -11,16 +11,16 @@
 </template>
 <script>
 import Admin from "./admins";
-import Members from "./members";
+import Members from "./mes";
 export default {
   data() {
     return {
-      team: true,
+      team: true
     };
   },
   components: {
     Admin,
-    Members,
-  },
+    Members
+  }
 };
 </script>

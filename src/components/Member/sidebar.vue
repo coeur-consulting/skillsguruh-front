@@ -7,14 +7,14 @@
             <b-nav-item to="/explore">
               <font-awesome-icon
                 :icon="globe"
-               style="font-size:18px;width:25px"
+                style="font-size:18px;width:25px"
                 class=" mr-2"
                 v-b-tooltip.hover
                 title="Explore"
               />
               Explore</b-nav-item
             >
-            <b-nav-item to="/member">
+            <b-nav-item to="/me">
               <font-awesome-icon
                 :icon="rss"
                 style="font-size:18px;width:25px"
@@ -24,8 +24,8 @@
               />
               Feed</b-nav-item
             >
-            <b-nav-item to="/member/tribes">
-             <font-awesome-icon
+            <b-nav-item to="/me/tribes">
+              <font-awesome-icon
                 :icon="users"
                 style="font-size:18px; width:25px"
                 class="  mr-2"
@@ -34,7 +34,7 @@
               />
               Tribes</b-nav-item
             >
-            <b-nav-item to="/member/community">
+            <b-nav-item to="/me/community">
               <font-awesome-icon
                 :icon="falink"
                 style="font-size:18px;width:25px"
@@ -44,15 +44,13 @@
               />
               Connections</b-nav-item
             >
-
           </b-nav>
         </nav>
 
         <div
           class="text-left pl-3 text-dark fs13"
           v-if="
-            $route.path == '/explore/community' ||
-            $route.path == '/member/tribes'
+            $route.path == '/explore/community' || $route.path == '/me/tribes'
           "
         >
           <h6 class="fs13 font-weight-bold">Sort by</h6>
@@ -98,7 +96,7 @@
       <div class="side_tab_1 text-left" v-if="$route.meta.showtribe && tribe">
         <div class="mb-4 text-muted">
           <small
-            @click="$router.push('/member/tribes')"
+            @click="$router.push('/me/tribes')"
             class="pl-3 cursor-pointer back text-dark-green"
           >
             <span class="mr-2">
@@ -113,27 +111,25 @@
         </div>
         <nav class="mb-3 class text-left">
           <b-nav vertical>
-            <!-- <b-nav-item :to="`/member/tribe/feed/${$store.getters.tribe}`"
+            <!-- <b-nav-item :to="`/me/tribe/feed/${$store.getters.tribe}`"
               ><font-awesome-icon
                 :icon="rss"
                 class="icon mr-3"
               />Feeds</b-nav-item
             > -->
-            <b-nav-item
-              :to="`/member/tribe/discussions/${$route.params.tribe}`"
-            >
+            <b-nav-item :to="`/me/tribe/discussions/${$route.params.tribe}`">
               <font-awesome-icon
                 :icon="comments"
                 class="icon mr-3"
               />Discussions</b-nav-item
             >
-            <!-- <b-nav-item :to="`/member/tribe/courses/${$store.getters.tribe}`">
+            <!-- <b-nav-item :to="`/me/tribe/courses/${$store.getters.tribe}`">
               <font-awesome-icon
                 :icon="bookopen"
                 class="icon mr-3"
               />Courses</b-nav-item
             > -->
-            <!-- <b-nav-item :to="`/member/tribe/events/${$store.getters.tribe}`">
+            <!-- <b-nav-item :to="`/me/tribe/events/${$store.getters.tribe}`">
               <font-awesome-icon
                 :icon="calendar"
                 class="icon mr-3"
@@ -347,11 +343,11 @@ import {
   faEnvelope,
   faLink
 } from "@fortawesome/free-solid-svg-icons";
-import {  faGlobe } from "@fortawesome/free-solid-svg-icons";
+import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { LogOutIcon } from "vue-feather-icons";
 export default {
   components: {
-    LogOutIcon,
+    LogOutIcon
   },
 
   data() {
@@ -383,13 +379,13 @@ export default {
       link: "",
       description: "",
 
-      globe: faGlobe,
+      globe: faGlobe
     };
   },
 
   computed: {
     filteredConnections() {
-      return this.connections.filter((item) => {
+      return this.connections.filter(item => {
         return item.user_follower.name
           .toLowerCase()
           .includes(this.search.toLowerCase());
@@ -412,8 +408,8 @@ export default {
       return token;
     },
     activeaccount() {
-      return this.events.filter((item) => item.status == "active").length;
-    },
+      return this.events.filter(item => item.status == "active").length;
+    }
   },
 
   created() {
@@ -430,22 +426,22 @@ export default {
       return this.$http
         .get(`${this.$store.getters.url}/connections`, {
           headers: {
-            Authorization: `Bearer ${this.useraccess.access_token}`,
-          },
+            Authorization: `Bearer ${this.useraccess.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.connections = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     toggleSort(val, interest = false) {
       var data = {
         val,
-        interest,
+        interest
       };
       this.sortvalue = val;
       bus.$emit("toggleSort", data);
@@ -453,53 +449,51 @@ export default {
     addToFeed() {
       this.feed = {
         message: `Come join my tribe - ${this.tribe.name} <br> ${this.description}`,
-        url: "https://nzukoor.com/member/tribes/?tribe=" + this.tribe.name,
-        media: this.tribe.cover,
+        url: "https://nzukoor.com/me/tribes/?tribe=" + this.tribe.name,
+        media: this.tribe.cover
       };
 
       this.$http
         .post(`${this.$store.getters.url}/feeds`, this.feed, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Added to feeds ");
             this.$bvModal.hide("share");
 
             this.feed = {
               media: "",
-              message: "",
+              message: ""
             };
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
     addinvite() {
       this.inviteUsers.push({
-        email: "",
+        email: ""
       });
     },
     sendinvite() {
       this.sending = true;
-      var emails = this.emails.concat(
-        this.inviteUsers.map((item) => item.email)
-      );
+      var emails = this.emails.concat(this.inviteUsers.map(item => item.email));
       var data = {
         emails: emails,
-        id: this.$route.params.tribe,
+        id: this.$route.params.tribe
       };
 
       this.$http
         .post(`${this.$store.getters.url}/tribe/invite`, data, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.$toast.success("Invite Sent");
             this.sending = false;
@@ -507,8 +501,8 @@ export default {
             this.emails = [];
             this.inviteUsers = [
               {
-                email: "",
-              },
+                email: ""
+              }
             ];
           }
         })
@@ -523,21 +517,21 @@ export default {
     leavetribe() {
       var details = {
         tribe_id: this.$route.params.tribe,
-        user: this.$store.getters.member,
+        user: this.$store.getters.member
       };
       this.$bvModal
         .msgBoxConfirm("Are you sure you wish to exit this tribe?")
-        .then((val) => {
+        .then(val => {
           if (val) {
             this.$store
               .dispatch("leaveTribe", details)
-              .then((res) => {
+              .then(res => {
                 if (res.status == 200 && res.data.message == "successful") {
-                  this.$router.push(`/member/tribes`);
+                  this.$router.push(`/me/tribes`);
                   this.$toast.success("You have left the tribe");
                 }
               })
-              .catch((err) => {
+              .catch(err => {
                 this.$toast.error(err.response.data);
               });
           }
@@ -548,17 +542,17 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/tribes/${this.$route.params.tribe}`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.tribe = res.data.data;
             this.description = this.tribe.description;
             this.$store.commit("SET_TRIBE_INFO", res.data.data);
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
     },
@@ -590,10 +584,7 @@ export default {
           return;
 
         default:
-          this.toggleSchedule =
-            this.toggleCommunity =
-            this.toggleCourse =
-              false;
+          this.toggleSchedule = this.toggleCommunity = this.toggleCourse = false;
           break;
       }
     },
@@ -605,19 +596,19 @@ export default {
       this.$http
         .get(`${this.$store.getters.url}/events`, {
           headers: {
-            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
-          },
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.status == 200) {
             this.events = res.data;
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.$toast.error(err.response.data.message);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>
