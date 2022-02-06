@@ -1,5 +1,5 @@
 <template lang="">
-  <div class="position-fixed bottom-nav d-flex justify-content-between align-items-center border-top bg-white">
+  <div class="position-fixed bottom-nav d-flex justify-content-between align-items-center border-top bg-light">
     <router-link to="/me" class="d-flex align-items-center">  <font-awesome-icon
                 :icon="rss"
                 style="font-size:20px"

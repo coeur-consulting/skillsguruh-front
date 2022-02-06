@@ -627,12 +627,12 @@
                         ></b-icon>
                       </span>
                     </div>
-                    <div
+                    <span
                       v-if="feed.likesCount"
                       class="liked_by px-3"
                       @click="showlikes(feed)"
                       v-html="getlikes(feed.likesCount)"
-                    ></div>
+                    ></span>
                     <div
                       class="
                         comments
@@ -641,31 +641,31 @@
                         border-bottom border-top
                         text-left
                       "
-
                       v-if="feed.comments.length"
                     >
-
-                      <div class="all_comment mb-1" >
-                         <span
-                        v-if="feed.comments.length"
-                        @click="showcomments(feed)"
-                        class="comment_header cursor-pointer"
-                        >View {{ feed.comments.length }}
-                        {{
-                          feed.comments.length > 1 ? "comments" : "comment"
-                        }}</span
-                      >
+                      <div class="all_comment mb-1">
+                        <span
+                          v-if="feed.comments.length"
+                          @click="showcomments(feed)"
+                          class="comment_header cursor-pointer"
+                          >View {{ feed.comments.length }}
+                          {{
+                            feed.comments.length > 1 ? "comments" : "comment"
+                          }}</span
+                        >
                         <div
                           class="comment d-flex text-left"
                           style="line-height: 1.2"
-                          v-for="item in feed.comments.slice(0, 2)"
+                          v-for="(item,idx) in feed.comments.slice(0, 2)"
                           :key="item.id"
                         >
                           <div class="flex-1 pr-2">
                             <span
                               class="comment_name mr-2 hover_green"
                               @click="
-                                $router.push(`/me/profile/${item.user.username}`)
+                                $router.push(
+                                  `/me/profile/${item.user.username}`
+                                )
                               "
                               v-if="item.user"
                             >
@@ -684,6 +684,7 @@
                                   item.likeCount ? item.likeCount : ""
                                 }}</span>
                                 <b-icon
+                                 @click="likecomment(item.id, idx, item.user.id)"
                                   class="mr-2 text-danger"
                                   :icon="item.isLiked ? 'heart-fill' : 'heart'"
                                 ></b-icon>
@@ -775,7 +776,6 @@
                           </b-input-group-text>
                         </template>
                         <b-form-input
-
                           autocomplete="off"
                           autocorrect="off"
                           rows="1"

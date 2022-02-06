@@ -422,12 +422,12 @@
                               </span>
                             </div>
                             <div class="d-flex align-items-center">
-                              <div
+                              <span
                                 v-if="feed.likesCount"
                                 class="liked_by px-3 border-bottom"
                                 @click="showlikes(feed)"
                                 v-html="getlikes(feed.likesCount)"
-                              ></div>
+                              ></span>
                             </div>
 
                             <div

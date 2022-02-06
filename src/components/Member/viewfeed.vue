@@ -272,12 +272,12 @@
                         ></b-icon>
                       </span>
                     </div>
-                    <div
+                    <span
                       v-if="feed.likesCount"
                       class="liked_by px-3"
                       @click="showlikes(feed)"
                       v-html="getlikes(feed.likesCount)"
-                    ></div>
+                    ></span>
 
                     <div class="fs10 text-muted py-1 px-3 text-right">
                       {{ $moment(feed.created_at).fromNow() }}

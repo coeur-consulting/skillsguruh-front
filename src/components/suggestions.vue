@@ -1,11 +1,11 @@
 <template>
-  <div class="px-3" v-if="suggestions.length">
+  <div class="con_sug" v-if="suggestions.length">
     <div class="my-3 position-relative">
-      <div class="mb-3 text-left text-muted">
+      <div class="mb-3 text-left text-muted px-md-3">
         <small>Connection suggestions</small>
       </div>
       <b-iconstack
-        font-scale="2.5"
+        font-scale="2"
         class="nav-left shadow-sm cursor-pointer"
         v-if="index > 0"
         @click="index--"
@@ -20,7 +20,7 @@
       </b-iconstack>
 
       <b-iconstack
-        font-scale="2.5"
+        font-scale="2"
         class="nav-right shadow-sm cursor-pointer"
         @click="index++"
         v-if="index < maxnavigation"
@@ -199,6 +199,10 @@ export default {
   color: rgba($color: #000000, $alpha: 0.44);
 }
 @media (max-width: 768px) {
+  .con_sug{
+    width:93%;
+    margin:0 auto;
+  }
   .suggestion {
     min-width: 120px !important;
   }

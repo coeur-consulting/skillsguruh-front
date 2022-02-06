@@ -1,6 +1,6 @@
 <template>
   <div id="main">
-    <section id="banner" class="position-relative">
+    <section id="banner" class="position-relative" >
       <carousel
         :perPage="1"
         :paginationEnabled="false"
@@ -20,7 +20,7 @@
         </slide>
       </carousel>
       <div class="banner_info">
-        <div class="banner_text">
+        <div class="banner_text" v-if="!query.length">
           <h1 class="mb-5 d-none d-md-block">
             <VueTextTransition
               tag="h1"
@@ -40,8 +40,8 @@
               Your most authentic connections in one place
             </VueTextTransition>
           </h1>
-          <h1 class="mb-5 d-md-none">
-            Get comfortable, your tribe is here. Your most authentic connections
+          <h1 class="mb-4 d-md-none">
+            Get comfortable, your tribe is here.<br> Your most authentic connections
             in one place
           </h1>
         </div>
@@ -113,7 +113,7 @@
                   <span> {{ item.name }}</span> <br />
                   <span
                     class="text-truncate text-truncate--1 text-muted"
-                    style="font-size: 0.85rem"
+                    style="font-size: 0.7rem"
                   >
                     {{ item.description }}</span
                   >
@@ -131,7 +131,7 @@
                   <div
                       class=" text-right"
 
-                      > <span  class="text-dark-green jointribe fs14 cursor-pointer"  @click="entertribe(item.id)">Join Tribe</span> </div
+                      > <span  class="text-dark-green jointribe fs12 cursor-pointer"  @click="entertribe(item.id)">Join Tribe</span> </div
                     >
                 </div>
               </div>
@@ -140,7 +140,7 @@
         </div>
 
         <div class="banner_button" v-if="!auth">
-          <b-button-group size="lg">
+          <b-button-group size="lg" v-if="!query.length">
             <b-button
               style="background-color: #227f74; border-color: #227f74"
               class="d-flex align-items-center"
@@ -148,6 +148,7 @@
               <font-awesome-icon :icon="angle" class="fa-2x"
             /></b-button>
             <b-button
+            v-if="!query.length"
               to="/register"
               class="px-4 px-sm-5 d-flex align-items-center"
               variant="dark-green"
@@ -453,7 +454,7 @@ export default {
 }
 .result {
 
-  height: 90px;
+  height: auto;
 }
 .down_b {
   justify-content: center;
@@ -512,9 +513,7 @@ h1 {
   .jointribe {
     font-size: 0.7rem;
   }
-  .result {
-    height: 70px;
-  }
+
 }
 
 .rules {
@@ -817,7 +816,7 @@ img {
 @media (max-width: 768px) {
   .banner_text {
     h1 {
-      font-size: 20px;
+      font-size: 18px;
       font-style: normal;
       font-weight: 600;
       line-height: 30px;
