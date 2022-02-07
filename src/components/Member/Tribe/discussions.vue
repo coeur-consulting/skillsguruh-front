@@ -25,8 +25,29 @@
               </span>
               <div class="search w-100">
                 <b-input-group class="topbar_search bg-white">
-                  <b-input-group-prepend is-text>
-                    <b-iconstack font-scale="1.4" class="">
+                  <b-input-group-prepend>
+                    <b-button
+                      v-b-tooltip.hover
+                      title="Add discussion"
+                      variant="dark-green"
+                      @click="$bvModal.show('start')"
+                      ><b-icon icon="plus"></b-icon
+                    ></b-button>
+                  </b-input-group-prepend>
+
+                  <b-form-input
+                    placeholder="Find a discussion"
+                    class="no-focus border-0"
+                    type="search"
+                    aria-label="Text input "
+                    v-model="search"
+                  ></b-form-input>
+                  <b-input-group-append
+                    is-text
+                    class="border"
+                    @click="searchdiscussions"
+                  >
+                    <b-iconstack font-scale="1.4" class="cursor-pointer">
                       <b-icon
                         stacked
                         icon="circle-fill"
@@ -39,20 +60,6 @@
                         variant="dark-green"
                       ></b-icon>
                     </b-iconstack>
-                  </b-input-group-prepend>
-                  <b-form-input
-                    placeholder="Find a discussion"
-                    class="no-focus border-0"
-                    type="search"
-                    aria-label="Text input "
-                    v-model="search"
-                  ></b-form-input>
-                  <b-input-group-append>
-                    <b-button v-b-tooltip.hover title="Add discussion"
-                      variant="dark-green"
-                      @click="$bvModal.show('start')"
-                      ><b-icon icon="plus"></b-icon
-                    ></b-button>
                   </b-input-group-append>
                 </b-input-group>
               </div>
@@ -84,8 +91,12 @@
               >
                 Trending
               </div> -->
-              <span class="fs14 text-muted">Showing {{show}} discussions</span>
-              <span id="sorter" class="cursor-pointer"><b-icon icon="funnel-fill"></b-icon></span>
+              <span class="fs14 text-muted"
+                >Showing {{ show }} discussions</span
+              >
+              <span id="sorter" class="cursor-pointer"
+                ><b-icon icon="funnel-fill"></b-icon
+              ></span>
               <b-popover target="sorter" triggers="hover">
                 <h6 class="fs14 font-weight-bold">Filter by</h6>
                 <ul class="pl-2" style="list-style: none">
@@ -388,21 +399,23 @@
         </b-form-group>
 
         <b-button
-        :disabled="disabled"
+          :disabled="disabled"
           size="lg"
           variant="dark-green"
           type="submit"
           class="d-none d-sm-block px-3"
-          > Create</b-button
+        >
+          Create</b-button
         >
         <b-button
-         :disabled="disabled"
+          :disabled="disabled"
           size="lg"
           variant="dark-green"
           type="submit"
           class="d-sm-none"
           block
-          > Create</b-button
+        >
+          Create</b-button
         >
       </b-form>
     </b-modal>
@@ -449,7 +462,7 @@ import Report from "@/components/helpers/report";
 export default {
   data() {
     return {
-      disabled:false,
+      disabled: false,
       currentPage: 1,
       perPage: 0,
       rows: 0,
@@ -507,7 +520,9 @@ export default {
           vm.getothers();
         } else {
           vm.$toast.error("No access");
-          vm.$router.push(`/explore/community?activity=join_tribe&tribe_id=${vm.$route.params.tribe}`);
+          vm.$router.push(
+            `/explore/community?activity=join_tribe&tribe_id=${vm.$route.params.tribe}`
+          );
         }
       });
     });
@@ -522,14 +537,7 @@ export default {
   computed: {
     filteredData() {
       if (this.show == "recent") {
-        return (
-          this.discussions
-            .slice()
-            // .filter((item) => item.type == "public")
-            .filter((item) =>
-              item.name.toLowerCase().includes(this.search.toLowerCase())
-            )
-        );
+        return this.discussions;
       }
 
       if (this.show == "trending") {
@@ -543,9 +551,6 @@ export default {
                 (a.discussionview ? a.discussionview : 0)
               );
             })
-            .filter((item) =>
-              item.name.toLowerCase().includes(this.search.toLowerCase())
-            )
         );
       }
 
@@ -562,8 +567,14 @@ export default {
   watch: {
     currentPage: "paginatedData",
     currentPageT: "paginatedDataT",
+    search: "reset",
   },
   methods: {
+    reset() {
+      if (!this.search) {
+        this.getdiscussions();
+      }
+    },
     paginatedDataT() {
       this.$http
         .get(
@@ -624,9 +635,7 @@ export default {
     },
     joindiscussion(item) {
       if (item.user && item.user.id == this.$store.getters.member.id) {
-        this.$router.push(
-          `/me/tribe/${item.tribe_id}/discussion/${item.id}`
-        );
+        this.$router.push(`/me/tribe/${item.tribe_id}/discussion/${item.id}`);
       } else {
         this.$http
           .get(`${this.$store.getters.url}/discussion/private/${item.id}`, {
@@ -698,6 +707,30 @@ export default {
           this.$toast.error(err.response.data.message);
         });
     },
+    searchdiscussions() {
+      this.$http
+        .get(
+          `${this.$store.getters.url}/search/discussions/${this.$route.params.tribe}?query=${this.search}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.discussions = res.data.data;
+             this.trenddiscussions = res.data.data;
+            this.currentPage = res.data.meta.current_page;
+            this.rows = res.data.meta.total;
+            this.perPage = res.data.meta.per_page;
+            this.showDiscussion = true;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
 
     getdiscussionsbytrend() {
       this.$http
@@ -727,7 +760,7 @@ export default {
         this.$toast.error("Fill all fields");
         return;
       }
-      this.disabled = true
+      this.disabled = true;
       this.discussion.category = this.$store.getters.tribe_info.category;
       this.discussion.tribe_id = this.$route.params.tribe;
       this.$http
@@ -738,7 +771,7 @@ export default {
         })
         .then((res) => {
           if (res.status == 201) {
-            this.disabled = false
+            this.disabled = false;
             this.$toast.success("Discussion created");
             this.getdiscussions();
             this.getdiscussionsbytrend();
@@ -755,7 +788,7 @@ export default {
           }
         })
         .catch((err) => {
-          this.disabled = false
+          this.disabled = false;
           err.response.data.errors.forEach((element) => {
             this.$toast.error(element);
           });

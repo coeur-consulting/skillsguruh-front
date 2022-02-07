@@ -5,8 +5,25 @@
         <b-col sm="12">
           <div class="search w-100">
             <b-input-group class="topbar_search">
-              <b-input-group-prepend is-text>
-                <b-iconstack font-scale="1.4" class="">
+              <b-input-group-prepend>
+                <b-button
+                  variant="dark-green"
+                  v-b-tooltip.hover
+                  title="Create a tribe"
+                  @click="$bvModal.show('start')"
+                  ><b-icon icon="plus-circle-fill"></b-icon
+                ></b-button>
+              </b-input-group-prepend>
+              <b-form-input
+                placeholder="Find a tribe"
+                class="no-focus border-0 bg-light"
+                type="search"
+                aria-label="Text input "
+                v-model="search"
+              ></b-form-input>
+
+              <b-input-group-append is-text>
+                <b-iconstack font-scale="1.4" class="" @click="searchtribe">
                   <b-icon
                     stacked
                     icon="circle-fill"
@@ -19,20 +36,6 @@
                     variant="dark-green"
                   ></b-icon>
                 </b-iconstack>
-              </b-input-group-prepend>
-              <b-form-input
-                placeholder="Find a tribe"
-                class="no-focus border-0 bg-light"
-                type="search"
-                aria-label="Text input "
-                v-model="search"
-              ></b-form-input>
-              <b-input-group-append>
-                <b-button variant="dark-green"
-                v-b-tooltip.hover title="Create a tribe"
-                 @click="$bvModal.show('start')"
-                  ><b-icon icon="plus-circle-fill"></b-icon
-                ></b-button>
               </b-input-group-append>
             </b-input-group>
           </div>
@@ -254,6 +257,9 @@ export default {
   components: {
     CreateTribe,
   },
+  watch: {
+    search: "reset",
+  },
   computed: {
     useraccess() {
       var token = null;
@@ -275,9 +281,7 @@ export default {
       );
     },
     filterTribes() {
-      return this.tribes.filter((item) =>
-        item.name.toLowerCase().includes(this.search.toLowerCase())
-      );
+      return this.tribes;
     },
     sortedTribes() {
       if (this.sortValue == "members") {
@@ -334,6 +338,11 @@ export default {
     }
   },
   methods: {
+    reset() {
+      if (!this.search) {
+        this.getmytribe();
+      }
+    },
     gettribe() {
       this.$http
         .get(
@@ -348,6 +357,22 @@ export default {
           if (res.status == 200) {
             this.newtribe = res.data.data;
             this.toggleJoin = true;
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    searchtribe() {
+      this.$http
+        .get(`${this.$store.getters.url}/search/tribes?query=${this.search}`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          if (res.status == 200) {
+            this.tribes = res.data.data;
           }
         })
         .catch((err) => {
@@ -455,7 +480,7 @@ export default {
         })
         .then((res) => {
           if (res.status === 200) {
-            this.tribes = res.data.data;
+             this.tribes.push(...res.data.data);
           }
         });
     },
