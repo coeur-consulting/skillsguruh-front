@@ -9,7 +9,7 @@
             :src="require('@/assets/images/logo.png')"
           ></b-img>
           <div class="position-relative">
-            <h3 class="mt-4">Forgot password?</h3>
+            <h3 class="mt-4 text-white">Forgot password?</h3>
           </div>
         </b-col>
         <b-col

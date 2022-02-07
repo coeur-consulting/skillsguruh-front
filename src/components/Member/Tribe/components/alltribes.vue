@@ -11,7 +11,7 @@
                   v-b-tooltip.hover
                   title="Create a tribe"
                   @click="$bvModal.show('start')"
-                  ><b-icon icon="plus-circle-fill"></b-icon
+                  ><b-icon icon="plus-circle"></b-icon
                 ></b-button>
               </b-input-group-prepend>
               <b-form-input

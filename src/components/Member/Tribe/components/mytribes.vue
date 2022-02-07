@@ -31,7 +31,7 @@
                 <b-button variant="dark-green"
                  @click="$bvModal.show('createtribe')"
 
-                  ><b-icon icon="plus-circle-fill"></b-icon
+                  ><b-icon icon="plus-circle"></b-icon
                 ></b-button>
               </b-input-group-append>
             </b-input-group>
