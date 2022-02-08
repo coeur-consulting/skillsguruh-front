@@ -1,0 +1,24 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.nzukoor.app",
+      "sha256_cert_fingerprints":
+        ["7C:B6:97:E3:A0:53:0D:41:3A:35:2F:0F:B4:AD:A2:3B:FC:12:26:2F:A4:30:54:EA:78:2D:92:E4:25:C2:4A:45",
+         "8E:2F:87:94:1B:FB:4A:D3:99:A0:01:FC:72:48:85:B8:B5:6A:90:45:7F:AD:AF:C6:17:5F:0B:3F:06:38:01:82",
+         "F4:4E:11:07:72:52:20:07:5D:75:BE:9A:2F:5A:93:09:53:D4:29:0A:4E:34:E7:0D:01:F5:8E:AB:CD:13:AA:1C"]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.nzukoor.app.dev",
+      "sha256_cert_fingerprints":
+        ["7C:B6:97:E3:A0:53:0D:41:3A:35:2F:0F:B4:AD:A2:3B:FC:12:26:2F:A4:30:54:EA:78:2D:92:E4:25:C2:4A:45",
+         "8E:2F:87:94:1B:FB:4A:D3:99:A0:01:FC:72:48:85:B8:B5:6A:90:45:7F:AD:AF:C6:17:5F:0B:3F:06:38:01:82",
+         "F4:4E:11:07:72:52:20:07:5D:75:BE:9A:2F:5A:93:09:53:D4:29:0A:4E:34:E7:0D:01:F5:8E:AB:CD:13:AA:1C"]
+    }
+  }
+]
