@@ -69,16 +69,7 @@
             </div>
           </emoji-picker>
         </div>
-        <div>
-          <h6 class="text-muted fs11 mb-2">Add tags</h6>
-          <multi-select
-            :options="options"
-            :selected-options="feed.tags"
-            placeholder="Choose tag"
-            @select="onSelect"
-          >
-          </multi-select>
-        </div>
+     
         <div class="d-flex justify-content-around event_video my-4">
           <div @click="showFeedUpload('image', true)">
             <b-img
