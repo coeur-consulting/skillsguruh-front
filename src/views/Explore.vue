@@ -656,7 +656,7 @@
                         <div
                           class="comment d-flex text-left"
                           style="line-height: 1.2"
-                          v-for="(item,idx) in feed.comments.slice(0, 2)"
+                          v-for="(item, idx) in feed.comments.slice(0, 2)"
                           :key="item.id"
                         >
                           <div class="flex-1 pr-2">
@@ -684,7 +684,9 @@
                                   item.likeCount ? item.likeCount : ""
                                 }}</span>
                                 <b-icon
-                                 @click="likecomment(item.id, idx, item.user.id)"
+                                  @click="
+                                    likecomment(item.id, idx, item.user.id)
+                                  "
                                   class="mr-2 text-danger"
                                   :icon="item.isLiked ? 'heart-fill' : 'heart'"
                                 ></b-icon>
@@ -1755,8 +1757,8 @@ export default {
               this.showTribes = true;
             }
           })
-          .catch((err) => {
-            this.$toast.error(err.response.data.message);
+          .catch(() => {
+            this.$toast.error('Failed');
           });
       }
     },
@@ -1877,8 +1879,8 @@ export default {
             }
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error('Failed');
         });
     },
     toggleStar(id, index) {
@@ -1934,6 +1936,9 @@ export default {
           if (res.status == 200) {
             this.discussions = res.data;
           }
+        })
+        .catch(() => {
+          this.$toast.error("Failed");
         });
     },
   },

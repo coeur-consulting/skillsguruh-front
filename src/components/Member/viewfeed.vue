@@ -828,8 +828,8 @@ export default {
             window.title = `${this.toText(this.feed.message)} | NzuKoor`;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error('Not Found');
         });
     },
     insertfeed(emoji) {

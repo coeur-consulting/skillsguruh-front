@@ -1377,8 +1377,8 @@ export default {
                 this.$router.go(-1);
               }
             })
-            .catch((err) => {
-              this.$toast.error(err.response.data.message);
+            .catch(() => {
+              this.$toast.error('Failed');
             });
         }
       });
@@ -1647,8 +1647,8 @@ export default {
             }
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error('Not found');
         });
     },
     post() {

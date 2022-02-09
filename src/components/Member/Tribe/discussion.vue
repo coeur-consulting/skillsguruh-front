@@ -2140,8 +2140,8 @@ export default {
             }
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error('Not found');
         });
     },
     post() {
@@ -2175,8 +2175,8 @@ export default {
             };
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error('Failed');
           this.isDisabled = false;
         });
     },
@@ -2292,8 +2292,8 @@ export default {
                 this.$router.go(-1);
               }
             })
-            .catch((err) => {
-              this.$toast.error(err.response.data.message);
+            .catch(() => {
+              this.$toast.error('Delete failed');
             });
         }
       });
@@ -2317,8 +2317,8 @@ export default {
                 this.getdiscussion();
               }
             })
-            .catch((err) => {
-              this.$toast.error(err.response.data.message);
+            .catch(() => {
+              this.$toast.error('Delete failed');
             });
         }
       });
@@ -2341,8 +2341,8 @@ export default {
                 this.getdiscussion();
               }
             })
-            .catch((err) => {
-              this.$toast.error(err.response.data.message);
+            .catch(() => {
+              this.$toast.error('Delete failed');
             });
         }
       });
