@@ -69,7 +69,7 @@
             </div>
           </emoji-picker>
         </div>
-     
+
         <div class="d-flex justify-content-around event_video my-4">
           <div @click="showFeedUpload('image', true)">
             <b-img
@@ -1035,7 +1035,6 @@
 import EmojiPicker from "@/components/emoji/EmojiPicker";
 import Feelings from "@/components/feelings";
 import MultiUpload from "@/components/uploader";
-import { MultiSelect } from "vue-search-select";
 import Interest from "../helpers/subcategory.js";
 import Report from "@/components/helpers/report";
 import Suggestions from "@/components/suggestions.vue";
@@ -1102,7 +1101,7 @@ export default {
   components: {
     // Message,
     EmojiPicker,
-    MultiSelect,
+
     Suggestions,
     Feelings,
     Report,
