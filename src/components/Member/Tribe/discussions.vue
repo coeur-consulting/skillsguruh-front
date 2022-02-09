@@ -41,6 +41,7 @@
                     type="search"
                     aria-label="Text input "
                     v-model="search"
+                     @keyup.enter="searchdiscussions"
                   ></b-form-input>
                   <b-input-group-append
                     is-text

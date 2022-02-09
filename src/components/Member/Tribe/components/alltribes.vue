@@ -11,7 +11,7 @@
                   v-b-tooltip.hover
                   title="Create a tribe"
                   @click="$bvModal.show('start')"
-                  ><b-icon icon="plus-circle"></b-icon
+                  ><b-icon icon="plus"></b-icon
                 ></b-button>
               </b-input-group-prepend>
               <b-form-input
@@ -20,6 +20,7 @@
                 type="search"
                 aria-label="Text input "
                 v-model="search"
+                @keyup.enter="searchtribe"
               ></b-form-input>
 
               <b-input-group-append is-text>
