@@ -778,8 +778,8 @@ export default {
             this.$bvModal.hide("replycomment");
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error('Failed');
         });
     },
     handlereplies(val) {
@@ -960,8 +960,8 @@ export default {
             window.title = `${this.toText(this.feed.message)} | NzuKoor`;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error('Request failed');
         });
     },
     insertfeed(emoji) {
@@ -996,8 +996,8 @@ export default {
             };
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error('Request failed');
         });
     },
     toggleLike(id) {
@@ -1023,8 +1023,8 @@ export default {
             });
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error('Request failed');
         });
     },
     toggleStar(id) {
@@ -1050,8 +1050,8 @@ export default {
             });
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error('Request failed');
         });
     },
     drop(id, index) {
@@ -1069,8 +1069,8 @@ export default {
                 this.feeds.splice(index, 1);
               }
             })
-            .catch((err) => {
-              this.$toast.error(err.response.data.message);
+            .catch(() => {
+              this.$toast.error('Request failed');
             });
         }
       });

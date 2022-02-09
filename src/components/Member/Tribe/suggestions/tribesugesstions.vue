@@ -99,8 +99,8 @@ export default {
             this.$toast.success("Request sent");
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     entertribe(id) {
@@ -145,8 +145,8 @@ export default {
             this.tribes = res.data;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
   },

@@ -1536,8 +1536,8 @@ export default {
             };
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     handleReport(id, type) {
@@ -1639,8 +1639,8 @@ export default {
             this.$bvModal.hide("replycomment");
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     handlereplycomment(comment, comment_index) {
@@ -1696,8 +1696,8 @@ export default {
             });
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     sharenow(feed) {
@@ -1744,8 +1744,8 @@ export default {
             this.rows = res.data.length;
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     getinfo() {
@@ -1770,8 +1770,8 @@ export default {
             this.getmyconnections();
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
 
@@ -1783,8 +1783,8 @@ export default {
             this.discussions = res.data;
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     togglechat() {
@@ -1814,8 +1814,8 @@ export default {
             this.feeds = res.data;
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     getEvents() {
@@ -1829,8 +1829,8 @@ export default {
               this.events = res.data;
             }
           })
-          .catch(err => {
-            this.$toast.error(err.response.data.message);
+          .catch(() => {
+            this.$toast.error("Request failed");
           });
       }
     },
@@ -1849,8 +1849,8 @@ export default {
             this.connections = res.data;
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     requestAccess() {
@@ -1870,8 +1870,8 @@ export default {
             this.$bvModal.hide("access");
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     joindiscussion(item) {
@@ -1925,8 +1925,8 @@ export default {
             });
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     async getmyconnections() {
@@ -1941,8 +1941,8 @@ export default {
             this.myconnections = res.data;
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     async removeconnections(user) {
@@ -1963,8 +1963,8 @@ export default {
             this.getmyconnections();
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     checkconnection(user) {

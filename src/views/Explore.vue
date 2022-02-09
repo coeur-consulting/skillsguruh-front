@@ -1496,8 +1496,8 @@ export default {
             this.toggleJoin = true;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error('Request failed');
         });
     },
     isMember(arr) {
@@ -1555,8 +1555,8 @@ export default {
             this.$toast.success("Request sent");
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data);
+        .catch(() => {
+          this.$toast.error('Request failed');
         });
     },
     purchase(id) {
@@ -1655,8 +1655,8 @@ export default {
             this.$bvModal.hide("replycomment");
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error('Request failed');
         });
     },
     handlereplycomment(comment, comment_index) {
@@ -1726,8 +1726,8 @@ export default {
             this.showFeeds = true;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error('Request failed');
         });
     },
 
@@ -1745,8 +1745,8 @@ export default {
               this.showTribes = true;
             }
           })
-          .catch((err) => {
-            this.$toast.error(err.response.data.message);
+          .catch(() => {
+            this.$toast.error('Request failed');
           });
       } else {
         this.$http
@@ -1758,7 +1758,7 @@ export default {
             }
           })
           .catch(() => {
-            this.$toast.error('Failed');
+            this.$toast.error('Failed to load');
           });
       }
     },
@@ -1847,8 +1847,8 @@ export default {
             };
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error('Request failed');
         });
     },
     toggleLike(id, index) {
@@ -1917,8 +1917,8 @@ export default {
             });
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error('Request failed');
         });
     },
     getevents() {
@@ -1938,7 +1938,7 @@ export default {
           }
         })
         .catch(() => {
-          this.$toast.error("Failed");
+          this.$toast.error("Failed to load");
         });
     },
   },

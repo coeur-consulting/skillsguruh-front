@@ -963,8 +963,8 @@ export default {
             bus.$emit("switchchat", info);
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     handleNotificationClick(item) {
@@ -1074,8 +1074,8 @@ export default {
             this.description = this.tribe.description;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     getnotification() {

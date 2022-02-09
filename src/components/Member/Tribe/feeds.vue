@@ -1251,8 +1251,8 @@ export default {
             this.feedTags = res.data;
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     getfeeds() {
@@ -1271,8 +1271,8 @@ export default {
             this.showFeeds = true;
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     gettrendingfeeds() {
@@ -1287,8 +1287,8 @@ export default {
             this.trendingfeeds = res.data.data;
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     getcustomfeeds() {
@@ -1303,8 +1303,8 @@ export default {
             this.customfeeds = res.data.data;
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     getrecentfeeds() {
@@ -1320,8 +1320,8 @@ export default {
             this.showFeeds = true;
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     post() {
@@ -1349,8 +1349,8 @@ export default {
             };
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     addcomment(id, index, comment) {
@@ -1380,8 +1380,8 @@ export default {
             };
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     toggleLike(id, index) {
@@ -1410,8 +1410,8 @@ export default {
             });
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     toggleStar(id, index) {
@@ -1437,8 +1437,8 @@ export default {
             });
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     drop(id, index) {
@@ -1456,8 +1456,8 @@ export default {
                 this.filteredFeeds.splice(index, 1);
               }
             })
-            .catch(err => {
-              this.$toast.error(err.response.data.message);
+            .catch(() => {
+              this.$toast.error("Request failed");
             });
         }
       });

@@ -675,8 +675,8 @@ export default {
             bus.$emit("reloadChat");
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error('Failed');
         });
     },
     ignoreconnection() {
@@ -697,8 +697,8 @@ export default {
             bus.$emit("reloadChat");
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error('Failed');
         });
     },
 
@@ -851,8 +851,8 @@ export default {
             this.messages = res.data.message;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error('Failed to load');
         });
     },
 
@@ -934,8 +934,8 @@ export default {
                 this.inboxes.splice(index, 1);
               }
             })
-            .catch((err) => {
-              this.$toast.error(err.response.data.message);
+            .catch(() => {
+              this.$toast.error('Failed');
             });
         }
       });

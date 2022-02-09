@@ -360,8 +360,8 @@ export default {
             this.toggleJoin = true;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     searchtribe() {
@@ -376,8 +376,8 @@ export default {
             this.tribes = res.data.data;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     jointribe() {

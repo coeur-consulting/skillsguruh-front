@@ -339,9 +339,7 @@
                             c
                             v-if="item.user"
                             @click="
-                              $router.push(
-                                `/me/profile/${item.user.username}`
-                              )
+                              $router.push(`/me/profile/${item.user.username}`)
                             "
                             class="fs13 cursor-pointer hover_green"
                             >{{ item.user.username }}</span
@@ -507,7 +505,6 @@
                             '  lists link  charmap   anchor',
                             'searchreplace visualblocks code fullscreen',
                             '  table paste code',
-
                           ],
 
                           toolbar:
@@ -1101,13 +1098,9 @@
     </div>
 
     <div class="tribe_join animated animate_fadeIn" v-show="toggleJoin">
-      <div class="position-absolute p-3 p-md-5  rounded bg-white">
-        <span class="cancel"  @click="toggleJoin = !toggleJoin">
-          <b-icon
-            icon="x"
-            class="text-white"
-
-          ></b-icon>
+      <div class="position-absolute p-3 p-md-5 rounded bg-white">
+        <span class="cancel" @click="toggleJoin = !toggleJoin">
+          <b-icon icon="x" class="text-white"></b-icon>
         </span>
         <div class="mb-4 text-center font-weight-bold text-dark-green">
           OOPS! You need to join this tribe to post a reply
@@ -1202,8 +1195,7 @@ export default {
     Editor,
   },
   created() {
-    this.link =
-      "https://nzukoor.com/g/discussion/" + this.$route.params.id;
+    this.link = "https://nzukoor.com/g/discussion/" + this.$route.params.id;
 
     // var channel = this.$pusher.subscribe("adddiscussion");
 
@@ -1378,7 +1370,7 @@ export default {
               }
             })
             .catch(() => {
-              this.$toast.error('Failed');
+              this.$toast.error("Failed");
             });
         }
       });
@@ -1410,8 +1402,8 @@ export default {
             this.$bvModal.hide("access");
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     joindiscussion(item) {
@@ -1517,8 +1509,8 @@ export default {
             this.connections = res.data;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     addToFeed() {
@@ -1551,8 +1543,8 @@ export default {
             };
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     sendinvite() {
@@ -1648,7 +1640,7 @@ export default {
           }
         })
         .catch(() => {
-          this.$toast.error('Not found');
+          this.$toast.error("Not found");
         });
     },
     post() {
@@ -1669,8 +1661,8 @@ export default {
             this.myviews = res.data.view;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     getvote() {
@@ -1688,8 +1680,8 @@ export default {
             this.topvote = res.data;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
 
@@ -1729,8 +1721,8 @@ export default {
             });
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
 
@@ -1770,8 +1762,8 @@ export default {
             });
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
   },

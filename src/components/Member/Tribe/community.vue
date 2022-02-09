@@ -126,8 +126,8 @@ export default {
             this.connections = res.data;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     async getmyconnections() {
@@ -142,8 +142,8 @@ export default {
             this.myconnections = res.data;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
 
@@ -159,8 +159,8 @@ export default {
             this.similarconnections = res.data;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
 
@@ -188,8 +188,8 @@ export default {
             });
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
   },

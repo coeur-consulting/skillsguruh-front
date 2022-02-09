@@ -806,8 +806,8 @@ export default {
             }
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     play(mod, module_id) {

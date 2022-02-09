@@ -179,8 +179,8 @@ export default {
             this.showDiscussion = true;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
 
@@ -198,7 +198,7 @@ export default {
     //       }
     //     })
     //     .catch((err) => {
-    //       this.$toast.error(err.response.data.message);
+    //       this.$toast.error("Request failed");
     //     });
     // },
 
@@ -217,11 +217,11 @@ export default {
           if (res.status == 201 || res.status == 200) {
             this.$toast.success("Discussion updated");
             this.$emit("refresh");
-           
+
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
   },

@@ -434,8 +434,8 @@ export default {
             this.connections = res.data;
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     toggleSort(val, interest = false) {
@@ -470,8 +470,8 @@ export default {
             };
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     addinvite() {
@@ -552,8 +552,8 @@ export default {
             this.$store.commit("SET_TRIBE_INFO", res.data.data);
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     switchTab(data) {
@@ -604,8 +604,8 @@ export default {
             this.events = res.data;
           }
         })
-        .catch(err => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     }
   }

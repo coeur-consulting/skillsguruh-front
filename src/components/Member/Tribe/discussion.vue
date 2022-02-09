@@ -1772,8 +1772,8 @@ export default {
             this.$bvModal.hide("access");
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     checkaccess(next) {
@@ -1871,8 +1871,8 @@ export default {
             this.isOpen=false
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
           this.isDisabled = false;
         });
     },
@@ -1899,8 +1899,8 @@ export default {
             this.$bvModal.hide("editdiscussionreply");
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
           this.isDisabled = false;
         });
     },
@@ -1955,8 +1955,8 @@ export default {
             };
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
           this.isDisabled = false;
         });
     },
@@ -1986,8 +1986,8 @@ export default {
             this.connections = res.data;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     addToFeed() {
@@ -2036,8 +2036,8 @@ export default {
             };
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     sendinvite() {
@@ -2192,8 +2192,8 @@ export default {
             this.myviews = res.data.view;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     getvote() {
@@ -2208,8 +2208,8 @@ export default {
             this.topvote = res.data;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
 
@@ -2229,8 +2229,8 @@ export default {
             this.filteredDiscussion[index].votecount = res.data.count;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     addvote() {
@@ -2249,8 +2249,8 @@ export default {
             this.discussion.discussionvote = res.data.count;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
 
@@ -2270,8 +2270,8 @@ export default {
             this.discussion.discussionvote = res.data.count;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     drop(id) {

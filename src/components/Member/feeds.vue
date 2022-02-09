@@ -1212,8 +1212,8 @@ export default {
             this.$bvModal.show("allcomments");
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
 
@@ -1327,9 +1327,9 @@ export default {
             this.$bvModal.hide("replycomment");
           }
         })
-        .catch((err) => {
+        .catch(() => {
           this.disabled = false;
-          this.$toast.error(err.response.data.message);
+          this.$toast.error("Request failed");
         });
     },
     handlereplycomment(comment, comment_index) {
@@ -1457,8 +1457,8 @@ export default {
             this.feedTags = res.data;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
 
@@ -1474,8 +1474,8 @@ export default {
             this.trendingfeeds = res.data.data;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     getcustomfeeds() {
@@ -1492,8 +1492,8 @@ export default {
             }
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     getrecentfeeds() {
@@ -1512,8 +1512,8 @@ export default {
             this.showFeeds = true;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     post() {
@@ -1542,9 +1542,9 @@ export default {
             };
           }
         })
-        .catch((err) => {
+        .catch(() => {
           this.disabled = false;
-          this.$toast.error(err.response.data.message);
+          this.$toast.error("Request failed");
         });
     },
     updatepost() {
@@ -1569,9 +1569,9 @@ export default {
             };
           }
         })
-        .catch((err) => {
+        .catch(() => {
           this.disabled = false;
-          this.$toast.error(err.response.data.message);
+          this.$toast.error("Request failed");
         });
     },
     addcomment(id, index, comment) {
@@ -1604,9 +1604,9 @@ export default {
             };
           }
         })
-        .catch((err) => {
+        .catch(() => {
           this.disabled = false;
-          this.$toast.error(err.response.data.message);
+          this.$toast.error("Request failed");
         });
     },
     toggleLike(id, index) {
@@ -1634,9 +1634,9 @@ export default {
             }
           }
         })
-        .catch((err) => {
+        .catch(() => {
           this.disabled = false;
-          this.$toast.error(err.response.data.message);
+          this.$toast.error("Request failed");
         });
     },
 
@@ -1664,8 +1664,8 @@ export default {
                 this.filteredFeeds.splice(index, 1);
               }
             })
-            .catch((err) => {
-              this.$toast.error(err.response.data.message);
+            .catch(() => {
+              this.$toast.error("Request failed");
             });
         }
       });
@@ -1687,8 +1687,8 @@ export default {
                 this.getrecentfeeds();
               }
             })
-            .catch((err) => {
-              this.$toast.error(err.response.data.message);
+            .catch(() => {
+              this.$toast.error("Request failed");
             });
         }
       });
@@ -1710,8 +1710,8 @@ export default {
                 this.allcomments[idx].feedcommentreplies.splice(index, 1);
               }
             })
-            .catch((err) => {
-              this.$toast.error(err.response.data.message);
+            .catch(() => {
+              this.$toast.error("Request failed");
             });
         }
       });

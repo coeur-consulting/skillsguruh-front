@@ -147,8 +147,8 @@ export default {
             this.showConnect = true;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     async addconnections(id, type) {
@@ -173,8 +173,8 @@ export default {
             });
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
   },

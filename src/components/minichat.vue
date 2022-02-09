@@ -793,8 +793,8 @@ export default {
             this.inboxes = res.data.reverse();
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     async sortmessages(arr) {
@@ -897,8 +897,8 @@ export default {
                 this.inboxes.splice(index, 1);
               }
             })
-            .catch((err) => {
-              this.$toast.error(err.response.data.message);
+            .catch(() => {
+              this.$toast.error("Request failed");
             });
         }
       });

@@ -630,8 +630,8 @@ export default {
             this.$bvModal.hide("access");
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     joindiscussion(item) {
@@ -681,8 +681,8 @@ export default {
             this.showOther = true;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     getdiscussions() {
@@ -704,8 +704,8 @@ export default {
             this.showDiscussion = true;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     searchdiscussions() {
@@ -728,8 +728,8 @@ export default {
             this.showDiscussion = true;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
 
@@ -752,8 +752,8 @@ export default {
             this.showDiscussion = true;
           }
         })
-        .catch((err) => {
-          this.$toast.error(err.response.data.message);
+        .catch(() => {
+          this.$toast.error("Request failed");
         });
     },
     creatediscussion() {
@@ -819,8 +819,8 @@ export default {
                 this.discussions.splice(index, 1);
               }
             })
-            .catch((err) => {
-              this.$toast.error(err.response.data.message);
+            .catch(() => {
+              this.$toast.error("Request failed");
             });
         }
       });
