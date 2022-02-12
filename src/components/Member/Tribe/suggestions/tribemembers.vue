@@ -79,7 +79,7 @@ export default {
     async getmembers() {
       return this.$http
         .get(
-          `${this.$store.getters.url}/tribe/mes/${this.$route.params.tribe}`,
+          `${this.$store.getters.url}/tribe/members/${this.$route.params.tribe}`,
           {
             headers: {
               Authorization: `Bearer ${this.$store.getters.member.access_token}`,

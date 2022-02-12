@@ -1287,7 +1287,7 @@ export default {
     getmembers() {
       this.$http
         .get(
-          `${this.$store.getters.url}/get/discussion/mes/${this.$route.params.id}`,
+          `${this.$store.getters.url}/get/discussion/members/${this.$route.params.id}`,
           {
             headers: {
               Authorization: `Bearer ${this.$store.getters.member.access_token}`,

@@ -1378,7 +1378,7 @@ export default {
     getmembers() {
       this.$http
         .get(
-          `${this.$store.getters.url}/get/discussion/mes/${this.$route.params.id}`
+          `${this.$store.getters.url}/get/discussion/members/${this.$route.params.id}`
         )
         .then((res) => {
           this.members = res.data;

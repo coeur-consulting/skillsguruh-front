@@ -133,7 +133,7 @@ export default {
   },
   methods: {
     getmembers() {
-      this.$http.get(`${this.$store.getters.url}/get/mes`).then(res => {
+      this.$http.get(`${this.$store.getters.url}/get/members`).then(res => {
         if (res.status == 200) {
           this.members = res.data;
           this.rows = res.data.length;
