@@ -912,8 +912,8 @@ export default {
   color: var(--dark-green);
 }
 .main_content {
-  min-height: 70vh;
-  max-height: 70vh;
+  min-height: 75vh;
+  max-height: 75vh;
   overflow-y: auto;
 }
 .main_content::-webkit-scrollbar {

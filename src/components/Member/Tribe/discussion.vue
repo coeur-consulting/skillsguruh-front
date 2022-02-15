@@ -2273,7 +2273,7 @@ export default {
             )
             .then((res) => {
               if (res.status == 200) {
-                this.$router.go(-1);
+                this.$router.replace(`/me/tribe/discussions/${this.discussion.tribe_id}`);
               }
             })
             .catch(() => {
