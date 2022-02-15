@@ -106,7 +106,7 @@ function tags(text){
      .map((item) => {
        if ((match = reg.exec(item))) {
          reg.exec(item);
-         item = `  <a  href='/me/profile/${match[1]}'><span class='highlight'>${match[0]}</span></a> `;
+         item = `  <a  href="/me/profile/${match[1].toLowerCase()}" id="${match[1]}">@${match[1]}</a> `;
          return item;
        }
        return item;

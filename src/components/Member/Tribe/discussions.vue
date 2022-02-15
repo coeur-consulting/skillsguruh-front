@@ -48,7 +48,7 @@
                     class="border"
                     @click="searchdiscussions"
                   >
-                    <b-iconstack font-scale="1.4" class="cursor-pointer">
+                    <b-iconstack font-scale="1.8" class="cursor-pointer">
                       <b-icon
                         stacked
                         icon="circle-fill"

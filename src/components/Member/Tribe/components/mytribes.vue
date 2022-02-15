@@ -4,8 +4,8 @@
       <b-row class="mb-4">
         <b-col sm="12">
           <div class="search w-100">
-            <b-input-group class="topbar_search">
-              <b-input-group-prepend is-text>
+            <b-input-group class="topbar_search rounded overflow-hidden">
+              <b-input-group-prepend is-text class="bg-white">
                 <b-iconstack font-scale="1.4" class="">
                   <b-icon
                     stacked
@@ -27,7 +27,7 @@
                 aria-label="Text input "
                 v-model="search"
               ></b-form-input>
-              <b-input-group-append>
+              <b-input-group-append >
                 <b-button variant="dark-green"
                  @click="$bvModal.show('createtribe')"
 
@@ -46,6 +46,31 @@
       </b-row>
 
       <b-row>
+          <b-col cols="6" sm="4" class="mb-4">
+          <div
+            @click="$bvModal.show('createtribe')"
+            class="
+              bg-lighter-green
+              tribe_box
+              shadow-sm
+              rounded
+              d-flex
+              justify-content-center
+              aling-items-center
+            "
+          >
+            <span class="text-center">
+              <b-icon
+                icon="plus-circle"
+                variant="dark-green"
+                font-scale="3rem"
+                class="mb-4"
+              ></b-icon>
+              <br />
+              <small>Create Tribe</small>
+            </span>
+          </div>
+        </b-col>
         <b-col
           cols="6"
           sm="4"
@@ -106,31 +131,7 @@
             </span>
           </div>
         </b-col>
-        <b-col cols="6" sm="4" class="mb-4">
-          <div
-            @click="$bvModal.show('createtribe')"
-            class="
-              bg-lighter-green
-              tribe_box
-              shadow-sm
-              rounded
-              d-flex
-              justify-content-center
-              aling-items-center
-            "
-          >
-            <span class="text-center">
-              <b-icon
-                icon="plus-circle"
-                variant="dark-green"
-                font-scale="4rem"
-                class="mb-4"
-              ></b-icon>
-              <br />
-              <small>Create A Tribe</small>
-            </span>
-          </div>
-        </b-col>
+
       </b-row>
 
       <infinite-loading @infinite="infiniteHandler"></infinite-loading>

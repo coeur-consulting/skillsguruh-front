@@ -912,7 +912,7 @@ export default {
   },
   methods: {
     hide(){
-      console.log('click');
+     
       this.query =''
     },
     searchUsers() {

@@ -5,15 +5,6 @@
         <b-col sm="12">
           <div class="search w-100">
             <b-input-group class="topbar_search">
-              <b-input-group-prepend>
-                <b-button
-                  variant="dark-green"
-                  v-b-tooltip.hover
-                  title="Create a tribe"
-                  @click="$bvModal.show('start')"
-                  ><b-icon icon="plus"></b-icon
-                ></b-button>
-              </b-input-group-prepend>
               <b-form-input
                 placeholder="Find a tribe"
                 class="no-focus border-0 bg-light"
@@ -23,20 +14,10 @@
                 @keyup.enter="searchtribe"
               ></b-form-input>
 
-              <b-input-group-append is-text>
-                <b-iconstack font-scale="1.4" class="" @click="searchtribe">
-                  <b-icon
-                    stacked
-                    icon="circle-fill"
-                    variant="lighter-green"
-                  ></b-icon>
-                  <b-icon
-                    stacked
-                    icon="search"
-                    scale="0.5"
-                    variant="dark-green"
-                  ></b-icon>
-                </b-iconstack>
+              <b-input-group-append>
+                <b-button variant="dark-green" @click="searchtribe">
+                  <b-icon icon="search" variant="white"></b-icon>
+                </b-button>
               </b-input-group-append>
             </b-input-group>
           </div>
@@ -152,7 +133,7 @@
             </span>
           </div>
         </b-col>
-        <b-col cols="6" sm="4" class="mb-4" v-if="useraccess">
+        <!-- <b-col cols="6" sm="4" class="mb-4" v-if="useraccess">
           <div
             @click="$bvModal.show('start')"
             class="
@@ -169,14 +150,14 @@
               <b-icon
                 icon="plus-circle"
                 variant="dark-green"
-                font-scale="4rem"
+                font-scale="3rem"
                 class="mb-4"
               ></b-icon>
               <br />
-              <small>Create A Tribe</small>
+              <small>Create Tribe</small>
             </span>
           </div>
-        </b-col>
+        </b-col> -->
       </b-row>
       <infinite-loading @infinite="infiniteHandler"></infinite-loading>
     </b-container>
@@ -481,7 +462,7 @@ export default {
         })
         .then((res) => {
           if (res.status === 200) {
-             this.tribes.push(...res.data.data);
+            this.tribes.push(...res.data.data);
           }
         });
     },

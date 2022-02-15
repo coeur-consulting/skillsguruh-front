@@ -10,16 +10,17 @@
             type="file"
             class="form-control hidden"
             id="logo"
+             accept="image/*"
             aria-describedby="helpId"
             placeholder
             @change="handleFileChange($event)"
           />
           <div class="position-relative text-center">
             <b-icon
-              icon="paperclip"
+              icon="image"
               font-scale="1.1"
               v-b-tooltip.hover
-              title="Add Attachment"
+              title="Add image"
             ></b-icon>
             <div v-if="start" class="spinner-start">
               <b-spinner
@@ -134,6 +135,11 @@ export default {
         this.$toast.error("Unsupported content type !");
         return;
       }
+       var filesize = ((this.file.size/1024)/1024).toFixed(4); // MB
+       if(filesize>2){
+          this.$toast.error("Max file is 2mb");
+        return;
+       }
 
       this.filesSelectedLength = event.target.files.length;
 
