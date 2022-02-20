@@ -152,10 +152,10 @@
               <b-tbody>
                 <b-tr v-for="item in referrals" :key="item.id">
                   <b-td class="text-capitalize fs13">{{
-                    item.member_detail.username
+                    item.users.username
                   }}</b-td>
                 </b-tr>
-              
+
               </b-tbody>
             </b-table-simple>
           </div>

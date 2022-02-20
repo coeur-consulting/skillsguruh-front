@@ -77,10 +77,11 @@
           v-for="(n, id) in sortedTribes"
           :key="id"
           class="mb-4"
-          @click="entertribe(n.id)"
+
         >
           <div class="tribe_box rounded" :id="`popover-${id}`">
             <div
+               @click="entertribe(n.id)"
               class="
                 d-flex
                 align-items-center

@@ -19,26 +19,31 @@
         ></b-form-textarea
       ></b-form-group>
 
-      <b-form-group label="Category">
-        <model-list-select
-          :list="category"
-          v-model="tribe.category"
-          option-value="value"
-          option-text="value"
-          placeholder="select category"
-        >
-        </model-list-select>
-      </b-form-group>
-
-      <b-form-group label="Interests">
-        <multi-select
-          :options="filteredinterests"
-          :selected-options="tribe.tags"
-          placeholder="select interests"
-          @select="onSelect"
-        >
-        </multi-select>
-      </b-form-group>
+      <b-form-row>
+        <b-col md="6">
+          <b-form-group label="Category">
+            <model-list-select
+              :list="category"
+              v-model="tribe.category"
+              option-value="value"
+              option-text="value"
+              placeholder="select category"
+            >
+            </model-list-select>
+          </b-form-group>
+        </b-col>
+        <b-col md="6">
+          <b-form-group label="Interests">
+            <multi-select
+              :options="filteredinterests"
+              :selected-options="tribe.tags"
+              placeholder="select interests"
+              @select="onSelect"
+            >
+            </multi-select>
+          </b-form-group>
+        </b-col>
+      </b-form-row>
 
       <b-form-group label="Access Fee">
         <b-form-row>
@@ -58,6 +63,16 @@
             ></b-col
           >
         </b-form-row>
+        <div v-if="tribe.type == 'paid'">
+          <small
+            >Have you saved your account details?
+            <router-link to="/me/profile/#account"
+              ><span class="text-dark-green"
+                >Click here to save</span
+              ></router-link
+            ></small
+          >
+        </div>
       </b-form-group>
 
       <b-form-group label="Access Fee" v-if="tribe.type == 'paid'">
@@ -155,6 +170,7 @@ export default {
       banks: [],
       showdetails: false,
       disable: false,
+      accountStatus: false,
     };
   },
   components: {
@@ -208,11 +224,15 @@ export default {
           },
         })
         .then((res) => {
+          this.accountStatus = true;
           this.bankdetail = res.data;
           this.tribe.bank_name = res.data.bank_name;
           this.tribe.bank_code = res.data.bank_code;
           this.tribe.account_no = res.data.account_no;
           this.showdetails = true;
+        })
+        .catch(() => {
+          this.accountStatus = false;
         });
     },
     getUpload(val) {
@@ -224,6 +244,10 @@ export default {
     },
 
     createtribe() {
+        if(!this.accountStatus){
+              this.$toast.info('No bank record found')
+              return;
+            }
       this.disable = true;
       this.$http
         .post(`${process.env.VUE_APP_API_PATH}/tribes`, this.tribe, {
@@ -233,6 +257,7 @@ export default {
         })
         .then((res) => {
           if (res.status === 201) {
+
             this.$emit("response", "create", res.data.data);
             this.disable = false;
           }

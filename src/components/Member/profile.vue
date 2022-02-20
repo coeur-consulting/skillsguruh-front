@@ -487,7 +487,7 @@
               </b-col>
             </b-form-row>
             <hr />
-            <b-form-row>
+            <b-form-row id="account">
               <b-col sm="6">
                 <b-form-group label="Bank Name">
                   <div class="form-group">

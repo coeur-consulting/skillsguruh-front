@@ -16,27 +16,31 @@
           placeholder="Write a brief Description"
         ></b-form-textarea
       ></b-form-group>
-
-      <b-form-group label="Category">
-        <model-list-select
-          :list="category"
-          v-model="tribe.category"
-          option-value="value"
-          option-text="value"
-          placeholder="select category"
-        >
-        </model-list-select>
-      </b-form-group>
-
-      <b-form-group label="Interests">
-        <multi-select
-          :options="filteredinterests"
-          :selected-options="tribe.tags"
-          placeholder="select interests"
-          @select="onSelect"
-        >
-        </multi-select>
-      </b-form-group>
+ <b-form-row>
+        <b-col md="6">
+          <b-form-group label="Category">
+            <model-list-select
+              :list="category"
+              v-model="tribe.category"
+              option-value="value"
+              option-text="value"
+              placeholder="select category"
+            >
+            </model-list-select>
+          </b-form-group>
+        </b-col>
+        <b-col md="6">
+          <b-form-group label="Interests">
+            <multi-select
+              :options="filteredinterests"
+              :selected-options="tribe.tags"
+              placeholder="select interests"
+              @select="onSelect"
+            >
+            </multi-select>
+          </b-form-group>
+        </b-col>
+      </b-form-row>
 
       <b-form-group label="Access Fee">
         <b-form-row>
@@ -56,12 +60,24 @@
             ></b-col
           >
         </b-form-row>
+         <div v-if="tribe.type == 'paid'">
+          <small
+            >Have you saved your account details?
+             <router-link to="/me/profile/#account"
+              ><span class="text-dark-green"
+                >Click here to save</span
+              ></router-link
+            ></small
+          >
+        </div>
       </b-form-group>
-      <b-form-group label="Access Fee" v-if="tribe.type == 'paid'">
-        <b-form-input
-          placeholder="Amount"
-          v-model="tribe.amount"
-        ></b-form-input>
+     <b-form-group label="Access Fee" v-if="tribe.type == 'paid'">
+        <b-input-group prepend="NGN">
+          <b-form-input
+            placeholder="Amount"
+            v-model="tribe.amount"
+          ></b-form-input>
+        </b-input-group>
       </b-form-group>
       <b-form-group label="Tribe Image">
         <Cover @getUpload="getUpload" />
@@ -113,6 +129,7 @@ export default {
       lastSelectItem: {},
       category: [],
       page: 1,
+      accountStatus:false
     };
   },
   components: {
@@ -140,11 +157,32 @@ export default {
       return item;
     });
     this.category = Category;
+
+    this.getbankdetail();
   },
   beforeDestroy() {
     this.$emit("resetTribe");
   },
   methods: {
+      getbankdetail() {
+      this.$http
+        .get(`${this.$store.getters.url}/get/bank/detail`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.getters.member.access_token}`,
+          },
+        })
+        .then((res) => {
+          this.accountStatus = true;
+          this.bankdetail = res.data;
+          this.tribe.bank_name = res.data.bank_name;
+          this.tribe.bank_code = res.data.bank_code;
+          this.tribe.account_no = res.data.account_no;
+          this.showdetails = true;
+        })
+        .catch(() => {
+          this.accountStatus = false;
+        });
+    },
     getUpload(val) {
       this.tribe.cover = val;
     },
@@ -154,6 +192,10 @@ export default {
     },
 
     updatetribe() {
+        if(!this.accountStatus){
+              this.$toast.info('No bank record found')
+              return;
+            }
       this.$http
         .put(
           `${process.env.VUE_APP_API_PATH}/tribes/${this.$props.tribe.id}`,
@@ -166,6 +208,7 @@ export default {
         )
         .then((res) => {
           if (res.status === 200) {
+
             this.$emit("response", "edit", res.data.data);
           }
         }).catch(err=>{
