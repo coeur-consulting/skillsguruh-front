@@ -214,7 +214,7 @@ export default {
     async callback() {
       try {
         var response = await this.$http.post(
-          `https://nzukoor-server.herokuapp.com/v1/auth/${this.$route.params.provider}/callback`,
+          `https://api.nzukoor.com/v1/auth/${this.$route.params.provider}/callback`,
           this.$route.query
         );
 
